@@ -86,6 +86,77 @@ Análise estrutural: A BrPec opera em setor com barreiras de entrada relevantes 
 5. Benefícios esperados
 6. Critério de sucesso e como será avaliado
 
+
+#### 1. Definição do Problema
+
+A BRPec depende atualmente de processos manuais e anotações em papel (boletas) para comunicar ordens de serviço entre o campo e o escritório, além de registrar movimentações do rebanho (nascimentos, óbitos e transferências). Isso gera retrabalho na consolidação dos dados, redigitação em planilhas eletrônicas e atraso na visibilidade das informações operacionais.
+
+---
+
+#### 2. Dados Disponíveis
+
+Os dados disponíveis para o projeto incluem:
+
+- Estrutura de papéis (Gerente, Capataz, Coordenador de Retiro)
+- Tipos de eventos zootécnicos registrados manualmente: nascimento, morte, compra, venda e transferência entre retiros
+- Tipos de tarefas de campo: cercas, pasto, infraestrutura
+- Formato de saída esperado: planilha Excel/CSV
+- Stack técnica definida: HTML/CSS/JS (front), Node.js (servidor), SQLite (banco)
+- Restrições: sem autenticação formal de usuários, sem integração com WebAPIs externas
+
+---
+
+#### 3. Solução Proposta
+
+Desenvolvimento de uma aplicação web com arquitetura cliente-servidor (HTML/CSS/JS + Node.js + SQLite) que centraliza o gerenciamento de tarefas operacionais e o registro de movimentações do rebanho bovino. A solução contempla três perfis de uso — Gerente, Capataz e Coordenador — cada um com interface adaptada às suas responsabilidades. O sistema funcionará em modo offline, com sincronização automática quando houver conexão.
+
+---
+
+#### 4. Forma de Uso da Solução
+
+**Gerente:** Cria, edita e monitora tarefas calendarizadas para os Capatazes via painel web.
+
+**Capataz:** Usa a aplicação offline para visualizar tarefas, reportar status com evidências (foto, texto, áudio) e registrar movimentações do rebanho.
+
+**Coordenador:** Visualiza movimentações reportadas e exporta dados consolidados em Excel/CSV.
+
+---
+
+#### 5. Benefícios Esperados
+
+- Padronização dos registros de campo, eliminando anotações em papel
+- Agilidade na atualização do inventário pecuário com digitalização na fonte
+- Maior transparência e rastreabilidade das atividades operacionais em tempo real
+- Redução de falhas de comunicação e de transcrição de dados
+- Eliminação da redigitação manual de informações para planilhas
+- Ganho de eficiência e integração entre as áreas agrícola e pecuária
+
+---
+
+#### 6. Critérios de Sucesso
+
+O projeto será considerado bem-sucedido quando:
+
+- O MVP funcional integrar o gerenciamento de tarefas e o formulário de movimentação bovina
+- Os três perfis (Gerente, Capataz, Coordenador) conseguirem executar seus fluxos principais sem erros
+- A funcionalidade offline operar corretamente com sincronização posterior
+- A exportação de dados em Excel/CSV gerar arquivos utilizáveis pelos Coordenadores sem necessidade de redigitação
+- Os registros de campo eliminarem o uso de boletas de papel no dia a dia
+
+---
+
+## 7. Alinhamento com SWOT e Canvas
+
+> ⚠️ **Nota:** Esta seção deve ser revisada e complementada pelo grupo após a elaboração da Análise SWOT e do Business Model Canvas do projeto.
+
+### Alinhamento com a Análise SWOT
+
+- **SWOT:** Os pontos levantados na análise devem refletir os problemas (fraquezas/ameaças) e oportunidades descritos na TAPI
+
+### Alinhamento com o Business Model Canvas
+
+- **Canvas:** O bloco de "Proposta de Valor" deve estar coerente com os benefícios esperados; "Segmentos de Clientes" com os atores; "Canais" com a interface web/offline
+
 ### 2.1.4. Value Proposition Canvas (sprint 1): 
 *Sem limite de palavras – usar template do curso*
 
