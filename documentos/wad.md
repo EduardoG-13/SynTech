@@ -64,13 +64,9 @@ Ameaça de substitutos: A ameaça é moderada e crescente. No mercado interno, f
 
 Análise estrutural: A BrPec opera em setor com barreiras de entrada relevantes e integração vertical como diferencial, mas enfrenta forte pressão de canais de compra concentrados, alta rivalidade por escala e dependência de fornecedores especializados. O passivo ambiental representa risco estratégico: a empresa figura entre os maiores desmatadores do Pantanal segundo o Ibama (DE OLHO NOS RURALISTAS, 2020), podendo restringir o acesso aos segmentos de maior rentabilidade.
 
-<p align="center">
-  <img src="./assets/porterForcas.png" alt="Análise das 5 Forças de Porter" width="600"/>
-</p>
-
-<p align="center"><strong>Figura 1</strong> — Análise das 5 Forças de Porter aplicada à BrPec Agropecuária<br/>
-Fonte: Próprios autores (2025).</p>
-
+<div style="text-align: center;">
+  <img src="../assets/porterForcas.png" width="600"/>
+</div>
 
 ### 2.1.2. Análise SWOT da Instituição Parceira (sprint 1)
 
