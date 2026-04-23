@@ -67,7 +67,7 @@ Análise estrutural: A BrPec opera em setor com barreiras de entrada relevantes 
 <center>
   <img src="../assets/porterForcas.png" width="600"/>
   <p><strong>Figura 1</strong> — Análise das 5 Forças de Porter aplicada à BrPec Agropecuária<br/>
-  Fonte: Próprios autores (2025).</p>
+  Fonte: Próprios autores (2026).</p>
 </center>
 
 ### 2.1.2. Análise SWOT da Instituição Parceira (sprint 1)
