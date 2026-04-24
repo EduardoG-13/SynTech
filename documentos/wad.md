@@ -62,9 +62,14 @@
 
 ### 2.1.2. Análise SWOT da Instituição Parceira (sprint 1)
 
-*Preencha com até 100 palavras – sem necessidade de fonte*
+A análise SWOT a seguir avalia o posicionamento estratégico da BRPec considerando seu ambiente interno — forças operacionais e financeiras e fraquezas estruturais e regulatórias — e fatores externos: oportunidades de mercado e ameaças setoriais. O contexto de análise é o agronegócio brasileiro de pecuária e grãos, especificamente o segmento de produção integrada em larga escala no Pantanal mato-grossense, caracterizado por crescente pressão ESG sobre crédito e certificações, restrições regulatórias à expansão de novas áreas e acirrada competição fundiária com players institucionalizados.
 
-*Apresente uma visão geral da situação do parceiro com base na matriz SWOT (forças, fraquezas, oportunidades e ameaças). Foque na relação com os concorrentes e o posicionamento da instituição.*
+![Canvas proposta de valor](../documentos/análiseSWOT.png)
+
+**Fonte: Elaborado pelos autores (2026).**
+
+A leitura integrada dos quadrantes revela que a principal vantagem competitiva sustentável da BRPec reside em sua escala fundiária no Pantanal e no modelo integrado grãos-pecuária, atributos que concorrentes de médio porte não replicam no curto prazo. Por outro lado, o passivo ambiental ativo representa não apenas uma fraqueza interna de compliance, mas um vetor de amplificação de ameaças externas: é simultaneamente a causa do risco de bloqueio ao mercado europeu via EUDR e do encarecimento do custo de capital frente a concorrentes com certificações ESG consolidadas — concentrando dois dos três riscos externos mapeados em uma única vulnerabilidade de origem interna. Essa sobreposição indica que a resolução do passivo ambiental não é apenas uma pauta regulatória, mas a condição estrutural para que a BRPec converta sua escala operacional em acesso real a mercados premium e crédito qualificado.
+
 
 ### 2.1.3. Solução (sprints 1 a 5)
 
@@ -77,9 +82,16 @@
 6. Critério de sucesso e como será avaliado
 
 ### 2.1.4. Value Proposition Canvas (sprint 1): 
-*Sem limite de palavras – usar template do curso*
 
-*Elaborar o Value Proposition Canvas com base na proposta de solução definida.*
+A proposta de valor é uma declaração curta e objetiva que resume a essência da aplicação web: o que ela oferece, para quem e por que vale a pena jogar. Ela funciona como o núcleo de toda a visão do projeto, orientando decisões de design e comunicando de forma clara o diferencial do jogo antes de qualquer detalhe técnico ou mecânico ser apresentado.
+
+![Canvas proposta de valor](../documentos/canvasPropostaDeValor.png)
+**Fonte: Elaborado pelos autores (2026).**
+
+O canvas evidencia que o a aplicação web resolve dores concretas dos Capatazes em campo — como a dependência de boletas de papel, a impossibilidade de usar soluções convencionais sem internet e a comunicação informal com o Gerente, garantindo que haja um maior controle pelos Capatazes. Os ganhos gerados, como a eliminação do retrabalho de transcrição, o registro ágil de eventos zootécnicos em poucos toques e a confirmação automática de tarefas com envio de evidências, se alinham diretamente às entregas do produto: formulários digitais de manejo bovino, sistema de alertas multimídia e exportação em Excel para o Coordenador. A proposta de valor da aplicação web, portanto, não se limita a digitalizar uma planilha existente, mas redefine o fluxo de informações entre o campo e o escritório — tornando os registros operacionais mais confiáveis, rastreáveis e acessíveis para toda a cadeia de gestão da fazenda.
+
+
+
 
 ### 2.1.5. Matriz de Riscos do Projeto (sprint 1)
 
