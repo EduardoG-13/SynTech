@@ -9,23 +9,24 @@
 ## Nome do grupo
 
 ## :student: Integrantes: 
-- <a href="https://www.linkedin.com/">Nome do integrante 1</a>
-- <a href="https://www.linkedin.com/">Nome do integrante 2</a>
-- <a href="https://www.linkedin.com/">Nome do integrante 3</a> 
-- <a href="https://www.linkedin.com/">Nome do integrante 4</a> 
-- <a href="https://www.linkedin.com/">Nome do integrante 5</a>
-- <a href="https://www.linkedin.com/">Nome do integrante 6</a> 
-- <a href="https://www.linkedin.com/">Nome do integrante 7</a>
+- <a href="https://www.linkedin.com/in/filipe-salotti-9ab184310/">Arthur Morais </a>
+- <a href="https://www.linkedin.com/in/eduardo-gabriel-de-oliveira-1ab818220/">Eduardo Oliveira</a>
+- <a href="https://www.linkedin.com/in/enzo-santos-bezerra-1904403bb/">Enzo Santos Bezerra</a>
+- <a href="https://www.linkedin.com/in/guilherme-beltrame-18b1b429b/">Guilherme Munhoz Beltrame</a>
+- <a href="https://www.linkedin.com/in/laiza-guimar%C3%A3es-2748b2313/">Laiza Guimaraes</a>
+- <a href="https://www.linkedin.com/in/kaylan-alexandre/">Lorena Kopke</a>
+- <a href="https://www.linkedin.com/in/mateus-galatro/">Mateus Gongora Pereira Galatro</a>
+- <a href="https://www.linkedin.com/in/miguel-cristiano-costa-160b96320/">Miguel Cristiano Costa</a>
 
 ## :teacher: Professores:
 ### Orientador(a) 
-- <a href="https://www.linkedin.com/">Nome do professor 1</a>
+- <a href="https://www.linkedin.com/in/marcelo-gon%C3%A7alves-phd/">Marcelo Gonçalves</a>
 ### Instrutores
-- <a href="https://www.linkedin.com/">Nome do professor 2</a>
-- <a href="https://www.linkedin.com/">Nome do professor 3</a> 
-- <a href="https://www.linkedin.com/">Nome do professor 4</a> 
-- <a href="https://www.linkedin.com/">Nome do professor 5</a>
-- <a href="https://www.linkedin.com/">Nome do professor 6</a>
+- <a href="https://www.linkedin.com/in/ovidio-netto/">Ovidio Lopes</a>
+- <a href="https://www.linkedin.com/in/diogo-martins-gon%C3%A7alves-de-morais-96404732/">Diogo Morais</a> 
+- <a href="https://www.linkedin.com/in/gui-cestari/">Guilherme Cestari</a> 
+- <a href="https://www.linkedin.com/in/natalia-k-37a62052/">Natalia Kloeckner</a>
+- <a href="https://www.linkedin.com/in/filipe-gon%C3%A7alves-08a55015b/">Filipe Gonçalves</a>
 
 ## 📝 Descrição
 
