@@ -85,6 +85,50 @@
 
 *Posicione aqui suas Personas em forma de texto markdown com imagens, ou como imagem de template preenchido. Atualize esta seção ao longo do módulo se necessário.*
 
+### Persona 1
+Nome e sobrenome: João Pereira 
+
+Idade: 34 anos
+
+Cargo: Gerente geral
+
+Localização: Miranda- MS
+
+Escolaridade: Pós- graduado em veterinária
+
+Motivações:
+Conseguir manter sua família e garantir educação para seus filhos. Além disso, deseja ser um funcionário de destaque para a BrPec.
+
+Interesses:
+- Animais
+- Tecnologias aplicadas ao agronegócio
+- Gestão de fazendas 
+- Gestão de tempo
+- Livros 
+
+Desafios/Dores:
+- Dificuldade de visualizar todo o cenário em tempo real
+- Comunicação lenta e fragmentada
+
+Metas:
+- Ter maior controle sobre as atividades do campo
+- Garantir que as rotinas do campo sejam executadas seguindo o planejamento
+
+Necessidades
+- Painel de acompanhamento do status das atividades
+- Painel para a criação e gestão de tarefas calendarizadas para os Capatazes
+- Infomações atualizadas
+
+Biografia:
+
+João trabalha na BrPec há 6 anos e é responsável por gerar as atividades calendarizadas para os Capatazes e acompanham a evolução das atividades da fazenda. Um dos seus maiores desafios é garantir que as rotinas de campo sejam cumpridas conforme o planejado, porque muitas informações chegam com atraso. Está constantemente frustrado, porque sabe que conseguiria fazer seu trabalho muito melhor se tivesse um melhor acesso aos dados.
+
+"Demoro muito para saber o que está acontecendo nas terras, o que torna difícil gerar as atividades para os Capatazes e garantir que tudo está ocorrendo conforme planejado na fazenda. Isso, porque as informações que tenho nem sempre são as mais atualizadas."
+
+João se comunica com supervisores e coordenadores frequentemente, mas o fluxo ainda é lento e fragmentado.
+Está aberto a ferramentas digitais, porque sabe que elas o ajudariam a ter uma visão atualizada e completa sobre o cenário geral da fazenda.
+
+
 ## 2.3. User Stories (sprints 1 a 5)
 
 *Posicione aqui a lista de User Stories levantadas para o projeto. Siga o template de User Stories e utilize a mesma referência USXX no roadmap de seu quadro Kanban. Indique todas as User Stories mapeadas, mesmo aquelas que não forem implementadas ao longo do projeto. Não se esqueça de explicar o INVEST das 5 User Stories prioritárias*
