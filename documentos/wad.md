@@ -131,7 +131,7 @@ Implementar armazenamento local, criar lógica de fila para sincronização, tes
 Os capatazes podem resistir à mudança por hábito ou dificuldade com tecnologia. Se o sistema não for simples e rápido, há risco de continuarem utilizando papel.
 
 **Plano de ação:**  
-Focar em interface simples e intuitiva, reduzir número de campos obrigatórios, validar protótipos com o parceiro e priorizar rapidez no uso.
+Focar em interface simples e intuitiva, reduzir o número de campos obrigatórios, validar protótipos com o parceiro e priorizar rapidez no uso.
 
 ---
 
