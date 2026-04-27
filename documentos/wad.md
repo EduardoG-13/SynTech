@@ -179,9 +179,131 @@ O canvas evidencia que o a aplicação web resolve dores concretas dos Capatazes
 
 ### 2.1.5. Matriz de Riscos do Projeto (sprint 1)
 
-*Sem limite de palavras – usar template do curso*
+A matriz de riscos é uma ferramenta que permite identificar, analisar e priorizar ameaças e oportunidades de um projeto. A classificação é feita com base na probabilidade de ocorrência e no impacto, auxiliando na definição de ações para cada caso. Dessa forma, foi elaborada a matriz de riscos para o desenvolvimento da aplicação web da BrPec Agropecuária S.A, considerando seus principais desafios.
 
-*Registre na matriz os riscos identificados no projeto.*
+---
+
+### AMEAÇAS
+
+### 1. Não entrega do MVP no prazo
+**Probabilidade:** 10%  
+**Impacto:** Muito Alto  
+
+**Explicação:**  
+Existe risco real de atraso devido à complexidade do sistema (offline + integração + múltiplas funcionalidades). O grupo pode focar em detalhes ou features secundárias e não finalizar o núcleo do projeto.
+
+**Plano de ação:**  
+Definir claramente o escopo do MVP (tarefas + registro + exportação), priorizar backlog semanalmente, dividir responsabilidades por membro e realizar checkpoints frequentes para garantir evolução contínua.
+
+---
+
+### 2. Falha na sincronização offline
+**Probabilidade:** 50%  
+**Impacto:** Muito Alto  
+
+**Explicação:**  
+O sistema depende de funcionamento offline, o que aumenta a complexidade técnica. Problemas na sincronização podem gerar perda ou duplicação de dados, comprometendo a confiança no sistema.
+
+**Plano de ação:**  
+Implementar armazenamento local, criar lógica de fila para sincronização, testar cenários offline/online e registrar logs para identificar falhas.
+
+---
+
+### 3. Baixa adoção pelos usuários de campo
+**Probabilidade:** 50%  
+**Impacto:** Alto  
+
+**Explicação:**  
+Os capatazes podem resistir à mudança por hábito ou dificuldade com tecnologia. Se o sistema não for simples e rápido, há risco de continuarem utilizando papel.
+
+**Plano de ação:**  
+Focar em interface simples e intuitiva, reduzir o número de campos obrigatórios, validar protótipos com o parceiro e priorizar rapidez no uso.
+
+---
+
+### 4. Falta de alinhamento com o parceiro
+**Probabilidade:** 30%  
+**Impacto:** Alto  
+
+**Explicação:**  
+Caso o grupo não valide decisões com a BrPec Agropecuária S.A, pode desenvolver funcionalidades que não atendem às necessidades reais.
+
+**Plano de ação:**  
+Realizar reuniões frequentes, validar protótipos e funcionalidades, documentar decisões e confirmar requisitos antes de implementar.
+
+---
+
+### 5. Problemas de integração entre frontend e backend
+**Probabilidade:** 50%  
+**Impacto:** Alto  
+
+**Explicação:**  
+Diferenças nos formatos de dados ou endpoints podem causar falhas no sistema, atrasando o desenvolvimento.
+
+**Plano de ação:**  
+Definir contratos de API (JSON padronizado), documentar endpoints, realizar testes de integração e manter comunicação constante entre os responsáveis.
+
+---
+
+### 6. Desempenho ruim em dispositivos do campo
+**Probabilidade:** 30%  
+**Impacto:** Moderado  
+
+**Explicação:**  
+O sistema pode ser utilizado em celulares simples, e baixa performance pode dificultar o uso no dia a dia.
+
+**Plano de ação:**  
+Otimizar carregamento das páginas, reduzir uso de recursos pesados, testar em dispositivos reais e simplificar interface.
+
+---
+
+### OPORTUNIDADES
+
+### 1. Redução significativa de retrabalho
+**Probabilidade:** 90%  
+**Impacto:** Muito Alto  
+
+**Explicação:**  
+A digitalização elimina a necessidade de transcrever dados do papel para o Excel, reduzindo tempo e erros operacionais.
+
+**Plano de ação:**  
+Garantir que o sistema permita registro direto no campo e exportação automática de dados.
+
+---
+
+### 2. Desenvolvimento técnico do grupo
+**Probabilidade:** 90%  
+**Impacto:** Muito Alto  
+
+**Explicação:**  
+O projeto envolve tecnologias reais (frontend, backend e banco de dados), proporcionando aprendizado prático relevante.
+
+**Plano de ação:**  
+Dividir tarefas técnicas, compartilhar conhecimento entre membros e documentar aprendizados.
+
+---
+
+### 3. Entendimento do setor agro
+**Probabilidade:** 50%  
+**Impacto:** Alto  
+
+**Explicação:**  
+O contato com a realidade da pecuária permite aprendizado de um setor relevante e pouco explorado por estudantes de tecnologia.
+
+**Plano de ação:**  
+Aproveitar reuniões com o parceiro, fazer perguntas estratégicas e validar entendimento do negócio.
+
+---
+
+### 4. Possibilidade de expansão futura da solução
+**Probabilidade:** 30%  
+**Impacto:** Alto  
+
+**Explicação:**  
+A solução pode ser expandida para outras fazendas ou funcionalidades, gerando valor adicional.
+
+**Plano de ação:**  
+Desenvolver arquitetura simples e modular, facilitando futuras melhorias.
 
 ## 2.2. Personas (sprint 1)
 
