@@ -88,7 +88,7 @@
 ### Persona 1
 Nome e sobrenome: João Pereira 
 
-Idade: 34 anos
+Idade: 39 anos
 
 Cargo: Gerente geral
 
@@ -114,20 +114,91 @@ Metas:
 - Ter maior controle sobre as atividades do campo
 - Garantir que as rotinas do campo sejam executadas seguindo o planejamento
 
-Necessidades
+Necessidades:
 - Painel de acompanhamento do status das atividades
 - Painel para a criação e gestão de tarefas calendarizadas para os Capatazes
 - Infomações atualizadas
 
 Biografia:
 
-João trabalha na BrPec há 6 anos e é responsável por gerar as atividades calendarizadas para os Capatazes e acompanham a evolução das atividades da fazenda. Um dos seus maiores desafios é garantir que as rotinas de campo sejam cumpridas conforme o planejado, porque muitas informações chegam com atraso. Está constantemente frustrado, porque sabe que conseguiria fazer seu trabalho muito melhor se tivesse um melhor acesso aos dados.
+João Pereira trabalha na BrPec há 6 anos e é responsável por gerar as atividades calendarizadas para os Capatazes e acompanham a evolução das atividades da fazenda. Um dos seus maiores desafios é garantir que as rotinas de campo sejam cumpridas conforme o planejado, porque muitas informações chegam com atraso. Está constantemente frustrado, porque sabe que conseguiria fazer seu trabalho muito melhor se tivesse um melhor acesso aos dados.
 
 "Demoro muito para saber o que está acontecendo nas terras, o que torna difícil gerar as atividades para os Capatazes e garantir que tudo está ocorrendo conforme planejado na fazenda. Isso, porque as informações que tenho nem sempre são as mais atualizadas."
 
-João se comunica com supervisores e coordenadores frequentemente, mas o fluxo ainda é lento e fragmentado.
-Está aberto a ferramentas digitais, porque sabe que elas o ajudariam a ter uma visão atualizada e completa sobre o cenário geral da fazenda.
+João se comunica com supervisores e coordenadores frequentemente, mas essa comunicação ainda é lenta e fragmentada. Além disso, está aberto a ferramentas digitais, porque sabe que elas o ajudariam a ter uma visão atualizada e completa sobre o cenário geral da fazenda.
 
+### Persona 2
+Nome e sobrenome: 
+
+Idade: 35 anos
+
+Cargo: Coordenador 
+
+Localização:
+
+Escolaridade: 
+
+Motivações:
+
+
+Interesses:
+- 
+
+Desafios/Dores:
+-
+
+Metas:
+- 
+
+Necessidades:
+- 
+
+Biografia:
+
+### Persona 3
+Nome e sobrenome: Bernardo Ramos
+
+Idade: 29 anos
+
+Cargo: Capataz
+
+Localização: Miranda-MS
+
+Escolaridade: Ensino médio incompleto
+
+Motivações: Garantir o sustento da família e proporcionar uma boa vida para os filhos. Quer ser reconhecido como alguém de confiança no retiro.
+
+Interesses:
+- Pecuária e manejo de gado
+- Vida no campo
+- Futebol
+
+Desafios/Dores:
+- Baixa familiaridade com tecnologias digitais
+- Registra tudo em boletas de papel
+- Pouca clareza sobre as atividades do dia
+- Tem dificuldade de leitura e escrita
+
+Metas:
+- Realizar bem as atividades do retiro
+- Comunicar problemas ao supervisor de forma eficiente
+- Reduzir erros nos registros de manejo
+
+Necessidades:
+- Plataforma que opere offline
+- Interface visual com ícones e fotos minimizando necessidade de muita leitura e digitação
+- Painel de visualização e reporte de tarefas criadas pelos gerentes em ordem de prioridade
+- Painel de envio de evidências de execução para validação de tarefas
+- Possibilidade de criação de alertas para reportar problemas no retiro para os gerentes
+- Plataforma com um formulário simplificado para entrada de dados de movimentação bovina
+
+Biografia:
+
+Bernardo Ramos trabalha na BRPec como capataz há 4 anos. Ele coordena o trabalho no retiro, garantindo a execução das tarefas designadas pelo gerente. Além disso, ele cuida do Manejo do Gado, monitorando a saúde do gado, nascimentos e óbitos, além de outras atividades de manejo. Ele também cuida da estrutura da fazenda, a infraestrutura da propriedade, como cercas e pastos. Além disso, tem como uma de suas funções comunicar ao gerente o que está acontecendo na fazenda, o andamento das atividades, indicadores de produção e problemas do retiro.
+
+Atualmente ele registra tudo em boletas de papel, assim as informações chegam muitas vezes com atraso ou incompletas ao escritório, situação que repercute na hora de receber as tarefas do gerente.
+
+"O que acontece aqui no retiro demora pra chegar lá no escritório. Até eu conseguir avisar o gerente, já virou bagunça."
 
 ## 2.3. User Stories (sprints 1 a 5)
 
