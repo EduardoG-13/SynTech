@@ -401,7 +401,44 @@ _Posicione aqui o diagrama de arquitetura da solução, indicando as camadas pri
 
 ### 3.2.2. Diagrama de Casos de Uso (sprint 1)
 
-_Apresente o diagrama de casos de uso com atores (boneco), casos (elipse) e as relações `<<include>>` / `<<extend>>` com semântica correta. Consulte a notação de referência em `in02/suporte/use-case_3.0_v1.0.pdf`._
+@startuml
+left to right direction
+
+actor "Gerente (João)" as Gerente
+actor "Coordenador (Marcos)" as Coordenador
+actor "Capataz (Gabriel)" as Capataz
+
+rectangle "Sistema BrPec" {
+
+usecase "Criar tarefa" as UC1
+usecase "Atribuir tarefa ao retiro" as UC2
+usecase "Visualizar painel de status" as UC3
+
+usecase "Visualizar tarefas do dia" as UC4
+usecase "Marcar tarefa como concluída" as UC5
+usecase "Anexar foto na tarefa" as UC6
+
+usecase "Visualizar movimentações" as UC7
+usecase "Validar movimentações" as UC8
+usecase "Exportar relatórios" as UC9
+}
+
+Gerente --> UC1
+Gerente --> UC3
+
+Capataz --> UC4
+Capataz --> UC5
+
+Coordenador --> UC7
+Coordenador --> UC8
+Coordenador --> UC9
+
+UC1 ..> UC2 : <<include>>
+UC8 ..> UC7 : <<include>>
+
+UC6 ..> UC5 : <<extend>>
+
+@enduml
 
 ### 3.2.3. Diagrama de Classes do Domínio (sprint 2)
 
