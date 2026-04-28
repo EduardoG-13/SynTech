@@ -438,7 +438,16 @@ _Numere e redija as RN de forma implementável e testável. Toda RN deve ter pel
 | RN02 | Apenas tarefas do dia atual devem ser exibidas ao capataz                | RF002        |
 | RN03 | As tarefas devem ser armazenadas localmente após sincronização           | RF003        |
 | RN04 | A mensagem exibida deve utilizar linguagem simples e direta              | RF004        |
-| RN05 | O sistema deve permitir visualização offline apenas de tarefas previamente sincronizadas | RF002        |
+| RN05 | Apenas tarefas associadas ao retiro do capataz devem ser exibidas para ele. | RF002        |
+| RN06 | O sistema deve permitir visualização offline apenas de tarefas previamente sincronizadas | RF002        |
+| RN07 | As tarefas do dia devem ficar disponíveis offline quando houver sincronização prévia. | RF002        |
+| RN08 | A marcação de conclusão feita offline deve ser armazenada localmente até a próxima sincronização. | RF003        |
+| RN09 | Uma tarefa concluída deve ter seu status atualizado para o gerente após sincronização. | RF003        |
+| RN10 | As fotos anexadas devem estar vinculadas à tarefa correspondente. | RF004        |
+| RN11 | Fotos registradas offline devem ser enviadas ao sistema quando houver conexão. | RF004        |
+| RN12 | O painel do gerente deve exibir tarefas organizadas por retiro e por status. | RF005
+| RN13 | O painel deve apresentar informações atualizadas conforme a última sincronização disponível. | RF005
+| RN14 | As telas destinadas ao capataz devem usar linguagem simples, botões visíveis e poucos passos de interação. | RF002, RF003, RF004
 
 ### 3.1.3. Requisitos Não Funcionais — 8 Eixos ISO/IEC 25010 (sprints 1 a 5)
 
