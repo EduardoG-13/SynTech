@@ -76,7 +76,7 @@ Análise estrutural: A BrPec opera em setor com barreiras de entrada relevantes 
 
 A análise SWOT a seguir avalia o posicionamento estratégico da BRPec considerando seu ambiente interno — forças operacionais e financeiras e fraquezas estruturais e regulatórias — e fatores externos: oportunidades de mercado e ameaças setoriais. O contexto de análise é o agronegócio brasileiro de pecuária e grãos, especificamente o segmento de produção integrada em larga escala no Pantanal mato-grossense, caracterizado por crescente pressão ESG sobre crédito e certificações, restrições regulatórias à expansão de novas áreas e acirrada competição fundiária com players institucionalizados.
 
-![Canvas proposta de valor](../documentos/análiseSWOT.png)
+![Canvas proposta de valor](../documentos/análiseSWOT-BRPec.png)
 
 **Fonte: Elaborado pelos autores (2026).**
 
