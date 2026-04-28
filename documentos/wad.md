@@ -76,7 +76,7 @@ Análise estrutural: A BrPec opera em setor com barreiras de entrada relevantes 
 
 A análise SWOT a seguir avalia o posicionamento estratégico da BRPec considerando seu ambiente interno — forças operacionais e financeiras e fraquezas estruturais e regulatórias — e fatores externos: oportunidades de mercado e ameaças setoriais. O contexto de análise é o agronegócio brasileiro de pecuária e grãos, especificamente o segmento de produção integrada em larga escala no Pantanal mato-grossense, caracterizado por crescente pressão ESG sobre crédito e certificações, restrições regulatórias à expansão de novas áreas e acirrada competição fundiária com players institucionalizados.
 
-![Canvas proposta de valor](../documentos/análiseSWOT-BRPec.png)
+![Canvas proposta de valor](../assets/análiseSWOT.png)
 
 **Fonte: Elaborado pelos autores (2026).**
 
@@ -167,7 +167,7 @@ O projeto será considerado bem-sucedido quando:
 
 A proposta de valor é uma declaração curta e objetiva que resume a essência da aplicação web: o que ela oferece, para quem e por que vale a pena jogar. Ela funciona como o núcleo de toda a visão do projeto, orientando decisões de design e comunicando de forma clara o diferencial do jogo antes de qualquer detalhe técnico ou mecânico ser apresentado.
 
-![Canvas proposta de valor](../documentos/canvasPropostaDeValor.png)
+![Canvas proposta de valor](../assets/canvasPropostaDeValor.png)
 **Fonte: Elaborado pelos autores (2026).**
 
 O canvas evidencia que o a aplicação web resolve dores concretas dos Capatazes em campo — como a dependência de boletas de papel, a impossibilidade de usar soluções convencionais sem internet e a comunicação informal com o Gerente, garantindo que haja um maior controle pelos Capatazes. Os ganhos gerados, como a eliminação do retrabalho de transcrição, o registro ágil de eventos zootécnicos em poucos toques e a confirmação automática de tarefas com envio de evidências, se alinham diretamente às entregas do produto: formulários digitais de manejo bovino, sistema de alertas multimídia e exportação em Excel para o Coordenador. A proposta de valor da aplicação web, portanto, não se limita a digitalizar uma planilha existente, mas redefine o fluxo de informações entre o campo e o escritório — tornando os registros operacionais mais confiáveis, rastreáveis e acessíveis para toda a cadeia de gestão da fazenda.
@@ -399,49 +399,53 @@ Marcos Cesar tem 35 anos, está na BRPec há 5 anos e é responsável por valida
 
 
 ### Persona 3
-Nome e sobrenome: Bernardo Ramos
+Nome e sobrenome: Gabriel Galdino;
 
-Idade: 29 anos
+Idade: 45 anos;
 
-Cargo: Capataz
+Cargo: Capataz na BrPec Agropecuária S.A;
 
-Localização: Miranda-MS
+Localização: Miranda (MS) – Atua em retiros na região do Pantanal;
 
-Escolaridade: Ensino médio incompleto
+Escolaridade: Ensino Fundamental completo;
 
 Motivações: Garantir o sustento da família e proporcionar uma boa vida para os filhos. Quer ser reconhecido como alguém de confiança no retiro.
 
-Interesses:
-- Pecuária e manejo de gado
-- Vida no campo
-- Futebol
+Biografia
 
-Desafios/Dores:
-- Baixa familiaridade com tecnologias digitais
-- Registra tudo em boletas de papel
-- Pouca clareza sobre as atividades do dia
-- Tem dificuldade de leitura e escrita
+Gabriel Galdino tem 45 anos e atua como capataz na BrPec Agropecuária S.A, sendo responsável pela gestão de um dos retiros da fazenda. Sua rotina é voltada à execução das atividades operacionais, organização da equipe de vaqueiros e acompanhamento direto das demandas relacionadas ao rebanho. Com forte experiência prática no campo, Gabriel coordena tarefas como movimentação de gado, manutenção de cercas e resolução de imprevistos. Também realiza registros básicos das atividades e comunica atualizações ao coordenador.
 
-Metas:
-- Realizar bem as atividades do retiro
-- Comunicar problemas ao supervisor de forma eficiente
-- Reduzir erros nos registros de manejo
+Gabriel é um profissional que se destaca ao ser um ótimo capataz para seu retiro e comunidade de vaqueiros, se empenha no trabalho para tentar ajudar ao máximo sua família. Entretanto, enfrenta limitações no uso de ferramentas digitais e depende, em grande parte, de anotações informais e comunicação via rádio, o que dificulta o controle das informações e o acompanhamento das tarefas.
 
-Necessidades:
-- Plataforma que opere offline
-- Interface visual com ícones e fotos minimizando necessidade de muita leitura e digitação
-- Painel de visualização e reporte de tarefas criadas pelos gerentes em ordem de prioridade
-- Painel de envio de evidências de execução para validação de tarefas
-- Possibilidade de criação de alertas para reportar problemas no retiro para os gerentes
-- Plataforma com um formulário simplificado para entrada de dados de movimentação bovina
+Metas
 
-Biografia:
+- Manter o retiro organizado e funcionando corretamente;
+- Garantir a execução das tarefas dentro do prazo;
+- Evitar retrabalho e falhas na comunicação;
+- Ter maior controle sobre as atividades realizadas no dia.
 
-Bernardo Ramos trabalha na BRPec como capataz há 4 anos. Ele coordena o trabalho no retiro, garantindo a execução das tarefas designadas pelo gerente. Além disso, ele cuida do Manejo do Gado, monitorando a saúde do gado, nascimentos e óbitos, além de outras atividades de manejo. Ele também cuida da estrutura da fazenda, a infraestrutura da propriedade, como cercas e pastos. Além disso, tem como uma de suas funções comunicar ao gerente o que está acontecendo na fazenda, o andamento das atividades, indicadores de produção e problemas do retiro.
+Necessidades
 
-Atualmente ele registra tudo em boletas de papel, assim as informações chegam muitas vezes com atraso ou incompletas ao escritório, situação que repercute na hora de receber as tarefas do gerente.
+- Sistema simples, com navegação intuitiva;
+- Registro rápido de tarefas e ocorrências;
+- Visualização clara das atividades do dia;
+- Funcionamento offline devido à limitação de internet;
+- Padronização das informações registradas.
 
-"O que acontece aqui no retiro demora pra chegar lá no escritório. Até eu conseguir avisar o gerente, já virou bagunça."
+Desafios/dores
+
+- Baixa familiaridade com tecnologias digitais;
+- Dependência de registros manuais e memória;
+- Dificuldade em acompanhar várias tarefas simultaneamente;
+- Falhas na comunicação com níveis superiores;
+- Tempo limitado para registrar informações durante o trabalho.
+
+Interesses
+
+- Ferramentas fáceis de usar no dia a dia;
+- Soluções que reduzam esforço operacional;
+- Organização das tarefas no campo;
+- Comunicação mais direta e eficiente com a equipe.
 
 ## 2.3. User Stories (sprints 1 a 5)
 | Campo                    | Descrição                                                                                                                                                                                |
@@ -465,6 +469,8 @@ Pequena: Foco apenas na criação e atribuição de tarefas
 
 Testável: Possível validar criação e vínculo com retiro
 
+---
+
 | Campo                    | Descrição                                                                                                                                                  |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Identificação**        | US02                                                                                                                                                       |
@@ -486,6 +492,56 @@ Estimável: Escopo técnico claro (armazenamento local e leitura)
 Pequena: Foco na visualização das tarefas do dia
 
 Testável: Cenários offline verificáveis
+
+---
+
+| Campo                    | Descrição                                                                                                                                                                                |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Identificação**        | US03                                                                                                                                                                                     |
+| **Persona**              | Gabriel Galdino (Capataz)                                                                                                                                                             |
+| **User Story**           | Como capataz, posso marcar uma tarefa como concluída para informar o gerente sobre o avanço do trabalho de forma simples e rápida |
+| **Critério de Aceite 1** | CR1: Dado que Gabriel visualiza uma tarefa, quando marcar como concluída, então o status da tarefa deve ser atualizado no sistema                                        |
+| **Critério de Aceite 2** | CR2: Dado que a tarefa foi marcada como concluída offline, quando o dispositivo sincronizar, então o status deve ser atualizado para o gerente                                              |
+| **Critério de Aceite 3** | CR3: Dado que Gabriel interage com a tarefa, quando marcar como concluída, então a ação deve ser simples, com botão visível e de fácil entendimento                                              |
+
+## Critérios INVEST
+Independente: Pode ser implementada separadamente da criação de tarefas
+
+Negociável: Forma de interação pode ser ajustada (botão, ícone, etc.)
+
+Valorosa: Permite acompanhamento do progresso das atividades
+
+Estimável: Escopo claro (alteração de status + sincronização)
+
+Pequena: Foco apenas na atualização de status
+
+Testável: Possível validar mudança de status e sincronização
+
+---
+
+| Campo                    | Descrição                                                                                                                                                  |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Identificação**        | US04                                                                                                                                                       |
+| **Persona**              | Gabriel Galdino (Capataz)                                                                                                                                  |
+| **User Story**           | Como capataz, posso anexar fotos na conclusão de uma tarefa para comprovar visualmente o serviço realizado, mesmo em ambiente com conexão limitada |
+| **Critério de Aceite 1** | CR1: Dado que Gabriel conclui uma tarefa, quando anexar uma foto, então ela deve ser associada corretamente à tarefa   |
+| **Critério de Aceite 2** | CR2: Dado que a foto foi registrada offline, quando o dispositivo sincronizar, então a imagem deve ser enviada ao sistema/ 
+ |
+| **Critério de Aceite 3** | CR3: Dado que Gabriel utiliza a funcionalidade, quando anexar a foto, então o processo deve ser simples e intuitivo   |
+
+## Critérios INVEST
+Independente: Pode ser implementada separadamente do fluxo de conclusão
+
+Negociável: Forma de captura/anexo pode ser ajustada
+
+Valorosa: Garante evidência visual do trabalho realizado
+
+Estimável: Escopo claro (upload + vínculo com tarefa)
+
+Pequena: Foco no anexo de imagens
+
+Testável: Possível validar envio e associação da imagem
+
 
 Campo | Descrição
 --- | ---
@@ -539,7 +595,16 @@ _Numere e redija as RN de forma implementável e testável. Toda RN deve ter pel
 | RN02 | Apenas tarefas do dia atual devem ser exibidas ao capataz                | RF002        |
 | RN03 | As tarefas devem ser armazenadas localmente após sincronização           | RF003        |
 | RN04 | A mensagem exibida deve utilizar linguagem simples e direta              | RF004        |
-| RN05 | O sistema deve permitir visualização offline apenas de tarefas previamente sincronizadas | RF002        |
+| RN05 | Apenas tarefas associadas ao retiro do capataz devem ser exibidas para ele. | RF002        |
+| RN06 | O sistema deve permitir visualização offline apenas de tarefas previamente sincronizadas | RF002        |
+| RN07 | As tarefas do dia devem ficar disponíveis offline quando houver sincronização prévia. | RF002        |
+| RN08 | A marcação de conclusão feita offline deve ser armazenada localmente até a próxima sincronização. | RF003        |
+| RN09 | Uma tarefa concluída deve ter seu status atualizado para o gerente após sincronização. | RF003        |
+| RN10 | As fotos anexadas devem estar vinculadas à tarefa correspondente. | RF004        |
+| RN11 | Fotos registradas offline devem ser enviadas ao sistema quando houver conexão. | RF004        |
+| RN12 | O painel do gerente deve exibir tarefas organizadas por retiro e por status. | RF005
+| RN13 | O painel deve apresentar informações atualizadas conforme a última sincronização disponível. | RF005
+| RN14 | As telas destinadas ao capataz devem usar linguagem simples, botões visíveis e poucos passos de interação. | RF002, RF003, RF004
 
 ### 3.1.3. Requisitos Não Funcionais — 8 Eixos ISO/IEC 25010 (sprints 1 a 5)
 
@@ -566,6 +631,14 @@ _Matriz de cobertura mostrando quais RN e endpoints implementam cada RF._
 | RF002 | RN02, RN05           | /tarefas/hoje             | GET    |
 | RF003 | RN03                 | /tarefas/sincronizar      | GET    |
 | RF004 | RN04                 | /tarefas/hoje/offline     | GET    |
+| RF005 | RN05                 | /tarefas/concluir         | POST   |
+| RF006 | RN06                 | /chamados                 | POST   |
+| RF007 | RN07                 | /eventos/zootecnicos      | POST   |
+| RF008 | RN08                 | /transacoes/gado          | POST   |
+| RF009 | RN09                 | /transferencias           | POST   |
+| RF010 | RN10                 | Armazenamento Local       | INSERT |
+| RF011 | RN11                 | /sincronizar              | POST   |
+| RF012 | RN12                 | Consulta Banco Local      | GET    |
 
 ## 3.2. Arquitetura (sprints 1 a 5)
 
