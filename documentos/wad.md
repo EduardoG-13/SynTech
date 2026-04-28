@@ -491,6 +491,12 @@ Pequena: Foco na visualização das tarefas do dia
 
 Testável: Cenários offline verificáveis
 
+| **Identificação**        | US09                                                                                                                                                      |
+| **Persona**              | Gabriel Galdino (Capataz)                                                                                                                                  |
+| **User Story**           | Como capataz, posso registrar a morte de um animal offline para reportar rapidamente a baixa ao coordenador, garantindo que nenhuma informação se perca mesmo sem conexão disponível no campo. |
+| **Critério de Aceite 1** | CR1: Dado que Gabriel está sem conexão Starlink no momento do óbito, quando ele preenche os campos obrigatórios do formulário de morte (identificação do animal, categoria, causa e data) e confirma, então o sistema deve salvar o registro localmente no dispositivo e exibir a mensagem "Registro salvo. Será enviado quando houver conexão"   |
+                         |
+
 
 # <a name="c3"></a>3. Projeto da Aplicação Web (sprints 1 a 5)
 
