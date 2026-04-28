@@ -474,6 +474,14 @@ _Matriz de cobertura mostrando quais RN e endpoints implementam cada RF._
 | RF002 | RN02, RN05           | /tarefas/hoje             | GET    |
 | RF003 | RN03                 | /tarefas/sincronizar      | GET    |
 | RF004 | RN04                 | /tarefas/hoje/offline     | GET    |
+| RF005 | RN05                 | /tarefas/concluir         | POST   |
+| RF006 | RN06                 | /chamados                 | POST   |
+| RF007 | RN07                 | /eventos/zootecnicos      | POST   |
+| RF008 | RN08                 | /transacoes/gado          | POST   |
+| RF009 | RN09                 | /transferencias           | POST   |
+| RF010 | RN10                 | Armazenamento Local       | INSERT |
+| RF011 | RN11                 | /sincronizar              | POST   |
+| RF012 | RN12                 | Consulta Banco Local      | GET    |
 
 ## 3.2. Arquitetura (sprints 1 a 5)
 
