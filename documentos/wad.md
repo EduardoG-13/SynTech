@@ -316,6 +316,137 @@ Desenvolver arquitetura simples e modular, facilitando futuras melhorias.
 
 _Posicione aqui suas Personas em forma de texto markdown com imagens, ou como imagem de template preenchido. Atualize esta seção ao longo do módulo se necessário._
 
+### Persona 1
+Nome e sobrenome: João Pereira.
+
+Idade: 39 anos.
+
+Cargo: Gerente geral na BrPec Agropecuária S.A.
+
+Localização: Miranda-MS.
+
+Escolaridade: Pós-graduado em veterinária.
+
+Motivações:
+Conseguir manter sua família e garantir educação para seus filhos. Além disso, deseja ser um funcionário de destaque para a BrPec.
+
+Interesses:
+- Animais;
+- Tecnologias aplicadas ao agronegócio;
+- Gestão de fazendas;
+- Gestão de tempo;
+- Livros.
+
+Desafios/Dores:
+- Dificuldade de visualizar todo o cenário em tempo real;
+- Comunicação lenta e fragmentada.
+
+Metas:
+- Ter maior controle sobre as atividades do campo;
+- Garantir que as rotinas do campo sejam executadas seguindo o planejamento.
+
+Necessidades:
+- Painel de acompanhamento do status das atividades;
+- Painel para a criação e gestão de tarefas calendarizadas para os Capatazes;
+- Infomações atualizadas.
+
+Biografia:
+
+João Pereira tem 39 anos, trabalha na BrPec há 6 anos e é responsável por gerar as atividades calendarizadas para os Capatazes e acompanham a evolução das atividades da fazenda. Um dos seus maiores desafios é garantir que as rotinas de campo sejam cumpridas conforme o planejado, porque muitas informações chegam com atraso. Está constantemente frustrado, porque sabe que conseguiria fazer seu trabalho muito melhor se tivesse um melhor acesso aos dados.
+
+"Demoro muito para saber o que está acontecendo nas terras, o que torna difícil gerar as atividades para os Capatazes e garantir que tudo está ocorrendo conforme planejado na fazenda. Isso, porque as informações que tenho nem sempre são as mais atualizadas."
+
+João se comunica com supervisores e coordenadores frequentemente, mas essa comunicação ainda é lenta e fragmentada. Além disso, está aberto a ferramentas digitais, porque sabe que elas o ajudariam a ter uma visão atualizada e completa sobre o cenário geral da fazenda.
+
+### Persona 2
+Nome e sobrenome: Marcos Cesar Filho
+
+Idade: 35 anos
+
+Cargo: Coordenador na BrPec Agropecuária S.A
+
+Localização: Miranda- MS
+
+Escolaridade: Pós-graduado em administração
+
+Motivações:
+Crescer profissionalmente dentro do agronegócio e ser reconhecido pela precisão e confiabilidade dos dados que gerencia.
+
+Interesses:
+- Gestão de dados;
+- Pecuária;
+- Tecnologia aplicada ao campo.
+
+Desafios/Dores:
+- Demanda-se tempo para consolidação e redigitação em planilhas eletrônicas;
+- Registros de campo não são padronizados.
+
+Metas:
+- Conseguir validar rapidamente as movimentações dos capatazes;
+- Ter dados consolidados e confiáveis sem depender de redigitação manual.
+
+Necessidades:
+
+- Visualização das movimentações reportadas pelos Capatazes;
+- Visão consolidada das movimentações de todos os retiros sob sua responsabilidade;
+- Função para gerar e baixar planilhas referentes às movimentações.
+
+Biografia:
+
+Marcos Cesar tem 35 anos, está na BRPec há 5 anos e é responsável por validar as informações enviadas pelos Capatazes em campo. Além disso, tem como grande desafio hoje receber registros em boletas de papel, muitas vezes incompletos ou ilegíveis e ter que redigitar tudo manualmente em planilhas. Essa situação o deixa frustrado, ainda mais por esse processo estar sujeito a erros. 
+
+"Recebo a boleta, tento decifrar o que está escrito e ainda tenho que digitar tudo no Excel. Qualquer erro no campo vira problema aqui."
+
+
+### Persona 3
+Nome e sobrenome: Gabriel Galdino;
+
+Idade: 45 anos;
+
+Cargo: Capataz na BrPec Agropecuária S.A;
+
+Localização: Miranda (MS) – Atua em retiros na região do Pantanal;
+
+Escolaridade: Ensino Fundamental completo;
+
+Motivações: Garantir o sustento da família e proporcionar uma boa vida para os filhos. Quer ser reconhecido como alguém de confiança no retiro.
+
+Biografia
+
+Gabriel Galdino tem 45 anos e atua como capataz na BrPec Agropecuária S.A, sendo responsável pela gestão de um dos retiros da fazenda. Sua rotina é voltada à execução das atividades operacionais, organização da equipe de vaqueiros e acompanhamento direto das demandas relacionadas ao rebanho. Com forte experiência prática no campo, Gabriel coordena tarefas como movimentação de gado, manutenção de cercas e resolução de imprevistos. Também realiza registros básicos das atividades e comunica atualizações ao coordenador.
+
+Gabriel é um profissional que se destaca ao ser um ótimo capataz para seu retiro e comunidade de vaqueiros, se empenha no trabalho para tentar ajudar ao máximo sua família. Entretanto, enfrenta limitações no uso de ferramentas digitais e depende, em grande parte, de anotações informais e comunicação via rádio, o que dificulta o controle das informações e o acompanhamento das tarefas.
+
+Metas
+
+- Manter o retiro organizado e funcionando corretamente;
+- Garantir a execução das tarefas dentro do prazo;
+- Evitar retrabalho e falhas na comunicação;
+- Ter maior controle sobre as atividades realizadas no dia.
+
+Necessidades
+
+- Sistema simples, com navegação intuitiva;
+- Registro rápido de tarefas e ocorrências;
+- Visualização clara das atividades do dia;
+- Funcionamento offline devido à limitação de internet;
+- Padronização das informações registradas.
+
+Desafios/dores
+
+- Baixa familiaridade com tecnologias digitais;
+- Dependência de registros manuais e memória;
+- Dificuldade em acompanhar várias tarefas simultaneamente;
+- Falhas na comunicação com níveis superiores;
+- Tempo limitado para registrar informações durante o trabalho.
+
+Interesses
+
+- Ferramentas fáceis de usar no dia a dia;
+- Soluções que reduzam esforço operacional;
+- Organização das tarefas no campo;
+- Comunicação mais direta e eficiente com a equipe.
+
 ## 2.3. User Stories (sprints 1 a 5)
 | Campo                    | Descrição                                                                                                                                                                                |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
