@@ -369,21 +369,24 @@ _Esta seção formaliza o que o sistema deve fazer, sob quais regras e com quais
 
 ### 3.1.1. Requisitos Funcionais (sprint 1, refinar até sprint 5)
 
-_Liste os RF numerados de forma objetiva e verificável. Cada RF deve poder ser convertido em caso de teste._
-
-| ID    | Descrição | Prioridade | Status       |
-| ----- | --------- | ---------- | ------------ |
-| RF001 | ...       | Alta       | Implementado |
-| RF002 | ...       | Média      | Planejado    |
+| ID    | Descrição                                                                 | Prioridade | Status       |
+|-------|---------------------------------------------------------------------------|------------|--------------|
+| RF001 | O sistema deve permitir que o gerente crie tarefas e as associe a um retiro específico | Alta       | Planejado    |
+| RF002 | O sistema deve permitir que o capataz visualize as tarefas do dia mesmo sem conexão com a internet | Alta       | Planejado    |
+| RF003 | O sistema deve armazenar localmente as tarefas sincronizadas para acesso offline | Alta       | Planejado    |
+| RF004 | O sistema deve exibir mensagem simples quando não houver tarefas disponíveis offline | Média      | Planejado    |
 
 ### 3.1.2. Regras de Negócio (sprint 1, refinar até sprint 5)
 
 _Numere e redija as RN de forma implementável e testável. Toda RN deve ter pelo menos um teste automatizado associado a partir da sprint 3._
 
-| ID   | Descrição | RF associado |
-| ---- | --------- | ------------ |
-| RN01 | ...       | RF001        |
-| RN02 | ...       | RF001        |
+| ID   | Descrição                                                                 | RF associado |
+|------|---------------------------------------------------------------------------|--------------|
+| RN01 | Toda tarefa deve estar obrigatoriamente vinculada a um único retiro      | RF001        |
+| RN02 | Apenas tarefas do dia atual devem ser exibidas ao capataz                | RF002        |
+| RN03 | As tarefas devem ser armazenadas localmente após sincronização           | RF003        |
+| RN04 | A mensagem exibida deve utilizar linguagem simples e direta              | RF004        |
+| RN05 | O sistema deve permitir visualização offline apenas de tarefas previamente sincronizadas | RF002        |
 
 ### 3.1.3. Requisitos Não Funcionais — 8 Eixos ISO/IEC 25010 (sprints 1 a 5)
 
@@ -404,9 +407,12 @@ _Preencha os 8 eixos. Cada eixo deve ter ao menos um RNF verificável (com métr
 
 _Matriz de cobertura mostrando quais RN e endpoints implementam cada RF._
 
-| RF    | RN associadas | Endpoint    | Método |
-| ----- | ------------- | ----------- | ------ |
-| RF001 | RN01, RN02    | `/usuarios` | POST   |
+| RF    | RN associadas        | Endpoint                  | Método |
+|-------|----------------------|---------------------------|--------|
+| RF001 | RN01                 | /tarefas                  | POST   |
+| RF002 | RN02, RN05           | /tarefas/hoje             | GET    |
+| RF003 | RN03                 | /tarefas/sincronizar      | GET    |
+| RF004 | RN04                 | /tarefas/hoje/offline     | GET    |
 
 ## 3.2. Arquitetura (sprints 1 a 5)
 
