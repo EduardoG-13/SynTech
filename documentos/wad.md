@@ -317,34 +317,49 @@ Desenvolver arquitetura simples e modular, facilitando futuras melhorias.
 _Posicione aqui suas Personas em forma de texto markdown com imagens, ou como imagem de template preenchido. Atualize esta seção ao longo do módulo se necessário._
 
 ## 2.3. User Stories (sprints 1 a 5)
+| Campo                    | Descrição                                                                                                                                                                                |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Identificação**        | US01                                                                                                                                                                                     |
+| **Persona**              | João Pereira (Gerente Geral)                                                                                                                                                             |
+| **User Story**           | Como gerente geral, posso criar tarefas e atribuí-las a um retiro específico para organizar a rotina diária da equipe de campo e garantir que o planejamento seja executado corretamente |
+| **Critério de Aceite 1** | CR1: Dado que João acessa o sistema, quando cria uma tarefa e seleciona um retiro, então a tarefa deve ser salva corretamente vinculada ao retiro                                        |
+| **Critério de Aceite 2** | CR2: Dado que a tarefa foi criada, quando o sistema sincronizar, então ela deve ficar disponível para os capatazes responsáveis pelo retiro                                              |
 
-| **Identificação**                                                                           | US01                                                                                                                                                                                     |
-| ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Persona**                                                                                 | João Pereira (Gerente Geral)                                                                                                                                                             |
-| **User Story**                                                                              | Como gerente geral, posso criar tarefas e atribuí-las a um retiro específico para organizar a rotina diária da equipe de campo e garantir que o planejamento seja executado corretamente |
-| **Critério de aceite 1**                                                                    | CR1: Dado que João acessa o sistema, quando cria uma tarefa e seleciona um retiro, então a tarefa deve ser salva corretamente vinculada ao retiro                                        |
-| **Critério de aceite 2**                                                                    | CR2: Dado que a tarefa foi criada, quando o sistema sincronizar, então ela deve ficar disponível para os capatazes responsáveis pelo retiro                                              |
-| **Critérios INVEST**                                                                        |                                                                                                                                                                                          |
-| Independente: Pode ser implementada sem depender da visualização offline                    |                                                                                                                                                                                          |
-| Negociável: Campos e detalhes da tarefa podem ser ajustados conforme necessidade do gerente |                                                                                                                                                                                          |
-| Valorosa: Permite maior controle e organização das atividades da fazenda                    |                                                                                                                                                                                          |
-| Estimável: Escopo claro de criação e associação de tarefas                                  |                                                                                                                                                                                          |
-| Pequena: Foco apenas na criação e atribuição de tarefas                                     |                                                                                                                                                                                          |
-| Testável: Possível validar criação e vínculo com retiro                                     |                                                                                                                                                                                          |
-| **Identificação**                                                                           | US02                                                                                                                                                                                     |
-| ------------------------------------------------------------------------------              | ----------------------------------------------------------------------------------------------------------------------------------------------------------                               |
-| **Persona**                                                                                 | Gabriel Galdino (Capataz)                                                                                                                                                                |
-| **User Story**                                                                              | Como capataz, posso visualizar minha lista de tarefas do dia offline para saber o que precisa ser executado, mesmo longe da sede, de forma simples e clara                               |
-| **Critério de aceite 1**                                                                    | CR1: Dado que as tarefas foram previamente sincronizadas, quando Gabriel estiver sem internet, então deve conseguir visualizar a lista de tarefas do dia                                 |
-| **Critério de aceite 2**                                                                    | CR2: Dado que não há tarefas sincronizadas, quando acessar offline, então o sistema deve exibir uma mensagem simples informando ausência de tarefas                                      |
-| **Critério de aceite 3**                                                                    | CR3: Dado que Gabriel acessa as tarefas, quando exibidas, então devem estar organizadas de forma simples e de fácil entendimento                                                         |
-| **Critérios INVEST**                                                                        |                                                                                                                                                                                          |
-| Independente: Depende apenas da sincronização de tarefas                                    |                                                                                                                                                                                          |
-| Negociável: Forma de exibição pode ser adaptada ao nível de letramento digital              |                                                                                                                                                                                          |
-| Valorosa: Garante execução das atividades mesmo sem internet                                |                                                                                                                                                                                          |
-| Estimável: Escopo técnico claro (armazenamento local e leitura)                             |                                                                                                                                                                                          |
-| Pequena: Foco na visualização das tarefas do dia                                            |                                                                                                                                                                                          |
-| Testável: Cenários offline verificáveis                                                     |                                                                                                                                                                                          |
+## Critérios INVEST
+Independente: Pode ser implementada sem depender da visualização offline
+
+Negociável: Campos e detalhes da tarefa podem ser ajustados conforme necessidade do gerente
+
+Valorosa: Permite maior controle e organização das atividades da fazenda
+
+Estimável: Escopo claro de criação e associação de tarefas
+
+Pequena: Foco apenas na criação e atribuição de tarefas
+
+Testável: Possível validar criação e vínculo com retiro
+
+| Campo                    | Descrição                                                                                                                                                  |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Identificação**        | US02                                                                                                                                                       |
+| **Persona**              | Gabriel Galdino (Capataz)                                                                                                                                  |
+| **User Story**           | Como capataz, posso visualizar minha lista de tarefas do dia offline para saber o que precisa ser executado, mesmo longe da sede, de forma simples e clara |
+| **Critério de Aceite 1** | CR1: Dado que as tarefas foram previamente sincronizadas, quando Gabriel estiver sem internet, então deve conseguir visualizar a lista de tarefas do dia   |
+| **Critério de Aceite 2** | CR2: Dado que não há tarefas sincronizadas, quando acessar offline, então o sistema deve exibir uma mensagem simples informando ausência de tarefas        |
+| **Critério de Aceite 3** | CR3: Dado que Gabriel acessa as tarefas, quando exibidas, então devem estar organizadas de forma simples e de fácil entendimento                           |
+
+## Critérios INVEST
+Independente: Depende apenas da sincronização de tarefas
+
+Negociável: Forma de exibição pode ser adaptada ao nível de letramento digital
+
+Valorosa: Garante execução das atividades mesmo sem internet
+
+Estimável: Escopo técnico claro (armazenamento local e leitura)
+
+Pequena: Foco na visualização das tarefas do dia
+
+Testável: Cenários offline verificáveis
+
 
 # <a name="c3"></a>3. Projeto da Aplicação Web (sprints 1 a 5)
 
