@@ -399,49 +399,53 @@ Marcos Cesar tem 35 anos, está na BRPec há 5 anos e é responsável por valida
 
 
 ### Persona 3
-Nome e sobrenome: Bernardo Ramos
+Nome e sobrenome: Gabriel Galdino;
 
-Idade: 29 anos
+Idade: 45 anos;
 
-Cargo: Capataz
+Cargo: Capataz na BrPec Agropecuária S.A;
 
-Localização: Miranda-MS
+Localização: Miranda (MS) – Atua em retiros na região do Pantanal;
 
-Escolaridade: Ensino médio incompleto
+Escolaridade: Ensino Fundamental completo;
 
 Motivações: Garantir o sustento da família e proporcionar uma boa vida para os filhos. Quer ser reconhecido como alguém de confiança no retiro.
 
-Interesses:
-- Pecuária e manejo de gado
-- Vida no campo
-- Futebol
+Biografia
 
-Desafios/Dores:
-- Baixa familiaridade com tecnologias digitais
-- Registra tudo em boletas de papel
-- Pouca clareza sobre as atividades do dia
-- Tem dificuldade de leitura e escrita
+Gabriel Galdino tem 45 anos e atua como capataz na BrPec Agropecuária S.A, sendo responsável pela gestão de um dos retiros da fazenda. Sua rotina é voltada à execução das atividades operacionais, organização da equipe de vaqueiros e acompanhamento direto das demandas relacionadas ao rebanho. Com forte experiência prática no campo, Gabriel coordena tarefas como movimentação de gado, manutenção de cercas e resolução de imprevistos. Também realiza registros básicos das atividades e comunica atualizações ao coordenador.
 
-Metas:
-- Realizar bem as atividades do retiro
-- Comunicar problemas ao supervisor de forma eficiente
-- Reduzir erros nos registros de manejo
+Gabriel é um profissional que se destaca ao ser um ótimo capataz para seu retiro e comunidade de vaqueiros, se empenha no trabalho para tentar ajudar ao máximo sua família. Entretanto, enfrenta limitações no uso de ferramentas digitais e depende, em grande parte, de anotações informais e comunicação via rádio, o que dificulta o controle das informações e o acompanhamento das tarefas.
 
-Necessidades:
-- Plataforma que opere offline
-- Interface visual com ícones e fotos minimizando necessidade de muita leitura e digitação
-- Painel de visualização e reporte de tarefas criadas pelos gerentes em ordem de prioridade
-- Painel de envio de evidências de execução para validação de tarefas
-- Possibilidade de criação de alertas para reportar problemas no retiro para os gerentes
-- Plataforma com um formulário simplificado para entrada de dados de movimentação bovina
+Metas
 
-Biografia:
+- Manter o retiro organizado e funcionando corretamente;
+- Garantir a execução das tarefas dentro do prazo;
+- Evitar retrabalho e falhas na comunicação;
+- Ter maior controle sobre as atividades realizadas no dia.
 
-Bernardo Ramos trabalha na BRPec como capataz há 4 anos. Ele coordena o trabalho no retiro, garantindo a execução das tarefas designadas pelo gerente. Além disso, ele cuida do Manejo do Gado, monitorando a saúde do gado, nascimentos e óbitos, além de outras atividades de manejo. Ele também cuida da estrutura da fazenda, a infraestrutura da propriedade, como cercas e pastos. Além disso, tem como uma de suas funções comunicar ao gerente o que está acontecendo na fazenda, o andamento das atividades, indicadores de produção e problemas do retiro.
+Necessidades
 
-Atualmente ele registra tudo em boletas de papel, assim as informações chegam muitas vezes com atraso ou incompletas ao escritório, situação que repercute na hora de receber as tarefas do gerente.
+- Sistema simples, com navegação intuitiva;
+- Registro rápido de tarefas e ocorrências;
+- Visualização clara das atividades do dia;
+- Funcionamento offline devido à limitação de internet;
+- Padronização das informações registradas.
 
-"O que acontece aqui no retiro demora pra chegar lá no escritório. Até eu conseguir avisar o gerente, já virou bagunça."
+Desafios/dores
+
+- Baixa familiaridade com tecnologias digitais;
+- Dependência de registros manuais e memória;
+- Dificuldade em acompanhar várias tarefas simultaneamente;
+- Falhas na comunicação com níveis superiores;
+- Tempo limitado para registrar informações durante o trabalho.
+
+Interesses
+
+- Ferramentas fáceis de usar no dia a dia;
+- Soluções que reduzam esforço operacional;
+- Organização das tarefas no campo;
+- Comunicação mais direta e eficiente com a equipe.
 
 ## 2.3. User Stories (sprints 1 a 5)
 | Campo                    | Descrição                                                                                                                                                                                |
