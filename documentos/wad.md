@@ -1,6 +1,5 @@
 <img src="../assets/logointeli.png">
 
-
 # WAD - Web Application Document - Módulo 2 - Inteli
 
 **_Os trechos em itálico servem apenas como guia para o preenchimento da seção. Por esse motivo, não devem fazer parte da documentação final_**
@@ -8,6 +7,7 @@
 ## Nome do Grupo
 
 #### Nomes dos integrantes do grupo
+
 - <a href="https://www.linkedin.com/in/filipe-salotti-9ab184310/">Arthur Morais </a>
 - <a href="https://www.linkedin.com/in/eduardo-gabriel-de-oliveira-1ab818220/">Eduardo Oliveira</a>
 - <a href="https://www.linkedin.com/in/enzo-santos-bezerra-1904403bb/">Enzo Santos Bezerra</a>
@@ -38,7 +38,6 @@
 [Anexos](#c9)
 
 <br>
-
 
 # <a name="c1"></a>1. Introdução (sprints 1 a 5)
 
@@ -83,17 +82,16 @@ A análise SWOT a seguir avalia o posicionamento estratégico da BRPec considera
 
 A leitura integrada dos quadrantes revela que a principal vantagem competitiva sustentável da BRPec reside em sua escala fundiária no Pantanal e no modelo integrado grãos-pecuária, atributos que concorrentes de médio porte não replicam no curto prazo. Por outro lado, o passivo ambiental ativo representa não apenas uma fraqueza interna de compliance, mas um vetor de amplificação de ameaças externas: é simultaneamente a causa do risco de bloqueio ao mercado europeu via EUDR e do encarecimento do custo de capital frente a concorrentes com certificações ESG consolidadas — concentrando dois dos três riscos externos mapeados em uma única vulnerabilidade de origem interna. Essa sobreposição indica que a resolução do passivo ambiental não é apenas uma pauta regulatória, mas a condição estrutural para que a BRPec converta sua escala operacional em acesso real a mercados premium e crédito qualificado.
 
-
 ### 2.1.3. Solução (sprints 1 a 5)
 
-*Explique detalhadamente os seguintes aspectos (até 60 palavras por item):*
+_Explique detalhadamente os seguintes aspectos (até 60 palavras por item):_
+
 1. Problema a ser resolvido
 2. Dados disponíveis (mencionar fonte e conteúdo; se não houver, indicar “não se aplica”)
 3. Solução proposta
 4. Forma de utilização da solução
 5. Benefícios esperados
 6. Critério de sucesso e como será avaliado
-
 
 #### 1. Definição do Problema
 
@@ -165,7 +163,7 @@ O projeto será considerado bem-sucedido quando:
 
 - **Canvas:** O bloco de "Proposta de Valor" deve estar coerente com os benefícios esperados; "Segmentos de Clientes" com os atores; "Canais" com a interface web/offline
 
-### 2.1.4. Value Proposition Canvas (sprint 1): 
+### 2.1.4. Value Proposition Canvas (sprint 1):
 
 A proposta de valor é uma declaração curta e objetiva que resume a essência da aplicação web: o que ela oferece, para quem e por que vale a pena jogar. Ela funciona como o núcleo de toda a visão do projeto, orientando decisões de design e comunicando de forma clara o diferencial do jogo antes de qualquer detalhe técnico ou mecânico ser apresentado.
 
@@ -173,9 +171,6 @@ A proposta de valor é uma declaração curta e objetiva que resume a essência 
 **Fonte: Elaborado pelos autores (2026).**
 
 O canvas evidencia que o a aplicação web resolve dores concretas dos Capatazes em campo — como a dependência de boletas de papel, a impossibilidade de usar soluções convencionais sem internet e a comunicação informal com o Gerente, garantindo que haja um maior controle pelos Capatazes. Os ganhos gerados, como a eliminação do retrabalho de transcrição, o registro ágil de eventos zootécnicos em poucos toques e a confirmação automática de tarefas com envio de evidências, se alinham diretamente às entregas do produto: formulários digitais de manejo bovino, sistema de alertas multimídia e exportação em Excel para o Coordenador. A proposta de valor da aplicação web, portanto, não se limita a digitalizar uma planilha existente, mas redefine o fluxo de informações entre o campo e o escritório — tornando os registros operacionais mais confiáveis, rastreáveis e acessíveis para toda a cadeia de gestão da fazenda.
-
-
-
 
 ### 2.1.5. Matriz de Riscos do Projeto (sprint 1)
 
@@ -188,8 +183,9 @@ A matriz de riscos é uma ferramenta que permite identificar, analisar e prioriz
 ### AMEAÇAS
 
 ### 1. Não entrega do MVP no prazo
+
 **Probabilidade:** 10%  
-**Impacto:** Muito Alto  
+**Impacto:** Muito Alto
 
 **Explicação:**  
 Existe risco real de atraso devido à complexidade do sistema (offline + integração + múltiplas funcionalidades). O grupo pode focar em detalhes ou features secundárias e não finalizar o núcleo do projeto.
@@ -200,8 +196,9 @@ Definir claramente o escopo do MVP (tarefas + registro + exportação), prioriza
 ---
 
 ### 2. Falha na sincronização offline
+
 **Probabilidade:** 50%  
-**Impacto:** Muito Alto  
+**Impacto:** Muito Alto
 
 **Explicação:**  
 O sistema depende de funcionamento offline, o que aumenta a complexidade técnica. Problemas na sincronização podem gerar perda ou duplicação de dados, comprometendo a confiança no sistema.
@@ -212,8 +209,9 @@ Implementar armazenamento local, criar lógica de fila para sincronização, tes
 ---
 
 ### 3. Baixa adoção pelos usuários de campo
+
 **Probabilidade:** 50%  
-**Impacto:** Alto  
+**Impacto:** Alto
 
 **Explicação:**  
 Os capatazes podem resistir à mudança por hábito ou dificuldade com tecnologia. Se o sistema não for simples e rápido, há risco de continuarem utilizando papel.
@@ -224,8 +222,9 @@ Focar em interface simples e intuitiva, reduzir o número de campos obrigatório
 ---
 
 ### 4. Falta de alinhamento com o parceiro
+
 **Probabilidade:** 30%  
-**Impacto:** Alto  
+**Impacto:** Alto
 
 **Explicação:**  
 Caso o grupo não valide decisões com a BrPec Agropecuária S.A, pode desenvolver funcionalidades que não atendem às necessidades reais.
@@ -236,8 +235,9 @@ Realizar reuniões frequentes, validar protótipos e funcionalidades, documentar
 ---
 
 ### 5. Problemas de integração entre frontend e backend
+
 **Probabilidade:** 50%  
-**Impacto:** Alto  
+**Impacto:** Alto
 
 **Explicação:**  
 Diferenças nos formatos de dados ou endpoints podem causar falhas no sistema, atrasando o desenvolvimento.
@@ -248,8 +248,9 @@ Definir contratos de API (JSON padronizado), documentar endpoints, realizar test
 ---
 
 ### 6. Desempenho ruim em dispositivos do campo
+
 **Probabilidade:** 30%  
-**Impacto:** Moderado  
+**Impacto:** Moderado
 
 **Explicação:**  
 O sistema pode ser utilizado em celulares simples, e baixa performance pode dificultar o uso no dia a dia.
@@ -262,8 +263,9 @@ Otimizar carregamento das páginas, reduzir uso de recursos pesados, testar em d
 ### OPORTUNIDADES
 
 ### 1. Redução significativa de retrabalho
+
 **Probabilidade:** 90%  
-**Impacto:** Muito Alto  
+**Impacto:** Muito Alto
 
 **Explicação:**  
 A digitalização elimina a necessidade de transcrever dados do papel para o Excel, reduzindo tempo e erros operacionais.
@@ -274,8 +276,9 @@ Garantir que o sistema permita registro direto no campo e exportação automáti
 ---
 
 ### 2. Desenvolvimento técnico do grupo
+
 **Probabilidade:** 90%  
-**Impacto:** Muito Alto  
+**Impacto:** Muito Alto
 
 **Explicação:**  
 O projeto envolve tecnologias reais (frontend, backend e banco de dados), proporcionando aprendizado prático relevante.
@@ -286,8 +289,9 @@ Dividir tarefas técnicas, compartilhar conhecimento entre membros e documentar 
 ---
 
 ### 3. Entendimento do setor agro
+
 **Probabilidade:** 50%  
-**Impacto:** Alto  
+**Impacto:** Alto
 
 **Explicação:**  
 O contato com a realidade da pecuária permite aprendizado de um setor relevante e pouco explorado por estudantes de tecnologia.
@@ -298,8 +302,9 @@ Aproveitar reuniões com o parceiro, fazer perguntas estratégicas e validar ent
 ---
 
 ### 4. Possibilidade de expansão futura da solução
+
 **Probabilidade:** 30%  
-**Impacto:** Alto  
+**Impacto:** Alto
 
 **Explicação:**  
 A solução pode ser expandida para outras fazendas ou funcionalidades, gerando valor adicional.
@@ -309,54 +314,86 @@ Desenvolver arquitetura simples e modular, facilitando futuras melhorias.
 
 ## 2.2. Personas (sprint 1)
 
-*Posicione aqui suas Personas em forma de texto markdown com imagens, ou como imagem de template preenchido. Atualize esta seção ao longo do módulo se necessário.*
+_Posicione aqui suas Personas em forma de texto markdown com imagens, ou como imagem de template preenchido. Atualize esta seção ao longo do módulo se necessário._
 
 ## 2.3. User Stories (sprints 1 a 5)
+| Campo                    | Descrição                                                                                                                                                                                |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Identificação**        | US01                                                                                                                                                                                     |
+| **Persona**              | João Pereira (Gerente Geral)                                                                                                                                                             |
+| **User Story**           | Como gerente geral, posso criar tarefas e atribuí-las a um retiro específico para organizar a rotina diária da equipe de campo e garantir que o planejamento seja executado corretamente |
+| **Critério de Aceite 1** | CR1: Dado que João acessa o sistema, quando cria uma tarefa e seleciona um retiro, então a tarefa deve ser salva corretamente vinculada ao retiro                                        |
+| **Critério de Aceite 2** | CR2: Dado que a tarefa foi criada, quando o sistema sincronizar, então ela deve ficar disponível para os capatazes responsáveis pelo retiro                                              |
 
-*Posicione aqui a lista de User Stories levantadas para o projeto. Siga o template de User Stories e utilize a mesma referência USXX no roadmap de seu quadro Kanban. Indique todas as User Stories mapeadas, mesmo aquelas que não forem implementadas ao longo do projeto. Não se esqueça de explicar o INVEST das 5 User Stories prioritárias*
+## Critérios INVEST
+Independente: Pode ser implementada sem depender da visualização offline
 
-*ATUALIZE ESTA SEÇÃO SEMPRE QUE ALGUMA DEMANDA MUDAR EM SEU PROJETO*
+Negociável: Campos e detalhes da tarefa podem ser ajustados conforme necessidade do gerente
 
-*Template de User Story*
-Identificação | USXX (troque XX por numeração ordenada das User Stories)
---- | ---
-Persona | nome da Persona
-User Story | "como (papel/perfil), posso (ação/meta), para (benefício/razão)"
-Critério de aceite 1 | CR1: descrever cenário + testes de aceite
-Critério de aceite 2 | CR2: descrever cenário + testes de aceite
-Critério de aceite ... | CR...
-Critérios INVEST | *(Por que é Independente? Por que é Negociável? Por que é Valorosa? Por que é Estimável? Por que é Pequena? Por que é Testável?)*
+Valorosa: Permite maior controle e organização das atividades da fazenda
+
+Estimável: Escopo claro de criação e associação de tarefas
+
+Pequena: Foco apenas na criação e atribuição de tarefas
+
+Testável: Possível validar criação e vínculo com retiro
+
+| Campo                    | Descrição                                                                                                                                                  |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Identificação**        | US02                                                                                                                                                       |
+| **Persona**              | Gabriel Galdino (Capataz)                                                                                                                                  |
+| **User Story**           | Como capataz, posso visualizar minha lista de tarefas do dia offline para saber o que precisa ser executado, mesmo longe da sede, de forma simples e clara |
+| **Critério de Aceite 1** | CR1: Dado que as tarefas foram previamente sincronizadas, quando Gabriel estiver sem internet, então deve conseguir visualizar a lista de tarefas do dia   |
+| **Critério de Aceite 2** | CR2: Dado que não há tarefas sincronizadas, quando acessar offline, então o sistema deve exibir uma mensagem simples informando ausência de tarefas        |
+| **Critério de Aceite 3** | CR3: Dado que Gabriel acessa as tarefas, quando exibidas, então devem estar organizadas de forma simples e de fácil entendimento                           |
+
+## Critérios INVEST
+Independente: Depende apenas da sincronização de tarefas
+
+Negociável: Forma de exibição pode ser adaptada ao nível de letramento digital
+
+Valorosa: Garante execução das atividades mesmo sem internet
+
+Estimável: Escopo técnico claro (armazenamento local e leitura)
+
+Pequena: Foco na visualização das tarefas do dia
+
+Testável: Cenários offline verificáveis
+
 
 # <a name="c3"></a>3. Projeto da Aplicação Web (sprints 1 a 5)
 
 ## 3.1. Requisitos do Sistema (sprints 1 a 5)
 
-*Esta seção formaliza o que o sistema deve fazer, sob quais regras e com quais qualidades. Atualize a cada sprint conforme os requisitos evoluem.*
+_Esta seção formaliza o que o sistema deve fazer, sob quais regras e com quais qualidades. Atualize a cada sprint conforme os requisitos evoluem._
 
 ### 3.1.1. Requisitos Funcionais (sprint 1, refinar até sprint 5)
 
-*Liste os RF numerados de forma objetiva e verificável. Cada RF deve poder ser convertido em caso de teste.*
-
-| ID    | Descrição | Prioridade | Status       |
-|-------|-----------|------------|--------------|
-| RF001 | ...       | Alta       | Implementado |
-| RF002 | ...       | Média      | Planejado    |
+| ID    | Descrição                                                                 | Prioridade | Status       |
+|-------|---------------------------------------------------------------------------|------------|--------------|
+| RF001 | O sistema deve permitir que o gerente crie tarefas e as associe a um retiro específico | Alta       | Planejado    |
+| RF002 | O sistema deve permitir que o capataz visualize as tarefas do dia mesmo sem conexão com a internet | Alta       | Planejado    |
+| RF003 | O sistema deve armazenar localmente as tarefas sincronizadas para acesso offline | Alta       | Planejado    |
+| RF004 | O sistema deve exibir mensagem simples quando não houver tarefas disponíveis offline | Média      | Planejado    |
 
 ### 3.1.2. Regras de Negócio (sprint 1, refinar até sprint 5)
 
-*Numere e redija as RN de forma implementável e testável. Toda RN deve ter pelo menos um teste automatizado associado a partir da sprint 3.*
+_Numere e redija as RN de forma implementável e testável. Toda RN deve ter pelo menos um teste automatizado associado a partir da sprint 3._
 
-| ID   | Descrição | RF associado |
-|------|-----------|--------------|
-| RN01 | ...       | RF001        |
-| RN02 | ...       | RF001        |
+| ID   | Descrição                                                                 | RF associado |
+|------|---------------------------------------------------------------------------|--------------|
+| RN01 | Toda tarefa deve estar obrigatoriamente vinculada a um único retiro      | RF001        |
+| RN02 | Apenas tarefas do dia atual devem ser exibidas ao capataz                | RF002        |
+| RN03 | As tarefas devem ser armazenadas localmente após sincronização           | RF003        |
+| RN04 | A mensagem exibida deve utilizar linguagem simples e direta              | RF004        |
+| RN05 | O sistema deve permitir visualização offline apenas de tarefas previamente sincronizadas | RF002        |
 
 ### 3.1.3. Requisitos Não Funcionais — 8 Eixos ISO/IEC 25010 (sprints 1 a 5)
 
-*Preencha os 8 eixos. Cada eixo deve ter ao menos um RNF verificável (com métrica, limite ou critério concreto) ou justificativa explícita de ausência. Evolua do conceitual (sprint 1) ao técnico mensurável (sprint 5).*
+_Preencha os 8 eixos. Cada eixo deve ter ao menos um RNF verificável (com métrica, limite ou critério concreto) ou justificativa explícita de ausência. Evolua do conceitual (sprint 1) ao técnico mensurável (sprint 5)._
 
 | Eixo                     | Requisito | Métrica / Critério | Como atendido |
-|--------------------------|-----------|--------------------|---------------|
+| ------------------------ | --------- | ------------------ | ------------- |
 | USAB — Usabilidade       | ...       | ...                | ...           |
 | CONF — Confiabilidade    | ...       | ...                | ...           |
 | DES — Desempenho         | ...       | p95 < X ms         | ...           |
@@ -368,229 +405,230 @@ Critérios INVEST | *(Por que é Independente? Por que é Negociável? Por que �
 
 ### 3.1.4. Matriz RF → RN → Endpoint (sprints 3 a 5)
 
-*Matriz de cobertura mostrando quais RN e endpoints implementam cada RF.*
+_Matriz de cobertura mostrando quais RN e endpoints implementam cada RF._
 
-| RF    | RN associadas | Endpoint    | Método |
-|-------|---------------|-------------|--------|
-| RF001 | RN01, RN02    | `/usuarios` | POST   |
+| RF    | RN associadas        | Endpoint                  | Método |
+|-------|----------------------|---------------------------|--------|
+| RF001 | RN01                 | /tarefas                  | POST   |
+| RF002 | RN02, RN05           | /tarefas/hoje             | GET    |
+| RF003 | RN03                 | /tarefas/sincronizar      | GET    |
+| RF004 | RN04                 | /tarefas/hoje/offline     | GET    |
 
 ## 3.2. Arquitetura (sprints 1 a 5)
 
 ### 3.2.1. Diagrama de Arquitetura (sprints 3 e 4)
 
-*Posicione aqui o diagrama de arquitetura da solução, indicando as camadas principais (Controller, Service, Repository, Model) e suas responsabilidades. Atualize sempre que necessário.*
+_Posicione aqui o diagrama de arquitetura da solução, indicando as camadas principais (Controller, Service, Repository, Model) e suas responsabilidades. Atualize sempre que necessário._
 
 ### 3.2.2. Diagrama de Casos de Uso (sprint 1)
 
-*Apresente o diagrama de casos de uso com atores (boneco), casos (elipse) e as relações `<<include>>` / `<<extend>>` com semântica correta. Consulte a notação de referência em `in02/suporte/use-case_3.0_v1.0.pdf`.*
+_Apresente o diagrama de casos de uso com atores (boneco), casos (elipse) e as relações `<<include>>` / `<<extend>>` com semântica correta. Consulte a notação de referência em `in02/suporte/use-case_3.0_v1.0.pdf`._
 
 ### 3.2.3. Diagrama de Classes do Domínio (sprint 2)
 
-*Diagrama UML de classes com entidades, atributos, relacionamentos e responsabilidades. Diferencie **associação**, **agregação** (losango vazio), **composição** (losango cheio) e **herança** (triângulo vazio). Multiplicidade explícita em toda associação.*
+_Diagrama UML de classes com entidades, atributos, relacionamentos e responsabilidades. Diferencie **associação**, **agregação** (losango vazio), **composição** (losango cheio) e **herança** (triângulo vazio). Multiplicidade explícita em toda associação._
 
 ### 3.2.4. Diagrama de Sequência UML (sprint 3)
 
-*Ao menos um fluxo prioritário, mostrando a interação entre as camadas Controller → Service → Repository → Banco. Linhas de vida verticais, ativação correta, mensagens síncronas e assíncronas diferenciadas, retornos tracejados.*
+_Ao menos um fluxo prioritário, mostrando a interação entre as camadas Controller → Service → Repository → Banco. Linhas de vida verticais, ativação correta, mensagens síncronas e assíncronas diferenciadas, retornos tracejados._
 
 ### 3.2.5. Diagrama de Atividades ou Estados (sprint 3)
 
-*Ao menos um fluxo relevante em UML ou BPMN. Use a notação da ferramenta escolhida de forma consistente (sem misturar convenções).*
+_Ao menos um fluxo relevante em UML ou BPMN. Use a notação da ferramenta escolhida de forma consistente (sem misturar convenções)._
 
 ### 3.2.6. Diagrama de Implantação (sprints 4 e 5)
 
-*Diagrama UML de deployment mostrando nós físicos, artefatos e canais de comunicação. Representa a visão Engineering + Technology do RM-ODP.*
+_Diagrama UML de deployment mostrando nós físicos, artefatos e canais de comunicação. Representa a visão Engineering + Technology do RM-ODP._
 
 ### 3.2.7. Padrões de Projeto Aplicados (sprints 3 a 5)
 
-*Documente os design patterns utilizados (Repository, Strategy, Factory, DTO etc.) e quais princípios SOLID se aplicam. Justifique a adoção de cada padrão com base em uma necessidade real do projeto.*
+_Documente os design patterns utilizados (Repository, Strategy, Factory, DTO etc.) e quais princípios SOLID se aplicam. Justifique a adoção de cada padrão com base em uma necessidade real do projeto._
 
 ## 3.3. Wireframes (sprint 2)
 
-*Posicione aqui as imagens do wireframe construído para sua solução e, opcionalmente, o link para acesso (mantenha o link sempre público para visualização)*
+_Posicione aqui as imagens do wireframe construído para sua solução e, opcionalmente, o link para acesso (mantenha o link sempre público para visualização)_
 
 ## 3.4. Guia de estilos (sprint 3)
 
-*Descreva aqui orientações gerais para o leitor sobre como utilizar os componentes do guia de estilos de sua solução*
+_Descreva aqui orientações gerais para o leitor sobre como utilizar os componentes do guia de estilos de sua solução_
 
 ### 3.4.1 Cores
 
-*Apresente aqui a paleta de cores, com seus códigos de aplicação e suas respectivas funções*
+_Apresente aqui a paleta de cores, com seus códigos de aplicação e suas respectivas funções_
 
 ### 3.4.2 Tipografia
 
-*Apresente aqui a tipografia da solução, com famílias de fontes e suas respectivas funções*
+_Apresente aqui a tipografia da solução, com famílias de fontes e suas respectivas funções_
 
-### 3.4.3 Iconografia e imagens 
+### 3.4.3 Iconografia e imagens
 
-*(esta subseção é opcional, caso não existam ícones e imagens, apague esta subseção)*
+_(esta subseção é opcional, caso não existam ícones e imagens, apague esta subseção)_
 
-*posicione aqui imagens e textos contendo exemplos padronizados de ícones e imagens, com seus respectivos atributos de aplicação, utilizadas na solução*
+_posicione aqui imagens e textos contendo exemplos padronizados de ícones e imagens, com seus respectivos atributos de aplicação, utilizadas na solução_
 
 ## 3.5 Protótipo de alta fidelidade (sprint 3)
 
-*posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelidade e o link para acesso ao protótipo completo (mantenha o link sempre público para visualização)*
+_posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelidade e o link para acesso ao protótipo completo (mantenha o link sempre público para visualização)_
 
 ## 3.6. Modelagem do banco de dados (sprints 2 e 4)
 
 ### 3.6.1. Modelo Entidade-Relacionamento (ER) (sprint 2)
 
-*Apresente o modelo ER conceitual com entidades, atributos e relacionamentos. Use notação consistente (Chen ou Crow's Foot — não misture).*
+_Apresente o modelo ER conceitual com entidades, atributos e relacionamentos. Use notação consistente (Chen ou Crow's Foot — não misture)._
 
 ### 3.6.2. Diagrama Entidade-Relacionamento (DER) (sprint 2)
 
-*Posicione aqui o DER com cardinalidades explícitas em ambos os lados de cada relação e identificação de PK/FK. O DER deve ser coerente com o diagrama de classes (3.2.3).*
+_Posicione aqui o DER com cardinalidades explícitas em ambos os lados de cada relação e identificação de PK/FK. O DER deve ser coerente com o diagrama de classes (3.2.3)._
 
 ### 3.6.3. Modelo Relacional e Modelo Físico (sprints 2 e 4)
 
-*Posicione aqui os diagramas de modelos relacionais do banco de dados, apresentando todos os esquemas de tabelas e suas relações. Inclua as migrations DDL numeradas e reproduzíveis (`CREATE TABLE`, `CREATE INDEX`, constraints `NOT NULL`, `UNIQUE`, `FOREIGN KEY`, `CHECK`). Utilize texto para complementar suas explicações quando necessário.*
+_Posicione aqui os diagramas de modelos relacionais do banco de dados, apresentando todos os esquemas de tabelas e suas relações. Inclua as migrations DDL numeradas e reproduzíveis (`CREATE TABLE`, `CREATE INDEX`, constraints `NOT NULL`, `UNIQUE`, `FOREIGN KEY`, `CHECK`). Utilize texto para complementar suas explicações quando necessário._
 
 ### 3.6.4. Consultas SQL e lógica proposicional (sprint 2)
 
-*posicione aqui uma lista de consultas SQL compostas, realizadas pelo back-end da aplicação web, com sua respectiva lógica proposicional, descrita conforme template abaixo. Lembre-se que para usar LaTeX em markdown, basta você colocar as expressões entre $ ou $$*
+_posicione aqui uma lista de consultas SQL compostas, realizadas pelo back-end da aplicação web, com sua respectiva lógica proposicional, descrita conforme template abaixo. Lembre-se que para usar LaTeX em markdown, basta você colocar as expressões entre $ ou $$_
 
-*Template de SQL + lógica proposicional*
+_Template de SQL + lógica proposicional_
 #1 | ---
 --- | ---
-**Expressão SQL** | SELECT * FROM suppliers WHERE (state = 'California' AND supplier_id <> 900) OR (supplier_id = 100); 
+**Expressão SQL** | SELECT \* FROM suppliers WHERE (state = 'California' AND supplier_id <> 900) OR (supplier_id = 100);
 **Proposições lógicas** | $A$: O estado é 'California' (state = 'California') <br> $B$: O ID do fornecedor não é 900 (supplier_id ≠ 900) <br> $C$: O ID do fornecedor é 100 (supplier_id = 100)
 **Expressão lógica proposicional** | $(A \land B) \lor C$
 **Tabela Verdade** | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$(A \land B)$</th> <th>$(A \land B) \lor C$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>F</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table>
 
-*Dica: edite a tabela verdade fora do markdown, para ter melhor controle*
+_Dica: edite a tabela verdade fora do markdown, para ter melhor controle_
 
 ## 3.7. WebAPI e endpoints (sprints 3 e 4)
 
-*Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema.* 
+_Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema._
 
-*Cada endpoint deve conter endereço, método (GET, POST, PUT, PATCH, DELETE), header, body, formatos de response e os status codes possíveis (200, 201, 204, 400, 401, 403, 404, 409, 422, 500).*
+_Cada endpoint deve conter endereço, método (GET, POST, PUT, PATCH, DELETE), header, body, formatos de response e os status codes possíveis (200, 201, 204, 400, 401, 403, 404, 409, 422, 500)._
 
 ## 3.8. Autenticação, Autorização e Resiliência (sprint 5)
 
 ### 3.8.1. Autenticação
 
-*Descreva o fluxo de autenticação implementado: persistência de senha com hash bcrypt/argon2 (parâmetros de custo explícitos e justificados), validação de credenciais e criação de sessão. Senhas em texto plano no banco não são aceitas.*
+_Descreva o fluxo de autenticação implementado: persistência de senha com hash bcrypt/argon2 (parâmetros de custo explícitos e justificados), validação de credenciais e criação de sessão. Senhas em texto plano no banco não são aceitas._
 
 ### 3.8.2. Controle de sessão
 
-*Descreva o controle de sessão baseado em `session id` persistido em tabela própria, com expiração. Se optar por JWT, justifique a escolha explicando os trade-offs (stateless, não revogável, payload exposto).*
+_Descreva o controle de sessão baseado em `session id` persistido em tabela própria, com expiração. Se optar por JWT, justifique a escolha explicando os trade-offs (stateless, não revogável, payload exposto)._
 
 ### 3.8.3. Autorização
 
-*Descreva as regras de autorização por rota e por operação, baseadas no perfil do usuário autenticado. A verificação deve ocorrer no backend — o frontend nunca é fonte de verdade para autorização.*
+_Descreva as regras de autorização por rota e por operação, baseadas no perfil do usuário autenticado. A verificação deve ocorrer no backend — o frontend nunca é fonte de verdade para autorização._
 
 ### 3.8.4. Estratégias de Resiliência
 
-*Descreva as estratégias aplicadas no tratamento de falhas de rede: timeout, retry com backoff exponencial, circuit breaker e idempotência em operações críticas (`PUT`, `DELETE`, operações de pagamento etc.).*
+_Descreva as estratégias aplicadas no tratamento de falhas de rede: timeout, retry com backoff exponencial, circuit breaker e idempotência em operações críticas (`PUT`, `DELETE`, operações de pagamento etc.)._
 
 ## 3.9. Matriz de Rastreabilidade (RTM) (sprints 3 a 5)
 
-*A RTM consolida a rastreabilidade completa do sistema. Um elo quebrado invalida toda a cadeia — mantenha-a atualizada a cada sprint. A partir da sprint 3 não deve haver lacunas nos fluxos centrais.*
+_A RTM consolida a rastreabilidade completa do sistema. Um elo quebrado invalida toda a cadeia — mantenha-a atualizada a cada sprint. A partir da sprint 3 não deve haver lacunas nos fluxos centrais._
 
-| Persona | RF    | RN   | Endpoint    | Tela     | Teste | Evidência        |
-|---------|-------|------|-------------|----------|-------|------------------|
+| Persona | RF    | RN   | Endpoint    | Tela     | Teste | Evidência                          |
+| ------- | ----- | ---- | ----------- | -------- | ----- | ---------------------------------- |
 | ...     | RF001 | RN01 | `/usuarios` | Cadastro | CT02  | print, log, relatório de cobertura |
 
 # <a name="c4"></a>4. Desenvolvimento da Aplicação Web
 
 ## 4.1. Primeira versão da aplicação web (sprint 3)
 
-*Descreva e ilustre aqui o desenvolvimento da primeira versão do sistema web. Utilize prints de tela para ilustrar. Indique obrigatoriamente: (a) o que foi implementado, (b) o que não foi concluído, (c) dificuldades técnicas enfrentadas e próximos passos.*
+_Descreva e ilustre aqui o desenvolvimento da primeira versão do sistema web. Utilize prints de tela para ilustrar. Indique obrigatoriamente: (a) o que foi implementado, (b) o que não foi concluído, (c) dificuldades técnicas enfrentadas e próximos passos._
 
 ## 4.2. Segunda versão da aplicação web (sprint 4)
 
-*Descreva e ilustre aqui o desenvolvimento da segunda versão do sistema web, com foco no que foi consolidado entre a primeira versão funcional e o sistema operacional integrado. Utilize prints de tela para ilustrar. Indique obrigatoriamente: (a) o que foi implementado, (b) o que não foi concluído, (c) dificuldades técnicas enfrentadas e próximos passos.*
+_Descreva e ilustre aqui o desenvolvimento da segunda versão do sistema web, com foco no que foi consolidado entre a primeira versão funcional e o sistema operacional integrado. Utilize prints de tela para ilustrar. Indique obrigatoriamente: (a) o que foi implementado, (b) o que não foi concluído, (c) dificuldades técnicas enfrentadas e próximos passos._
 
 ## 4.3. Versão final da aplicação web (sprint 5)
 
-*Descreva e ilustre aqui o desenvolvimento da versão final do sistema web, com foco em refatorações, correções finais e na camada de autenticação/autorização entregue. Utilize prints de tela para ilustrar. Indique obrigatoriamente: (a) o que foi refinado ou adicionado desde a sprint 4, (b) pendências remanescentes, (c) dificuldades técnicas enfrentadas.*
+_Descreva e ilustre aqui o desenvolvimento da versão final do sistema web, com foco em refatorações, correções finais e na camada de autenticação/autorização entregue. Utilize prints de tela para ilustrar. Indique obrigatoriamente: (a) o que foi refinado ou adicionado desde a sprint 4, (b) pendências remanescentes, (c) dificuldades técnicas enfrentadas._
 
 # <a name="c5"></a>5. Testes
 
 ## 5.1. Relatório de testes de integração de endpoints automatizados (sprint 4)
 
-*Liste e descreva os testes automatizados dos endpoints criados e planejados para sua solução, implementados com **Jest**. Cubra as duas abordagens:*
+_Liste e descreva os testes automatizados dos endpoints criados e planejados para sua solução, implementados com **Jest**. Cubra as duas abordagens:_
 
-- ***White-box*** *— testes unitários de Service que exercitam ramos internos, exceções e regras de negócio (conhecimento da implementação).*
-- ***Black-box*** *— testes de integração dos endpoints via Jest + Supertest, verificando apenas o contrato HTTP (status, body, efeito observável), sem depender da implementação interna.*
+- **_White-box_** _— testes unitários de Service que exercitam ramos internos, exceções e regras de negócio (conhecimento da implementação)._
+- **_Black-box_** _— testes de integração dos endpoints via Jest + Supertest, verificando apenas o contrato HTTP (status, body, efeito observável), sem depender da implementação interna._
 
-*Posicione aqui também o relatório de cobertura de testes Jest se houver (através de link ou transcrito para estrutura markdown).*
+_Posicione aqui também o relatório de cobertura de testes Jest se houver (através de link ou transcrito para estrutura markdown)._
 
 ## 5.2. Testes de usabilidade (sprint 5)
 
 ### 5.2.1. Relatório de testes de guerrilha
 
-*Posicione aqui as tabelas com enunciados de tarefas, etapas e resultados de testes de usabilidade. Ou utilize um link para seu relatório de testes (mantenha o link sempre público para visualização).*
+_Posicione aqui as tabelas com enunciados de tarefas, etapas e resultados de testes de usabilidade. Ou utilize um link para seu relatório de testes (mantenha o link sempre público para visualização)._
 
 ### 5.2.2. Relatório de testes SUS (System Usability Scale)
 
-*Posicione aqui o relatório dos testes SUS realizados.*
+_Posicione aqui o relatório dos testes SUS realizados._
 
 # <a name="c6"></a>6. Estudo de Mercado e Plano de Marketing (sprint 4)
 
 ## 6.1 Resumo Executivo
 
-*Preencher com até 300 palavras, sem necessidade de fonte*
+_Preencher com até 300 palavras, sem necessidade de fonte_
 
-*Apresente de forma clara e objetiva os principais destaques do projeto: oportunidades de mercado, diferenciais competitivos da aplicação web e os objetivos estratégicos pretendidos.*
+_Apresente de forma clara e objetiva os principais destaques do projeto: oportunidades de mercado, diferenciais competitivos da aplicação web e os objetivos estratégicos pretendidos._
 
 ## 6.2 Análise de Mercado
 
-*a) Visão Geral do Setor (até 250 palavras)*
-*Contextualize o setor no qual a aplicação está inserida, considerando aspectos econômicos, tecnológicos e regulatórios. Utilize fontes confiáveis.*
+_a) Visão Geral do Setor (até 250 palavras)_
+_Contextualize o setor no qual a aplicação está inserida, considerando aspectos econômicos, tecnológicos e regulatórios. Utilize fontes confiáveis._
 
-*b) Tamanho e Crescimento do Mercado (até 250 palavras)*
-*Apresente dados quantitativos sobre o tamanho atual e projeções de crescimento do mercado. Utilize fontes confiáveis.*
+_b) Tamanho e Crescimento do Mercado (até 250 palavras)_
+_Apresente dados quantitativos sobre o tamanho atual e projeções de crescimento do mercado. Utilize fontes confiáveis._
 
-*c) Tendências de Mercado (até 300 palavras)*
-*Identifique e analise tendências relevantes (tecnológicas, comportamentais e mercadológicas) que influenciam o setor. Utilize fontes confiáveis.*
+_c) Tendências de Mercado (até 300 palavras)_
+_Identifique e analise tendências relevantes (tecnológicas, comportamentais e mercadológicas) que influenciam o setor. Utilize fontes confiáveis._
 
 ## 6.3 Análise da Concorrência
 
-*a) Principais Concorrentes (até 250 palavras)*
-*Liste os concorrentes diretos e indiretos, destacando suas principais características e posicionamento no mercado.*
+_a) Principais Concorrentes (até 250 palavras)_
+_Liste os concorrentes diretos e indiretos, destacando suas principais características e posicionamento no mercado._
 
-*b) Vantagens Competitivas da Aplicação Web (até 250 palavras)*
-*Descreva os diferenciais da sua aplicação em relação aos concorrentes, sem necessidade de citação de fontes.*
-
+_b) Vantagens Competitivas da Aplicação Web (até 250 palavras)_
+_Descreva os diferenciais da sua aplicação em relação aos concorrentes, sem necessidade de citação de fontes._
 
 ## 6.4 Público-Alvo
 
-*a) Segmentação de Mercado (até 250 palavras)*
-Descreva os principais segmentos de mercado a serem atendidos pela aplicação. Utilize bases de dados e fontes confiáveis.*
+_a) Segmentação de Mercado (até 250 palavras)_
+Descreva os principais segmentos de mercado a serem atendidos pela aplicação. Utilize bases de dados e fontes confiáveis.\*
 
-*b) Perfil do Público-Alvo (até 250 palavras)*
-*Caracterize o público-alvo com dados demográficos, psicográficos e comportamentais, incluindo necessidades específicas. Utilize fontes obrigatórias.*
-
+_b) Perfil do Público-Alvo (até 250 palavras)_
+_Caracterize o público-alvo com dados demográficos, psicográficos e comportamentais, incluindo necessidades específicas. Utilize fontes obrigatórias._
 
 ## 6.5 Posicionamento
 
-*a) Proposta de Valor Única (até 250 palavras)*
-*Defina de maneira clara o que torna a sua aplicação única e valiosa para o mercado.*
+_a) Proposta de Valor Única (até 250 palavras)_
+_Defina de maneira clara o que torna a sua aplicação única e valiosa para o mercado._
 
-*b) Estratégia de Diferenciação (até 250 palavras)*
-*Explique como sua aplicação se destacará da concorrência, evidenciando a lógica por trás do posicionamento.*
+_b) Estratégia de Diferenciação (até 250 palavras)_
+_Explique como sua aplicação se destacará da concorrência, evidenciando a lógica por trás do posicionamento._
 
-## 6.6 Estratégia de Marketing 
+## 6.6 Estratégia de Marketing
 
-*a) Produto/Serviço (até 200 palavras)*
-*Descreva as funcionalidades, benefícios e diferenciais da aplicação*
+_a) Produto/Serviço (até 200 palavras)_
+_Descreva as funcionalidades, benefícios e diferenciais da aplicação_
 
-*b) Preço (até 200 palavras)*
-*Explique o modelo de precificação adotado e justifique com base nas análises anteriores.*
+_b) Preço (até 200 palavras)_
+_Explique o modelo de precificação adotado e justifique com base nas análises anteriores._
 
-*c) Praça (Distribuição) (até 200 palavras)*
-*Apresente os canais digitais utilizados para distribuir e entregar a aplicação ao público.*
+_c) Praça (Distribuição) (até 200 palavras)_
+_Apresente os canais digitais utilizados para distribuir e entregar a aplicação ao público._
 
-*d) Promoção (até 200 palavras)*
-*Descreva as estratégias digitais planejadas, como SEO, redes sociais, marketing de conteúdo e campanhas pagas.*
+_d) Promoção (até 200 palavras)_
+_Descreva as estratégias digitais planejadas, como SEO, redes sociais, marketing de conteúdo e campanhas pagas._
 
 # <a name="c7"></a>7. Conclusões e trabalhos futuros (sprint 5)
 
-*Escreva de que formas a solução da aplicação web atingiu os objetivos descritos na seção 2 deste documento. Indique pontos fortes e pontos a melhorar de maneira geral.*
+_Escreva de que formas a solução da aplicação web atingiu os objetivos descritos na seção 2 deste documento. Indique pontos fortes e pontos a melhorar de maneira geral._
 
-*Relacione os pontos de melhorias evidenciados nos testes com planos de ações para serem implementadas. O grupo não precisa implementá-las, pode deixar registrado aqui o plano para ações futuras*
+_Relacione os pontos de melhorias evidenciados nos testes com planos de ações para serem implementadas. O grupo não precisa implementá-las, pode deixar registrado aqui o plano para ações futuras_
 
-*Relacione também quaisquer outras ideias que o grupo tenha para melhorias futuras*
+_Relacione também quaisquer outras ideias que o grupo tenha para melhorias futuras_
 
 # <a name="c8"></a>8. Referências (sprints 1 a 5)
 
@@ -604,4 +642,4 @@ SOBRENOME, Nome. Título do site. Disponível em: link do site. Acesso em: Dia M
 
 # <a name="c9"></a>Anexos
 
-*Inclua aqui quaisquer complementos para seu projeto, como diagramas, imagens, tabelas etc. Organize em sub-tópicos utilizando headings menores (use ## ou ### para isso)*
+_Inclua aqui quaisquer complementos para seu projeto, como diagramas, imagens, tabelas etc. Organize em sub-tópicos utilizando headings menores (use ## ou ### para isso)_
