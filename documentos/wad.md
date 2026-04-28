@@ -526,6 +526,8 @@ _Esta seção formaliza o que o sistema deve fazer, sob quais regras e com quais
 | RF002 | O sistema deve permitir que o capataz visualize as tarefas do dia mesmo sem conexão com a internet | Alta       | Planejado    |
 | RF003 | O sistema deve armazenar localmente as tarefas sincronizadas para acesso offline | Alta       | Planejado    |
 | RF004 | O sistema deve exibir mensagem simples quando não houver tarefas disponíveis offline | Média      | Planejado    |
+| RF007 | O sistema deve exibir ao gerente um painel com o status de todas as tarefas (pendente, em andamento, concluída) e alertas em aberto, agrupados por retiro. | Média | Planejado |
+| RF008 | O sistema deve permitir que o capataz registre o nascimento de bezerros de forma offline, informando data, retiro, categoria e quantidade. | Média | Planejado |
 
 ### 3.1.2. Regras de Negócio (sprint 1, refinar até sprint 5)
 
