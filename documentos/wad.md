@@ -92,9 +92,9 @@ Idade: 39 anos.
 
 Cargo: Gerente geral na BrPec Agropecuária S.A.
 
-Localização: Miranda- MS.
+Localização: Miranda-MS.
 
-Escolaridade: Pós- graduado em veterinária.
+Escolaridade: Pós-graduado em veterinária.
 
 Motivações:
 Conseguir manter sua família e garantir educação para seus filhos. Além disso, deseja ser um funcionário de destaque para a BrPec.
@@ -152,14 +152,13 @@ Desafios/Dores:
 
 Metas:
 - Conseguir validar rapidamente as movimentações dos capatazes;
-- Ter dados consolidados e confiáveis sem depender de redigitação manual
+- Ter dados consolidados e confiáveis sem depender de redigitação manual.
 
 Necessidades:
 
 - Visualização das movimentações reportadas pelos Capatazes;
 - Visão consolidada das movimentações de todos os retiros sob sua responsabilidade;
-- Função para gerar e baixar planilhas referentes às
-movimentações.
+- Função para gerar e baixar planilhas referentes às movimentações.
 
 Biografia:
 
