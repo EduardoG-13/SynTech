@@ -338,6 +338,8 @@ Pequena: Foco apenas na criação e atribuição de tarefas
 
 Testável: Possível validar criação e vínculo com retiro
 
+---
+
 | Campo                    | Descrição                                                                                                                                                  |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Identificação**        | US02                                                                                                                                                       |
@@ -359,6 +361,56 @@ Estimável: Escopo técnico claro (armazenamento local e leitura)
 Pequena: Foco na visualização das tarefas do dia
 
 Testável: Cenários offline verificáveis
+
+---
+
+| Campo                    | Descrição                                                                                                                                                                                |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Identificação**        | US03                                                                                                                                                                                     |
+| **Persona**              | Gabriel Galdino (Capataz)                                                                                                                                                             |
+| **User Story**           | Como capataz, posso marcar uma tarefa como concluída para informar o gerente sobre o avanço do trabalho de forma simples e rápida |
+| **Critério de Aceite 1** | CR1: Dado que Gabriel visualiza uma tarefa, quando marcar como concluída, então o status da tarefa deve ser atualizado no sistema                                        |
+| **Critério de Aceite 2** | CR2: Dado que a tarefa foi marcada como concluída offline, quando o dispositivo sincronizar, então o status deve ser atualizado para o gerente                                              |
+| **Critério de Aceite 3** | CR3: Dado que Gabriel interage com a tarefa, quando marcar como concluída, então a ação deve ser simples, com botão visível e de fácil entendimento                                              |
+
+## Critérios INVEST
+Independente: Pode ser implementada separadamente da criação de tarefas
+
+Negociável: Forma de interação pode ser ajustada (botão, ícone, etc.)
+
+Valorosa: Permite acompanhamento do progresso das atividades
+
+Estimável: Escopo claro (alteração de status + sincronização)
+
+Pequena: Foco apenas na atualização de status
+
+Testável: Possível validar mudança de status e sincronização
+
+---
+
+| Campo                    | Descrição                                                                                                                                                  |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Identificação**        | US04                                                                                                                                                       |
+| **Persona**              | Gabriel Galdino (Capataz)                                                                                                                                  |
+| **User Story**           | Como capataz, posso anexar fotos na conclusão de uma tarefa para comprovar visualmente o serviço realizado, mesmo em ambiente com conexão limitada |
+| **Critério de Aceite 1** | CR1: Dado que Gabriel conclui uma tarefa, quando anexar uma foto, então ela deve ser associada corretamente à tarefa   |
+| **Critério de Aceite 2** | CR2: Dado que a foto foi registrada offline, quando o dispositivo sincronizar, então a imagem deve ser enviada ao sistema/ 
+ |
+| **Critério de Aceite 3** | CR3: Dado que Gabriel utiliza a funcionalidade, quando anexar a foto, então o processo deve ser simples e intuitivo   |
+
+## Critérios INVEST
+Independente: Pode ser implementada separadamente do fluxo de conclusão
+
+Negociável: Forma de captura/anexo pode ser ajustada
+
+Valorosa: Garante evidência visual do trabalho realizado
+
+Estimável: Escopo claro (upload + vínculo com tarefa)
+
+Pequena: Foco no anexo de imagens
+
+Testável: Possível validar envio e associação da imagem
+
 
 
 # <a name="c3"></a>3. Projeto da Aplicação Web (sprints 1 a 5)
