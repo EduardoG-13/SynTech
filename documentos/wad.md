@@ -603,6 +603,13 @@ Campo | Descrição
 **Critério de Aceite 3** | CR3: Dado que Gabriel tenta salvar um registro de nascimento sem preencher todos os campos obrigatórios, quando ele tenta confirmar o formulário, então o sistema exibe uma mensagem indicando quais campos estão incompletos e não permite o salvamento do registro.
 **Critérios INVEST** | Não se aplica (US08 é de prioridade secundária).
 
+---
+
+| Campo | Descrição |
+|-----------|-----------|
+| **Identificação** | US10 |
+| **Persona** | Gabriel Galdino (Capataz) |
+| **User Story** | Como capataz, posso (e devo) anexar a foto do animal no registro de óbito para cumprir as regras de auditoria e controle sanitário da fazenda. |
 
 # <a name="c3"></a>3. Projeto da Aplicação Web (sprints 1 a 5)
 
