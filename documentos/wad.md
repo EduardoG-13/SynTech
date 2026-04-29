@@ -83,7 +83,7 @@
 
 ## 2.2. Personas (sprint 1)
 
-Personas são, de forma resumida, representaçôes fictícia dos diferentes tipos de usuários. ELas permitem que a ferramenta seja mais eficiente e focada para atender as necessidades reais do cliente. Dessa forma, as figuras 1 e 2 mostram as personas criadas para o projeto.
+Personas são, de forma resumida, representaçôes fictícia dos diferentes tipos de usuários. Elas permitem que a ferramenta seja mais eficiente e focada para atender as necessidades reais do cliente. Dessa forma, as figuras 1 e 2 mostram as personas criadas para o projeto.
 
 ### Persona 1: João Pereira
 #### Informações:
@@ -134,7 +134,7 @@ João se comunica com supervisores e coordenadores frequentemente, mas essa comu
 #### Motivações:
 Crescer profissionalmente dentro do agronegócio e ser reconhecido pela precisão e confiabilidade dos dados que gerencia.
 
-Interesses:
+#### Interesses:
 - Gestão de dados;
 - Pecuária;
 - Tecnologia aplicada ao campo.
@@ -159,49 +159,87 @@ Marcos Cesar tem 35 anos, está na BRPec há 5 anos e é responsável por valida
 
 "Recebo a boleta, tento decifrar o que está escrito e ainda tenho que digitar tudo no Excel. Qualquer erro no campo vira problema aqui."
 
-
 ### Persona 3
 #### Informações: 
-- Nome e sobrenome: Bernardo Ramos;
-- Idade: 29 anos;
-- Cargo: Capataz;
-- Localização: Miranda-MS;
-- Escolaridade: Ensino médio incompleto.
+- Nome e sobrenome: Gabriel Galdino;
+- Idade: 33 anos [1];
+- Cargo: Capataz na BrPec Agropecuária S.A [2];
+- Localização: Aquidauana (MS) – Atua em retiros na região do Pantanal;
+- Escolaridade: Ensino Fundamental completo;
 
 #### Motivações: 
 Garantir o sustento da família e proporcionar uma boa vida para os filhos. Quer ser reconhecido como alguém de confiança no retiro.
 
-#### Interesses:
-- Pecuária e manejo de gado;
-- Vida no campo;
-- Futebol.
-
-#### Desafios/Dores:
-- Baixa familiaridade com tecnologias digitais;
-- Registra tudo em boletas de papel;
-- Pouca clareza sobre as atividades do dia;
-- Tem dificuldade de leitura e escrita.
-
 #### Metas:
-- Realizar bem as atividades do retiro;
-- Comunicar problemas ao supervisor de forma eficiente;
-- Reduzir erros nos registros de manejo.
+- Manter o retiro organizado e funcionando corretamente;
+- Garantir a execução das tarefas dentro do prazo;
+- Evitar retrabalho e falhas na comunicação;
+- Ter maior controle sobre as atividades realizadas no dia.
 
 #### Necessidades:
-- Plataforma que opere offline;
-- Interface visual com ícones e fotos minimizando necessidade de muita leitura e digitação;
-- Painel de visualização e reporte de tarefas criadas pelos gerentes em ordem de prioridade;
-- Painel de envio de evidências de execução para validação de tarefas;
-- Possibilidade de criação de alertas para reportar problemas no retiro para os gerentes;
-- Plataforma com um formulário simplificado para entrada de dados de movimentação bovina.
+- Sistema facil de navegar e se utilizar, por ter maior dificuldade com tecnologias [3];
+- Registro rápido de tarefas e ocorrências;
+- Visualização clara das atividades do dia;
+- Funcionamento offline devido à limitação de internet;
+- Padronização das informações registradas.
+
+#### Desafios/dores:
+- Baixa familiaridade com tecnologias digitais [3];
+- Dependência de registros manuais e memória;
+- Dificuldade em acompanhar várias tarefas simultaneamente;
+- Falhas na comunicação com níveis superiores;
+- Tempo limitado para registrar informações durante o trabalho.
+
+#### Interesses:
+- Ferramentas fáceis de usar no dia a dia;
+- Soluções que reduzam esforço operacional;
+- Organização das tarefas no campo;
+- Comunicação mais direta e eficiente com a equipe.
+
+#### Habilidades:
+- Administração de mão de obra rural;
+- Controle de qualidade e produtividade do rebanho;
+- Planejamento e supervisão de atividades no campo;
+- Gestão de recursos e insumos do retiro;
+- Resolução de imprevistos sob pressão;
+- Comunicação direta com equipe de vaqueiros;
+- Resiliência devido aos diversos problemas que ocorrem.
+
+#### Familiaridade com Tecnologia:
+
+| Aspecto  | Nível / Situação     |
+|----------------------|---------------------------------------------------------|
+| Smartphone   | Básico  |
+| Aplicativos de gestão | Nenhum — sem experiência com apps de controle de tarefas ou relatórios  |
+| Planilhas e formulários | Nenhum — não utiliza ferramentas como Excel |
+| Sistemas web  | Nenhum — nunca utilizou plataformas digitais no trabalho  |
+
+Informações extras:
+- Conectividade no campo: Instável ou ausente — sinal de internet limitado ou inexistente nos retiros;
+- Meio de comunicação principal: Rádio, comunicação verbal e anotações;
+- Adaptação a novas tecnologias: Baixa — resistência natural e por pouco contato com dispositivos ao longo da vida [3];
+- Dispositivo disponível: Celular.
+
+
+#### Notas e Justificativas: 
+
+**[1] Idade e perfil salarial do capataz**  
+A faixa etária de 33 anos foi baseada no perfil médio de trabalhadores que ocupam o cargo de capataz na pecuária, conforme levantamento disponível no site consultado. (PORTAL SALÁRIO, 2026)
+
+**[2] Descrição do cargo de Capataz**  
+As atribuições descritas, como exemplo a administração de mão de obra ou o controle do rebanho, estão alinhadas com a Classificação Brasileira de Ocupações (CBO), que define formalmente as competências e atividades do capataz na agropecuária. (BRASIL, [s.d.])
+
+**[3] Baixa familiaridade com tecnologias digitais na pecuária**  
+A pesquisa acadêmica publicada na SciELO expõe a dificuldade de adoção de tecnologias por trabalhadores rurais na pecuária. O estudo aponta que características individuais como formação profissional e a posição ocupada dentro da propriedade influenciam diretamente a adoção ou rejeição de tecnologias, sendo a baixa escolaridade um fator determinante para a resistência ao uso de ferramentas digitais no campo. (MACHADO; NANTES, 2011)
+
+"Quando o bicho adoece ou a cerca arrebenta, não tem tempo de procurar papel — tem que resolver na hora. O que não ficou na cabeça, ficou perdido."
 
 #### Biografia:
 
-Bernardo Ramos trabalha na BRPec como capataz há 4 anos. Ele coordena o trabalho no retiro, garantindo a execução das tarefas designadas pelo gerente. Além disso, ele cuida do Manejo do Gado, monitorando a saúde do gado, nascimentos e óbitos, além de outras atividades de manejo. Ele também cuida da estrutura da fazenda, a infraestrutura da propriedade, como cercas e pastos. Além disso, tem como uma de suas funções comunicar ao gerente o que está acontecendo na fazenda, o andamento das atividades, indicadores de produção e problemas do retiro.
+Gabriel Galdino tem 33 anos e atua como capataz na BrPec Agropecuária S.A, sendo responsável pela gestão do retiro da Barra Bonita. Sua rotina é voltada à execução das atividades operacionais, organização da equipe de vaqueiros e acompanhamento direto das demandas relacionadas ao rebanho. Com forte experiência prática no campo, coordena tarefas como movimentação de gado, manutenção de cercas e resolução de imprevistos. Também realiza registros básicos das atividades e comunica atualizações ao coordenador.
 
-Atualmente ele registra tudo em boletas de papel, assim as informações chegam muitas vezes com atraso ou incompletas ao escritório, situação que repercute na hora de receber as tarefas do gerente.
+Comprometido com o sustento da família e com o bom funcionamento do retiro, Gabriel é um profissional que se destaca ao ser um ótimo capataz para seu retiro e comunidade de vaqueiros. Entretanto, enfrenta limitações no uso de ferramentas digitais e depende, em grande parte, de anotações informais e comunicação via rádio, o que dificulta o controle das informações e o acompanhamento das tarefas.
 
-"O que acontece aqui no retiro demora pra chegar lá no escritório. Até eu conseguir avisar o gerente, já virou bagunça."
 
 ## 2.3. User Stories (sprints 1 a 5)
 
@@ -486,6 +524,12 @@ Descreva os principais segmentos de mercado a serem atendidos pela aplicação. 
 
 # <a name="c8"></a>8. Referências (sprints 1 a 5)
 
+PORTAL SALÁRIO. Capataz na Pecuária - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/capataz-na-pecuaria-cbo-620115/. Acesso em: 28 abr. 2026. <br>
+
+BRASIL. Ministério do Trabalho e Emprego. Classificação Brasileira de Ocupações (CBO): Capataz na Agropecuária — CBO 6210-05. [S.d.]. Disponível em: https://www.mtecbo.gov.br. Acesso em: 28 abr. 2026.
+
+MACHADO, João Guilherme de Camargo Ferraz; NANTES, José Flávio Diniz. Adoção da tecnologia da informação em organizações rurais: o caso da pecuária de corte. Gestão & Produção, São Carlos, v. 18, n. 3, p. 555-570, 2011. Disponível em: https://www.scielo.br/j/gp/a/cwVwLsPgq8FBq5kvgXZPpLQ/. Acesso em: 28 abr. 2026. <br>
+‌
 _Incluir as principais referências de seu projeto, para que seu parceiro possa consultar caso ele se interessar em aprofundar. Um exemplo de referência de livro e de site:_<br>
 
 LUCK, Heloisa. Liderança em gestão escolar. 4. ed. Petrópolis: Vozes, 2010. <br>
