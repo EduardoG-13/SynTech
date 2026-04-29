@@ -67,7 +67,7 @@ Ameaça de substitutos: A ameaça é moderada e crescente. No mercado interno, f
 Análise estrutural: A BrPec opera em setor com barreiras de entrada relevantes e integração vertical como diferencial, mas enfrenta forte pressão de canais de compra concentrados, alta rivalidade por escala e dependência de fornecedores especializados. O passivo ambiental representa risco estratégico: a empresa figura entre os maiores desmatadores do Pantanal segundo o Ibama (DE OLHO NOS RURALISTAS, 2020), podendo restringir o acesso aos segmentos de maior rentabilidade.
 
 <center>
-  <img src="../assets/porterForcas.png" width="600"/>
+  <img src="../assets/porterForcas.png" width="800"/>
   <p><strong>Figura 1</strong> — Análise das 5 Forças de Porter aplicada à BrPec Agropecuária<br/>
   Fonte: Próprios autores (2026).</p>
 </center>
@@ -76,7 +76,11 @@ Análise estrutural: A BrPec opera em setor com barreiras de entrada relevantes 
 
 A análise SWOT a seguir avalia o posicionamento estratégico da BRPec considerando seu ambiente interno — forças operacionais e financeiras e fraquezas estruturais e regulatórias — e fatores externos: oportunidades de mercado e ameaças setoriais. O contexto de análise é o agronegócio brasileiro de pecuária e grãos, especificamente o segmento de produção integrada em larga escala no Pantanal mato-grossense, caracterizado por crescente pressão ESG sobre crédito e certificações, restrições regulatórias à expansão de novas áreas e acirrada competição fundiária com players institucionalizados.
 
-![Canvas proposta de valor](../documentos/análiseSWOT.png)
+<center>
+  <img src="../assets/analiseSWOT.png" width="800"/>
+  <p><strong>Figura 1</strong> — Análise de SWOT aplicada à BrPec Agropecuária<br/>
+  Fonte: Próprios autores (2026).</p>
+</center>
 
 **Fonte: Elaborado pelos autores (2026).**
 
@@ -167,8 +171,11 @@ O projeto será considerado bem-sucedido quando:
 
 A proposta de valor é uma declaração curta e objetiva que resume a essência da aplicação web: o que ela oferece, para quem e por que vale a pena jogar. Ela funciona como o núcleo de toda a visão do projeto, orientando decisões de design e comunicando de forma clara o diferencial do jogo antes de qualquer detalhe técnico ou mecânico ser apresentado.
 
-![Canvas proposta de valor](../documentos/canvasPropostaDeValor.png)
-**Fonte: Elaborado pelos autores (2026).**
+<center>
+  <img src="../assets/canvasPropostaDeValor.png" width="800"/>
+  <p><strong>Figura 1</strong> — Canvas de Proposta de Valor aplicada à BrPec Agropecuária<br/>
+  Fonte: Próprios autores (2026).</p>
+</center>
 
 O canvas evidencia que o a aplicação web resolve dores concretas dos Capatazes em campo — como a dependência de boletas de papel, a impossibilidade de usar soluções convencionais sem internet e a comunicação informal com o Gerente, garantindo que haja um maior controle pelos Capatazes. Os ganhos gerados, como a eliminação do retrabalho de transcrição, o registro ágil de eventos zootécnicos em poucos toques e a confirmação automática de tarefas com envio de evidências, se alinham diretamente às entregas do produto: formulários digitais de manejo bovino, sistema de alertas multimídia e exportação em Excel para o Coordenador. A proposta de valor da aplicação web, portanto, não se limita a digitalizar uma planilha existente, mas redefine o fluxo de informações entre o campo e o escritório — tornando os registros operacionais mais confiáveis, rastreáveis e acessíveis para toda a cadeia de gestão da fazenda.
 
@@ -176,9 +183,11 @@ O canvas evidencia que o a aplicação web resolve dores concretas dos Capatazes
 
 A matriz de riscos é uma ferramenta que permite identificar, analisar e priorizar ameaças e oportunidades de um projeto. A classificação é feita com base na probabilidade de ocorrência e no impacto, auxiliando na definição de ações para cada caso. Dessa forma, foi elaborada a matriz de riscos para o desenvolvimento da aplicação web da BrPec Agropecuária S.A, considerando seus principais desafios.
 
-<img src="../assets/matrizdeRisco-BrPec.png" width="600"/>
-
----
+<center>
+  <img src="../assets/matrizDeRisco.png" width="800"/>
+  <p><strong>Figura 1</strong> — Matriz De Risco aplicada à BrPec Agropecuária<br/>
+  Fonte: Próprios autores (2026).</p>
+</center>
 
 ### AMEAÇAS
 
@@ -440,7 +449,11 @@ UC6 ..> UC5 : <<extend>>
 
 @enduml
 
-<img src="../assets/diagramaDeUso.png" width="600"/>
+<center>
+  <img src="../assets/diagramaDeUso.png" width="800"/>
+  <p><strong>Figura 1</strong> — Diagrama de Caso De Uso aplicada à BrPec Agropecuária<br/>
+  Fonte: Próprios autores (2026).</p>
+</center>
 
 
 ### 3.2.3. Diagrama de Classes do Domínio (sprint 2)
