@@ -440,6 +440,9 @@ UC6 ..> UC5 : <<extend>>
 
 @enduml
 
+<img src="../assets/diagramaDeUso.png" width="600"/>
+
+
 ### 3.2.3. Diagrama de Classes do Domínio (sprint 2)
 
 _Diagrama UML de classes com entidades, atributos, relacionamentos e responsabilidades. Diferencie **associação**, **agregação** (losango vazio), **composição** (losango cheio) e **herança** (triângulo vazio). Multiplicidade explícita em toda associação._
