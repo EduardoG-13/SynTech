@@ -448,6 +448,7 @@ Interesses
 - Comunicação mais direta e eficiente com a equipe.
 
 ## 2.3. User Stories (sprints 1 a 5)
+
 | Campo | Descrição |
 |-----------|-----------|
 | **Identificação** | US01 |
@@ -539,6 +540,8 @@ Interesses
 
 **Testável:** Possível validar envio e associação da imagem
 
+---
+
 | Campo | Descrição |
 |-----------|-----------|
 | **Identificação** | US05 |
@@ -561,17 +564,31 @@ Interesses
 
 **Testável:** Possível testar gravação, salvamento e reprodução do áudio
 
+---
 
-Campo | Descrição
---- | ---
-**Identificação** | US07
-**Persona** | João Pereira (Gerente)
-**User Story** | Como gerente, posso visualizar um painel com o status de todas as tarefas e alertas em aberto, para priorizar a equipe de manutenção e garantir que as rotinas de campo sejam executadas conforme o planejamento.
-**Critério de Aceite 1** | CR1: Dado que João acessa o painel de acompanhamento, quando a tela é carregada, então são exibidas todas as tarefas atribuídas aos capatazes com seus respectivos status (pendente, em andamento, concluída), agrupadas por retiro ou capataz responsável.
-**Critério de Aceite 2** | CR2: Dado que um ou mais capatazes enviaram alertas ao gerente, quando João visualiza o painel, então os alertas aparecem em seção destacada, com identificação do capataz, do retiro e da data/hora de envio, ordenados do mais recente ao mais antigo.
-**Critério de Aceite 3** | CR3: Dado que um usuário com perfil diferente de gerente tenta acessar o painel de acompanhamento, quando a requisição é feita, então o sistema nega o acesso e redireciona para a interface correspondente ao seu perfil.
+| Campo | Descrição |
+|-----------|-----------|
+| **Identificação** | US06 |
+| **Persona** | Gabriel Galdino (Capataz) |
+| **User Story** | Como capataz, posso criar um alerta de infraestrutura (ticket), para avisar a gerência sobre cercas ou bebedouros quebrados |
+| **Critério de Aceite 1** | CR1: Dado que Gabriel deseja registrar um problema, quando acessar a opção de novo alerta, então deve visualizar um formulário simples |
+| **Critério de Aceite 2** | CR2: Dado que o alerta está sendo criado, quando preencher os dados, então deve ser obrigatório informar o tipo de problema |
+| **Critério de Aceite 3** | CR3: Dado que o alerta é enviado, então o sistema deve registrar automaticamente a localização (GPS) |
+| **Critério de Aceite 4** | CR4: Dado que o alerta foi criado, quando o supervisor acessar o sistema, então deve visualizar o novo chamado |
+
+**Critérios INVEST** | Não se aplica 
+
+---
+
+| Campo | Descrição |
+|-----------|-----------|
+| **Identificação** | US07 |
+| **Persona** | João Pereira (Gerente) |
+| **User Story** | Como gerente, posso visualizar um painel com o status de todas as tarefas e alertas em aberto, para priorizar a equipe de manutenção e garantir que as rotinas de campo sejam executadas conforme o planejamento. |
+| **Critério de Aceite 1** | CR1: Dado que João acessa o painel de acompanhamento, quando a tela é carregada, então são exibidas todas as tarefas atribuídas aos capatazes com seus respectivos status (pendente, em andamento, concluída), agrupadas por retiro ou capataz responsável. |
+| **Critério de Aceite 2** | CR2: Dado que um ou mais capatazes enviaram alertas ao gerente, quando João visualiza o painel, então os alertas aparecem em seção destacada, com identificação do capataz, do retiro e da data/hora de envio, ordenados do mais recente ao mais antigo. |
+| **Critério de Aceite 3** | CR3: Dado que um usuário com perfil diferente de gerente tenta acessar o painel de acompanhamento, quando a requisição é feita, então o sistema nega o acesso e redireciona para a interface correspondente ao seu perfil. |
 **Critérios INVEST** | Não se aplica (US07 é de prioridade secundária).
-
 
 ---
 
