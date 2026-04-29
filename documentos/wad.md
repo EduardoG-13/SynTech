@@ -88,7 +88,7 @@ Personas são, de forma resumida, representaçôes fictícia dos diferentes tipo
 ### Persona 1: João Pereira
 #### Informações:
 - Nome e sobrenome: João Pereira;
-- Idade: 39 anos;
+- Idade: 40 anos [1];
 - Cargo: Gerente geral na BrPec Agropecuária S.A.;
 - Localização: Miranda-MS;
 - Escolaridade: Pós-graduado em veterinária.
@@ -96,10 +96,10 @@ Personas são, de forma resumida, representaçôes fictícia dos diferentes tipo
 #### Motivações:
 Conseguir manter sua família e garantir educação para seus filhos. Além disso, deseja ser um funcionário de destaque para a BrPec.
 
-#### Interesses:
+#### Interesses [1]:
 - Animais;
 - Tecnologias aplicadas ao agronegócio;
-- Gestão de fazendas;
+- Gestão Logística e Operações;
 - Gestão de tempo.
 
 #### Desafios/Dores:
@@ -115,9 +115,44 @@ Conseguir manter sua família e garantir educação para seus filhos. Além diss
 - Painel para a criação e gestão de tarefas calendarizadas para os Capatazes;
 - Infomações atualizadas.
 
+#### Habilidades [3]:
+- Planejamento de atividades operacionais;
+- Monitoramento e controle de metas de produção;
+- Elaboração de relatórios;
+- Gestão de equipes e supervisão de desempenho;
+- Tomada de decisão baseada em indicadores do campo.
+
+#### Familiaridade com Tecnologia [2]
+
+| Aspecto   | Nível / Situação    |
+|-------------------|---------------------------------|
+| Smartphone | Intermediate (DigComp) — uso ativo de WhatsApp, e-mail, chamadas de trabalho e outros   |
+| Aplicativos de gestão | Basic (DigComp) — uso limitado, sem experiência com sistemas ERP ou dashboards |
+| Planilhas e formulários | Intermediate (DigComp) — utiliza planilhas para acompanhar as atividades |
+| Sistemas web  | Basic (DigComp) — acessa portais e e-mail, sem uso de plataformas integradas  |
+
+Informações extras:
+- Conectividade: Boa — trabalha em escritório com acesso estável à internet;
+- Meio de comunicação principal: WhatsApp, rádio e telefone com capatazes e coordenadores;
+- Adaptação a novas tecnologias: Moderada a alta — reconhece o valor das ferramentas digitais e está aberto a adotá-las [3];
+- Dispositivo disponível: Computador e celular.
+
+#### Notas e Justificativas
+
+**[1] Idade e perfil do cargo**
+A faixa etária de 40 anos foi baseada no perfil médio do Gerente de Produção e Operações Agropecuárias (CBO 1411-15), que aponta 40 anos como idade mais recorrente segundo o Portal Salário a partir de dados do CAGED. Além disso, outras informações sobre o perfil do foram baseadas a partir dessa fonte. (PORTAL SALÁRIO, 2025)
+
+**[2] Framework de Competência Digital — DigComp 3.0**
+Os níveis de familiaridade com tecnologia foram classificados seguindo o DigComp 3.0, framework europeu de competência digital desenvolvido pelo Joint Research Centre da Comissão Europeia. Ele define quatro níveis de proficiência (Basic, Intermediate, Advanced e Highly Advanced) com base na complexidade das tarefas executadas e no grau de autonomia do indivíduo. (COSGROVE; CACHIA, 2025)
+
+**[3] Habilidades do gestor no agronegócio**
+As habilidades listadas foram baseadas no perfil de profissionais que ocupam cargos de gestão no agronegócio. (IPOG, 2022)
+
 #### Biografia:
 
-João Pereira tem 39 anos, trabalha na BrPec há 6 anos e é responsável por gerar as atividades calendarizadas para os Capatazes e acompanham a evolução das atividades da fazenda. Um dos seus maiores desafios é garantir que as rotinas de campo sejam cumpridas conforme o planejado, porque muitas informações chegam com atraso. Está constantemente frustrado, porque sabe que conseguiria fazer seu trabalho muito melhor se tivesse um melhor acesso aos dados.
+João Pereira tem 40 anos, trabalha na BrPec há 6 anos e é responsável por gerar as atividades calendarizadas  para os Capatazes, como por exemplo: "Segunda-feira, Gabriel deve verificar as cercas do retiro 3". Além disso, ele acompanha a evolução das atividades da fazenda. 
+
+João começa seu dia sempre verificando mensagens dos capatazes e coordenadores, depois disso, distribui tarefas para os retiros consultando anotações e planilhas. Ao longo do dia, participa de diversas reuniões, mas sempre sofre com o atraso das informações, que o impedem de identificar e corrigir imprevistos rapidamente, além de impedir que ele garanta que as rotinas de campo sejam cumpridas conforme o planejado. No final do dia, consolida o que foi executado, mas se sente frustrado por  saber que poderia ter tomado decisões melhores se tivesse acesso a dados em tempo real.
 
 "Demoro muito para saber o que está acontecendo nas terras, o que torna difícil gerar as atividades para os Capatazes e garantir que tudo está ocorrendo conforme planejado na fazenda. Isso, porque as informações que tenho nem sempre são as mais atualizadas."
 
@@ -160,7 +195,7 @@ Crescer profissionalmente dentro do agronegócio e ser reconhecido pela precisã
 
 #### Familiaridade com Tecnologia [2]:
 
-| Aspecto     | Nível / Situação    |
+| Aspecto | Nível / Situação  |
 |---------------------------|-------------------------------|
 | Smartphone | Intermediate (DigComp) — uso ativo de WhatsApp, e-mail e câmera no trabalho   |
 | Aplicativos de gestão  | Basic (DigComp) — sem experiência com sistemas ERP ou plataformas operacionais  |
@@ -260,7 +295,7 @@ As atribuições descritas, como exemplo a administração de mão de obra ou o 
 **[3] Baixa familiaridade com tecnologias digitais na pecuária**  
 A pesquisa acadêmica publicada na SciELO expõe a dificuldade de adoção de tecnologias por trabalhadores rurais na pecuária. O estudo aponta que características individuais como formação profissional e a posição ocupada dentro da propriedade influenciam diretamente a adoção ou rejeição de tecnologias, sendo a baixa escolaridade um fator determinante para a resistência ao uso de ferramentas digitais no campo. (MACHADO; NANTES, 2011)
 
-**[5] Framework de Competência Digital — DigComp 3.0**
+**[4] Framework de Competência Digital — DigComp 3.0**
 Os níveis de familiaridade com tecnologia foram classificados seguindo o DigComp 3.0, framework europeu de competência digital desenvolvido pelo Joint Research Centre da Comissão Europeia. Ele define quatro níveis de proficiência (Basic, Intermediate, Advanced e Highly Advanced) com base na complexidade das tarefas executadas e no grau de autonomia do indivíduo. (COSGROVE; CACHIA, 2025)
 
 #### Biografia:
@@ -555,17 +590,22 @@ Descreva os principais segmentos de mercado a serem atendidos pela aplicação. 
 
 # <a name="c8"></a>8. Referências (sprints 1 a 5)
 
-CONFEDERAÇÃO DA AGRICULTURA E PECUÁRIA DO BRASIL. Conheça as 4 carreiras mais quentes do agronegócio brasileiro. CNA Brasil, [s.d.]. Disponível em: https://www.cnabrasil.org.br/noticias/conheca-as-4-carreiras-mais-quentes-do-agronegocio-brasileiro. Acesso em: 28 abr. 2026.
+PORTAL SALÁRIO. Gerente de Produção e Operações Agropecuárias - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/gerente-de-producao-e-operacoes-agropecuarias-cbo-141115/. Acesso em: 28 abr. 2026.<br>
 
-COSGROVE, J.; CACHIA, R. DigComp 3.0: European Digital Competence Framework. 5. ed. Luxembourg: Publications Office of the European Union, 2025. Disponível em: https://data.europa.eu/doi/10.2760/0001149. Acesso em: 28 abr. 2026.
+COSGROVE, J.; CACHIA, R. DigComp 3.0: European Digital Competence Framework. 5. ed. Luxembourg: Publications Office of the European Union, 2025. Disponível em: https://data.europa.eu/doi/10.2760/0001149. Acesso em: 28 abr. 2026.<br>
+
+IPOG. Gestão do Agronegócio: como está o mercado de trabalho?. Disponível em: https://blog.ipog.edu.br/gestao-e-negocios/gestao-do-agronegocio/. [S.d.]. Acesso em: 28 abr. 2026.<br>
+
+CONFEDERAÇÃO DA AGRICULTURA E PECUÁRIA DO BRASIL. Conheça as 4 carreiras mais quentes do agronegócio brasileiro. CNA Brasil, [S.d.]. Disponível em: https://www.cnabrasil.org.br/noticias/conheca-as-4-carreiras-mais-quentes-do-agronegocio-brasileiro. Acesso em: 28 abr. 2026. <br>
 
 PORTAL SALÁRIO. Capataz na Pecuária - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/capataz-na-pecuaria-cbo-620115/. Acesso em: 28 abr. 2026. <br>
 
-BRASIL. Ministério do Trabalho e Emprego. Classificação Brasileira de Ocupações (CBO): Capataz na Agropecuária — CBO 6210-05. [S.d.]. Disponível em: https://www.mtecbo.gov.br. Acesso em: 28 abr. 2026.
+BRASIL. Ministério do Trabalho e Emprego. Classificação Brasileira de Ocupações (CBO): Capataz na Agropecuária — CBO 6210-05. [S.d.]. Disponível em: https://www.mtecbo.gov.br. Acesso em: 28 abr. 2026. <br>
 
 MACHADO, João Guilherme de Camargo Ferraz; NANTES, José Flávio Diniz. Adoção da tecnologia da informação em organizações rurais: o caso da pecuária de corte. Gestão & Produção, São Carlos, v. 18, n. 3, p. 555-570, 2011. Disponível em: https://www.scielo.br/j/gp/a/cwVwLsPgq8FBq5kvgXZPpLQ/. Acesso em: 28 abr. 2026. <br>
+
 ‌
-_Incluir as principais referências de seu projeto, para que seu parceiro possa consultar caso ele se interessar em aprofundar. Um exemplo de referência de livro e de site:_<br>
+Incluir as principais referências de seu projeto, para que seu parceiro possa consultar caso ele se interessar em aprofundar. Um exemplo de referência de livro e de site:_<br>
 
 LUCK, Heloisa. Liderança em gestão escolar. 4. ed. Petrópolis: Vozes, 2010. <br>
 SOBRENOME, Nome. Título do livro: subtítulo do livro. Edição. Cidade de publicação: Nome da editora, Ano de publicação. <br>
