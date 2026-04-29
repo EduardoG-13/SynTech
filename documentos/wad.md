@@ -320,9 +320,17 @@ Desenvolver arquitetura simples e modular, facilitando futuras melhorias.
 
 ## 2.2. Personas (sprint 1)
 
-Personas são, de forma resumida, representaçôes fictícia dos diferentes tipos de usuários. Elas permitem que a ferramenta seja mais eficiente e focada para atender as necessidades reais do cliente. Dessa forma, as figuras 1 e 2 mostram as personas criadas para o projeto.
+Personas são, de forma resumida, representaçôes fictícia dos diferentes tipos de usuários. Elas permitem que a ferramenta seja mais eficiente e focada para atender as necessidades reais do cliente. Dessa forma, as figuras 4, 5 e 6 mostram as personas criadas para o projeto.
 
 ### Persona 1: João Pereira
+
+<center>
+  <img src="../assets/persona1.png" width="800"/>
+  <p><strong>Figura 4</strong> — Persona 1: João Pereira (Gerente) <br/>
+  Fonte: Próprios autores (2026).</p>
+</center>
+
+
 #### Informações:
 - Nome e sobrenome: João Pereira;
 - Idade: 40 anos [1];
@@ -377,13 +385,13 @@ Informações extras:
 
 #### Notas e Justificativas
 
-**[1] Idade e perfil do cargo**
+**[1] Idade e perfil do cargo:**
 A faixa etária de 40 anos foi baseada no perfil médio do Gerente de Produção e Operações Agropecuárias (CBO 1411-15), que aponta 40 anos como idade mais recorrente segundo o Portal Salário a partir de dados do CAGED. Além disso, outras informações sobre o perfil do foram baseadas a partir dessa fonte. (PORTAL SALÁRIO, 2025)
 
-**[2] Framework de Competência Digital - DigComp 3.0**
+**[2] Framework de Competência Digital - DigComp 3.0:**
 Os níveis de familiaridade com tecnologia foram classificados seguindo o DigComp 3.0, framework europeu de competência digital desenvolvido pelo Joint Research Centre da Comissão Europeia. Ele define quatro níveis de proficiência (Basic, Intermediate, Advanced e Highly Advanced) com base na complexidade das tarefas executadas e no grau de autonomia do indivíduo. (COSGROVE; CACHIA, 2025)
 
-**[3] Habilidades do gestor no agronegócio**
+**[3] Habilidades do gestor no agronegócio:**
 As habilidades listadas foram baseadas no perfil de profissionais que ocupam cargos de gestão no agronegócio. (IPOG, 2022)
 
 #### Biografia:
@@ -397,6 +405,13 @@ João começa seu dia sempre verificando mensagens dos capatazes e coordenadores
 João se comunica com supervisores e coordenadores frequentemente, mas essa comunicação ainda é lenta e fragmentada. Além disso, está aberto a ferramentas digitais, porque sabe que elas o ajudariam a ter uma visão atualizada e completa sobre o cenário geral da fazenda.
 
 ### Persona 2: Marcos Cesar Filho
+
+<center>
+  <img src="../assets/persona2.png" width="800"/>
+  <p><strong>Figura 5</strong> — Persona 2: Marcos Cesar Filho (Coordenador)<br/>
+  Fonte: Próprios autores (2026).</p>
+</center>
+
 #### Informações:
 - Nome e sobrenome: Marcos Cesar Filho;
 - Idade: 35 anos;
@@ -449,10 +464,10 @@ Crescer profissionalmente dentro do agronegócio e ser reconhecido pela precisã
 
 #### Notas e Justificativas
 
-**[1] Escolaridade do gestor no agronegócio**
+**[1] Escolaridade do gestor no agronegócio:**
 O Portal CNA Brasil aponta que, para cargos de coordenação técnica no agronegócio, o perfil mais buscado combina forte conhecimento técnico com boas noções de gestão, habilidade de comunicação e liderança. (CNA BRASIL, [s.d.])
 
-**[2] Framework de Competência Digital - DigComp 3.0**
+**[2] Framework de Competência Digital - DigComp 3.0:**
 Os níveis de familiaridade com tecnologia foram classificados seguindo o DigComp 3.0, framework europeu de competência digital desenvolvido pelo Joint Research Centre da Comissão Europeia. Ele define quatro níveis de proficiência (Basic, Intermediate, Advanced e Highly Advanced) com base na complexidade das tarefas executadas e no grau de autonomia do indivíduo. (COSGROVE; CACHIA, 2025)
 
 #### Biografia:
@@ -464,6 +479,13 @@ Sua rotina começa organizando as boletas vindas dos capatazes. Assim, ele tenta
 "Recebo a boleta, tento decifrar o que está escrito e ainda tenho que digitar tudo no Excel. Qualquer erro no campo vira problema aqui."
 
 ### Persona 3: Gabriel Galdino
+
+<center>
+  <img src="../assets/persona3.png" width="800"/>
+  <p><strong>Figura 5</strong> — Persona 3: Gabriel Galdino (Capataz) <br/>
+  Fonte: Próprios autores (2026).</p>
+</center>
+
 #### Informações: 
 - Nome e sobrenome: Gabriel Galdino;
 - Idade: 33 anos [1];
@@ -526,16 +548,16 @@ Informações extras:
 
 #### Notas e Justificativas: 
 
-**[1] Idade e perfil salarial do capataz**  
+**[1] Idade e perfil salarial do capataz:**  
 A faixa etária de 33 anos foi baseada no perfil médio de trabalhadores que ocupam o cargo de capataz na pecuária, conforme levantamento disponível no site consultado. (PORTAL SALÁRIO, 2026)
 
-**[2] Descrição do cargo de Capataz**  
+**[2] Descrição do cargo de Capataz:**  
 As atribuições descritas, como exemplo a administração de mão de obra ou o controle do rebanho, estão alinhadas com a Classificação Brasileira de Ocupações (CBO), que define formalmente as competências e atividades do capataz na agropecuária. (BRASIL, [s.d.])
 
-**[3] Baixa familiaridade com tecnologias digitais na pecuária**  
+**[3] Baixa familiaridade com tecnologias digitais na pecuária:**  
 A pesquisa acadêmica publicada na SciELO expõe a dificuldade de adoção de tecnologias por trabalhadores rurais na pecuária. O estudo aponta que características individuais como formação profissional e a posição ocupada dentro da propriedade influenciam diretamente a adoção ou rejeição de tecnologias, sendo a baixa escolaridade um fator determinante para a resistência ao uso de ferramentas digitais no campo. (MACHADO; NANTES, 2011)
 
-**[4] Framework de Competência Digital - DigComp 3.0**
+**[4] Framework de Competência Digital - DigComp 3.0:**
 Os níveis de familiaridade com tecnologia foram classificados seguindo o DigComp 3.0, framework europeu de competência digital desenvolvido pelo Joint Research Centre da Comissão Europeia. Ele define quatro níveis de proficiência (Basic, Intermediate, Advanced e Highly Advanced) com base na complexidade das tarefas executadas e no grau de autonomia do indivíduo. (COSGROVE; CACHIA, 2025)
 
 #### Biografia:
@@ -845,7 +867,7 @@ UC6 ..> UC5 : <<extend>>
 
 <center>
   <img src="../assets/diagramaDeUso.png" width="800"/>
-  <p><strong>Figura 4</strong> — Diagrama de Caso De Uso aplicada à BrPec Agropecuária<br/>
+  <p><strong>Figura 6</strong> — Diagrama de Caso De Uso aplicada à BrPec Agropecuária<br/>
   Fonte: Próprios autores (2026).</p>
 </center>
 
