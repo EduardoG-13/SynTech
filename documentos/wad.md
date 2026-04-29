@@ -448,99 +448,118 @@ Interesses
 - Comunicação mais direta e eficiente com a equipe.
 
 ## 2.3. User Stories (sprints 1 a 5)
-| Campo                    | Descrição                                                                                                                                                                                |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Identificação**        | US01                                                                                                                                                                                     |
-| **Persona**              | João Pereira (Gerente Geral)                                                                                                                                                             |
-| **User Story**           | Como gerente geral, posso criar tarefas e atribuí-las a um retiro específico para organizar a rotina diária da equipe de campo e garantir que o planejamento seja executado corretamente |
-| **Critério de Aceite 1** | CR1: Dado que João acessa o sistema, quando cria uma tarefa e seleciona um retiro, então a tarefa deve ser salva corretamente vinculada ao retiro                                        |
-| **Critério de Aceite 2** | CR2: Dado que a tarefa foi criada, quando o sistema sincronizar, então ela deve ficar disponível para os capatazes responsáveis pelo retiro                                              |
+| Campo | Descrição |
+|-----------|-----------|
+| **Identificação** | US01 |
+| **Persona** | João Pereira (Gerente Geral) |
+| **User Story** | Como gerente geral, posso criar tarefas e atribuí-las a um retiro específico para organizar a rotina diária da equipe de campo e garantir que o planejamento seja executado corretamente |
+| **Critério de Aceite 1** | CR1: Dado que João acessa o sistema, quando cria uma tarefa e seleciona um retiro, então a tarefa deve ser salva corretamente vinculada ao retiro |
+| **Critério de Aceite 2** | CR2: Dado que a tarefa foi criada, quando o sistema sincronizar, então ela deve ficar disponível para os capatazes responsáveis pelo retiro |
 
-## Critérios INVEST
-Independente: Pode ser implementada sem depender da visualização offline
+### Critérios INVEST
+**Independente:** Pode ser implementada sem depender da visualização offline
 
-Negociável: Campos e detalhes da tarefa podem ser ajustados conforme necessidade do gerente
+**Negociável:** Campos e detalhes da tarefa podem ser ajustados conforme necessidade do gerente
 
-Valorosa: Permite maior controle e organização das atividades da fazenda
+**Valorosa:** Permite maior controle e organização das atividades da fazenda
 
-Estimável: Escopo claro de criação e associação de tarefas
+**Estimável:** Escopo claro de criação e associação de tarefas
 
-Pequena: Foco apenas na criação e atribuição de tarefas
+**Pequena:** Foco apenas na criação e atribuição de tarefas
 
-Testável: Possível validar criação e vínculo com retiro
+**Testável:** Possível validar criação e vínculo com retiro
 
----
+| Campo | Descrição |
+|-----------|-----------|
+| **Identificação** | US02 |
+| **Persona** | Gabriel Galdino (Capataz) |
+| **User Story** | Como capataz, posso visualizar minha lista de tarefas do dia offline para saber o que precisa ser executado, mesmo longe da sede, de forma simples e clara |
+| **Critério de Aceite 1** | CR1: Dado que as tarefas foram previamente sincronizadas, quando Gabriel estiver sem internet, então deve conseguir visualizar a lista de tarefas do dia |
+| **Critério de Aceite 2** | CR2: Dado que não há tarefas sincronizadas, quando acessar offline, então o sistema deve exibir uma mensagem simples informando ausência de tarefas |
+| **Critério de Aceite 3** | CR3: Dado que Gabriel acessa as tarefas, quando exibidas, então devem estar organizadas de forma simples e de fácil entendimento |
 
-| Campo                    | Descrição                                                                                                                                                  |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Identificação**        | US02                                                                                                                                                       |
-| **Persona**              | Gabriel Galdino (Capataz)                                                                                                                                  |
-| **User Story**           | Como capataz, posso visualizar minha lista de tarefas do dia offline para saber o que precisa ser executado, mesmo longe da sede, de forma simples e clara |
-| **Critério de Aceite 1** | CR1: Dado que as tarefas foram previamente sincronizadas, quando Gabriel estiver sem internet, então deve conseguir visualizar a lista de tarefas do dia   |
-| **Critério de Aceite 2** | CR2: Dado que não há tarefas sincronizadas, quando acessar offline, então o sistema deve exibir uma mensagem simples informando ausência de tarefas        |
-| **Critério de Aceite 3** | CR3: Dado que Gabriel acessa as tarefas, quando exibidas, então devem estar organizadas de forma simples e de fácil entendimento                           |
+### Critérios INVEST
+**Independente:** Depende apenas da sincronização de tarefas
 
-## Critérios INVEST
-Independente: Depende apenas da sincronização de tarefas
+**Negociável:** Forma de exibição pode ser adaptada ao nível de letramento digital
 
-Negociável: Forma de exibição pode ser adaptada ao nível de letramento digital
+**Valorosa:** Garante execução das atividades mesmo sem internet
 
-Valorosa: Garante execução das atividades mesmo sem internet
+**Estimável:** Escopo técnico claro (armazenamento local e leitura)
 
-Estimável: Escopo técnico claro (armazenamento local e leitura)
+**Pequena:** Foco na visualização das tarefas do dia
 
-Pequena: Foco na visualização das tarefas do dia
-
-Testável: Cenários offline verificáveis
+**Testável:** Cenários offline verificáveis
 
 ---
 
-| Campo                    | Descrição                                                                                                                                                                                |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Identificação**        | US03                                                                                                                                                                                     |
-| **Persona**              | Gabriel Galdino (Capataz)                                                                                                                                                             |
-| **User Story**           | Como capataz, posso marcar uma tarefa como concluída para informar o gerente sobre o avanço do trabalho de forma simples e rápida |
-| **Critério de Aceite 1** | CR1: Dado que Gabriel visualiza uma tarefa, quando marcar como concluída, então o status da tarefa deve ser atualizado no sistema                                        |
-| **Critério de Aceite 2** | CR2: Dado que a tarefa foi marcada como concluída offline, quando o dispositivo sincronizar, então o status deve ser atualizado para o gerente                                              |
-| **Critério de Aceite 3** | CR3: Dado que Gabriel interage com a tarefa, quando marcar como concluída, então a ação deve ser simples, com botão visível e de fácil entendimento                                              |
+| Campo | Descrição |
+|-----------|-----------|
+| **Identificação** | US03 |
+| **Persona** | Gabriel Galdino (Capataz) |
+| **User Story** | Como capataz, posso marcar uma tarefa como concluída para informar o gerente sobre o avanço do trabalho de forma simples e rápida |
+| **Critério de Aceite 1** | CR1: Dado que Gabriel visualiza uma tarefa, quando marcar como concluída, então o status da tarefa deve ser atualizado no sistema |
+| **Critério de Aceite 2** | CR2: Dado que a tarefa foi marcada como concluída offline, quando o dispositivo sincronizar, então o status deve ser atualizado para o gerente |
+| **Critério de Aceite 3** | CR3: Dado que Gabriel interage com a tarefa, quando marcar como concluída, então a ação deve ser simples, com botão visível e de fácil entendimento |
 
-## Critérios INVEST
-Independente: Pode ser implementada separadamente da criação de tarefas
+### Critérios INVEST
+**Independente:** Pode ser implementada separadamente da criação de tarefas
 
-Negociável: Forma de interação pode ser ajustada (botão, ícone, etc.)
+**Negociável:** Forma de interação pode ser ajustada (botão, ícone, etc.)
 
-Valorosa: Permite acompanhamento do progresso das atividades
+**Valorosa:** Permite acompanhamento do progresso das atividades
 
-Estimável: Escopo claro (alteração de status + sincronização)
+**Estimável:** Escopo claro (alteração de status + sincronização)
 
-Pequena: Foco apenas na atualização de status
+**Pequena:** Foco apenas na atualização de status
 
-Testável: Possível validar mudança de status e sincronização
+**Testável:** Possível validar mudança de status e sincronização
 
 ---
 
-| Campo                    | Descrição                                                                                                                                                  |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Identificação**        | US04                                                                                                                                                       |
-| **Persona**              | Gabriel Galdino (Capataz)                                                                                                                                  |
-| **User Story**           | Como capataz, posso anexar fotos na conclusão de uma tarefa para comprovar visualmente o serviço realizado, mesmo em ambiente com conexão limitada |
-| **Critério de Aceite 1** | CR1: Dado que Gabriel conclui uma tarefa, quando anexar uma foto, então ela deve ser associada corretamente à tarefa   |
-| **Critério de Aceite 2** | CR2: Dado que a foto foi registrada offline, quando o dispositivo sincronizar, então a imagem deve ser enviada ao sistema/ 
- |
-| **Critério de Aceite 3** | CR3: Dado que Gabriel utiliza a funcionalidade, quando anexar a foto, então o processo deve ser simples e intuitivo   |
+| Campo | Descrição |
+|-----------|-----------|
+| **Identificação** | US04 |
+| **Persona** | Gabriel Galdino (Capataz) |
+| **User Story** | Como capataz, posso anexar fotos na conclusão de uma tarefa para comprovar visualmente o serviço realizado, mesmo em ambiente com conexão limitada |
+| **Critério de Aceite 1** | CR1: Dado que Gabriel conclui uma tarefa, quando anexar uma foto, então ela deve ser associada corretamente à tarefa |
+| **Critério de Aceite 2** | CR2: Dado que a foto foi registrada offline, quando o dispositivo sincronizar, então a imagem deve ser enviada ao sistema |
+| **Critério de Aceite 3** | CR3: Dado que Gabriel utiliza a funcionalidade, quando anexar a foto, então o processo deve ser simples e intuitivo |
 
-## Critérios INVEST
-Independente: Pode ser implementada separadamente do fluxo de conclusão
+### Critérios INVEST
+**Independente:** Pode ser implementada separadamente do fluxo de conclusão
 
-Negociável: Forma de captura/anexo pode ser ajustada
+**Negociável:** Forma de captura/anexo pode ser ajustada
 
-Valorosa: Garante evidência visual do trabalho realizado
+**Valorosa:** Garante evidência visual do trabalho realizado
 
-Estimável: Escopo claro (upload + vínculo com tarefa)
+**Estimável:** Escopo claro (upload + vínculo com tarefa)
 
-Pequena: Foco no anexo de imagens
+**Pequena:** Foco no anexo de imagens
 
-Testável: Possível validar envio e associação da imagem
+**Testável:** Possível validar envio e associação da imagem
+
+| Campo | Descrição |
+|-----------|-----------|
+| **Identificação** | US05 |
+| **Persona** | Gabriel Galdino (Capataz) |
+| **User Story** | Como capataz, posso gravar e anexar um áudio curto à tarefa, para explicar detalhes complexos sem precisar digitar textos longos |
+| **Critério de Aceite 1** | CR1: Dado que Gabriel está visualizando uma tarefa, quando clicar na opção de gravar áudio, então o sistema deve permitir iniciar a gravação |
+| **Critério de Aceite 2** | CR2: Dado que a gravação foi finalizada, quando salvar, então o áudio deve ser anexado corretamente à tarefa |
+| **Critério de Aceite 3** | CR3: Dado que o áudio foi anexado, quando o supervisor acessar a tarefa, então deve conseguir reproduzir o áudio |
+
+### Critérios INVEST
+**Independente:** Não depende de outras funcionalidades além da tarefa 
+
+**Negociável:** Tempo máximo e formato do áudio podem ser ajustados
+
+**Valorosa:** Reduz a necessidade de digitação para usuários com baixa instrução   
+
+**Estimável:** Escopo claro envolvendo gravação e anexação de áudio    
+
+**Pequena:** Funcionalidade focada apenas no envio de áudio   
+
+**Testável:** Possível testar gravação, salvamento e reprodução do áudio
 
 
 Campo | Descrição
