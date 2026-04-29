@@ -41,10 +41,15 @@
 
 # <a name="c1"></a>1. Introdução (sprints 1 a 5)
 
-O agronegócio ocupa um papel central na economia brasileira, não apenas pela produção de alimentos, mas também por gerar empregos e desenvolvimento de diversas regiões do país. Nesse contexto, a pecuária exige organização e supervisão constantes das operações, principalmente no monitoramento das atividades de campo e da movimentação do rebanho, que afetam diretamente a produtividade e a tomada de decisões.
-A BrPec Agropecuária S.A, incluída nesse cenário, enfrenta desafios na gestão e no fluxo de informações entre o campo e o escritório. Atualmente, o registro de atividades e das movimentações do rebanho é feito de forma manual, em papel, o que demanda tempo e trabalho dobrado, pois é necessário reescrever em planilhas digitais. Além disso, a falta de conexão com a internet nas áreas operacionais piora essa situação.
-Para resolver esse problema, nós desenvolvemos uma aplicação web permitindo que as equipes de campo possam digitalizar o gerenciamento das atividades e o registro das movimentações do rebanho. Além disso, essa solução foi projetada para funcionar offline, permitindo que os dados sejam registrados diretamente no campo e sincronizados posteriormente, quando houver acesso à internet.
-O software centraliza e padroniza as informações, reduz falhas humanas e melhora a comunicação entre gerentes, capatazes e coordenadores. Dessa maneira, ele contribui para uma operação mais eficiente, organizada e alinhada às necessidades do cliente, mesmo em uma área com baixa conectividade.
+O agronegócio brasileiro desempenha papel central na economia nacional, sendo responsável pela significativa geração de empregos e pela produção de alimentos em larga escala(CEPEA, 2023). Nesse contexto, a pecuária demanda elevado nível de controle operacional, especialmente no registro de atividades de campo e na gestão da movimentação do rebanho, fatores diretamente relacionados à produtividade e à qualidade da tomada de decisão.
+
+No cenário da BrPec Agropecuária S.A., identificou-se que o fluxo de informações entre o campo e o escritório ocorre de forma manual, por meio de anotações em boletas de papel. Esse modelo gera ineficiências operacionais relevantes: registros podem ser preenchidos de forma incompleta ou ilegível, há atraso no envio das informações até o escritório e torna-se necessário redigitar todos os dados em planilhas digitais. Como consequência, ocorrem retrabalho, risco de erros na consolidação dos dados e atrasos que podem comprometer a visibilidade das operações por horas ou até dias, impactando diretamente a tomada de decisão dos gestores.  
+
+Além disso, a limitação de conectividade nas áreas operacionais impede o uso contínuo de soluções digitais convencionais, dificultando ainda mais a padronização e a confiabilidade das informações registradas no campo.
+Diante desse contexto, foi proposta a construção de uma aplicação web capaz de digitalizar o gerenciamento de tarefas e o registro das movimentações do rebanho, com funcionamento offline. A solução permite que os dados sejam coletados diretamente no campo e sincronizados automaticamente quando houver conexão com a internet.
+
+Como principal criação de valor, o sistema promove a padronização dos registros, elimina a necessidade de redigitação manual, reduz erros operacionais e melhora a rastreabilidade das informações. Dessa forma, possibilita maior agilidade na atualização dos dados, aumenta a transparência das operações e apoia a tomada de decisão dos gestores, alinhando-se às necessidades reais da BrPec.
+
 
 # <a name="c2"></a>2. Visão Geral da Aplicação Web (sprint 1)
 
@@ -969,11 +974,14 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 
 _Incluir as principais referências de seu projeto, para que seu parceiro possa consultar caso ele se interessar em aprofundar. Um exemplo de referência de livro e de site:_<br>
 
+CEPEA. PIB do Agronegócio Brasileiro. Disponível em: https://www.cepea.esalq.usp.br. Acesso em: 29 abr. 2026.
+
 LUCK, Heloisa. Liderança em gestão escolar. 4. ed. Petrópolis: Vozes, 2010. <br>
 SOBRENOME, Nome. Título do livro: subtítulo do livro. Edição. Cidade de publicação: Nome da editora, Ano de publicação. <br>
 
 INTELI. Adalove. Disponível em: https://adalove.inteli.edu.br/feed. Acesso em: 1 out. 2023 <br>
 SOBRENOME, Nome. Título do site. Disponível em: link do site. Acesso em: Dia Mês Ano
+
 
 # <a name="c9"></a>Anexos
 
