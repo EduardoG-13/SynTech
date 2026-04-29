@@ -184,7 +184,7 @@ Nesse contexto, a figura a seguir apresenta a matriz de riscos elaborada para o 
 
 
 <center>
-  <img src="../assets/matrizDeRisco.png" width="800"/>
+  <img src="../assets/matriz-de-risco-BrPec.png" width="800"/>
   <p><strong>Figura 3</strong> — Matriz De Risco aplicada à BrPec Agropecuária<br/>
   Fonte: Próprios autores (2026).</p>
 </center>
