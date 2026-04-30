@@ -39,14 +39,48 @@
 
 # <a name="c1"></a>1. Introdução (sprints 1 a 5)
 
-O agronegócio brasileiro desempenha papel central na economia nacional, sendo responsável pela significativa geração de empregos e pela produção de alimentos em larga escala(CEPEA, 2023). Nesse contexto, a pecuária demanda elevado nível de controle operacional, especialmente no registro de atividades de campo e na gestão da movimentação do rebanho, fatores diretamente relacionados à produtividade e à qualidade da tomada de decisão.
+O agronegócio brasileiro desempenha papel central na economia nacional, sendo responsável 
+por aproximadamente 25% do PIB e pela geração de empregos em larga escala, especialmente 
+em regiões de interior (CEPEA, 2023). Nesse contexto, a pecuária demanda elevado nível de 
+controle operacional, especialmente no registro de atividades de campo e na gestão da 
+movimentação do rebanho, fatores diretamente relacionados à produtividade e à qualidade 
+da tomada de decisão.
 
-No cenário da BrPec Agropecuária S.A., identificou-se que o fluxo de informações entre o campo e o escritório ocorre de forma manual, por meio de anotações em boletas de papel. Esse modelo gera ineficiências operacionais relevantes: registros podem ser preenchidos de forma incompleta ou ilegível, há atraso no envio das informações até o escritório e torna-se necessário redigitar todos os dados em planilhas digitais. Como consequência, ocorrem retrabalho, risco de erros na consolidação dos dados e atrasos que podem comprometer a visibilidade das operações por horas ou até dias, impactando diretamente a tomada de decisão dos gestores.  
+No cenário da BrPec Agropecuária S.A., empresa com 14 retiros operacionais distribuídos 
+na região do Pantanal sul-mato-grossense e aproximadamente 25 usuários operacionais, 
+identificou-se que o fluxo de informações entre o campo e o escritório ocorre de forma 
+inteiramente manual, por meio de anotações em boletas de papel. Esse modelo gera 
+ineficiências operacionais relevantes: registros são frequentemente preenchidos de forma 
+incompleta ou ilegível, agravado pelo fato de parte dos capatazes apresentar dificuldade 
+de leitura e escrita. Há, ainda, atraso significativo no envio das informações ao escritório 
+e torna-se necessário redigitar todos os dados em planilhas digitais. Como consequência, 
+ocorrem retrabalho, risco de erros na consolidação e atrasos que podem comprometer a 
+visibilidade das operações por horas ou até dias, impactando diretamente a tomada de 
+decisão dos gestores. Um exemplo concreto identificado no kickoff com o parceiro: boletas 
+de entrada e saída de animais frequentemente não coincidem, gerando inconsistências no 
+controle do rebanho.
 
-Além disso, a limitação de conectividade nas áreas operacionais impede o uso contínuo de soluções digitais convencionais, dificultando ainda mais a padronização e a confiabilidade das informações registradas no campo.
-Diante desse contexto, foi proposta a construção de uma aplicação web capaz de digitalizar o gerenciamento de tarefas e o registro das movimentações do rebanho, com funcionamento offline. A solução permite que os dados sejam coletados diretamente no campo e sincronizados automaticamente quando houver conexão com a internet.
+Além disso, a ausência de conectividade contínua nas áreas operacionais, com 
+sincronização disponível apenas pela manhã e à noite via Starlink nos retiros, impede o 
+uso de soluções digitais convencionais, dificultando ainda mais a padronização e a 
+confiabilidade das informações registradas. Atualmente, o WhatsApp é a principal 
+ferramenta de comunicação entre capatazes e gestores, o que evidencia tanto a familiaridade 
+dos usuários com dispositivos móveis quanto a ausência de um canal estruturado para o 
+fluxo de dados operacionais.
 
-Como principal criação de valor, o sistema promove a padronização dos registros, elimina a necessidade de redigitação manual, reduz erros operacionais e melhora a rastreabilidade das informações. Dessa forma, possibilita maior agilidade na atualização dos dados, aumenta a transparência das operações e apoia a tomada de decisão dos gestores, alinhando-se às necessidades reais da BrPec.
+Diante desse contexto, foi proposta a construção de uma aplicação web capaz de digitalizar 
+o gerenciamento de tarefas e o registro das movimentações do rebanho, contemplando 
+nascimentos, mortes, compras, vendas e transferências entre retiros, com funcionamento 
+offline obrigatório. A solução permite que os dados sejam coletados diretamente no campo, 
+por meio de celulares fornecidos pela própria BrPec, e sincronizados automaticamente quando 
+houver conexão com a internet.
+
+Como principal criação de valor, o sistema promove a padronização dos registros, elimina 
+a necessidade de redigitação manual, reduz erros operacionais e melhora a rastreabilidade 
+das informações. Dessa forma, possibilita maior agilidade na atualização dos dados, aumenta 
+a transparência das operações e apoia a tomada de decisão dos gestores, alinhando-se 
+às necessidades reais da BrPec e ao seu contexto operacional.
+
 
 
 # <a name="c2"></a>2. Visão Geral da Aplicação Web (sprint 1)
