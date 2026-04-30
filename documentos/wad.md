@@ -81,7 +81,9 @@ O poder de barganha dos clientes é alto. JBS e Minerva concentram o poder de co
 A ameaça de substitutos é moderada. No mercado doméstico — foco atual da BRPec —, frango e suíno competem diretamente com a carne bovina em custo-benefício, especialmente para consumidores sensíveis à variação de preço da arroba (CEPEA, 2023). Os principais fatores que amplificam essa ameaça são exógenos à operação: clima, variação do dólar e instabilidade geopolítica afetam diretamente o custo de produção e o preço final ao consumidor, tornando a carne bovina mais ou menos competitiva em relação às proteínas substitutas. No longo prazo, proteínas alternativas de base vegetal e carne cultivada representam ameaça crescente nos segmentos premium de exportação. A ameaça é contida no curto prazo, mas reforça a importância estratégica de consolidar rastreabilidade e conformidade ambiental como credenciais de acesso aos mercados de maior margem e menor exposição à substituição.
 
 
-Análise estrutural: A BrPec opera em setor com barreiras de entrada relevantes e integração vertical como diferencial, mas enfrenta forte pressão de canais de compra concentrados, alta rivalidade por escala e dependência de fornecedores especializados. O passivo ambiental representa risco estratégico: a empresa figura entre os maiores desmatadores do Pantanal segundo o Ibama (DE OLHO NOS RURALISTAS, 2020), podendo restringir o acesso aos segmentos de maior rentabilidade.
+#### Análise estrutural:
+
+ A BrPec opera em setor com barreiras de entrada relevantes e integração vertical como diferencial, mas enfrenta forte pressão de canais de compra concentrados, alta rivalidade por escala e dependência de fornecedores especializados. O passivo ambiental representa risco estratégico: a empresa figura entre os maiores desmatadores do Pantanal segundo o Ibama (DE OLHO NOS RURALISTAS, 2020), podendo restringir o acesso aos segmentos de maior rentabilidade.
 
 <center>
   <img src="../assets/porterForcas.png" width="800"/>
