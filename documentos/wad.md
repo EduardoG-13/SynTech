@@ -72,20 +72,16 @@ Ameaça de substitutos: A ameaça é moderada e crescente. No mercado interno, f
 Análise estrutural: A BrPec opera em setor com barreiras de entrada relevantes e integração vertical como diferencial, mas enfrenta forte pressão de canais de compra concentrados, alta rivalidade por escala e dependência de fornecedores especializados. O passivo ambiental representa risco estratégico: a empresa figura entre os maiores desmatadores do Pantanal segundo o Ibama (DE OLHO NOS RURALISTAS, 2020), podendo restringir o acesso aos segmentos de maior rentabilidade.
 
 <center>
+  <p><strong>Figura 1</strong> — Análise das 5 Forças de Porter aplicada à BrPec Agropecuária</p>
   <img src="../assets/porterForcas.png" width="800"/>
-  <p><strong>Figura 1</strong> — Análise das 5 Forças de Porter aplicada à BrPec Agropecuária<br/>
-  Fonte: Próprios autores (2026).</p>
+  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 ### 2.1.2. Análise SWOT da Instituição Parceira (sprint 1)
 
-A análise SWOT a seguir avalia o posicionamento estratégico da BRPec considerando seu ambiente interno — forças operacionais e financeiras e fraquezas estruturais e regulatórias — e fatores externos: oportunidades de mercado e ameaças setoriais. O contexto de análise é o agronegócio brasileiro de pecuária e grãos, especificamente o segmento de produção integrada em larga escala no Pantanal mato-grossense, caracterizado por crescente pressão ESG sobre crédito e certificações, restrições regulatórias à expansão de novas áreas e acirrada competição fundiária com players institucionalizados.
-
 A leitura integrada dos quadrantes revela que a principal vantagem competitiva sustentável da BRPec reside em sua escala fundiária no Pantanal e no modelo integrado grãos-pecuária, atributos que concorrentes de médio porte não replicam no curto prazo. Por outro lado, o passivo ambiental ativo representa não apenas uma fraqueza interna de compliance, mas um vetor de amplificação de ameaças externas: é simultaneamente a causa do risco de bloqueio ao mercado europeu via EUDR e do encarecimento do custo de capital frente a concorrentes com certificações ESG consolidadas — concentrando dois dos três riscos externos mapeados em uma única vulnerabilidade de origem interna. Essa sobreposição indica que a resolução do passivo ambiental não é apenas uma pauta regulatória, mas a condição estrutural para que a BRPec converta sua escala operacional em acesso real a mercados premium e crédito qualificado.
 
 ### 2.1.3. Solução (sprints 1 a 5)
-
-_Explique detalhadamente os seguintes aspectos (até 60 palavras por item):_
 
 1. Problema a ser resolvido
 2. Dados disponíveis (mencionar fonte e conteúdo; se não houver, indicar “não se aplica”)
@@ -169,24 +165,24 @@ O projeto será considerado bem-sucedido quando:
 A proposta de valor é uma declaração curta e objetiva que resume a essência da aplicação web: o que ela oferece, para quem e por que vale a pena jogar. Ela funciona como o núcleo de toda a visão do projeto, orientando decisões de design e comunicando de forma clara o diferencial do jogo antes de qualquer detalhe técnico ou mecânico ser apresentado.
 
 <center>
+  <p><strong>Figura 2</strong> — Canvas Proposta de Valor aplicada à BrPec Agropecuária</p>
   <img src="../assets/canvasPropostaDeValor.png" width="800"/>
-  <p><strong>Figura 2</strong> — Canvas Proposta de Valor aplicada à BrPec Agropecuária<br/>
-  Fonte: Próprios autores (2026).</p>
+  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 O canvas evidencia que a aplicação web resolve dores concretas dos Capatazes em campo — como a dependência de boletas de papel, a impossibilidade de usar soluções convencionais sem internet e a comunicação informal com o Gerente, garantindo que haja um maior controle pelos Capatazes. Os ganhos gerados, como a eliminação do retrabalho de transcrição, o registro ágil de eventos zootécnicos em poucos toques e a confirmação automática de tarefas com envio de evidências, se alinham diretamente às entregas do produto: formulários digitais de manejo bovino, sistema de alertas multimídia e exportação em Excel para o Coordenador. A proposta de valor da aplicação web, portanto, não se limita a digitalizar uma planilha existente, mas redefine o fluxo de informações entre o campo e o escritório — tornando os registros operacionais mais confiáveis, rastreáveis e acessíveis para toda a cadeia de gestão da fazenda.
 
 ### 2.1.5. Matriz de Riscos do Projeto (sprint 1)
 
-A matriz de riscos é uma ferramenta que permite identificar, analisar e priorizar ameaças e oportunidades de um projeto. A classificação é feita com base na probabilidade de ocorrência e no impacto, auxiliando na definição de ações para cada caso. Dessa forma, foi elaborada a matriz de riscos para o desenvolvimento da aplicação web da BrPec Agropecuária S.A, considerando seus principais desafios. 
+A matriz de riscos é uma ferramenta que permite identificar, analisar e priorizar ameaças e oportunidades de um projeto. A classificação é feita com base na probabilidade de ocorrência e no impacto, auxiliando na definição de ações para cada caso. Dessa forma, foi elaborada a matriz de riscos para o desenvolvimento da aplicação web da BrPec Agropecuária S.A, considerando seus principais desafios.
 
 Nesse contexto, a figura a seguir apresenta a matriz de riscos elaborada para o projeto, que usa como base os padrões da ISO 31000 e PMBOK(REVISTA DE GESTÃO E PROJETOS, 2013), na qual são organizadas as principais ameaças e oportunidades identificadas, considerando seus respectivos níveis de impacto e probabilidade. 
 
 
 <center>
+  <p><strong>Figura 3</strong> — Matriz De Risco aplicada à BrPec Agropecuária</p>
   <img src="../assets/matriz-de-risco-BrPec.png" width="800"/>
-  <p><strong>Figura 3</strong> — Matriz De Risco aplicada à BrPec Agropecuária<br/>
-  Fonte: Próprios autores (2026).</p>
+  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 ## Ameaças
@@ -326,9 +322,9 @@ Personas são, de forma resumida, representaçôes fictícia dos diferentes tipo
 ### Persona 1: João Pereira
 
 <center>
+  <p><strong>Figura 4</strong> — Persona 1: João Pereira (Gerente)</p>
   <img src="../assets/persona1.png" width="800"/>
-  <p><strong>Figura 4</strong> — Persona 1: João Pereira (Gerente) <br/>
-  Fonte: Próprios autores (2026).</p>
+  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 
@@ -408,9 +404,9 @@ João se comunica com supervisores e coordenadores frequentemente, mas essa comu
 ### Persona 2: Marcos Cesar Filho
 
 <center>
+  <p><strong>Figura 5</strong> — Persona 2: Marcos Cesar Filho (Coordenador)</p>
   <img src="../assets/persona2.png" width="800"/>
-  <p><strong>Figura 5</strong> — Persona 2: Marcos Cesar Filho (Coordenador)<br/>
-  Fonte: Próprios autores (2026).</p>
+  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 #### Informações:
@@ -482,9 +478,9 @@ Sua rotina começa organizando as boletas vindas dos capatazes. Assim, ele tenta
 ### Persona 3: Gabriel Galdino
 
 <center>
+  <p><strong>Figura 6</strong> — Persona 3: Gabriel Galdino (Capataz)</p>
   <img src="../assets/persona3.png" width="800"/>
-  <p><strong>Figura 5</strong> — Persona 3: Gabriel Galdino (Capataz) <br/>
-  Fonte: Próprios autores (2026).</p>
+  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 #### Informações: 
@@ -768,8 +764,6 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 
 ## 3.1. Requisitos do Sistema (sprints 1 a 5)
 
-_Esta seção formaliza o que o sistema deve fazer, sob quais regras e com quais qualidades. Atualize a cada sprint conforme os requisitos evoluem._
-
 ### 3.1.1. Requisitos Funcionais (sprint 1, refinar até sprint 5)
 
 | ID    | Descrição                                                                                                                                                  | Prioridade | Status    |
@@ -822,7 +816,7 @@ _Esta seção formaliza o que o sistema deve fazer, sob quais regras e com quais
 
 ### 3.1.3. Requisitos Não Funcionais — 8 Eixos ISO/IEC 25010 (sprints 1 a 5)
 
-Os Requisitos Não Funcionais (RNF) definem os critérios de qualidade da aplicação. Ou seja, eles não descrevem *o que* o sistema faz (as suas funcionalidades), mas sim *como* ele deve se comportar. Eles garantem que o software entregue tenha um bom desempenho, seja seguro, fácil de usar e não apresente falhas.
+Os Requisitos Não Funcionais (RNF) definem os critérios de qualidade da aplicação. Ou seja, eles não descrevem o que o sistema faz (as suas funcionalidades), mas sim como ele deve se comportar. Eles garantem que o software entregue tenha um bom desempenho, seja seguro, fácil de usar e não apresente falhas.
 
 No contexto do nosso projeto para a BrPec, esses requisitos são fundamentais, pois o sistema será operado no campo, muitas vezes sem internet, sob forte incidência solar e por usuários (como o Capataz) que necessitam de agilidade. Para garantir a qualidade da solução, nossos requisitos foram estruturados de acordo com os 8 eixos da norma ISO/IEC 25010, detalhados na tabela e explicados a seguir.
 
@@ -938,9 +932,9 @@ UC6 ..> UC5 : <<extend>>
 @enduml
 
 <center>
+  <p><strong>Figura 7</strong> — Diagrama de Caso De Uso aplicada à BrPec Agropecuária</p>
   <img src="../assets/diagramaDeUso.png" width="800"/>
-  <p><strong>Figura 6</strong> — Diagrama de Caso De Uso aplicada à BrPec Agropecuária<br/>
-  Fonte: Próprios autores (2026).</p>
+  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 ### 3.2.3. Diagrama de Classes do Domínio (sprint 2)
