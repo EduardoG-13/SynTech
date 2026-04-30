@@ -55,24 +55,38 @@ Como principal criação de valor, o sistema promove a padronização dos regist
 
 ### 2.1.1. Modelo de 5 Forças de Porter (sprint 1)
 
-O Modelo das 5 Forças de Porter foi aplicado para analisar a estrutura competitiva do setor agropecuário no qual a BrPec Agropecuária está inserida (PORTER, 2008), setor marcado por dependência de commodities, capital intensivo, pressão regulatória ambiental crescente.
+A análise das Cinco Forças de Porter é uma ferramenta estratégica utilizada para diagnosticar a atratividade e a competitividade de um setor econômico. Desenvolvido por Michael Porter, o modelo examina a interação entre a rivalidade dos concorrentes, a ameaça de novos entrantes, o poder de barganha de fornecedores e clientes, e a pressão de produtos substitutos. No contexto da BRPec, essa análise é fundamental para mapear as forças externas que moldam o agronegócio pecuário brasileiro, permitindo identificar onde residem as vulnerabilidades estruturais da empresa, quais diferenciais operacionais merecem ser desenvolvidos e como decisões de gestão, como a digitalização do controle de retiros, se conectam diretamente à capacidade de sustentar margens e acessar mercados de maior valor agregado.
 
-Rivalidade entre concorrentes: A rivalidade é alta. O mercado bovino e de grãos compete por escala, eficiência e acesso a canais de comercialização, dada a limitada diferenciação em commodities. A BrPec disputa com grupos integrados como Bom Futuro (MT), Jacarezinho, ligada a Marcos Molina da Marfrig, e Rio Vermelho (PA), além de fundos de investimento em terras (COMPRERURAL, 2024). Num ambiente de preços de mercado, eficiência de custo e volume são o campo de batalha (PORTER, 2008).
+#### Rivalidade entre concorrentes:
 
-Ameaça de novos entrantes: A ameaça é média a baixa. Operar em larga escala exige capital intensivo para aquisição de terras, infraestrutura e formação de rebanho, além de licenciamento ambiental complexo em biomas como Pantanal e Cerrado. Essas barreiras restringem a entrada de concorrentes de grande porte, embora fundos agropecuários nacionais e estrangeiros sustentem ameaça relevante no longo prazo (CASALE, 2024).
+A rivalidade no setor pecuário brasileiro é estruturalmente elevada. Por se tratar de um mercado de commodities, a diferenciação por produto é praticamente inviável, o boi gordo negociado com frigoríficos segue parâmetros zootécnicos padronizados, sem espaço para prêmio de marca do produtor. O campo de batalha real é a eficiência operacional e o custo por arroba produzida. A BRPec compete com grupos verticalmente integrados e de alta capitalização, como Bom Futuro (MT) e Rio Vermelho (PA), além de fundos de investimento em terras com horizonte de longo prazo (COMPRERURAL, 2024). Nesse cenário, a gestão digitalizada de 14 retiros com rastreabilidade de origem e destino, registro fotográfico georreferenciado e controle do ciclo completo do rebanho (bezerro → garrote → boi) representa um diferencial operacional relevante. Quem possui dado confiável decide melhor, produz com menor perda e responde mais rápido a variações de mercado. 
 
-Poder de barganha dos fornecedores: O poder é moderado. A BrPec depende de fertilizantes (Yara, Mosaic), defensivos e sementes (Bayer, BASF, Syngenta) e medicamentos veterinários (Zoetis, Boehringer Ingelheim), segmentos dominados por multinacionais com poder de precificação. A produção própria de soja e milho atenua parcialmente essa dependência (FEED&FOOD, 2024).
+#### Ameaça de novos entrantes:
 
-Poder de barganha dos clientes: O poder é alto. Os principais compradores JBS, Marfrig e Minerva Foods, operam em oligopsônio e pressionam os preços pagos por arroba (INFOMONEY, 2024). A concentração do lado comprador mantém o produtor em posição estruturalmente desfavorável, com margens sensíveis à política de compra desses grupos (REPÓRTER BRASIL, 2024).
+ A ameaça de novos entrantes é baixa no curto prazo. A formação de rebanho produtivo, a aquisição de terras em biomas como Pantanal e Cerrado, o licenciamento ambiental e a construção de infraestrutura física, 14 retiros, 130 casas distribuídas, currais e extensa malha de cercas exigem ciclos de investimento de 5 a 10 anos com capital intensivo imobilizado (CASALE, 2024). No médio prazo, a ameaça se torna moderada via capital financeiro: fundos agropecuários nacionais e estrangeiros têm ingressado no setor com modelos de arrendamento e gestão terceirizada, contornando parte das barreiras operacionais. A maturidade operacional da BRPec, fluxos padronizados de tarefas com priorização e validação, sincronização offline consolidada e controle multi-retiro representa uma barreira de replicação organizacional que novos entrantes dificilmente constroem no curto prazo, mesmo com capital disponível.
 
-Ameaça de substitutos: A ameaça é moderada e crescente. No mercado interno, frango e suíno competem com a carne bovina em custo-benefício (CEPEA, 2023). Externamente, o regulamento anti-desmatamento da União Europeia, em vigor a partir de 2026, restringe produtores com histórico ambiental negativo, limitando o acesso a mercados de maior valor agregado (REHAGRO, 2024).
 
-Análise estrutural: A BrPec opera em setor com barreiras de entrada relevantes e integração vertical como diferencial, mas enfrenta forte pressão de canais de compra concentrados, alta rivalidade por escala e dependência de fornecedores especializados. O passivo ambiental representa risco estratégico: a empresa figura entre os maiores desmatadores do Pantanal segundo o Ibama (DE OLHO NOS RURALISTAS, 2020), podendo restringir o acesso aos segmentos de maior rentabilidade.
+#### Poder de barganha dos fornecedores:
+
+ O poder de barganha dos fornecedores é moderado a alto. A BRPec depende de insumos agrícolas e veterinários fornecidos por multinacionais com forte capacidade de precificação, como Yara, Mosaic, Bayer, BASF e Zoetis. A produção própria de soja e milho para o trato do rebanho mitiga parcialmente essa dependência (FEED&FOOD, 2024). No plano tecnológico, a operação depende criticamente da Starlink para sincronização dos dados dos retiros praticamente monopolista em conectividade remota, com janelas restritas de manhã e noite que, se interrompidas, comprometem a integridade de todo o fluxo de registros. O fornecimento de mão de obra operacional representa outro vetor de dependência estrutural: o capataz é o único ponto de input do sistema em cada retiro, e a alta rotatividade característica do setor combinada ao baixo nível de instrução desse perfil, com alguns apresentando dificuldade de leitura significa que cada ciclo de substituição gera risco real de subnotificação de eventos críticos como mortes, movimentações e anomalias de estoque.
+
+#### Poder de barganha dos clientes: 
+
+O poder de barganha dos clientes é alto. JBS e Minerva concentram o poder de compra do mercado interno e pressionam sistematicamente o preço pago por arroba, mantendo o produtor em posição estruturalmente desfavorável (INFOMONEY, 2024). Com foco no mercado doméstico e logística restrita em regiões remotas, a BRPec tem acesso limitado a canais alternativos de comercialização. 
+
+#### Ameaça de substitutos:
+
+A ameaça de substitutos é moderada. No mercado doméstico, foco atual da BRPec, frango e suíno competem diretam  ente com a carne bovina em custo-benefício, especialmente para consumidores sensíveis à variação de preço da arroba (CEPEA, 2023). Os principais fatores que amplificam essa ameaça são exógenos à operação: clima, variação do dólar e instabilidade geopolítica afetam diretamente o custo de produção e o preço final ao consumidor, tornando a carne bovina mais ou menos competitiva em relação às proteínas substitutas. No longo prazo, proteínas alternativas de base vegetal e carne cultivada representam ameaça crescente nos segmentos premium de exportação. A ameaça é contida no curto prazo, mas reforça a importância estratégica de consolidar rastreabilidade e conformidade ambiental como credenciais de acesso aos mercados de maior margem e menor exposição à substituição.
+
+
+#### Análise estrutural:
+
+ A BrPec opera em setor com barreiras de entrada relevantes e integração vertical como diferencial, mas enfrenta forte pressão de canais de compra concentrados, alta rivalidade por escala e dependência de fornecedores especializados. O passivo ambiental representa risco estratégico: a empresa figura entre os maiores desmatadores do Pantanal segundo o Ibama (DE OLHO NOS RURALISTAS, 2020), podendo restringir o acesso aos segmentos de maior rentabilidade.
 
 <center>
-  <p><strong>Figura 1</strong> — Análise das 5 Forças de Porter aplicada à BrPec Agropecuária</p>
-  <img src="../assets/porterForcas.png" width="800"/>
-  <p>Fonte: Próprios autores (2026).</p>
+  <img src="../assets/5ForçasDePorter-BRPec.png" width="800"/>
+  <p><strong>Figura 1</strong> — Análise das 5 Forças de Porter aplicada à BRPec Agropecuária<br/>
+  Fonte: Próprios autores (2026).</p>
 </center>
 
 ### 2.1.2. Análise SWOT da Instituição Parceira (sprint 1)
