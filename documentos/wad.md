@@ -764,6 +764,16 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 
 ## 3.1. Requisitos do Sistema (sprints 1 a 5)
 
+O sistema a ser desenvolvido abrange a modernização do fluxo de informações operacionais e zootécnicas entre o campo e o escritório da fazenda BRPec. Atualmente, a comunicação de ordens de serviço e o registro de movimentações do rebanho dependem de processos manuais e anotações em papel (boletas), o que exige tempo para consolidação e redigitação em planilhas. O problema central é solucionado por meio de uma plataforma digital integrada, na qual o planejamento de tarefas e o reporte de eventos do rebanho (como nascimentos, óbitos e transferências) são registrados digitalmente na fonte, com suporte a operação offline. Com isso, os registros de campo são padronizados e a atualização do inventário pecuário é agilizada.
+
+**Atores e Responsabilidades**
+
+*   **Capatazes:** A aplicação é utilizada como ferramenta diária no campo, operando de modo offline. As tarefas designadas são visualizadas e o status é reportado mediante o envio de evidências (fotos, áudios e textos). Os eventos zootécnicos do retiro são registrados e alertas de infraestrutura são enviados aos gerentes.
+
+*   **Gerentes:** As atividades calendarizadas são criadas, editadas, deletadas e designadas aos capatazes. A evolução e o status das tarefas em campo, bem como os alertas reportados, são monitorados por meio de um painel de acompanhamento.
+
+*   **Coordenadores:** As informações e movimentações enviadas pelos capatazes são visualizadas e validadas. Os dados consolidados são exportados em formato de planilha (Excel/CSV) para a atualização dos controles centrais da empresa, eliminando a necessidade de redigitação manual.
+
 ### 3.1.1. Requisitos Funcionais (sprint 1, refinar até sprint 5)
 
 | ID    | Descrição                                                                                                                                                  | Prioridade | Status    |
