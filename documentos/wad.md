@@ -820,43 +820,56 @@ _Esta seção formaliza o que o sistema deve fazer, sob quais regras e com quais
 | RN26 | O sistema deve associar o alerta ao retiro selecionado pelo capataz | RF006 |
 | RN27 | O sistema deve permitir que o capataz registre o nascimento de bezerros de forma offline, informando: data, retiro, categoria e quantidade | RF006 |
 
-| ID   | Descrição                                                                                                  | RF associado        |
-| ---- | ---------------------------------------------------------------------------------------------------------- | ------------------- |
-| RN01 | Toda tarefa deve estar obrigatoriamente vinculada a um único retiro                                        | RF001               |
-| RN02 | Apenas tarefas do dia atual devem ser exibidas ao capataz                                                  | RF002               |
-| RN03 | As tarefas devem ser armazenadas localmente após sincronização                                             | RF003               |
-| RN04 | A mensagem exibida deve utilizar linguagem simples e direta                                                | RF004               |
-| RN05 | Apenas tarefas associadas ao retiro do capataz devem ser exibidas para ele.                                | RF002               |
-| RN06 | O sistema deve permitir visualização offline apenas de tarefas previamente sincronizadas                   | RF002               |
-| RN07 | As tarefas do dia devem ficar disponíveis offline quando houver sincronização prévia.                      | RF002               |
-| RN08 | A marcação de conclusão feita offline deve ser armazenada localmente até a próxima sincronização.          | RF003               |
-| RN09 | Uma tarefa concluída deve ter seu status atualizado para o gerente após sincronização.                     | RF003               |
-| RN10 | As fotos anexadas devem estar vinculadas à tarefa correspondente.                                          | RF004               |
-| RN11 | Fotos registradas offline devem ser enviadas ao sistema quando houver conexão.                             | RF004               |
-| RN12 | O painel do gerente deve exibir tarefas organizadas por retiro e por status.                               | RF007               |
-| RN13 | O painel deve apresentar informações atualizadas conforme a última sincronização disponível.               | RF007               |
-| RN14 | As telas destinadas ao capataz devem usar linguagem simples, botões visíveis e poucos passos de interação. | RF002, RF003, RF004 |
-| RN15 | Um registro de óbito só pode ser marcado como "sincronizado" e removido da fila local após o servidor retornar HTTP 200 ou 201 | RF010, RF012 |
-| RN16 | O formulário de óbito não pode ser salvo — online ou offline — se qualquer campo obrigatório (identificação, categoria, causa da morte ou data) estiver vazio | RF009, RF013 |
-| RN17 | A sincronização deve ser iniciada automaticamente ao detectar conexão, sem depender de nenhuma ação manual do capataz | RF010 |
-| RN18 | Em falha parcial de sincronização, apenas registros com HTTP 200/201 são marcados como enviados; os demais permanecem na fila e são reenviados sem duplicação | RF012 |
-| RN19 | Cada registro de óbito sincronizado deve ser vinculado ao retiro e ao capataz responsável, sendo imutável após confirmação do servidor | RF009, RF014 |
-| RN20 | Um registro de óbito só deve aparecer no painel do coordenador após sincronização bem-sucedida; registros em fila local são invisíveis para outros perfis | RF014 |
-
 ### 3.1.3. Requisitos Não Funcionais — 8 Eixos ISO/IEC 25010 (sprints 1 a 5)
 
-_Preencha os 8 eixos. Cada eixo deve ter ao menos um RNF verificável (com métrica, limite ou critério concreto) ou justificativa explícita de ausência. Evolua do conceitual (sprint 1) ao técnico mensurável (sprint 5)._
+Os Requisitos Não Funcionais (RNF) definem os critérios de qualidade da aplicação. Ou seja, eles não descrevem *o que* o sistema faz (as suas funcionalidades), mas sim *como* ele deve se comportar. Eles garantem que o software entregue tenha um bom desempenho, seja seguro, fácil de usar e não apresente falhas.
 
-| Eixo                     | Requisito | Métrica / Critério | Como atendido |
-|--------------------------|-----------|--------------------|---------------|
-| USAB - Usabilidade       | ...       | ...                | ...           |
-| CONF - Confiabilidade    | ...       | ...                | ...           |
-| DES - Desempenho         | ...       | p95 < X ms         | ...           |
-| SUP - Suportabilidade    | ...       | ...                | ...           |
-| SEG - Segurança          | ...       | ...                | ...           |
-| CAP - Capacidade         | ...       | ...                | ...           |
-| REST - Restrições Design | ...       | ...                | ...           |
-| ORG - Organizacionais    | ...       | ...                | ...           |
+No contexto do nosso projeto para a BrPec, esses requisitos são fundamentais, pois o sistema será operado no campo, muitas vezes sem internet, sob forte incidência solar e por usuários (como o Capataz) que necessitam de agilidade. Para garantir a qualidade da solução, nossos requisitos foram estruturados de acordo com os 8 eixos da norma ISO/IEC 25010, detalhados na tabela e explicados a seguir.
+
+| Eixo | Requisito | Métrica / Critério | Como atendido |
+|---|---|---|---|
+| USAB — Usabilidade | Facilidade de Operação em Campo | O Capataz deve registrar uma movimentação (nascimento/morte) em no máximo 4 cliques/toques. | Interface com botões grandes (&gt;44px), alto contraste para leitura sob sol e fluxo de formulário simplificado. |
+| CONF — Confiabilidade | Integridade da Sincronização | 0% de perda de dados em falhas de conexão durante o envio de registros para o servidor. | Uso de Service Workers e persistência local no SQLite/IndexedDB antes de tentar o upload (estratégia Offline-first). |
+| DES — Desempenho | Tempo de Resposta Local | Latência p95 &lt; 200 ms para salvar registros no banco de dados local do dispositivo. | Processamento assíncrono no JavaScript e banco de dados SQLite otimizado com indexação por ID de animal. |
+| SUP — Suportabilidade (Manutenibilidade) | Facilidade de Atualização | O tempo médio de reparo (MTTR) de um bug crítico na lógica de negócio não deve exceder 8 horas. | Código modular em Node.js com separação clara entre rotas de API e controladores de persistência. |
+| SEG — Segurança | Rastreabilidade de Ações | 100% dos registros devem conter metadados de autoria (ID do perfil) e timestamp não editável. | Injeção automática de log de auditoria no backend para cada transação enviada ao banco de dados. |
+| CAP — Capacidade (Adequação Funcional) | Volume de Dados Sincronizados | O sistema deve suportar a sincronização em lote de até 500 eventos pendentes em um único ciclo. | Implementação de chunking (divisão em pedaços) no envio de dados para evitar timeout em conexões 3G oscilantes. |
+| REST — Restrições Design (Portabilidade) | Adaptabilidade de Dispositivo | A aplicação deve manter 100% da funcionalidade em telas de 5" a 12" (celular a tablet). | Design Responsivo (Mobile-first) utilizando CSS Flexbox/Grid e suporte a modo PWA. |
+| ORG — Organizacionais (Compatibilidade) | Conformidade de Exportação | Os arquivos gerados devem ser validados pelo esquema RFC 4180 (CSV) para leitura em Excel/BI. | Biblioteca de exportação de dados configurada para padrão Windows-1252 (comum no agronegócio para evitar erros de acentuação). |
+
+#### Detalhamento e Contextualização dos Eixos
+
+**1. Usabilidade (Facilidade de Uso)**
+* **O que é:** Garantir que o sistema não seja um "bicho de sete cabeças" para quem está no trecho.
+* **Explicação:** O aplicativo tem que ser mais rápido e fácil que a boleta de papel. Se o Capataz precisar de mais de 4 toques na tela para registrar que um bezerro nasceu, o sistema falhou. Criamos botões grandes e cores fortes para que, mesmo debaixo de sol forte ou com o celular sujo, ele consiga resolver a vida dele rápido e voltar para o gado.
+
+**2. Confiabilidade (Segurança de que funciona)**
+* **O que é:** O dado não pode sumir se a internet cair.
+* **Explicação:** Sabe quando você manda um WhatsApp e ele fica com aquele 'reloginho' porque não tem sinal? O nosso sistema faz algo parecido, mas ele salva tudo dentro do celular primeiro. Se o sinal cair na hora de enviar, o dado fica guardado em uma 'caixinha segura' no aparelho e sobe sozinho assim que o celular ver o Wi-Fi da sede. Nada se perde.
+
+**3. Desempenho (Velocidade)**
+* **O que é:** O sistema não pode ficar "travando" ou "pensando".
+* **Explicação:** Ninguém tem paciência para ficar olhando para uma tela carregando no meio do curral. A regra aqui é: clicou, salvou. O tempo que o celular leva para processar uma informação tem que ser instantâneo (menos de meio segundo), para não atrasar o manejo.
+
+**4. Suportabilidade (Conserto Rápido)**
+* **O que é:** Se der problema, tem que ser fácil de arrumar.
+* **Explicação:** Montamos o software como se fosse um trator modular: se uma peça quebra, a gente troca só aquela peça sem precisar desmontar o motor inteiro. Se aparecer um erro, conseguimos consertar e devolver o sistema funcionando no mesmo dia.
+
+**5. Segurança (Quem fez o quê?)**
+* **O que é:** Saber a origem da informação.
+* **Explicação:** Para evitar confusão ou erro de digitação, o sistema carimba automaticamente quem enviou a informação e que horas isso aconteceu. Se o Coordenador vir um erro no escritório, ele sabe exatamente com quem falar para tirar a dúvida, sem precisar investigar 'quem escreveu esse papel'.
+
+**6. Capacidade (Aguentar o tranco)**
+* **O que é:** Suportar muita informação de uma vez.
+* **Explicação:** Imagina que o Capataz ficou a semana toda sem internet e acumulou 300 registros. O sistema foi feito para 'engolir' tudo isso de uma vez só quando chegar na sede, sem travar o servidor ou dar erro de sistema cheio.
+
+**7. Restrições de Design (Funcionar em qualquer celular)**
+* **O que é:** Não importa o aparelho, o sistema se adapta.
+* **Explicação:** Não importa se o funcionário usa um tablet moderno ou um celular mais simples e antigo. O sistema 'estica e encolhe' para caber na tela de um jeito que a letra continue legível e os botões continuem no lugar certo.
+
+**8. Organizacionais (Conversar com o Excel)**
+* **O que é:** O dado tem que chegar pronto para o Coordenador usar.
+* **Explicação:** O objetivo final é matar o trabalho de ter que digitar tudo de novo no computador. O sistema já entrega os dados 'mastigados' no formato que o Excel entende. É só clicar em exportar e a planilha está pronta, sem erro de português ou número trocado.
 
 ### 3.1.4. Matriz RF → RN → Endpoint (sprints 3 a 5)
 
