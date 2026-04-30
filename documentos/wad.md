@@ -2,8 +2,6 @@
 
 # WAD - Web Application Document - Módulo 2 - Inteli
 
-**_Os trechos em itálico servem apenas como guia para o preenchimento da seção. Por esse motivo, não devem fazer parte da documentação final_**
-
 ## Nome do Grupo
 
 #### Nomes dos integrantes do grupo
@@ -78,18 +76,16 @@ Análise estrutural: A BrPec opera em setor com barreiras de entrada relevantes 
 </center>
 
 ### 2.1.2. Análise SWOT da Instituição Parceira (sprint 1)
+A análise SWOT a seguir avalia o posicionamento estratégico da BRPec considerando seu ambiente interno — forças operacionais e financeiras e fraquezas estruturais e regulatórias — e fatores externos: oportunidades de mercado e ameaças setoriais. O contexto de análise é o agronegócio brasileiro de pecuária e grãos, especificamente o segmento de produção integrada em larga escala no Pantanal mato-grossense, caracterizado por crescente pressão ESG sobre crédito e certificações, restrições regulatórias à expansão de novas áreas e acirrada competição fundiária com players institucionalizados.
+<center>
+  <p><strong>Figura 2</strong> — Analise SWOT</p>
+  <img src="../assets/analiseSWOT.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 A leitura integrada dos quadrantes revela que a principal vantagem competitiva sustentável da BRPec reside em sua escala fundiária no Pantanal e no modelo integrado grãos-pecuária, atributos que concorrentes de médio porte não replicam no curto prazo. Por outro lado, o passivo ambiental ativo representa não apenas uma fraqueza interna de compliance, mas um vetor de amplificação de ameaças externas: é simultaneamente a causa do risco de bloqueio ao mercado europeu via EUDR e do encarecimento do custo de capital frente a concorrentes com certificações ESG consolidadas — concentrando dois dos três riscos externos mapeados em uma única vulnerabilidade de origem interna. Essa sobreposição indica que a resolução do passivo ambiental não é apenas uma pauta regulatória, mas a condição estrutural para que a BRPec converta sua escala operacional em acesso real a mercados premium e crédito qualificado.
 
 ### 2.1.3. Solução (sprints 1 a 5)
-
-1. Problema a ser resolvido
-2. Dados disponíveis (mencionar fonte e conteúdo; se não houver, indicar “não se aplica”)
-3. Solução proposta
-4. Forma de utilização da solução
-5. Benefícios esperados
-6. Critério de sucesso e como será avaliado
-
 #### 1. Definição do Problema
 
 A BRPec depende atualmente de processos manuais e anotações em papel (boletas) para comunicar ordens de serviço entre o campo e o escritório, além de registrar movimentações do rebanho (nascimentos, óbitos e transferências). Isso gera retrabalho na consolidação dos dados, redigitação em planilhas eletrônicas e atraso na visibilidade das informações operacionais.
@@ -146,26 +142,12 @@ O projeto será considerado bem-sucedido quando:
 - A exportação de dados em Excel/CSV gerar arquivos utilizáveis pelos Coordenadores sem necessidade de redigitação
 - Os registros de campo eliminarem o uso de boletas de papel no dia a dia
 
----
-
-#### 7. Alinhamento com SWOT e Canvas
-
-> ⚠️ **Nota:** Esta seção deve ser revisada e complementada pelo grupo após a elaboração da Análise SWOT e do Business Model Canvas do projeto.
-
-#### Alinhamento com a Análise SWOT
-
-- **SWOT:** Os pontos levantados na análise devem refletir os problemas (fraquezas/ameaças) e oportunidades descritos na TAPI
-
-#### Alinhamento com o Business Model Canvas
-
-- **Canvas:** O bloco de "Proposta de Valor" deve estar coerente com os benefícios esperados; "Segmentos de Clientes" com os atores; "Canais" com a interface web/offline
-
 ### 2.1.4. Value Proposition Canvas (sprint 1):
 
 A proposta de valor é uma declaração curta e objetiva que resume a essência da aplicação web: o que ela oferece, para quem e por que vale a pena jogar. Ela funciona como o núcleo de toda a visão do projeto, orientando decisões de design e comunicando de forma clara o diferencial do jogo antes de qualquer detalhe técnico ou mecânico ser apresentado.
 
 <center>
-  <p><strong>Figura 2</strong> — Canvas Proposta de Valor aplicada à BrPec Agropecuária</p>
+  <p><strong>Figura 3</strong> — Canvas Proposta de Valor aplicada à BrPec Agropecuária</p>
   <img src="../assets/canvasPropostaDeValor.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -180,7 +162,7 @@ Nesse contexto, a figura a seguir apresenta a matriz de riscos elaborada para o 
 
 
 <center>
-  <p><strong>Figura 3</strong> — Matriz De Risco aplicada à BrPec Agropecuária</p>
+  <p><strong>Figura 4</strong> — Matriz De Risco aplicada à BrPec Agropecuária</p>
   <img src="../assets/matriz-de-risco-BrPec.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -322,7 +304,7 @@ Personas são, de forma resumida, representaçôes fictícia dos diferentes tipo
 ### Persona 1: João Pereira
 
 <center>
-  <p><strong>Figura 4</strong> — Persona 1: João Pereira (Gerente)</p>
+  <p><strong>Figura 5</strong> — Persona 1: João Pereira (Gerente)</p>
   <img src="../assets/persona1.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -367,12 +349,20 @@ Conseguir manter sua família e garantir educação para seus filhos. Além diss
 
 #### Familiaridade com Tecnologia [2]
 
+<center>
+  <p><strong>Tabela 1</strong> — Familiaridade com Tecnologia (João Pereira)</p>
+</center>
+
 | Aspecto   | Nível / Situação    |
 |-------------------|---------------------------------|
 | Smartphone | Intermediate (DigComp) - uso ativo de WhatsApp, e-mail, chamadas de trabalho e outros   |
 | Aplicativos de gestão | Basic (DigComp) - uso limitado, sem experiência com sistemas ERP ou dashboards |
 | Planilhas e formulários | Intermediate (DigComp) - utiliza planilhas para acompanhar as atividades |
 | Sistemas web  | Basic (DigComp) - acessa portais e e-mail, sem uso de plataformas integradas  |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 Informações extras:
 - Conectividade: Boa - trabalha em escritório com acesso estável à internet;
@@ -404,7 +394,7 @@ João se comunica com supervisores e coordenadores frequentemente, mas essa comu
 ### Persona 2: Marcos Cesar Filho
 
 <center>
-  <p><strong>Figura 5</strong> — Persona 2: Marcos Cesar Filho (Coordenador)</p>
+  <p><strong>Figura 6</strong> — Persona 2: Marcos Cesar Filho (Coordenador)</p>
   <img src="../assets/persona2.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -446,12 +436,20 @@ Crescer profissionalmente dentro do agronegócio e ser reconhecido pela precisã
 
 #### Familiaridade com Tecnologia [2]:
 
+<center>
+  <p><strong>Tabela 2</strong> — Familiaridade com Tecnologia (Marcos Cesar Filho)</p>
+</center>
+
 | Aspecto | Nível / Situação  |
 |---------------------------|-------------------------------|
 | Smartphone | Intermediate (DigComp) - uso ativo de WhatsApp, e-mail e câmera no trabalho   |
 | Aplicativos de gestão  | Basic (DigComp) - sem experiência com sistemas ERP ou plataformas operacionais  |
 | Planilhas e formulários   | Intermediate (DigComp) - usa Excel para consolidação manual de dados de campo |
 | Sistemas web  | Basic (DigComp) - acessa e-mail e portais simples, sem dashboards ou sistemas  |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 **Informações extras:**
 - Conectividade: Boa, trabalha em ambiente de escritório com acesso à internet;
@@ -478,7 +476,7 @@ Sua rotina começa organizando as boletas vindas dos capatazes. Assim, ele tenta
 ### Persona 3: Gabriel Galdino
 
 <center>
-  <p><strong>Figura 6</strong> — Persona 3: Gabriel Galdino (Capataz)</p>
+  <p><strong>Figura 7</strong> — Persona 3: Gabriel Galdino (Capataz)</p>
   <img src="../assets/persona3.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -530,12 +528,20 @@ Garantir o sustento da família e proporcionar uma boa vida para os filhos. Quer
 
 #### Familiaridade com Tecnologia [4]
 
+<center>
+  <p><strong>Tabela 3</strong> — Familiaridade com Tecnologia (Gabriel Galdino)</p>
+</center>
+
 | Aspecto            | Nível / Situação       |
 |---------------------------|-----------------------------------------------------|
 | Smartphone      | Basic (DigComp) - uso restrito a ligações e WhatsApp       |
 | Aplicativos de gestão   | Abaixo do Basic - sem experiência com apps de controle de tarefas ou relatórios |
 | Planilhas e formulários  | Abaixo do Basic - registro em planilhas é feito por outros a partir de suas anotações |
 | Sistemas web ou digitais  | Abaixo do Basic - boletas são físicas e comunicação é verbal |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 Informações extras:
 - Conectividade no campo: Instável ou ausente - sinal de internet limitado ou inexistente nos retiros;
@@ -568,6 +574,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 
 ## 2.3. User Stories (sprints 1 a 5)
 
+<center>
+  <p><strong>Quadro 1</strong> — User Story 01</p>
+</center>
+
 | Campo | Descrição |
 | ----- | ----- |
 | **Identificação** | US01 |
@@ -575,6 +585,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 | **User Story** | Como gerente geral, posso criar tarefas e atribuí-las a um retiro específico para organizar a rotina diária da equipe de campo e garantir que o planejamento seja executado corretamente |
 | **Critério de Aceite 1** | CR1: Dado que João acessa o sistema, quando cria uma tarefa e seleciona um retiro, então a tarefa deve ser salva corretamente vinculada ao retiro |
 | **Critério de Aceite 2** | CR2: Dado que a tarefa foi criada, quando o sistema sincronizar, então ela deve ficar disponível para os capatazes responsáveis pelo retiro |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ### Critérios INVEST
 
@@ -590,6 +604,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 
 **Testável:** Possível validar criação e vínculo com retiro
 
+<center>
+  <p><strong>Quadro 2</strong> — User Story 02</p>
+</center>
+
 | Campo | Descrição |
 | ----- | ----- |
 | **Identificação** | US02 |
@@ -598,6 +616,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 | **Critério de Aceite 1** | CR1: Dado que as tarefas foram previamente sincronizadas, quando Gabriel estiver sem internet, então deve conseguir visualizar a lista de tarefas do dia |
 | **Critério de Aceite 2** | CR2: Dado que não há tarefas sincronizadas, quando acessar offline, então o sistema deve exibir uma mensagem simples informando ausência de tarefas |
 | **Critério de Aceite 3** | CR3: Dado que Gabriel acessa as tarefas, quando exibidas, então devem estar organizadas de forma simples e de fácil entendimento |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ### Critérios INVEST
 
@@ -615,6 +637,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 
 ---
 
+<center>
+  <p><strong>Quadro 3</strong> — User Story 03</p>
+</center>
+
 | Campo | Descrição |
 | ----- | ----- |
 | **Identificação** | US03 |
@@ -623,6 +649,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 | **Critério de Aceite 1** | CR1: Dado que Gabriel visualiza uma tarefa, quando marcar como concluída, então o status da tarefa deve ser atualizado no sistema |
 | **Critério de Aceite 2** | CR2: Dado que a tarefa foi marcada como concluída offline, quando o dispositivo sincronizar, então o status deve ser atualizado para o gerente |
 | **Critério de Aceite 3** | CR3: Dado que Gabriel interage com a tarefa, quando marcar como concluída, então a ação deve ser simples, com botão visível e de fácil entendimento |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ### Critérios INVEST
 
@@ -640,6 +670,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 
 ---
 
+<center>
+  <p><strong>Quadro 4</strong> — User Story 04</p>
+</center>
+
 | Campo | Descrição |
 | ----- | ----- |
 | **Identificação** | US04 |
@@ -648,6 +682,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 | **Critério de Aceite 1** | CR1: Dado que Gabriel conclui uma tarefa, quando anexar uma foto, então ela deve ser associada corretamente à tarefa |
 | **Critério de Aceite 2** | CR2: Dado que a foto foi registrada offline, quando o dispositivo sincronizar, então a imagem deve ser enviada ao sistema |
 | **Critério de Aceite 3** | CR3: Dado que Gabriel utiliza a funcionalidade, quando anexar a foto, então o processo deve ser simples e intuitivo |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ### Critérios INVEST
 
@@ -665,6 +703,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 
 ---
 
+<center>
+  <p><strong>Quadro 5</strong> — User Story 05</p>
+</center>
+
 | Campo | Descrição |
 | ----- | ----- |
 | **Identificação** | US05 |
@@ -673,6 +715,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 | **Critério de Aceite 1** | CR1: Dado que Gabriel está visualizando uma tarefa, quando clicar na opção de gravar áudio, então o sistema deve permitir iniciar a gravação |
 | **Critério de Aceite 2** | CR2: Dado que a gravação foi finalizada, quando salvar, então o áudio deve ser anexado corretamente à tarefa |
 | **Critério de Aceite 3** | CR3: Dado que o áudio foi anexado, quando o supervisor acessar a tarefa, então deve conseguir reproduzir o áudio |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ### Critérios INVEST
 
@@ -690,6 +736,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 
 ---
 
+<center>
+  <p><strong>Quadro 6</strong> — User Story 06</p>
+</center>
+
 | Campo | Descrição |
 | ----- | ----- |
 | **Identificação** | US06 |
@@ -700,7 +750,15 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 | **Critério de Aceite 3** | CR3: Dado que o alerta é enviado, então o sistema deve registrar automaticamente a localização (GPS) |
 | **Critério de Aceite 4** | CR4: Dado que o alerta foi criado, quando o supervisor acessar o sistema, então deve visualizar o novo chamado |
 
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 ---
+
+<center>
+  <p><strong>Quadro 7</strong> — User Story 07</p>
+</center>
 
 | Campo | Descrição |
 | ----- | ----- |
@@ -711,7 +769,15 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 | **Critério de Aceite 2** | CR2: Dado que um ou mais capatazes enviaram alertas ao gerente, quando João visualiza o painel, então os alertas aparecem em seção destacada, com identificação do capataz, do retiro e da data/hora de envio, ordenados do mais recente ao mais antigo |
 | **Critério de Aceite 3** | CR3: Dado que um usuário com perfil diferente de gerente tenta acessar o painel de acompanhamento, quando a requisição é feita, então o sistema nega o acesso e redireciona para a interface correspondente ao seu perfil |
 
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 ---
+
+<center>
+  <p><strong>Quadro 8</strong> — User Story 08</p>
+</center>
 
 | Campo | Descrição |
 | ----- | ----- |
@@ -723,7 +789,15 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 | **Critério de Aceite 3** | CR3: Dado que Gabriel tenta salvar um registro de nascimento sem preencher todos os campos obrigatórios, quando ele tenta confirmar o formulário, então o sistema exibe uma mensagem indicando quais campos estão incompletos e não permite o salvamento do registro |
 | **Critérios INVEST** | Não se aplica (US08 é de prioridade secundária). |
 
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 ---
+
+<center>
+  <p><strong>Quadro 9</strong> — User Story 09</p>
+</center>
 
 | Campo                    | Descrição                                                                                                                                                                                                                                                   |
 | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -731,21 +805,7 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 | **Persona**              | Gabriel Galdino (Capataz)                                                                                                                                                                                                                                  |
 | **User Story**           | Como capataz, posso registrar a morte de um animal offline para reportar rapidamente a baixa ao coordenador, garantindo que nenhuma informação se perca mesmo sem conexão disponível no campo.                                                             |
 | **Critério de Aceite 1** | CR1: Dado que Gabriel está sem conexão Starlink no momento do óbito, quando ele preenche os campos obrigatórios do formulário de morte (identificação do animal, categoria, causa e data) e confirma, então o sistema deve salvar o registro localmente no dispositivo e exibir a mensagem "Registro salvo. Será enviado quando houver conexão" |
-
-### Critérios INVEST
-
-**Independente:** Pode ser registrado separadamente sem depender de outras funcionalidades
-
-**Negociável:** Campos e estrutura do formulário podem ser refinados com cliente
-
-**Valorosa:** Garante que óbitos não sejam perdidos mesmo offline
-
-**Estimável:** Escopo claro (formulário + salvamento local + sincronização)
-
-**Pequena:** Foco no registro da morte do animal
-
-**Testável:** Possível validar salvamento offline e sincronização posterior
-
+| **Critérios INVEST** | Não se aplica (US10 é de prioridade secundária). |
 ---
 
 | Campo | Descrição |
@@ -757,6 +817,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 | **Critério de Aceite 2** | CR2: Dado que o capataz esteja sem conexão com a internet, quando anexar a foto ao registro de óbito, então o sistema deve armazenar a imagem localmente para sincronização posterior. |
 | **Critério de Aceite 3** | CR3: Dado que o registro de óbito foi sincronizado com sucesso, quando o gerente ou coordenador acessar o sistema, então a foto anexada deve estar vinculada ao respectivo registro para consulta e auditoria. |
 | **Critérios INVEST** | Não se aplica (US10 é de prioridade secundária). |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ---
 
@@ -776,6 +840,12 @@ O sistema a ser desenvolvido abrange a modernização do fluxo de informações 
 
 ### 3.1.1. Requisitos Funcionais (sprint 1, refinar até sprint 5)
 
+Os Requisitos Funcionais (RF) determinam a competência computacional e os serviços intrínsecos que devem compor a governança operacional do sistema modelado. A especificação formal destas asserções delineia a delimitação funcional entre dados, entrada, transformação interativa e respostas previstas frente aos perfis autorizados de acesso.
+
+<center>
+  <p><strong>Tabela 4</strong> — Requisitos Funcionais</p>
+</center>
+
 | ID    | Descrição                                                                                                                                                  | Prioridade | Status    |
 | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------- |
 | RF001 | O sistema deve permitir que o gerente crie tarefas e as associe a um retiro específico                                                                     | Alta       | Planejado |
@@ -793,7 +863,17 @@ O sistema a ser desenvolvido abrange a modernização do fluxo de informações 
 | RF013 | O sistema deve validar o preenchimento dos campos obrigatórios do formulário de óbito (identificação do animal, categoria, causa da morte e data) antes de permitir o salvamento local, bloqueando o registro incompleto e sinalizando visualmente os campos faltante | Alta  | Planejado    |
 | RF014 | Após a sincronização, o sistema deve disponibilizar automaticamente o registro de óbito no painel do coordenador, vinculado ao retiro do capataz que realizou o lançamento | Média | Planejado    |
 
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 ### 3.1.2. Regras de Negócio (sprint 1, refinar até sprint 5)
+
+As Regras de Negócio (RN) balizam as lógicas limitantes, condições contingenciais e políticas mandatórias herdadas das rotinas produtivas e normativas da instituição parceira. A formalização axiomática das regras impõe que a instrumentação sistêmica, embora escalável em seu código subjacente, reproduza em escopo fechado a exatidão empírica da governança operacional do manejo bovino atual.
+
+<center>
+  <p><strong>Tabela 5</strong> — Regras de Negócio</p>
+</center>
 
 | ID   | Descrição | RF associado |
 |------|------|------|
@@ -824,11 +904,19 @@ O sistema a ser desenvolvido abrange a modernização do fluxo de informações 
 | RN26 | O sistema deve associar o alerta ao retiro selecionado pelo capataz | RF006 |
 | RN27 | O sistema deve permitir que o capataz registre o nascimento de bezerros de forma offline, informando: data, retiro, categoria e quantidade | RF006 |
 
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 ### 3.1.3. Requisitos Não Funcionais — 8 Eixos ISO/IEC 25010 (sprints 1 a 5)
 
 Os Requisitos Não Funcionais (RNF) definem os critérios de qualidade da aplicação. Ou seja, eles não descrevem o que o sistema faz (as suas funcionalidades), mas sim como ele deve se comportar. Eles garantem que o software entregue tenha um bom desempenho, seja seguro, fácil de usar e não apresente falhas.
 
 No contexto do nosso projeto para a BrPec, esses requisitos são fundamentais, pois o sistema será operado no campo, muitas vezes sem internet, sob forte incidência solar e por usuários (como o Capataz) que necessitam de agilidade. Para garantir a qualidade da solução, nossos requisitos foram estruturados de acordo com os 8 eixos da norma ISO/IEC 25010, detalhados na tabela e explicados a seguir.
+
+<center>
+  <p><strong>Tabela 6</strong> — Requisitos Não Funcionais</p>
+</center>
 
 | Eixo | Requisito | Métrica / Critério | Como atendido |
 |---|---|---|---|
@@ -840,6 +928,10 @@ No contexto do nosso projeto para a BrPec, esses requisitos são fundamentais, p
 | CAP — Capacidade (Adequação Funcional) | Volume de Dados Sincronizados | O sistema deve suportar a sincronização em lote de até 500 eventos pendentes em um único ciclo. | Implementação de chunking (divisão em pedaços) no envio de dados para evitar timeout em conexões 3G oscilantes. |
 | REST — Restrições Design (Portabilidade) | Adaptabilidade de Dispositivo | A aplicação deve manter 100% da funcionalidade em telas de 5" a 12" (celular a tablet). | Design Responsivo (Mobile-first) utilizando CSS Flexbox/Grid e suporte a modo PWA. |
 | ORG — Organizacionais (Compatibilidade) | Conformidade de Exportação | Os arquivos gerados devem ser validados pelo esquema RFC 4180 (CSV) para leitura em Excel/BI. | Biblioteca de exportação de dados configurada para padrão Windows-1252 (comum no agronegócio para evitar erros de acentuação). |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 #### Detalhamento e Contextualização dos Eixos
 
@@ -863,7 +955,7 @@ No contexto do nosso projeto para a BrPec, esses requisitos são fundamentais, p
 * **O que é:** Saber a origem da informação.
 * **Explicação:** Para evitar confusão ou erro de digitação, o sistema carimba automaticamente quem enviou a informação e que horas isso aconteceu. Se o Coordenador vir um erro no escritório, ele sabe exatamente com quem falar para tirar a dúvida, sem precisar investigar 'quem escreveu esse papel'.
 
-**6. Capacidade (Aguentar o tranco)**
+**6. Capacidade (Funciona com muitas informações)**
 * **O que é:** Suportar muita informação de uma vez.
 * **Explicação:** Imagina que o Capataz ficou a semana toda sem internet e acumulou 300 registros. O sistema foi feito para 'engolir' tudo isso de uma vez só quando chegar na sede, sem travar o servidor ou dar erro de sistema cheio.
 
@@ -879,6 +971,10 @@ No contexto do nosso projeto para a BrPec, esses requisitos são fundamentais, p
 
 _Matriz de cobertura mostrando quais RN e endpoints implementam cada RF._
 
+<center>
+  <p><strong>Tabela 7</strong> — Matriz RF → RN → Endpoint</p>
+</center>
+
 | RF    | RN associadas | Endpoint              | Método |
 | ----- | ------------- | --------------------- | ------ |
 | RF001 | RN01          | /tarefas              | POST   |
@@ -893,6 +989,10 @@ _Matriz de cobertura mostrando quais RN e endpoints implementam cada RF._
 | RF010 | RN10          | Armazenamento Local   | INSERT |
 | RF011 | RN11          | /sincronizar          | POST   |
 | RF012 | RN12          | Consulta Banco Local  | GET    |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ## 3.2. Arquitetura (sprints 1 a 5)
 
@@ -942,7 +1042,7 @@ UC6 ..> UC5 : <<extend>>
 @enduml
 
 <center>
-  <p><strong>Figura 7</strong> — Diagrama de Caso De Uso aplicada à BrPec Agropecuária</p>
+  <p><strong>Figura 8</strong> — Diagrama de Caso De Uso aplicada à BrPec Agropecuária</p>
   <img src="../assets/diagramaDeUso.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -1012,12 +1112,21 @@ _Posicione aqui os diagramas de modelos relacionais do banco de dados, apresenta
 _posicione aqui uma lista de consultas SQL compostas, realizadas pelo back-end da aplicação web, com sua respectiva lógica proposicional, descrita conforme template abaixo. Lembre-se que para usar LaTeX em markdown, basta você colocar as expressões entre $ ou $$_
 
 _Template de SQL + lógica proposicional_
+
+<center>
+  <p><strong>Tabela 8</strong> — Expressões SQL e Lógica Proposicional</p>
+</center>
+
 #1 | ---
 --- | ---
 **Expressão SQL** | SELECT \* FROM suppliers WHERE (state = 'California' AND supplier_id <> 900) OR (supplier_id = 100);
 **Proposições lógicas** | $A$: O estado é 'California' (state = 'California') <br> $B$: O ID do fornecedor não é 900 (supplier_id ≠ 900) <br> $C$: O ID do fornecedor é 100 (supplier_id = 100)
 **Expressão lógica proposicional** | $(A \land B) \lor C$
 **Tabela Verdade** | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$(A \land B)$</th> <th>$(A \land B) \lor C$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>F</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table>
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 _Dica: edite a tabela verdade fora do markdown, para ter melhor controle_
 
@@ -1049,9 +1158,17 @@ _Descreva as estratégias aplicadas no tratamento de falhas de rede: timeout, re
 
 *A RTM consolida a rastreabilidade completa do sistema. Um elo quebrado invalida toda a cadeia - mantenha-a atualizada a cada sprint. A partir da sprint 3 não deve haver lacunas nos fluxos centrais.*
 
+<center>
+  <p><strong>Tabela 9</strong> — Matriz de Rastreabilidade (RTM)</p>
+</center>
+
 | Persona | RF    | RN   | Endpoint    | Tela     | Teste | Evidência                          |
 | ------- | ----- | ---- | ----------- | -------- | ----- | ---------------------------------- |
 | ...     | RF001 | RN01 | `/usuarios` | Cadastro | CT02  | print, log, relatório de cobertura |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 # <a name="c4"></a>4. Desenvolvimento da Aplicação Web
 
