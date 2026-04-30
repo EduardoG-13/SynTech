@@ -76,7 +76,10 @@ A rivalidade no setor pecuário brasileiro é estruturalmente elevada. Por se tr
 
 O poder de barganha dos clientes é alto. JBS e Minerva concentram o poder de compra do mercado interno e pressionam sistematicamente o preço pago por arroba, mantendo o produtor em posição estruturalmente desfavorável (INFOMONEY, 2024). Com foco no mercado doméstico e logística restrita em regiões remotas, a BRPec tem acesso limitado a canais alternativos de comercialização. 
 
-Ameaça de substitutos: A ameaça é moderada e crescente. No mercado interno, frango e suíno competem com a carne bovina em custo-benefício (CEPEA, 2023). Externamente, o regulamento anti-desmatamento da União Europeia, em vigor a partir de 2026, restringe produtores com histórico ambiental negativo, limitando o acesso a mercados de maior valor agregado (REHAGRO, 2024).
+#### Ameaça de substitutos:
+
+A ameaça de substitutos é moderada. No mercado doméstico — foco atual da BRPec —, frango e suíno competem diretamente com a carne bovina em custo-benefício, especialmente para consumidores sensíveis à variação de preço da arroba (CEPEA, 2023). Os principais fatores que amplificam essa ameaça são exógenos à operação: clima, variação do dólar e instabilidade geopolítica afetam diretamente o custo de produção e o preço final ao consumidor, tornando a carne bovina mais ou menos competitiva em relação às proteínas substitutas. No longo prazo, proteínas alternativas de base vegetal e carne cultivada representam ameaça crescente nos segmentos premium de exportação. A ameaça é contida no curto prazo, mas reforça a importância estratégica de consolidar rastreabilidade e conformidade ambiental como credenciais de acesso aos mercados de maior margem e menor exposição à substituição.
+
 
 Análise estrutural: A BrPec opera em setor com barreiras de entrada relevantes e integração vertical como diferencial, mas enfrenta forte pressão de canais de compra concentrados, alta rivalidade por escala e dependência de fornecedores especializados. O passivo ambiental representa risco estratégico: a empresa figura entre os maiores desmatadores do Pantanal segundo o Ibama (DE OLHO NOS RURALISTAS, 2020), podendo restringir o acesso aos segmentos de maior rentabilidade.
 
