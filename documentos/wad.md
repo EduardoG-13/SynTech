@@ -41,7 +41,7 @@
 
 O agronegócio brasileiro desempenha papel central na economia nacional, sendo responsável 
 por aproximadamente 25% do PIB e pela geração de empregos em larga escala, especialmente 
-em regiões de interior (CEPEA, 2023). Nesse contexto, a pecuária demanda elevado nível de 
+em regiões de interior [1]. Nesse contexto, a pecuária demanda elevado nível de 
 controle operacional, especialmente no registro de atividades de campo e na gestão da 
 movimentação do rebanho, fatores diretamente relacionados à produtividade e à qualidade 
 da tomada de decisão.
@@ -116,7 +116,7 @@ Identifica-se que a conformidade ambiental em biomas sensíveis (como o Pantanal
 ### 2.1.2. Análise SWOT da Instituição Parceira (sprint 1)
 A análise SWOT a seguir avalia o posicionamento estratégico da BRPec considerando seu ambiente interno — forças operacionais e financeiras e fraquezas estruturais e regulatórias — e fatores externos: oportunidades de mercado e ameaças setoriais. O contexto de análise é o agronegócio brasileiro de pecuária e grãos, especificamente o segmento de produção integrada em larga escala no Pantanal mato-grossense, caracterizado por crescente pressão ESG sobre crédito e certificações, restrições regulatórias à expansão de novas áreas e acirrada competição fundiária com players institucionalizados.
 <center>
-  <p><strong>Figura 2</strong> — Analise SWOT</p>
+  <p><strong>Figura 2</strong> — Análise SWOT da BRPec Agropecuária</p>
   <img src="../assets/analiseSWOT.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -193,11 +193,11 @@ Os benefícios gerados pela adoção do sistema — incluindo a supressão do re
 
 A matriz de riscos é uma ferramenta que permite identificar, analisar e priorizar ameaças e oportunidades de um projeto. A classificação é feita com base na probabilidade de ocorrência e no impacto, auxiliando na definição de ações para cada caso. Dessa forma, foi elaborada a matriz de riscos para o desenvolvimento da aplicação web da BrPec Agropecuária S.A, considerando seus principais desafios.
 
-Nesse contexto, a figura a seguir apresenta a matriz de riscos elaborada para o projeto, que usa como base os padrões da ISO 31000 e PMBOK(REVISTA DE GESTÃO E PROJETOS, 2013), na qual são organizadas as principais ameaças e oportunidades identificadas, considerando seus respectivos níveis de impacto e probabilidade. 
+Nesse contexto, a figura a seguir apresenta a matriz de riscos elaborada para o projeto, que usa como base os padrões da ISO 31000 e PMBOK [2], na qual são organizadas as principais ameaças e oportunidades identificadas, considerando seus respectivos níveis de impacto e probabilidade. 
 
 
 <center>
-  <p><strong>Figura 4</strong> — Matriz De Risco aplicada à BrPec Agropecuária</p>
+  <p><strong>Figura 4</strong> — Matriz de Risco aplicada à BrPec Agropecuária</p>
   <img src="../assets/matriz-de-risco-BrPec.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -332,7 +332,7 @@ Conclui-se que a análise da matriz de riscos permite a identificação de fator
 
 ## 2.2. Personas (sprint 1)
 
-Personas são, de forma resumida, representaçôes fictícia dos diferentes tipos de usuários. Elas permitem que a ferramenta seja mais eficiente e focada para atender as necessidades reais do cliente. Dessa forma, as figuras 4, 5 e 6 mostram as personas criadas para o projeto.
+Personas são, de forma resumida, representaçôes fictícia dos diferentes tipos de usuários. Elas permitem que a ferramenta seja mais eficiente e focada para atender as necessidades reais do cliente. Dessa forma, as Figuras 5, 6 e 7 mostram as personas criadas para o projeto.
 
 ### Persona 1: João Pereira
 
@@ -345,7 +345,7 @@ Personas são, de forma resumida, representaçôes fictícia dos diferentes tipo
 
 #### Informações:
 - Nome e sobrenome: João Pereira;
-- Idade: 40 anos [1];
+- Idade: 40 anos [3];
 - Cargo: Gerente geral na BrPec Agropecuária S.A.;
 - Estado Civil: Casado;
 - Localização: Miranda-MS;
@@ -354,7 +354,7 @@ Personas são, de forma resumida, representaçôes fictícia dos diferentes tipo
 #### Motivações:
 Conseguir manter sua família e garantir educação para seus filhos. Além disso, deseja ser um funcionário de destaque para a BrPec.
 
-#### Interesses [1]:
+#### Interesses [3]:
 - Animais;
 - Tecnologias aplicadas ao agronegócio;
 - Gestão Logística e Operações;
@@ -373,14 +373,14 @@ Conseguir manter sua família e garantir educação para seus filhos. Além diss
 - Painel para a criação e gestão de tarefas calendarizadas para os Capatazes;
 - Infomações diariamente atualizadas.
 
-#### Habilidades [3]:
+#### Habilidades [5]:
 - Planejamento de atividades operacionais;
 - Monitoramento e controle de metas de produção;
 - Elaboração de relatórios;
 - Gestão de equipes e supervisão de desempenho;
 - Tomada de decisão baseada em indicadores do campo.
 
-#### Familiaridade com Tecnologia [2]
+#### Familiaridade com Tecnologia [4]
 
 <center>
   <p><strong>Tabela 1</strong> — Familiaridade com Tecnologia (João Pereira)</p>
@@ -400,19 +400,19 @@ Conseguir manter sua família e garantir educação para seus filhos. Além diss
 Informações extras:
 - Conectividade: Boa - trabalha em escritório com acesso estável à internet;
 - Meio de comunicação principal: WhatsApp, rádio e telefone com capatazes e coordenadores;
-- Adaptação a novas tecnologias: Moderada a alta - reconhece o valor das ferramentas digitais e está aberto a adotá-las [3];
+- Adaptação a novas tecnologias: Moderada a alta - reconhece o valor das ferramentas digitais e está aberto a adotá-las [5];
 - Dispositivo disponível: Computador e celular.
 
 #### Notas e Justificativas
 
-**[1] Idade e perfil do cargo:**
-A faixa etária de 40 anos foi baseada no perfil médio do Gerente de Produção e Operações Agropecuárias (CBO 1411-15), que aponta 40 anos como idade mais recorrente segundo o Portal Salário a partir de dados do CAGED. Além disso, outras informações sobre o perfil do foram baseadas a partir dessa fonte. (PORTAL SALÁRIO, 2025)
+**Idade e perfil do cargo:**
+A faixa etária de 40 anos foi baseada no perfil médio do Gerente de Produção e Operações Agropecuárias (CBO 1411-15), que aponta 40 anos como idade mais recorrente segundo o Portal Salário a partir de dados do CAGED. Além disso, outras informações sobre o perfil do foram baseadas a partir dessa fonte [3].
 
-**[2] Framework de Competência Digital - DigComp 3.0:**
-Os níveis de familiaridade com tecnologia foram classificados seguindo o DigComp 3.0, framework europeu de competência digital desenvolvido pelo Joint Research Centre da Comissão Europeia. Ele define quatro níveis de proficiência (Basic, Intermediate, Advanced e Highly Advanced) com base na complexidade das tarefas executadas e no grau de autonomia do indivíduo. (COSGROVE; CACHIA, 2025)
+**Framework de Competência Digital - DigComp 3.0:**
+Os níveis de familiaridade com tecnologia foram classificados seguindo o DigComp 3.0, framework europeu de competência digital desenvolvido pelo Joint Research Centre da Comissão Europeia. Ele define quatro níveis de proficiência (Basic, Intermediate, Advanced e Highly Advanced) com base na complexidade das tarefas executadas e no grau de autonomia do indivíduo [4].
 
-**[3] Habilidades do gestor no agronegócio:**
-As habilidades listadas foram baseadas no perfil de profissionais que ocupam cargos de gestão no agronegócio. (IPOG, 2022)
+**Habilidades do gestor no agronegócio:**
+As habilidades listadas foram baseadas no perfil de profissionais que ocupam cargos de gestão no agronegócio [5].
 
 #### Biografia:
 
@@ -438,7 +438,7 @@ João se comunica com supervisores e coordenadores frequentemente, mas essa comu
 - Cargo: Coordenador na BrPec Agropecuária S.A.;
 - Estado Civil: Solteiro;
 - Localização: Miranda- MS;
-- Escolaridade: Pós-graduado em administração [1].
+- Escolaridade: Pós-graduado em administração [6].
 
 #### Motivações:
 Crescer profissionalmente dentro do agronegócio e ser reconhecido pela precisão e confiabilidade dos dados que gerencia.
@@ -467,7 +467,7 @@ Crescer profissionalmente dentro do agronegócio e ser reconhecido pela precisã
 - Comunicação entre campo e gestão;
 - Tomada de decisão baseada em dados.
 
-#### Familiaridade com Tecnologia [2]:
+#### Familiaridade com Tecnologia [4]:
 
 <center>
   <p><strong>Tabela 2</strong> — Familiaridade com Tecnologia (Marcos Cesar Filho)</p>
@@ -492,11 +492,11 @@ Crescer profissionalmente dentro do agronegócio e ser reconhecido pela precisã
 
 #### Notas e Justificativas
 
-**[1] Escolaridade do gestor no agronegócio:**
-O Portal CNA Brasil aponta que, para cargos de coordenação técnica no agronegócio, o perfil mais buscado combina forte conhecimento técnico com boas noções de gestão, habilidade de comunicação e liderança. (CNA BRASIL, [s.d.])
+**Escolaridade do gestor no agronegócio:**
+O Portal CNA Brasil aponta que, para cargos de coordenação técnica no agronegócio, o perfil mais buscado combina forte conhecimento técnico com boas noções de gestão, habilidade de comunicação e liderança [6].
 
-**[2] Framework de Competência Digital - DigComp 3.0:**
-Os níveis de familiaridade com tecnologia foram classificados seguindo o DigComp 3.0, framework europeu de competência digital desenvolvido pelo Joint Research Centre da Comissão Europeia. Ele define quatro níveis de proficiência (Basic, Intermediate, Advanced e Highly Advanced) com base na complexidade das tarefas executadas e no grau de autonomia do indivíduo. (COSGROVE; CACHIA, 2025)
+**Framework de Competência Digital - DigComp 3.0:**
+Os níveis de familiaridade com tecnologia foram classificados seguindo o DigComp 3.0, framework europeu de competência digital desenvolvido pelo Joint Research Centre da Comissão Europeia. Ele define quatro níveis de proficiência (Basic, Intermediate, Advanced e Highly Advanced) com base na complexidade das tarefas executadas e no grau de autonomia do indivíduo [4].
 
 #### Biografia:
 
@@ -516,8 +516,8 @@ Sua rotina começa organizando as boletas vindas dos capatazes. Assim, ele tenta
 
 #### Informações: 
 - Nome e sobrenome: Gabriel Galdino;
-- Idade: 33 anos [1];
-- Cargo: Capataz na BrPec Agropecuária S.A. [2];
+- Idade: 33 anos [7];
+- Cargo: Capataz na BrPec Agropecuária S.A. [8];
 - Estado Civil: Casado;
 - Localização: Aquidauana (MS) – Atua em retiros na região do Pantanal;
 - Escolaridade: Ensino Fundamental completo;
@@ -532,14 +532,14 @@ Garantir o sustento da família e proporcionar uma boa vida para os filhos. Quer
 - Ter maior controle sobre as atividades realizadas no dia.
 
 #### Necessidades:
-- Sistema fácil de usar sem conhecimento técnico prévio, por ter maior dificuldade com tecnologias [3];
+- Sistema fácil de usar sem conhecimento técnico prévio, por ter maior dificuldade com tecnologias [9];
 - Registro rápido de tarefas e ocorrências;
 - Visualização clara das atividades do dia;
 - Funcionamento offline devido à limitação de internet;
 - Padronização das informações registradas.
 
 #### Desafios/dores:
-- Baixa familiaridade com tecnologias digitais [3];
+- Baixa familiaridade com tecnologias digitais [9];
 - Dependência de registros manuais e memória;
 - Dificuldade para acompanhar tarefas em tempo real;
 - Dificuldade de comunicação com níveis superiores;
@@ -579,22 +579,22 @@ Garantir o sustento da família e proporcionar uma boa vida para os filhos. Quer
 Informações extras:
 - Conectividade no campo: Instável ou ausente - sinal de internet limitado ou inexistente nos retiros;
 - Meio de comunicação principal: Rádio, comunicação verbal e anotações;
-- Adaptação a novas tecnologias: Baixa - resistência natural e por pouco contato com dispositivos ao longo da vida [3];
+- Adaptação a novas tecnologias: Baixa - resistência natural e por pouco contato com dispositivos ao longo da vida [9];
 - Dispositivo disponível: Celular.
 
 #### Notas e Justificativas: 
 
-**[1] Idade e perfil salarial do capataz:**  
-A faixa etária de 33 anos foi baseada no perfil médio de trabalhadores que ocupam o cargo de capataz na pecuária, conforme levantamento disponível no site consultado. (PORTAL SALÁRIO, 2026)
+**Idade e perfil salarial do capataz:**  
+A faixa etária de 33 anos foi baseada no perfil médio de trabalhadores que ocupam o cargo de capataz na pecuária, conforme levantamento disponível no site consultado [7].
 
-**[2] Descrição do cargo de Capataz:**  
-As atribuições descritas, como exemplo a administração de mão de obra ou o controle do rebanho, estão alinhadas com a Classificação Brasileira de Ocupações (CBO), que define formalmente as competências e atividades do capataz na agropecuária. (BRASIL, [s.d.])
+**Descrição do cargo de Capataz:**  
+As atribuições descritas, como exemplo a administração de mão de obra ou o controle do rebanho, estão alinhadas com a Classificação Brasileira de Ocupações (CBO), que define formalmente as competências e atividades do capataz na agropecuária [8].
 
-**[3] Baixa familiaridade com tecnologias digitais na pecuária:**  
-A pesquisa acadêmica publicada na SciELO expõe a dificuldade de adoção de tecnologias por trabalhadores rurais na pecuária. O estudo aponta que características individuais como formação profissional e a posição ocupada dentro da propriedade influenciam diretamente a adoção ou rejeição de tecnologias, sendo a baixa escolaridade um fator determinante para a resistência ao uso de ferramentas digitais no campo. (MACHADO; NANTES, 2011)
+**Baixa familiaridade com tecnologias digitais na pecuária:**  
+A pesquisa acadêmica publicada na SciELO expõe a dificuldade de adoção de tecnologias por trabalhadores rurais na pecuária. O estudo aponta que características individuais como formação profissional e a posição ocupada dentro da propriedade influenciam diretamente a adoção ou rejeição de tecnologias, sendo a baixa escolaridade um fator determinante para a resistência ao uso de ferramentas digitais no campo [9].
 
-**[4] Framework de Competência Digital - DigComp 3.0:**
-Os níveis de familiaridade com tecnologia foram classificados seguindo o DigComp 3.0, framework europeu de competência digital desenvolvido pelo Joint Research Centre da Comissão Europeia. Ele define quatro níveis de proficiência (Basic, Intermediate, Advanced e Highly Advanced) com base na complexidade das tarefas executadas e no grau de autonomia do indivíduo. (COSGROVE; CACHIA, 2025)
+**Framework de Competência Digital - DigComp 3.0:**
+Os níveis de familiaridade com tecnologia foram classificados seguindo o DigComp 3.0, framework europeu de competência digital desenvolvido pelo Joint Research Centre da Comissão Europeia. Ele define quatro níveis de proficiência (Basic, Intermediate, Advanced e Highly Advanced) com base na complexidade das tarefas executadas e no grau de autonomia do indivíduo [4].
 
 #### Biografia:
 
@@ -1049,7 +1049,7 @@ Os casos de uso do Sistema BrPec foram definidos com o objetivo de representar, 
 Cada caso de uso está associado a um requisito funcional (RF), garantindo rastreabilidade entre as necessidades identificadas e as funcionalidades implementadas. A seguir, são detalhados os principais casos de uso do sistema.
 
 <center>
-  <p><strong>Figura 8</strong> — Diagrama de Caso De Uso aplicada à BrPec Agropecuária</p>
+  <p><strong>Figura 8</strong> — Diagrama de Caso de Uso aplicado à BrPec Agropecuária</p>
   <img src="../assets/diagramaDeUso.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -1065,7 +1065,7 @@ UC01 — Planejar tarefas (RF001)
 | Pós-condições      | A tarefa é registrada no sistema e fica disponível para distribuição                       |
 
 <center>
-  <p><strong> Quadro 1 </strong> — Casos de Uso</p>
+  <p><strong>Quadro 11</strong> — Caso de Uso UC01</p>
 </center>
 
 <center>
@@ -1082,7 +1082,7 @@ UC02 — Distribuir tarefas por retiro (RF002)
 | Pós-condições      | A tarefa é atribuída e visível para execução pelos capatazes            |
 
 <center>
-  <p><strong> Quadro 2 </strong> — Casos de Uso</p>
+  <p><strong>Quadro 12</strong> — Caso de Uso UC02</p>
 </center>
 
 <center>
@@ -1099,7 +1099,7 @@ UC03 — Visualizar tarefas do dia (RF003)
 | Pós-condições      | As tarefas são exibidas para execução                               |
 
 <center>
-  <p><strong> Quadro 3 </strong> — Casos de Uso</p>
+  <p><strong>Quadro 13</strong> — Caso de Uso UC03</p>
 </center> 
 
 <center>
@@ -1116,7 +1116,7 @@ UC04 — Registrar execução de tarefa (RF004)
 | Pós-condições      | A tarefa é registrada como concluída e atualizada no sistema |
 
 <center>
-  <p><strong> Quadro 4  </strong> — Casos de Uso</p>
+  <p><strong>Quadro 14</strong> — Caso de Uso UC04</p>
 </center> 
 
 <center>
@@ -1133,7 +1133,7 @@ UC05 — Anexar evidência (RF005)
 | Pós-condições      | A evidência é armazenada e vinculada à tarefa                   |
 
 <center>
-  <p><strong> Quadro 5 </strong> — Casos de Uso</p>
+  <p><strong>Quadro 15</strong> — Caso de Uso UC05</p>
 </center> 
 
 <center>
@@ -1150,7 +1150,7 @@ UC06 — Registrar movimentação (RF006)
 | Pós-condições      | A movimentação é armazenada para posterior validação       |
 
 <center>
-  <p><strong> Quadro 6 </strong> — Casos de Uso</p>
+  <p><strong>Quadro 16</strong> — Caso de Uso UC06</p>
 </center> 
 
 <center>
@@ -1167,7 +1167,7 @@ UC07 — Validar movimentações (RF007)
 | Pós-condições      | As movimentações são confirmadas e consideradas válidas    |
 
 <center>
-  <p><strong> Quadro 7 </strong> — Casos de Uso</p>
+  <p><strong>Quadro 17</strong> — Caso de Uso UC07</p>
 </center> 
 
 <center>
@@ -1184,7 +1184,7 @@ UC08 — Consultar dados consolidados (RF008)
 | Pós-condições      | As informações são exibidas para análise            |
 
 <center>
-  <p><strong> Quadro 8 </strong> — Casos de Uso</p>
+  <p><strong>Quadro 18</strong> — Caso de Uso UC08</p>
 </center> 
 
 <center>
@@ -1201,7 +1201,7 @@ UC09 — Exportar relatórios (RF009)
 | Pós-condições      | O relatório é gerado e disponibilizado para download                 |
 
 <center>
-  <p><strong> Quadro 9 </strong> — Casos de Uso</p>
+  <p><strong>Quadro 19</strong> — Caso de Uso UC09</p>
 </center> 
 
 <center>
@@ -1433,27 +1433,23 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 
 # <a name="c8"></a>8. Referências (sprints 1 a 5)
 
-PORTAL SALÁRIO. Gerente de Produção e Operações Agropecuárias - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/gerente-de-producao-e-operacoes-agropecuarias-cbo-141115/. Acesso em: 28 abr. 2026.<br>
+[1] CEPEA. PIB do Agronegócio Brasileiro. Disponível em: https://www.cepea.esalq.usp.br. Acesso em: 29 abr. 2026.
 
-COSGROVE, J.; CACHIA, R. DigComp 3.0: European Digital Competence Framework. 5. ed. Luxembourg: Publications Office of the European Union, 2025. Disponível em: https://data.europa.eu/doi/10.2760/0001149. Acesso em: 28 abr. 2026.<br>
+[2] REVISTA DE GESTÃO E PROJETOS — GeP. Gestão de riscos em projetos: uma análise comparativa da norma ISO 31000 e o Guia PMBOK®, 2012. Revista de Gestão e Projetos — GeP, São Paulo, v. 4, n. 3, p. 46–72, set./dez. 2013. Disponível em: https://www.bibliotecadeseguranca.com.br/wp-content/uploads/2020/05/gerenciamento-de-riscos-em-projetos-uma-comparacao-entre-o-pmbok-e-a-iso-31000.pdf. Acesso em: 29 abr. 2026.
 
-IPOG. Gestão do Agronegócio: como está o mercado de trabalho?. Disponível em: https://blog.ipog.edu.br/gestao-e-negocios/gestao-do-agronegocio/. [S.d.]. Acesso em: 28 abr. 2026.<br>
+[3] PORTAL SALÁRIO. Gerente de Produção e Operações Agropecuárias - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/gerente-de-producao-e-operacoes-agropecuarias-cbo-141115/. Acesso em: 28 abr. 2026.
 
-CONFEDERAÇÃO DA AGRICULTURA E PECUÁRIA DO BRASIL. Conheça as 4 carreiras mais quentes do agronegócio brasileiro. CNA Brasil, [S.d.]. Disponível em: https://www.cnabrasil.org.br/noticias/conheca-as-4-carreiras-mais-quentes-do-agronegocio-brasileiro. Acesso em: 28 abr. 2026. <br>
+[4] COSGROVE, J.; CACHIA, R. DigComp 3.0: European Digital Competence Framework. 5. ed. Luxembourg: Publications Office of the European Union, 2025. Disponível em: https://data.europa.eu/doi/10.2760/0001149. Acesso em: 28 abr. 2026.
 
-PORTAL SALÁRIO. Capataz na Pecuária - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/capataz-na-pecuaria-cbo-620115/. Acesso em: 28 abr. 2026. <br>
+[5] IPOG. Gestão do Agronegócio: como está o mercado de trabalho?. Disponível em: https://blog.ipog.edu.br/gestao-e-negocios/gestao-do-agronegocio/. [S.d.]. Acesso em: 28 abr. 2026.
 
-BRASIL. Ministério do Trabalho e Emprego. Classificação Brasileira de Ocupações (CBO): Capataz na Agropecuária - CBO 6210-05. [S.d.]. Disponível em: https://www.mtecbo.gov.br. Acesso em: 28 abr. 2026. <br>
+[6] CONFEDERAÇÃO DA AGRICULTURA E PECUÁRIA DO BRASIL. Conheça as 4 carreiras mais quentes do agronegócio brasileiro. CNA Brasil, [S.d.]. Disponível em: https://www.cnabrasil.org.br/noticias/conheca-as-4-carreiras-mais-quentes-do-agronegocio-brasileiro. Acesso em: 28 abr. 2026.
 
-MACHADO, João Guilherme de Camargo Ferraz; NANTES, José Flávio Diniz. Adoção da tecnologia da informação em organizações rurais: o caso da pecuária de corte. Gestão & Produção, São Carlos, v. 18, n. 3, p. 555-570, 2011. Disponível em: https://www.scielo.br/j/gp/a/cwVwLsPgq8FBq5kvgXZPpLQ/. Acesso em: 28 abr. 2026. <br>
+[7] PORTAL SALÁRIO. Capataz na Pecuária - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/capataz-na-pecuaria-cbo-620115/. Acesso em: 28 abr. 2026.
 
-‌
-Incluir as principais referências de seu projeto, para que seu parceiro possa consultar caso ele se interessar em aprofundar. Um exemplo de referência de livro e de site:_<br>
+[8] BRASIL. Ministério do Trabalho e Emprego. Classificação Brasileira de Ocupações (CBO): Capataz na Agropecuária - CBO 6210-05. [S.d.]. Disponível em: https://www.mtecbo.gov.br. Acesso em: 28 abr. 2026.
 
-CEPEA. PIB do Agronegócio Brasileiro. Disponível em: https://www.cepea.esalq.usp.br. Acesso em: 29 abr. 2026.
-
-REVISTA DE GESTÃO E PROJETOS — GeP. Gestão de riscos em projetos: uma análise comparativa da norma ISO 31000 e o Guia PMBOK®, 2012. Revista de Gestão e Projetos — GeP, São Paulo, v. 4, n. 3, p. 46–72, set./dez. 2013. Disponível em: https://www.bibliotecadeseguranca.com.br/wp-content/uploads/2020/05/gerenciamento-de-riscos-em-projetos-uma-comparacao-entre-o-pmbok-e-a-iso-31000.pdf. Acesso em: 29 abr. 2026. 
-
+[9] MACHADO, João Guilherme de Camargo Ferraz; NANTES, José Flávio Diniz. Adoção da tecnologia da informação em organizações rurais: o caso da pecuária de corte. Gestão & Produção, São Carlos, v. 18, n. 3, p. 555-570, 2011. Disponível em: https://www.scielo.br/j/gp/a/cwVwLsPgq8FBq5kvgXZPpLQ/. Acesso em: 28 abr. 2026.
 
 
 # <a name="c9"></a>Anexos
