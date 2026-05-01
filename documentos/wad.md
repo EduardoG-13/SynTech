@@ -91,38 +91,27 @@ a transparência das operações e apoia a tomada de decisão dos gestores, alin
 
 A análise das Cinco Forças de Porter é uma ferramenta estratégica utilizada para diagnosticar a atratividade e a competitividade de um setor econômico. Desenvolvido por Michael Porter, o modelo examina a interação entre a rivalidade dos concorrentes, a ameaça de novos entrantes, o poder de barganha de fornecedores e clientes, e a pressão de produtos substitutos. No contexto da BRPec, essa análise é fundamental para mapear as forças externas que moldam o agronegócio pecuário brasileiro, permitindo identificar onde residem as vulnerabilidades estruturais da empresa, quais diferenciais operacionais merecem ser desenvolvidos e como decisões de gestão, como a digitalização do controle de retiros, se conectam diretamente à capacidade de sustentar margens e acessar mercados de maior valor agregado.
 
-#### Rivalidade entre concorrentes:
-
-A rivalidade no setor pecuário brasileiro é estruturalmente elevada. Por se tratar de um mercado de commodities, a diferenciação por produto é praticamente inviável, o boi gordo negociado com frigoríficos segue parâmetros zootécnicos padronizados, sem espaço para prêmio de marca do produtor. O campo de batalha real é a eficiência operacional e o custo por arroba produzida. A BRPec compete com grupos verticalmente integrados e de alta capitalização, como Bom Futuro (MT) e Rio Vermelho (PA), além de fundos de investimento em terras com horizonte de longo prazo (COMPRERURAL, 2024). Nesse cenário, a gestão digitalizada de 14 retiros com rastreabilidade de origem e destino, registro fotográfico georreferenciado e controle do ciclo completo do rebanho (bezerro → garrote → boi) representa um diferencial operacional relevante. Quem possui dado confiável decide melhor, produz com menor perda e responde mais rápido a variações de mercado. 
-
-#### Ameaça de novos entrantes:
-
- A ameaça de novos entrantes é baixa no curto prazo. A formação de rebanho produtivo, a aquisição de terras em biomas como Pantanal e Cerrado, o licenciamento ambiental e a construção de infraestrutura física, 14 retiros, 130 casas distribuídas, currais e extensa malha de cercas exigem ciclos de investimento de 5 a 10 anos com capital intensivo imobilizado (CASALE, 2024). No médio prazo, a ameaça se torna moderada via capital financeiro: fundos agropecuários nacionais e estrangeiros têm ingressado no setor com modelos de arrendamento e gestão terceirizada, contornando parte das barreiras operacionais. A maturidade operacional da BRPec, fluxos padronizados de tarefas com priorização e validação, sincronização offline consolidada e controle multi-retiro representa uma barreira de replicação organizacional que novos entrantes dificilmente constroem no curto prazo, mesmo com capital disponível.
-
-
-#### Poder de barganha dos fornecedores:
-
- O poder de barganha dos fornecedores é moderado a alto. A BRPec depende de insumos agrícolas e veterinários fornecidos por multinacionais com forte capacidade de precificação, como Yara, Mosaic, Bayer, BASF e Zoetis. A produção própria de soja e milho para o trato do rebanho mitiga parcialmente essa dependência (FEED&FOOD, 2024). No plano tecnológico, a operação depende criticamente da Starlink para sincronização dos dados dos retiros praticamente monopolista em conectividade remota, com janelas restritas de manhã e noite que, se interrompidas, comprometem a integridade de todo o fluxo de registros. O fornecimento de mão de obra operacional representa outro vetor de dependência estrutural: o capataz é o único ponto de input do sistema em cada retiro, e a alta rotatividade característica do setor combinada ao baixo nível de instrução desse perfil, com alguns apresentando dificuldade de leitura significa que cada ciclo de substituição gera risco real de subnotificação de eventos críticos como mortes, movimentações e anomalias de estoque.
-
-#### Poder de barganha dos clientes: 
-
-O poder de barganha dos clientes é alto. JBS e Minerva concentram o poder de compra do mercado interno e pressionam sistematicamente o preço pago por arroba, mantendo o produtor em posição estruturalmente desfavorável (INFOMONEY, 2024). Com foco no mercado doméstico e logística restrita em regiões remotas, a BRPec tem acesso limitado a canais alternativos de comercialização. 
-
-#### Ameaça de substitutos:
-
-A ameaça de substitutos é moderada. No mercado doméstico, foco atual da BRPec, frango e suíno competem diretam  ente com a carne bovina em custo-benefício, especialmente para consumidores sensíveis à variação de preço da arroba (CEPEA, 2023). Os principais fatores que amplificam essa ameaça são exógenos à operação: clima, variação do dólar e instabilidade geopolítica afetam diretamente o custo de produção e o preço final ao consumidor, tornando a carne bovina mais ou menos competitiva em relação às proteínas substitutas. No longo prazo, proteínas alternativas de base vegetal e carne cultivada representam ameaça crescente nos segmentos premium de exportação. A ameaça é contida no curto prazo, mas reforça a importância estratégica de consolidar rastreabilidade e conformidade ambiental como credenciais de acesso aos mercados de maior margem e menor exposição à substituição.
-
-
-#### Análise estrutural:
-
- A BrPec opera em setor com barreiras de entrada relevantes e integração vertical como diferencial, mas enfrenta forte pressão de canais de compra concentrados, alta rivalidade por escala e dependência de fornecedores especializados. O passivo ambiental representa risco estratégico: a empresa figura entre os maiores desmatadores do Pantanal segundo o Ibama (DE OLHO NOS RURALISTAS, 2020), podendo restringir o acesso aos segmentos de maior rentabilidade.
-
 <center>
   <p><strong>Figura 1</strong> — Análise das 5 Forças de Porter aplicada à BRPec Agropecuária<br/>
   <img src="../assets/5ForçasDePorter-BRPec.png" width="800"/>
   
   Fonte: Próprios autores (2026).</p>
 </center>
+
+**Rivalidade entre concorrentes**
+Verifica-se que a rivalidade no setor pecuário é focada na eficiência operacional e na redução do custo por arroba. A BrPec compete com grupos capitalizados, como Bom Futuro (MT) e Rio Vermelho (PA). Como o mercado não diferencia o produto primário, conclui-se que a ausência de digitalização dos registros de campo posiciona a corporação em desvantagem competitiva. Logo, o sistema é a ferramenta necessária para gerar dados confiáveis e equiparar a eficiência da operação.
+
+**Ameaça de novos entrantes**
+Observa-se que as barreiras físicas de entrada são altas, representadas por 14 retiros e 130 casas rurais. Contudo, fundos agropecuários terceirizados ingressam no setor suportados por ferramentas de gestão digital consolidadas. Para não sofrer obsolescência tecnológica frente a esses novos agentes, a BrPec precisa implementar o sistema de forma imediata, criando uma barreira de maturidade organizacional e de processos que proteja a sua posição no mercado.
+
+**Poder de barganha dos fornecedores**
+Constata-se que a dependência operacional concentra-se principalmente em dois vetores críticos: a infraestrutura satelital da Starlink, que restringe a conectividade a curtas janelas diárias, e os capatazes, mão de obra caracterizada pela baixa familiaridade digital. Essas restrições determinam que a adoção de uma arquitetura estritamente "offline-first" e o desenvolvimento de uma interface de alta usabilidade são requisitos indispensáveis para garantir a coleta dos dados no campo.
+
+**Poder de barganha dos clientes**
+Nota-se que o poder dos compradores é evidenciado pela pressão exercida por grandes frigoríficos, como JBS e Minerva, sobre o preço da arroba bovina. A compressão das margens comerciais exige ganhos sistêmicos de eficiência interna, os quais dependem diretamente de dados atualizados. Assim, justifica-se a implementação da solução web para digitalizar os apontamentos na origem, viabilizando o controle preciso do inventário e a otimização do manejo diário.
+
+**Ameaça de substitutos**
+Identifica-se que a conformidade ambiental em biomas sensíveis (como o Pantanal monitorado pelo Ibama) e a rastreabilidade são credenciais essenciais para acessar mercados premium, nichos de alto valor que são menos vulneráveis à substituição por outras proteínas. Portanto, o sistema é a camada tecnológica fundamental que viabiliza essa exigência, registrando a origem, o destino e as evidências fotográficas georreferenciadas de cada movimentação animal.
 
 ### 2.1.2. Análise SWOT da Instituição Parceira (sprint 1)
 A análise SWOT a seguir avalia o posicionamento estratégico da BRPec considerando seu ambiente interno — forças operacionais e financeiras e fraquezas estruturais e regulatórias — e fatores externos: oportunidades de mercado e ameaças setoriais. O contexto de análise é o agronegócio brasileiro de pecuária e grãos, especificamente o segmento de produção integrada em larga escala no Pantanal mato-grossense, caracterizado por crescente pressão ESG sobre crédito e certificações, restrições regulatórias à expansão de novas áreas e acirrada competição fundiária com players institucionalizados.
@@ -220,10 +209,10 @@ Nesse contexto, a figura a seguir apresenta a matriz de riscos elaborada para o 
 **Impacto:** Muito Alto  
 
 **Explicação:**  
-A operação ocorre majoritariamente offline nos retiros, o que torna a sincronização um elemento crítico do sistema. Falhas nesse processo podem resultar na perda, duplicidade ou inconsistência de dados. Por exemplo, uma movimentação de rebanho registrada no campo pode não ser refletida no sistema central, gerando divergência entre o estoque real de animais e os dados disponíveis para gestão.
+Constata-se que a operação é realizada maioritariamente em modo offline nos retiros, razão pela qual a sincronização de dados é considerada um elemento estruturalmente crítico do sistema. Verifica-se que falhas neste processo podem resultar na perda, duplicidade ou inconsistência de registos. A título de exemplo, observa-se que uma movimentação de rebanho registada no campo pode não ser refletida no sistema central, gerando divergência entre o inventário real de animais e os dados disponibilizados para a gestão.
 
 **Plano de ação:**  
-Para mitigar esse risco, deve-se adotar uma arquitetura orientada ao funcionamento offline, com armazenamento local de dados e sincronização assíncrona. É fundamental implementar mecanismos de controle de consistência, como filas de envio, registros de log e reprocessamento automático em caso de falhas. Além disso, devem ser realizados testes que simulem cenários reais de perda e retomada de conexão, garantindo que o sistema mantenha a integridade dos dados mesmo em condições adversas.
+Constata-se que a mitigação deste risco exige a adoção de uma arquitetura orientada ao funcionamento offline, com armazenamento local de dados e sincronização assíncrona. Considera-se fundamental a implementação de mecanismos de controlo de consistência, tais como filas de envio, registos de log e reprocessamento automatizado em caso de falhas. Adicionalmente, recomenda-se a realização de testes que simulem cenários reais de perda e retomada de conexão, assegurando que a integridade dos dados seja mantida mesmo em condições adversas.
 
 ---
 
@@ -232,10 +221,10 @@ Para mitigar esse risco, deve-se adotar uma arquitetura orientada ao funcionamen
 **Impacto:** Alto  
 
 **Explicação:**  
-Os capatazes, principais usuários do sistema, apresentam baixo nível de instrução formal e estão habituados ao uso de ferramentas simples, como o WhatsApp. Uma interface complexa pode dificultar a utilização do sistema e comprometer sua adoção no dia a dia.
+Verifica-se que os capatazes, identificados como os principais utilizadores do sistema, apresentam reduzido nível de instrução formal e encontram-se habituados ao uso de ferramentas de comunicação elementares, como o WhatsApp. Observa-se que uma interface dotada de elevada complexidade pode dificultar a utilização do sistema e comprometer a sua adoção na rotina operacional diária.
 
 **Plano de ação:**  
-A mitigação desse risco exige o desenvolvimento de uma interface altamente intuitiva, baseada em elementos visuais e fluxos simplificados. Deve-se reduzir ao máximo a necessidade de leitura e digitação, priorizando ações rápidas e diretas. A validação contínua com o parceiro, por meio de protótipos e simulações de uso real, é essencial para garantir aderência ao perfil do usuário. Além disso, a comparação com ferramentas já utilizadas pelos capatazes pode orientar decisões de design mais eficazes.
+Constata-se que a mitigação deste risco exige o desenvolvimento de uma interface altamente intuitiva, fundamentada em elementos visuais e fluxos simplificados. Recomenda-se que a necessidade de leitura e digitação seja reduzida ao mínimo, priorizando-se ações rápidas e diretas. Considera-se essencial a validação contínua com o parceiro, por meio de protótipos e simulações de uso real, para garantir a aderência ao perfil do utilizador. Adicionalmente, observa-se que a comparação com ferramentas já utilizadas pelos capatazes pode orientar decisões de design mais eficazes.
 
 ---
 
@@ -244,10 +233,10 @@ A mitigação desse risco exige o desenvolvimento de uma interface altamente int
 **Impacto:** Alto  
 
 **Explicação:**  
-Erros no registro de eventos como nascimento, morte ou transferência de animais comprometem diretamente a confiabilidade das informações. Um exemplo crítico seria a ausência de registro de morte, que pode gerar inconsistência no inventário e impactar decisões de venda ou manejo.
+Observa-se que erros no registro de eventos zootécnicos, tais como nascimento, óbito ou transferência de animais, comprometem diretamente a fiabilidade das informações. A título ilustrativo, constata-se que a ausência de registro de um óbito pode gerar inconsistência no inventário e impactar decisões de venda ou de manejo.
 
 **Plano de ação:**  
-Para reduzir esse risco, o sistema deve impor validações estruturais nos registros, garantindo o preenchimento de campos essenciais, como origem, destino e tipo de movimentação. A exigência de evidências, como fotos georreferenciadas em eventos críticos, contribui para aumentar a confiabilidade dos dados. Além disso, a implementação de histórico de alterações permite rastrear inconsistências e corrigir eventuais erros ao longo do tempo.
+Verifica-se que a redução deste risco requer a imposição de validações estruturais nos registros, garantindo-se o preenchimento de campos essenciais, tais como origem, destino e tipo de movimentação. Considera-se que a exigência de evidências, como fotografias georreferenciadas em eventos críticos, contribui para o aumento da fiabilidade dos dados. Adicionalmente, recomenda-se a implementação de histórico de alterações, de modo a permitir a rastreabilidade de inconsistências e a correção de eventuais erros ao longo do tempo.
 
 ---
 
@@ -256,23 +245,22 @@ Para reduzir esse risco, o sistema deve impor validações estruturais nos regis
 **Impacto:** Muito Alto  
 
 **Explicação:**  
-Mesmo com uma interface adequada, existe o risco de resistência à mudança por parte dos capatazes, que estão habituados ao uso de papel e ferramentas informais no dia a dia. A introdução de um novo sistema pode ser percebida como uma complexidade adicional à rotina, especialmente em um ambiente operacional já consolidado. Por exemplo, mesmo com o aplicativo disponível, o usuário pode optar por continuar registrando informações manualmente e postergar o uso da solução digital, comprometendo a centralização e a confiabilidade dos dados.
+Constata-se que, mesmo perante uma interface considerada adequada, persiste o risco de resistência à mudança por parte dos capatazes, habituados ao uso de registos em papel e ferramentas informais na rotina diária. Observa-se que a introdução de um novo sistema pode ser percecionada como uma complexidade adicional ao fluxo operacional já consolidado. A título de exemplo, verifica-se a possibilidade de o utilizador optar por continuar a registar informações manualmente e postergar a utilização da solução digital, comprometendo a centralização e a fiabilidade dos dados.
 
 **Plano de ação:**  
-A mitigação desse risco exige não apenas uma solução tecnicamente adequada, mas também uma estratégia de implementação alinhada ao contexto da fazenda. É necessário garantir que o sistema seja percebido como facilitador da rotina, reduzindo esforço operacional em comparação ao método atual. Além disso, o envolvimento de supervisores no acompanhamento do uso e a validação contínua com o parceiro contribuem para reforçar a adoção. A demonstração prática de benefícios, como redução de retrabalho e maior agilidade no registro, também atua como fator de incentivo ao uso contínuo da ferramenta.
-
+Identifica-se que a mitigação deste risco exige não apenas uma solução tecnicamente adequada, mas também uma estratégia de implementação alinhada ao contexto operacional da fazenda. Considera-se necessário assegurar que o sistema seja percecionado como facilitador da rotina, evidenciando-se a redução do esforço operacional em comparação ao método vigente. Recomenda-se, ainda, o envolvimento de supervisores no acompanhamento da utilização e a condução de validação contínua com o parceiro, de forma a reforçar a adoção. Verifica-se que a demonstração prática de benefícios — tais como a redução do retrabalho e a maior agilidade no registo — atua como fator de incentivo ao uso continuado da ferramenta.
 
 ---
 
-### A05 — Problemas de integração entre frontend e backend  
+### A05 — Incompatibilidade na exportação de dados  
 **Probabilidade:** 30%  
 **Impacto:** Moderado  
 
 **Explicação:**  
-Diferenças nos formatos de dados ou endpoints podem causar falhas no sistema, atrasando o desenvolvimento.
+Identifica-se o risco de os ficheiros CSV gerados pelo sistema não serem interpretados corretamente pelos templates legados de Excel utilizados pela coordenação da fazenda para a consolidação das movimentações. Observa-se que divergências na codificação de caracteres, na delimitação de campos ou na ordenação das colunas podem resultar na importação incorreta dos dados, gerando inconsistências nos relatórios gerenciais e comprometendo a fiabilidade da informação consolidada.
 
 **Plano de ação:**  
-Definir contratos de API (JSON padronizado), documentar endpoints, realizar testes de integração e manter comunicação constante entre os responsáveis.
+Constata-se que a mitigação deste risco exige a homologação rigorosa dos esquemas de dados exportados, confrontando-se a estrutura dos ficheiros gerados pelo sistema com os templates legados atualmente em uso pela coordenação. Recomenda-se a realização de testes de importação com dados representativos em diferentes versões de Excel, bem como a validação da codificação de caracteres (UTF-8 com BOM) e dos delimitadores utilizados. Adicionalmente, considera-se necessária a documentação formal do esquema de exportação, de modo a garantir a compatibilidade contínua e a rastreabilidade de eventuais alterações no formato dos dados.
 
 ---
 
@@ -281,10 +269,10 @@ Definir contratos de API (JSON padronizado), documentar endpoints, realizar test
 **Impacto:** Moderado  
 
 **Explicação:**  
-O sistema será utilizado em dispositivos móveis no campo, que podem apresentar limitações de hardware. Baixo desempenho pode dificultar o uso durante as atividades diárias.
+Verifica-se que o sistema será utilizado em dispositivos móveis no campo, os quais podem apresentar limitações de capacidade de processamento e memória. Observa-se que um desempenho insuficiente pode dificultar a utilização do sistema durante as atividades operacionais diárias.
 
 **Plano de ação:**  
-Para garantir uma experiência adequada, o sistema deve ser otimizado para dispositivos móveis, com interfaces leves e baixo consumo de recursos. A utilização de cache local e a minimização de requisições externas contribuem para melhorar o desempenho. Além disso, testes em dispositivos reais são essenciais para validar a usabilidade em condições próximas à operação.
+Constata-se que a garantia de uma experiência de utilização adequada requer a otimização do sistema para dispositivos móveis, com interfaces leves e reduzido consumo de recursos computacionais. Verifica-se que a utilização de cache local e a minimização de requisições externas contribuem para a melhoria do desempenho. Recomenda-se, adicionalmente, a realização de testes em dispositivos reais, de modo a validar a usabilidade em condições próximas ao ambiente operacional efetivo.
 
 ---
 
@@ -295,10 +283,10 @@ Para garantir uma experiência adequada, o sistema deve ser otimizado para dispo
 **Impacto:** Muito Alto  
 
 **Explicação:**  
-Atualmente, os dados são registrados em papel e posteriormente transcritos para planilhas, o que gera retrabalho e aumenta a probabilidade de erros. A digitalização permite eliminar esse processo intermediário, tornando o fluxo mais eficiente e confiável.
+Constata-se que, no modelo atual, os dados são registrados em papel e posteriormente transcritos para planilhas eletrônicas, processo que gera retrabalho e aumenta a probabilidade de erros. Verifica-se que a digitalização permite a eliminação deste processo intermediário, tornando o fluxo informacional mais eficiente e viável.
 
 **Plano de ação:**  
-A digitalização dos registros deve garantir que todas as informações sejam coletadas diretamente no campo, de forma estruturada e padronizada. A integração com relatórios e exportações automatizadas assegura que os dados possam ser utilizados imediatamente, reduzindo tempo operacional e falhas humanas.
+Observa-se que a digitalização dos registros requer a garantia de que todas as informações sejam recolhidas diretamente no campo, de forma estruturada e padronizada. Considera-se que a integração com relatórios e exportações automatizadas assegura que os dados possam ser utilizados de forma imediata, reduzindo-se o tempo operacional e as falhas de origem humana.
 
 ---
 
@@ -307,10 +295,10 @@ A digitalização dos registros deve garantir que todas as informações sejam c
 **Impacto:** Alto  
 
 **Explicação:**  
-O contato com a realidade da pecuária permite aprendizado de um setor relevante e pouco explorado por estudantes de tecnologia.
+Identifica-se que o contacto direto com a realidade operacional da pecuária proporciona uma oportunidade de aprendizagem significativa acerca de um setor economicamente relevante e ainda pouco explorado por profissionais e equipes de desenvolvimento tecnológico
 
 **Plano de ação:**  
-Aproveitar reuniões com o parceiro, fazer perguntas estratégicas e validar entendimento do negócio.
+Recomenda-se que as interações com o parceiro sejam aproveitadas como oportunidades de imersão no domínio de negócio, sendo formuladas questões estratégicas e validado sistematicamente o entendimento das dinâmicas operacionais do setor. Considera-se que esta compreensão aprofundada contribui para o alinhamento da solução tecnológica às necessidades reais da propriedade.
 
 ---
 
@@ -319,10 +307,10 @@ Aproveitar reuniões com o parceiro, fazer perguntas estratégicas e validar ent
 **Impacto:** Alto  
 
 **Explicação:**  
-Atualmente, as decisões são tomadas com base em dados que chegam com atraso ou podem conter inconsistências. Com a digitalização, os gestores passam a ter acesso a informações mais atualizadas e confiáveis. Por exemplo, o controle preciso do número de animais por categoria permite decisões mais assertivas sobre venda e manejo.
+Verifica-se que, no modelo atual, as decisões são tomadas com base em dados que chegam com atraso ou que podem conter inconsistências. Observa-se que, com a digitalização, os gestores passam a dispor de acesso a informações mais atualizadas e fiáveis. A título de exemplo, constata-se que o controlo preciso do número de animais por categoria permite decisões mais assertivas sobre venda e maneio.
 
 **Plano de ação:**  
-A disponibilização de dados estruturados deve ser acompanhada pela criação de dashboards e relatórios que facilitem a visualização das informações. A organização por retiro, tipo de atividade e categoria de animal contribui para análises mais rápidas e eficazes.
+Considera-se que a disponibilização de dados estruturados requer o acompanhamento pela criação de painéis e relatórios que facilitem a visualização das informações. Observa-se que a organização por retiro, tipo de atividade e categoria animal contribui para análises mais rápidas e eficazes.
 
 ---
 
@@ -331,17 +319,16 @@ A disponibilização de dados estruturados deve ser acompanhada pela criação d
 **Impacto:** Alto  
 
 **Explicação:**  
-Em um setor altamente competitivo, a eficiência operacional é um fator determinante. O uso de dados confiáveis permite reduzir perdas, melhorar o controle do rebanho e otimizar a execução das atividades. A identificação rápida de falhas operacionais possibilita correções ágeis, evitando impactos maiores na produção.
+Constata-se que, num setor de elevada competitividade, a eficiência operacional constitui um fator determinante de diferenciação. Verifica-se que a utilização de dados fiáveis permite a redução de perdas, a melhoria do controlo do rebanho e a otimização da execução das atividades. Observa-se, ainda, que a identificação célere de falhas operacionais possibilita correções ágeis, evitando-se impactos de maior magnitude na produção.
 
 **Plano de ação:**  
-Para potencializar essa oportunidade, é necessário garantir que os dados coletados sejam utilizados estrategicamente. A análise contínua por meio de indicadores e relatórios permite transformar informações operacionais em vantagens competitivas, fortalecendo a posição da empresa no mercado.
+Identifica-se que a potencialização desta oportunidade requer a garantia de que os dados recolhidos sejam utilizados de forma estratégica. Considera-se que a análise contínua por meio de indicadores e relatórios permite a transformação de informações operacionais em vantagens competitivas, fortalecendo-se o posicionamento da empresa no mercado.
 
 ---
 
 ## Síntese
 
-A análise da matriz de riscos permite identificar fatores críticos que podem impactar tanto o desenvolvimento do projeto quanto a efetividade da solução no contexto da BrPec. Ao estabelecer estratégias de mitigação e potencialização, torna-se possível conduzir o projeto de forma mais segura, alinhada às necessidades do parceiro e orientada à geração de valor, contribuindo para a qualidade e confiabilidade das entregas.
-
+Conclui-se que a análise da matriz de riscos permite a identificação de fatores críticos suscetíveis de impactar tanto o desenvolvimento do projeto quanto a efetividade da solução no contexto operacional da BrPec. Verifica-se que, ao serem estabelecidas estratégias de mitigação e potencialização, torna-se possível a condução do projeto de forma mais segura, alinhada às necessidades do parceiro e orientada à geração de valor. Observa-se, assim, que a presente análise contribui para a qualidade, a fiabilidade e a rastreabilidade das entregas projetadas.
 
 ## 2.2. Personas (sprint 1)
 
@@ -855,6 +842,9 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 |**Critério de Aceite 3:** | Dado que o registro foi persistido localmente, quando a conectividade com a rede de satélite for restabelecida nos horários de cobertura, então a sincronização com o servidor central deve ser executada de forma assíncrona, e o status do relatório deve ser alterado para "Sincronizado". 
 | **Critérios INVEST** | Não se aplica (US09 é de prioridade secundária). |
 ---
+<center>
+  <p><strong>Quadro 10</strong> — User Story 10</p>
+</center>
 
 | Campo | Descrição |
 |-----------|-----------|
