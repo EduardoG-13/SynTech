@@ -1047,39 +1047,50 @@ _Posicione aqui o diagrama de arquitetura da solução, indicando as camadas pri
 @startuml
 left to right direction
 
-actor "Gerente (João)" as Gerente
-actor "Coordenador (Marcos)" as Coordenador
-actor "Capataz (Gabriel)" as Capataz
+actor "Gerente Geral\n(João Pereira)" as Gerente
+actor "Coordenador\n(Marcos Cesar)" as Coordenador
+actor "Capataz\n(Gabriel Galdino)" as Capataz
 
 rectangle "Sistema BrPec" {
 
-usecase "Criar tarefa" as UC1
-usecase "Atribuir tarefa ao retiro" as UC2
-usecase "Visualizar painel de status" as UC3
+usecase "Planejar tarefas" as UC1
+usecase "Distribuir tarefas\npor retiro" as UC2
+usecase "Acompanhar execução\ndas tarefas" as UC3
 
-usecase "Visualizar tarefas do dia" as UC4
-usecase "Marcar tarefa como concluída" as UC5
-usecase "Anexar foto na tarefa" as UC6
+usecase "Consultar painel\nde desempenho" as UC4
 
-usecase "Visualizar movimentações" as UC7
-usecase "Validar movimentações" as UC8
-usecase "Exportar relatórios" as UC9
+usecase "Visualizar tarefas\ndo dia" as UC5
+usecase "Registrar execução\nde tarefa" as UC6
+usecase "Anexar evidência\n(foto/áudio)" as UC7
+
+usecase "Registrar movimentação\n(zootécnica)" as UC8
+
+usecase "Consultar dados\nconsolidados por retiro" as UC9
+usecase "Validar movimentações" as UC10
+usecase "Exportar relatórios" as UC11
 }
 
+' --- Atores ---
 Gerente --> UC1
+Gerente --> UC4
 Gerente --> UC3
 
-Capataz --> UC4
 Capataz --> UC5
+Capataz --> UC6
+Capataz --> UC8
 
-Coordenador --> UC7
-Coordenador --> UC8
 Coordenador --> UC9
+Coordenador --> UC10
+Coordenador --> UC11
 
+' --- Relações ---
 UC1 ..> UC2 : <<include>>
-UC8 ..> UC7 : <<include>>
+UC3 ..> UC2 : <<include>>
 
-UC6 ..> UC5 : <<extend>>
+UC6 ..> UC7 : <<extend>>
+
+UC10 ..> UC9 : <<include>>
+UC11 ..> UC9 : <<include>>
 
 @enduml
 
