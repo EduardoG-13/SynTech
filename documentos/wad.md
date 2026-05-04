@@ -2,8 +2,6 @@
 
 # WAD - Web Application Document - Módulo 2 - Inteli
 
-**_Os trechos em itálico servem apenas como guia para o preenchimento da seção. Por esse motivo, não devem fazer parte da documentação final_**
-
 ## Nome do Grupo
 
 #### Nomes dos integrantes do grupo
@@ -41,14 +39,48 @@
 
 # <a name="c1"></a>1. Introdução (sprints 1 a 5)
 
-O agronegócio brasileiro desempenha papel central na economia nacional, sendo responsável pela significativa geração de empregos e pela produção de alimentos em larga escala(CEPEA, 2023). Nesse contexto, a pecuária demanda elevado nível de controle operacional, especialmente no registro de atividades de campo e na gestão da movimentação do rebanho, fatores diretamente relacionados à produtividade e à qualidade da tomada de decisão.
+O agronegócio brasileiro desempenha papel central na economia nacional, sendo responsável 
+por aproximadamente 25% do PIB e pela geração de empregos em larga escala, especialmente 
+em regiões de interior [1]. Nesse contexto, a pecuária demanda elevado nível de 
+controle operacional, especialmente no registro de atividades de campo e na gestão da 
+movimentação do rebanho, fatores diretamente relacionados à produtividade e à qualidade 
+da tomada de decisão.
 
-No cenário da BrPec Agropecuária S.A., identificou-se que o fluxo de informações entre o campo e o escritório ocorre de forma manual, por meio de anotações em boletas de papel. Esse modelo gera ineficiências operacionais relevantes: registros podem ser preenchidos de forma incompleta ou ilegível, há atraso no envio das informações até o escritório e torna-se necessário redigitar todos os dados em planilhas digitais. Como consequência, ocorrem retrabalho, risco de erros na consolidação dos dados e atrasos que podem comprometer a visibilidade das operações por horas ou até dias, impactando diretamente a tomada de decisão dos gestores.  
+No cenário da BrPec Agropecuária S.A., empresa com 14 retiros operacionais distribuídos 
+na região do Pantanal sul-mato-grossense e aproximadamente 25 usuários operacionais, 
+identificou-se que o fluxo de informações entre o campo e o escritório ocorre de forma 
+inteiramente manual, por meio de anotações em boletas de papel. Esse modelo gera 
+ineficiências operacionais relevantes: registros são frequentemente preenchidos de forma 
+incompleta ou ilegível, agravado pelo fato de parte dos capatazes apresentar dificuldade 
+de leitura e escrita. Há, ainda, atraso significativo no envio das informações ao escritório 
+e torna-se necessário redigitar todos os dados em planilhas digitais. Como consequência, 
+ocorrem retrabalho, risco de erros na consolidação e atrasos que podem comprometer a 
+visibilidade das operações por horas ou até dias, impactando diretamente a tomada de 
+decisão dos gestores. Um exemplo concreto identificado no kickoff com o parceiro: boletas 
+de entrada e saída de animais frequentemente não coincidem, gerando inconsistências no 
+controle do rebanho.
 
-Além disso, a limitação de conectividade nas áreas operacionais impede o uso contínuo de soluções digitais convencionais, dificultando ainda mais a padronização e a confiabilidade das informações registradas no campo.
-Diante desse contexto, foi proposta a construção de uma aplicação web capaz de digitalizar o gerenciamento de tarefas e o registro das movimentações do rebanho, com funcionamento offline. A solução permite que os dados sejam coletados diretamente no campo e sincronizados automaticamente quando houver conexão com a internet.
+Além disso, a ausência de conectividade contínua nas áreas operacionais, com 
+sincronização disponível apenas pela manhã e à noite via Starlink nos retiros, impede o 
+uso de soluções digitais convencionais, dificultando ainda mais a padronização e a 
+confiabilidade das informações registradas. Atualmente, o WhatsApp é a principal 
+ferramenta de comunicação entre capatazes e gestores, o que evidencia tanto a familiaridade 
+dos usuários com dispositivos móveis quanto a ausência de um canal estruturado para o 
+fluxo de dados operacionais.
 
-Como principal criação de valor, o sistema promove a padronização dos registros, elimina a necessidade de redigitação manual, reduz erros operacionais e melhora a rastreabilidade das informações. Dessa forma, possibilita maior agilidade na atualização dos dados, aumenta a transparência das operações e apoia a tomada de decisão dos gestores, alinhando-se às necessidades reais da BrPec.
+Diante desse contexto, foi proposta a construção de uma aplicação web capaz de digitalizar 
+o gerenciamento de tarefas e o registro das movimentações do rebanho, contemplando 
+nascimentos, mortes, compras, vendas e transferências entre retiros, com funcionamento 
+offline obrigatório. A solução permite que os dados sejam coletados diretamente no campo, 
+por meio de celulares fornecidos pela própria BrPec, e sincronizados automaticamente quando 
+houver conexão com a internet.
+
+Como principal criação de valor, o sistema promove a padronização dos registros, elimina 
+a necessidade de redigitação manual, reduz erros operacionais e melhora a rastreabilidade 
+das informações. Dessa forma, possibilita maior agilidade na atualização dos dados, aumenta 
+a transparência das operações e apoia a tomada de decisão dos gestores, alinhando-se 
+às necessidades reais da BrPec e ao seu contexto operacional.
+
 
 
 # <a name="c2"></a>2. Visão Geral da Aplicação Web (sprint 1)
@@ -72,28 +104,38 @@ O Modelo das 5 Forças de Porter foi aplicado para analisar a estrutura competit
 **Análise estrutural:** A BrPec opera em setor com barreiras de entrada relevantes e integração vertical como diferencial, mas enfrenta forte pressão de canais de compra concentrados, alta rivalidade por escala e dependência de fornecedores especializados. O passivo ambiental representa risco estratégico: a empresa figura entre os maiores desmatadores do Pantanal segundo o Ibama (DE OLHO NOS RURALISTAS, 2020), podendo restringir o acesso aos segmentos de maior rentabilidade.
 
 <center>
-  <img src="../assets/porterForcas.png" width="800"/>
-  <p><strong>Figura 1</strong> — Análise das 5 Forças de Porter aplicada à BrPec Agropecuária<br/>
+  <p><strong>Figura 1</strong> — Análise das 5 Forças de Porter aplicada à BRPec Agropecuária<br/>
+  <img src="../assets/5ForçasDePorter-BRPec.png" width="800"/>
+  
   Fonte: Próprios autores (2026).</p>
 </center>
 
-### 2.1.2. Análise SWOT da Instituição Parceira (sprint 1)
+**Rivalidade entre concorrentes**
+Verifica-se que a rivalidade no setor pecuário é focada na eficiência operacional e na redução do custo por arroba. A BrPec compete com grupos capitalizados, como Bom Futuro (MT) e Rio Vermelho (PA). Como o mercado não diferencia o produto primário, conclui-se que a ausência de digitalização dos registros de campo posiciona a corporação em desvantagem competitiva. Logo, o sistema é a ferramenta necessária para gerar dados confiáveis e equiparar a eficiência da operação.
 
+**Ameaça de novos entrantes**
+Observa-se que as barreiras físicas de entrada são altas, representadas por 14 retiros e 130 casas rurais. Contudo, fundos agropecuários terceirizados ingressam no setor suportados por ferramentas de gestão digital consolidadas. Para não sofrer obsolescência tecnológica frente a esses novos agentes, a BrPec precisa implementar o sistema de forma imediata, criando uma barreira de maturidade organizacional e de processos que proteja a sua posição no mercado.
+
+**Poder de barganha dos fornecedores**
+Constata-se que a dependência operacional concentra-se principalmente em dois vetores críticos: a infraestrutura satelital da Starlink, que restringe a conectividade a curtas janelas diárias, e os capatazes, mão de obra caracterizada pela baixa familiaridade digital. Essas restrições determinam que a adoção de uma arquitetura estritamente "offline-first" e o desenvolvimento de uma interface de alta usabilidade são requisitos indispensáveis para garantir a coleta dos dados no campo.
+
+**Poder de barganha dos clientes**
+Nota-se que o poder dos compradores é evidenciado pela pressão exercida por grandes frigoríficos, como JBS e Minerva, sobre o preço da arroba bovina. A compressão das margens comerciais exige ganhos sistêmicos de eficiência interna, os quais dependem diretamente de dados atualizados. Assim, justifica-se a implementação da solução web para digitalizar os apontamentos na origem, viabilizando o controle preciso do inventário e a otimização do manejo diário.
+
+**Ameaça de substitutos**
+Identifica-se que a conformidade ambiental em biomas sensíveis (como o Pantanal monitorado pelo Ibama) e a rastreabilidade são credenciais essenciais para acessar mercados premium, nichos de alto valor que são menos vulneráveis à substituição por outras proteínas. Portanto, o sistema é a camada tecnológica fundamental que viabiliza essa exigência, registrando a origem, o destino e as evidências fotográficas georreferenciadas de cada movimentação animal.
+
+### 2.1.2. Análise SWOT da Instituição Parceira (sprint 1)
 A análise SWOT a seguir avalia o posicionamento estratégico da BRPec considerando seu ambiente interno — forças operacionais e financeiras e fraquezas estruturais e regulatórias — e fatores externos: oportunidades de mercado e ameaças setoriais. O contexto de análise é o agronegócio brasileiro de pecuária e grãos, especificamente o segmento de produção integrada em larga escala no Pantanal mato-grossense, caracterizado por crescente pressão ESG sobre crédito e certificações, restrições regulatórias à expansão de novas áreas e acirrada competição fundiária com players institucionalizados.
+<center>
+  <p><strong>Figura 2</strong> — Análise SWOT da BRPec Agropecuária</p>
+  <img src="../assets/analiseSWOT.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 A leitura integrada dos quadrantes revela que a principal vantagem competitiva sustentável da BRPec reside em sua escala fundiária no Pantanal e no modelo integrado grãos-pecuária, atributos que concorrentes de médio porte não replicam no curto prazo. Por outro lado, o passivo ambiental ativo representa não apenas uma fraqueza interna de compliance, mas um vetor de amplificação de ameaças externas: é simultaneamente a causa do risco de bloqueio ao mercado europeu via EUDR e do encarecimento do custo de capital frente a concorrentes com certificações ESG consolidadas — concentrando dois dos três riscos externos mapeados em uma única vulnerabilidade de origem interna. Essa sobreposição indica que a resolução do passivo ambiental não é apenas uma pauta regulatória, mas a condição estrutural para que a BRPec converta sua escala operacional em acesso real a mercados premium e crédito qualificado.
 
 ### 2.1.3. Solução (sprints 1 a 5)
-
-_Explique detalhadamente os seguintes aspectos (até 60 palavras por item):_
-
-1. Problema a ser resolvido
-2. Dados disponíveis (mencionar fonte e conteúdo; se não houver, indicar “não se aplica”)
-3. Solução proposta
-4. Forma de utilização da solução
-5. Benefícios esperados
-6. Critério de sucesso e como será avaliado
-
 #### 1. Definição do Problema
 
 A BRPec depende atualmente de processos manuais e anotações em papel (boletas) para comunicar ordens de serviço entre o campo e o escritório, além de registrar movimentações do rebanho (nascimentos, óbitos e transferências). Isso gera retrabalho na consolidação dos dados, redigitação em planilhas eletrônicas e atraso na visibilidade das informações operacionais.
@@ -102,14 +144,13 @@ A BRPec depende atualmente de processos manuais e anotações em papel (boletas)
 
 #### 2. Dados Disponíveis
 
-Os dados disponíveis para o projeto incluem:
-
-- Estrutura de papéis (Gerente, Capataz, Coordenador de Retiro)
-- Tipos de eventos zootécnicos registrados manualmente: nascimento, morte, compra, venda e transferência entre retiros
-- Tipos de tarefas de campo: cercas, pasto, infraestrutura
-- Formato de saída esperado: planilha Excel/CSV
-- Stack técnica definida: HTML/CSS/JS (front), Node.js (servidor), SQLite (banco)
-- Restrições: sem autenticação formal de usuários, sem integração com WebAPIs externas
+Os dados disponibilizados para o desenvolvimento do projeto compreendem exclusivamente informações de negócio e operacionais da fazenda, incluindo:
+- Estrutura hierárquica e definição de papéis de usuários, contemplando as funções de Gerente Geral, Coordenador, Supervisor e Capataz.  
+- Tipologias de eventos zootécnicos e sanitários passíveis de registro, tais como nascimentos, óbitos, aquisições, vendas e transferências de animais entre retiros.  
+- Categorização do rebanho por faixa etária e estágio de desenvolvimento (bezerro, garrote, boi, touro, bezerra, novilha e vaca).  
+- Lista fixa dos 14 retiros operacionais que compõem a infraestrutura da propriedade.  
+- Tipologias de chamados de infraestrutura para manutenção de instalações (ex: hidráulica, elétrica e cercas).  
+- Modelos de boletas físicas atualmente utilizadas no campo e templates de planilhas eletrônicas utilizadas pela administração para a exportação e consolidação final das movimentações.  
 
 ---
 
@@ -164,27 +205,27 @@ O projeto será considerado bem-sucedido quando:
 
 ### 2.1.4. Value Proposition Canvas (sprint 1):
 
-A proposta de valor é uma declaração curta e objetiva que resume a essência da aplicação web: o que ela oferece, para quem e por que vale a pena jogar. Ela funciona como o núcleo de toda a visão do projeto, orientando decisões de design e comunicando de forma clara o diferencial do jogo antes de qualquer detalhe técnico ou mecânico ser apresentado.
+A proposta de valor constitui uma declaração objetiva que sintetiza a essência da aplicação web desenvolvida, definindo as funcionalidades entregues, o público-alvo atendido e os benefícios operacionais gerados. Essa ferramenta atua como o eixo analítico do projeto, fundamentando as decisões de arquitetura de software e comunicando o diferencial competitivo da solução digital de modo estruturado. A análise do canvas evidencia que o sistema mitiga ineficiências operacionais concretas enfrentadas pelos capatazes em campo, tais como a dependência exclusiva de registros físicos, a inviabilidade de uso de sistemas convencionais em áreas desprovidas de cobertura de internet e a assincronicidade na comunicação com as instâncias gerenciais.  
 
 <center>
+  <p><strong>Figura 3</strong> — Canvas Proposta de Valor aplicada à BrPec Agropecuária</p>
   <img src="../assets/canvasPropostaDeValor.png" width="800"/>
-  <p><strong>Figura 2</strong> — Canvas Proposta de Valor aplicada à BrPec Agropecuária<br/>
-  Fonte: Próprios autores (2026).</p>
+  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-O canvas evidencia que a aplicação web resolve dores concretas dos Capatazes em campo — como a dependência de boletas de papel, a impossibilidade de usar soluções convencionais sem internet e a comunicação informal com o Gerente, garantindo que haja um maior controle pelos Capatazes. Os ganhos gerados, como a eliminação do retrabalho de transcrição, o registro ágil de eventos zootécnicos em poucos toques e a confirmação automática de tarefas com envio de evidências, se alinham diretamente às entregas do produto: formulários digitais de manejo bovino, sistema de alertas multimídia e exportação em Excel para o Coordenador. A proposta de valor da aplicação web, portanto, não se limita a digitalizar uma planilha existente, mas redefine o fluxo de informações entre o campo e o escritório — tornando os registros operacionais mais confiáveis, rastreáveis e acessíveis para toda a cadeia de gestão da fazenda.
+Os benefícios gerados pela adoção do sistema — incluindo a supressão do retrabalho de transcrição de dados, o registro otimizado de eventos zootécnicos em interface acessível e a confirmação documental de ordens de serviço com suporte a evidências fotográficas — estão em conformidade direta com os requisitos estabelecidos pela propriedade rural. Conclui-se, portanto, que a proposta de valor promovida não se restringe à mera digitalização de planilhas de controle, mas consolida a reestruturação integral do fluxo de dados operacionais, assegurando que o inventário pecuário e o status das infraestruturas se tornem mais precisos, rastreáveis e tempestivos para o suporte à tomada de decisão administrativa.  
 
 ### 2.1.5. Matriz de Riscos do Projeto (sprint 1)
 
-A matriz de riscos é uma ferramenta que permite identificar, analisar e priorizar ameaças e oportunidades de um projeto. A classificação é feita com base na probabilidade de ocorrência e no impacto, auxiliando na definição de ações para cada caso. Dessa forma, foi elaborada a matriz de riscos para o desenvolvimento da aplicação web da BrPec Agropecuária S.A, considerando seus principais desafios. 
+A matriz de riscos é uma ferramenta que permite identificar, analisar e priorizar ameaças e oportunidades de um projeto. A classificação é feita com base na probabilidade de ocorrência e no impacto, auxiliando na definição de ações para cada caso. Dessa forma, foi elaborada a matriz de riscos para o desenvolvimento da aplicação web da BrPec Agropecuária S.A, considerando seus principais desafios.
 
-Nesse contexto, a figura a seguir apresenta a matriz de riscos elaborada para o projeto, que usa como base os padrões da ISO 31000 e PMBOK(REVISTA DE GESTÃO E PROJETOS, 2013), na qual são organizadas as principais ameaças e oportunidades identificadas, considerando seus respectivos níveis de impacto e probabilidade. 
+Nesse contexto, a figura a seguir apresenta a matriz de riscos elaborada para o projeto, que usa como base os padrões da ISO 31000 e PMBOK [2], na qual são organizadas as principais ameaças e oportunidades identificadas, considerando seus respectivos níveis de impacto e probabilidade. 
 
 
 <center>
+  <p><strong>Figura 4</strong> — Matriz de Risco aplicada à BrPec Agropecuária</p>
   <img src="../assets/matriz-de-risco-BrPec.png" width="800"/>
-  <p><strong>Figura 3</strong> — Matriz De Risco aplicada à BrPec Agropecuária<br/>
-  Fonte: Próprios autores (2026).</p>
+  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 ## Ameaças
@@ -194,10 +235,10 @@ Nesse contexto, a figura a seguir apresenta a matriz de riscos elaborada para o 
 **Impacto:** Muito Alto  
 
 **Explicação:**  
-A operação ocorre majoritariamente offline nos retiros, o que torna a sincronização um elemento crítico do sistema. Falhas nesse processo podem resultar na perda, duplicidade ou inconsistência de dados. Por exemplo, uma movimentação de rebanho registrada no campo pode não ser refletida no sistema central, gerando divergência entre o estoque real de animais e os dados disponíveis para gestão.
+Constata-se que a operação é realizada maioritariamente em modo offline nos retiros, razão pela qual a sincronização de dados é considerada um elemento estruturalmente crítico do sistema. Verifica-se que falhas neste processo podem resultar na perda, duplicidade ou inconsistência de registos. A título de exemplo, observa-se que uma movimentação de rebanho registada no campo pode não ser refletida no sistema central, gerando divergência entre o inventário real de animais e os dados disponibilizados para a gestão.
 
 **Plano de ação:**  
-Para mitigar esse risco, deve-se adotar uma arquitetura orientada ao funcionamento offline, com armazenamento local de dados e sincronização assíncrona. É fundamental implementar mecanismos de controle de consistência, como filas de envio, registros de log e reprocessamento automático em caso de falhas. Além disso, devem ser realizados testes que simulem cenários reais de perda e retomada de conexão, garantindo que o sistema mantenha a integridade dos dados mesmo em condições adversas.
+Constata-se que a mitigação deste risco exige a adoção de uma arquitetura orientada ao funcionamento offline, com armazenamento local de dados e sincronização assíncrona. Considera-se fundamental a implementação de mecanismos de controlo de consistência, tais como filas de envio, registos de log e reprocessamento automatizado em caso de falhas. Adicionalmente, recomenda-se a realização de testes que simulem cenários reais de perda e retomada de conexão, assegurando que a integridade dos dados seja mantida mesmo em condições adversas.
 
 ---
 
@@ -206,10 +247,10 @@ Para mitigar esse risco, deve-se adotar uma arquitetura orientada ao funcionamen
 **Impacto:** Alto  
 
 **Explicação:**  
-Os capatazes, principais usuários do sistema, apresentam baixo nível de instrução formal e estão habituados ao uso de ferramentas simples, como o WhatsApp. Uma interface complexa pode dificultar a utilização do sistema e comprometer sua adoção no dia a dia.
+Verifica-se que os capatazes, identificados como os principais utilizadores do sistema, apresentam reduzido nível de instrução formal e encontram-se habituados ao uso de ferramentas de comunicação elementares, como o WhatsApp. Observa-se que uma interface dotada de elevada complexidade pode dificultar a utilização do sistema e comprometer a sua adoção na rotina operacional diária.
 
 **Plano de ação:**  
-A mitigação desse risco exige o desenvolvimento de uma interface altamente intuitiva, baseada em elementos visuais e fluxos simplificados. Deve-se reduzir ao máximo a necessidade de leitura e digitação, priorizando ações rápidas e diretas. A validação contínua com o parceiro, por meio de protótipos e simulações de uso real, é essencial para garantir aderência ao perfil do usuário. Além disso, a comparação com ferramentas já utilizadas pelos capatazes pode orientar decisões de design mais eficazes.
+Constata-se que a mitigação deste risco exige o desenvolvimento de uma interface altamente intuitiva, fundamentada em elementos visuais e fluxos simplificados. Recomenda-se que a necessidade de leitura e digitação seja reduzida ao mínimo, priorizando-se ações rápidas e diretas. Considera-se essencial a validação contínua com o parceiro, por meio de protótipos e simulações de uso real, para garantir a aderência ao perfil do utilizador. Adicionalmente, observa-se que a comparação com ferramentas já utilizadas pelos capatazes pode orientar decisões de design mais eficazes.
 
 ---
 
@@ -218,10 +259,10 @@ A mitigação desse risco exige o desenvolvimento de uma interface altamente int
 **Impacto:** Alto  
 
 **Explicação:**  
-Erros no registro de eventos como nascimento, morte ou transferência de animais comprometem diretamente a confiabilidade das informações. Um exemplo crítico seria a ausência de registro de morte, que pode gerar inconsistência no inventário e impactar decisões de venda ou manejo.
+Observa-se que erros no registro de eventos zootécnicos, tais como nascimento, óbito ou transferência de animais, comprometem diretamente a fiabilidade das informações. A título ilustrativo, constata-se que a ausência de registro de um óbito pode gerar inconsistência no inventário e impactar decisões de venda ou de manejo.
 
 **Plano de ação:**  
-Para reduzir esse risco, o sistema deve impor validações estruturais nos registros, garantindo o preenchimento de campos essenciais, como origem, destino e tipo de movimentação. A exigência de evidências, como fotos georreferenciadas em eventos críticos, contribui para aumentar a confiabilidade dos dados. Além disso, a implementação de histórico de alterações permite rastrear inconsistências e corrigir eventuais erros ao longo do tempo.
+Verifica-se que a redução deste risco requer a imposição de validações estruturais nos registros, garantindo-se o preenchimento de campos essenciais, tais como origem, destino e tipo de movimentação. Considera-se que a exigência de evidências, como fotografias georreferenciadas em eventos críticos, contribui para o aumento da fiabilidade dos dados. Adicionalmente, recomenda-se a implementação de histórico de alterações, de modo a permitir a rastreabilidade de inconsistências e a correção de eventuais erros ao longo do tempo.
 
 ---
 
@@ -230,23 +271,22 @@ Para reduzir esse risco, o sistema deve impor validações estruturais nos regis
 **Impacto:** Muito Alto  
 
 **Explicação:**  
-Mesmo com uma interface adequada, existe o risco de resistência à mudança por parte dos capatazes, que estão habituados ao uso de papel e ferramentas informais no dia a dia. A introdução de um novo sistema pode ser percebida como uma complexidade adicional à rotina, especialmente em um ambiente operacional já consolidado. Por exemplo, mesmo com o aplicativo disponível, o usuário pode optar por continuar registrando informações manualmente e postergar o uso da solução digital, comprometendo a centralização e a confiabilidade dos dados.
+Constata-se que, mesmo perante uma interface considerada adequada, persiste o risco de resistência à mudança por parte dos capatazes, habituados ao uso de registos em papel e ferramentas informais na rotina diária. Observa-se que a introdução de um novo sistema pode ser percecionada como uma complexidade adicional ao fluxo operacional já consolidado. A título de exemplo, verifica-se a possibilidade de o utilizador optar por continuar a registar informações manualmente e postergar a utilização da solução digital, comprometendo a centralização e a fiabilidade dos dados.
 
 **Plano de ação:**  
-A mitigação desse risco exige não apenas uma solução tecnicamente adequada, mas também uma estratégia de implementação alinhada ao contexto da fazenda. É necessário garantir que o sistema seja percebido como facilitador da rotina, reduzindo esforço operacional em comparação ao método atual. Além disso, o envolvimento de supervisores no acompanhamento do uso e a validação contínua com o parceiro contribuem para reforçar a adoção. A demonstração prática de benefícios, como redução de retrabalho e maior agilidade no registro, também atua como fator de incentivo ao uso contínuo da ferramenta.
-
+Identifica-se que a mitigação deste risco exige não apenas uma solução tecnicamente adequada, mas também uma estratégia de implementação alinhada ao contexto operacional da fazenda. Considera-se necessário assegurar que o sistema seja percecionado como facilitador da rotina, evidenciando-se a redução do esforço operacional em comparação ao método vigente. Recomenda-se, ainda, o envolvimento de supervisores no acompanhamento da utilização e a condução de validação contínua com o parceiro, de forma a reforçar a adoção. Verifica-se que a demonstração prática de benefícios — tais como a redução do retrabalho e a maior agilidade no registo — atua como fator de incentivo ao uso continuado da ferramenta.
 
 ---
 
-### A05 — Problemas de integração entre frontend e backend  
+### A05 — Incompatibilidade na exportação de dados  
 **Probabilidade:** 30%  
 **Impacto:** Moderado  
 
 **Explicação:**  
-Diferenças nos formatos de dados ou endpoints podem causar falhas no sistema, atrasando o desenvolvimento.
+Identifica-se o risco de os ficheiros CSV gerados pelo sistema não serem interpretados corretamente pelos templates legados de Excel utilizados pela coordenação da fazenda para a consolidação das movimentações. Observa-se que divergências na codificação de caracteres, na delimitação de campos ou na ordenação das colunas podem resultar na importação incorreta dos dados, gerando inconsistências nos relatórios gerenciais e comprometendo a fiabilidade da informação consolidada.
 
 **Plano de ação:**  
-Definir contratos de API (JSON padronizado), documentar endpoints, realizar testes de integração e manter comunicação constante entre os responsáveis.
+Constata-se que a mitigação deste risco exige a homologação rigorosa dos esquemas de dados exportados, confrontando-se a estrutura dos ficheiros gerados pelo sistema com os templates legados atualmente em uso pela coordenação. Recomenda-se a realização de testes de importação com dados representativos em diferentes versões de Excel, bem como a validação da codificação de caracteres (UTF-8 com BOM) e dos delimitadores utilizados. Adicionalmente, considera-se necessária a documentação formal do esquema de exportação, de modo a garantir a compatibilidade contínua e a rastreabilidade de eventuais alterações no formato dos dados.
 
 ---
 
@@ -255,10 +295,10 @@ Definir contratos de API (JSON padronizado), documentar endpoints, realizar test
 **Impacto:** Moderado  
 
 **Explicação:**  
-O sistema será utilizado em dispositivos móveis no campo, que podem apresentar limitações de hardware. Baixo desempenho pode dificultar o uso durante as atividades diárias.
+Verifica-se que o sistema será utilizado em dispositivos móveis no campo, os quais podem apresentar limitações de capacidade de processamento e memória. Observa-se que um desempenho insuficiente pode dificultar a utilização do sistema durante as atividades operacionais diárias.
 
 **Plano de ação:**  
-Para garantir uma experiência adequada, o sistema deve ser otimizado para dispositivos móveis, com interfaces leves e baixo consumo de recursos. A utilização de cache local e a minimização de requisições externas contribuem para melhorar o desempenho. Além disso, testes em dispositivos reais são essenciais para validar a usabilidade em condições próximas à operação.
+Constata-se que a garantia de uma experiência de utilização adequada requer a otimização do sistema para dispositivos móveis, com interfaces leves e reduzido consumo de recursos computacionais. Verifica-se que a utilização de cache local e a minimização de requisições externas contribuem para a melhoria do desempenho. Recomenda-se, adicionalmente, a realização de testes em dispositivos reais, de modo a validar a usabilidade em condições próximas ao ambiente operacional efetivo.
 
 ---
 
@@ -269,10 +309,10 @@ Para garantir uma experiência adequada, o sistema deve ser otimizado para dispo
 **Impacto:** Muito Alto  
 
 **Explicação:**  
-Atualmente, os dados são registrados em papel e posteriormente transcritos para planilhas, o que gera retrabalho e aumenta a probabilidade de erros. A digitalização permite eliminar esse processo intermediário, tornando o fluxo mais eficiente e confiável.
+Constata-se que, no modelo atual, os dados são registrados em papel e posteriormente transcritos para planilhas eletrônicas, processo que gera retrabalho e aumenta a probabilidade de erros. Verifica-se que a digitalização permite a eliminação deste processo intermediário, tornando o fluxo informacional mais eficiente e viável.
 
 **Plano de ação:**  
-A digitalização dos registros deve garantir que todas as informações sejam coletadas diretamente no campo, de forma estruturada e padronizada. A integração com relatórios e exportações automatizadas assegura que os dados possam ser utilizados imediatamente, reduzindo tempo operacional e falhas humanas.
+Observa-se que a digitalização dos registros requer a garantia de que todas as informações sejam recolhidas diretamente no campo, de forma estruturada e padronizada. Considera-se que a integração com relatórios e exportações automatizadas assegura que os dados possam ser utilizados de forma imediata, reduzindo-se o tempo operacional e as falhas de origem humana.
 
 ---
 
@@ -281,10 +321,10 @@ A digitalização dos registros deve garantir que todas as informações sejam c
 **Impacto:** Alto  
 
 **Explicação:**  
-O contato com a realidade da pecuária permite aprendizado de um setor relevante e pouco explorado por estudantes de tecnologia.
+Identifica-se que o contacto direto com a realidade operacional da pecuária proporciona uma oportunidade de aprendizagem significativa acerca de um setor economicamente relevante e ainda pouco explorado por profissionais e equipes de desenvolvimento tecnológico
 
 **Plano de ação:**  
-Aproveitar reuniões com o parceiro, fazer perguntas estratégicas e validar entendimento do negócio.
+Recomenda-se que as interações com o parceiro sejam aproveitadas como oportunidades de imersão no domínio de negócio, sendo formuladas questões estratégicas e validado sistematicamente o entendimento das dinâmicas operacionais do setor. Considera-se que esta compreensão aprofundada contribui para o alinhamento da solução tecnológica às necessidades reais da propriedade.
 
 ---
 
@@ -293,10 +333,10 @@ Aproveitar reuniões com o parceiro, fazer perguntas estratégicas e validar ent
 **Impacto:** Alto  
 
 **Explicação:**  
-Atualmente, as decisões são tomadas com base em dados que chegam com atraso ou podem conter inconsistências. Com a digitalização, os gestores passam a ter acesso a informações mais atualizadas e confiáveis. Por exemplo, o controle preciso do número de animais por categoria permite decisões mais assertivas sobre venda e manejo.
+Verifica-se que, no modelo atual, as decisões são tomadas com base em dados que chegam com atraso ou que podem conter inconsistências. Observa-se que, com a digitalização, os gestores passam a dispor de acesso a informações mais atualizadas e fiáveis. A título de exemplo, constata-se que o controlo preciso do número de animais por categoria permite decisões mais assertivas sobre venda e maneio.
 
 **Plano de ação:**  
-A disponibilização de dados estruturados deve ser acompanhada pela criação de dashboards e relatórios que facilitem a visualização das informações. A organização por retiro, tipo de atividade e categoria de animal contribui para análises mais rápidas e eficazes.
+Considera-se que a disponibilização de dados estruturados requer o acompanhamento pela criação de painéis e relatórios que facilitem a visualização das informações. Observa-se que a organização por retiro, tipo de atividade e categoria animal contribui para análises mais rápidas e eficazes.
 
 ---
 
@@ -305,34 +345,33 @@ A disponibilização de dados estruturados deve ser acompanhada pela criação d
 **Impacto:** Alto  
 
 **Explicação:**  
-Em um setor altamente competitivo, a eficiência operacional é um fator determinante. O uso de dados confiáveis permite reduzir perdas, melhorar o controle do rebanho e otimizar a execução das atividades. A identificação rápida de falhas operacionais possibilita correções ágeis, evitando impactos maiores na produção.
+Constata-se que, num setor de elevada competitividade, a eficiência operacional constitui um fator determinante de diferenciação. Verifica-se que a utilização de dados fiáveis permite a redução de perdas, a melhoria do controlo do rebanho e a otimização da execução das atividades. Observa-se, ainda, que a identificação célere de falhas operacionais possibilita correções ágeis, evitando-se impactos de maior magnitude na produção.
 
 **Plano de ação:**  
-Para potencializar essa oportunidade, é necessário garantir que os dados coletados sejam utilizados estrategicamente. A análise contínua por meio de indicadores e relatórios permite transformar informações operacionais em vantagens competitivas, fortalecendo a posição da empresa no mercado.
+Identifica-se que a potencialização desta oportunidade requer a garantia de que os dados recolhidos sejam utilizados de forma estratégica. Considera-se que a análise contínua por meio de indicadores e relatórios permite a transformação de informações operacionais em vantagens competitivas, fortalecendo-se o posicionamento da empresa no mercado.
 
 ---
 
 ## Síntese
 
-A análise da matriz de riscos permite identificar fatores críticos que podem impactar tanto o desenvolvimento do projeto quanto a efetividade da solução no contexto da BrPec. Ao estabelecer estratégias de mitigação e potencialização, torna-se possível conduzir o projeto de forma mais segura, alinhada às necessidades do parceiro e orientada à geração de valor, contribuindo para a qualidade e confiabilidade das entregas.
-
+Conclui-se que a análise da matriz de riscos permite a identificação de fatores críticos suscetíveis de impactar tanto o desenvolvimento do projeto quanto a efetividade da solução no contexto operacional da BrPec. Verifica-se que, ao serem estabelecidas estratégias de mitigação e potencialização, torna-se possível a condução do projeto de forma mais segura, alinhada às necessidades do parceiro e orientada à geração de valor. Observa-se, assim, que a presente análise contribui para a qualidade, a fiabilidade e a rastreabilidade das entregas projetadas.
 
 ## 2.2. Personas (sprint 1)
 
-Personas são, de forma resumida, representaçôes fictícia dos diferentes tipos de usuários. Elas permitem que a ferramenta seja mais eficiente e focada para atender as necessidades reais do cliente. Dessa forma, as figuras 4, 5 e 6 mostram as personas criadas para o projeto.
+Personas são, de forma resumida, representaçôes fictícia dos diferentes tipos de usuários. Elas permitem que a ferramenta seja mais eficiente e focada para atender as necessidades reais do cliente. Dessa forma, as Figuras 5, 6 e 7 mostram as personas criadas para o projeto.
 
 ### Persona 1: João Pereira
 
 <center>
+  <p><strong>Figura 5</strong> — Persona 1: João Pereira (Gerente)</p>
   <img src="../assets/persona1.png" width="800"/>
-  <p><strong>Figura 4</strong> — Persona 1: João Pereira (Gerente) <br/>
-  Fonte: Próprios autores (2026).</p>
+  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 
 #### Informações:
 - Nome e sobrenome: João Pereira;
-- Idade: 40 anos [1];
+- Idade: 40 anos [3];
 - Cargo: Gerente geral na BrPec Agropecuária S.A.;
 - Estado Civil: Casado;
 - Localização: Miranda-MS;
@@ -341,7 +380,7 @@ Personas são, de forma resumida, representaçôes fictícia dos diferentes tipo
 #### Motivações:
 Conseguir manter sua família e garantir educação para seus filhos. Além disso, deseja ser um funcionário de destaque para a BrPec.
 
-#### Interesses [1]:
+#### Interesses [3]:
 - Animais;
 - Tecnologias aplicadas ao agronegócio;
 - Gestão Logística e Operações;
@@ -360,14 +399,18 @@ Conseguir manter sua família e garantir educação para seus filhos. Além diss
 - Painel para a criação e gestão de tarefas calendarizadas para os Capatazes;
 - Infomações diariamente atualizadas.
 
-#### Habilidades [3]:
+#### Habilidades [5]:
 - Planejamento de atividades operacionais;
 - Monitoramento e controle de metas de produção;
 - Elaboração de relatórios;
 - Gestão de equipes e supervisão de desempenho;
 - Tomada de decisão baseada em indicadores do campo.
 
-#### Familiaridade com Tecnologia [2]:
+#### Familiaridade com Tecnologia [4]
+
+<center>
+  <p><strong>Tabela 1</strong> — Familiaridade com Tecnologia (João Pereira)</p>
+</center>
 
 | Aspecto   | Nível / Situação    |
 |-------------------|---------------------------------|
@@ -376,22 +419,26 @@ Conseguir manter sua família e garantir educação para seus filhos. Além diss
 | Planilhas e formulários | Intermediate (DigComp) - utiliza planilhas para acompanhar as atividades |
 | Sistemas web  | Basic (DigComp) - acessa portais e e-mail, sem uso de plataformas integradas  |
 
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 Informações extras:
 - Conectividade: Boa - trabalha em escritório com acesso estável à internet;
 - Meio de comunicação principal: WhatsApp, rádio e telefone com capatazes e coordenadores;
-- Adaptação a novas tecnologias: Moderada a alta - reconhece o valor das ferramentas digitais e está aberto a adotá-las [3];
+- Adaptação a novas tecnologias: Moderada a alta - reconhece o valor das ferramentas digitais e está aberto a adotá-las [5];
 - Dispositivo disponível: Computador e celular.
 
 #### Notas e Justificativas:
 
-**[1] Idade e perfil do cargo:**
-A faixa etária de 40 anos foi baseada no perfil médio do Gerente de Produção e Operações Agropecuárias (CBO 1411-15), que aponta 40 anos como idade mais recorrente segundo o Portal Salário a partir de dados do CAGED. Além disso, outras informações sobre o perfil do foram baseadas a partir dessa fonte. (PORTAL SALÁRIO, 2025)
+**Idade e perfil do cargo:**
+A faixa etária de 40 anos foi baseada no perfil médio do Gerente de Produção e Operações Agropecuárias (CBO 1411-15), que aponta 40 anos como idade mais recorrente segundo o Portal Salário a partir de dados do CAGED. Além disso, outras informações sobre o perfil do foram baseadas a partir dessa fonte [3].
 
-**[2] Framework de Competência Digital - DigComp 3.0:**
-Os níveis de familiaridade com tecnologia foram classificados seguindo o DigComp 3.0, framework europeu de competência digital desenvolvido pelo Joint Research Centre da Comissão Europeia. Ele define quatro níveis de proficiência (Basic, Intermediate, Advanced e Highly Advanced) com base na complexidade das tarefas executadas e no grau de autonomia do indivíduo. (COSGROVE; CACHIA, 2025)
+**Framework de Competência Digital - DigComp 3.0:**
+Os níveis de familiaridade com tecnologia foram classificados seguindo o DigComp 3.0, framework europeu de competência digital desenvolvido pelo Joint Research Centre da Comissão Europeia. Ele define quatro níveis de proficiência (Basic, Intermediate, Advanced e Highly Advanced) com base na complexidade das tarefas executadas e no grau de autonomia do indivíduo [4].
 
-**[3] Habilidades do gestor no agronegócio:**
-As habilidades listadas foram baseadas no perfil de profissionais que ocupam cargos de gestão no agronegócio. (IPOG, 2022)
+**Habilidades do gestor no agronegócio:**
+As habilidades listadas foram baseadas no perfil de profissionais que ocupam cargos de gestão no agronegócio [5].
 
 #### Biografia:
 
@@ -406,9 +453,9 @@ João se comunica com supervisores e coordenadores frequentemente, mas essa comu
 ### Persona 2: Marcos Cesar Filho
 
 <center>
+  <p><strong>Figura 6</strong> — Persona 2: Marcos Cesar Filho (Coordenador)</p>
   <img src="../assets/persona2.png" width="800"/>
-  <p><strong>Figura 5</strong> — Persona 2: Marcos Cesar Filho (Coordenador)<br/>
-  Fonte: Próprios autores (2026).</p>
+  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 #### Informações:
@@ -417,7 +464,7 @@ João se comunica com supervisores e coordenadores frequentemente, mas essa comu
 - Cargo: Coordenador na BrPec Agropecuária S.A.;
 - Estado Civil: Solteiro;
 - Localização: Miranda- MS;
-- Escolaridade: Pós-graduado em administração [1].
+- Escolaridade: Pós-graduado em administração [6].
 
 #### Motivações:
 Crescer profissionalmente dentro do agronegócio e ser reconhecido pela precisão e confiabilidade dos dados que gerencia.
@@ -446,7 +493,11 @@ Crescer profissionalmente dentro do agronegócio e ser reconhecido pela precisã
 - Comunicação entre campo e gestão;
 - Tomada de decisão baseada em dados.
 
-#### Familiaridade com Tecnologia [2]:
+#### Familiaridade com Tecnologia [4]:
+
+<center>
+  <p><strong>Tabela 2</strong> — Familiaridade com Tecnologia (Marcos Cesar Filho)</p>
+</center>
 
 | Aspecto | Nível / Situação  |
 |---------------------------|-------------------------------|
@@ -454,6 +505,10 @@ Crescer profissionalmente dentro do agronegócio e ser reconhecido pela precisã
 | Aplicativos de gestão  | Basic (DigComp) - sem experiência com sistemas ERP ou plataformas operacionais  |
 | Planilhas e formulários   | Intermediate (DigComp) - usa Excel para consolidação manual de dados de campo |
 | Sistemas web  | Basic (DigComp) - acessa e-mail e portais simples, sem dashboards ou sistemas  |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 **Informações extras:**
 - Conectividade: Boa, trabalha em ambiente de escritório com acesso à internet;
@@ -463,11 +518,11 @@ Crescer profissionalmente dentro do agronegócio e ser reconhecido pela precisã
 
 #### Notas e Justificativas:
 
-**[1] Escolaridade do gestor no agronegócio:**
-O Portal CNA Brasil aponta que, para cargos de coordenação técnica no agronegócio, o perfil mais buscado combina forte conhecimento técnico com boas noções de gestão, habilidade de comunicação e liderança. (CNA BRASIL, [s.d.])
+**Escolaridade do gestor no agronegócio:**
+O Portal CNA Brasil aponta que, para cargos de coordenação técnica no agronegócio, o perfil mais buscado combina forte conhecimento técnico com boas noções de gestão, habilidade de comunicação e liderança [6].
 
-**[2] Framework de Competência Digital - DigComp 3.0:**
-Os níveis de familiaridade com tecnologia foram classificados seguindo o DigComp 3.0, framework europeu de competência digital desenvolvido pelo Joint Research Centre da Comissão Europeia. Ele define quatro níveis de proficiência (Basic, Intermediate, Advanced e Highly Advanced) com base na complexidade das tarefas executadas e no grau de autonomia do indivíduo. (COSGROVE; CACHIA, 2025)
+**Framework de Competência Digital - DigComp 3.0:**
+Os níveis de familiaridade com tecnologia foram classificados seguindo o DigComp 3.0, framework europeu de competência digital desenvolvido pelo Joint Research Centre da Comissão Europeia. Ele define quatro níveis de proficiência (Basic, Intermediate, Advanced e Highly Advanced) com base na complexidade das tarefas executadas e no grau de autonomia do indivíduo [4].
 
 #### Biografia:
 
@@ -480,15 +535,15 @@ Sua rotina começa organizando as boletas vindas dos capatazes. Assim, ele tenta
 ### Persona 3: Gabriel Galdino
 
 <center>
+  <p><strong>Figura 7</strong> — Persona 3: Gabriel Galdino (Capataz)</p>
   <img src="../assets/persona3.png" width="800"/>
-  <p><strong>Figura 5</strong> — Persona 3: Gabriel Galdino (Capataz) <br/>
-  Fonte: Próprios autores (2026).</p>
+  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 #### Informações: 
 - Nome e sobrenome: Gabriel Galdino;
-- Idade: 33 anos [1];
-- Cargo: Capataz na BrPec Agropecuária S.A. [2];
+- Idade: 33 anos [7];
+- Cargo: Capataz na BrPec Agropecuária S.A. [8];
 - Estado Civil: Casado;
 - Localização: Aquidauana (MS) – Atua em retiros na região do Pantanal;
 - Escolaridade: Ensino Fundamental completo;
@@ -503,14 +558,14 @@ Garantir o sustento da família e proporcionar uma boa vida para os filhos. Quer
 - Ter maior controle sobre as atividades realizadas no dia.
 
 #### Necessidades:
-- Sistema fácil de usar sem conhecimento técnico prévio, por ter maior dificuldade com tecnologias [3];
+- Sistema fácil de usar sem conhecimento técnico prévio, por ter maior dificuldade com tecnologias [9];
 - Registro rápido de tarefas e ocorrências;
 - Visualização clara das atividades do dia;
 - Funcionamento offline devido à limitação de internet;
 - Padronização das informações registradas.
 
 #### Desafios/dores:
-- Baixa familiaridade com tecnologias digitais [3];
+- Baixa familiaridade com tecnologias digitais [9];
 - Dependência de registros manuais e memória;
 - Dificuldade para acompanhar tarefas em tempo real;
 - Dificuldade de comunicação com níveis superiores;
@@ -532,6 +587,10 @@ Garantir o sustento da família e proporcionar uma boa vida para os filhos. Quer
 
 #### Familiaridade com Tecnologia [4]:
 
+<center>
+  <p><strong>Tabela 3</strong> — Familiaridade com Tecnologia (Gabriel Galdino)</p>
+</center>
+
 | Aspecto            | Nível / Situação       |
 |---------------------------|-----------------------------------------------------|
 | Smartphone      | Basic (DigComp) - uso restrito a ligações e WhatsApp       |
@@ -539,25 +598,29 @@ Garantir o sustento da família e proporcionar uma boa vida para os filhos. Quer
 | Planilhas e formulários  | Abaixo do Basic - registro em planilhas é feito por outros a partir de suas anotações |
 | Sistemas web ou digitais  | Abaixo do Basic - boletas são físicas e comunicação é verbal |
 
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 Informações extras:
 - Conectividade no campo: Instável ou ausente - sinal de internet limitado ou inexistente nos retiros;
 - Meio de comunicação principal: Rádio, comunicação verbal e anotações;
-- Adaptação a novas tecnologias: Baixa - resistência natural e por pouco contato com dispositivos ao longo da vida [3];
+- Adaptação a novas tecnologias: Baixa - resistência natural e por pouco contato com dispositivos ao longo da vida [9];
 - Dispositivo disponível: Celular.
 
 #### Notas e Justificativas: 
 
-**[1] Idade e perfil salarial do capataz:**  
-A faixa etária de 33 anos foi baseada no perfil médio de trabalhadores que ocupam o cargo de capataz na pecuária, conforme levantamento disponível no site consultado. (PORTAL SALÁRIO, 2026)
+**Idade e perfil salarial do capataz:**  
+A faixa etária de 33 anos foi baseada no perfil médio de trabalhadores que ocupam o cargo de capataz na pecuária, conforme levantamento disponível no site consultado [7].
 
-**[2] Descrição do cargo de Capataz:**  
-As atribuições descritas, como exemplo a administração de mão de obra ou o controle do rebanho, estão alinhadas com a Classificação Brasileira de Ocupações (CBO), que define formalmente as competências e atividades do capataz na agropecuária. (BRASIL, [s.d.])
+**Descrição do cargo de Capataz:**  
+As atribuições descritas, como exemplo a administração de mão de obra ou o controle do rebanho, estão alinhadas com a Classificação Brasileira de Ocupações (CBO), que define formalmente as competências e atividades do capataz na agropecuária [8].
 
-**[3] Baixa familiaridade com tecnologias digitais na pecuária:**  
-A pesquisa acadêmica publicada na SciELO expõe a dificuldade de adoção de tecnologias por trabalhadores rurais na pecuária. O estudo aponta que características individuais como formação profissional e a posição ocupada dentro da propriedade influenciam diretamente a adoção ou rejeição de tecnologias, sendo a baixa escolaridade um fator determinante para a resistência ao uso de ferramentas digitais no campo. (MACHADO; NANTES, 2011)
+**Baixa familiaridade com tecnologias digitais na pecuária:**  
+A pesquisa acadêmica publicada na SciELO expõe a dificuldade de adoção de tecnologias por trabalhadores rurais na pecuária. O estudo aponta que características individuais como formação profissional e a posição ocupada dentro da propriedade influenciam diretamente a adoção ou rejeição de tecnologias, sendo a baixa escolaridade um fator determinante para a resistência ao uso de ferramentas digitais no campo [9].
 
-**[4] Framework de Competência Digital - DigComp 3.0:**
-Os níveis de familiaridade com tecnologia foram classificados seguindo o DigComp 3.0, framework europeu de competência digital desenvolvido pelo Joint Research Centre da Comissão Europeia. Ele define quatro níveis de proficiência (Basic, Intermediate, Advanced e Highly Advanced) com base na complexidade das tarefas executadas e no grau de autonomia do indivíduo. (COSGROVE; CACHIA, 2025)
+**Framework de Competência Digital - DigComp 3.0:**
+Os níveis de familiaridade com tecnologia foram classificados seguindo o DigComp 3.0, framework europeu de competência digital desenvolvido pelo Joint Research Centre da Comissão Europeia. Ele define quatro níveis de proficiência (Basic, Intermediate, Advanced e Highly Advanced) com base na complexidade das tarefas executadas e no grau de autonomia do indivíduo [4].
 
 #### Biografia:
 
@@ -570,6 +633,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 
 ## 2.3. User Stories (sprints 1 a 5)
 
+<center>
+  <p><strong>Quadro 1</strong> — User Story 01</p>
+</center>
+
 | Campo | Descrição |
 | ----- | ----- |
 | **Identificação** | US01 |
@@ -577,6 +644,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 | **User Story** | Como gerente geral, posso criar tarefas e atribuí-las a um retiro específico para organizar a rotina diária da equipe de campo e garantir que o planejamento seja executado corretamente |
 | **Critério de Aceite 1** | CR1: Dado que João acessa o sistema, quando cria uma tarefa e seleciona um retiro, então a tarefa deve ser salva corretamente vinculada ao retiro |
 | **Critério de Aceite 2** | CR2: Dado que a tarefa foi criada, quando o sistema sincronizar, então ela deve ficar disponível para os capatazes responsáveis pelo retiro |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ### Critérios INVEST
 
@@ -592,6 +663,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 
 **Testável:** Possível validar criação e vínculo com retiro
 
+<center>
+  <p><strong>Quadro 2</strong> — User Story 02</p>
+</center>
+
 | Campo | Descrição |
 | ----- | ----- |
 | **Identificação** | US02 |
@@ -600,6 +675,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 | **Critério de Aceite 1** | CR1: Dado que as tarefas foram previamente sincronizadas, quando Gabriel estiver sem internet, então deve conseguir visualizar a lista de tarefas do dia |
 | **Critério de Aceite 2** | CR2: Dado que não há tarefas sincronizadas, quando acessar offline, então o sistema deve exibir uma mensagem simples informando ausência de tarefas |
 | **Critério de Aceite 3** | CR3: Dado que Gabriel acessa as tarefas, quando exibidas, então devem estar organizadas de forma simples e de fácil entendimento |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ### Critérios INVEST
 
@@ -617,6 +696,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 
 ---
 
+<center>
+  <p><strong>Quadro 3</strong> — User Story 03</p>
+</center>
+
 | Campo | Descrição |
 | ----- | ----- |
 | **Identificação** | US03 |
@@ -625,6 +708,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 | **Critério de Aceite 1** | CR1: Dado que Gabriel visualiza uma tarefa, quando marcar como concluída, então o status da tarefa deve ser atualizado no sistema |
 | **Critério de Aceite 2** | CR2: Dado que a tarefa foi marcada como concluída offline, quando o dispositivo sincronizar, então o status deve ser atualizado para o gerente |
 | **Critério de Aceite 3** | CR3: Dado que Gabriel interage com a tarefa, quando marcar como concluída, então a ação deve ser simples, com botão visível e de fácil entendimento |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ### Critérios INVEST
 
@@ -642,6 +729,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 
 ---
 
+<center>
+  <p><strong>Quadro 4</strong> — User Story 04</p>
+</center>
+
 | Campo | Descrição |
 | ----- | ----- |
 | **Identificação** | US04 |
@@ -650,6 +741,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 | **Critério de Aceite 1** | CR1: Dado que Gabriel conclui uma tarefa, quando anexar uma foto, então ela deve ser associada corretamente à tarefa |
 | **Critério de Aceite 2** | CR2: Dado que a foto foi registrada offline, quando o dispositivo sincronizar, então a imagem deve ser enviada ao sistema |
 | **Critério de Aceite 3** | CR3: Dado que Gabriel utiliza a funcionalidade, quando anexar a foto, então o processo deve ser simples e intuitivo |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ### Critérios INVEST
 
@@ -667,6 +762,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 
 ---
 
+<center>
+  <p><strong>Quadro 5</strong> — User Story 05</p>
+</center>
+
 | Campo | Descrição |
 | ----- | ----- |
 | **Identificação** | US05 |
@@ -675,6 +774,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 | **Critério de Aceite 1** | CR1: Dado que Gabriel está visualizando uma tarefa, quando clicar na opção de gravar áudio, então o sistema deve permitir iniciar a gravação |
 | **Critério de Aceite 2** | CR2: Dado que a gravação foi finalizada, quando salvar, então o áudio deve ser anexado corretamente à tarefa |
 | **Critério de Aceite 3** | CR3: Dado que o áudio foi anexado, quando o supervisor acessar a tarefa, então deve conseguir reproduzir o áudio |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ### Critérios INVEST
 
@@ -692,6 +795,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 
 ---
 
+<center>
+  <p><strong>Quadro 6</strong> — User Story 06</p>
+</center>
+
 | Campo | Descrição |
 | ----- | ----- |
 | **Identificação** | US06 |
@@ -702,7 +809,15 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 | **Critério de Aceite 3** | CR3: Dado que o alerta é enviado, então o sistema deve registrar automaticamente a localização (GPS) |
 | **Critério de Aceite 4** | CR4: Dado que o alerta foi criado, quando o supervisor acessar o sistema, então deve visualizar o novo chamado |
 
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 ---
+
+<center>
+  <p><strong>Quadro 7</strong> — User Story 07</p>
+</center>
 
 | Campo | Descrição |
 | ----- | ----- |
@@ -713,7 +828,15 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 | **Critério de Aceite 2** | CR2: Dado que um ou mais capatazes enviaram alertas ao gerente, quando João visualiza o painel, então os alertas aparecem em seção destacada, com identificação do capataz, do retiro e da data/hora de envio, ordenados do mais recente ao mais antigo |
 | **Critério de Aceite 3** | CR3: Dado que um usuário com perfil diferente de gerente tenta acessar o painel de acompanhamento, quando a requisição é feita, então o sistema nega o acesso e redireciona para a interface correspondente ao seu perfil |
 
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 ---
+
+<center>
+  <p><strong>Quadro 8</strong> — User Story 08</p>
+</center>
 
 | Campo | Descrição |
 | ----- | ----- |
@@ -725,7 +848,15 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 | **Critério de Aceite 3** | CR3: Dado que Gabriel tenta salvar um registro de nascimento sem preencher todos os campos obrigatórios, quando ele tenta confirmar o formulário, então o sistema exibe uma mensagem indicando quais campos estão incompletos e não permite o salvamento do registro |
 | **Critérios INVEST** | Não se aplica (US08 é de prioridade secundária). |
 
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 ---
+
+<center>
+  <p><strong>Quadro 9</strong> — User Story 09</p>
+</center>
 
 | Campo                    | Descrição                                                                                                                                                                                                                                                   |
 | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -733,22 +864,13 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 | **Persona**              | Gabriel Galdino (Capataz)                                                                                                                                                                                                                                  |
 | **User Story**           | Como capataz, posso registrar a morte de um animal offline para reportar rapidamente a baixa ao coordenador, garantindo que nenhuma informação se perca mesmo sem conexão disponível no campo.                                                             |
 | **Critério de Aceite 1** | CR1: Dado que Gabriel está sem conexão Starlink no momento do óbito, quando ele preenche os campos obrigatórios do formulário de morte (identificação do animal, categoria, causa e data) e confirma, então o sistema deve salvar o registro localmente no dispositivo e exibir a mensagem "Registro salvo. Será enviado quando houver conexão" |
-
-### Critérios INVEST
-
-**Independente:** Pode ser registrado separadamente sem depender de outras funcionalidades
-
-**Negociável:** Campos e estrutura do formulário podem ser refinados com cliente
-
-**Valorosa:** Garante que óbitos não sejam perdidos mesmo offline
-
-**Estimável:** Escopo claro (formulário + salvamento local + sincronização)
-
-**Pequena:** Foco no registro da morte do animal
-
-**Testável:** Possível validar salvamento offline e sincronização posterior
-
+|**Critério de Aceite 2:** | Dado que o formulário exige evidências sanitárias, quando o usuário realizar o registro de óbito, então o sistema deve requerer a captura e a anexação obrigatória de uma fotografia georreferenciada da carcaça do animal.|
+|**Critério de Aceite 3:** | Dado que o registro foi persistido localmente, quando a conectividade com a rede de satélite for restabelecida nos horários de cobertura, então a sincronização com o servidor central deve ser executada de forma assíncrona, e o status do relatório deve ser alterado para "Sincronizado". 
+| **Critérios INVEST** | Não se aplica (US09 é de prioridade secundária). |
 ---
+<center>
+  <p><strong>Quadro 10</strong> — User Story 10</p>
+</center>
 
 | Campo | Descrição |
 |-----------|-----------|
@@ -760,15 +882,33 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 | **Critério de Aceite 3** | CR3: Dado que o registro de óbito foi sincronizado com sucesso, quando o gerente ou coordenador acessar o sistema, então a foto anexada deve estar vinculada ao respectivo registro para consulta e auditoria. |
 | **Critérios INVEST** | Não se aplica (US10 é de prioridade secundária). |
 
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 ---
 
 # <a name="c3"></a>3. Projeto da Aplicação Web (sprints 1 a 5)
 
 ## 3.1. Requisitos do Sistema (sprints 1 a 5)
 
-_Esta seção formaliza o que o sistema deve fazer, sob quais regras e com quais qualidades. Atualize a cada sprint conforme os requisitos evoluem._
+O sistema a ser desenvolvido abrange a modernização do fluxo de informações operacionais e zootécnicas entre o campo e o escritório da fazenda BRPec. Atualmente, a comunicação de ordens de serviço e o registro de movimentações do rebanho dependem de processos manuais e anotações em papel (boletas), o que exige tempo para consolidação e redigitação em planilhas. O problema central é solucionado por meio de uma plataforma digital integrada, na qual o planejamento de tarefas e o reporte de eventos do rebanho (como nascimentos, óbitos e transferências) são registrados digitalmente na fonte, com suporte a operação offline. Com isso, os registros de campo são padronizados e a atualização do inventário pecuário é agilizada.
+
+**Atores e Responsabilidades**
+
+*   **Capatazes:** A aplicação é utilizada como ferramenta diária no campo, operando de modo offline. As tarefas designadas são visualizadas e o status é reportado mediante o envio de evidências (fotos, áudios e textos). Os eventos zootécnicos do retiro são registrados e alertas de infraestrutura são enviados aos gerentes.
+
+*   **Gerentes:** As atividades calendarizadas são criadas, editadas, deletadas e designadas aos capatazes. A evolução e o status das tarefas em campo, bem como os alertas reportados, são monitorados por meio de um painel de acompanhamento.
+
+*   **Coordenadores:** As informações e movimentações enviadas pelos capatazes são visualizadas e validadas. Os dados consolidados são exportados em formato de planilha (Excel/CSV) para a atualização dos controles centrais da empresa, eliminando a necessidade de redigitação manual.
 
 ### 3.1.1. Requisitos Funcionais (sprint 1, refinar até sprint 5)
+
+Os Requisitos Funcionais (RF) determinam a competência computacional e os serviços intrínsecos que devem compor a governança operacional do sistema modelado. A especificação formal destas asserções delineia a delimitação funcional entre dados, entrada, transformação interativa e respostas previstas frente aos perfis autorizados de acesso.
+
+<center>
+  <p><strong>Tabela 4</strong> — Requisitos Funcionais</p>
+</center>
 
 | ID    | Descrição                                                                                                                                                  | Prioridade | Status    |
 | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------- |
@@ -786,8 +926,20 @@ _Esta seção formaliza o que o sistema deve fazer, sob quais regras e com quais
 | RF012 | O sistema deve manter os registros com falha de envio salvos localmente e tentar reenvio automático a cada nova conexão disponível, até que a sincronização seja concluída com sucesso | Alta  | Planejado    |
 | RF013 | O sistema deve validar o preenchimento dos campos obrigatórios do formulário de óbito (identificação do animal, categoria, causa da morte e data) antes de permitir o salvamento local, bloqueando o registro incompleto e sinalizando visualmente os campos faltante | Alta  | Planejado    |
 | RF014 | Após a sincronização, o sistema deve disponibilizar automaticamente o registro de óbito no painel do coordenador, vinculado ao retiro do capataz que realizou o lançamento | Média | Planejado    |
+| RF015 | O sistema deve permitir que o coordenador exporte os dados consolidados das movimentações zootécnicas e do status operacional em arquivos formatados como planilha eletrônica (Excel/CSV) | Alta | Planejado |
+
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ### 3.1.2. Regras de Negócio (sprint 1, refinar até sprint 5)
+
+As Regras de Negócio (RN) balizam as lógicas limitantes, condições contingenciais e políticas mandatórias herdadas das rotinas produtivas e normativas da instituição parceira. A formalização axiomática das regras impõe que a instrumentação sistêmica, embora escalável em seu código subjacente, reproduza em escopo fechado a exatidão empírica da governança operacional do manejo bovino atual.
+
+<center>
+  <p><strong>Tabela 5</strong> — Regras de Negócio</p>
+</center>
 
 | ID   | Descrição | RF associado |
 |------|------|------|
@@ -814,15 +966,25 @@ _Esta seção formaliza o que o sistema deve fazer, sob quais regras e com quais
 | RN21 | Se não houver conexão, o alerta deve ser armazenado localmente e enviado na próxima sincronização | RF006 |
 | RN22 | O sistema deve exibir uma mensagem de confirmação após o envio bem-sucedido do alerta | RF006 |
 | RN23 | Se o alerta não puder ser enviado devido à falta de conexão, o sistema deve informar ao capataz que o registro foi salvo localmente e será enviado posteriormente | RF006 |
+| RN24 | As coordenadas geográficas (GPS) anexadas ao alerta de infraestrutura devem ser imutáveis e não editáveis pelo usuário, visando garantir a precisão do georreferenciamento | RF006 |
 | RN25 | O sistema deve registrar a data e hora exatas da criação do alerta | RF006 |
 | RN26 | O sistema deve associar o alerta ao retiro selecionado pelo capataz | RF006 |
-| RN27 | O sistema deve permitir que o capataz registre o nascimento de bezerros de forma offline, informando: data, retiro, categoria e quantidade | RF006 |
+| RN27 | O sistema deve permitir que o capataz registre o nascimento de bezerros de forma offline, informando: data, retiro, categoria e quantidade | RF008 |
+| RN28 | A exportação de relatórios pelo coordenador deve refletir estritamente os dados que já foram submetidos a validação estrutural no banco de dados central | RF015 |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ### 3.1.3. Requisitos Não Funcionais — 8 Eixos ISO/IEC 25010 (sprints 1 a 5)
 
-Os Requisitos Não Funcionais (RNF) definem os critérios de qualidade da aplicação. Ou seja, eles não descrevem *o que* o sistema faz (as suas funcionalidades), mas sim *como* ele deve se comportar. Eles garantem que o software entregue tenha um bom desempenho, seja seguro, fácil de usar e não apresente falhas.
+Os Requisitos Não Funcionais (RNF) definem os critérios de qualidade da aplicação. Ou seja, eles não descrevem o que o sistema faz (as suas funcionalidades), mas sim como ele deve se comportar. Eles garantem que o software entregue tenha um bom desempenho, seja seguro, fácil de usar e não apresente falhas.
 
 No contexto do nosso projeto para a BrPec, esses requisitos são fundamentais, pois o sistema será operado no campo, muitas vezes sem internet, sob forte incidência solar e por usuários (como o Capataz) que necessitam de agilidade. Para garantir a qualidade da solução, nossos requisitos foram estruturados de acordo com os 8 eixos da norma ISO/IEC 25010, detalhados na tabela e explicados a seguir.
+
+<center>
+  <p><strong>Tabela 6</strong> — Requisitos Não Funcionais</p>
+</center>
 
 | Eixo | Requisito | Métrica / Critério | Como atendido |
 |---|---|---|---|
@@ -835,43 +997,51 @@ No contexto do nosso projeto para a BrPec, esses requisitos são fundamentais, p
 | REST — Restrições Design (Portabilidade) | Adaptabilidade de Dispositivo | A aplicação deve manter 100% da funcionalidade em telas de 5" a 12" (celular a tablet). | Design Responsivo (Mobile-first) utilizando CSS Flexbox/Grid e suporte a modo PWA. |
 | ORG — Organizacionais (Compatibilidade) | Conformidade de Exportação | Os arquivos gerados devem ser validados pelo esquema RFC 4180 (CSV) para leitura em Excel/BI. | Biblioteca de exportação de dados configurada para padrão Windows-1252 (comum no agronegócio para evitar erros de acentuação). |
 
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 #### Detalhamento e Contextualização dos Eixos
 
 **1. Usabilidade (Facilidade de Uso)**
-* **O que é:** Garantir que o sistema não seja um "bicho de sete cabeças" para quem está no trecho.
-* **Explicação:** O aplicativo tem que ser mais rápido e fácil que a boleta de papel. Se o Capataz precisar de mais de 4 toques na tela para registrar que um bezerro nasceu, o sistema falhou. Criamos botões grandes e cores fortes para que, mesmo debaixo de sol forte ou com o celular sujo, ele consiga resolver a vida dele rápido e voltar para o gado.
+* **O que é:** Refere-se à mitigação da curva de aprendizado e à maximização da operabilidade das interfaces em contextos rurais e sob condições ergonômicas restritas.
+* **Explicação:** A interface do usuário foi concebida para demandar esforço cognitivo mínimo e alta responsividade. A arquitetura de navegação determina que o registro de intercorrências ou eventos zootécnicos exija uma quantidade reduzida de interações táteis. Elementos de interface (botões) foram projetados com dimensões adequadas e padrões de contraste elevados para garantir a legibilidade dos dados sob alta incidência solar e mitigar falhas de seleção durante as inspeções de campo.
 
 **2. Confiabilidade (Segurança de que funciona)**
-* **O que é:** O dado não pode sumir se a internet cair.
-* **Explicação:** Sabe quando você manda um WhatsApp e ele fica com aquele 'reloginho' porque não tem sinal? O nosso sistema faz algo parecido, mas ele salva tudo dentro do celular primeiro. Se o sinal cair na hora de enviar, o dado fica guardado em uma 'caixinha segura' no aparelho e sobe sozinho assim que o celular ver o Wi-Fi da sede. Nada se perde.
+* **O que é:** Consiste na garantia de disponibilidade e na persistência integral dos dados frente à instabilidade ou latência extrema das conexões de rede.
+* **Explicação:** A arquitetura do sistema adota o paradigma "offline-first". O processamento primário da aplicação assegura que as entradas sejam armazenadas localmente no dispositivo. Tão logo os terminais identifiquem a comunicação com a rede via satélite da propriedade, uma rotina de sincronização é inicializada em segundo plano. Essa metodologia assegura que nenhuma anotação operacional seja descartada durante os períodos de indisponibilidade de sinal.
 
 **3. Desempenho (Velocidade)**
-* **O que é:** O sistema não pode ficar "travando" ou "pensando".
-* **Explicação:** Ninguém tem paciência para ficar olhando para uma tela carregando no meio do curral. A regra aqui é: clicou, salvou. O tempo que o celular leva para processar uma informação tem que ser instantâneo (menos de meio segundo), para não atrasar o manejo.
+* **O que é:** Define os limites toleráveis de latência para a execução de transações e a resposta de interface frente aos estímulos do usuário.
+* **Explicação:** A fluidez computacional é exigida para evitar interrupções no fluxo de trabalho operacional. A estrutura computacional determina que as requisições de leitura e inserção de dados no banco local ocorram de maneira instantânea (inferior a 200 milissegundos). Essa limitação é imposta para atestar que as tarefas de manejo e vistoria não sejam prorrogadas por tempos ociosos do software.
 
 **4. Suportabilidade (Conserto Rápido)**
-* **O que é:** Se der problema, tem que ser fácil de arrumar.
-* **Explicação:** Montamos o software como se fosse um trator modular: se uma peça quebra, a gente troca só aquela peça sem precisar desmontar o motor inteiro. Se aparecer um erro, conseguimos consertar e devolver o sistema funcionando no mesmo dia.
+* **O que é:** Refere-se à modularidade do código-fonte e à agilidade na execução de correções ou melhorias na arquitetura técnica.
+* **Explicação:** O código foi estruturado em um padrão arquitetural modular, propiciando que falhas ou atualizações específicas sejam mitigadas e implementadas sem a necessidade de reescritura em outras camadas de abstração. Dessa forma, a identificação e a remediação de defeitos críticos ocorrem com alta precisão, restringindo o Tempo Médio de Reparo (MTTR) de anomalias.
 
 **5. Segurança (Quem fez o quê?)**
-* **O que é:** Saber a origem da informação.
-* **Explicação:** Para evitar confusão ou erro de digitação, o sistema carimba automaticamente quem enviou a informação e que horas isso aconteceu. Se o Coordenador vir um erro no escritório, ele sabe exatamente com quem falar para tirar a dúvida, sem precisar investigar 'quem escreveu esse papel'.
+* **O que é:** Estabelece o princípio da integridade autoral e o rastreamento das submissões por meio de controles lógicos irrefutáveis.
+* **Explicação:** O sistema injeta algoritmicamente parâmetros de identificação nas requisições, vinculando todo o ciclo de vida dos dados aos identificadores dos capatazes e registrando carimbos de tempo sistêmicos invioláveis. Este controle de auditoria possibilita que os níveis de coordenação e gerência isolem responsabilidades, procedam com validações precisas e identifiquem com exatidão a procedência e a temporalidade das informações colhidas.
 
-**6. Capacidade (Aguentar o tranco)**
-* **O que é:** Suportar muita informação de uma vez.
-* **Explicação:** Imagina que o Capataz ficou a semana toda sem internet e acumulou 300 registros. O sistema foi feito para 'engolir' tudo isso de uma vez só quando chegar na sede, sem travar o servidor ou dar erro de sistema cheio.
+**6. Capacidade (Adequação Funcional)**
+* **O que é:** Indica o dimensionamento de volume de requisições tolerado pelo sistema para operações de sincronização sem ocorrência de gargalos ou falhas (timeout).
+* **Explicação:** O sistema foi parametrizado para processar em lote volumes de dados substanciais provenientes do trabalho acumulado durante períodos sem conexão. A implementação de divisão de carga de dados assegura a recepção de inúmeros registros simultâneos no servidor central na janela de contato restabelecido, impedindo sobrecargas de processamento do banco de dados na consolidação final do estoque e do manejo.
 
-**7. Restrições de Design (Funcionar em qualquer celular)**
-* **O que é:** Não importa o aparelho, o sistema se adapta.
-* **Explicação:** Não importa se o funcionário usa um tablet moderno ou um celular mais simples e antigo. O sistema 'estica e encolhe' para caber na tela de um jeito que a letra continue legível e os botões continuem no lugar certo.
+**7. Restrições de Design (Adaptabilidade de Dispositivos)**
+* **O que é:** Especifica a necessidade de portabilidade e adequação do sistema de modo fluído e responsivo a diferentes resoluções e hardwares.
+* **Explicação:** A solução exige o uso de metodologias responsivas de desenvolvimento. As matrizes de grade flexível (Flexbox/Grid) moldam dinamicamente a apresentação da interface para preservar a simetria de leitura e garantir o acesso contínuo, independente das dimensões nativas do terminal operado pelo agente produtivo no campo.
 
-**8. Organizacionais (Conversar com o Excel)**
-* **O que é:** O dado tem que chegar pronto para o Coordenador usar.
-* **Explicação:** O objetivo final é matar o trabalho de ter que digitar tudo de novo no computador. O sistema já entrega os dados 'mastigados' no formato que o Excel entende. É só clicar em exportar e a planilha está pronta, sem erro de português ou número trocado.
+**8. Organizacionais (Compatibilidade)**
+* **O que é:** Trata do nível de conformidade e padronização das informações exportadas em relação aos ecossistemas computacionais adotados pela entidade parceira.
+* **Explicação:** O tratamento de dados foi arquitetado para extinguir os processos passivos de transcrição manual, que tradicionalmente incitam a geração de inconsistências qualitativas. O artefato consolida a geração de relatórios diretos, padronizados e homologados, viabilizando o consumo nativo e direto desses arquivos por manipuladores de planilhas eletrônicas.
 
 ### 3.1.4. Matriz RF → RN → Endpoint (sprints 3 a 5)
 
 _Matriz de cobertura mostrando quais RN e endpoints implementam cada RF._
+
+<center>
+  <p><strong>Tabela 7</strong> — Matriz RF → RN → Endpoint</p>
+</center>
 
 | RF    | RN associadas | Endpoint              | Método |
 | ----- | ------------- | --------------------- | ------ |
@@ -888,6 +1058,10 @@ _Matriz de cobertura mostrando quais RN e endpoints implementam cada RF._
 | RF011 | RN11          | /sincronizar          | POST   |
 | RF012 | RN12          | Consulta Banco Local  | GET    |
 
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 ## 3.2. Arquitetura (sprints 1 a 5)
 
 ### 3.2.1. Diagrama de Arquitetura (sprints 3 e 4)
@@ -896,49 +1070,168 @@ _Posicione aqui o diagrama de arquitetura da solução, indicando as camadas pri
 
 ### 3.2.2. Diagrama de Casos de Uso (sprint 1)
 
-@startuml
-left to right direction
+Os casos de uso do Sistema BrPec foram definidos com o objetivo de representar, de forma estruturada, as principais interações entre os atores do sistema e as funcionalidades disponibilizadas pela plataforma. Esses casos de uso refletem os processos críticos da operação pecuária, com foco na gestão de tarefas, registro de movimentações e consolidação de dados para tomada de decisão.
 
-actor "Gerente (João)" as Gerente
-actor "Coordenador (Marcos)" as Coordenador
-actor "Capataz (Gabriel)" as Capataz
-
-rectangle "Sistema BrPec" {
-
-usecase "Criar tarefa" as UC1
-usecase "Atribuir tarefa ao retiro" as UC2
-usecase "Visualizar painel de status" as UC3
-
-usecase "Visualizar tarefas do dia" as UC4
-usecase "Marcar tarefa como concluída" as UC5
-usecase "Anexar foto na tarefa" as UC6
-
-usecase "Visualizar movimentações" as UC7
-usecase "Validar movimentações" as UC8
-usecase "Exportar relatórios" as UC9
-}
-
-Gerente --> UC1
-Gerente --> UC3
-
-Capataz --> UC4
-Capataz --> UC5
-
-Coordenador --> UC7
-Coordenador --> UC8
-Coordenador --> UC9
-
-UC1 ..> UC2 : <<include>>
-UC8 ..> UC7 : <<include>>
-
-UC6 ..> UC5 : <<extend>>
-
-@enduml
+Cada caso de uso está associado a um requisito funcional (RF), garantindo rastreabilidade entre as necessidades identificadas e as funcionalidades implementadas. A seguir, são detalhados os principais casos de uso do sistema.
 
 <center>
+  <p><strong>Figura 8</strong> — Diagrama de Caso de Uso aplicado à BrPec Agropecuária</p>
   <img src="../assets/diagramaDeUso.png" width="800"/>
-  <p><strong>Figura 6</strong> — Diagrama de Caso De Uso aplicada à BrPec Agropecuária<br/>
-  Fonte: Próprios autores (2026).</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+
+UC01 — Planejar tarefas (RF001)
+| Campo              | Descrição                                                                                  |
+| ------------------ | ------------------------------------------------------------------------------------------ |
+| Ator principal     | Gerente Geral                                                                              |
+| Atores secundários | Não se aplica                                                                              |
+| Pré-condições      | O sistema deve estar acessível e o usuário autenticado                                     |
+| Fluxo principal    | O gerente define uma nova tarefa, estabelece prazos e descreve a atividade a ser executada |
+| Pós-condições      | A tarefa é registrada no sistema e fica disponível para distribuição                       |
+
+<center>
+  <p><strong>Quadro 11</strong> — Caso de Uso UC01</p>
+</center>
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+UC02 — Distribuir tarefas por retiro (RF002)
+| Campo              | Descrição                                                               |
+| ------------------ | ----------------------------------------------------------------------- |
+| Ator principal     | Gerente Geral                                                           |
+| Atores secundários | Não se aplica                                                           |
+| Pré-condições      | Deve existir ao menos uma tarefa previamente cadastrada                 |
+| Fluxo principal    | O gerente associa a tarefa a um ou mais retiros, definindo responsáveis |
+| Pós-condições      | A tarefa é atribuída e visível para execução pelos capatazes            |
+
+<center>
+  <p><strong>Quadro 12</strong> — Caso de Uso UC02</p>
+</center>
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+UC03 — Visualizar tarefas do dia (RF003)
+| Campo              | Descrição                                                           |
+| ------------------ | ------------------------------------------------------------------- |
+| Ator principal     | Capataz                                                             |
+| Atores secundários | Não se aplica                                                       |
+| Pré-condições      | O capataz deve estar autenticado no sistema                         |
+| Fluxo principal    | O capataz acessa a lista de tarefas disponíveis para o dia corrente |
+| Pós-condições      | As tarefas são exibidas para execução                               |
+
+<center>
+  <p><strong>Quadro 13</strong> — Caso de Uso UC03</p>
+</center> 
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+UC04 — Registrar execução de tarefa (RF004)
+| Campo              | Descrição                                                    |
+| ------------------ | ------------------------------------------------------------ |
+| Ator principal     | Capataz                                                      |
+| Atores secundários | Não se aplica                                                |
+| Pré-condições      | Deve existir uma tarefa atribuída ao capataz                 |
+| Fluxo principal    | O capataz marca a tarefa como concluída no sistema           |
+| Pós-condições      | A tarefa é registrada como concluída e atualizada no sistema |
+
+<center>
+  <p><strong>Quadro 14</strong> — Caso de Uso UC04</p>
+</center> 
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+UC05 — Anexar evidência (RF005)
+| Campo              | Descrição                                                       |
+| ------------------ | --------------------------------------------------------------- |
+| Ator principal     | Capataz                                                         |
+| Atores secundários | Não se aplica                                                   |
+| Pré-condições      | A tarefa deve estar em processo de conclusão                    |
+| Fluxo principal    | O capataz adiciona uma foto ou áudio como evidência da execução |
+| Pós-condições      | A evidência é armazenada e vinculada à tarefa                   |
+
+<center>
+  <p><strong>Quadro 15</strong> — Caso de Uso UC05</p>
+</center> 
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+UC06 — Registrar movimentação (RF006)
+| Campo              | Descrição                                                  |
+| ------------------ | ---------------------------------------------------------- |
+| Ator principal     | Capataz                                                    |
+| Atores secundários | Não se aplica                                              |
+| Pré-condições      | O sistema deve estar disponível para registro              |
+| Fluxo principal    | O capataz registra uma movimentação relacionada ao rebanho |
+| Pós-condições      | A movimentação é armazenada para posterior validação       |
+
+<center>
+  <p><strong>Quadro 16</strong> — Caso de Uso UC06</p>
+</center> 
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+UC07 — Validar movimentações (RF007)
+| Campo              | Descrição                                                  |
+| ------------------ | ---------------------------------------------------------- |
+| Ator principal     | Coordenador                                                |
+| Atores secundários | Não se aplica                                              |
+| Pré-condições      | Devem existir movimentações previamente registradas        |
+| Fluxo principal    | O coordenador revisa e valida as movimentações registradas |
+| Pós-condições      | As movimentações são confirmadas e consideradas válidas    |
+
+<center>
+  <p><strong>Quadro 17</strong> — Caso de Uso UC07</p>
+</center> 
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+UC08 — Consultar dados consolidados (RF008)
+| Campo              | Descrição                                           |
+| ------------------ | --------------------------------------------------- |
+| Ator principal     | Coordenador                                         |
+| Atores secundários | Gerente Geral                                       |
+| Pré-condições      | Devem existir dados registrados no sistema          |
+| Fluxo principal    | O usuário acessa relatórios consolidados por retiro |
+| Pós-condições      | As informações são exibidas para análise            |
+
+<center>
+  <p><strong>Quadro 18</strong> — Caso de Uso UC08</p>
+</center> 
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+UC09 — Exportar relatórios (RF009)
+| Campo              | Descrição                                                            |
+| ------------------ | -------------------------------------------------------------------- |
+| Ator principal     | Coordenador                                                          |
+| Atores secundários | Não se aplica                                                        |
+| Pré-condições      | Deve haver dados consolidados disponíveis                            |
+| Fluxo principal    | O coordenador solicita a exportação dos dados em formato estruturado |
+| Pós-condições      | O relatório é gerado e disponibilizado para download                 |
+
+<center>
+  <p><strong>Quadro 19</strong> — Caso de Uso UC09</p>
+</center> 
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 ### 3.2.3. Diagrama de Classes do Domínio (sprint 2)
@@ -1006,12 +1299,21 @@ _Posicione aqui os diagramas de modelos relacionais do banco de dados, apresenta
 _posicione aqui uma lista de consultas SQL compostas, realizadas pelo back-end da aplicação web, com sua respectiva lógica proposicional, descrita conforme template abaixo. Lembre-se que para usar LaTeX em markdown, basta você colocar as expressões entre $ ou $$_
 
 _Template de SQL + lógica proposicional_
+
+<center>
+  <p><strong>Tabela 8</strong> — Expressões SQL e Lógica Proposicional</p>
+</center>
+
 #1 | ---
 --- | ---
 **Expressão SQL** | SELECT \* FROM suppliers WHERE (state = 'California' AND supplier_id <> 900) OR (supplier_id = 100);
 **Proposições lógicas** | $A$: O estado é 'California' (state = 'California') <br> $B$: O ID do fornecedor não é 900 (supplier_id ≠ 900) <br> $C$: O ID do fornecedor é 100 (supplier_id = 100)
 **Expressão lógica proposicional** | $(A \land B) \lor C$
 **Tabela Verdade** | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$(A \land B)$</th> <th>$(A \land B) \lor C$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>F</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table>
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 _Dica: edite a tabela verdade fora do markdown, para ter melhor controle_
 
@@ -1043,9 +1345,17 @@ _Descreva as estratégias aplicadas no tratamento de falhas de rede: timeout, re
 
 *A RTM consolida a rastreabilidade completa do sistema. Um elo quebrado invalida toda a cadeia - mantenha-a atualizada a cada sprint. A partir da sprint 3 não deve haver lacunas nos fluxos centrais.*
 
+<center>
+  <p><strong>Tabela 9</strong> — Matriz de Rastreabilidade (RTM)</p>
+</center>
+
 | Persona | RF    | RN   | Endpoint    | Tela     | Teste | Evidência                          |
 | ------- | ----- | ---- | ----------- | -------- | ----- | ---------------------------------- |
 | ...     | RF001 | RN01 | `/usuarios` | Cadastro | CT02  | print, log, relatório de cobertura |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 # <a name="c4"></a>4. Desenvolvimento da Aplicação Web
 
@@ -1149,27 +1459,23 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 
 # <a name="c8"></a>8. Referências (sprints 1 a 5)
 
-PORTAL SALÁRIO. Gerente de Produção e Operações Agropecuárias - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/gerente-de-producao-e-operacoes-agropecuarias-cbo-141115/. Acesso em: 28 abr. 2026.<br>
+[1] CEPEA. PIB do Agronegócio Brasileiro. Disponível em: https://www.cepea.esalq.usp.br. Acesso em: 29 abr. 2026.
 
-COSGROVE, J.; CACHIA, R. DigComp 3.0: European Digital Competence Framework. 5. ed. Luxembourg: Publications Office of the European Union, 2025. Disponível em: https://data.europa.eu/doi/10.2760/0001149. Acesso em: 28 abr. 2026.<br>
+[2] REVISTA DE GESTÃO E PROJETOS — GeP. Gestão de riscos em projetos: uma análise comparativa da norma ISO 31000 e o Guia PMBOK®, 2012. Revista de Gestão e Projetos — GeP, São Paulo, v. 4, n. 3, p. 46–72, set./dez. 2013. Disponível em: https://www.bibliotecadeseguranca.com.br/wp-content/uploads/2020/05/gerenciamento-de-riscos-em-projetos-uma-comparacao-entre-o-pmbok-e-a-iso-31000.pdf. Acesso em: 29 abr. 2026.
 
-IPOG. Gestão do Agronegócio: como está o mercado de trabalho?. Disponível em: https://blog.ipog.edu.br/gestao-e-negocios/gestao-do-agronegocio/. [S.d.]. Acesso em: 28 abr. 2026.<br>
+[3] PORTAL SALÁRIO. Gerente de Produção e Operações Agropecuárias - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/gerente-de-producao-e-operacoes-agropecuarias-cbo-141115/. Acesso em: 28 abr. 2026.
 
-CONFEDERAÇÃO DA AGRICULTURA E PECUÁRIA DO BRASIL. Conheça as 4 carreiras mais quentes do agronegócio brasileiro. CNA Brasil, [S.d.]. Disponível em: https://www.cnabrasil.org.br/noticias/conheca-as-4-carreiras-mais-quentes-do-agronegocio-brasileiro. Acesso em: 28 abr. 2026. <br>
+[4] COSGROVE, J.; CACHIA, R. DigComp 3.0: European Digital Competence Framework. 5. ed. Luxembourg: Publications Office of the European Union, 2025. Disponível em: https://data.europa.eu/doi/10.2760/0001149. Acesso em: 28 abr. 2026.
 
-PORTAL SALÁRIO. Capataz na Pecuária - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/capataz-na-pecuaria-cbo-620115/. Acesso em: 28 abr. 2026. <br>
+[5] IPOG. Gestão do Agronegócio: como está o mercado de trabalho?. Disponível em: https://blog.ipog.edu.br/gestao-e-negocios/gestao-do-agronegocio/. [S.d.]. Acesso em: 28 abr. 2026.
 
-BRASIL. Ministério do Trabalho e Emprego. Classificação Brasileira de Ocupações (CBO): Capataz na Agropecuária - CBO 6210-05. [S.d.]. Disponível em: https://www.mtecbo.gov.br. Acesso em: 28 abr. 2026. <br>
+[6] CONFEDERAÇÃO DA AGRICULTURA E PECUÁRIA DO BRASIL. Conheça as 4 carreiras mais quentes do agronegócio brasileiro. CNA Brasil, [S.d.]. Disponível em: https://www.cnabrasil.org.br/noticias/conheca-as-4-carreiras-mais-quentes-do-agronegocio-brasileiro. Acesso em: 28 abr. 2026.
 
-MACHADO, João Guilherme de Camargo Ferraz; NANTES, José Flávio Diniz. Adoção da tecnologia da informação em organizações rurais: o caso da pecuária de corte. Gestão & Produção, São Carlos, v. 18, n. 3, p. 555-570, 2011. Disponível em: https://www.scielo.br/j/gp/a/cwVwLsPgq8FBq5kvgXZPpLQ/. Acesso em: 28 abr. 2026. <br>
+[7] PORTAL SALÁRIO. Capataz na Pecuária - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/capataz-na-pecuaria-cbo-620115/. Acesso em: 28 abr. 2026.
 
-‌
-Incluir as principais referências de seu projeto, para que seu parceiro possa consultar caso ele se interessar em aprofundar. Um exemplo de referência de livro e de site:_<br>
+[8] BRASIL. Ministério do Trabalho e Emprego. Classificação Brasileira de Ocupações (CBO): Capataz na Agropecuária - CBO 6210-05. [S.d.]. Disponível em: https://www.mtecbo.gov.br. Acesso em: 28 abr. 2026.
 
-CEPEA. PIB do Agronegócio Brasileiro. Disponível em: https://www.cepea.esalq.usp.br. Acesso em: 29 abr. 2026.
-
-REVISTA DE GESTÃO E PROJETOS — GeP. Gestão de riscos em projetos: uma análise comparativa da norma ISO 31000 e o Guia PMBOK®, 2012. Revista de Gestão e Projetos — GeP, São Paulo, v. 4, n. 3, p. 46–72, set./dez. 2013. Disponível em: https://www.bibliotecadeseguranca.com.br/wp-content/uploads/2020/05/gerenciamento-de-riscos-em-projetos-uma-comparacao-entre-o-pmbok-e-a-iso-31000.pdf. Acesso em: 29 abr. 2026. 
-
+[9] MACHADO, João Guilherme de Camargo Ferraz; NANTES, José Flávio Diniz. Adoção da tecnologia da informação em organizações rurais: o caso da pecuária de corte. Gestão & Produção, São Carlos, v. 18, n. 3, p. 555-570, 2011. Disponível em: https://www.scielo.br/j/gp/a/cwVwLsPgq8FBq5kvgXZPpLQ/. Acesso em: 28 abr. 2026.
 
 
 # <a name="c9"></a>Anexos
