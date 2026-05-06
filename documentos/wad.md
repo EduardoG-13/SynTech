@@ -1224,9 +1224,9 @@ Fluxo que representa a criação de uma tarefa pelo Gerente, percorrendo as cama
 sequenceDiagram
     autonumber
     actor G as Gerente
-    participant CTR as TarefaController
-    participant SRV as TarefaService
-    participant REP as TarefaRepository
+    participant CTR as Controller
+    participant SRV as Service
+    participant REP as Repository
     participant DB as SQLite
 
     G->>CTR: POST /tarefas {titulo, descricao, retiro_id, capataz_id, data_execucao}
