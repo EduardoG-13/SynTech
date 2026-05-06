@@ -1214,7 +1214,68 @@ _Diagrama UML de classes com entidades, atributos, relacionamentos e responsabil
 
 ### 3.2.4. Diagrama de Sequência UML (sprint 3)
 
-_Ao menos um fluxo prioritário, mostrando a interação entre as camadas Controller → Service → Repository → Banco. Linhas de vida verticais, ativação correta, mensagens síncronas e assíncronas diferenciadas, retornos tracejados._
+### 3.2.4. Diagrama de Sequência UML
+
+#### DS01 — Criar Tarefa (US01)
+
+Fluxo que representa a criação de uma tarefa pelo Gerente, percorrendo as camadas Controller → Service → Repository → Banco. Mensagens síncronas são representadas por setas contínuas (`->>`) e retornos por setas tracejadas (`-->>`)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor G as Gerente
+    participant CTR as TarefaController
+    participant SRV as TarefaService
+    participant REP as TarefaRepository
+    participant DB as SQLite
+
+    G->>CTR: POST /tarefas {titulo, descricao, retiro_id, capataz_id, data_execucao}
+    CTR->>CTR: Valida campos obrigatórios
+
+    alt Campos obrigatórios ausentes
+        CTR-->>G: 400 Bad Request {erro: "campos obrigatórios não preenchidos"}
+    else Dados válidos
+        CTR->>SRV: criarTarefa(dados)
+        SRV->>SRV: Verifica se capataz pertence ao retiro (RN01)
+
+        alt Capataz não pertence ao retiro (RN01)
+            SRV-->>CTR: throw CapatazRetiroInvalidoError
+            CTR-->>G: 422 Unprocessable Entity {erro: "capataz não pertence ao retiro"}
+        else Validação aprovada
+            SRV->>REP: inserirTarefa(dados)
+            REP->>DB: INSERT INTO tarefas (...) VALUES (...)
+            DB-->>REP: id = 7
+            REP-->>SRV: {id: 7}
+            SRV-->>CTR: {id: 7, status: "pendente"}
+            CTR-->>G: 201 Created {id: 7, mensagem: "Tarefa criada com sucesso"}
+        end
+    end
+```
+
+**Descrição das camadas:**
+
+- **Controller (`TarefaController`):** recebe a requisição HTTP do Gerente, valida a presença dos campos obrigatórios e delega a lógica de negócio ao Service. Não acessa o banco diretamente.
+- **Service (`TarefaService`):** aplica as regras de negócio do domínio — em especial a RN01, que impede a atribuição de uma tarefa a um capataz que não pertence ao retiro informado. Orquestra a chamada ao Repository.
+- **Repository (`TarefaRepository`):** responsável exclusivamente pelo acesso ao banco de dados. Executa o `INSERT` e retorna o `id` gerado.
+- **Banco (`SQLite`):** persiste o registro com `status = "pendente"` e retorna o identificador da nova linha.
+
+**Fluxos cobertos:**
+
+| Fluxo | Descrição |
+|---|---|
+| Principal | Gerente envia dados válidos → tarefa criada com status "pendente" → 201 Created |
+| Alternativo 1 | Campo obrigatório ausente → Controller retorna 400 sem acionar o Service |
+| Alternativo 2 | Capataz não pertence ao retiro → Service lança erro → Controller retorna 422 |
+
+**Rastreabilidade:**
+
+| Elemento | Referência |
+|---|---|
+| US01 | Como gerente, posso criar tarefas e atribuí-las a um retiro específico |
+| RF001 | O sistema deve permitir que o gerente crie tarefas com título, descrição, retiro, capataz e data |
+| RN01 | Uma tarefa só pode ser atribuída a um capataz vinculado ao retiro selecionado |
+| RNF — SEG | Todas as rotas do gerente retornam 403 para perfis não autorizados |
+| RNF — DES | Endpoint responde em p95 < 200ms com até 200 registros no banco |
 
 ### 3.2.5. Diagrama de Atividades ou Estados (sprint 3)
 
