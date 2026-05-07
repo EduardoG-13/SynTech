@@ -2,9 +2,13 @@
   "devDependencies": {
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
-    "husky": "^9.1.7"
+    "husky": "^9.1.7",
+    "supabase": "^2.98.2"
   },
   "scripts": {
     "prepare": "husky"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.105.3"
   }
 }
