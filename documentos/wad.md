@@ -1360,10 +1360,27 @@ _Documente os design patterns utilizados (Repository, Strategy, Factory, DTO etc
 
 ## 3.3. Wireframes (sprint 2)
 
-(Wireframes são esboços estruturais de telas de produtos digitais, como sites e aplicativos. Eles têm como objetivo pôr as ideias dos desenvolvedores em prática e as validar. Eles mostram onde cada elemento fica na tela, o que é mais importante visualmente, como o usuário navega de uma tela para outra e o que cada elemento faz em questão de funcionalidade. Assim, eles demonstram de forma direta a arquitetura final de uma interface. )
+<center>
+<p>Wireframe da tela de tarefas do capataz</p>
+ <img src="../assets/wireframeCapatazTarefas.png" width="300"/>
+ <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 <center>
- <img src="../assets/wireframeTarefasCapataz.png" width="300"/>
+<p>Wireframe da tela de anexar fotos pelo capataz</p>
+ <img src="../assets/wireframeCapatazAnexarFotos.png" width="300"/>
+ <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+<center>
+<p>Wireframe da tela de infraestrutura </p>
+ <img src="../assets/wireframeInfraestrutura.png" width="300"/>
+ <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+<center>
+<p>Wireframe da tela de infraestrutura registrar resolução</p>
+ <img src="../assets/wireframeInfraestruturaRegistrarResolucao.png" width="300"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
