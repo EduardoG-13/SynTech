@@ -1362,25 +1362,25 @@ _Documente os design patterns utilizados (Repository, Strategy, Factory, DTO etc
 
 <center>
 <p>Wireframe da tela de tarefas do capataz</p>
- <img src="../assets/wireframeCapatazTarefas.png" width="300"/>
+ <img src="../assets/wireframeCapatazTarefas.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
 <p>Wireframe da tela de anexar fotos pelo capataz</p>
- <img src="../assets/wireframeCapatazAnexarFotos.png" width="300"/>
+ <img src="../assets/wireframeCapatazAnexarFotos.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
 <p>Wireframe da tela de infraestrutura </p>
- <img src="../assets/wireframeInfraestrutura.png" width="300"/>
+ <img src="../assets/wireframeInfraestrutura.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
 <p>Wireframe da tela de infraestrutura registrar resolução</p>
- <img src="../assets/wireframeInfraestruturaRegistrarResolucao.png" width="300"/>
+ <img src="../assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
