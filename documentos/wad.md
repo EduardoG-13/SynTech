@@ -1361,26 +1361,38 @@ _Documente os design patterns utilizados (Repository, Strategy, Factory, DTO etc
 ## 3.3. Wireframes (sprint 2)
 
 <center>
-<p>Wireframe da tela de tarefas do capataz</p>
- <img src="../assets/wireframeCapatazTarefas.png" width="800"/>
+<p>Wireframe capataz - acompanhamento de tarefas (mobile/tablet)</p>
+ <img src="./assets/wireframeCapatazTarefas.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-<p>Wireframe da tela de anexar fotos pelo capataz</p>
- <img src="../assets/wireframeCapatazAnexarFotos.png" width="800"/>
+<p>Wireframe capataz - anexar fotos (mobile/tablet)</p>
+ <img src="./assets/wireframeCapatazAnexarFotos.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-<p>Wireframe da tela de infraestrutura </p>
- <img src="../assets/wireframeInfraestrutura.png" width="800"/>
+<p>Wireframe infraestrutura - acompanhamento de chamados (mobile/tablet/desktop)</p>
+ <img src="./assets/wireframeInfraestrutura.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-<p>Wireframe da tela de infraestrutura registrar resolução</p>
- <img src="../assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
+<p>Wireframe infraestrutura - registrar resolução (mobile/tablet/desktop)</p>
+ <img src="./assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
+ <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+<center>
+<p>Wireframe infraestrutura - detalhe do chamado (desktop/tablet)</p>
+ <img src="./assets/wireframe_infra_detalhe_do_chamado_0.png" width="800"/>
+ <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+<center>
+<p>Wireframe infraestrutura - detalhe do chamado (mobile)</p>
+ <img src="./assets/wireframe_infra_detalhe_do_chamado_1.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
