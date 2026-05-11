@@ -1583,46 +1583,72 @@ O modelo conceitual a seguir utiliza a notação de Chen para representar as ent
 
 ```mermaid
 flowchart TD
-    %% Entidades (Retângulos)
+    %% Entidades
     USUARIO[USUARIO]
     RETIRO[RETIRO]
     TAREFA[TAREFA]
     ALERTA[ALERTA]
     MOVIMENTACAO[MOVIMENTACAO]
     EVIDENCIA[EVIDENCIA]
+    LOTE[LOTE]
     
-    %% Tipos de Movimentação (Especializações)
+    %% Especializações da Movimentação
     NASCIMENTO[NASCIMENTO]
     OBITO[OBITO]
     TRANSFERENCIA[TRANSFERENCIA]
     COMPRAVENDA[COMPRAVENDA]
 
+    %% Atributos (Círculos/Pílulas)
+    attrU1([Perfil_Acesso]) --- USUARIO
+    attrU2([Nome]) --- USUARIO
+    
+    attrR1([Nome_Retiro]) --- RETIRO
+    attrR2([Localizacao_Curral]) --- RETIRO
+    
+    attrT1([Prioridade]) --- TAREFA
+    attrT2([Status_Validacao]) --- TAREFA
+    
+    attrE1([Georreferenciamento]) --- EVIDENCIA
+    attrE2([Arquivo_Foto]) --- EVIDENCIA
+    
+    attrM1([Data_Sincronizacao]) --- MOVIMENTACAO
+    attrM2([Status_Confirmacao]) --- MOVIMENTACAO
+    
+    attrL1([Identificacao_Lote]) --- LOTE
+
     %% Relacionamentos (Losangos)
     R1{aloca}
-    R2{gerencia}
-    R3{gera}
-    R4{efetua}
+    R2{executa}
+    R3{emite}
+    R4{registra}
     R5{sedia}
     R6{origina}
     R7{comprova}
-    R8{caracteriza}
+    R8{detalha}
     R9{destino}
+    R10{contem}
 
-    %% Conexões entre Entidades e Relacionamentos
+    %% Conexões do Fluxo Central
     RETIRO --- R1 --- USUARIO
+    RETIRO --- R5 --- TAREFA
+    RETIRO --- R6 --- MOVIMENTACAO
+    
     USUARIO --- R2 --- TAREFA
     USUARIO --- R3 --- ALERTA
     USUARIO --- R4 --- MOVIMENTACAO
-    RETIRO --- R5 --- TAREFA
-    RETIRO --- R6 --- MOVIMENTACAO
+
     TAREFA --- R7 --- EVIDENCIA
     
-    MOVIMENTACAO --- R8
-    R8 --- NASCIMENTO
-    R8 --- OBITO
-    R8 --- TRANSFERENCIA
-    R8 --- COMPRAVENDA
+    %% Relacionamento com Lote (Conforme Insight 4)
+    MOVIMENTACAO --- R10 --- LOTE
     
+    %% Especializações
+    MOVIMENTACAO --- R8 --- NASCIMENTO
+    MOVIMENTACAO --- R8 --- OBITO
+    MOVIMENTACAO --- R8 --- TRANSFERENCIA
+    MOVIMENTACAO --- R8 --- COMPRAVENDA
+    
+    %% Ciclo de Origem e Destino (Insight 4)
     TRANSFERENCIA --- R9 --- RETIRO
 ```
 
