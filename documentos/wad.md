@@ -1569,9 +1569,9 @@ _posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelid
 
 ### 3.6.1. Modelo Entidade-Relacionamento (MER) (sprint 2)
 
-_Apresente o modelo ER conceitual com entidades, atributos e relacionamentos. Use notação consistente (Chen ou Crow's Foot - não misture)._
+O modelo Entidade-Relacionamento (ER) conceitual representa as principais entidades do domínio da aplicação, seus atributos e os relacionamentos existentes entre elas, utilizando a notação **Crow’s Foot** de forma consistente em toda a modelagem. O objetivo deste modelo é estruturar conceitualmente os dados necessários para suportar o gerenciamento operacional da BRPec Agropecuária, contemplando usuários, tarefas, evidências, alertas, retiros e movimentações do rebanho.
 
-O modelo ER conceitual representa as entidades do domínio, seus atributos e os relacionamentos entre elas, em notação **Crow's Foot**. Este modelo é consistente com as classes definidas na seção 3.2.3 e com as regras de negócio da seção 3.1.2. Nesta etapa conceitual, não são representados tipos físicos de banco de dados, chaves primárias ou estrangeiras — esses detalhes são tratados no DER (seção 3.6.2) e no modelo físico (seção 3.6.3).
+Nesta etapa conceitual, não são representados detalhes físicos de implementação, como tipos específicos de banco de dados, chaves primárias ou estrangeiras, pois esses elementos serão tratados posteriormente no DER lógico e no modelo físico da aplicação.
 
 <center>
   <p><strong>Figura 9</strong> — Modelo Entidade-Relacionamento Conceitual — BRPec Agropecuária</p>
@@ -1579,104 +1579,103 @@ O modelo ER conceitual representa as entidades do domínio, seus atributos e os 
 
 ```mermaid
 erDiagram
-
     USUARIO {
-        id identificador
-        nome texto
-        perfil enumeracao
-        created_at dataHora
+        Nome Atributo
+        Perfil Atributo
+        DataCriacao Atributo
     }
 
     RETIRO {
-        id identificador
-        nome texto
-        localizacao texto
+        Nome Atributo
+        Localizacao Atributo
     }
 
     TAREFA {
-        id identificador
-        titulo texto
-        descricao texto
-        status enumeracao
-        data_execucao data
-        created_at dataHora
+        Titulo Atributo
+        Descricao Atributo
+        Status Atributo
+        DataExecucao Atributo
     }
 
     EVIDENCIA {
-        id identificador
-        tipo enumeracao
-        conteudo binario
-        created_at dataHora
+        Tipo Atributo
+        Arquivo Atributo
+        DataRegistro Atributo
     }
 
     ALERTA {
-        id identificador
-        descricao texto
-        tipo enumeracao
-        resolvido booleano
-        created_at dataHora
+        Descricao Atributo
+        Categoria Atributo
+        Resolvido Atributo
     }
 
     MOVIMENTACAO {
-        id identificador
-        data data
-        categoria enumeracao
-        quantidade inteiro
-        sincronizado booleano
-        created_at dataHora
+        Data Atributo
+        Tipo Atributo
+        Quantidade Atributo
+        StatusSincronizacao Atributo
     }
 
     NASCIMENTO {
-        foto binario
-        mae_referencia texto
+        RegistroMae Atributo
+        FotoNascimento Atributo
     }
 
     OBITO {
-        causa texto
-        foto binario
+        CausaMorte Atributo
+        FotoComprovacao Atributo
     }
 
     TRANSFERENCIA {
-        retiro_origem texto
-        retiro_destino texto
+        VolumeTransf Atributo
     }
 
     COMPRAVENDA {
-        tipo_operacao enumeracao
-        valor decimal
+        TipoNegocio Atributo
+        ValorFinanceiro Atributo
     }
 
-USUARIO ||--o{ TAREFA : "cria ou executa"
-    USUARIO ||--o{ ALERTA : "cria"
-    USUARIO ||--o{ MOVIMENTACAO : "registra"
-    USUARIO }o--|| RETIRO : "pertence a"
-    RETIRO ||--o{ TAREFA : "agrupa"
+    RETIRO ||--o{ USUARIO : "aloca"
+    USUARIO ||--o{ TAREFA : "gerencia"
+    USUARIO ||--o{ ALERTA : "gera"
+    USUARIO ||--o{ MOVIMENTACAO : "efetua"
+    RETIRO ||--o{ TAREFA : "sedia"
     RETIRO ||--o{ MOVIMENTACAO : "origina"
-    TAREFA ||--o{ EVIDENCIA : "possui"
-    MOVIMENTACAO ||--o| NASCIMENTO : "especializa"
-    MOVIMENTACAO ||--o| OBITO : "especializa"
-    MOVIMENTACAO ||--o| TRANSFERENCIA : "especializa"
-    MOVIMENTACAO ||--o| COMPRAVENDA : "especializa"
+    TAREFA ||--o{ EVIDENCIA : "comprova"
+    MOVIMENTACAO ||--o| NASCIMENTO : "caracteriza"
+    MOVIMENTACAO ||--o| OBITO : "caracteriza"
+    MOVIMENTACAO ||--o| TRANSFERENCIA : "caracteriza"
+    MOVIMENTACAO ||--o| COMPRAVENDA : "caracteriza"
+    TRANSFERENCIA }o--|| RETIRO : "destino"
 ```
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-**Decisões de modelagem:**
+### Decisões de modelagem
 
-- **USUARIO** é uma entidade genérica que representa os três perfis do sistema (gerente, capataz e coordenador). A distinção é feita pelo atributo `perfil`, evitando redundância de entidades com atributos idênticos. As especializações são tratadas no diagrama de classes (seção 3.2.3).
-- **MOVIMENTACAO** é uma entidade genérica que se especializa em quatro tipos: NASCIMENTO, OBITO, TRANSFERENCIA e COMPRAVENDA. Cada especialização herda os atributos comuns e acrescenta os próprios. A cardinalidade `||--o|` indica que cada movimentação pertence a exatamente um tipo.
-- **EVIDENCIA** possui relacionamento de dependência existencial com TAREFA: uma evidência só existe se houver uma tarefa à qual esteja vinculada (cardinalidade `||--o{`).
-- **ALERTA** é criado por um USUARIO do tipo capataz e permanece visível até ser marcado como resolvido, conforme a RN10 da seção 3.1.2.
-- **RETIRO** centraliza dois relacionamentos principais: agrega TAREFAS (uma tarefa sempre pertence a um retiro) e origina MOVIMENTACOES (toda movimentação parte de um retiro de origem).
-- A notação Crow's Foot foi mantida de forma consistente em todo o diagrama, sem mistura com a notação Chen.
+- A entidade **USUARIO** representa genericamente os perfis operacionais do sistema, incluindo gerente, coordenador e capataz. A diferenciação entre os tipos de usuário é realizada pelo atributo `perfil`, evitando redundância estrutural entre entidades com atributos equivalentes.
+
+- A entidade **RETIRO** representa as unidades operacionais da fazenda e centraliza os relacionamentos relacionados às tarefas e movimentações realizadas em campo.
+
+- A entidade **TAREFA** foi modelada para representar atividades operacionais atribuídas aos usuários, permitindo acompanhamento de execução, status e data planejada.
+
+- A entidade **EVIDENCIA** armazena registros comprobatórios relacionados às tarefas executadas, como fotografias, áudios ou anexos utilizados para validação operacional.
+
+- A entidade **ALERTA** representa notificações operacionais geradas pelos usuários durante a execução das atividades em campo, permanecendo disponíveis até serem resolvidas.
+
+- A entidade **MOVIMENTACAO** representa eventos relacionados ao manejo do rebanho bovino, incluindo nascimentos, óbitos, transferências e operações de compra e venda.
+
+- As entidades **NASCIMENTO**, **OBITO**, **TRANSFERENCIA** e **COMPRAVENDA** foram modeladas como detalhamentos específicos de movimentações, permitindo representar atributos particulares de cada tipo de operação sem duplicação de informações comuns.
+
+- O relacionamento entre **TAREFA** e **EVIDENCIA** representa dependência operacional, indicando que evidências somente podem existir associadas a uma tarefa previamente cadastrada.
+
+- A notação **Crow’s Foot** foi utilizada de forma consistente em toda a modelagem conceitual, sem mistura com elementos de UML ou notação Chen.
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
-
-
 
 ### 3.6.2. Diagrama Entidade-Relacionamento (DER) (sprint 2)
 
