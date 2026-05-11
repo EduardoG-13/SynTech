@@ -1277,11 +1277,119 @@ UC09 — Exportar relatórios (RF009)
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-### 3.2.3. Diagrama de Classes do Domínio (sprint 2)
+### 3.2.3. Diagrama de Classes do Dominio (sprint 2)
 
-_Diagrama UML de classes com entidades, atributos, relacionamentos e responsabilidades. Diferencie **associação**, **agregação** (losango vazio), **composição** (losango cheio) e **herança** (triângulo vazio). Multiplicidade explícita em toda associação._
+_Diagrama UML de classes com entidades, atributos, relacionamentos e responsabilidades. Diferencie **associacao**, **agregacao** (losango vazio), **composicao** (losango cheio) e **heranca** (triangulo vazio). Multiplicidade explicita em toda associacao._
 
-#### Atributos e Tipos das Classes do Domínio
+#### Levantamento das Entidades Persistentes do Dominio
+
+O levantamento a seguir identifica quais conceitos do dominio da BRPec devem ser modelados como entidades persistentes no banco de dados, distinguindo-os de informacoes que sao meros atributos, regras ou estados temporarios. O criterio utilizado para essa distincao segue o principio de que uma entidade persistente e um conceito do dominio que possui identidade propria, ciclo de vida independente e precisa ser armazenado e recuperado ao longo do tempo para que o sistema cumpra seus requisitos funcionais [10]. Informacoes que descrevem caracteristicas de uma entidade, mas nao possuem existencia autonoma, sao modeladas como atributos dessa entidade.
+
+As fontes primarias para este levantamento sao:
+- Secao 2.3 (Personas e Jornadas): identificacao dos atores do sistema e suas necessidades operacionais.
+- Secao 3.1.1 (Requisitos Funcionais): funcionalidades que o sistema deve oferecer e que implicam persistencia de dados.
+- Secao 3.1.2 (Regras de Negocio): restricoes que determinam como os dados se relacionam e quais campos sao obrigatorios.
+- Secao 2.1.3 (Solucao): definicao dos dados disponiveis e dos perfis de uso.
+
+##### Metodologia de identificacao
+
+Para cada conceito candidato, foram aplicadas tres perguntas:
+
+1. **Possui identidade propria?** Se o conceito precisa ser distinguido individualmente de outros do mesmo tipo (ex: uma tarefa especifica vs outra tarefa), ele e uma entidade.
+2. **Precisa ser persistido?** Se o dado precisa sobreviver ao encerramento da sessao do usuario e ser recuperavel posteriormente, ele exige persistencia.
+3. **Tem ciclo de vida independente?** Se o conceito pode ser criado, consultado, atualizado ou removido sem depender da existencia simultanea de outro conceito, ele tem autonomia suficiente para ser entidade.
+
+Conceitos que responderam "nao" a pelo menos duas dessas perguntas foram classificados como atributos ou regras, e nao como entidades.
+
+##### Entidades identificadas
+
+A tabela a seguir resume as entidades persistentes identificadas, a justificativa para cada uma e a rastreabilidade com os requisitos e user stories do sistema.
+
+<center>
+  <p><strong>Tabela 10</strong> -- Entidades persistentes do dominio</p>
+</center>
+
+| Entidade | Justificativa | US associadas | RF associados |
+|---|---|---|---|
+| **Usuario** | Representa os atores do sistema (Gerente, Coordenador, Capataz). Cada usuario tem identidade propria (id, nome, perfil) e e referenciado por tarefas, alertas e movimentacoes. A distincao por perfil (gerente, capataz, coordenador) determina quais funcionalidades estao disponiveis (US01, US07 para gerente; US02-US06, US08-US10 para capataz; exportacao para coordenador). O atributo `perfil` e uma enumeracao, nao uma entidade separada, porque nao possui atributos proprios nem ciclo de vida independente. | US01-US10 | RF001-RF015 |
+| **Retiro** | Unidade operacional fixa da fazenda. A BRPec possui 14 retiros identificados (secao 2.1.3). Cada tarefa, alerta e movimentacao esta obrigatoriamente vinculada a um retiro (RN01, RN26). O retiro nao e um atributo de tarefa porque diferentes tarefas, alertas e movimentacoes referenciam o mesmo retiro, e a lista de retiros e gerenciada de forma independente. | US01, US02, US06, US08, US09 | RF001, RF006, RF007, RF008 |
+| **Tarefa** | Representa uma atividade calendarizada criada pelo gerente e executada pelo capataz. Possui ciclo de vida completo: criacao (US01), visualizacao (US02), conclusao (US03), anexacao de evidencias (US04, US05). O status (pendente, em_andamento, concluida) e um atributo enumerado, nao uma entidade, porque descreve o estado da tarefa e nao tem identidade propria. | US01, US02, US03, US04, US05 | RF001, RF002, RF003, RF007 |
+| **Evidencia** | Arquivo (foto, audio ou texto) anexado a uma tarefa como comprovacao de execucao. E uma entidade separada e nao um atributo de Tarefa porque: (a) uma tarefa pode ter zero ou multiplas evidencias, (b) cada evidencia possui tipo, conteudo e data proprios, e (c) as evidencias sao sincronizadas independentemente da tarefa (RF010, RF012). | US04, US05 | RF005, RF010, RF012 |
+| **Alerta** | Chamado de infraestrutura criado pelo capataz para reportar problemas (cercas, bebedouros). E uma entidade independente porque tem ciclo de vida proprio (criacao, resolucao), tipo categorizado, localizacao GPS automatica (RN19) e e visualizado em painel separado pelo gerente (US07). Nao e um subtipo de Tarefa porque nao segue o mesmo fluxo (nao e atribuido pelo gerente, nao tem data de execucao, nao aceita evidencias de conclusao). | US06, US07 | RF006, RF007 |
+| **Movimentacao** | Registro de evento zootecnico do rebanho. E a entidade central do modulo pecuario, pois cada movimentacao representa uma alteracao no inventario que precisa ser rastreada, sincronizada e exportada. A categoria do animal (bezerro, garrote, boi, etc.) e um atributo enumerado, nao uma entidade, porque descreve a movimentacao e nao tem ciclo de vida proprio. A Movimentacao se especializa em quatro subtipos, cada um com atributos adicionais. | US08, US09, US10 | RF008, RF009, RF013, RF014, RF015 |
+| **Nascimento** | Subtipo de Movimentacao. Possui atributos exclusivos: referencia opcional a mae e foto. Justifica-se como entidade separada (e nao apenas um valor de enumeracao) porque a estrutura de dados do formulario de nascimento difere da de obito e transferencia (RF008). | US08 | RF008 |
+| **Obito** | Subtipo de Movimentacao. Possui atributos exclusivos: causa da morte e foto obrigatoria (RN gerada a partir de US09 e US10). A obrigatoriedade de foto com georreferenciamento para fins de auditoria sanitaria (US10, CR1) e uma regra de negocio que incide sobre esta entidade. | US09, US10 | RF009, RF013 |
+| **Transferencia** | Subtipo de Movimentacao. Possui dois atributos exclusivos que nao existem em outros subtipos: retiro de origem e retiro de destino. Uma transferencia altera o inventario de dois retiros simultaneamente. | -- | RF010 |
+| **CompraVenda** | Subtipo de Movimentacao. Possui atributos exclusivos: tipo de operacao (compra ou venda) e valor. Identificada a partir da secao 2.1.3, que lista "compras e vendas" como tipos de movimentacao do rebanho, e do RF015, que exige exportacao consolidada de movimentacoes zootecnicas. | -- | RF015 |
+
+<center>
+  <p>Fonte: Proprios autores (2026).</p>
+</center>
+
+##### Conceitos nao modelados como entidades
+
+A tabela a seguir registra conceitos que foram considerados durante o levantamento, mas deliberadamente classificados como atributos, regras ou observacoes, e nao como entidades persistentes.
+
+<center>
+  <p><strong>Tabela 11</strong> -- Conceitos nao modelados como entidades</p>
+</center>
+
+| Conceito | Classificacao | Justificativa |
+|---|---|---|
+| Status da tarefa (pendente, em_andamento, concluida) | Atributo (enumeracao) | Descreve o estado de uma Tarefa. Nao tem identidade propria, nao possui atributos alem do nome e nao precisa de tabela separada. |
+| Perfil do usuario (gerente, capataz, coordenador) | Atributo (enumeracao) | Determina as permissoes do usuario, mas nao carrega dados proprios. A diferenciacao de comportamento e tratada pela logica de negocio, nao pela estrutura de dados. Na modelagem conceitual, Gerente, Capataz e Coordenador sao representados como especializacoes de Usuario para explicitar a heranca, mas no banco fisico serao representados por um campo `perfil` na tabela `usuarios`. |
+| Categoria do animal | Atributo (enumeracao) | Lista fixa (bezerro, garrote, boi, touro, bezerra, novilha, vaca) fornecida pela BRPec (secao 2.1.3). Nao possui atributos adicionais nem ciclo de vida autonomo. |
+| Tipo do alerta | Atributo (enumeracao) | Classifica o alerta (cerca, bebedouro, infraestrutura, outro). Nao tem dados proprios alem do rotulo. |
+| Tipo da movimentacao | Representado por heranca | A diferenciacao entre nascimento, obito, transferencia e compra/venda e feita por subclasses e nao por um atributo enumerado, porque cada subtipo possui atributos estruturalmente diferentes. |
+| Coordenadas GPS do alerta | Atributo (latitude, longitude) | Dado capturado automaticamente (RN19) e armazenado como par de valores no Alerta. Nao constitui entidade porque nao tem identidade nem ciclo de vida proprio. |
+| Dados de sincronizacao (fila de envio, status de sync) | Atributo + regra | O campo `sincronizado` (booleano) em Movimentacao e Evidencia indica se o registro ja foi enviado ao servidor. A logica de fila e reenvio (RF012) e comportamento do sistema, nao dado persistido como entidade. |
+
+<center>
+  <p>Fonte: Proprios autores (2026).</p>
+</center>
+
+##### Relacionamentos entre entidades
+
+<center>
+  <p><strong>Tabela 12</strong> -- Relacionamentos entre entidades do dominio</p>
+</center>
+
+| Relacionamento | Tipo | Multiplicidade | Justificativa |
+|---|---|---|---|
+| Usuario -- Retiro | Associacao | N:1 | Cada usuario esta vinculado a um retiro (RN05). Um retiro pode ter varios usuarios. |
+| Tarefa -- Retiro | Associacao | N:1 | Toda tarefa pertence a um retiro (RN01). |
+| Tarefa -- Usuario (gerente) | Associacao | N:1 | Toda tarefa e criada por um gerente (US01). |
+| Tarefa -- Usuario (capataz) | Associacao | N:1 | Toda tarefa e atribuida a um capataz (US01, RN01). |
+| Evidencia -- Tarefa | Composicao | N:1 | Evidencia nao existe sem a tarefa. Se a tarefa for removida, suas evidencias tambem sao. |
+| Alerta -- Usuario (capataz) | Associacao | N:1 | Todo alerta e criado por um capataz (US06). |
+| Alerta -- Retiro | Associacao | N:1 | Todo alerta pertence a um retiro (RN26). |
+| Movimentacao -- Usuario | Associacao | N:1 | Toda movimentacao e registrada por um usuario (rastreabilidade SEG). |
+| Movimentacao -- Retiro | Associacao | N:1 | Toda movimentacao pertence a um retiro. |
+| Transferencia -- Retiro (origem) | Associacao | N:1 | Retiro de onde saem os animais. |
+| Transferencia -- Retiro (destino) | Associacao | N:1 | Retiro para onde vao os animais. |
+| Nascimento, Obito, Transferencia, CompraVenda -- Movimentacao | Heranca | 1:1 | Subtipos especializados de Movimentacao, cada um com atributos adicionais. |
+
+<center>
+  <p>Fonte: Proprios autores (2026).</p>
+</center>
+
+##### Observacoes sobre decisoes de modelagem
+
+1. **Heranca de Usuario:** No diagrama conceitual, Gerente, Capataz e Coordenador aparecem como subclasses de Usuario para explicitar os papeis. No modelo fisico (secao 3.6.3), essa heranca sera implementada como uma unica tabela `usuarios` com coluna `perfil` (enumeracao), estrategia conhecida como Single Table Inheritance [11]. Essa decisao se justifica porque os subtipos compartilham todos os atributos estruturais e diferem apenas no comportamento (permissoes), nao na estrutura de dados.
+
+2. **Heranca de Movimentacao:** Diferente de Usuario, os subtipos de Movimentacao possuem atributos estruturalmente distintos (ex: Obito tem `causa`, Transferencia tem `retiro_origem_id` e `retiro_destino_id`). No modelo fisico, isso pode ser implementado como tabelas separadas por subtipo (Table Per Class) ou como uma unica tabela com colunas opcionais (Single Table). A decisao sera detalhada na secao 3.6.3.
+
+3. **Offline e sincronizacao:** O campo `sincronizado` (booleano) presente em Movimentacao e Evidencia nao constitui uma entidade de sincronizacao separada. A logica de fila, reenvio e deteccao de conexao (RF010, RF012) pertence a camada de servico da aplicacao, nao ao modelo de dados do dominio.
+
+##### Referencias desta secao
+
+[10] LARMAN, Craig. Applying UML and Patterns: An Introduction to Object-Oriented Analysis and Design and Iterative Development. 3. ed. Upper Saddle River: Prentice Hall, 2004. Cap. 9: Domain Models, p. 135-162.
+
+[11] FOWLER, Martin. Patterns of Enterprise Application Architecture. Boston: Addison-Wesley, 2003. Cap. 12: Single Table Inheritance, p. 278-285.
+
+---
+
+#### Atributos e Tipos das Classes do Dominio
 
 ---
 
