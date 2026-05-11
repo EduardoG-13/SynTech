@@ -1577,76 +1577,53 @@ Nesta etapa conceitual, não são representados detalhes físicos de implementa�
   <p><strong>Figura 9</strong> — Modelo Entidade-Relacionamento Conceitual — BRPec Agropecuária</p>
 </center>
 
+### 3.6.1 Modelo Entidade-Relacionamento (ER) conceitual
+
+O modelo conceitual a seguir utiliza a notação de Chen para representar as entidades e relacionamentos do sistema Salli-AI. Esta modelagem foca exclusivamente nas regras de negócio da BrPec Agropecuária, omitindo detalhes técnicos de implementação, tipos de dados ou chaves primárias, conforme as diretrizes desta etapa.
+
 ```mermaid
-erDiagram
-    USUARIO {
-        Nome Atributo
-        Perfil Atributo
-        DataCriacao Atributo
-    }
+flowchart TD
+    %% Entidades (Retângulos)
+    USUARIO[USUARIO]
+    RETIRO[RETIRO]
+    TAREFA[TAREFA]
+    ALERTA[ALERTA]
+    MOVIMENTACAO[MOVIMENTACAO]
+    EVIDENCIA[EVIDENCIA]
+    
+    %% Tipos de Movimentação (Especializações)
+    NASCIMENTO[NASCIMENTO]
+    OBITO[OBITO]
+    TRANSFERENCIA[TRANSFERENCIA]
+    COMPRAVENDA[COMPRAVENDA]
 
-    RETIRO {
-        Nome Atributo
-        Localizacao Atributo
-    }
+    %% Relacionamentos (Losangos)
+    R1{aloca}
+    R2{gerencia}
+    R3{gera}
+    R4{efetua}
+    R5{sedia}
+    R6{origina}
+    R7{comprova}
+    R8{caracteriza}
+    R9{destino}
 
-    TAREFA {
-        Titulo Atributo
-        Descricao Atributo
-        Status Atributo
-        DataExecucao Atributo
-    }
-
-    EVIDENCIA {
-        Tipo Atributo
-        Arquivo Atributo
-        DataRegistro Atributo
-    }
-
-    ALERTA {
-        Descricao Atributo
-        Categoria Atributo
-        Resolvido Atributo
-    }
-
-    MOVIMENTACAO {
-        Data Atributo
-        Tipo Atributo
-        Quantidade Atributo
-        StatusSincronizacao Atributo
-    }
-
-    NASCIMENTO {
-        RegistroMae Atributo
-        FotoNascimento Atributo
-    }
-
-    OBITO {
-        CausaMorte Atributo
-        FotoComprovacao Atributo
-    }
-
-    TRANSFERENCIA {
-        VolumeTransf Atributo
-    }
-
-    COMPRAVENDA {
-        TipoNegocio Atributo
-        ValorFinanceiro Atributo
-    }
-
-    RETIRO ||--o{ USUARIO : "aloca"
-    USUARIO ||--o{ TAREFA : "gerencia"
-    USUARIO ||--o{ ALERTA : "gera"
-    USUARIO ||--o{ MOVIMENTACAO : "efetua"
-    RETIRO ||--o{ TAREFA : "sedia"
-    RETIRO ||--o{ MOVIMENTACAO : "origina"
-    TAREFA ||--o{ EVIDENCIA : "comprova"
-    MOVIMENTACAO ||--o| NASCIMENTO : "caracteriza"
-    MOVIMENTACAO ||--o| OBITO : "caracteriza"
-    MOVIMENTACAO ||--o| TRANSFERENCIA : "caracteriza"
-    MOVIMENTACAO ||--o| COMPRAVENDA : "caracteriza"
-    TRANSFERENCIA }o--|| RETIRO : "destino"
+    %% Conexões entre Entidades e Relacionamentos
+    RETIRO --- R1 --- USUARIO
+    USUARIO --- R2 --- TAREFA
+    USUARIO --- R3 --- ALERTA
+    USUARIO --- R4 --- MOVIMENTACAO
+    RETIRO --- R5 --- TAREFA
+    RETIRO --- R6 --- MOVIMENTACAO
+    TAREFA --- R7 --- EVIDENCIA
+    
+    MOVIMENTACAO --- R8
+    R8 --- NASCIMENTO
+    R8 --- OBITO
+    R8 --- TRANSFERENCIA
+    R8 --- COMPRAVENDA
+    
+    TRANSFERENCIA --- R9 --- RETIRO
 ```
 
 <center>
