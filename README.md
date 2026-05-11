@@ -48,29 +48,122 @@ Dentre os arquivos e pastas presentes na raiz do projeto, definem-se:
 
 - <b>README.md</b>: arquivo que serve como guia introdutório e explicação geral sobre o projeto e a aplicação (o mesmo arquivo que você está lendo agora).
 
-## 💻 Configuração para desenvolvimento e execução do código
+## Configuracao para desenvolvimento
 
-*Acrescentar as informações necessárias sobre pré-requisitos (IDEs, bibliotecas, serviços etc.) e instalação básica do projeto, descrevendo eventuais versões utilizadas. Colocar um passo a passo de como o leitor pode baixar o código e executar a aplicação a partir de sua máquina local.*
+### Pre-requisitos
 
-*exemplo de instruções*
+| Ferramenta | Versao minima | Observacao |
+|------------|---------------|------------|
+| Node.js | 18.x LTS | [Download](https://nodejs.org/) |
+| npm | 9.x | Incluido com o Node.js |
+| Supabase | -- | Projeto configurado com banco PostgreSQL |
 
-Aqui encontram-se todas as instruções necessárias para a instalação de todos os programas, bibliotecas e ferramentas imprescindíveis para a configuração do ambiente de desenvolvimento.
+### Instalacao
 
-1. Baixar e instalar o node.js: [https://nodejs.org/pt-br/](https://nodejs.org/pt-br/) (versão 16.15.1 LTS)
-2. Clone o repositório em questão.
-3. No modo administrador, abra o "prompt de comando" ou o "terminal" e, após, abra a pasta "src/backend" no diretório raiz do repositório clonado e digite o segundo comando:
+1. Clone o repositorio:
+
+```sh
+git clone https://git.inteli.edu.br/graduacao/2026-1b/t26/g03.git
+cd g03
+```
+
+2. Instale as dependencias da raiz (commitlint, husky):
 
 ```sh
 npm install
 ```
 
-Isso instalará todas as dependências definidas no arquivo <b>package.json</b> que são necessárias para rodar o projeto. Agora o projeto já está pronto para ser modificado. Caso ainda deseje iniciar a aplicação, digite o comando abaixo no terminal:
+3. Acesse o backend e instale suas dependencias:
 
 ```sh
-npm start
+cd src/backend
+npm install
 ```
-5. Agora você pode acessar a aplicação através do link http://localhost:1234/
-6. O servidor está online.
+
+4. Crie o arquivo `.env` a partir do modelo:
+
+```sh
+cp .env.example .env
+```
+
+5. Preencha o `.env` com os dados do seu projeto Supabase. A connection string esta disponivel em Supabase Dashboard > Settings > Database > Connection string > URI.
+
+```env
+PORT=3000
+DATABASE_URL=postgresql://postgres:[SUA-SENHA]@db.[SEU-PROJETO].supabase.co:5432/postgres
+NODE_ENV=development
+```
+
+### Execucao
+
+A partir da pasta `src/backend`, inicie o servidor em modo desenvolvimento:
+
+```sh
+npm run dev
+```
+
+O terminal deve exibir:
+
+```
+Servidor rodando em http://localhost:3000
+Health-check: http://localhost:3000/health
+```
+
+### Verificacao
+
+Acesse `http://localhost:3000/health` no navegador ou execute no terminal:
+
+```sh
+curl http://localhost:3000/health
+```
+
+Resposta esperada:
+
+```json
+{
+  "status": "ok",
+  "timestamp": "2026-05-07T18:00:00.000Z",
+  "uptime": 1.234,
+  "database": "conectado"
+}
+
+```
+
+Se o campo `database` retornar `"erro: ..."`, verifique se a `DATABASE_URL` no `.env` esta correta.
+
+### Estrutura do backend
+
+Arquitetura em camadas: Controller > Service > Repository > DB. Documentacao detalhada em [`src/ESTRUTURA_BACKEND.md`](src/ESTRUTURA_BACKEND.md).
+
+```
+src/backend/
+├── server.js              # Entrypoint
+├── app.js                 # Configuracao do Express
+├── config/
+│   └── database.js        # Pool de conexao PostgreSQL
+├── controllers/           # Recebe requisicao, delega para o service
+├── services/              # Logica de negocio
+├── repositories/          # Acesso a dados (queries SQL)
+├── models/                # Definicoes de entidades
+├── routes/                # Registro de rotas
+├── middlewares/            # Error handler
+├── tests/                 # Testes
+├── .env.example           # Modelo de variaveis de ambiente
+└── package.json           # Dependencias e scripts
+```
+
+### Arquivos que nao devem ser commitados
+
+Os seguintes arquivos e pastas estao no `.gitignore` e nao devem ser versionados:
+
+| Arquivo/Pasta | Motivo |
+|---------------|--------|
+| `node_modules/` | Dependencias instaladas. Cada dev gera ao rodar `npm install` |
+| `.env` | Contem credenciais do banco de dados |
+| `package-lock.json` (backend) | Gerado automaticamente pelo npm |
+| `supabase/.branches`, `supabase/.temp` | Estado local do Supabase CLI |
+| `.vscode/`, `.idea/` | Configuracoes de IDE pessoais |
+| `.DS_Store`, `Thumbs.db` | Arquivos gerados pelo sistema operacional |
 
 ## 🗃 Histórico de lançamentos
 
