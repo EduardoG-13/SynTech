@@ -371,7 +371,9 @@ Conclui-se que a análise da matriz de riscos permite a identificação de fator
 
 ## 2.2. Personas (sprint 1)
 
-Personas são, de forma resumida, representaçôes fictícia dos diferentes tipos de usuários. Elas permitem que a ferramenta seja mais eficiente e focada para atender as necessidades reais do cliente. Dessa forma, as Figuras 5, 6 e 7 mostram as personas criadas para o projeto.
+Personas são representações semifictícias dos usuários finais construídas a partir de dados reais, hipóteses fundamentadas e observações do contexto de negócio. Seu objetivo é sintetizar características, necessidades, dores e comportamentos dos usuários, permitindo que as decisões de design e desenvolvimento sejam orientadas pelas necessidades concretas das pessoas que utilizarão o sistema. Segundo Cooper et al. (2014), o uso de personas contribui para o alinhamento da equipe em torno de perfis de usuários claramente definidos, reduzindo ambiguidades e aumentando a aderência da solução ao contexto operacional.
+
+No contexto da BrPec Agropecuária S.A., as personas representam os três principais perfis envolvidos no fluxo operacional da fazenda: o Gerente Geral, que atua no escritório corporativo em São Paulo; o Coordenador, responsável pela consolidação das informações no escritório operacional em Miranda (MS); e o Capataz, que executa atividades diretamente nos retiros localizados no Pantanal sul-mato-grossense. Esses diferentes ambientes de atuação influenciam diretamente as necessidades, limitações e expectativas em relação ao sistema.
 
 ### Persona 1: João Pereira
 
@@ -667,6 +669,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 "Quando o bicho adoece ou a cerca arrebenta, não tem tempo de procurar papel, tem que resolver na hora. O que não ficou na cabeça, ficou perdido."
 
 ## 2.3. User Stories (sprints 1 a 5)
+
+User Stories são descrições curtas e objetivas de funcionalidades sob a perspectiva do usuário final. Segundo Cohn (2004), esse artefato permite expressar necessidades de negócio de forma simples, priorizável e orientada à geração de valor. Cada história descreve quem é o usuário, qual ação deseja executar e qual benefício espera obter, servindo como base para planejamento, implementação e validação do sistema.
+
+No projeto BrPec, as User Stories foram elaboradas a partir das personas definidas anteriormente e representam as funcionalidades essenciais da aplicação, com ênfase na operação offline, no gerenciamento de tarefas e no registro das movimentações do rebanho. As cinco histórias prioritárias incluem ainda uma análise segundo o método INVEST, garantindo que sejam independentes, negociáveis, valiosas, estimáveis, pequenas e testáveis.
 
 <center>
   <p><strong>Quadro 1</strong> — User Story 01</p>
@@ -1785,7 +1791,11 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 
 [9] MACHADO, João Guilherme de Camargo Ferraz; NANTES, José Flávio Diniz. Adoção da tecnologia da informação em organizações rurais: o caso da pecuária de corte. Gestão & Produção, São Carlos, v. 18, n. 3, p. 555-570, 2011. Disponível em: https://www.scielo.br/j/gp/a/cwVwLsPgq8FBq5kvgXZPpLQ/. Acesso em: 28 abr. 2026.
 
-[8] LEACH, P. et al. RFC 9562: Universally Unique IDentifiers (UUID). Internet Engineering Task Force, 2024. Disponível em: https://www.rfc-editor.org/rfc/rfc9562. Acesso em: 07 mai. 2026.
+[10] LEACH, P. et al. RFC 9562: Universally Unique IDentifiers (UUID). Internet Engineering Task Force, 2024. Disponível em: https://www.rfc-editor.org/rfc/rfc9562. Acesso em: 07 mai. 2026.
+
+[11] COOPER, Alan; REIMANN, Robert; CRONIN, David; NOESSEL, Christopher. About Face: The Essentials of Interaction Design. 4. ed. Indianapolis: Wiley, 2014.
+
+[12] COHN, Mike. User Stories Applied: For Agile Software Development. Boston: Addison-Wesley, 2004.
 
 # <a name="c9"></a>Anexos
 
