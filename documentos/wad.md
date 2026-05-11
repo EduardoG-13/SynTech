@@ -1565,6 +1565,89 @@ _posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelid
 
 _Apresente o modelo ER conceitual com entidades, atributos e relacionamentos. Use notação consistente (Chen ou Crow's Foot - não misture)._
 
+O modelo ER conceitual representa as entidades do domínio, seus atributos e os relacionamentos entre elas, em notação **Crow's Foot**. Este modelo é consistente com as classes definidas na seção 3.2.3 e com as regras de negócio da seção 3.1.2. Nesta etapa conceitual, não são representados tipos físicos de banco de dados, chaves primárias ou estrangeiras — esses detalhes são tratados no DER (seção 3.6.2) e no modelo físico (seção 3.6.3).
+
+<center>
+  <p><strong>Figura 9</strong> — Modelo Entidade-Relacionamento Conceitual — BRPec Agropecuária</p>
+</center>
+
+```mermaid
+erDiagram
+
+    USUARIO {
+        id identificador
+        nome texto
+        perfil enumeracao
+        created_at dataHora
+    }
+
+    RETIRO {
+        id identificador
+        nome texto
+        localizacao texto
+    }
+
+    TAREFA {
+        id identificador
+        titulo texto
+        descricao texto
+        status enumeracao
+        data_execucao data
+        created_at dataHora
+    }
+
+    EVIDENCIA {
+        id identificador
+        tipo enumeracao
+        conteudo binario
+        created_at dataHora
+    }
+
+    ALERTA {
+        id identificador
+        descricao texto
+        tipo enumeracao
+        resolvido booleano
+        created_at dataHora
+    }
+
+    MOVIMENTACAO {
+        id identificador
+        data data
+        categoria enumeracao
+        quantidade inteiro
+        sincronizado booleano
+        created_at dataHora
+    }
+
+    NASCIMENTO {
+        foto binario
+        mae_referencia texto
+    }
+
+    OBITO {
+        causa texto
+        foto binario
+    }
+
+    TRANSFERENCIA {
+        retiro_origem texto
+        retiro_destino texto
+    }
+
+    COMPRAVENDA {
+        tipo_operacao enumeracao
+        valor decimal
+    }
+
+```
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+
+
 ### 3.6.2. Diagrama Entidade-Relacionamento (DER) (sprint 2)
 
 _Posicione aqui o DER com cardinalidades explícitas em ambos os lados de cada relação e identificação de PK/FK. O DER deve ser coerente com o diagrama de classes (3.2.3)._
