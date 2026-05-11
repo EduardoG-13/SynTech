@@ -1683,6 +1683,10 @@ _Posicione aqui o DER com cardinalidades explícitas em ambos os lados de cada r
 
 ### 3.6.3. Modelo Relacional e Modelo Físico (sprints 2 e 4)
 
+O modelo físico deriva do modelo conceitual (ER) apresentado na seção 3.6.1, refinando as entidades em tabelas com tipos de dados concretos, chaves primárias em UUID v7, chaves estrangeiras explícitas e constraints de integridade referencial e de domínio. A estratégia de UUID v7 descrita acima é aplicada em todas as tabelas sujeitas a operações offline, garantindo unicidade global sem coordenação com o servidor.
+
+O banco de dados adotado é **SQLite** (modo offline-first nos dispositivos dos usuários de campo), com sincronização posterior para o banco central via UPSERT. A estrutura abaixo representa as 10 tabelas do sistema e seus relacionamentos.
+
 _Posicione aqui os diagramas de modelos relacionais do banco de dados, apresentando todos os esquemas de tabelas e suas relações. Inclua as migrations DDL numeradas e reproduzíveis (`CREATE TABLE`, `CREATE INDEX`, constraints `NOT NULL`, `UNIQUE`, `FOREIGN KEY`, `CHECK`). Utilize texto para complementar suas explicações quando necessário._
 
 #### Nota Técnica - Estratégia de UUID para criação e atualização offline
