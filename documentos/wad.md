@@ -1573,92 +1573,73 @@ Nesta etapa conceitual, não são representados detalhes físicos de implementa�
 
 ```mermaid
 erDiagram
-
     USUARIO {
-        id identificador
-        nome texto
-        perfil enumeracao
-        created_at dataHora
+        Nome Atributo
+        Perfil Atributo
+        DataCriacao Atributo
     }
 
     RETIRO {
-        id identificador
-        nome texto
-        localizacao texto
+        Nome Atributo
+        Localizacao Atributo
     }
 
     TAREFA {
-        id identificador
-        titulo texto
-        descricao texto
-        status enumeracao
-        data_execucao data
-        created_at dataHora
+        Titulo Atributo
+        Descricao Atributo
+        Status Atributo
+        DataExecucao Atributo
     }
 
     EVIDENCIA {
-        id identificador
-        tipo enumeracao
-        conteudo binario
-        created_at dataHora
+        Tipo Atributo
+        Arquivo Atributo
+        DataRegistro Atributo
     }
 
     ALERTA {
-        id identificador
-        descricao texto
-        tipo enumeracao
-        resolvido booleano
-        created_at dataHora
+        Descricao Atributo
+        Categoria Atributo
+        Resolvido Atributo
     }
 
     MOVIMENTACAO {
-        id identificador
-        data data
-        categoria enumeracao
-        quantidade inteiro
-        sincronizado booleano
-        created_at dataHora
+        Data Atributo
+        Tipo Atributo
+        Quantidade Atributo
+        StatusSincronizacao Atributo
     }
 
     NASCIMENTO {
-        id identificador
-        foto binario
-        mae_referencia texto
+        RegistroMae Atributo
+        FotoNascimento Atributo
     }
 
     OBITO {
-        id identificador
-        causa texto
-        foto binario
+        CausaMorte Atributo
+        FotoComprovacao Atributo
     }
 
     TRANSFERENCIA {
-        id identificador
-        quantidade inteiro
+        VolumeTransf Atributo
     }
 
     COMPRAVENDA {
-        id identificador
-        tipo_operacao enumeracao
-        valor decimal
+        TipoNegocio Atributo
+        ValorFinanceiro Atributo
     }
 
-    RETIRO ||--o{ USUARIO : "possui"
-
-    USUARIO ||--o{ TAREFA : "cria ou executa"
-    USUARIO ||--o{ ALERTA : "cria"
-    USUARIO ||--o{ MOVIMENTACAO : "registra"
-
-    RETIRO ||--o{ TAREFA : "agrupa"
+    RETIRO ||--o{ USUARIO : "aloca"
+    USUARIO ||--o{ TAREFA : "gerencia"
+    USUARIO ||--o{ ALERTA : "gera"
+    USUARIO ||--o{ MOVIMENTACAO : "efetua"
+    RETIRO ||--o{ TAREFA : "sedia"
     RETIRO ||--o{ MOVIMENTACAO : "origina"
-
-    TAREFA ||--o{ EVIDENCIA : "possui"
-
-    MOVIMENTACAO ||--o| NASCIMENTO : "detalha"
-    MOVIMENTACAO ||--o| OBITO : "detalha"
-    MOVIMENTACAO ||--o| TRANSFERENCIA : "detalha"
-    MOVIMENTACAO ||--o| COMPRAVENDA : "detalha"
-
+    TAREFA ||--o{ EVIDENCIA : "comprova"
+    MOVIMENTACAO ||--o| NASCIMENTO : "caracteriza"
+    MOVIMENTACAO ||--o| OBITO : "caracteriza"
+    MOVIMENTACAO ||--o| TRANSFERENCIA : "caracteriza"
+    MOVIMENTACAO ||--o| COMPRAVENDA : "caracteriza"
     TRANSFERENCIA }o--|| RETIRO : "destino"
 ```
 
