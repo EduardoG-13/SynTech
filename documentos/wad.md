@@ -1281,6 +1281,147 @@ UC09 — Exportar relatórios (RF009)
 
 _Diagrama UML de classes com entidades, atributos, relacionamentos e responsabilidades. Diferencie **associação**, **agregação** (losango vazio), **composição** (losango cheio) e **herança** (triângulo vazio). Multiplicidade explícita em toda associação._
 
+#### Atributos e Tipos das Classes do Domínio
+
+---
+
+**Classe: Usuario** *(abstrata)*
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| id | Identificador único | Obrigatório |
+| nome | Texto | Obrigatório |
+| perfil | Enumeração (gerente, capataz, coordenador) | Obrigatório |
+| retiro_id | Referência a Retiro | Obrigatório |
+| created_at | Data e hora | Obrigatório |
+
+---
+
+**Classe: Gerente** *(herda de Usuario)*
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| area_responsavel | Texto | Opcional |
+
+---
+
+**Classe: Capataz** *(herda de Usuario)*
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| retiro_id | Referência a Retiro | Obrigatório |
+
+---
+
+**Classe: Coordenador** *(herda de Usuario)*
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| (sem atributos adicionais além dos herdados) | — | — |
+
+---
+
+**Classe: Retiro**
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| id | Identificador único | Obrigatório |
+| nome | Texto | Obrigatório |
+| localizacao | Texto | Opcional |
+
+---
+
+**Classe: Tarefa**
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| id | Identificador único | Obrigatório |
+| titulo | Texto | Obrigatório |
+| descricao | Texto longo | Opcional |
+| status | Enumeração (pendente, em_andamento, concluida) | Obrigatório |
+| data_execucao | Data | Obrigatório |
+| gerente_id | Referência a Gerente | Obrigatório |
+| capataz_id | Referência a Capataz | Obrigatório |
+| retiro_id | Referência a Retiro | Obrigatório |
+| created_at | Data e hora | Obrigatório |
+
+---
+
+**Classe: Evidencia**
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| id | Identificador único | Obrigatório |
+| tipo | Enumeração (foto, audio, texto) | Obrigatório |
+| conteudo | Binário / Texto | Obrigatório |
+| tarefa_id | Referência a Tarefa | Obrigatório |
+| created_at | Data e hora | Obrigatório |
+
+---
+
+**Classe: Alerta**
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| id | Identificador único | Obrigatório |
+| descricao | Texto | Obrigatório |
+| tipo | Enumeração (cerca, bebedouro, infraestrutura, outro) | Obrigatório |
+| resolvido | Booleano | Obrigatório |
+| capataz_id | Referência a Capataz | Obrigatório |
+| retiro_id | Referência a Retiro | Obrigatório |
+| created_at | Data e hora | Obrigatório |
+
+---
+
+**Classe: Movimentacao** *(abstrata)*
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| id | Identificador único | Obrigatório |
+| data | Data | Obrigatório |
+| categoria | Enumeração (bezerro, garrote, boi_touro, bezerra, novilha, vaca) | Obrigatório |
+| quantidade | Número inteiro positivo | Obrigatório |
+| sincronizado | Booleano | Obrigatório |
+| usuario_id | Referência a Usuario | Obrigatório |
+| retiro_id | Referência a Retiro | Obrigatório |
+| created_at | Data e hora | Obrigatório |
+
+---
+
+**Classe: Nascimento** *(herda de Movimentacao)*
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| mae_id | Referência a animal (identificador opcional) | Opcional |
+| foto | Binário | Opcional |
+
+---
+
+**Classe: Obito** *(herda de Movimentacao)*
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| causa | Texto | Obrigatório |
+| foto | Binário | Obrigatório |
+
+---
+
+**Classe: Transferencia** *(herda de Movimentacao)*
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| retiro_origem_id | Referência a Retiro | Obrigatório |
+| retiro_destino_id | Referência a Retiro | Obrigatório |
+
+---
+
+**Classe: CompraVenda** *(herda de Movimentacao)*
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| tipo_operacao | Enumeração (compra, venda) | Obrigatório |
+| valor | Decimal | Opcional |
+
 ### 3.2.4. Diagrama de Sequência UML (sprint 3)
 
 ### 3.2.4. Diagrama de Sequência UML
