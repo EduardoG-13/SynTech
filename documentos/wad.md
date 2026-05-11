@@ -371,7 +371,9 @@ Conclui-se que a análise da matriz de riscos permite a identificação de fator
 
 ## 2.2. Personas (sprint 1)
 
-Personas são, de forma resumida, representaçôes fictícia dos diferentes tipos de usuários. Elas permitem que a ferramenta seja mais eficiente e focada para atender as necessidades reais do cliente. Dessa forma, as Figuras 5, 6 e 7 mostram as personas criadas para o projeto.
+Personas são representações semifictícias dos usuários finais construídas a partir de dados reais, hipóteses fundamentadas e observações do contexto de negócio. Seu objetivo é sintetizar características, necessidades, dores e comportamentos dos usuários, permitindo que as decisões de design e desenvolvimento sejam orientadas pelas necessidades concretas das pessoas que utilizarão o sistema. Segundo Cooper et al. (2014), o uso de personas contribui para o alinhamento da equipe em torno de perfis de usuários claramente definidos, reduzindo ambiguidades e aumentando a aderência da solução ao contexto operacional.
+
+No contexto da BrPec Agropecuária S.A., as personas representam os três principais perfis envolvidos no fluxo operacional da fazenda: o Gerente Geral, que atua no escritório corporativo em São Paulo; o Coordenador, responsável pela consolidação das informações no escritório operacional em Miranda (MS); e o Capataz, que executa atividades diretamente nos retiros localizados no Pantanal sul-mato-grossense. Esses diferentes ambientes de atuação influenciam diretamente as necessidades, limitações e expectativas em relação ao sistema.
 
 ### Persona 1: João Pereira
 
@@ -667,6 +669,10 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 "Quando o bicho adoece ou a cerca arrebenta, não tem tempo de procurar papel, tem que resolver na hora. O que não ficou na cabeça, ficou perdido."
 
 ## 2.3. User Stories (sprints 1 a 5)
+
+User Stories são descrições curtas e objetivas de funcionalidades sob a perspectiva do usuário final. Segundo Cohn (2004), esse artefato permite expressar necessidades de negócio de forma simples, priorizável e orientada à geração de valor. Cada história descreve quem é o usuário, qual ação deseja executar e qual benefício espera obter, servindo como base para planejamento, implementação e validação do sistema.
+
+No projeto BrPec, as User Stories foram elaboradas a partir das personas definidas anteriormente e representam as funcionalidades essenciais da aplicação, com ênfase na operação offline, no gerenciamento de tarefas e no registro das movimentações do rebanho. As cinco histórias prioritárias incluem ainda uma análise segundo o método INVEST, garantindo que sejam independentes, negociáveis, valiosas, estimáveis, pequenas e testáveis.
 
 <center>
   <p><strong>Quadro 1</strong> — User Story 01</p>
@@ -1281,6 +1287,147 @@ UC09 — Exportar relatórios (RF009)
 
 _Diagrama UML de classes com entidades, atributos, relacionamentos e responsabilidades. Diferencie **associação**, **agregação** (losango vazio), **composição** (losango cheio) e **herança** (triângulo vazio). Multiplicidade explícita em toda associação._
 
+#### Atributos e Tipos das Classes do Domínio
+
+---
+
+**Classe: Usuario** *(abstrata)*
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| id | Identificador único | Obrigatório |
+| nome | Texto | Obrigatório |
+| perfil | Enumeração (gerente, capataz, coordenador) | Obrigatório |
+| retiro_id | Referência a Retiro | Obrigatório |
+| created_at | Data e hora | Obrigatório |
+
+---
+
+**Classe: Gerente** *(herda de Usuario)*
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| area_responsavel | Texto | Opcional |
+
+---
+
+**Classe: Capataz** *(herda de Usuario)*
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| retiro_id | Referência a Retiro | Obrigatório |
+
+---
+
+**Classe: Coordenador** *(herda de Usuario)*
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| (sem atributos adicionais além dos herdados) | — | — |
+
+---
+
+**Classe: Retiro**
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| id | Identificador único | Obrigatório |
+| nome | Texto | Obrigatório |
+| localizacao | Texto | Opcional |
+
+---
+
+**Classe: Tarefa**
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| id | Identificador único | Obrigatório |
+| titulo | Texto | Obrigatório |
+| descricao | Texto longo | Opcional |
+| status | Enumeração (pendente, em_andamento, concluida) | Obrigatório |
+| data_execucao | Data | Obrigatório |
+| gerente_id | Referência a Gerente | Obrigatório |
+| capataz_id | Referência a Capataz | Obrigatório |
+| retiro_id | Referência a Retiro | Obrigatório |
+| created_at | Data e hora | Obrigatório |
+
+---
+
+**Classe: Evidencia**
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| id | Identificador único | Obrigatório |
+| tipo | Enumeração (foto, audio, texto) | Obrigatório |
+| conteudo | Binário / Texto | Obrigatório |
+| tarefa_id | Referência a Tarefa | Obrigatório |
+| created_at | Data e hora | Obrigatório |
+
+---
+
+**Classe: Alerta**
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| id | Identificador único | Obrigatório |
+| descricao | Texto | Obrigatório |
+| tipo | Enumeração (cerca, bebedouro, infraestrutura, outro) | Obrigatório |
+| resolvido | Booleano | Obrigatório |
+| capataz_id | Referência a Capataz | Obrigatório |
+| retiro_id | Referência a Retiro | Obrigatório |
+| created_at | Data e hora | Obrigatório |
+
+---
+
+**Classe: Movimentacao** *(abstrata)*
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| id | Identificador único | Obrigatório |
+| data | Data | Obrigatório |
+| categoria | Enumeração (bezerro, garrote, boi_touro, bezerra, novilha, vaca) | Obrigatório |
+| quantidade | Número inteiro positivo | Obrigatório |
+| sincronizado | Booleano | Obrigatório |
+| usuario_id | Referência a Usuario | Obrigatório |
+| retiro_id | Referência a Retiro | Obrigatório |
+| created_at | Data e hora | Obrigatório |
+
+---
+
+**Classe: Nascimento** *(herda de Movimentacao)*
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| mae_id | Referência a animal (identificador opcional) | Opcional |
+| foto | Binário | Opcional |
+
+---
+
+**Classe: Obito** *(herda de Movimentacao)*
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| causa | Texto | Obrigatório |
+| foto | Binário | Obrigatório |
+
+---
+
+**Classe: Transferencia** *(herda de Movimentacao)*
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| retiro_origem_id | Referência a Retiro | Obrigatório |
+| retiro_destino_id | Referência a Retiro | Obrigatório |
+
+---
+
+**Classe: CompraVenda** *(herda de Movimentacao)*
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| tipo_operacao | Enumeração (compra, venda) | Obrigatório |
+| valor | Decimal | Opcional |
+
 ### 3.2.4. Diagrama de Sequência UML (sprint 3)
 
 ### 3.2.4. Diagrama de Sequência UML
@@ -1423,6 +1570,113 @@ _posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelid
 ### 3.6.1. Modelo Entidade-Relacionamento (MER) (sprint 2)
 
 _Apresente o modelo ER conceitual com entidades, atributos e relacionamentos. Use notação consistente (Chen ou Crow's Foot - não misture)._
+
+O modelo ER conceitual representa as entidades do domínio, seus atributos e os relacionamentos entre elas, em notação **Crow's Foot**. Este modelo é consistente com as classes definidas na seção 3.2.3 e com as regras de negócio da seção 3.1.2. Nesta etapa conceitual, não são representados tipos físicos de banco de dados, chaves primárias ou estrangeiras — esses detalhes são tratados no DER (seção 3.6.2) e no modelo físico (seção 3.6.3).
+
+<center>
+  <p><strong>Figura 9</strong> — Modelo Entidade-Relacionamento Conceitual — BRPec Agropecuária</p>
+</center>
+
+```mermaid
+erDiagram
+
+    USUARIO {
+        id identificador
+        nome texto
+        perfil enumeracao
+        created_at dataHora
+    }
+
+    RETIRO {
+        id identificador
+        nome texto
+        localizacao texto
+    }
+
+    TAREFA {
+        id identificador
+        titulo texto
+        descricao texto
+        status enumeracao
+        data_execucao data
+        created_at dataHora
+    }
+
+    EVIDENCIA {
+        id identificador
+        tipo enumeracao
+        conteudo binario
+        created_at dataHora
+    }
+
+    ALERTA {
+        id identificador
+        descricao texto
+        tipo enumeracao
+        resolvido booleano
+        created_at dataHora
+    }
+
+    MOVIMENTACAO {
+        id identificador
+        data data
+        categoria enumeracao
+        quantidade inteiro
+        sincronizado booleano
+        created_at dataHora
+    }
+
+    NASCIMENTO {
+        foto binario
+        mae_referencia texto
+    }
+
+    OBITO {
+        causa texto
+        foto binario
+    }
+
+    TRANSFERENCIA {
+        retiro_origem texto
+        retiro_destino texto
+    }
+
+    COMPRAVENDA {
+        tipo_operacao enumeracao
+        valor decimal
+    }
+
+USUARIO ||--o{ TAREFA : "cria ou executa"
+    USUARIO ||--o{ ALERTA : "cria"
+    USUARIO ||--o{ MOVIMENTACAO : "registra"
+    USUARIO }o--|| RETIRO : "pertence a"
+    RETIRO ||--o{ TAREFA : "agrupa"
+    RETIRO ||--o{ MOVIMENTACAO : "origina"
+    TAREFA ||--o{ EVIDENCIA : "possui"
+    MOVIMENTACAO ||--o| NASCIMENTO : "especializa"
+    MOVIMENTACAO ||--o| OBITO : "especializa"
+    MOVIMENTACAO ||--o| TRANSFERENCIA : "especializa"
+    MOVIMENTACAO ||--o| COMPRAVENDA : "especializa"
+```
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+**Decisões de modelagem:**
+
+- **USUARIO** é uma entidade genérica que representa os três perfis do sistema (gerente, capataz e coordenador). A distinção é feita pelo atributo `perfil`, evitando redundância de entidades com atributos idênticos. As especializações são tratadas no diagrama de classes (seção 3.2.3).
+- **MOVIMENTACAO** é uma entidade genérica que se especializa em quatro tipos: NASCIMENTO, OBITO, TRANSFERENCIA e COMPRAVENDA. Cada especialização herda os atributos comuns e acrescenta os próprios. A cardinalidade `||--o|` indica que cada movimentação pertence a exatamente um tipo.
+- **EVIDENCIA** possui relacionamento de dependência existencial com TAREFA: uma evidência só existe se houver uma tarefa à qual esteja vinculada (cardinalidade `||--o{`).
+- **ALERTA** é criado por um USUARIO do tipo capataz e permanece visível até ser marcado como resolvido, conforme a RN10 da seção 3.1.2.
+- **RETIRO** centraliza dois relacionamentos principais: agrega TAREFAS (uma tarefa sempre pertence a um retiro) e origina MOVIMENTACOES (toda movimentação parte de um retiro de origem).
+- A notação Crow's Foot foi mantida de forma consistente em todo o diagrama, sem mistura com a notação Chen.
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+
 
 ### 3.6.2. Diagrama Entidade-Relacionamento (DER) (sprint 2)
 
@@ -1647,7 +1901,11 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 
 [9] MACHADO, João Guilherme de Camargo Ferraz; NANTES, José Flávio Diniz. Adoção da tecnologia da informação em organizações rurais: o caso da pecuária de corte. Gestão & Produção, São Carlos, v. 18, n. 3, p. 555-570, 2011. Disponível em: https://www.scielo.br/j/gp/a/cwVwLsPgq8FBq5kvgXZPpLQ/. Acesso em: 28 abr. 2026.
 
-[8] LEACH, P. et al. RFC 9562: Universally Unique IDentifiers (UUID). Internet Engineering Task Force, 2024. Disponível em: https://www.rfc-editor.org/rfc/rfc9562. Acesso em: 07 mai. 2026.
+[10] LEACH, P. et al. RFC 9562: Universally Unique IDentifiers (UUID). Internet Engineering Task Force, 2024. Disponível em: https://www.rfc-editor.org/rfc/rfc9562. Acesso em: 07 mai. 2026.
+
+[11] COOPER, Alan; REIMANN, Robert; CRONIN, David; NOESSEL, Christopher. About Face: The Essentials of Interaction Design. 4. ed. Indianapolis: Wiley, 2014.
+
+[12] COHN, Mike. User Stories Applied: For Agile Software Development. Boston: Addison-Wesley, 2004.
 
 [9] CHEN, Peter Pin-Shan. The entity-relationship model: toward a unified view of data. ACM Transactions on Database Systems, v. 1, n. 1, p. 9–36, 1976.
 
