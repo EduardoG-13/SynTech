@@ -1689,6 +1689,129 @@ O banco de dados adotado é **SQLite** (modo offline-first nos dispositivos dos 
 
 _Posicione aqui os diagramas de modelos relacionais do banco de dados, apresentando todos os esquemas de tabelas e suas relações. Inclua as migrations DDL numeradas e reproduzíveis (`CREATE TABLE`, `CREATE INDEX`, constraints `NOT NULL`, `UNIQUE`, `FOREIGN KEY`, `CHECK`). Utilize texto para complementar suas explicações quando necessário._
 
+
+```mermaid
+erDiagram
+    retiros {
+        TEXT id PK
+        TEXT nome
+        TEXT localizacao
+        TEXT created_at
+        TEXT updated_at
+    }
+    usuarios {
+        TEXT id PK
+        TEXT retiro_id FK
+        TEXT nome
+        TEXT email
+        TEXT senha_hash
+        TEXT perfil
+        TEXT created_at
+        TEXT updated_at
+    }
+    tarefas {
+        TEXT id PK
+        TEXT retiro_id FK
+        TEXT responsavel_id FK
+        TEXT titulo
+        TEXT descricao
+        TEXT status
+        TEXT data_prevista
+        TEXT data_conclusao
+        INTEGER sincronizado
+        TEXT created_at
+        TEXT updated_at
+    }
+    alertas {
+        TEXT id PK
+        TEXT criado_por_id FK
+        TEXT tecnico_id FK
+        TEXT titulo
+        TEXT descricao
+        TEXT status
+        REAL localizacao_lat
+        REAL localizacao_lng
+        TEXT data_resolucao
+        TEXT descricao_resolucao
+        TEXT created_at
+        TEXT updated_at
+    }
+    evidencias {
+        TEXT id PK
+        TEXT tarefa_id FK
+        TEXT alerta_id FK
+        TEXT tipo
+        TEXT url
+        TEXT created_at
+    }
+    movimentacoes {
+        TEXT id PK
+        TEXT retiro_id FK
+        TEXT responsavel_id FK
+        TEXT tipo
+        TEXT data_movimentacao
+        TEXT observacoes
+        TEXT created_at
+        TEXT updated_at
+    }
+    nascimentos {
+        TEXT id PK
+        TEXT movimentacao_id FK
+        INTEGER quantidade
+        TEXT raca
+    }
+    obitos {
+        TEXT id PK
+        TEXT movimentacao_id FK
+        INTEGER quantidade
+        TEXT causa
+    }
+    transferencias {
+        TEXT id PK
+        TEXT movimentacao_id FK
+        TEXT retiro_origem_id FK
+        TEXT retiro_destino_id FK
+        INTEGER quantidade
+    }
+    compravendas {
+        TEXT id PK
+        TEXT movimentacao_id FK
+        TEXT tipo_negocio
+        REAL valor_financeiro
+        INTEGER quantidade
+    }
+
+    retiros ||--o{ usuarios : "aloca"
+    retiros ||--o{ tarefas : "sedia"
+    retiros ||--o{ movimentacoes : "origina"
+    usuarios ||--o{ tarefas : "responsavel"
+    usuarios ||--o{ alertas : "cria"
+    usuarios ||--o{ alertas : "atende"
+    usuarios ||--o{ movimentacoes : "efetua"
+    tarefas ||--o{ evidencias : "comprova"
+    alertas ||--o{ evidencias : "documenta"
+    movimentacoes ||--o| nascimentos : "detalha"
+    movimentacoes ||--o| obitos : "detalha"
+    movimentacoes ||--o| transferencias : "detalha"
+    movimentacoes ||--o| compravendas : "detalha"
+    retiros ||--o{ transferencias : "origem"
+    retiros ||--o{ transferencias : "destino"
+```
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+**Decisões de modelagem físico:**
+
+- **`usuarios.perfil`** — `CHECK (perfil IN ('gerente','capataz','coordenador','tecnico_infra'))`. O perfil `tecnico_infra` foi adicionado após a Sprint 1, representando profissionais de infraestrutura que gerenciam tarefas próprias e atualizam seus status.
+- **`alertas.status`** — Ciclo completo `aberto → em_andamento → fechado` via `CHECK (status IN ('aberto','em_andamento','fechado'))`. Inclui GPS (`localizacao_lat`, `localizacao_lng`), técnico responsável (`tecnico_id`, nullable) e campos de resolução (`data_resolucao`, `descricao_resolucao`).
+- **`alertas` — constraint de resolução** — `CHECK ((status='fechado' AND data_resolucao IS NOT NULL) OR status!='fechado')`: toda resolução exige data preenchida.
+- **`evidencias` polimórfica** — `CHECK ((tarefa_id IS NOT NULL AND alerta_id IS NULL) OR (tarefa_id IS NULL AND alerta_id IS NOT NULL))`: cada evidência pertence a exatamente uma tarefa **ou** um alerta.
+- **`tarefas.sincronizado`** — `INTEGER NOT NULL DEFAULT 0 CHECK (sincronizado IN (0,1))`: flag booleana de controle offline→online.
+- **`transferencias` — constraint de consistência** — `CHECK (retiro_origem_id != retiro_destino_id)`: impede transferência para o mesmo retiro.
+- **Herança por tabela (table-per-type)** — `nascimentos`, `obitos`, `transferencias` e `compravendas` são tabelas-filhas de `movimentacoes`, cada uma com FK `movimentacao_id` e atributos específicos do tipo. Evita colunas nullable e mantém integridade referencial.
+
 #### Nota Técnica - Estratégia de UUID para criação e atualização offline
 
 **Contexto:** Como evidenciado nas User Stories US03, US08 e US09, o sistema prevê criação e atualização de registros em ambiente sem conexão, com sincronização posterior ao banco central. Assim, existe a possibilidade de ocorrerem conflitos de IDs. Isso porque um dispositivo que não está online pode acabar gerando um mesmo ID que outro dispositivo. Dessa forma, na hora da sincronização haveria uma colisão, e para evitar conflito de PKs (IDs) ao sincronizar com o banco central, adota-se UUID versão 7 como identificador primário de todas as entidades criadas [8].
