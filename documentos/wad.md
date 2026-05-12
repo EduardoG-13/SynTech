@@ -1,4 +1,4 @@
-<img src="../assets/logointeli.png">
+﻿<img src="../assets/logointeli.png">
 
 # WAD - Web Application Document - Módulo 2 - Inteli
 
@@ -1283,7 +1283,7 @@ _Diagrama UML de classes com entidades, atributos, relacionamentos e responsabil
 
 #### Levantamento das Entidades Persistentes do Dominio
 
-O levantamento a seguir identifica quais conceitos do dominio da BRPec devem ser modelados como entidades persistentes no banco de dados, distinguindo-os de informacoes que sao meros atributos, regras ou estados temporarios. O criterio utilizado para essa distincao segue o principio de que uma entidade persistente e um conceito do dominio que possui identidade propria, ciclo de vida independente e precisa ser armazenado e recuperado ao longo do tempo para que o sistema cumpra seus requisitos funcionais [10]. Informacoes que descrevem caracteristicas de uma entidade, mas nao possuem existencia autonoma, sao modeladas como atributos dessa entidade.
+O levantamento a seguir identifica quais conceitos do dominio da BRPec devem ser modelados como entidades persistentes, distinguindo-os de informacoes que sao meros atributos, regras ou estados temporarios. O criterio utilizado para essa distincao segue o principio de que uma entidade persistente e um conceito do dominio que possui identidade propria, ciclo de vida independente e precisa ser armazenado e recuperado ao longo do tempo para que o sistema cumpra seus requisitos funcionais [10]. Informacoes que descrevem caracteristicas de uma entidade, mas nao possuem existencia autonoma, sao modeladas como atributos dessa entidade.
 
 As fontes primarias para este levantamento sao:
 - Secao 2.3 (Personas e Jornadas): identificacao dos atores do sistema e suas necessidades operacionais.
@@ -1309,18 +1309,19 @@ A tabela a seguir resume as entidades persistentes identificadas, a justificativ
   <p><strong>Tabela 10</strong> -- Entidades persistentes do dominio</p>
 </center>
 
-| Entidade | Justificativa | US associadas | RF associados |
+| Entidade | Justificativa | US | RF |
 |---|---|---|---|
-| **Usuario** | Representa os atores do sistema (Gerente, Coordenador, Capataz). Cada usuario tem identidade propria (id, nome, perfil) e e referenciado por tarefas, alertas e movimentacoes. A distincao por perfil (gerente, capataz, coordenador) determina quais funcionalidades estao disponiveis (US01, US07 para gerente; US02-US06, US08-US10 para capataz; exportacao para coordenador). O atributo `perfil` e uma enumeracao, nao uma entidade separada, porque nao possui atributos proprios nem ciclo de vida independente. | US01-US10 | RF001-RF015 |
-| **Retiro** | Unidade operacional fixa da fazenda. A BRPec possui 14 retiros identificados (secao 2.1.3). Cada tarefa, alerta e movimentacao esta obrigatoriamente vinculada a um retiro (RN01, RN26). O retiro nao e um atributo de tarefa porque diferentes tarefas, alertas e movimentacoes referenciam o mesmo retiro, e a lista de retiros e gerenciada de forma independente. | US01, US02, US06, US08, US09 | RF001, RF006, RF007, RF008 |
-| **Tarefa** | Representa uma atividade calendarizada criada pelo gerente e executada pelo capataz. Possui ciclo de vida completo: criacao (US01), visualizacao (US02), conclusao (US03), anexacao de evidencias (US04, US05). O status (pendente, em_andamento, concluida) e um atributo enumerado, nao uma entidade, porque descreve o estado da tarefa e nao tem identidade propria. | US01, US02, US03, US04, US05 | RF001, RF002, RF003, RF007 |
-| **Evidencia** | Arquivo (foto, audio ou texto) anexado a uma tarefa como comprovacao de execucao. E uma entidade separada e nao um atributo de Tarefa porque: (a) uma tarefa pode ter zero ou multiplas evidencias, (b) cada evidencia possui tipo, conteudo e data proprios, e (c) as evidencias sao sincronizadas independentemente da tarefa (RF010, RF012). | US04, US05 | RF005, RF010, RF012 |
-| **Alerta** | Chamado de infraestrutura criado pelo capataz para reportar problemas (cercas, bebedouros). E uma entidade independente porque tem ciclo de vida proprio (criacao, resolucao), tipo categorizado, localizacao GPS automatica (RN19) e e visualizado em painel separado pelo gerente (US07). Nao e um subtipo de Tarefa porque nao segue o mesmo fluxo (nao e atribuido pelo gerente, nao tem data de execucao, nao aceita evidencias de conclusao). | US06, US07 | RF006, RF007 |
-| **Movimentacao** | Registro de evento zootecnico do rebanho. E a entidade central do modulo pecuario, pois cada movimentacao representa uma alteracao no inventario que precisa ser rastreada, sincronizada e exportada. A categoria do animal (bezerro, garrote, boi, etc.) e um atributo enumerado, nao uma entidade, porque descreve a movimentacao e nao tem ciclo de vida proprio. A Movimentacao se especializa em quatro subtipos, cada um com atributos adicionais. | US08, US09, US10 | RF008, RF009, RF013, RF014, RF015 |
-| **Nascimento** | Subtipo de Movimentacao. Possui atributos exclusivos: referencia opcional a mae e foto. Justifica-se como entidade separada (e nao apenas um valor de enumeracao) porque a estrutura de dados do formulario de nascimento difere da de obito e transferencia (RF008). | US08 | RF008 |
-| **Obito** | Subtipo de Movimentacao. Possui atributos exclusivos: causa da morte e foto obrigatoria (RN gerada a partir de US09 e US10). A obrigatoriedade de foto com georreferenciamento para fins de auditoria sanitaria (US10, CR1) e uma regra de negocio que incide sobre esta entidade. | US09, US10 | RF009, RF013 |
-| **Transferencia** | Subtipo de Movimentacao. Possui dois atributos exclusivos que nao existem em outros subtipos: retiro de origem e retiro de destino. Uma transferencia altera o inventario de dois retiros simultaneamente. | -- | RF010 |
-| **CompraVenda** | Subtipo de Movimentacao. Possui atributos exclusivos: tipo de operacao (compra ou venda) e valor. Identificada a partir da secao 2.1.3, que lista "compras e vendas" como tipos de movimentacao do rebanho, e do RF015, que exige exportacao consolidada de movimentacoes zootecnicas. | -- | RF015 |
+| **Usuario** | Representa os atores do sistema (Gerente, Coordenador, Capataz). Cada usuario tem identidade propria (nome, perfil) e e referenciado por tarefas, alertas e movimentacoes. O atributo `perfil` e uma enumeracao e nao uma entidade separada, pois nao possui atributos proprios nem ciclo de vida independente. No diagrama conceitual, Gerente, Capataz e Coordenador aparecem como especializacoes de Usuario para explicitar os papeis; a estrategia de mapeamento para o modelo fisico sera tratada na secao 3.6.3. | US01-US10 | RF001-RF015 |
+| **Retiro** | Unidade operacional fixa da fazenda. A BRPec possui 14 retiros (secao 2.1.3). Cada tarefa, alerta e movimentacao esta obrigatoriamente vinculada a um retiro (RN01, RN26). O retiro nao e um atributo de tarefa porque diferentes tarefas, alertas e movimentacoes referenciam o mesmo retiro, e a lista de retiros e gerenciada de forma independente. | US01, US02, US06, US08, US09 | RF001, RF006, RF007, RF008 |
+| **Animal** | Representa uma cabeca de gado identificavel individualmente (ex: por brinco ou numero de manejo). E o principal ativo do dominio pecuario e precisa ser rastreado ao longo de todo o seu ciclo de vida: nascimento, transferencias entre retiros, obito. A secao 2.1.3 define categorias de rebanho por faixa etaria (bezerro, garrote, boi, touro, bezerra, novilha, vaca), o que implica que a categoria e um atributo do Animal que muda ao longo do tempo. Movimentacoes, nascimentos e obitos referenciam o Animal envolvido. Sem essa entidade, o sistema registraria eventos sem vinculo com o ativo sobre o qual incidem, impossibilitando a rastreabilidade individual exigida para auditoria sanitaria (US10) e exportacao consolidada (RF015). | US08, US09, US10 | RF008, RF009, RF013, RF014, RF015 |
+| **Tarefa** | Atividade calendarizada criada pelo gerente e executada pelo capataz. Possui ciclo de vida completo: criacao (US01), visualizacao (US02), conclusao (US03), anexacao de evidencias (US04, US05). O status (pendente, em andamento, concluida) e um atributo enumerado. | US01-US05 | RF001, RF002, RF003, RF007 |
+| **Evidencia** | Midia (foto, audio ou texto) anexada como comprovacao. E uma entidade separada porque: (a) um mesmo registro pode ter zero ou multiplas evidencias, (b) cada evidencia possui tipo, conteudo e data proprios, e (c) as evidencias sao sincronizadas independentemente do registro ao qual pertencem (RF010, RF012). A Evidencia e utilizada de forma uniforme em todo o dominio: tanto para comprovar a execucao de Tarefas (US04, US05) quanto para documentar eventos zootecnicos como Nascimentos (foto opcional) e Obitos (foto obrigatoria para auditoria sanitaria, US10). Essa padronizacao garante que o conceito de midia anexada tenha a mesma representacao arquitetural em todas as entidades que a utilizam. | US04, US05, US08, US09, US10 | RF005, RF009, RF010, RF012, RF013 |
+| **Alerta** | Chamado de infraestrutura criado pelo capataz. Tem ciclo de vida proprio (criacao, resolucao), tipo categorizado, localizacao GPS automatica (RN19) e e visualizado em painel separado pelo gerente (US07). Nao e um subtipo de Tarefa porque nao segue o mesmo fluxo (nao e atribuido pelo gerente, nao tem data de execucao). | US06, US07 | RF006, RF007 |
+| **Movimentacao** | Registro de evento zootecnico do rebanho. E a entidade central do modulo pecuario: cada movimentacao representa uma alteracao no inventario que precisa ser rastreada, sincronizada e exportada. A Movimentacao se especializa em quatro subtipos, cada um com atributos e regras adicionais. | US08-US10 | RF008, RF009, RF013-RF015 |
+| **Nascimento** | Subtipo de Movimentacao. Possui atributos exclusivos: referencia opcional a mae (associacao com Animal) e associacao com Evidencia (foto opcional). Justifica-se como entidade separada porque a estrutura do formulario de nascimento difere da de obito e transferencia (RF008). | US08 | RF008 |
+| **Obito** | Subtipo de Movimentacao. Possui atributos exclusivos: causa da morte e associacao obrigatoria com Evidencia (foto georreferenciada para auditoria sanitaria, US10, CR1). | US09, US10 | RF009, RF013 |
+| **Transferencia** | Subtipo de Movimentacao. Possui duas associacoes exclusivas: retiro de origem e retiro de destino. Uma transferencia altera o inventario de dois retiros simultaneamente. | -- | RF010 |
+| **CompraVenda** | Subtipo de Movimentacao. Possui atributos exclusivos: tipo de operacao (compra ou venda) e valor monetario. Identificada a partir da secao 2.1.3 e do RF015. | -- | RF015 |
 
 <center>
   <p>Fonte: Proprios autores (2026).</p>
@@ -1328,21 +1329,20 @@ A tabela a seguir resume as entidades persistentes identificadas, a justificativ
 
 ##### Conceitos nao modelados como entidades
 
-A tabela a seguir registra conceitos que foram considerados durante o levantamento, mas deliberadamente classificados como atributos, regras ou observacoes, e nao como entidades persistentes.
-
 <center>
   <p><strong>Tabela 11</strong> -- Conceitos nao modelados como entidades</p>
 </center>
 
 | Conceito | Classificacao | Justificativa |
 |---|---|---|
-| Status da tarefa (pendente, em_andamento, concluida) | Atributo (enumeracao) | Descreve o estado de uma Tarefa. Nao tem identidade propria, nao possui atributos alem do nome e nao precisa de tabela separada. |
-| Perfil do usuario (gerente, capataz, coordenador) | Atributo (enumeracao) | Determina as permissoes do usuario, mas nao carrega dados proprios. A diferenciacao de comportamento e tratada pela logica de negocio, nao pela estrutura de dados. Na modelagem conceitual, Gerente, Capataz e Coordenador sao representados como especializacoes de Usuario para explicitar a heranca, mas no banco fisico serao representados por um campo `perfil` na tabela `usuarios`. |
-| Categoria do animal | Atributo (enumeracao) | Lista fixa (bezerro, garrote, boi, touro, bezerra, novilha, vaca) fornecida pela BRPec (secao 2.1.3). Nao possui atributos adicionais nem ciclo de vida autonomo. |
-| Tipo do alerta | Atributo (enumeracao) | Classifica o alerta (cerca, bebedouro, infraestrutura, outro). Nao tem dados proprios alem do rotulo. |
-| Tipo da movimentacao | Representado por heranca | A diferenciacao entre nascimento, obito, transferencia e compra/venda e feita por subclasses e nao por um atributo enumerado, porque cada subtipo possui atributos estruturalmente diferentes. |
+| Status da tarefa (pendente, em andamento, concluida) | Atributo (enumeracao) | Descreve o estado de uma Tarefa. Nao tem identidade propria nem atributos alem do rotulo. |
+| Perfil do usuario (gerente, capataz, coordenador) | Atributo (enumeracao) | Determina as permissoes do usuario, mas nao carrega dados proprios. A diferenciacao de comportamento e tratada pela logica de negocio. No diagrama conceitual, os perfis sao representados como especializacoes de Usuario para explicitar a heranca; a decisao de mapeamento fisico sera tratada na secao 3.6.3. |
+| Categoria do animal (bezerro, garrote, boi, touro, bezerra, novilha, vaca) | Atributo (enumeracao) | Lista fixa fornecida pela BRPec (secao 2.1.3). Nao possui atributos adicionais nem ciclo de vida autonomo. Modelada como atributo de Animal. |
+| Tipo do alerta (cerca, bebedouro, infraestrutura, outro) | Atributo (enumeracao) | Classifica o alerta. Nao tem dados proprios alem do rotulo. |
+| Tipo da movimentacao | Representado por heranca | A diferenciacao entre nascimento, obito, transferencia e compra/venda e feita por subclasses porque cada subtipo possui atributos estruturalmente diferentes. |
 | Coordenadas GPS do alerta | Atributo (latitude, longitude) | Dado capturado automaticamente (RN19) e armazenado como par de valores no Alerta. Nao constitui entidade porque nao tem identidade nem ciclo de vida proprio. |
-| Dados de sincronizacao (fila de envio, status de sync) | Atributo + regra | O campo `sincronizado` (booleano) em Movimentacao e Evidencia indica se o registro ja foi enviado ao servidor. A logica de fila e reenvio (RF012) e comportamento do sistema, nao dado persistido como entidade. |
+| Dados de sincronizacao (fila de envio, status de sync) | Atributo + regra | O atributo `sincronizado` (booleano) em Movimentacao e Evidencia indica se o registro ja foi enviado ao servidor. A logica de fila e reenvio (RF012) e comportamento da camada de servico, nao dado do dominio. |
+| Lote de animais | Observacao | A BRPec opera com gestao por cabeca (individual) e nao por lote. Caso futuramente se adote gestao coletiva, o conceito de Lote podera ser promovido a entidade. |
 
 <center>
   <p>Fonte: Proprios autores (2026).</p>
@@ -1354,20 +1354,26 @@ A tabela a seguir registra conceitos que foram considerados durante o levantamen
   <p><strong>Tabela 12</strong> -- Relacionamentos entre entidades do dominio</p>
 </center>
 
-| Relacionamento | Tipo | Multiplicidade | Justificativa |
-|---|---|---|---|
-| Usuario -- Retiro | Associacao | N:1 | Cada usuario esta vinculado a um retiro (RN05). Um retiro pode ter varios usuarios. |
-| Tarefa -- Retiro | Associacao | N:1 | Toda tarefa pertence a um retiro (RN01). |
-| Tarefa -- Usuario (gerente) | Associacao | N:1 | Toda tarefa e criada por um gerente (US01). |
-| Tarefa -- Usuario (capataz) | Associacao | N:1 | Toda tarefa e atribuida a um capataz (US01, RN01). |
-| Evidencia -- Tarefa | Composicao | N:1 | Evidencia nao existe sem a tarefa. Se a tarefa for removida, suas evidencias tambem sao. |
-| Alerta -- Usuario (capataz) | Associacao | N:1 | Todo alerta e criado por um capataz (US06). |
-| Alerta -- Retiro | Associacao | N:1 | Todo alerta pertence a um retiro (RN26). |
-| Movimentacao -- Usuario | Associacao | N:1 | Toda movimentacao e registrada por um usuario (rastreabilidade SEG). |
-| Movimentacao -- Retiro | Associacao | N:1 | Toda movimentacao pertence a um retiro. |
-| Transferencia -- Retiro (origem) | Associacao | N:1 | Retiro de onde saem os animais. |
-| Transferencia -- Retiro (destino) | Associacao | N:1 | Retiro para onde vao os animais. |
-| Nascimento, Obito, Transferencia, CompraVenda -- Movimentacao | Heranca | 1:1 | Subtipos especializados de Movimentacao, cada um com atributos adicionais. |
+| Associacao | Tipo | Lado A | Lado B | Justificativa |
+|---|---|---|---|---|
+| Usuario -- Retiro | Associacao | 0..* (usuarios) | 1 (retiro) | Cada usuario esta vinculado a exatamente um retiro (RN05). Um retiro pode ter zero ou mais usuarios. |
+| Tarefa -- Retiro | Associacao | 0..* (tarefas) | 1 (retiro) | Toda tarefa pertence a um retiro (RN01). |
+| Tarefa -- Usuario {papel: criador} | Associacao | 0..* (tarefas criadas) | 1 (gerente) | Toda tarefa e criada por um gerente (US01). |
+| Tarefa -- Usuario {papel: executor} | Associacao | 0..* (tarefas atribuidas) | 1 (capataz) | Toda tarefa e atribuida a um capataz (US01, RN01). |
+| Tarefa -- Evidencia | Composicao | 1 (tarefa) | 0..* (evidencias) | Evidencia nao existe sem a tarefa. Se a tarefa for removida, suas evidencias tambem o sao. |
+| Alerta -- Usuario | Associacao | 0..* (alertas) | 1 (capataz) | Todo alerta e criado por um capataz (US06). |
+| Alerta -- Retiro | Associacao | 0..* (alertas) | 1 (retiro) | Todo alerta pertence a um retiro (RN26). |
+| Movimentacao -- Usuario | Associacao | 0..* (movimentacoes) | 1 (usuario) | Toda movimentacao e registrada por um usuario (rastreabilidade). |
+| Movimentacao -- Retiro | Associacao | 0..* (movimentacoes) | 1 (retiro) | Toda movimentacao pertence a um retiro. |
+| Movimentacao -- Animal | Associacao | 0..* (movimentacoes) | 1 (animal) | Toda movimentacao refere-se a um animal do rebanho. |
+| Nascimento -- Evidencia | Associacao | 1 (nascimento) | 0..* (fotos) | Nascimento pode ter zero ou mais fotos anexadas (RF008). |
+| Obito -- Evidencia | Composicao | 1 (obito) | 1..* (fotos) | Obito exige pelo menos uma foto georreferenciada para auditoria sanitaria (US10). |
+| Nascimento -- Animal {papel: mae} | Associacao | 0..* (nascimentos) | 0..1 (mae) | Referencia opcional a mae do animal nascido. |
+| Transferencia -- Retiro {papel: origem} | Associacao | 0..* (transferencias) | 1 (retiro origem) | Retiro de onde saem os animais. |
+| Transferencia -- Retiro {papel: destino} | Associacao | 0..* (transferencias) | 1 (retiro destino) | Retiro para onde vao os animais. |
+| Animal -- Retiro | Associacao | 0..* (animais) | 1 (retiro atual) | Cada animal pertence a um retiro em dado momento. Transferencias alteram essa associacao. |
+| Nascimento, Obito, Transferencia, CompraVenda -- Movimentacao | Generalizacao | -- | -- | Subtipos especializados de Movimentacao, cada um com atributos e regras adicionais. |
+| Gerente, Capataz, Coordenador -- Usuario | Generalizacao | -- | -- | Especializacoes de Usuario por perfil de acesso. |
 
 <center>
   <p>Fonte: Proprios autores (2026).</p>
@@ -1375,17 +1381,21 @@ A tabela a seguir registra conceitos que foram considerados durante o levantamen
 
 ##### Observacoes sobre decisoes de modelagem
 
-1. **Heranca de Usuario:** No diagrama conceitual, Gerente, Capataz e Coordenador aparecem como subclasses de Usuario para explicitar os papeis. No modelo fisico (secao 3.6.3), essa heranca sera implementada como uma unica tabela `usuarios` com coluna `perfil` (enumeracao), estrategia conhecida como Single Table Inheritance [11]. Essa decisao se justifica porque os subtipos compartilham todos os atributos estruturais e diferem apenas no comportamento (permissoes), nao na estrutura de dados.
+1. **Heranca de Usuario:** No diagrama conceitual, Gerente, Capataz e Coordenador sao especializacoes de Usuario para explicitar os papeis e responsabilidades de cada ator. A estrategia de mapeamento desta hierarquia para o modelo fisico (Single Table Inheritance, Class Table Inheritance, etc.) sera definida e justificada na secao 3.6.3, conforme recomendado por Fowler [11], mantendo o modelo de dominio agnostico a decisoes de persistencia.
 
-2. **Heranca de Movimentacao:** Diferente de Usuario, os subtipos de Movimentacao possuem atributos estruturalmente distintos (ex: Obito tem `causa`, Transferencia tem `retiro_origem_id` e `retiro_destino_id`). No modelo fisico, isso pode ser implementado como tabelas separadas por subtipo (Table Per Class) ou como uma unica tabela com colunas opcionais (Single Table). A decisao sera detalhada na secao 3.6.3.
+2. **Heranca de Movimentacao:** Os subtipos de Movimentacao possuem atributos estruturalmente distintos (ex: Obito possui `causa`; Transferencia possui associacoes com retiro de origem e retiro de destino). A escolha da estrategia de mapeamento fisico sera igualmente tratada na secao 3.6.3.
 
-3. **Offline e sincronizacao:** O campo `sincronizado` (booleano) presente em Movimentacao e Evidencia nao constitui uma entidade de sincronizacao separada. A logica de fila, reenvio e deteccao de conexao (RF010, RF012) pertence a camada de servico da aplicacao, nao ao modelo de dados do dominio.
+3. **Entidade Animal:** O principal ativo do dominio pecuario foi modelado como entidade para garantir rastreabilidade individual. A categoria do animal (bezerro, garrote, boi, etc.) e um atributo que muda ao longo do ciclo de vida do animal, o que reforça a necessidade de identidade persistente. Movimentacoes referenciam o Animal envolvido, permitindo reconstruir o historico completo de cada cabeca de gado.
+
+4. **Padronizacao de midias (Evidencia):** Fotos e audios sao tratados uniformemente como instancias da entidade Evidencia, independentemente de estarem vinculados a uma Tarefa, a um Nascimento ou a um Obito. Essa decisao elimina a inconsistencia de tratar midias como atributo em um contexto e como entidade em outro, garantindo representacao arquitetural homogenea em todo o dominio.
+
+5. **Offline e sincronizacao:** O atributo `sincronizado` (booleano) presente em Movimentacao e Evidencia nao constitui uma entidade de sincronizacao separada. A logica de fila, reenvio e deteccao de conexao (RF010, RF012) pertence a camada de servico da aplicacao e nao ao modelo de dominio.
 
 ##### Referencias desta secao
 
 [10] LARMAN, Craig. Applying UML and Patterns: An Introduction to Object-Oriented Analysis and Design and Iterative Development. 3. ed. Upper Saddle River: Prentice Hall, 2004. Cap. 9: Domain Models, p. 135-162.
 
-[11] FOWLER, Martin. Patterns of Enterprise Application Architecture. Boston: Addison-Wesley, 2003. Cap. 12: Single Table Inheritance, p. 278-285.
+[11] FOWLER, Martin. Patterns of Enterprise Application Architecture. Boston: Addison-Wesley, 2003. Cap. 12: Object-Relational Structural Patterns, p. 278-305.
 
 ---
 
@@ -1397,11 +1407,9 @@ A tabela a seguir registra conceitos que foram considerados durante o levantamen
 
 | Atributo | Tipo Conceitual | Obrigatoriedade |
 |---|---|---|
-| id | Identificador único | Obrigatório |
-| nome | Texto | Obrigatório |
-| perfil | Enumeração (gerente, capataz, coordenador) | Obrigatório |
-| retiro_id | Referência a Retiro | Obrigatório |
-| created_at | Data e hora | Obrigatório |
+| nome | Texto | Obrigatorio |
+| perfil | Enumeracao (gerente, capataz, coordenador) | Obrigatorio |
+| dataCriacao | Data e hora | Obrigatorio |
 
 ---
 
@@ -1409,7 +1417,7 @@ A tabela a seguir registra conceitos que foram considerados durante o levantamen
 
 | Atributo | Tipo Conceitual | Obrigatoriedade |
 |---|---|---|
-| area_responsavel | Texto | Opcional |
+| areaResponsavel | Texto | Opcional |
 
 ---
 
@@ -1417,7 +1425,7 @@ A tabela a seguir registra conceitos que foram considerados durante o levantamen
 
 | Atributo | Tipo Conceitual | Obrigatoriedade |
 |---|---|---|
-| retiro_id | Referência a Retiro | Obrigatório |
+| (atributos herdados de Usuario; associacao com Retiro define vinculo) | -- | -- |
 
 ---
 
@@ -1425,7 +1433,7 @@ A tabela a seguir registra conceitos que foram considerados durante o levantamen
 
 | Atributo | Tipo Conceitual | Obrigatoriedade |
 |---|---|---|
-| (sem atributos adicionais além dos herdados) | — | — |
+| (sem atributos adicionais alem dos herdados) | -- | -- |
 
 ---
 
@@ -1433,9 +1441,21 @@ A tabela a seguir registra conceitos que foram considerados durante o levantamen
 
 | Atributo | Tipo Conceitual | Obrigatoriedade |
 |---|---|---|
-| id | Identificador único | Obrigatório |
-| nome | Texto | Obrigatório |
+| nome | Texto | Obrigatorio |
 | localizacao | Texto | Opcional |
+
+---
+
+**Classe: Animal**
+
+| Atributo | Tipo Conceitual | Obrigatoriedade |
+|---|---|---|
+| identificador | Texto (brinco ou numero de manejo) | Obrigatorio |
+| categoria | Enumeracao (bezerro, garrote, boi, touro, bezerra, novilha, vaca) | Obrigatorio |
+| dataNascimento | Data | Opcional |
+| sexo | Enumeracao (macho, femea) | Obrigatorio |
+| ativo | Booleano | Obrigatorio |
+| dataCriacao | Data e hora | Obrigatorio |
 
 ---
 
@@ -1443,15 +1463,11 @@ A tabela a seguir registra conceitos que foram considerados durante o levantamen
 
 | Atributo | Tipo Conceitual | Obrigatoriedade |
 |---|---|---|
-| id | Identificador único | Obrigatório |
-| titulo | Texto | Obrigatório |
+| titulo | Texto | Obrigatorio |
 | descricao | Texto longo | Opcional |
-| status | Enumeração (pendente, em_andamento, concluida) | Obrigatório |
-| data_execucao | Data | Obrigatório |
-| gerente_id | Referência a Gerente | Obrigatório |
-| capataz_id | Referência a Capataz | Obrigatório |
-| retiro_id | Referência a Retiro | Obrigatório |
-| created_at | Data e hora | Obrigatório |
+| status | Enumeracao (pendente, em andamento, concluida) | Obrigatorio |
+| dataExecucao | Data | Obrigatorio |
+| dataCriacao | Data e hora | Obrigatorio |
 
 ---
 
@@ -1459,11 +1475,10 @@ A tabela a seguir registra conceitos que foram considerados durante o levantamen
 
 | Atributo | Tipo Conceitual | Obrigatoriedade |
 |---|---|---|
-| id | Identificador único | Obrigatório |
-| tipo | Enumeração (foto, audio, texto) | Obrigatório |
-| conteudo | Binário / Texto | Obrigatório |
-| tarefa_id | Referência a Tarefa | Obrigatório |
-| created_at | Data e hora | Obrigatório |
+| tipo | Enumeracao (foto, audio, texto) | Obrigatorio |
+| conteudo | Binario ou Texto | Obrigatorio |
+| sincronizado | Booleano | Obrigatorio |
+| dataCriacao | Data e hora | Obrigatorio |
 
 ---
 
@@ -1471,13 +1486,12 @@ A tabela a seguir registra conceitos que foram considerados durante o levantamen
 
 | Atributo | Tipo Conceitual | Obrigatoriedade |
 |---|---|---|
-| id | Identificador único | Obrigatório |
-| descricao | Texto | Obrigatório |
-| tipo | Enumeração (cerca, bebedouro, infraestrutura, outro) | Obrigatório |
-| resolvido | Booleano | Obrigatório |
-| capataz_id | Referência a Capataz | Obrigatório |
-| retiro_id | Referência a Retiro | Obrigatório |
-| created_at | Data e hora | Obrigatório |
+| descricao | Texto | Obrigatorio |
+| tipo | Enumeracao (cerca, bebedouro, infraestrutura, outro) | Obrigatorio |
+| resolvido | Booleano | Obrigatorio |
+| latitude | Numero decimal | Obrigatorio |
+| longitude | Numero decimal | Obrigatorio |
+| dataCriacao | Data e hora | Obrigatorio |
 
 ---
 
@@ -1485,14 +1499,10 @@ A tabela a seguir registra conceitos que foram considerados durante o levantamen
 
 | Atributo | Tipo Conceitual | Obrigatoriedade |
 |---|---|---|
-| id | Identificador único | Obrigatório |
-| data | Data | Obrigatório |
-| categoria | Enumeração (bezerro, garrote, boi_touro, bezerra, novilha, vaca) | Obrigatório |
-| quantidade | Número inteiro positivo | Obrigatório |
-| sincronizado | Booleano | Obrigatório |
-| usuario_id | Referência a Usuario | Obrigatório |
-| retiro_id | Referência a Retiro | Obrigatório |
-| created_at | Data e hora | Obrigatório |
+| data | Data | Obrigatorio |
+| quantidade | Numero inteiro positivo | Obrigatorio |
+| sincronizado | Booleano | Obrigatorio |
+| dataCriacao | Data e hora | Obrigatorio |
 
 ---
 
@@ -1500,8 +1510,7 @@ A tabela a seguir registra conceitos que foram considerados durante o levantamen
 
 | Atributo | Tipo Conceitual | Obrigatoriedade |
 |---|---|---|
-| mae_id | Referência a animal (identificador opcional) | Opcional |
-| foto | Binário | Opcional |
+| (atributos herdados; associacoes com Animal e Evidencia definem o contexto) | -- | -- |
 
 ---
 
@@ -1509,8 +1518,7 @@ A tabela a seguir registra conceitos que foram considerados durante o levantamen
 
 | Atributo | Tipo Conceitual | Obrigatoriedade |
 |---|---|---|
-| causa | Texto | Obrigatório |
-| foto | Binário | Obrigatório |
+| causa | Texto | Obrigatorio |
 
 ---
 
@@ -1518,8 +1526,7 @@ A tabela a seguir registra conceitos que foram considerados durante o levantamen
 
 | Atributo | Tipo Conceitual | Obrigatoriedade |
 |---|---|---|
-| retiro_origem_id | Referência a Retiro | Obrigatório |
-| retiro_destino_id | Referência a Retiro | Obrigatório |
+| (atributos herdados; associacoes com Retiro origem e Retiro destino definem o contexto) | -- | -- |
 
 ---
 
@@ -1527,8 +1534,9 @@ A tabela a seguir registra conceitos que foram considerados durante o levantamen
 
 | Atributo | Tipo Conceitual | Obrigatoriedade |
 |---|---|---|
-| tipo_operacao | Enumeração (compra, venda) | Obrigatório |
+| tipoOperacao | Enumeracao (compra, venda) | Obrigatorio |
 | valor | Decimal | Opcional |
+
 
 ### 3.2.4. Diagrama de Sequência UML (sprint 3)
 
