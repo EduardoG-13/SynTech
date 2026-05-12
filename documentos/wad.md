@@ -1681,6 +1681,11 @@ erDiagram
 
 O Diagrama Entidade-Relacionamento (DER) é uma representação gráfica da estrutura de um banco de dados, baseada no Modelo Entidade-Relacionamento (MER) proposto por Peter Chen (1976). No diagrama, entidades (objetos do mundo real com existência independente) são representadas por retângulos. Seus atributos, por elipses, e os relacionamentos entre elas, por losangos. Essa notação auxilia desenvolvedores a visualizar e comunicar a arquitetura de dados de um sistema antes de sua implementação. [9]
 
+<center>
+  <p><strong>Figura 10 </strong> — Diagrama Entidade-Relacionamento (DER) </p>
+  <img src="../assets/DER.jpg" width="1000"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ### 3.6.3. Modelo Relacional e Modelo Físico (sprints 2 e 4)
 
