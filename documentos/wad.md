@@ -1750,6 +1750,25 @@ CREATE INDEX IF NOT EXISTS idx_evidencias_tarefa ON evidencias(tarefa_id);
 CREATE INDEX IF NOT EXISTS idx_evidencias_alerta ON evidencias(alerta_id);
 ```
 
+##### Migration 006 — `movimentacoes`
+
+```sql
+CREATE TABLE IF NOT EXISTS movimentacoes (
+    id                TEXT PRIMARY KEY,
+    retiro_id         TEXT NOT NULL REFERENCES retiros(id),
+    responsavel_id    TEXT NOT NULL REFERENCES usuarios(id),
+    tipo              TEXT NOT NULL
+                          CHECK (tipo IN ('nascimento','obito','transferencia','compravenda')),
+    data_movimentacao TEXT NOT NULL,
+    observacoes       TEXT,
+    created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+    updated_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX IF NOT EXISTS idx_movimentacoes_retiro      ON movimentacoes(retiro_id);
+CREATE INDEX IF NOT EXISTS idx_movimentacoes_responsavel ON movimentacoes(responsavel_id);
+CREATE INDEX IF NOT EXISTS idx_movimentacoes_tipo        ON movimentacoes(tipo);
+```
+
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
