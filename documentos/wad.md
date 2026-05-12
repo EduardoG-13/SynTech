@@ -1595,6 +1595,7 @@ erDiagram
         Descricao Atributo
         Status Atributo
         DataExecucao Atributo
+        DataCriacao Atributo
     }
 
     EVIDENCIA {
@@ -1681,11 +1682,98 @@ erDiagram
 
 O Diagrama Entidade-Relacionamento (DER) é uma representação gráfica da estrutura de um banco de dados, baseada no Modelo Entidade-Relacionamento (MER) proposto por Peter Chen (1976). No diagrama, entidades (objetos do mundo real com existência independente) são representadas por retângulos. Seus atributos, por elipses, e os relacionamentos entre elas, por losangos. Essa notação auxilia desenvolvedores a visualizar e comunicar a arquitetura de dados de um sistema antes de sua implementação. [9]
 
-<center>
-  <p><strong>Figura 10 </strong> — Diagrama Entidade-Relacionamento (DER) </p>
-  <img src="../assets/DER.jpg" width="1000"/>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
+
+```mermaid
+erDiagram
+    RETIROS {
+        uuid id PK
+        varchar(100) nome
+        text localizacao
+    }
+    USUARIOS {
+        uuid id PK
+        varchar(150) nome
+        varchar(255) senha_hash
+        varchar(20) perfil
+        text area_responsavel
+        uuid retiro_id FK
+        timestamptz created_at
+    }
+    TAREFAS {
+        uuid id PK
+        varchar(200) titulo
+        text descricao
+        varchar(20) status
+        date data_execucao
+        uuid gerente_id FK
+        uuid capataz_id FK
+        uuid retiro_id FK
+        timestamptz created_at
+    }
+    EVIDENCIAS {
+        uuid id PK
+        varchar(10) tipo
+        bytea conteudo
+        uuid tarefa_id FK
+        timestamptz created_at
+    }
+    ALERTAS {
+        uuid id PK
+        text descricao
+        varchar(30) tipo
+        boolean resolvido
+        uuid capataz_id FK
+        uuid retiro_id FK
+        timestamptz created_at
+    }
+    MOVIMENTACOES {
+        uuid id PK
+        date data
+        varchar(20) categoria
+        integer quantidade
+        boolean sincronizado
+        uuid usuario_id FK
+        uuid retiro_id FK
+        timestamptz created_at
+    }
+    NASCIMENTOS {
+        uuid movimentacao_id PK
+        uuid mae_id
+        bytea foto
+    }
+    OBITOS {
+        uuid movimentacao_id PK
+        text causa
+        bytea foto
+    }
+    TRANSFERENCIAS {
+        uuid movimentacao_id PK
+        uuid retiro_origem_id FK
+        uuid retiro_destino_id FK
+    }
+    COMPRAVENDAS {
+        uuid movimentacao_id PK
+        varchar(10) tipo_operacao
+        numeric(12) valor
+    }
+
+    USUARIOS }o--|| RETIROS : "retiro_id"
+    TAREFAS }o--|| USUARIOS : "gerente_id"
+    TAREFAS }o--|| USUARIOS : "capataz_id"
+    TAREFAS }o--|| RETIROS : "retiro_id"
+    EVIDENCIAS }o--|| TAREFAS : "tarefa_id"
+    ALERTAS }o--|| USUARIOS : "capataz_id"
+    ALERTAS }o--|| RETIROS : "retiro_id"
+    MOVIMENTACOES }o--|| USUARIOS : "usuario_id"
+    MOVIMENTACOES }o--|| RETIROS : "retiro_id"
+    NASCIMENTOS ||--|| MOVIMENTACOES : "movimentacao_id"
+    OBITOS ||--|| MOVIMENTACOES : "movimentacao_id"
+    TRANSFERENCIAS ||--|| MOVIMENTACOES : "movimentacao_id"
+    TRANSFERENCIAS }o--|| RETIROS : "retiro_origem_id"
+    TRANSFERENCIAS }o--|| RETIROS : "retiro_destino_id"
+    COMPRAVENDAS ||--|| MOVIMENTACOES : "movimentacao_id"
+```
+
 
 ### 3.6.3. Modelo Relacional e Modelo Físico (sprints 2 e 4)
 
