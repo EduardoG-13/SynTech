@@ -1093,20 +1093,19 @@ _Matriz de cobertura mostrando quais RN e endpoints implementam cada RF._
   <p><strong>Tabela 7</strong> — Matriz RF → RN → Endpoint</p>
 </center>
 
-| RF    | RN associadas | Endpoint              | Método |
-| ----- | ------------- | --------------------- | ------ |
-| RF001 | RN01          | /tarefas              | POST   |
-| RF002 | RN02, RN05    | /tarefas/hoje         | GET    |
-| RF003 | RN03          | /tarefas/sincronizar  | GET    |
-| RF004 | RN04          | /tarefas/hoje/offline | GET    |
-| RF005 | RN05          | /tarefas/concluir     | POST   |
-| RF006 | RN06          | /chamados             | POST   |
-| RF007 | RN07          | /eventos/zootecnicos  | POST   |
-| RF008 | RN08          | /transacoes/gado      | POST   |
-| RF009 | RN09          | /transferencias       | POST   |
-| RF010 | RN10          | Armazenamento Local   | INSERT |
-| RF011 | RN11          | /sincronizar          | POST   |
-| RF012 | RN12          | Consulta Banco Local  | GET    |
+| RF | RN associada(s) | Endpoint / Operação | Método | Finalidade da Operação |
+| --- | ------------- | ------------------- | ------ | ---------------------- |
+| RF001 | RN01 | /tarefas | POST | Criar tarefa vinculada a um retiro. |
+| RF002 | RN02, RN05, RN06 | /tarefas/hoje | GET | Listar tarefas do dia para o capataz logado. |
+| RF003 | RN03, RN07, RN08 | /tarefas/sincronizar | GET | Download de dados para uso offline. |
+| RF004 | RN04, RN12 | Consulta Local | N/A | Exibição de estado vazio (Offline). |
+| RF005 | RN13, RN14, RN15, RN16 | /tarefas/{id}/evidencia | POST | Upload de áudio/evidência da tarefa. |
+| RF006 | RN19, RN20, RN21, RN24 | /chamados | POST | Registrar alerta de infraestrutura (GPS imutável). |
+| RF007 | RN11 | /gerencia/status | GET | Visualização do painel de controle (Coordenador). |
+| RF008 | RN27, RN28, RN30 | /movimentacoes/nascimento | POST | Registrar novo animal no sistema. |
+| RF009 | RN31, RN33, RN34 | /movimentacoes/obito | POST | Registrar óbito com foto obrigatória. |
+| RF010 | RN37 | /sincronizacao/push | POST | Envio automático de dados ao detectar rede. |
+| RF015 | RN41 | /relatorios/exportar | GET | Gerar CSV/Excel para integração BrPec. |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
