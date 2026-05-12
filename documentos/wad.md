@@ -1768,7 +1768,31 @@ CREATE INDEX IF NOT EXISTS idx_movimentacoes_retiro      ON movimentacoes(retiro
 CREATE INDEX IF NOT EXISTS idx_movimentacoes_responsavel ON movimentacoes(responsavel_id);
 CREATE INDEX IF NOT EXISTS idx_movimentacoes_tipo        ON movimentacoes(tipo);
 ```
+##### Migration 007 — `nascimentos`
 
+```sql
+CREATE TABLE IF NOT EXISTS nascimentos (
+    id              TEXT PRIMARY KEY,
+    movimentacao_id TEXT NOT NULL REFERENCES movimentacoes(id),
+    quantidade      INTEGER NOT NULL CHECK (quantidade > 0),
+    raca            TEXT NOT NULL,
+    created_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX IF NOT EXISTS idx_nascimentos_movimentacao ON nascimentos(movimentacao_id);
+```
+
+##### Migration 008 — `obitos`
+
+```sql
+CREATE TABLE IF NOT EXISTS obitos (
+    id              TEXT PRIMARY KEY,
+    movimentacao_id TEXT NOT NULL REFERENCES movimentacoes(id),
+    quantidade      INTEGER NOT NULL CHECK (quantidade > 0),
+    causa           TEXT NOT NULL,
+    created_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX IF NOT EXISTS idx_obitos_movimentacao ON obitos(movimentacao_id);
+```
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
