@@ -1643,6 +1643,126 @@ erDiagram
     MOVIMENTACAO ||--o| COMPRAVENDA : "caracteriza"
     TRANSFERENCIA }o--|| RETIRO : "destino"
 ```
+#### Migrations DDL
+
+As migrations abaixo são reproduzíveis e idempotentes (`CREATE TABLE IF NOT EXISTS`). A ordem de execução deve ser respeitada para satisfazer as dependências de chave estrangeira.
+
+##### Migration 001 — `retiros`
+
+```sql
+CREATE TABLE IF NOT EXISTS retiros (
+    id          TEXT PRIMARY KEY,
+    nome        TEXT NOT NULL,
+    localizacao TEXT NOT NULL,
+    created_at  TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+    updated_at  TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+```
+
+##### Migration 002 — `usuarios`
+
+```sql
+CREATE TABLE IF NOT EXISTS usuarios (
+    id         TEXT PRIMARY KEY,
+    retiro_id  TEXT NOT NULL REFERENCES retiros(id),
+    nome       TEXT NOT NULL,
+    email      TEXT NOT NULL UNIQUE,
+    senha_hash TEXT NOT NULL,
+    perfil     TEXT NOT NULL
+                   CHECK (perfil IN ('gerente','capataz','coordenador','tecnico_infra')),
+    created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+    updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX IF NOT EXISTS idx_usuarios_retiro ON usuarios(retiro_id);
+CREATE INDEX IF NOT EXISTS idx_usuarios_perfil ON usuarios(perfil);
+```
+
+##### Migration 003 — `tarefas`
+
+```sql
+CREATE TABLE IF NOT EXISTS tarefas (
+    id             TEXT PRIMARY KEY,
+    retiro_id      TEXT NOT NULL REFERENCES retiros(id),
+    responsavel_id TEXT NOT NULL REFERENCES usuarios(id),
+    titulo         TEXT NOT NULL,
+    descricao      TEXT,
+    status         TEXT NOT NULL DEFAULT 'pendente'
+                       CHECK (status IN ('pendente','em_andamento','concluida','cancelada')),
+    data_prevista  TEXT,
+    data_conclusao TEXT,
+    sincronizado   INTEGER NOT NULL DEFAULT 0 CHECK (sincronizado IN (0,1)),
+    created_at     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+    updated_at     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX IF NOT EXISTS idx_tarefas_retiro      ON tarefas(retiro_id);
+CREATE INDEX IF NOT EXISTS idx_tarefas_responsavel ON tarefas(responsavel_id);
+CREATE INDEX IF NOT EXISTS idx_tarefas_status      ON tarefas(status);
+```
+
+##### Migration 004 — `alertas`
+
+```sql
+CREATE TABLE IF NOT EXISTS alertas (
+    id                  TEXT PRIMARY KEY,
+    criado_por_id       TEXT NOT NULL REFERENCES usuarios(id),
+    tecnico_id          TEXT REFERENCES usuarios(id),
+    titulo              TEXT NOT NULL,
+    descricao           TEXT NOT NULL,
+    status              TEXT NOT NULL DEFAULT 'aberto'
+                            CHECK (status IN ('aberto','em_andamento','fechado')),
+    localizacao_lat     REAL NOT NULL,
+    localizacao_lng     REAL NOT NULL,
+    data_resolucao      TEXT,
+    descricao_resolucao TEXT,
+    created_at          TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+    updated_at          TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+    CHECK (
+        (status = 'fechado' AND data_resolucao IS NOT NULL)
+        OR status != 'fechado'
+    )
+);
+CREATE INDEX IF NOT EXISTS idx_alertas_status     ON alertas(status);
+CREATE INDEX IF NOT EXISTS idx_alertas_criado_por ON alertas(criado_por_id);
+CREATE INDEX IF NOT EXISTS idx_alertas_tecnico    ON alertas(tecnico_id);
+```
+
+##### Migration 005 — `evidencias`
+
+```sql
+CREATE TABLE IF NOT EXISTS evidencias (
+    id         TEXT PRIMARY KEY,
+    tarefa_id  TEXT REFERENCES tarefas(id),
+    alerta_id  TEXT REFERENCES alertas(id),
+    tipo       TEXT NOT NULL CHECK (tipo IN ('foto','audio','video','documento')),
+    url        TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+    CHECK (
+        (tarefa_id IS NOT NULL AND alerta_id IS NULL)
+        OR (tarefa_id IS NULL  AND alerta_id IS NOT NULL)
+    )
+);
+CREATE INDEX IF NOT EXISTS idx_evidencias_tarefa ON evidencias(tarefa_id);
+CREATE INDEX IF NOT EXISTS idx_evidencias_alerta ON evidencias(alerta_id);
+```
+
+##### Migration 006 — `movimentacoes`
+
+```sql
+CREATE TABLE IF NOT EXISTS movimentacoes (
+    id                TEXT PRIMARY KEY,
+    retiro_id         TEXT NOT NULL REFERENCES retiros(id),
+    responsavel_id    TEXT NOT NULL REFERENCES usuarios(id),
+    tipo              TEXT NOT NULL
+                          CHECK (tipo IN ('nascimento','obito','transferencia','compravenda')),
+    data_movimentacao TEXT NOT NULL,
+    observacoes       TEXT,
+    created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+    updated_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX IF NOT EXISTS idx_movimentacoes_retiro      ON movimentacoes(retiro_id);
+CREATE INDEX IF NOT EXISTS idx_movimentacoes_responsavel ON movimentacoes(responsavel_id);
+CREATE INDEX IF NOT EXISTS idx_movimentacoes_tipo        ON movimentacoes(tipo);
+```
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
