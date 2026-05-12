@@ -1704,6 +1704,52 @@ CREATE INDEX IF NOT EXISTS idx_tarefas_responsavel ON tarefas(responsavel_id);
 CREATE INDEX IF NOT EXISTS idx_tarefas_status      ON tarefas(status);
 ```
 
+##### Migration 004 — `alertas`
+
+```sql
+CREATE TABLE IF NOT EXISTS alertas (
+    id                  TEXT PRIMARY KEY,
+    criado_por_id       TEXT NOT NULL REFERENCES usuarios(id),
+    tecnico_id          TEXT REFERENCES usuarios(id),
+    titulo              TEXT NOT NULL,
+    descricao           TEXT NOT NULL,
+    status              TEXT NOT NULL DEFAULT 'aberto'
+                            CHECK (status IN ('aberto','em_andamento','fechado')),
+    localizacao_lat     REAL NOT NULL,
+    localizacao_lng     REAL NOT NULL,
+    data_resolucao      TEXT,
+    descricao_resolucao TEXT,
+    created_at          TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+    updated_at          TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+    CHECK (
+        (status = 'fechado' AND data_resolucao IS NOT NULL)
+        OR status != 'fechado'
+    )
+);
+CREATE INDEX IF NOT EXISTS idx_alertas_status     ON alertas(status);
+CREATE INDEX IF NOT EXISTS idx_alertas_criado_por ON alertas(criado_por_id);
+CREATE INDEX IF NOT EXISTS idx_alertas_tecnico    ON alertas(tecnico_id);
+```
+
+##### Migration 005 — `evidencias`
+
+```sql
+CREATE TABLE IF NOT EXISTS evidencias (
+    id         TEXT PRIMARY KEY,
+    tarefa_id  TEXT REFERENCES tarefas(id),
+    alerta_id  TEXT REFERENCES alertas(id),
+    tipo       TEXT NOT NULL CHECK (tipo IN ('foto','audio','video','documento')),
+    url        TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+    CHECK (
+        (tarefa_id IS NOT NULL AND alerta_id IS NULL)
+        OR (tarefa_id IS NULL  AND alerta_id IS NOT NULL)
+    )
+);
+CREATE INDEX IF NOT EXISTS idx_evidencias_tarefa ON evidencias(tarefa_id);
+CREATE INDEX IF NOT EXISTS idx_evidencias_alerta ON evidencias(alerta_id);
+```
+
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
