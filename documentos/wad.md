@@ -1793,6 +1793,36 @@ CREATE TABLE IF NOT EXISTS obitos (
 );
 CREATE INDEX IF NOT EXISTS idx_obitos_movimentacao ON obitos(movimentacao_id);
 ```
+##### Migration 009 — `transferencias`
+
+```sql
+CREATE TABLE IF NOT EXISTS transferencias (
+    id                TEXT PRIMARY KEY,
+    movimentacao_id   TEXT NOT NULL REFERENCES movimentacoes(id),
+    retiro_origem_id  TEXT NOT NULL REFERENCES retiros(id),
+    retiro_destino_id TEXT NOT NULL REFERENCES retiros(id),
+    quantidade        INTEGER NOT NULL CHECK (quantidade > 0),
+    created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+    CHECK (retiro_origem_id != retiro_destino_id)
+);
+CREATE INDEX IF NOT EXISTS idx_transferencias_movimentacao ON transferencias(movimentacao_id);
+CREATE INDEX IF NOT EXISTS idx_transferencias_origem       ON transferencias(retiro_origem_id);
+CREATE INDEX IF NOT EXISTS idx_transferencias_destino      ON transferencias(retiro_destino_id);
+```
+
+##### Migration 010 — `compravendas`
+
+```sql
+CREATE TABLE IF NOT EXISTS compravendas (
+    id               TEXT PRIMARY KEY,
+    movimentacao_id  TEXT NOT NULL REFERENCES movimentacoes(id),
+    tipo_negocio     TEXT NOT NULL CHECK (tipo_negocio IN ('compra','venda')),
+    valor_financeiro REAL NOT NULL CHECK (valor_financeiro > 0),
+    quantidade       INTEGER NOT NULL CHECK (quantidade > 0),
+    created_at       TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX IF NOT EXISTS idx_compravendas_movimentacao ON compravendas(movimentacao_id);
+```
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
