@@ -1940,7 +1940,9 @@ Assim, utilizaremos a versão 7 do UUID por uma questão de ordenação cronoló
 - UUID armazenado como tipo de dado nativo no PostgreSQL;
 - Sincronização via UPSERT (INSERT ... ON CONFLICT DO UPDATE)
 
-UPSERT é uma operação que combina UPdate (atualizar) e inSERT (inserir). Ele insere uma nova linha se ela não existir ou atualiza um registro existente se já houver uma correspondência. Assim, evitando erros de duplicidade e facilitando a sincronização de dados.
+As tabelas que receberão UUID v7 como chave primária são: `usuario`, `retiro`, `tarefa`, `evidencia`, `alerta`, `movimentacao`, `nascimento`, `obito`, `transferencia` e `compravenda`. Todas essas entidades podem ser criadas ou editadas em campo sem conexão.
+
+UPSERT é uma operação que combina UPDATE (atualizar) e INSERT (inserir). Ele insere uma nova linha se ela não existir ou atualiza um registro existente se já houver uma correspondência. Para resolver conflitos de atualização, caso dois dispositivos offline editem o mesmo registro, todas as tabelas mantêm um campo `updated_at` (timestamp com fuso horário). Na sincronização, prevalece a versão com o `updated_at` mais recente, garantindo que a edição mais nova vença sem rejeitar o registro.
 
 **Alternativas consideradas:**
 
