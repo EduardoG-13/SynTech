@@ -705,7 +705,7 @@ No projeto BrPec, as User Stories foram elaboradas a partir das personas definid
 **Testável:** Possível validar criação e vínculo com retiro
 
 <center>
-  <p><strong>Quadro 2</strong> — User Story 02</p>
+  <p><strong> Quadro 2 </strong> — User Story 02</p>
 </center>
 
 | Campo                    | Descrição                                                                                                                                                  |
@@ -1093,20 +1093,19 @@ _Matriz de cobertura mostrando quais RN e endpoints implementam cada RF._
   <p><strong>Tabela 7</strong> — Matriz RF → RN → Endpoint</p>
 </center>
 
-| RF    | RN associadas | Endpoint              | Método |
-| ----- | ------------- | --------------------- | ------ |
-| RF001 | RN01          | /tarefas              | POST   |
-| RF002 | RN02, RN05    | /tarefas/hoje         | GET    |
-| RF003 | RN03          | /tarefas/sincronizar  | GET    |
-| RF004 | RN04          | /tarefas/hoje/offline | GET    |
-| RF005 | RN05          | /tarefas/concluir     | POST   |
-| RF006 | RN06          | /chamados             | POST   |
-| RF007 | RN07          | /eventos/zootecnicos  | POST   |
-| RF008 | RN08          | /transacoes/gado      | POST   |
-| RF009 | RN09          | /transferencias       | POST   |
-| RF010 | RN10          | Armazenamento Local   | INSERT |
-| RF011 | RN11          | /sincronizar          | POST   |
-| RF012 | RN12          | Consulta Banco Local  | GET    |
+| RF | RN associada(s) | Endpoint / Operação | Método | Finalidade da Operação |
+| --- | ------------- | ------------------- | ------ | ---------------------- |
+| RF001 | RN01 | /tarefas | POST | Criar tarefa vinculada a um retiro. |
+| RF002 | RN02, RN05, RN06 | /tarefas/hoje | GET | Listar tarefas do dia para o capataz logado. |
+| RF003 | RN03, RN07, RN08 | /tarefas/sincronizar | GET | Download de dados para uso offline. |
+| RF004 | RN04, RN12 | Consulta Local | N/A | Exibição de estado vazio (Offline). |
+| RF005 | RN13, RN14, RN15, RN16 | /tarefas/{id}/evidencia | POST | Upload de áudio/evidência da tarefa. |
+| RF006 | RN19, RN20, RN21, RN24 | /chamados | POST | Registrar alerta de infraestrutura (GPS imutável). |
+| RF007 | RN11 | /gerencia/status | GET | Visualização do painel de controle (Coordenador). |
+| RF008 | RN27, RN28, RN30 | /movimentacoes/nascimento | POST | Registrar novo animal no sistema. |
+| RF009 | RN31, RN33, RN34 | /movimentacoes/obito | POST | Registrar óbito com foto obrigatória. |
+| RF010 | RN37 | /sincronizacao/push | POST | Envio automático de dados ao detectar rede. |
+| RF015 | RN41 | /relatorios/exportar | GET | Gerar CSV/Excel para integração BrPec. |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1242,7 +1241,7 @@ UC07 — Validar movimentações (RF007)
 | Pós-condições | As movimentações são confirmadas e consideradas válidas |
 
 <center>
-  <p><strong>Quadro 17</strong> — Caso de Uso UC07</p>
+  <p><strong> +Quadro 17</strong> — Caso de Uso UC07</p>
 </center>
 
 <center>
@@ -1532,16 +1531,11 @@ _Documente os design patterns utilizados (Repository, Strategy, Factory, DTO etc
 </center>
 
 <center>
-<p>Wireframe infraestrutura - detalhe do chamado (desktop/tablet)</p>
- <img src="./assets/wireframe_infra_detalhe_do_chamado_0.png" width="800"/>
+<p>Wireframe infraestrutura - detalhe do chamado (desktop/tablet/mobile)</p>
+ <img src="./assets/wireframeDetalheDoChamado.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-<center>
-<p>Wireframe infraestrutura - detalhe do chamado (mobile)</p>
- <img src="./assets/wireframe_infra_detalhe_do_chamado_1.png" width="800"/>
- <p>Fonte: Próprios autores (2026).</p>
-</center>
 
 ## 3.4. Guia de estilos (sprint 3)
 
@@ -1567,7 +1561,7 @@ _posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelid
 
 ## 3.6. Modelagem do banco de dados (sprints 2 e 4)
 
-### 3.6.1. Modelo Entidade-Relacionamento (ER) (sprint 2)
+### 3.6.1. Modelo Entidade-Relacionamento (MER) (sprint 2)
 
 O modelo Entidade-Relacionamento (ER) conceitual representa as principais entidades do domínio da aplicação, seus atributos e relacionamentos existentes entre elas, utilizando a notação **Crow’s Foot** de forma consistente em toda a modelagem. O objetivo deste modelo é estruturar conceitualmente os dados necessários para suportar o gerenciamento operacional da BRPec Agropecuária, contemplando usuários, tarefas, evidências, alertas, retiros e movimentações do rebanho.
 
@@ -1595,6 +1589,7 @@ erDiagram
         Descricao Atributo
         Status Atributo
         DataExecucao Atributo
+        DataCriacao Atributo
     }
 
     EVIDENCIA {
@@ -1648,210 +1643,9 @@ erDiagram
     MOVIMENTACAO ||--o| COMPRAVENDA : "caracteriza"
     TRANSFERENCIA }o--|| RETIRO : "destino"
 ```
-
-### Decisões de modelagem
-
-- A entidade **USUARIO** representa genericamente os perfis operacionais do sistema, incluindo gerente, coordenador e capataz. A diferenciação entre os tipos de usuário é realizada pelo atributo `perfil`, evitando redundância estrutural entre entidades com atributos equivalentes.
-
-- A entidade **RETIRO** representa as unidades operacionais da fazenda e centraliza os relacionamentos relacionados às tarefas e movimentações realizadas em campo.
-
-- A entidade **TAREFA** foi modelada para representar atividades operacionais atribuídas aos usuários, permitindo acompanhamento de execução, status e data planejada.
-
-- A entidade **EVIDENCIA** armazena registros comprobatórios relacionados às tarefas executadas, como fotografias, áudios ou anexos utilizados para validação operacional.
-
-- A entidade **ALERTA** representa notificações operacionais geradas pelos usuários durante a execução das atividades em campo, permanecendo disponíveis até serem resolvidas.
-
-- A entidade **MOVIMENTACAO** representa eventos relacionados ao manejo do rebanho bovino, incluindo nascimentos, óbitos, transferências e operações de compra e venda.
-
-- As entidades **NASCIMENTO**, **OBITO**, **TRANSFERENCIA** e **COMPRAVENDA** foram modeladas como detalhamentos específicos de movimentações, permitindo representar atributos particulares de cada tipo de operação sem duplicação de informações comuns.
-
-- O relacionamento entre **TAREFA** e **EVIDENCIA** representa dependência operacional, indicando que evidências somente podem existir associadas a uma tarefa previamente cadastrada.
-
-- A notação **Crow’s Foot** foi utilizada de forma consistente em toda a modelagem conceitual, sem mistura com elementos de UML ou notação Chen.
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
-### 3.6.2. Diagrama Entidade-Relacionamento (DER) (sprint 2)
-
-_Posicione aqui o DER com cardinalidades explícitas em ambos os lados de cada relação e identificação de PK/FK. O DER deve ser coerente com o diagrama de classes (3.2.3)._
-
-### 3.6.3. Modelo Relacional e Modelo Físico (sprints 2 e 4)
-
-O modelo físico deriva do modelo conceitual (ER) apresentado na seção 3.6.1 e materializa as entidades em tabelas SQLite, usando chaves primárias textuais em UUID v7, chaves estrangeiras explícitas, constraints de domínio e índices para consultas frequentes. A escolha por SQLite está associada ao requisito offline-first: os dados operacionais são gravados no dispositivo antes de qualquer tentativa de sincronização, evitando dependência exclusiva de cache do navegador.
-
-A aplicação PWA mantém os dados estruturados no banco local SQLite. Quando a conexão retorna, a camada de sincronização envia os registros pendentes para uma API central; arquivos de mídia, como fotos e áudios, são enviados a um serviço de armazenamento de evidências pela API. O banco local mantém metadados, caminho local do arquivo antes do upload e a referência remota (`storage_key` ou `url`) após a sincronização.
-
-A estrutura abaixo representa as 11 tabelas do modelo físico local: 10 tabelas de domínio e 1 tabela técnica de fila de sincronização.
-
-```mermaid
-erDiagram
-    retiros {
-        TEXT id PK
-        TEXT nome
-        TEXT localizacao
-        TEXT created_at
-        TEXT updated_at
-    }
-    usuarios {
-        TEXT id PK
-        TEXT retiro_id FK
-        TEXT nome
-        TEXT email
-        TEXT senha_hash
-        TEXT perfil
-        TEXT created_at
-        TEXT updated_at
-    }
-    tarefas {
-        TEXT id PK
-        TEXT retiro_id FK
-        TEXT criado_por_id FK
-        TEXT responsavel_id FK
-        TEXT titulo
-        TEXT descricao
-        TEXT status
-        TEXT data_prevista
-        TEXT data_conclusao
-        TEXT sync_status
-        TEXT last_synced_at
-        TEXT created_at
-        TEXT updated_at
-    }
-    alertas {
-        TEXT id PK
-        TEXT retiro_id FK
-        TEXT criado_por_id FK
-        TEXT tecnico_id FK
-        TEXT tipo
-        TEXT titulo
-        TEXT descricao
-        TEXT status
-        REAL localizacao_lat
-        REAL localizacao_lng
-        TEXT data_resolucao
-        TEXT descricao_resolucao
-        TEXT sync_status
-        TEXT last_synced_at
-        TEXT created_at
-        TEXT updated_at
-    }
-    evidencias {
-        TEXT id PK
-        TEXT tarefa_id FK
-        TEXT alerta_id FK
-        TEXT movimentacao_id FK
-        TEXT tipo
-        TEXT arquivo_local_uri
-        TEXT storage_key
-        TEXT url
-        TEXT conteudo_texto
-        TEXT mime_type
-        INTEGER tamanho_bytes
-        TEXT sync_status
-        TEXT uploaded_at
-        TEXT created_at
-    }
-    movimentacoes {
-        TEXT id PK
-        TEXT retiro_id FK
-        TEXT responsavel_id FK
-        TEXT tipo
-        TEXT categoria
-        TEXT data_movimentacao
-        TEXT observacoes
-        TEXT sync_status
-        TEXT last_synced_at
-        TEXT created_at
-        TEXT updated_at
-    }
-    nascimentos {
-        TEXT id PK
-        TEXT movimentacao_id FK
-        INTEGER quantidade
-        TEXT raca
-    }
-    obitos {
-        TEXT id PK
-        TEXT movimentacao_id FK
-        TEXT identificacao_animal
-        INTEGER quantidade
-        TEXT causa
-        INTEGER exige_evidencia_foto
-    }
-    transferencias {
-        TEXT id PK
-        TEXT movimentacao_id FK
-        TEXT retiro_origem_id FK
-        TEXT retiro_destino_id FK
-        INTEGER quantidade
-    }
-    compravendas {
-        TEXT id PK
-        TEXT movimentacao_id FK
-        TEXT tipo_negocio
-        REAL valor_financeiro
-        INTEGER quantidade
-    }
-    sync_queue {
-        TEXT id PK
-        TEXT tabela
-        TEXT registro_id
-        TEXT operacao
-        TEXT payload_json
-        TEXT status
-        INTEGER tentativas
-        TEXT ultimo_erro
-        TEXT created_at
-        TEXT updated_at
-    }
-
-    retiros ||--o{ usuarios : "aloca"
-    retiros ||--o{ tarefas : "sedia"
-    retiros ||--o{ alertas : "recebe"
-    retiros ||--o{ movimentacoes : "origina"
-    usuarios ||--o{ tarefas : "cria"
-    usuarios ||--o{ tarefas : "responsavel"
-    usuarios ||--o{ alertas : "cria"
-    usuarios ||--o{ alertas : "atende"
-    usuarios ||--o{ movimentacoes : "efetua"
-    tarefas ||--o{ evidencias : "comprova"
-    alertas ||--o{ evidencias : "documenta"
-    movimentacoes ||--o{ evidencias : "documenta"
-    movimentacoes ||--o| nascimentos : "detalha"
-    movimentacoes ||--o| obitos : "detalha"
-    movimentacoes ||--o| transferencias : "detalha"
-    movimentacoes ||--o| compravendas : "detalha"
-    retiros ||--o{ transferencias : "origem"
-    retiros ||--o{ transferencias : "destino"
-```
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
-**Decisões de modelagem física:**
-
-- **SQLite local como fonte offline**: os registros são gravados localmente primeiro, com `sync_status` para indicar se ainda precisam ser enviados à API.
-- **UUID v7 em colunas `TEXT`**: o identificador é gerado no cliente, antes da conexão com o servidor, e armazenado como texto por compatibilidade com SQLite.
-- **`tarefas.criado_por_id` e `tarefas.responsavel_id`**: a primeira FK registra quem criou a tarefa; a segunda registra quem deve executá-la.
-- **`alertas.retiro_id` e `alertas.tipo`**: o chamado de infraestrutura fica vinculado ao retiro e ao tipo de problema exigidos nos requisitos.
-- **`evidencias` com vínculo polimórfico controlado por `CHECK`**: cada evidência pertence a exatamente uma tarefa, um alerta ou uma movimentação. Isso permite registrar fotos de óbito sem guardar o arquivo binário diretamente na tabela de óbitos.
-- **Mídias fora do banco relacional**: `arquivo_local_uri` guarda o caminho local antes da sincronização; `storage_key` e `url` guardam a referência remota após upload pela API; `conteudo_texto` cobre evidências textuais simples.
-- **Especialização de `movimentacoes`**: `nascimentos`, `obitos`, `transferencias` e `compravendas` detalham uma movimentação e usam `UNIQUE (movimentacao_id)` para evitar mais de um detalhe do mesmo tipo para o mesmo evento.
-- **`sync_queue`**: tabela técnica que registra operações pendentes (`insert`, `update`, `delete` ou `upload`) para a camada de sincronização executar quando houver conexão.
-
-
 #### Migrations DDL
 
-As migrations abaixo são reproduzíveis e idempotentes (`CREATE TABLE IF NOT EXISTS`). A ordem de execução respeita as dependências de chave estrangeira: primeiro tabelas-base, depois tabelas dependentes e, por fim, a fila de sincronização.
-
-##### Migration 000 — ativação de chaves estrangeiras
-
-```sql
-PRAGMA foreign_keys = ON;
-```
+As migrations abaixo são reproduzíveis e idempotentes (`CREATE TABLE IF NOT EXISTS`). A ordem de execução deve ser respeitada para satisfazer as dependências de chave estrangeira.
 
 ##### Migration 001 — `retiros`
 
@@ -1889,29 +1683,20 @@ CREATE INDEX IF NOT EXISTS idx_usuarios_perfil ON usuarios(perfil);
 CREATE TABLE IF NOT EXISTS tarefas (
     id             TEXT PRIMARY KEY,
     retiro_id      TEXT NOT NULL REFERENCES retiros(id),
-    criado_por_id  TEXT NOT NULL REFERENCES usuarios(id),
     responsavel_id TEXT NOT NULL REFERENCES usuarios(id),
     titulo         TEXT NOT NULL,
     descricao      TEXT,
     status         TEXT NOT NULL DEFAULT 'pendente'
                        CHECK (status IN ('pendente','em_andamento','concluida','cancelada')),
-    data_prevista  TEXT NOT NULL,
+    data_prevista  TEXT,
     data_conclusao TEXT,
-    sync_status    TEXT NOT NULL DEFAULT 'pendente'
-                       CHECK (sync_status IN ('pendente','sincronizado','erro')),
-    last_synced_at TEXT,
+    sincronizado   INTEGER NOT NULL DEFAULT 0 CHECK (sincronizado IN (0,1)),
     created_at     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
-    updated_at     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
-    CHECK (
-        (status = 'concluida' AND data_conclusao IS NOT NULL)
-        OR status != 'concluida'
-    )
+    updated_at     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
 CREATE INDEX IF NOT EXISTS idx_tarefas_retiro      ON tarefas(retiro_id);
-CREATE INDEX IF NOT EXISTS idx_tarefas_criado_por  ON tarefas(criado_por_id);
 CREATE INDEX IF NOT EXISTS idx_tarefas_responsavel ON tarefas(responsavel_id);
 CREATE INDEX IF NOT EXISTS idx_tarefas_status      ON tarefas(status);
-CREATE INDEX IF NOT EXISTS idx_tarefas_sync        ON tarefas(sync_status);
 ```
 
 ##### Migration 004 — `alertas`
@@ -1919,11 +1704,8 @@ CREATE INDEX IF NOT EXISTS idx_tarefas_sync        ON tarefas(sync_status);
 ```sql
 CREATE TABLE IF NOT EXISTS alertas (
     id                  TEXT PRIMARY KEY,
-    retiro_id           TEXT NOT NULL REFERENCES retiros(id),
     criado_por_id       TEXT NOT NULL REFERENCES usuarios(id),
     tecnico_id          TEXT REFERENCES usuarios(id),
-    tipo                TEXT NOT NULL
-                            CHECK (tipo IN ('cerca','bebedouro','hidraulica','eletrica','infraestrutura','outro')),
     titulo              TEXT NOT NULL,
     descricao           TEXT NOT NULL,
     status              TEXT NOT NULL DEFAULT 'aberto'
@@ -1932,9 +1714,6 @@ CREATE TABLE IF NOT EXISTS alertas (
     localizacao_lng     REAL NOT NULL,
     data_resolucao      TEXT,
     descricao_resolucao TEXT,
-    sync_status         TEXT NOT NULL DEFAULT 'pendente'
-                            CHECK (sync_status IN ('pendente','sincronizado','erro')),
-    last_synced_at      TEXT,
     created_at          TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
     updated_at          TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
     CHECK (
@@ -1942,15 +1721,31 @@ CREATE TABLE IF NOT EXISTS alertas (
         OR status != 'fechado'
     )
 );
-CREATE INDEX IF NOT EXISTS idx_alertas_retiro     ON alertas(retiro_id);
 CREATE INDEX IF NOT EXISTS idx_alertas_status     ON alertas(status);
-CREATE INDEX IF NOT EXISTS idx_alertas_tipo       ON alertas(tipo);
 CREATE INDEX IF NOT EXISTS idx_alertas_criado_por ON alertas(criado_por_id);
 CREATE INDEX IF NOT EXISTS idx_alertas_tecnico    ON alertas(tecnico_id);
-CREATE INDEX IF NOT EXISTS idx_alertas_sync       ON alertas(sync_status);
 ```
 
-##### Migration 005 — `movimentacoes`
+##### Migration 005 — `evidencias`
+
+```sql
+CREATE TABLE IF NOT EXISTS evidencias (
+    id         TEXT PRIMARY KEY,
+    tarefa_id  TEXT REFERENCES tarefas(id),
+    alerta_id  TEXT REFERENCES alertas(id),
+    tipo       TEXT NOT NULL CHECK (tipo IN ('foto','audio','video','documento')),
+    url        TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+    CHECK (
+        (tarefa_id IS NOT NULL AND alerta_id IS NULL)
+        OR (tarefa_id IS NULL  AND alerta_id IS NOT NULL)
+    )
+);
+CREATE INDEX IF NOT EXISTS idx_evidencias_tarefa ON evidencias(tarefa_id);
+CREATE INDEX IF NOT EXISTS idx_evidencias_alerta ON evidencias(alerta_id);
+```
+
+##### Migration 006 — `movimentacoes`
 
 ```sql
 CREATE TABLE IF NOT EXISTS movimentacoes (
@@ -1959,165 +1754,289 @@ CREATE TABLE IF NOT EXISTS movimentacoes (
     responsavel_id    TEXT NOT NULL REFERENCES usuarios(id),
     tipo              TEXT NOT NULL
                           CHECK (tipo IN ('nascimento','obito','transferencia','compravenda')),
-    categoria         TEXT NOT NULL
-                          CHECK (categoria IN ('bezerro','garrote','boi_touro','bezerra','novilha','vaca')),
     data_movimentacao TEXT NOT NULL,
     observacoes       TEXT,
-    sync_status       TEXT NOT NULL DEFAULT 'pendente'
-                          CHECK (sync_status IN ('pendente','sincronizado','erro')),
-    last_synced_at    TEXT,
     created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
     updated_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
 CREATE INDEX IF NOT EXISTS idx_movimentacoes_retiro      ON movimentacoes(retiro_id);
 CREATE INDEX IF NOT EXISTS idx_movimentacoes_responsavel ON movimentacoes(responsavel_id);
 CREATE INDEX IF NOT EXISTS idx_movimentacoes_tipo        ON movimentacoes(tipo);
-CREATE INDEX IF NOT EXISTS idx_movimentacoes_sync        ON movimentacoes(sync_status);
 ```
-
-##### Migration 006 — `evidencias`
-
-```sql
-CREATE TABLE IF NOT EXISTS evidencias (
-    id                TEXT PRIMARY KEY,
-    tarefa_id         TEXT REFERENCES tarefas(id),
-    alerta_id         TEXT REFERENCES alertas(id),
-    movimentacao_id   TEXT REFERENCES movimentacoes(id),
-    tipo              TEXT NOT NULL CHECK (tipo IN ('foto','audio','video','documento','texto')),
-    arquivo_local_uri TEXT,
-    storage_key       TEXT,
-    url               TEXT,
-    conteudo_texto    TEXT,
-    mime_type         TEXT,
-    tamanho_bytes     INTEGER CHECK (tamanho_bytes IS NULL OR tamanho_bytes >= 0),
-    sync_status       TEXT NOT NULL DEFAULT 'pendente'
-                          CHECK (sync_status IN ('pendente','sincronizado','erro')),
-    uploaded_at       TEXT,
-    created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
-    CHECK (
-        (tarefa_id IS NOT NULL AND alerta_id IS NULL AND movimentacao_id IS NULL)
-        OR (tarefa_id IS NULL AND alerta_id IS NOT NULL AND movimentacao_id IS NULL)
-        OR (tarefa_id IS NULL AND alerta_id IS NULL AND movimentacao_id IS NOT NULL)
-    ),
-    CHECK (
-        (tipo = 'texto' AND conteudo_texto IS NOT NULL)
-        OR (
-            tipo != 'texto'
-            AND (
-                arquivo_local_uri IS NOT NULL
-                OR storage_key IS NOT NULL
-                OR url IS NOT NULL
-            )
-        )
-    )
-);
-CREATE INDEX IF NOT EXISTS idx_evidencias_tarefa       ON evidencias(tarefa_id);
-CREATE INDEX IF NOT EXISTS idx_evidencias_alerta       ON evidencias(alerta_id);
-CREATE INDEX IF NOT EXISTS idx_evidencias_movimentacao ON evidencias(movimentacao_id);
-CREATE INDEX IF NOT EXISTS idx_evidencias_sync         ON evidencias(sync_status);
-```
-
-##### Migration 007 — `nascimentos`
-
-```sql
-CREATE TABLE IF NOT EXISTS nascimentos (
-    id              TEXT PRIMARY KEY,
-    movimentacao_id TEXT NOT NULL UNIQUE REFERENCES movimentacoes(id),
-    quantidade      INTEGER NOT NULL CHECK (quantidade > 0),
-    raca            TEXT,
-    created_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
-);
-CREATE INDEX IF NOT EXISTS idx_nascimentos_movimentacao ON nascimentos(movimentacao_id);
-```
-
-##### Migration 008 — `obitos`
-
-```sql
-CREATE TABLE IF NOT EXISTS obitos (
-    id                    TEXT PRIMARY KEY,
-    movimentacao_id        TEXT NOT NULL UNIQUE REFERENCES movimentacoes(id),
-    identificacao_animal   TEXT,
-    quantidade             INTEGER NOT NULL CHECK (quantidade > 0),
-    causa                  TEXT NOT NULL,
-    exige_evidencia_foto   INTEGER NOT NULL DEFAULT 1 CHECK (exige_evidencia_foto IN (0,1)),
-    created_at             TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
-);
-CREATE INDEX IF NOT EXISTS idx_obitos_movimentacao ON obitos(movimentacao_id);
-```
-
-##### Migration 009 — `transferencias`
-
-```sql
-CREATE TABLE IF NOT EXISTS transferencias (
-    id                TEXT PRIMARY KEY,
-    movimentacao_id   TEXT NOT NULL UNIQUE REFERENCES movimentacoes(id),
-    retiro_origem_id  TEXT NOT NULL REFERENCES retiros(id),
-    retiro_destino_id TEXT NOT NULL REFERENCES retiros(id),
-    quantidade        INTEGER NOT NULL CHECK (quantidade > 0),
-    created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
-    CHECK (retiro_origem_id != retiro_destino_id)
-);
-CREATE INDEX IF NOT EXISTS idx_transferencias_movimentacao ON transferencias(movimentacao_id);
-CREATE INDEX IF NOT EXISTS idx_transferencias_origem       ON transferencias(retiro_origem_id);
-CREATE INDEX IF NOT EXISTS idx_transferencias_destino      ON transferencias(retiro_destino_id);
-```
-
-##### Migration 010 — `compravendas`
-
-```sql
-CREATE TABLE IF NOT EXISTS compravendas (
-    id               TEXT PRIMARY KEY,
-    movimentacao_id  TEXT NOT NULL UNIQUE REFERENCES movimentacoes(id),
-    tipo_negocio     TEXT NOT NULL CHECK (tipo_negocio IN ('compra','venda')),
-    valor_financeiro REAL NOT NULL CHECK (valor_financeiro > 0),
-    quantidade       INTEGER NOT NULL CHECK (quantidade > 0),
-    created_at       TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
-);
-CREATE INDEX IF NOT EXISTS idx_compravendas_movimentacao ON compravendas(movimentacao_id);
-```
-
-##### Migration 011 — `sync_queue`
-
-```sql
-CREATE TABLE IF NOT EXISTS sync_queue (
-    id             TEXT PRIMARY KEY,
-    tabela         TEXT NOT NULL,
-    registro_id    TEXT NOT NULL,
-    operacao       TEXT NOT NULL CHECK (operacao IN ('insert','update','delete','upload')),
-    payload_json   TEXT,
-    status         TEXT NOT NULL DEFAULT 'pendente'
-                       CHECK (status IN ('pendente','processando','sincronizado','erro')),
-    tentativas     INTEGER NOT NULL DEFAULT 0 CHECK (tentativas >= 0),
-    ultimo_erro    TEXT,
-    created_at     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
-    updated_at     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
-);
-CREATE INDEX IF NOT EXISTS idx_sync_queue_status ON sync_queue(status);
-CREATE INDEX IF NOT EXISTS idx_sync_queue_registro ON sync_queue(tabela, registro_id);
-```
-
-> O arquivo executável completo está disponível em [`src/migration.sql`](../src/src/migration.sql).
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
+### Decisões de modelagem
+
+- A entidade **USUARIO** representa genericamente os perfis operacionais do sistema, incluindo gerente, coordenador e capataz. A diferenciação entre os tipos de usuário é realizada pelo atributo `perfil`, evitando redundância estrutural entre entidades com atributos equivalentes.
+
+- A entidade **RETIRO** representa as unidades operacionais da fazenda e centraliza os relacionamentos relacionados às tarefas e movimentações realizadas em campo.
+
+- A entidade **TAREFA** foi modelada para representar atividades operacionais atribuídas aos usuários, permitindo acompanhamento de execução, status e data planejada.
+
+- A entidade **EVIDENCIA** armazena registros comprobatórios relacionados às tarefas executadas, como fotografias, áudios ou anexos utilizados para validação operacional.
+
+- A entidade **ALERTA** representa notificações operacionais geradas pelos usuários durante a execução das atividades em campo, permanecendo disponíveis até serem resolvidas.
+
+- A entidade **MOVIMENTACAO** representa eventos relacionados ao manejo do rebanho bovino, incluindo nascimentos, óbitos, transferências e operações de compra e venda.
+
+- As entidades **NASCIMENTO**, **OBITO**, **TRANSFERENCIA** e **COMPRAVENDA** foram modeladas como detalhamentos específicos de movimentações, permitindo representar atributos particulares de cada tipo de operação sem duplicação de informações comuns.
+
+- O relacionamento entre **TAREFA** e **EVIDENCIA** representa dependência operacional, indicando que evidências somente podem existir associadas a uma tarefa previamente cadastrada.
+
+- A notação **Crow’s Foot** foi utilizada de forma consistente em toda a modelagem conceitual, sem mistura com elementos de UML ou notação Chen.
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+### 3.6.2. Diagrama Entidade-Relacionamento (DER) (sprint 2)
+
+O Diagrama Entidade-Relacionamento (DER) é uma representação gráfica da estrutura de um banco de dados, baseada no Modelo Entidade-Relacionamento (MER) proposto por Peter Chen (1976). No diagrama, entidades (objetos do mundo real com existência independente) são representadas por retângulos. Seus atributos, por elipses, e os relacionamentos entre elas, por losangos. Essa notação auxilia desenvolvedores a visualizar e comunicar a arquitetura de dados de um sistema antes de sua implementação. [9]
+
+
+```mermaid
+erDiagram
+    RETIROS {
+        uuid id PK
+        varchar(100) nome
+        text localizacao
+    }
+    USUARIOS {
+        uuid id PK
+        varchar(150) nome
+        varchar(255) senha_hash
+        varchar(20) perfil
+        text area_responsavel
+        uuid retiro_id FK
+        timestamptz created_at
+    }
+    TAREFAS {
+        uuid id PK
+        varchar(200) titulo
+        text descricao
+        varchar(20) status
+        date data_execucao
+        uuid gerente_id FK
+        uuid capataz_id FK
+        uuid retiro_id FK
+        timestamptz created_at
+    }
+    EVIDENCIAS {
+        uuid id PK
+        varchar(10) tipo
+        bytea conteudo
+        uuid tarefa_id FK
+        timestamptz created_at
+    }
+    ALERTAS {
+        uuid id PK
+        text descricao
+        varchar(30) tipo
+        boolean resolvido
+        uuid capataz_id FK
+        uuid retiro_id FK
+        timestamptz created_at
+    }
+    MOVIMENTACOES {
+        uuid id PK
+        date data
+        varchar(20) categoria
+        integer quantidade
+        boolean sincronizado
+        uuid usuario_id FK
+        uuid retiro_id FK
+        timestamptz created_at
+    }
+    NASCIMENTOS {
+        uuid movimentacao_id PK
+        uuid mae_id
+        bytea foto
+    }
+    OBITOS {
+        uuid movimentacao_id PK
+        text causa
+        bytea foto
+    }
+    TRANSFERENCIAS {
+        uuid movimentacao_id PK
+        uuid retiro_origem_id FK
+        uuid retiro_destino_id FK
+    }
+    COMPRAVENDAS {
+        uuid movimentacao_id PK
+        varchar(10) tipo_operacao
+        numeric(12) valor
+    }
+
+    USUARIOS }o--|| RETIROS : "retiro_id"
+    TAREFAS }o--|| USUARIOS : "gerente_id"
+    TAREFAS }o--|| USUARIOS : "capataz_id"
+    TAREFAS }o--|| RETIROS : "retiro_id"
+    EVIDENCIAS }o--|| TAREFAS : "tarefa_id"
+    ALERTAS }o--|| USUARIOS : "capataz_id"
+    ALERTAS }o--|| RETIROS : "retiro_id"
+    MOVIMENTACOES }o--|| USUARIOS : "usuario_id"
+    MOVIMENTACOES }o--|| RETIROS : "retiro_id"
+    NASCIMENTOS ||--|| MOVIMENTACOES : "movimentacao_id"
+    OBITOS ||--|| MOVIMENTACOES : "movimentacao_id"
+    TRANSFERENCIAS ||--|| MOVIMENTACOES : "movimentacao_id"
+    TRANSFERENCIAS }o--|| RETIROS : "retiro_origem_id"
+    TRANSFERENCIAS }o--|| RETIROS : "retiro_destino_id"
+    COMPRAVENDAS ||--|| MOVIMENTACOES : "movimentacao_id"
+```
+
+
+### 3.6.3. Modelo Relacional e Modelo Físico (sprints 2 e 4)
+
+O modelo físico deriva do modelo conceitual (ER) apresentado na seção 3.6.1, refinando as entidades em tabelas com tipos de dados concretos, chaves primárias em UUID v7, chaves estrangeiras explícitas e constraints de integridade referencial e de domínio. A estratégia de UUID v7 descrita acima é aplicada em todas as tabelas sujeitas a operações offline, garantindo unicidade global sem coordenação com o servidor.
+
+O banco de dados adotado é **SQLite** (modo offline-first nos dispositivos dos usuários de campo), com sincronização posterior para o banco central via UPSERT. A estrutura abaixo representa as 10 tabelas do sistema e seus relacionamentos.
+
+_Posicione aqui os diagramas de modelos relacionais do banco de dados, apresentando todos os esquemas de tabelas e suas relações. Inclua as migrations DDL numeradas e reproduzíveis (`CREATE TABLE`, `CREATE INDEX`, constraints `NOT NULL`, `UNIQUE`, `FOREIGN KEY`, `CHECK`). Utilize texto para complementar suas explicações quando necessário._
+
+
+```mermaid
+erDiagram
+    retiros {
+        TEXT id PK
+        TEXT nome
+        TEXT localizacao
+        TEXT created_at
+        TEXT updated_at
+    }
+    usuarios {
+        TEXT id PK
+        TEXT retiro_id FK
+        TEXT nome
+        TEXT email
+        TEXT senha_hash
+        TEXT perfil
+        TEXT created_at
+        TEXT updated_at
+    }
+    tarefas {
+        TEXT id PK
+        TEXT retiro_id FK
+        TEXT responsavel_id FK
+        TEXT titulo
+        TEXT descricao
+        TEXT status
+        TEXT data_prevista
+        TEXT data_conclusao
+        INTEGER sincronizado
+        TEXT created_at
+        TEXT updated_at
+    }
+    alertas {
+        TEXT id PK
+        TEXT criado_por_id FK
+        TEXT tecnico_id FK
+        TEXT titulo
+        TEXT descricao
+        TEXT status
+        REAL localizacao_lat
+        REAL localizacao_lng
+        TEXT data_resolucao
+        TEXT descricao_resolucao
+        TEXT created_at
+        TEXT updated_at
+    }
+    evidencias {
+        TEXT id PK
+        TEXT tarefa_id FK
+        TEXT alerta_id FK
+        TEXT tipo
+        TEXT url
+        TEXT created_at
+    }
+    movimentacoes {
+        TEXT id PK
+        TEXT retiro_id FK
+        TEXT responsavel_id FK
+        TEXT tipo
+        TEXT data_movimentacao
+        TEXT observacoes
+        TEXT created_at
+        TEXT updated_at
+    }
+    nascimentos {
+        TEXT id PK
+        TEXT movimentacao_id FK
+        INTEGER quantidade
+        TEXT raca
+    }
+    obitos {
+        TEXT id PK
+        TEXT movimentacao_id FK
+        INTEGER quantidade
+        TEXT causa
+    }
+    transferencias {
+        TEXT id PK
+        TEXT movimentacao_id FK
+        TEXT retiro_origem_id FK
+        TEXT retiro_destino_id FK
+        INTEGER quantidade
+    }
+    compravendas {
+        TEXT id PK
+        TEXT movimentacao_id FK
+        TEXT tipo_negocio
+        REAL valor_financeiro
+        INTEGER quantidade
+    }
+
+    retiros ||--o{ usuarios : "aloca"
+    retiros ||--o{ tarefas : "sedia"
+    retiros ||--o{ movimentacoes : "origina"
+    usuarios ||--o{ tarefas : "responsavel"
+    usuarios ||--o{ alertas : "cria"
+    usuarios ||--o{ alertas : "atende"
+    usuarios ||--o{ movimentacoes : "efetua"
+    tarefas ||--o{ evidencias : "comprova"
+    alertas ||--o{ evidencias : "documenta"
+    movimentacoes ||--o| nascimentos : "detalha"
+    movimentacoes ||--o| obitos : "detalha"
+    movimentacoes ||--o| transferencias : "detalha"
+    movimentacoes ||--o| compravendas : "detalha"
+    retiros ||--o{ transferencias : "origem"
+    retiros ||--o{ transferencias : "destino"
+```
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+**Decisões de modelagem físico:**
+
+- **`usuarios.perfil`** — `CHECK (perfil IN ('gerente','capataz','coordenador','tecnico_infra'))`. O perfil `tecnico_infra` foi adicionado após a Sprint 1, representando profissionais de infraestrutura que gerenciam tarefas próprias e atualizam seus status.
+- **`alertas.status`** — Ciclo completo `aberto → em_andamento → fechado` via `CHECK (status IN ('aberto','em_andamento','fechado'))`. Inclui GPS (`localizacao_lat`, `localizacao_lng`), técnico responsável (`tecnico_id`, nullable) e campos de resolução (`data_resolucao`, `descricao_resolucao`).
+- **`alertas` — constraint de resolução** — `CHECK ((status='fechado' AND data_resolucao IS NOT NULL) OR status!='fechado')`: toda resolução exige data preenchida.
+- **`evidencias` polimórfica** — `CHECK ((tarefa_id IS NOT NULL AND alerta_id IS NULL) OR (tarefa_id IS NULL AND alerta_id IS NOT NULL))`: cada evidência pertence a exatamente uma tarefa **ou** um alerta.
+- **`tarefas.sincronizado`** — `INTEGER NOT NULL DEFAULT 0 CHECK (sincronizado IN (0,1))`: flag booleana de controle offline→online.
+- **`transferencias` — constraint de consistência** — `CHECK (retiro_origem_id != retiro_destino_id)`: impede transferência para o mesmo retiro.
+- **Herança por tabela (table-per-type)** — `nascimentos`, `obitos`, `transferencias` e `compravendas` são tabelas-filhas de `movimentacoes`, cada uma com FK `movimentacao_id` e atributos específicos do tipo. Evita colunas nullable e mantém integridade referencial.
+
 #### Nota Técnica - Estratégia de UUID para criação e atualização offline
 
-**Contexto:** Como evidenciado nas User Stories US03, US08 e US09, o sistema prevê criação e atualização de registros em ambiente sem conexão, com sincronização posterior via API. Assim, existe a possibilidade de ocorrerem conflitos de IDs se cada dispositivo depender de identificadores sequenciais emitidos pelo servidor. Para evitar conflito de PKs ao sincronizar com o ambiente central, adota-se UUID versão 7 como identificador primário das entidades criadas localmente [8].
+**Contexto:** Como evidenciado nas User Stories US03, US08 e US09, o sistema prevê criação e atualização de registros em ambiente sem conexão, com sincronização posterior ao banco central. Assim, existe a possibilidade de ocorrerem conflitos de IDs. Isso porque um dispositivo que não está online pode acabar gerando um mesmo ID que outro dispositivo. Dessa forma, na hora da sincronização haveria uma colisão, e para evitar conflito de PKs (IDs) ao sincronizar com o banco central, adota-se UUID versão 7 como identificador primário de todas as entidades criadas [8].
 
 **Justificativa:** IDs sequenciais dependem de coordenação com o servidor, já UUIDs são usados para nomear informações de forma única em sistemas sem precisar de uma autoridade central. São essenciais em sistemas distribuídos e sua probabilidade de duplicidade é quase zero, eliminando conflito na sincronização.
 Assim, utilizaremos a versão 7 do UUID por uma questão de ordenação cronológica e melhor performance de índices no banco.
 
 **Implementação:**
 
-- PKs geradas como UUID v7 em todas as tabelas sujeitas a criação ou atualização offline;
-- UUID gerado no dispositivo no momento da criação do registro;
-- UUID armazenado como `TEXT` no SQLite local;
-- sincronização pela API central, com operação equivalente a UPSERT no ambiente servidor;
-- arquivos de mídia sincronizados separadamente para storage, mantendo no banco apenas metadados e referência.
+- PKs do tipo UUID em todas as tabelas sujeitas a criação e atualização offline;
+- UUID gerado no momento da criação e atualização de registros criados nos dispositivos dos clientes;
+- UUID armazenado como tipo de dado nativo no PostgreSQL;
+- Sincronização via UPSERT (INSERT ... ON CONFLICT DO UPDATE)
 
-UPSERT é uma operação que combina UPdate (atualizar) e inSERT (inserir). Ele insere uma nova linha se ela não existir ou atualiza um registro existente se já houver uma correspondência. Assim, evitando erros de duplicidade e facilitando a sincronização de dados.
+As tabelas que receberão UUID v7 como chave primária são: `usuario`, `retiro`, `tarefa`, `evidencia`, `alerta`, `movimentacao`, `nascimento`, `obito`, `transferencia` e `compravenda`. Todas essas entidades podem ser criadas ou editadas em campo sem conexão.
+
+UPSERT é uma operação que combina UPDATE (atualizar) e INSERT (inserir). Ele insere uma nova linha se ela não existir ou atualiza um registro existente se já houver uma correspondência. Para resolver conflitos de atualização, caso dois dispositivos offline editem o mesmo registro, todas as tabelas mantêm um campo `updated_at` (timestamp com fuso horário). Na sincronização, prevalece a versão com o `updated_at` mais recente, garantindo que a edição mais nova vença sem rejeitar o registro.
 
 **Alternativas consideradas:**
 
@@ -2134,26 +2053,78 @@ UPSERT é uma operação que combina UPdate (atualizar) e inSERT (inserir). Ele 
 
 ### 3.6.4. Consultas SQL e lógica proposicional (sprint 2)
 
-_posicione aqui uma lista de consultas SQL compostas, realizadas pelo back-end da aplicação web, com sua respectiva lógica proposicional, descrita conforme template abaixo. Lembre-se que para usar LaTeX em markdown, basta você colocar as expressões entre $ ou $$_
+### 3.6.4. Consultas SQL e lógica proposicional (sprint 2)
 
-_Template de SQL + lógica proposicional_
+As consultas abaixo representam os fluxos priorizados do sistema BRPec, conforme as User Stories da seção 2.3 e o modelo físico da seção 3.6.3. Cada consulta é acompanhada de suas proposições lógicas, expressão proposicional e tabela verdade.
+
+---
 
 <center>
   <p><strong>Tabela 8</strong> — Expressões SQL e Lógica Proposicional</p>
 </center>
 
-| #1                                 | ---                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Expressão SQL**                  | SELECT \* FROM suppliers WHERE (state = 'California' AND supplier_id <> 900) OR (supplier_id = 100);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| **Proposições lógicas**            | $A$: O estado é 'California' (state = 'California') <br> $B$: O ID do fornecedor não é 900 (supplier_id ≠ 900) <br> $C$: O ID do fornecedor é 100 (supplier_id = 100)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| **Expressão lógica proposicional** | $(A \land B) \lor C$                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| **Tabela Verdade**                 | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$(A \land B)$</th> <th>$(A \land B) \lor C$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>F</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table> |
+| #1 | Fluxo: Lista de tarefas offline do capataz (US02 / RF002) |
+|---|---|
+| **Expressão SQL** | `SELECT id, titulo, descricao, status, data_execucao FROM tarefas WHERE capataz_id = $1 AND data_execucao = CURRENT_DATE AND (status = 'pendente' OR status = 'em_andamento');` |
+| **Proposições lógicas** | $A$: A tarefa pertence ao capataz autenticado (`capataz_id = $1`) <br> $B$: A tarefa está agendada para hoje (`data_execucao = CURRENT_DATE`) <br> $C$: O status é "pendente" (`status = 'pendente'`) <br> $D$: O status é "em andamento" (`status = 'em_andamento'`) |
+| **Expressão lógica proposicional** | $A \land B \land (C \lor D)$ |
+| **Tabela Verdade** | <table><thead><tr><th>$A$</th><th>$B$</th><th>$C$</th><th>$D$</th><th>$(C \lor D)$</th><th>$A \land B \land (C \lor D)$</th></tr></thead><tbody><tr><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td></tr><tr><td>F</td><td>F</td><td>F</td><td>V</td><td>V</td><td>F</td></tr><tr><td>F</td><td>F</td><td>V</td><td>F</td><td>V</td><td>F</td></tr><tr><td>F</td><td>V</td><td>F</td><td>F</td><td>F</td><td>F</td></tr><tr><td>F</td><td>V</td><td>V</td><td>V</td><td>V</td><td>F</td></tr><tr><td>V</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td></tr><tr><td>V</td><td>F</td><td>V</td><td>V</td><td>V</td><td>F</td></tr><tr><td>V</td><td>V</td><td>F</td><td>F</td><td>F</td><td>F</td></tr><tr><td>V</td><td>V</td><td>F</td><td>V</td><td>V</td><td>V</td></tr><tr><td>V</td><td>V</td><td>V</td><td>F</td><td>V</td><td>V</td></tr><tr><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td></tr></tbody></table> |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-_Dica: edite a tabela verdade fora do markdown, para ter melhor controle_
+---
+
+| #2 | Fluxo: Conclusão de tarefa com evidência (US03 / RF003) |
+|---|---|
+| **Expressão SQL** | `UPDATE tarefas SET status = 'concluida', updated_at = NOW() WHERE id = $1 AND capataz_id = $2 AND status <> 'concluida';` |
+| **Proposições lógicas** | $A$: A tarefa corresponde ao ID informado (`id = $1`) <br> $B$: A tarefa pertence ao capataz autenticado (`capataz_id = $2`) <br> $C$: A tarefa ainda não está concluída (`status <> 'concluida'`) |
+| **Expressão lógica proposicional** | $A \land B \land C$ |
+| **Tabela Verdade** | <table><thead><tr><th>$A$</th><th>$B$</th><th>$C$</th><th>$A \land B$</th><th>$A \land B \land C$</th></tr></thead><tbody><tr><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td></tr><tr><td>F</td><td>F</td><td>V</td><td>F</td><td>F</td></tr><tr><td>F</td><td>V</td><td>F</td><td>F</td><td>F</td></tr><tr><td>F</td><td>V</td><td>V</td><td>F</td><td>F</td></tr><tr><td>V</td><td>F</td><td>F</td><td>F</td><td>F</td></tr><tr><td>V</td><td>F</td><td>V</td><td>F</td><td>F</td></tr><tr><td>V</td><td>V</td><td>F</td><td>V</td><td>F</td></tr><tr><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td></tr></tbody></table> |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+---
+
+| #3 | Fluxo: Alerta de infraestrutura em aberto (US06 / RF007) |
+|---|---|
+| **Expressão SQL** | `SELECT a.id, a.descricao, a.tipo, a.created_at, r.nome AS retiro, u.nome AS capataz FROM alertas a JOIN retiros r ON a.retiro_id = r.id JOIN usuarios u ON a.capataz_id = u.id WHERE a.gerente_id = $1 AND a.resolvido = false AND (a.tipo = 'infraestrutura' OR a.tipo = 'cerca' OR a.tipo = 'bebedouro') ORDER BY a.created_at DESC;` |
+| **Proposições lógicas** | $A$: O alerta pertence ao gerente autenticado (`gerente_id = $1`) <br> $B$: O alerta ainda não foi resolvido (`resolvido = false`) <br> $C$: O tipo é "infraestrutura" (`tipo = 'infraestrutura'`) <br> $D$: O tipo é "cerca" (`tipo = 'cerca'`) <br> $E$: O tipo é "bebedouro" (`tipo = 'bebedouro'`) |
+| **Expressão lógica proposicional** | $A \land B \land (C \lor D \lor E)$ |
+| **Tabela Verdade** | <table><thead><tr><th>$A$</th><th>$B$</th><th>$C$</th><th>$D$</th><th>$E$</th><th>$(C \lor D \lor E)$</th><th>$A \land B \land (C \lor D \lor E)$</th></tr></thead><tbody><tr><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td></tr><tr><td>F</td><td>V</td><td>V</td><td>F</td><td>F</td><td>V</td><td>F</td></tr><tr><td>V</td><td>F</td><td>V</td><td>F</td><td>F</td><td>V</td><td>F</td></tr><tr><td>V</td><td>V</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td></tr><tr><td>V</td><td>V</td><td>V</td><td>F</td><td>F</td><td>V</td><td>V</td></tr><tr><td>V</td><td>V</td><td>F</td><td>V</td><td>F</td><td>V</td><td>V</td></tr><tr><td>V</td><td>V</td><td>F</td><td>F</td><td>V</td><td>V</td><td>V</td></tr><tr><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td></tr></tbody></table> |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+---
+
+| #4 | Fluxo: Painel do gerente — tarefas por status e retiro (US07 / RF007) |
+|---|---|
+| **Expressão SQL** | `SELECT t.id, t.titulo, t.status, t.data_execucao, r.nome AS retiro, u.nome AS capataz FROM tarefas t JOIN retiros r ON t.retiro_id = r.id JOIN usuarios u ON t.capataz_id = u.id WHERE t.gerente_id = $1 AND (t.status = 'pendente' OR t.status = 'em_andamento') AND t.data_execucao >= CURRENT_DATE ORDER BY t.data_execucao ASC, r.nome ASC;` |
+| **Proposições lógicas** | $A$: A tarefa foi criada pelo gerente autenticado (`gerente_id = $1`) <br> $B$: O status é "pendente" (`status = 'pendente'`) <br> $C$: O status é "em andamento" (`status = 'em_andamento'`) <br> $D$: A data de execução é hoje ou futura (`data_execucao >= CURRENT_DATE`) |
+| **Expressão lógica proposicional** | $A \land (B \lor C) \land D$ |
+| **Tabela Verdade** | <table><thead><tr><th>$A$</th><th>$B$</th><th>$C$</th><th>$D$</th><th>$(B \lor C)$</th><th>$A \land (B \lor C) \land D$</th></tr></thead><tbody><tr><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td></tr><tr><td>F</td><td>V</td><td>F</td><td>V</td><td>V</td><td>F</td></tr><tr><td>V</td><td>F</td><td>F</td><td>V</td><td>F</td><td>F</td></tr><tr><td>V</td><td>V</td><td>F</td><td>F</td><td>V</td><td>F</td></tr><tr><td>V</td><td>V</td><td>F</td><td>V</td><td>V</td><td>V</td></tr><tr><td>V</td><td>F</td><td>V</td><td>V</td><td>V</td><td>V</td></tr><tr><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td></tr><tr><td>V</td><td>V</td><td>V</td><td>F</td><td>V</td><td>F</td></tr></tbody></table> |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+---
+
+| #5 | Fluxo: Registro de nascimento offline — inserção com flag de sincronização (US08 / RF008) |
+|---|---|
+| **Expressão SQL** | `INSERT INTO movimentacoes (id, tipo, data, categoria, quantidade, retiro_id, usuario_id, sincronizado, created_at) VALUES ($1, 'nascimento', $2, $3, $4, $5, $6, false, NOW()) ON CONFLICT (id) DO UPDATE SET sincronizado = false, updated_at = NOW() WHERE movimentacoes.sincronizado = false AND movimentacoes.usuario_id = EXCLUDED.usuario_id;` |
+| **Proposições lógicas** | $A$: O registro ainda não existe no banco (`id` não encontrado — INSERT) <br> $B$: O registro já existe mas ainda não foi sincronizado (`sincronizado = false`) <br> $C$: O registro pertence ao mesmo usuário que tenta sobrescrever (`usuario_id = EXCLUDED.usuario_id`) |
+| **Expressão lógica proposicional** | $A \lor (B \land C)$ |
+| **Tabela Verdade** | <table><thead><tr><th>$A$</th><th>$B$</th><th>$C$</th><th>$(B \land C)$</th><th>$A \lor (B \land C)$</th></tr></thead><tbody><tr><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td></tr><tr><td>F</td><td>F</td><td>V</td><td>F</td><td>F</td></tr><tr><td>F</td><td>V</td><td>F</td><td>F</td><td>F</td></tr><tr><td>F</td><td>V</td><td>V</td><td>V</td><td>V</td></tr><tr><td>V</td><td>F</td><td>F</td><td>F</td><td>V</td></tr><tr><td>V</td><td>F</td><td>V</td><td>F</td><td>V</td></tr><tr><td>V</td><td>V</td><td>F</td><td>F</td><td>V</td></tr><tr><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td></tr></tbody></table> |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ## 3.7. WebAPI e endpoints (sprints 3 e 4)
 
@@ -2320,6 +2291,8 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 [11] COOPER, Alan; REIMANN, Robert; CRONIN, David; NOESSEL, Christopher. About Face: The Essentials of Interaction Design. 4. ed. Indianapolis: Wiley, 2014.
 
 [12] COHN, Mike. User Stories Applied: For Agile Software Development. Boston: Addison-Wesley, 2004.
+
+[9] CHEN, Peter Pin-Shan. The entity-relationship model: toward a unified view of data. ACM Transactions on Database Systems, v. 1, n. 1, p. 9–36, 1976.
 
 # <a name="c9"></a>Anexos
 
