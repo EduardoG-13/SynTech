@@ -1732,6 +1732,20 @@ As consultas abaixo representam os fluxos priorizados do sistema BRPec, conforme
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
+---
+
+| #2 | Fluxo: Conclusão de tarefa com evidência (US03 / RF003) |
+|---|---|
+| **Expressão SQL** | `UPDATE tarefas SET status = 'concluida', updated_at = NOW() WHERE id = $1 AND capataz_id = $2 AND status <> 'concluida';` |
+| **Proposições lógicas** | $A$: A tarefa corresponde ao ID informado (`id = $1`) <br> $B$: A tarefa pertence ao capataz autenticado (`capataz_id = $2`) <br> $C$: A tarefa ainda não está concluída (`status <> 'concluida'`) |
+| **Expressão lógica proposicional** | $A \land B \land C$ |
+| **Tabela Verdade** | <table><thead><tr><th>$A$</th><th>$B$</th><th>$C$</th><th>$A \land B$</th><th>$A \land B \land C$</th></tr></thead><tbody><tr><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td></tr><tr><td>F</td><td>F</td><td>V</td><td>F</td><td>F</td></tr><tr><td>F</td><td>V</td><td>F</td><td>F</td><td>F</td></tr><tr><td>F</td><td>V</td><td>V</td><td>F</td><td>F</td></tr><tr><td>V</td><td>F</td><td>F</td><td>F</td><td>F</td></tr><tr><td>V</td><td>F</td><td>V</td><td>F</td><td>F</td></tr><tr><td>V</td><td>V</td><td>F</td><td>V</td><td>F</td></tr><tr><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td></tr></tbody></table> |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+
 ## 3.7. WebAPI e endpoints (sprints 3 e 4)
 
 _Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema._
