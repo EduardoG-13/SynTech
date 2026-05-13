@@ -705,7 +705,7 @@ No projeto BrPec, as User Stories foram elaboradas a partir das personas definid
 **Testável:** Possível validar criação e vínculo com retiro
 
 <center>
-  <p><strong>Quadro 2</strong> — User Story 02</p>
+  <p><strong> Quadro 2 </strong> — User Story 02</p>
 </center>
 
 | Campo                    | Descrição                                                                                                                                                  |
@@ -1241,7 +1241,7 @@ UC07 — Validar movimentações (RF007)
 | Pós-condições | As movimentações são confirmadas e consideradas válidas |
 
 <center>
-  <p><strong>Quadro 17</strong> — Caso de Uso UC07</p>
+  <p><strong> +Quadro 17</strong> — Caso de Uso UC07</p>
 </center>
 
 <center>
@@ -1561,7 +1561,7 @@ _posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelid
 
 ## 3.6. Modelagem do banco de dados (sprints 2 e 4)
 
-### 3.6.1. Modelo Entidade-Relacionamento (ER) (sprint 2)
+### 3.6.1. Modelo Entidade-Relacionamento (MER) (sprint 2)
 
 O modelo Entidade-Relacionamento (ER) conceitual representa as principais entidades do domínio da aplicação, seus atributos e relacionamentos existentes entre elas, utilizando a notação **Crow’s Foot** de forma consistente em toda a modelagem. O objetivo deste modelo é estruturar conceitualmente os dados necessários para suportar o gerenciamento operacional da BRPec Agropecuária, contemplando usuários, tarefas, evidências, alertas, retiros e movimentações do rebanho.
 
@@ -1589,6 +1589,7 @@ erDiagram
         Descricao Atributo
         Status Atributo
         DataExecucao Atributo
+        DataCriacao Atributo
     }
 
     EVIDENCIA {
@@ -1793,7 +1794,100 @@ CREATE INDEX IF NOT EXISTS idx_movimentacoes_tipo        ON movimentacoes(tipo);
 
 ### 3.6.2. Diagrama Entidade-Relacionamento (DER) (sprint 2)
 
-_Posicione aqui o DER com cardinalidades explícitas em ambos os lados de cada relação e identificação de PK/FK. O DER deve ser coerente com o diagrama de classes (3.2.3)._
+O Diagrama Entidade-Relacionamento (DER) é uma representação gráfica da estrutura de um banco de dados, baseada no Modelo Entidade-Relacionamento (MER) proposto por Peter Chen (1976). No diagrama, entidades (objetos do mundo real com existência independente) são representadas por retângulos. Seus atributos, por elipses, e os relacionamentos entre elas, por losangos. Essa notação auxilia desenvolvedores a visualizar e comunicar a arquitetura de dados de um sistema antes de sua implementação. [9]
+
+
+```mermaid
+erDiagram
+    RETIROS {
+        uuid id PK
+        varchar(100) nome
+        text localizacao
+    }
+    USUARIOS {
+        uuid id PK
+        varchar(150) nome
+        varchar(255) senha_hash
+        varchar(20) perfil
+        text area_responsavel
+        uuid retiro_id FK
+        timestamptz created_at
+    }
+    TAREFAS {
+        uuid id PK
+        varchar(200) titulo
+        text descricao
+        varchar(20) status
+        date data_execucao
+        uuid gerente_id FK
+        uuid capataz_id FK
+        uuid retiro_id FK
+        timestamptz created_at
+    }
+    EVIDENCIAS {
+        uuid id PK
+        varchar(10) tipo
+        bytea conteudo
+        uuid tarefa_id FK
+        timestamptz created_at
+    }
+    ALERTAS {
+        uuid id PK
+        text descricao
+        varchar(30) tipo
+        boolean resolvido
+        uuid capataz_id FK
+        uuid retiro_id FK
+        timestamptz created_at
+    }
+    MOVIMENTACOES {
+        uuid id PK
+        date data
+        varchar(20) categoria
+        integer quantidade
+        boolean sincronizado
+        uuid usuario_id FK
+        uuid retiro_id FK
+        timestamptz created_at
+    }
+    NASCIMENTOS {
+        uuid movimentacao_id PK
+        uuid mae_id
+        bytea foto
+    }
+    OBITOS {
+        uuid movimentacao_id PK
+        text causa
+        bytea foto
+    }
+    TRANSFERENCIAS {
+        uuid movimentacao_id PK
+        uuid retiro_origem_id FK
+        uuid retiro_destino_id FK
+    }
+    COMPRAVENDAS {
+        uuid movimentacao_id PK
+        varchar(10) tipo_operacao
+        numeric(12) valor
+    }
+
+    USUARIOS }o--|| RETIROS : "retiro_id"
+    TAREFAS }o--|| USUARIOS : "gerente_id"
+    TAREFAS }o--|| USUARIOS : "capataz_id"
+    TAREFAS }o--|| RETIROS : "retiro_id"
+    EVIDENCIAS }o--|| TAREFAS : "tarefa_id"
+    ALERTAS }o--|| USUARIOS : "capataz_id"
+    ALERTAS }o--|| RETIROS : "retiro_id"
+    MOVIMENTACOES }o--|| USUARIOS : "usuario_id"
+    MOVIMENTACOES }o--|| RETIROS : "retiro_id"
+    NASCIMENTOS ||--|| MOVIMENTACOES : "movimentacao_id"
+    OBITOS ||--|| MOVIMENTACOES : "movimentacao_id"
+    TRANSFERENCIAS ||--|| MOVIMENTACOES : "movimentacao_id"
+    TRANSFERENCIAS }o--|| RETIROS : "retiro_origem_id"
+    TRANSFERENCIAS }o--|| RETIROS : "retiro_destino_id"
+    COMPRAVENDAS ||--|| MOVIMENTACOES : "movimentacao_id"
+```
+
 
 ### 3.6.3. Modelo Relacional e Modelo Físico (sprints 2 e 4)
 
@@ -2197,6 +2291,8 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 [11] COOPER, Alan; REIMANN, Robert; CRONIN, David; NOESSEL, Christopher. About Face: The Essentials of Interaction Design. 4. ed. Indianapolis: Wiley, 2014.
 
 [12] COHN, Mike. User Stories Applied: For Agile Software Development. Boston: Addison-Wesley, 2004.
+
+[9] CHEN, Peter Pin-Shan. The entity-relationship model: toward a unified view of data. ACM Transactions on Database Systems, v. 1, n. 1, p. 9–36, 1976.
 
 # <a name="c9"></a>Anexos
 
