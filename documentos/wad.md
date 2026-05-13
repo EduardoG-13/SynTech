@@ -1290,30 +1290,30 @@ que encapsulam seu comportamento e os relacionamentos que as interligam. Conform
 definido pelo Object Management Group (OMG) na especificação UML 2.5.1, o diagrama
 de classes é o principal artefato de modelagem estrutural da linguagem, sendo empregado
 para visualizar, especificar, construir e documentar os elementos conceituais de um
-sistema de software [11]. A notação utilizada segue as convenções formais consolidadas
+sistema de software [13]. A notação utilizada segue as convenções formais consolidadas
 dessa especificação, diferenciando com precisão os tipos de relacionamento —
 **associação**, **agregação** (losango vazio), **composição** (losango cheio) e
 **herança** (triângulo vazio) —, com multiplicidade explicitada em todas as
-extremidades [11].
+extremidades [13].
 
 A modelagem segue também as diretrizes consolidadas por Booch, Rumbaugh e Jacobson
-em *The Unified Modeling Language User Guide* [12], obra de referência dos criadores
+em *The Unified Modeling Language User Guide* [14], obra de referência dos criadores
 originais da linguagem, que estabelece o diagrama de classes como o bloco fundamental
 de construção do UML, sendo todos os outros diagramas coleções de classes ou
 representações de relações entre elas. Complementarmente, as boas práticas de
-modelagem estrutural adotadas no projeto baseiam-se em Fowler [13], cuja obra *UML
+modelagem estrutural adotadas no projeto baseiam-se em Fowler [15], cuja obra *UML
 Distilled* orienta o uso do diagrama de classes como ferramenta de comunicação de
 design orientado a objetos, enfatizando clareza, coesão e rastreabilidade entre modelo
 e requisitos. A estrutura de classes abstratas e a organização das responsabilidades
 entre as entidades seguem ainda os princípios de modelagem de domínio descritos por
-Larman [14], que fundamentam a identificação de classes conceituais abstratas como
+Larman [16], que fundamentam a identificação de classes conceituais abstratas como
 mecanismo para restringir quais classes podem ter instâncias concretas, esclarecendo
 as regras do domínio do problema.
 
 A norma ISO/IEC 19505-2:2012, que publica formalmente a especificação UML como padrão
 internacional, define que o diagrama de classes deve prover uma definição formal dos
 conceitos de modelagem, seus atributos e seus relacionamentos, bem como as regras para
-combiná-los na construção de modelos parciais ou completos [15]. O modelo foi construído
+combiná-los na construção de modelos parciais ou completos [17]. O modelo foi construído
 a partir da análise cruzada dos Requisitos Funcionais (RF), das Regras de Negócio (RN)
 e dos Casos de Uso (UC) definidos nas seções anteriores, garantindo rastreabilidade
 entre as decisões de modelagem e os demais artefatos de engenharia de requisitos do
@@ -1497,7 +1497,7 @@ A decisão de modelar `Evidencia` e `EventoZootecnico` como classes abstratas de
 da necessidade de encapsular atributos e comportamentos comuns — como o vínculo com
 a tarefa ou com o retiro e o controle de sincronização offline —, evitando duplicação
 nas subclasses concretas (`Foto`, `Audio`, `TextoComplementar`, `RegistroNascimento`
-e `RegistroObito`). Segundo Larman [14], é útil identificar classes abstratas no modelo
+e `RegistroObito`). Segundo Larman [16], é útil identificar classes abstratas no modelo
 de domínio porque elas restringem quais classes podem ter instâncias concretas,
 esclarecendo as regras do domínio do problema: se toda instância de um conceito deve,
 obrigatoriamente, ser uma instância de uma de suas subclasses, então esse conceito é
@@ -1505,7 +1505,7 @@ abstrato por definição. A classe `Sincronizacao`, por sua vez, foi isolada com
 entidade independente para suportar o requisito não funcional de Confiabilidade
 (RNF — CONF), que determina 0% de perda de dados em falhas de conexão, sem
 sobrecarregar as demais classes com atributos de controle de rede — decisão alinhada
-ao princípio de responsabilidade única descrito por Fowler [13] como critério de
+ao princípio de responsabilidade única descrito por Fowler [15] como critério de
 coesão em modelos orientados a objetos.
 
 #### Atributos e Tipos das Classes do Domínio
@@ -1514,7 +1514,7 @@ A seguir, são detalhados os atributos, tipos de dado e métodos de cada classe
 modelada no diagrama, organizados por camada conceitual. Os tipos adotam a notação
 primitiva do domínio de aplicação, compatível com as tecnologias de persistência
 previstas na arquitetura (SQLite para armazenamento local e banco relacional central).
-Conforme orientam Booch, Rumbaugh e Jacobson [12], cada atributo de uma classe define
+Conforme orientam Booch, Rumbaugh e Jacobson [14], cada atributo de uma classe define
 o seu estado em um dado instante, enquanto os métodos definem o seu comportamento,
 devendo ambos ser especificados com o nível de detalhe adequado à fase de modelagem
 em que o diagrama é produzido.
@@ -2507,11 +2507,11 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 
 [14] BOOCH, Grady; RUMBAUGH, James; JACOBSON, Ivar. The Unified Modeling Language User Guide. 2. ed. Boston: Addison-Wesley Professional, 2005. 494 p. ISBN 978-0-321-26797-9.
 
-[13] FOWLER, Martin. UML Distilled: A Brief Guide to the Standard Object Modeling Language. 3. ed. Boston: Addison-Wesley Professional, 2004. 175 p. ISBN 978-0-321-19368-1.
+[15] FOWLER, Martin. UML Distilled: A Brief Guide to the Standard Object Modeling Language. 3. ed. Boston: Addison-Wesley Professional, 2004. 175 p. ISBN 978-0-321-19368-1.
 
-[14] LARMAN, Craig. Applying UML and Patterns: An Introduction to Object-Oriented Analysis and Design and Iterative Development. 3. ed. Upper Saddle River: Prentice Hall, 2004. 736 p. ISBN 978-0-131-48906-6.
+[16] LARMAN, Craig. Applying UML and Patterns: An Introduction to Object-Oriented Analysis and Design and Iterative Development. 3. ed. Upper Saddle River: Prentice Hall, 2004. 736 p. ISBN 978-0-131-48906-6.
 
-[15] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC 19505-2:2012: Information technology — Object Management Group Unified Modeling Language (OMG UML) — Part 2: Superstructure. Genebra: ISO, 2012. Disponível em: https://www.iso.org/standard/52854.html. Acesso em: mai. 2026.
+[17] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC 19505-2:2012: Information technology — Object Management Group Unified Modeling Language (OMG UML) — Part 2: Superstructure. Genebra: ISO, 2012. Disponível em: https://www.iso.org/standard/52854.html. Acesso em: mai. 2026.
 
 # <a name="c9"></a>Anexos
 
