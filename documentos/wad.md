@@ -2420,6 +2420,96 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+--- 
+
+| #6 | Fluxo: Registro de óbito offline com fila de sincronização (US09 / RF009) |
+|---|---|
+| **Expressão SQL** | `BEGIN; INSERT INTO movimentacoes (id, retiro_id, responsavel_id, tipo, categoria, data_movimentacao, observacoes, sync_status) VALUES ($1, $2, $3, 'obito', $4, $5, $6, 'pendente') ON CONFLICT(id) DO UPDATE SET categoria = excluded.categoria, data_movimentacao = excluded.data_movimentacao, observacoes = excluded.observacoes, sync_status = 'pendente', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE movimentacoes.sync_status != 'sincronizado' AND movimentacoes.responsavel_id = excluded.responsavel_id; INSERT INTO obitos (id, movimentacao_id, identificacao_animal, quantidade, causa, exige_evidencia_foto) VALUES ($7, $1, $8, $9, $10, 1) ON CONFLICT(id) DO UPDATE SET causa = excluded.causa, quantidade = excluded.quantidade, identificacao_animal = excluded.identificacao_animal WHERE obitos.movimentacao_id = excluded.movimentacao_id; INSERT INTO sync_queue (id, tabela, registro_id, operacao, payload_json) VALUES ($11, 'movimentacoes', $1, 'insert', $12); COMMIT;` |
+| **Proposições lógicas** | $A$: o registro de óbito ainda não existe no banco local <br> $B$: o registro existe, mas ainda não foi sincronizado (`sync_status != 'sincronizado'`) <br> $C$: o registro pertence ao mesmo responsável (`responsavel_id = excluded.responsavel_id`) <br> $D$: a causa da morte foi informada (`causa IS NOT NULL`) |
+| **Expressão lógica proposicional** | $(A \lor (B \land C)) \land D$ |
+
+| $A$ | $B$ | $C$ | $D$ | $(A \lor (B \land C)) \land D$ |
+|---|---|---|---|---|
+| F | F | F | F | F |
+| F | F | F | V | F |
+| F | F | V | V | F |
+| F | V | F | V | F |
+| F | V | V | F | F |
+| F | V | V | V | V |
+| V | F | F | F | F |
+| V | F | F | V | V |
+| V | F | V | V | V |
+| V | V | F | V | V |
+| V | V | V | F | F |
+| V | V | V | V | V |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+
+| **Proposições lógicas** | $A$: o registro de óbito ainda não existe no banco local <br> $B$: o registro existe, mas ainda não foi sincronizado (`sync_status != 'sincronizado'`) <br> $C$: o registro pertence ao mesmo responsável (`responsavel_id = excluded.responsavel_id`) <br> $D$: a causa da morte foi informada (`causa IS NOT NULL`) |
+| **Expressão lógica proposicional** | $(A \lor (B \land C)) \land D$ |
+
+| $A$ | $B$ | $C$ | $D$ | $(A \lor (B \land C)) \land D$ |
+|---|---|---|---|---|
+| F | F | F | F | F |
+| F | F | F | V | F |
+| F | F | V | V | F |
+| F | V | F | V | F |
+| F | V | V | F | F |
+| F | V | V | V | V |
+| V | F | F | F | F |
+| V | F | F | V | V |
+| V | F | V | V | V |
+| V | V | F | V | V |
+| V | V | V | F | F |
+| V | V | V | V | V |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+---
+| #7 | Fluxo: Busca de registros pendentes na fila de sincronização (RF010 / RF012) |
+|---|---|
+| **Expressão SQL** | `SELECT id, tabela, registro_id, operacao, payload_json, tentativas FROM sync_queue WHERE status = 'pendente' AND tentativas < 5 ORDER BY created_at ASC LIMIT 50;` |
+| **Proposições lógicas** | $A$: o registro está com status pendente de envio (`status = 'pendente'`) <br> $B$: o número de tentativas de envio é menor que 5 (`tentativas < 5`) |
+| **Expressão lógica proposicional** | $A \land B$ |
+
+| $A$ | $B$ | $A \land B$ |
+|---|---|---|
+| F | F | F |
+| F | V | F |
+| V | F | F |
+| V | V | V |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+---
+| #8 | Fluxo: Exportação de movimentações sincronizadas pelo coordenador (RF015) |
+|---|---|
+| **Expressão SQL** | `SELECT m.id, m.tipo, m.categoria, m.data_movimentacao, m.observacoes, r.nome AS retiro, u.nome AS responsavel, o.causa AS causa_obito, o.identificacao_animal, n.quantidade AS qtd_nascimento, t.retiro_origem_id, t.retiro_destino_id, cv.tipo_negocio, cv.valor_financeiro FROM movimentacoes m JOIN retiros r ON m.retiro_id = r.id JOIN usuarios u ON m.responsavel_id = u.id LEFT JOIN obitos o ON o.movimentacao_id = m.id LEFT JOIN nascimentos n ON n.movimentacao_id = m.id LEFT JOIN transferencias t ON t.movimentacao_id = m.id LEFT JOIN compravendas cv ON cv.movimentacao_id = m.id WHERE m.sync_status = 'sincronizado' AND m.retiro_id = $1 AND date(m.data_movimentacao) BETWEEN date($2) AND date($3) ORDER BY m.data_movimentacao ASC;` |
+| **Proposições lógicas** | $A$: a movimentação já foi sincronizada com o servidor (`sync_status = 'sincronizado'`) <br> $B$: a movimentação pertence ao retiro selecionado pelo coordenador (`retiro_id = $1`) <br> $C$: a data da movimentação está dentro do intervalo de exportação (`data_movimentacao BETWEEN $2 AND $3`) |
+| **Expressão lógica proposicional** | $A \land B \land C$ |
+
+| $A$ | $B$ | $C$ | $A \land B$ | $A \land B \land C$ |
+|---|---|---|---|---|
+| F | F | F | F | F |
+| F | F | V | F | F |
+| F | V | F | F | F |
+| F | V | V | F | F |
+| V | F | F | F | F |
+| V | F | V | F | F |
+| V | V | F | V | F |
+| V | V | V | V | V |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+---
 ## 3.7. WebAPI e endpoints (sprints 3 e 4)
 
 _Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema._
