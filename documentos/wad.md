@@ -1771,6 +1771,18 @@ As consultas abaixo representam os fluxos priorizados do sistema BRPec, conforme
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
+---
+
+| #5 | Fluxo: Registro de nascimento offline — inserção com flag de sincronização (US08 / RF008) |
+|---|---|
+| **Expressão SQL** | `INSERT INTO movimentacoes (id, tipo, data, categoria, quantidade, retiro_id, usuario_id, sincronizado, created_at) VALUES ($1, 'nascimento', $2, $3, $4, $5, $6, false, NOW()) ON CONFLICT (id) DO UPDATE SET sincronizado = false, updated_at = NOW() WHERE movimentacoes.sincronizado = false AND movimentacoes.usuario_id = EXCLUDED.usuario_id;` |
+| **Proposições lógicas** | $A$: O registro ainda não existe no banco (`id` não encontrado — INSERT) <br> $B$: O registro já existe mas ainda não foi sincronizado (`sincronizado = false`) <br> $C$: O registro pertence ao mesmo usuário que tenta sobrescrever (`usuario_id = EXCLUDED.usuario_id`) |
+| **Expressão lógica proposicional** | $A \lor (B \land C)$ |
+| **Tabela Verdade** | <table><thead><tr><th>$A$</th><th>$B$</th><th>$C$</th><th>$(B \land C)$</th><th>$A \lor (B \land C)$</th></tr></thead><tbody><tr><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td></tr><tr><td>F</td><td>F</td><td>V</td><td>F</td><td>F</td></tr><tr><td>F</td><td>V</td><td>F</td><td>F</td><td>F</td></tr><tr><td>F</td><td>V</td><td>V</td><td>V</td><td>V</td></tr><tr><td>V</td><td>F</td><td>F</td><td>F</td><td>V</td></tr><tr><td>V</td><td>F</td><td>V</td><td>F</td><td>V</td></tr><tr><td>V</td><td>V</td><td>F</td><td>F</td><td>V</td></tr><tr><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td></tr></tbody></table> |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ## 3.7. WebAPI e endpoints (sprints 3 e 4)
 
