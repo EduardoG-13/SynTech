@@ -1717,6 +1717,18 @@ _Posicione aqui as imagens do wireframe construído para sua solução e, opcion
 </center>
 
 <center>
+<p>Wireframe capataz - concluir tarefa (mobile)</p>
+ <img src="./assets/wireframeCapatazConcluirTarefaMobile.png" width="800"/>
+ <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+<center>
+<p>Wireframe capataz - concluir tarefa (tablet/desktop)</p>
+ <img src="./assets/wireframeCapatazConcluirTarefaTablet.png" width="800"/>
+ <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+<center>
   <p><strong>Figura 10</strong> — Wireframe da tela de anexar fotos pelo capataz</p>
   <img src="../assets/wireframeCapatazAnexarFotos.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
