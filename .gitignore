@@ -102,3 +102,31 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Backend - variaveis de ambiente
+src/backend/.env
+src/backend/.env.test
+src/backend/.env.local
+src/backend/.env.*.local
+
+# Backend - dependencias (garantia de que node_modules em qualquer nivel nao sobe)
+**/node_modules/
+
+# Backend - lock file (cada dev gera o seu ao rodar npm install)
+src/backend/package-lock.json
+
+# Supabase - arquivos locais gerados pelo CLI
+supabase/.branches
+supabase/.temp
+
+# Sistema operacional
+Thumbs.db
+.DS_Store
+Desktop.ini
+
+# IDEs e editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

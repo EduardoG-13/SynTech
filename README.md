@@ -48,7 +48,7 @@ Dentre os arquivos e pastas presentes na raiz do projeto, definem-se:
 
 - <b>README.md</b>: arquivo que serve como guia introdutório e explicação geral sobre o projeto e a aplicação (o mesmo arquivo que você está lendo agora).
 
-## 💻 Configuração para desenvolvimento e execução do código
+## Configuracao para desenvolvimento
 
 ### Pré-requisitos
 
@@ -71,48 +71,97 @@ cd g03
 npm install
 ```
 
-### Configuração do ambiente
-
-3. Crie o arquivo `.env` na raiz do projeto com as variáveis abaixo:
+3. Acesse o backend e instale suas dependencias:
 
 ```sh
-NEXT_PUBLIC_SUPABASE_URL=<sua-url-supabase>
-NEXT_PUBLIC_SUPABASE_ANON_KEY=<sua-chave-anonima-supabase>
+cd src/backend
+npm install
 ```
 
-> Para desenvolvimento local, inicie o Supabase local (passo 4) e use as credenciais geradas automaticamente.
-
-### Executando localmente
-
-4. Inicie o Supabase local (requer Docker):
+4. Crie o arquivo `.env` a partir do modelo:
 
 ```sh
-npx supabase start
+cp .env.example .env
 ```
 
-5. Suba as Edge Functions localmente: 
+5. Preencha o `.env` com os dados do seu projeto Supabase. A connection string esta disponivel em Supabase Dashboard > Settings > Database > Connection string > URI.
 
-```sh
-npx supabase functions serve
+```env
+PORT=3000
+DATABASE_URL=postgresql://postgres:[SUA-SENHA]@db.[SEU-PROJETO].supabase.co:5432/postgres
+NODE_ENV=development
 ```
 
-6. Verifique o endpoint de saúde:
+### Execucao
+
+A partir da pasta `src/backend`, inicie o servidor em modo desenvolvimento:
 
 ```sh
-curl http://localhost:54321/functions/v1/health
+npm run dev
+```
+
+O terminal deve exibir:
+
+```
+Servidor rodando em http://localhost:3000
+Health-check: http://localhost:3000/health
+```
+
+### Verificacao
+
+Acesse `http://localhost:3000/health` no navegador ou execute no terminal:
+
+```sh
+curl http://localhost:3000/health
 ```
 
 Resposta esperada:
 
 ```json
-{ "status": "OK" }
+{
+  "status": "ok",
+  "timestamp": "2026-05-07T18:00:00.000Z",
+  "uptime": 1.234,
+  "database": "conectado"
+}
+
 ```
 
-### Deploy das Edge Functions
+Se o campo `database` retornar `"erro: ..."`, verifique se a `DATABASE_URL` no `.env` esta correta.
 
-```sh
-npx supabase functions deploy health
+### Estrutura do backend
+
+Arquitetura em camadas: Controller > Service > Repository > DB. Documentacao detalhada em [`src/ESTRUTURA_BACKEND.md`](src/ESTRUTURA_BACKEND.md).
+
 ```
+src/backend/
+├── server.js              # Entrypoint
+├── app.js                 # Configuracao do Express
+├── config/
+│   └── database.js        # Pool de conexao PostgreSQL
+├── controllers/           # Recebe requisicao, delega para o service
+├── services/              # Logica de negocio
+├── repositories/          # Acesso a dados (queries SQL)
+├── models/                # Definicoes de entidades
+├── routes/                # Registro de rotas
+├── middlewares/            # Error handler
+├── tests/                 # Testes
+├── .env.example           # Modelo de variaveis de ambiente
+└── package.json           # Dependencias e scripts
+```
+
+### Arquivos que nao devem ser commitados
+
+Os seguintes arquivos e pastas estao no `.gitignore` e nao devem ser versionados:
+
+| Arquivo/Pasta | Motivo |
+|---------------|--------|
+| `node_modules/` | Dependencias instaladas. Cada dev gera ao rodar `npm install` |
+| `.env` | Contem credenciais do banco de dados |
+| `package-lock.json` (backend) | Gerado automaticamente pelo npm |
+| `supabase/.branches`, `supabase/.temp` | Estado local do Supabase CLI |
+| `.vscode/`, `.idea/` | Configuracoes de IDE pessoais |
+| `.DS_Store`, `Thumbs.db` | Arquivos gerados pelo sistema operacional |
 
 ## 🗃 Histórico de lançamentos
 
