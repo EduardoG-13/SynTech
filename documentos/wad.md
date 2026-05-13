@@ -2259,6 +2259,23 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 </center>
 
 ---
+| #7 | Fluxo: Busca de registros pendentes na fila de sincronização (RF010 / RF012) |
+|---|---|
+| **Expressão SQL** | `SELECT id, tabela, registro_id, operacao, payload_json, tentativas FROM sync_queue WHERE status = 'pendente' AND tentativas < 5 ORDER BY created_at ASC LIMIT 50;` |
+| **Proposições lógicas** | $A$: o registro está com status pendente de envio (`status = 'pendente'`) <br> $B$: o número de tentativas de envio é menor que 5 (`tentativas < 5`) |
+| **Expressão lógica proposicional** | $A \land B$ |
+
+| $A$ | $B$ | $A \land B$ |
+|---|---|---|
+| F | F | F |
+| F | V | F |
+| V | F | F |
+| V | V | V |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+---
 ## 3.7. WebAPI e endpoints (sprints 3 e 4)
 
 _Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema._
