@@ -1669,152 +1669,97 @@ erDiagram
 
 ### 3.6.2. Diagrama Entidade-Relacionamento (DER) (sprint 2)
 
-O Diagrama Entidade-Relacionamento (DER) apresenta a visão lógica do banco de dados já com tabelas, chaves primárias, chaves estrangeiras e cardinalidades. Diferentemente do ER conceitual da seção 3.6.1, este diagrama explicita como as entidades do domínio serão persistidas e relacionadas no banco local da aplicação.
-
-<center>
-  <p><strong>Figura 10</strong> — Diagrama Entidade-Relacionamento lógico — BRPec Agropecuária</p>
-</center>
+O Diagrama Entidade-Relacionamento (DER) é uma representação gráfica da estrutura de um banco de dados, baseada no Modelo Entidade-Relacionamento (MER) proposto por Peter Chen (1976). No diagrama, entidades (objetos do mundo real com existência independente) são representadas por retângulos. Seus atributos, por elipses, e os relacionamentos entre elas, por losangos. Essa notação auxilia desenvolvedores a visualizar e comunicar a arquitetura de dados de um sistema antes de sua implementação. [9]
 
 ```mermaid
 erDiagram
-    retiros {
-        TEXT id PK
-        TEXT nome
-        TEXT localizacao
-        TEXT created_at
-        TEXT updated_at
+    RETIROS {
+        uuid id PK
+        varchar(100) nome
+        text localizacao
     }
-    usuarios {
-        TEXT id PK
-        TEXT retiro_id FK
-        TEXT nome
-        TEXT email
-        TEXT senha_hash
-        TEXT perfil
-        TEXT created_at
-        TEXT updated_at
+    USUARIOS {
+        uuid id PK
+        varchar(150) nome
+        varchar(255) senha_hash
+        varchar(20) perfil
+        text area_responsavel
+        uuid retiro_id FK
+        timestamptz created_at
     }
-    tarefas {
-        TEXT id PK
-        TEXT retiro_id FK
-        TEXT criado_por_id FK
-        TEXT responsavel_id FK
-        TEXT titulo
-        TEXT descricao
-        TEXT status
-        TEXT data_prevista
-        TEXT data_conclusao
-        TEXT sync_status
-        TEXT last_synced_at
-        TEXT created_at
-        TEXT updated_at
+    TAREFAS {
+        uuid id PK
+        varchar(200) titulo
+        text descricao
+        varchar(20) status
+        date data_execucao
+        uuid gerente_id FK
+        uuid capataz_id FK
+        uuid retiro_id FK
+        timestamptz created_at
     }
-    alertas {
-        TEXT id PK
-        TEXT retiro_id FK
-        TEXT criado_por_id FK
-        TEXT tecnico_id FK
-        TEXT tipo
-        TEXT titulo
-        TEXT descricao
-        TEXT status
-        REAL localizacao_lat
-        REAL localizacao_lng
-        TEXT data_resolucao
-        TEXT descricao_resolucao
-        TEXT sync_status
-        TEXT last_synced_at
-        TEXT created_at
-        TEXT updated_at
+    EVIDENCIAS {
+        uuid id PK
+        varchar(10) tipo
+        bytea conteudo
+        uuid tarefa_id FK
+        timestamptz created_at
     }
-    evidencias {
-        TEXT id PK
-        TEXT tarefa_id FK
-        TEXT alerta_id FK
-        TEXT movimentacao_id FK
-        TEXT tipo
-        TEXT arquivo_local_uri
-        TEXT storage_key
-        TEXT url
-        TEXT conteudo_texto
-        TEXT mime_type
-        INTEGER tamanho_bytes
-        TEXT sync_status
-        TEXT uploaded_at
-        TEXT created_at
+    ALERTAS {
+        uuid id PK
+        text descricao
+        varchar(30) tipo
+        boolean resolvido
+        uuid capataz_id FK
+        uuid retiro_id FK
+        timestamptz created_at
     }
-    movimentacoes {
-        TEXT id PK
-        TEXT retiro_id FK
-        TEXT responsavel_id FK
-        TEXT tipo
-        TEXT categoria
-        TEXT data_movimentacao
-        TEXT observacoes
-        TEXT sync_status
-        TEXT last_synced_at
-        TEXT created_at
-        TEXT updated_at
+    MOVIMENTACOES {
+        uuid id PK
+        date data
+        varchar(20) categoria
+        integer quantidade
+        boolean sincronizado
+        uuid usuario_id FK
+        uuid retiro_id FK
+        timestamptz created_at
     }
-    nascimentos {
-        TEXT id PK
-        TEXT movimentacao_id FK
-        INTEGER quantidade
-        TEXT raca
+    NASCIMENTOS {
+        uuid movimentacao_id PK
+        uuid mae_id
+        bytea foto
     }
-    obitos {
-        TEXT id PK
-        TEXT movimentacao_id FK
-        TEXT identificacao_animal
-        INTEGER quantidade
-        TEXT causa
-        INTEGER exige_evidencia_foto
+    OBITOS {
+        uuid movimentacao_id PK
+        text causa
+        bytea foto
     }
-    transferencias {
-        TEXT id PK
-        TEXT movimentacao_id FK
-        TEXT retiro_origem_id FK
-        TEXT retiro_destino_id FK
-        INTEGER quantidade
+    TRANSFERENCIAS {
+        uuid movimentacao_id PK
+        uuid retiro_origem_id FK
+        uuid retiro_destino_id FK
     }
-    compravendas {
-        TEXT id PK
-        TEXT movimentacao_id FK
-        TEXT tipo_negocio
-        REAL valor_financeiro
-        INTEGER quantidade
-    }
-    sync_queue {
-        TEXT id PK
-        TEXT tabela
-        TEXT registro_id
-        TEXT operacao
-        TEXT payload_json
-        TEXT status
-        INTEGER tentativas
-        TEXT ultimo_erro
-        TEXT created_at
-        TEXT updated_at
+    COMPRAVENDAS {
+        uuid movimentacao_id PK
+        varchar(10) tipo_operacao
+        numeric(12) valor
     }
 
-    retiros ||--o{ usuarios : "aloca"
-    retiros ||--o{ tarefas : "sedia"
-    retiros ||--o{ alertas : "recebe"
-    retiros ||--o{ movimentacoes : "origina"
-    usuarios ||--o{ tarefas : "cria"
-    usuarios ||--o{ tarefas : "responsavel"
-    usuarios ||--o{ alertas : "cria"
-    usuarios ||--o{ alertas : "atende"
-    usuarios ||--o{ movimentacoes : "efetua"
-    tarefas ||--o{ evidencias : "comprova"
-    alertas ||--o{ evidencias : "documenta"
-    movimentacoes ||--o{ evidencias : "documenta"
-    movimentacoes ||--o| nascimentos : "detalha"
-    movimentacoes ||--o| obitos : "detalha"
-    movimentacoes ||--o| transferencias : "detalha"
-    movimentacoes ||--o| compravendas : "detalha"
-    retiros ||--o{ transferencias : "origem"
-    retiros ||--o{ transferencias : "destino"
+    USUARIOS }o--|| RETIROS : "retiro_id"
+    TAREFAS }o--|| USUARIOS : "gerente_id"
+    TAREFAS }o--|| USUARIOS : "capataz_id"
+    TAREFAS }o--|| RETIROS : "retiro_id"
+    EVIDENCIAS }o--|| TAREFAS : "tarefa_id"
+    ALERTAS }o--|| USUARIOS : "capataz_id"
+    ALERTAS }o--|| RETIROS : "retiro_id"
+    MOVIMENTACOES }o--|| USUARIOS : "usuario_id"
+    MOVIMENTACOES }o--|| RETIROS : "retiro_id"
+    NASCIMENTOS ||--|| MOVIMENTACOES : "movimentacao_id"
+    OBITOS ||--|| MOVIMENTACOES : "movimentacao_id"
+    TRANSFERENCIAS ||--|| MOVIMENTACOES : "movimentacao_id"
+    TRANSFERENCIAS }o--|| RETIROS : "retiro_origem_id"
+    TRANSFERENCIAS }o--|| RETIROS : "retiro_destino_id"
+    COMPRAVENDAS ||--|| MOVIMENTACOES : "movimentacao_id"
 ```
 
 <center>
