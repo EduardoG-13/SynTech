@@ -1711,26 +1711,26 @@ UPSERT é uma operação que combina UPdate (atualizar) e inSERT (inserir). Ele 
 
 ### 3.6.4. Consultas SQL e lógica proposicional (sprint 2)
 
-_posicione aqui uma lista de consultas SQL compostas, realizadas pelo back-end da aplicação web, com sua respectiva lógica proposicional, descrita conforme template abaixo. Lembre-se que para usar LaTeX em markdown, basta você colocar as expressões entre $ ou $$_
+### 3.6.4. Consultas SQL e lógica proposicional (sprint 2)
 
-_Template de SQL + lógica proposicional_
+As consultas abaixo representam os fluxos priorizados do sistema BRPec, conforme as User Stories da seção 2.3 e o modelo físico da seção 3.6.3. Cada consulta é acompanhada de suas proposições lógicas, expressão proposicional e tabela verdade.
+
+---
 
 <center>
   <p><strong>Tabela 8</strong> — Expressões SQL e Lógica Proposicional</p>
 </center>
 
-| #1                                 | ---                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Expressão SQL**                  | SELECT \* FROM suppliers WHERE (state = 'California' AND supplier_id <> 900) OR (supplier_id = 100);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| **Proposições lógicas**            | $A$: O estado é 'California' (state = 'California') <br> $B$: O ID do fornecedor não é 900 (supplier_id ≠ 900) <br> $C$: O ID do fornecedor é 100 (supplier_id = 100)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| **Expressão lógica proposicional** | $(A \land B) \lor C$                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| **Tabela Verdade**                 | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$(A \land B)$</th> <th>$(A \land B) \lor C$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>F</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table> |
+| #1 | Fluxo: Lista de tarefas offline do capataz (US02 / RF002) |
+|---|---|
+| **Expressão SQL** | `SELECT id, titulo, descricao, status, data_execucao FROM tarefas WHERE capataz_id = $1 AND data_execucao = CURRENT_DATE AND (status = 'pendente' OR status = 'em_andamento');` |
+| **Proposições lógicas** | $A$: A tarefa pertence ao capataz autenticado (`capataz_id = $1`) <br> $B$: A tarefa está agendada para hoje (`data_execucao = CURRENT_DATE`) <br> $C$: O status é "pendente" (`status = 'pendente'`) <br> $D$: O status é "em andamento" (`status = 'em_andamento'`) |
+| **Expressão lógica proposicional** | $A \land B \land (C \lor D)$ |
+| **Tabela Verdade** | <table><thead><tr><th>$A$</th><th>$B$</th><th>$C$</th><th>$D$</th><th>$(C \lor D)$</th><th>$A \land B \land (C \lor D)$</th></tr></thead><tbody><tr><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td></tr><tr><td>F</td><td>F</td><td>F</td><td>V</td><td>V</td><td>F</td></tr><tr><td>F</td><td>F</td><td>V</td><td>F</td><td>V</td><td>F</td></tr><tr><td>F</td><td>V</td><td>F</td><td>F</td><td>F</td><td>F</td></tr><tr><td>F</td><td>V</td><td>V</td><td>V</td><td>V</td><td>F</td></tr><tr><td>V</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td></tr><tr><td>V</td><td>F</td><td>V</td><td>V</td><td>V</td><td>F</td></tr><tr><td>V</td><td>V</td><td>F</td><td>F</td><td>F</td><td>F</td></tr><tr><td>V</td><td>V</td><td>F</td><td>V</td><td>V</td><td>V</td></tr><tr><td>V</td><td>V</td><td>V</td><td>F</td><td>V</td><td>V</td></tr><tr><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td></tr></tbody></table> |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
-
-_Dica: edite a tabela verdade fora do markdown, para ter melhor controle_
 
 ## 3.7. WebAPI e endpoints (sprints 3 e 4)
 
