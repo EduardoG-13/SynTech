@@ -1758,6 +1758,20 @@ As consultas abaixo representam os fluxos priorizados do sistema BRPec, conforme
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
+---
+
+| #4 | Fluxo: Painel do gerente — tarefas por status e retiro (US07 / RF007) |
+|---|---|
+| **Expressão SQL** | `SELECT t.id, t.titulo, t.status, t.data_execucao, r.nome AS retiro, u.nome AS capataz FROM tarefas t JOIN retiros r ON t.retiro_id = r.id JOIN usuarios u ON t.capataz_id = u.id WHERE t.gerente_id = $1 AND (t.status = 'pendente' OR t.status = 'em_andamento') AND t.data_execucao >= CURRENT_DATE ORDER BY t.data_execucao ASC, r.nome ASC;` |
+| **Proposições lógicas** | $A$: A tarefa foi criada pelo gerente autenticado (`gerente_id = $1`) <br> $B$: O status é "pendente" (`status = 'pendente'`) <br> $C$: O status é "em andamento" (`status = 'em_andamento'`) <br> $D$: A data de execução é hoje ou futura (`data_execucao >= CURRENT_DATE`) |
+| **Expressão lógica proposicional** | $A \land (B \lor C) \land D$ |
+| **Tabela Verdade** | <table><thead><tr><th>$A$</th><th>$B$</th><th>$C$</th><th>$D$</th><th>$(B \lor C)$</th><th>$A \land (B \lor C) \land D$</th></tr></thead><tbody><tr><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td></tr><tr><td>F</td><td>V</td><td>F</td><td>V</td><td>V</td><td>F</td></tr><tr><td>V</td><td>F</td><td>F</td><td>V</td><td>F</td><td>F</td></tr><tr><td>V</td><td>V</td><td>F</td><td>F</td><td>V</td><td>F</td></tr><tr><td>V</td><td>V</td><td>F</td><td>V</td><td>V</td><td>V</td></tr><tr><td>V</td><td>F</td><td>V</td><td>V</td><td>V</td><td>V</td></tr><tr><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td></tr><tr><td>V</td><td>V</td><td>V</td><td>F</td><td>V</td><td>F</td></tr></tbody></table> |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+
 ## 3.7. WebAPI e endpoints (sprints 3 e 4)
 
 _Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema._
