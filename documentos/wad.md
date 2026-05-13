@@ -1282,150 +1282,354 @@ UC09 — Exportar relatórios (RF009)
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-### 3.2.3. Diagrama de Classes do Domínio (sprint 2)
+### 3.2.3. Diagrama de Classes do Dominio (sprint 2)
 
-_Diagrama UML de classes com entidades, atributos, relacionamentos e responsabilidades. Diferencie **associação**, **agregação** (losango vazio), **composição** (losango cheio) e **herança** (triângulo vazio). Multiplicidade explícita em toda associação._
+O Diagrama de Classes do Domínio representa, em notação UML, a estrutura estática
+do sistema BrPec: suas entidades principais, os atributos que as compõem, os métodos
+que encapsulam seu comportamento e os relacionamentos que as interligam. Conforme
+definido pelo Object Management Group (OMG) na especificação UML 2.5.1, o diagrama
+de classes é o principal artefato de modelagem estrutural da linguagem, sendo empregado
+para visualizar, especificar, construir e documentar os elementos conceituais de um
+sistema de software [13]. A notação utilizada segue as convenções formais consolidadas
+dessa especificação, diferenciando com precisão os tipos de relacionamento —
+**associação**, **agregação** (losango vazio), **composição** (losango cheio) e
+**herança** (triângulo vazio) —, com multiplicidade explicitada em todas as
+extremidades [13].
+
+A modelagem segue também as diretrizes consolidadas por Booch, Rumbaugh e Jacobson
+em *The Unified Modeling Language User Guide* [14], obra de referência dos criadores
+originais da linguagem, que estabelece o diagrama de classes como o bloco fundamental
+de construção do UML, sendo todos os outros diagramas coleções de classes ou
+representações de relações entre elas. Complementarmente, as boas práticas de
+modelagem estrutural adotadas no projeto baseiam-se em Fowler [15], cuja obra *UML
+Distilled* orienta o uso do diagrama de classes como ferramenta de comunicação de
+design orientado a objetos, enfatizando clareza, coesão e rastreabilidade entre modelo
+e requisitos. A estrutura de classes abstratas e a organização das responsabilidades
+entre as entidades seguem ainda os princípios de modelagem de domínio descritos por
+Larman [16], que fundamentam a identificação de classes conceituais abstratas como
+mecanismo para restringir quais classes podem ter instâncias concretas, esclarecendo
+as regras do domínio do problema.
+
+A norma ISO/IEC 19505-2:2012, que publica formalmente a especificação UML como padrão
+internacional, define que o diagrama de classes deve prover uma definição formal dos
+conceitos de modelagem, seus atributos e seus relacionamentos, bem como as regras para
+combiná-los na construção de modelos parciais ou completos [17]. O modelo foi construído
+a partir da análise cruzada dos Requisitos Funcionais (RF), das Regras de Negócio (RN)
+e dos Casos de Uso (UC) definidos nas seções anteriores, garantindo rastreabilidade
+entre as decisões de modelagem e os demais artefatos de engenharia de requisitos do
+projeto.
+
+<center>
+  <p><strong>Figura 9</strong> — Diagrama de Classes do Domínio do Sistema BrPec</p>
+  <img src="/documentos/assets/DiagramaClasses.jpeg" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+O diagrama é organizado em três camadas conceituais:
+
+- **Camada de Identidade e Acesso:** agrupa a hierarquia de usuários do sistema
+(`Usuario`, `Gerente`, `Coordenador` e `Capataz`), modelada por herança, refletindo
+os três perfis de acesso e as responsabilidades distintas de cada ator, conforme
+descritos na seção 3.1;
+- **Camada Operacional:** concentra as entidades centrais do fluxo de trabalho —
+`Retiro`, `Tarefa`, `Evidencia` e `AlertaInfraestrutura` —, que materializam o
+planejamento, a execução e o reporte das atividades de campo (US01 a US07);
+- **Camada Zootécnica e de Controle:** reúne os registros de eventos do rebanho —
+`EventoZootecnico`, `RegistroNascimento` e `RegistroObito` —, que suportam o controle
+pecuário offline (US08 a US10), além da entidade `Sincronizacao`, responsável pela
+gestão do ciclo de envio de dados ao servidor central, e `Exportacao`, que atende à
+demanda do Coordenador de geração de relatórios estruturados (RF015).
+
+A decisão de modelar `Evidencia` e `EventoZootecnico` como classes abstratas decorre
+da necessidade de encapsular atributos e comportamentos comuns — como o vínculo com
+a tarefa ou com o retiro e o controle de sincronização offline —, evitando duplicação
+nas subclasses concretas (`Foto`, `Audio`, `TextoComplementar`, `RegistroNascimento`
+e `RegistroObito`). Segundo Larman [16], é útil identificar classes abstratas no modelo
+de domínio porque elas restringem quais classes podem ter instâncias concretas,
+esclarecendo as regras do domínio do problema: se toda instância de um conceito deve,
+obrigatoriamente, ser uma instância de uma de suas subclasses, então esse conceito é
+abstrato por definição. A classe `Sincronizacao`, por sua vez, foi isolada como
+entidade independente para suportar o requisito não funcional de Confiabilidade
+(RNF — CONF), que determina 0% de perda de dados em falhas de conexão, sem
+sobrecarregar as demais classes com atributos de controle de rede — decisão alinhada
+ao princípio de responsabilidade única descrito por Fowler [15] como critério de
+coesão em modelos orientados a objetos.
 
 #### Atributos e Tipos das Classes do Domínio
 
----
-
-**Classe: Usuario** *(abstrata)*
-
-| Atributo | Tipo Conceitual | Obrigatoriedade |
-|---|---|---|
-| id | Identificador único | Obrigatório |
-| nome | Texto | Obrigatório |
-| perfil | Enumeração (gerente, capataz, coordenador) | Obrigatório |
-| retiro_id | Referência a Retiro | Obrigatório |
-| created_at | Data e hora | Obrigatório |
+A seguir, são detalhados os atributos, tipos de dado e métodos de cada classe
+modelada no diagrama, organizados por camada conceitual. Os tipos adotam a notação
+primitiva do domínio de aplicação, compatível com as tecnologias de persistência
+previstas na arquitetura (SQLite para armazenamento local e banco relacional central).
+Conforme orientam Booch, Rumbaugh e Jacobson [14], cada atributo de uma classe define
+o seu estado em um dado instante, enquanto os métodos definem o seu comportamento,
+devendo ambos ser especificados com o nível de detalhe adequado à fase de modelagem
+em que o diagrama é produzido.
 
 ---
 
-**Classe: Gerente** *(herda de Usuario)*
+**Camada de Identidade e Acesso**
 
-| Atributo | Tipo Conceitual | Obrigatoriedade |
-|---|---|---|
-| area_responsavel | Texto | Opcional |
+A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`, que centraliza os atributos de identificação e autenticação comuns a todos os perfis. As subclasses concretas herdam esses atributos e estendem o comportamento de acordo com as responsabilidades de cada ator, conforme modelado nos casos de uso UC01 a UC09.
 
----
+<center>
+  <p><strong>Tabela 8</strong> — Atributos da Classe <em>Usuario</em> (superclasse abstrata)</p>
+</center>
 
-**Classe: Capataz** *(herda de Usuario)*
+| Atributo   | Tipo     | Obrigatório | Descrição                                                  |
+| ---------- | -------- | ----------- | ---------------------------------------------------------- |
+| id         | UUID     | Sim         | Identificador único do usuário, gerado automaticamente     |
+| nome       | String   | Sim         | Nome completo do usuário                                   |
+| senha      | String   | Sim         | Credencial de acesso; para Capataz, senha simples definida pelo Gerente |
+| perfil     | Enum     | Sim         | Tipo do ator: `GERENTE`, `COORDENADOR` ou `CAPATAZ`        |
+| criadoEm  | DateTime | Sim         | Timestamp de criação do registro, gerado pelo sistema      |
 
-| Atributo | Tipo Conceitual | Obrigatoriedade |
-|---|---|---|
-| retiro_id | Referência a Retiro | Obrigatório |
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
----
+<center>
+  <p><strong>Tabela 9</strong> — Atributos e Métodos da Classe <em>Gerente</em></p>
+</center>
 
-**Classe: Coordenador** *(herda de Usuario)*
+| Elemento        | Tipo/Retorno | Descrição                                                            |
+| --------------- | ------------ | -------------------------------------------------------------------- |
+| *(herda de Usuario)* | —       | Todos os atributos da superclasse são herdados                       |
+| criarTarefa()   | Tarefa       | Instancia uma nova tarefa e a associa a um retiro e a um capataz     |
+| editarTarefa()  | Tarefa       | Atualiza os dados de uma tarefa existente                            |
+| deletarTarefa() | void         | Remove uma tarefa do sistema, desde que não esteja concluída         |
+| visualizarPainel() | void      | Acessa o painel consolidado de status de tarefas e alertas (RF007)   |
+| visualizarAlertas() | void     | Acessa os alertas de infraestrutura abertos pelos capatazes (RF006)  |
 
-| Atributo | Tipo Conceitual | Obrigatoriedade |
-|---|---|---|
-| (sem atributos adicionais além dos herdados) | — | — |
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
----
+<center>
+  <p><strong>Tabela 10</strong> — Atributos e Métodos da Classe <em>Coordenador</em></p>
+</center>
 
-**Classe: Retiro**
+| Elemento                  | Tipo/Retorno        | Descrição                                                                       |
+| ------------------------- | ------------------- | ------------------------------------------------------------------------------- |
+| *(herda de Usuario)*      | —                   | Todos os atributos da superclasse são herdados                                  |
+| visualizarMovimentacoes() | List\<EventoZootecnico\> | Recupera todos os eventos zootécnicos dos retiros sob sua responsabilidade |
+| validarMovimentacao()     | void                | Confirma a integridade de um evento zootécnico, alterando seu status para validado |
+| exportarRelatorio()       | Exportacao          | Gera e disponibiliza arquivo CSV/XLSX com os dados consolidados (RF015)         |
 
-| Atributo | Tipo Conceitual | Obrigatoriedade |
-|---|---|---|
-| id | Identificador único | Obrigatório |
-| nome | Texto | Obrigatório |
-| localizacao | Texto | Opcional |
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
----
+<center>
+  <p><strong>Tabela 11</strong> — Atributos e Métodos da Classe <em>Capataz</em></p>
+</center>
 
-**Classe: Tarefa**
+| Elemento                      | Tipo/Retorno              | Descrição                                                                 |
+| ----------------------------- | ------------------------- | ------------------------------------------------------------------------- |
+| *(herda de Usuario)*          | —                         | Todos os atributos da superclasse são herdados                            |
+| retiro_id                     | UUID                      | Chave estrangeira que vincula o Capataz a um único Retiro (RN01, RN05)    |
+| visualizarTarefas()           | List\<Tarefa\>            | Recupera as tarefas do dia do retiro ao qual o capataz pertence (RF002)   |
+| concluirTarefa()              | void                      | Atualiza o status de uma tarefa para `CONCLUIDA` e aciona o envio de evidências (RF003) |
+| abrirAlerta()                 | AlertaInfraestrutura      | Registra um novo alerta de infraestrutura com geolocalização (RF006)      |
+| registrarEventoZootecnico()   | EventoZootecnico          | Preenche e persiste localmente um evento de nascimento ou óbito (RF008, RF009) |
 
-| Atributo | Tipo Conceitual | Obrigatoriedade |
-|---|---|---|
-| id | Identificador único | Obrigatório |
-| titulo | Texto | Obrigatório |
-| descricao | Texto longo | Opcional |
-| status | Enumeração (pendente, em_andamento, concluida) | Obrigatório |
-| data_execucao | Data | Obrigatório |
-| gerente_id | Referência a Gerente | Obrigatório |
-| capataz_id | Referência a Capataz | Obrigatório |
-| retiro_id | Referência a Retiro | Obrigatório |
-| created_at | Data e hora | Obrigatório |
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
----
+**Camada Operacional**
 
-**Classe: Evidencia**
+Essa camada concentra as entidades que sustentam o fluxo principal de trabalho do sistema: o planejamento e a distribuição de tarefas pelo Gerente, a execução e o reporte pelo Capataz e a supervisão pelo Coordenador.
 
-| Atributo | Tipo Conceitual | Obrigatoriedade |
-|---|---|---|
-| id | Identificador único | Obrigatório |
-| tipo | Enumeração (foto, audio, texto) | Obrigatório |
-| conteudo | Binário / Texto | Obrigatório |
-| tarefa_id | Referência a Tarefa | Obrigatório |
-| created_at | Data e hora | Obrigatório |
+<center>
+  <p><strong>Tabela 12</strong> — Atributos da Classe <em>Retiro</em></p>
+</center>
 
----
+| Atributo         | Tipo     | Obrigatório | Descrição                                                         |
+| ---------------- | -------- | ----------- | ----------------------------------------------------------------- |
+| id               | UUID     | Sim         | Identificador único do retiro                                     |
+| nome             | String   | Sim         | Nome de identificação do retiro na fazenda                        |
+| localizacao      | String   | Sim         | Descrição geográfica ou referência da área do retiro              |
+| coordenador_id   | UUID     | Sim         | Chave estrangeira para o Coordenador responsável pelo retiro       |
+| criadoEm         | DateTime | Sim         | Timestamp de cadastro do retiro no sistema                        |
 
-**Classe: Alerta**
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
-| Atributo | Tipo Conceitual | Obrigatoriedade |
-|---|---|---|
-| id | Identificador único | Obrigatório |
-| descricao | Texto | Obrigatório |
-| tipo | Enumeração (cerca, bebedouro, infraestrutura, outro) | Obrigatório |
-| resolvido | Booleano | Obrigatório |
-| capataz_id | Referência a Capataz | Obrigatório |
-| retiro_id | Referência a Retiro | Obrigatório |
-| created_at | Data e hora | Obrigatório |
+<center>
+  <p><strong>Tabela 13</strong> — Atributos da Classe <em>Tarefa</em></p>
+</center>
 
----
+| Atributo       | Tipo     | Obrigatório | Descrição                                                                         |
+| -------------- | -------- | ----------- | --------------------------------------------------------------------------------- |
+| id             | UUID     | Sim         | Identificador único da tarefa                                                     |
+| titulo         | String   | Sim         | Título resumido da atividade a ser executada                                      |
+| descricao      | String   | Não         | Detalhamento das instruções para o capataz                                        |
+| status         | Enum     | Sim         | Estado atual da tarefa: `PENDENTE`, `EM_ANDAMENTO` ou `CONCLUIDA`                 |
+| dataExecucao   | Date     | Sim         | Data prevista para execução da tarefa (base para a regra RN02)                    |
+| retiro_id      | UUID     | Sim         | Chave estrangeira para o Retiro ao qual a tarefa está vinculada (RN01)            |
+| capataz_id     | UUID     | Sim         | Chave estrangeira para o Capataz responsável pela execução (RN01)                 |
+| gerente_id     | UUID     | Sim         | Chave estrangeira para o Gerente que criou a tarefa (RF001)                       |
+| criadaEm       | DateTime | Sim         | Timestamp de criação da tarefa, injetado automaticamente pelo sistema (RNF — SEG) |
+| concluidaEm    | DateTime | Não         | Timestamp de conclusão, preenchido quando o status é alterado para `CONCLUIDA`    |
+| sincronizada   | Boolean  | Sim         | Indica se o registro já foi transmitido ao servidor central (RF010)               |
 
-**Classe: Movimentacao** *(abstrata)*
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
-| Atributo | Tipo Conceitual | Obrigatoriedade |
-|---|---|---|
-| id | Identificador único | Obrigatório |
-| data | Data | Obrigatório |
-| categoria | Enumeração (bezerro, garrote, boi_touro, bezerra, novilha, vaca) | Obrigatório |
-| quantidade | Número inteiro positivo | Obrigatório |
-| sincronizado | Booleano | Obrigatório |
-| usuario_id | Referência a Usuario | Obrigatório |
-| retiro_id | Referência a Retiro | Obrigatório |
-| created_at | Data e hora | Obrigatório |
+A classe `Evidencia` é modelada como abstrata por reunir o comportamento comum às três formas de comprovação da execução de tarefas previstas no sistema — foto, áudio e texto —, sem que nenhuma instância de `Evidencia` pura faça sentido no domínio. Cada subclasse concreta especializa os atributos de acordo com o meio de registro.
 
----
+<center>
+  <p><strong>Tabela 14</strong> — Atributos da Classe Abstrata <em>Evidencia</em> e Subclasses</p>
+</center>
 
-**Classe: Nascimento** *(herda de Movimentacao)*
+| Classe              | Atributo          | Tipo    | Obrigatório | Descrição                                                          |
+| ------------------- | ----------------- | ------- | ----------- | ------------------------------------------------------------------ |
+| **Evidencia**       | id                | UUID    | Sim         | Identificador único da evidência                                   |
+| **Evidencia**       | tarefa_id         | UUID    | Sim         | Chave estrangeira para a Tarefa à qual a evidência está vinculada  |
+| **Evidencia**       | tipo              | Enum    | Sim         | Natureza da evidência: `FOTO`, `AUDIO` ou `TEXTO`                  |
+| **Evidencia**       | criadaEm          | DateTime| Sim         | Timestamp de criação, gerado automaticamente pelo sistema          |
+| **Evidencia**       | sincronizada      | Boolean | Sim         | Indica se o arquivo já foi transmitido ao servidor (RF010, RN11)   |
+| **Foto**            | urlArquivo        | String  | Sim         | Caminho ou URL do arquivo de imagem após sincronização             |
+| **Foto**            | tamanhoBytes      | Integer | Sim         | Tamanho do arquivo em bytes, para controle de capacidade           |
+| **Foto**            | geolocalizacao    | String  | Sim         | Coordenadas GPS capturadas no momento do registro (RN19, RN24)     |
+| **Audio**           | urlArquivo        | String  | Sim         | Caminho ou URL do arquivo de áudio após sincronização              |
+| **Audio**           | duracaoSegundos   | Integer | Sim         | Duração da gravação em segundos (RF005, RN14)                      |
+| **TextoComplementar** | conteudo        | String  | Sim         | Conteúdo textual inserido pelo capataz como complemento da tarefa  |
 
-| Atributo | Tipo Conceitual | Obrigatoriedade |
-|---|---|---|
-| mae_id | Referência a animal (identificador opcional) | Opcional |
-| foto | Binário | Opcional |
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
----
+<center>
+  <p><strong>Tabela 15</strong> — Atributos da Classe <em>AlertaInfraestrutura</em></p>
+</center>
 
-**Classe: Obito** *(herda de Movimentacao)*
+| Atributo      | Tipo     | Obrigatório | Descrição                                                                         |
+| ------------- | -------- | ----------- | --------------------------------------------------------------------------------- |
+| id            | UUID     | Sim         | Identificador único do alerta                                                     |
+| tipo          | Enum     | Sim         | Categoria do problema: `CERCA`, `BEBEDOURO`, `EQUIPAMENTO` ou `OUTRO` (RF006)     |
+| descricao     | String   | Não         | Detalhamento adicional fornecido pelo capataz                                     |
+| status        | Enum     | Sim         | Situação do chamado: `ABERTO`, `EM_ATENDIMENTO` ou `RESOLVIDO`                    |
+| capataz_id    | UUID     | Sim         | Chave estrangeira para o Capataz que originou o alerta                            |
+| retiro_id     | UUID     | Sim         | Chave estrangeira para o Retiro onde o problema foi identificado (RN26)           |
+| latitude      | Decimal  | Sim         | Coordenada geográfica capturada automaticamente pelo sistema (RN19, RN24)         |
+| longitude     | Decimal  | Sim         | Coordenada geográfica capturada automaticamente pelo sistema (RN19, RN24)         |
+| criadoEm      | DateTime | Sim         | Timestamp de criação do alerta, registrado automaticamente (RN25)                 |
+| sincronizado  | Boolean  | Sim         | Indica se o alerta já foi transmitido ao servidor (RN20, RN21)                    |
+| foto_id       | UUID     | Não         | Chave estrangeira opcional para uma Foto associada ao chamado                     |
 
-| Atributo | Tipo Conceitual | Obrigatoriedade |
-|---|---|---|
-| causa | Texto | Obrigatório |
-| foto | Binário | Obrigatório |
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
----
+**Camada Zootécnica e de Controle**
 
-**Classe: Transferencia** *(herda de Movimentacao)*
+Essa camada concentra os registros de eventos do rebanho e as entidades de suporte à operação offline e à geração de relatórios. A classe `EventoZootecnico` é modelada como abstrata pelo mesmo princípio aplicado a `Evidencia`: nascimentos e óbitos compartilham atributos estruturais comuns, mas possuem campos obrigatórios e regras de validação distintos, justificando a especialização em subclasses concretas.
 
-| Atributo | Tipo Conceitual | Obrigatoriedade |
-|---|---|---|
-| retiro_origem_id | Referência a Retiro | Obrigatório |
-| retiro_destino_id | Referência a Retiro | Obrigatório |
+<center>
+  <p><strong>Tabela 16</strong> — Atributos da Classe Abstrata <em>EventoZootecnico</em> e Subclasses</p>
+</center>
 
----
+| Classe                  | Atributo              | Tipo     | Obrigatório | Descrição                                                                              |
+| ----------------------- | --------------------- | -------- | ----------- | -------------------------------------------------------------------------------------- |
+| **EventoZootecnico**    | id                    | UUID     | Sim         | Identificador único do evento                                                          |
+| **EventoZootecnico**    | capataz_id            | UUID     | Sim         | Chave estrangeira para o Capataz que realizou o registro                               |
+| **EventoZootecnico**    | retiro_id             | UUID     | Sim         | Chave estrangeira para o Retiro de origem do evento                                    |
+| **EventoZootecnico**    | data                  | Date     | Sim         | Data de ocorrência do evento no campo                                                  |
+| **EventoZootecnico**    | categoria             | String   | Sim         | Categoria do animal envolvido (ex.: bezerro, vaca, touro)                              |
+| **EventoZootecnico**    | quantidade            | Integer  | Sim         | Quantidade de animais envolvidos no evento                                             |
+| **EventoZootecnico**    | sincronizado          | Boolean  | Sim         | Indica se o registro foi transmitido ao servidor central (RF010, RF012)                |
+| **EventoZootecnico**    | validado              | Boolean  | Sim         | Indica se o Coordenador confirmou a integridade do registro (RF014)                    |
+| **EventoZootecnico**    | coordenador_id        | UUID     | Não         | Chave estrangeira preenchida pelo sistema após validação pelo Coordenador              |
+| **EventoZootecnico**    | criadoEm              | DateTime | Sim         | Timestamp de criação local do registro, injetado automaticamente (RNF — SEG)          |
+| **RegistroNascimento**  | *(sem atributos adicionais)* | — | —          | Especialização de EventoZootecnico para nascimentos (US08, RF008)                     |
+| **RegistroObito**       | identificacaoAnimal   | String   | Sim         | Identificação individual do animal (brinco, marca ou descrição) (RF013)               |
+| **RegistroObito**       | causaMorte            | String   | Sim         | Causa declarada do óbito, campo obrigatório para validação sanitária (RF013)           |
+| **RegistroObito**       | foto_id               | UUID     | Sim         | Chave estrangeira para a Foto obrigatória da carcaça, exigida para auditoria (US09, CR2) |
 
-**Classe: CompraVenda** *(herda de Movimentacao)*
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
-| Atributo | Tipo Conceitual | Obrigatoriedade |
-|---|---|---|
-| tipo_operacao | Enumeração (compra, venda) | Obrigatório |
-| valor | Decimal | Opcional |
+<center>
+  <p><strong>Tabela 17</strong> — Atributos da Classe <em>Sincronizacao</em></p>
+</center>
+
+| Atributo        | Tipo     | Obrigatório | Descrição                                                                                         |
+| --------------- | -------- | ----------- | ------------------------------------------------------------------------------------------------- |
+| id              | UUID     | Sim         | Identificador único do registro de sincronização                                                  |
+| entidadeTipo    | String   | Sim         | Nome da classe da entidade gerenciada (ex.: `"Tarefa"`, `"RegistroObito"`)                        |
+| entidadeId      | UUID     | Sim         | Identificador da instância específica da entidade a ser sincronizada                              |
+| statusEnvio     | Enum     | Sim         | Estado da transmissão: `PENDENTE`, `ENVIADO` ou `FALHA`                                           |
+| tentativas      | Integer  | Sim         | Contador de tentativas de envio realizadas pelo sistema (RF012)                                   |
+| ultimaTentativa | DateTime | Não         | Timestamp da última tentativa de sincronização, atualizado a cada ciclo                           |
+| criadaEm        | DateTime | Sim         | Timestamp de criação do registro de controle, gerado no momento do salvamento local               |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+<center>
+  <p><strong>Tabela 18</strong> — Atributos da Classe <em>Exportacao</em></p>
+</center>
+
+| Atributo         | Tipo     | Obrigatório | Descrição                                                                              |
+| ---------------- | -------- | ----------- | -------------------------------------------------------------------------------------- |
+| id               | UUID     | Sim         | Identificador único do registro de exportação                                          |
+| coordenador_id   | UUID     | Sim         | Chave estrangeira para o Coordenador que solicitou a exportação                        |
+| formato          | Enum     | Sim         | Formato do arquivo gerado: `CSV` ou `XLSX` (RF015, RN28, RNF — ORG)                   |
+| filtroRetiro     | UUID     | Não         | Filtro opcional por retiro específico, aplicado na consulta dos dados                  |
+| filtroDataInicio | Date     | Não         | Limite inferior do intervalo de datas aplicado ao conjunto de dados exportado          |
+| filtroDataFim    | Date     | Não         | Limite superior do intervalo de datas aplicado ao conjunto de dados exportado          |
+| geradaEm         | DateTime | Sim         | Timestamp de geração do arquivo, registrado automaticamente pelo sistema               |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+#### Síntese dos Relacionamentos
+
+A Tabela 19 consolida todos os relacionamentos modelados no diagrama, com seus tipos UML formais e as multiplicidades em cada extremidade, garantindo a rastreabilidade com os requisitos e regras de negócio que os originaram.
+
+<center>
+  <p><strong>Tabela 19</strong> — Síntese dos Relacionamentos do Diagrama de Classes</p>
+</center>
+
+| Classe Origem        | Tipo UML              | Classe Destino       | Multiplicidade      | Rastreabilidade   |
+| -------------------- | --------------------- | -------------------- | ------------------- | ----------------- |
+| Usuario              | Herança (△)           | Gerente              | —                   | UC01, UC02        |
+| Usuario              | Herança (△)           | Coordenador          | —                   | UC07, UC08, UC09  |
+| Usuario              | Herança (△)           | Capataz              | —                   | UC03 a UC06       |
+| Evidencia            | Herança (△)           | Foto                 | —                   | RF004, US04       |
+| Evidencia            | Herança (△)           | Audio                | —                   | RF005, US05       |
+| Evidencia            | Herança (△)           | TextoComplementar    | —                   | RF005             |
+| EventoZootecnico     | Herança (△)           | RegistroNascimento   | —                   | RF008, US08       |
+| EventoZootecnico     | Herança (△)           | RegistroObito        | —                   | RF009, US09       |
+| Gerente              | Associação            | Tarefa               | 1 para N            | RF001, RN01       |
+| Capataz              | Associação            | Tarefa               | 1 para N            | RF002, RN05       |
+| Capataz              | Associação            | Retiro               | N para 1            | RN01, RN05        |
+| Tarefa               | Composição (◆)        | Evidencia            | 1 para 0..N         | RF004, RF005, RN10|
+| Tarefa               | Associação            | Retiro               | N para 1            | RF001, RN01       |
+| Retiro               | Associação            | Coordenador          | N para 1            | UC07              |
+| Capataz              | Associação            | AlertaInfraestrutura | 1 para N            | RF006, RN19       |
+| AlertaInfraestrutura | Associação            | Retiro               | N para 1            | RN26              |
+| AlertaInfraestrutura | Associação            | Foto                 | 1 para 0..1         | RF006             |
+| Capataz              | Associação            | EventoZootecnico     | 1 para N            | RF008, RF009      |
+| EventoZootecnico     | Associação            | Retiro               | N para 1            | RF008, RF009      |
+| Coordenador          | Associação            | EventoZootecnico     | 1 para N            | RF014, RN28       |
+| RegistroObito        | Associação            | Foto                 | 1 para 1            | US09, CR2, RF013  |
+| Coordenador          | Associação            | Exportacao           | 1 para N            | RF015, RN28       |
+| Sincronizacao        | Dependência (- - →)   | Tarefa               | 1 para 1            | RF010, RF012      |
+| Sincronizacao        | Dependência (- - →)   | Evidencia            | 1 para 1            | RF010, RF012      |
+| Sincronizacao        | Dependência (- - →)   | AlertaInfraestrutura | 1 para 1            | RN20, RN21        |
+| Sincronizacao        | Dependência (- - →)   | EventoZootecnico     | 1 para 1            | RF010, RF012      |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ### 3.2.4. Diagrama de Sequência UML (sprint 3)
 
@@ -2373,7 +2577,17 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 
 [12] COHN, Mike. User Stories Applied: For Agile Software Development. Boston: Addison-Wesley, 2004.
 
-[9] CHEN, Peter Pin-Shan. The entity-relationship model: toward a unified view of data. ACM Transactions on Database Systems, v. 1, n. 1, p. 9–36, 1976.
+[13] CHEN, Peter Pin-Shan. The entity-relationship model: toward a unified view of data. ACM Transactions on Database Systems, v. 1, n. 1, p. 9–36, 1976.
+
+[14] OBJECT MANAGEMENT GROUP. Unified Modeling Language Specification: Version 2.5.1. Needham, MA: OMG, 2017. Disponível em: https://www.omg.org/spec/UML/2.5.1. Acesso em: mai. 2026.
+
+[15] BOOCH, Grady; RUMBAUGH, James; JACOBSON, Ivar. The Unified Modeling Language User Guide. 2. ed. Boston: Addison-Wesley Professional, 2005. 494 p. ISBN 978-0-321-26797-9.
+
+[15] FOWLER, Martin. UML Distilled: A Brief Guide to the Standard Object Modeling Language. 3. ed. Boston: Addison-Wesley Professional, 2004. 175 p. ISBN 978-0-321-19368-1.
+
+[16] LARMAN, Craig. Applying UML and Patterns: An Introduction to Object-Oriented Analysis and Design and Iterative Development. 3. ed. Upper Saddle River: Prentice Hall, 2004. 736 p. ISBN 978-0-131-48906-6.
+
+[17] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC 19505-2:2012: Information technology — Object Management Group Unified Modeling Language (OMG UML) — Part 2: Superstructure. Genebra: ISO, 2012. Disponível em: https://www.iso.org/standard/52854.html. Acesso em: mai. 2026.
 
 # <a name="c9"></a>Anexos
 
