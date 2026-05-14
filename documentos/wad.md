@@ -1380,7 +1380,7 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
 | nome       | String   | Sim         | Nome completo do usuário                                   |
 | senha      | String   | Sim         | Credencial de acesso; para Capataz, senha simples definida pelo Gerente |
 | perfil     | Enum     | Sim         | Tipo do ator: `GERENTE`, `COORDENADOR` ou `CAPATAZ`        |
-| criadoEm  | DateTime | Sim         | Timestamp de criação do registro, gerado pelo sistema      |
+| criadoEm  | DateTime | Sim         | Timestamp de criação do registro, gerado pelo sistema       |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1448,7 +1448,7 @@ Essa camada concentra as entidades que sustentam o fluxo principal de trabalho d
 | id               | UUID     | Sim         | Identificador único do retiro                                     |
 | nome             | String   | Sim         | Nome de identificação do retiro na fazenda                        |
 | localizacao      | String   | Sim         | Descrição geográfica ou referência da área do retiro              |
-| coordenador_id   | UUID     | Sim         | Chave estrangeira para o Coordenador responsável pelo retiro       |
+| coordenador_id   | UUID     | Sim         | Chave estrangeira para o Coordenador responsável pelo retiro      |
 | criadoEm         | DateTime | Sim         | Timestamp de cadastro do retiro no sistema                        |
 
 <center>
@@ -1578,7 +1578,7 @@ Essa camada concentra os registros de eventos do rebanho e as entidades de supor
 | ---------------- | -------- | ----------- | -------------------------------------------------------------------------------------- |
 | id               | UUID     | Sim         | Identificador único do registro de exportação                                          |
 | coordenador_id   | UUID     | Sim         | Chave estrangeira para o Coordenador que solicitou a exportação                        |
-| formato          | Enum     | Sim         | Formato do arquivo gerado: `CSV` ou `XLSX` (RF015, RN28, RNF — ORG)                   |
+| formato          | Enum     | Sim         | Formato do arquivo gerado: `CSV` ou `XLSX` (RF015, RN28, RNF — ORG)                    |
 | filtroRetiro     | UUID     | Não         | Filtro opcional por retiro específico, aplicado na consulta dos dados                  |
 | filtroDataInicio | Date     | Não         | Limite inferior do intervalo de datas aplicado ao conjunto de dados exportado          |
 | filtroDataFim    | Date     | Não         | Limite superior do intervalo de datas aplicado ao conjunto de dados exportado          |
