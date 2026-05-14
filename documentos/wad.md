@@ -89,7 +89,7 @@ a transparência das operações e apoia a tomada de decisão dos gestores, alin
 
 As 5 forças de Porter são uma metodologia de análise estratégica criada por Michael Porter para avaliar a competitividade e o potencial de lucro de uma indústria. Assim, o objetivo é analisar as principais forças do ambiente externo de uma empresa, e como elas impactam na entrega de valor ao cliente e a rentabilidade do negócio.
 
-O Modelo das 5 Forças de Porter foi aplicado para analisar a estrutura competitiva do setor agropecuário no qual a BrPec Agropecuária está inserida (PORTER, 2008), setor marcado por dependência de commodities, capital intensivo, pressão regulatória ambiental crescente.
+O Modelo das 5 Forças de Porter foi aplicado para analisar a estrutura competitiva do setor agropecuário no qual a BrPec Agropecuária está inserida [20], setor marcado por dependência de commodities, capital intensivo, pressão regulatória ambiental crescente.
 
 **Rivalidade entre concorrentes:** A rivalidade é alta. O mercado bovino e de grãos compete por escala, eficiência e acesso a canais de comercialização, dada a limitada diferenciação em commodities. A BrPec disputa com grupos integrados como Bom Futuro (MT), Jacarezinho, ligada a Marcos Molina da Marfrig, e Rio Vermelho (PA), além de fundos de investimento em terras (COMPRERURAL, 2024). Num ambiente de preços de mercado, eficiência de custo e volume são o campo de batalha (PORTER, 2008).
 
@@ -127,7 +127,9 @@ Identifica-se que a conformidade ambiental em biomas sensíveis (como o Pantanal
 
 ### 2.1.2. Análise SWOT da Instituição Parceira (sprint 1)
 
-A análise SWOT a seguir avalia o posicionamento estratégico da BRPec considerando seu ambiente interno — forças operacionais e financeiras e fraquezas estruturais e regulatórias — e fatores externos: oportunidades de mercado e ameaças setoriais. O contexto de análise é o agronegócio brasileiro de pecuária e grãos, especificamente o segmento de produção integrada em larga escala no Pantanal mato-grossense, caracterizado por crescente pressão ESG sobre crédito e certificações, restrições regulatórias à expansão de novas áreas e acirrada competição fundiária com players institucionalizados.
+A análise SWOT é uma ferramenta de planejamento estratégico que avalia quatro dimensões de uma organização: forças (Strengths), fraquezas (Weaknesses), oportunidades (Opportunities) e ameaças (Threats). As duas primeiras referem-se ao ambiente interno da organização, enquanto as duas últimas dizem respeito a fatores externos [19].
+
+A seguir, essa ferramenta é aplicada ao posicionamento estratégico da BRPec no contexto do agronegócio brasileiro de pecuária e grãos, especificamente o segmento de produção integrada em larga escala no Pantanal mato-grossense, caracterizado por crescente pressão ESG sobre crédito e certificações, restrições regulatórias à expansão de novas áreas e acirrada competição fundiária com players institucionalizados.
 
 <center>
   <p><strong>Figura 2</strong> — Análise SWOT da BRPec Agropecuária</p>
@@ -212,16 +214,16 @@ O projeto será considerado bem-sucedido quando:
 A proposta de valor constitui uma declaração objetiva que sintetiza a essência da aplicação web desenvolvida, definindo as funcionalidades entregues, o público-alvo atendido e os benefícios operacionais gerados. Essa ferramenta atua como o eixo analítico do projeto, fundamentando as decisões de arquitetura de software e comunicando o diferencial competitivo da solução digital de modo estruturado. A análise do canvas evidencia que o sistema mitiga ineficiências operacionais concretas enfrentadas pelos capatazes em campo, tais como a dependência exclusiva de registros físicos, a inviabilidade de uso de sistemas convencionais em áreas desprovidas de cobertura de internet e a assincronicidade na comunicação com as instâncias gerenciais.
 
 <center>
-  <p><strong>Figura 3</strong> — Canvas Proposta de Valor aplicada à BrPec Agropecuária</p>
+  <p><strong>Figura 3</strong> - Canvas Proposta de Valor aplicada à BrPec Agropecuária</p>
   <img src="../assets/canvasPropostaDeValor.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-Os benefícios gerados pela adoção do sistema — incluindo a supressão do retrabalho de transcrição de dados, o registro otimizado de eventos zootécnicos em interface acessível e a confirmação documental de ordens de serviço com suporte a evidências fotográficas — estão em conformidade direta com os requisitos estabelecidos pela propriedade rural. Conclui-se, portanto, que a proposta de valor promovida não se restringe à mera digitalização de planilhas de controle, mas consolida a reestruturação integral do fluxo de dados operacionais, assegurando que o inventário pecuário e o status das infraestruturas se tornem mais precisos, rastreáveis e tempestivos para o suporte à tomada de decisão administrativa.
+Os benefícios gerados pela adoção do sistema - incluindo a supressão do retrabalho de transcrição de dados, o registro otimizado de eventos zootécnicos em interface acessível e a confirmação documental de ordens de serviço com suporte a evidências fotográficas - estão em conformidade direta com os requisitos estabelecidos pela propriedade rural. Conclui-se, portanto, que a proposta de valor promovida não se restringe à mera digitalização de planilhas de controle, mas consolida a reestruturação integral do fluxo de dados operacionais, assegurando que o inventário pecuário e o status das infraestruturas se tornem mais precisos, rastreáveis e tempestivos para o suporte à tomada de decisão administrativa.
 
 ### 2.1.5. Matriz de Riscos do Projeto (sprint 1)
 
-A matriz de riscos é uma ferramenta que permite identificar, analisar e priorizar ameaças e oportunidades de um projeto. A classificação é feita com base na probabilidade de ocorrência e no impacto, auxiliando na definição de ações para cada caso. Dessa forma, foi elaborada a matriz de riscos para o desenvolvimento da aplicação web da BrPec Agropecuária S.A, considerando seus principais desafios.
+A matriz de riscos é uma ferramenta que permite identificar, analisar e priorizar ameaças e oportunidades de um projeto. A classificação é feita com base na probabilidade de ocorrência e no impacto, auxiliando na definição de ações para cada caso [18]. Dessa forma, foi elaborada a matriz de riscos para o desenvolvimento da aplicação web da BrPec Agropecuária S.A, considerando seus principais desafios.
 
 Nesse contexto, a figura a seguir apresenta a matriz de riscos elaborada para o projeto, que usa como base os padrões da ISO 31000 e PMBOK [2], na qual são organizadas as principais ameaças e oportunidades identificadas, considerando seus respectivos níveis de impacto e probabilidade.
 
@@ -371,7 +373,7 @@ A matriz de riscos evidencia que os principais desafios do projeto estão relaci
 
 ## 2.2. Personas (sprint 1)
 
-Personas são, de forma resumida, representaçôes fictícia dos diferentes tipos de usuários. Elas permitem que a ferramenta seja mais eficiente e focada para atender as necessidades reais do cliente. Dessa forma, as Figuras 5, 6 e 7 mostram as personas criadas para o projeto.
+Personas são, de forma resumida, representaçôes fictícia dos diferentes tipos de usuários. Elas permitem que a ferramenta seja mais eficiente e focada para atender as necessidades reais do cliente [18]. Dessa forma, as Figuras 5, 6 e 7 mostram as personas criadas para o projeto.
 
 ### Persona 1: João Pereira
 
@@ -667,6 +669,8 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 "Quando o bicho adoece ou a cerca arrebenta, não tem tempo de procurar papel, tem que resolver na hora. O que não ficou na cabeça, ficou perdido."
 
 ## 2.3. User Stories (sprints 1 a 5)
+
+User Stories são descrições concisas de uma funcionalidade do sistema sob a perspectiva do usuário final. Diferente de requisitos técnicos tradicionais, elas focam no valor de negócio e na necessidade do usuário, servindo como ponto de partida para a implementação técnica. [12]
 
 <center>
   <p><strong>Quadro 1</strong> — User Story 01</p>
@@ -1285,14 +1289,14 @@ que encapsulam seu comportamento e os relacionamentos que as interligam. Conform
 definido pelo Object Management Group (OMG) na especificação UML 2.5.1, o diagrama
 de classes é o principal artefato de modelagem estrutural da linguagem, sendo empregado
 para visualizar, especificar, construir e documentar os elementos conceituais de um
-sistema de software [13]. A notação utilizada segue as convenções formais consolidadas
+sistema de software [14]. A notação utilizada segue as convenções formais consolidadas
 dessa especificação, diferenciando com precisão os tipos de relacionamento —
 **associação**, **agregação** (losango vazio), **composição** (losango cheio) e
 **herança** (triângulo vazio) —, com multiplicidade explicitada em todas as
-extremidades [13].
+extremidades.
 
 A modelagem segue também as diretrizes consolidadas por Booch, Rumbaugh e Jacobson
-em _The Unified Modeling Language User Guide_ [14], obra de referência dos criadores
+em *The Unified Modeling Language User Guide* [21], obra de referência dos criadores
 originais da linguagem, que estabelece o diagrama de classes como o bloco fundamental
 de construção do UML, sendo todos os outros diagramas coleções de classes ou
 representações de relações entre elas. Complementarmente, as boas práticas de
@@ -1783,76 +1787,79 @@ Nesta etapa conceitual, não são representados detalhes físicos de implementa�
   <p><strong>Figura 13</strong> — Modelo Entidade-Relacionamento Conceitual — BRPec Agropecuária</p>
 </center>
 
+### 3.6.1 Modelo Entidade-Relacionamento (ER) conceitual
+
+O modelo conceitual a seguir utiliza a notação de Chen para representar as entidades e relacionamentos do sistema Salli-AI. Esta modelagem foca exclusivamente nas regras de negócio da BrPec Agropecuária, omitindo detalhes técnicos de implementação, tipos de dados ou chaves primárias, conforme as diretrizes desta etapa.
+
 ```mermaid
-erDiagram
-    USUARIO {
-        Nome Atributo
-        Perfil Atributo
-        DataCriacao Atributo
-    }
+flowchart TD
+    %% Entidades
+    USUARIO[USUARIO]
+    RETIRO[RETIRO]
+    TAREFA[TAREFA]
+    ALERTA[ALERTA]
+    MOVIMENTACAO[MOVIMENTACAO]
+    EVIDENCIA[EVIDENCIA]
+    LOTE[LOTE]
+    
+    %% Especializações da Movimentação
+    NASCIMENTO[NASCIMENTO]
+    OBITO[OBITO]
+    TRANSFERENCIA[TRANSFERENCIA]
+    COMPRAVENDA[COMPRAVENDA]
 
-    RETIRO {
-        Nome Atributo
-        Localizacao Atributo
-    }
+    %% Atributos (Círculos/Pílulas)
+    attrU1([Perfil_Acesso]) --- USUARIO
+    attrU2([Nome]) --- USUARIO
+    
+    attrR1([Nome_Retiro]) --- RETIRO
+    attrR2([Localizacao_Curral]) --- RETIRO
+    
+    attrT1([Prioridade]) --- TAREFA
+    attrT2([Status_Validacao]) --- TAREFA
+    
+    attrE1([Georreferenciamento]) --- EVIDENCIA
+    attrE2([Arquivo_Foto]) --- EVIDENCIA
+    
+    attrM1([Data_Sincronizacao]) --- MOVIMENTACAO
+    attrM2([Status_Confirmacao]) --- MOVIMENTACAO
+    
+    attrL1([Identificacao_Lote]) --- LOTE
 
-    TAREFA {
-        Titulo Atributo
-        Descricao Atributo
-        Status Atributo
-        DataExecucao Atributo
-    }
+    %% Relacionamentos (Losangos)
+    R1{aloca}
+    R2{executa}
+    R3{emite}
+    R4{registra}
+    R5{sedia}
+    R6{origina}
+    R7{comprova}
+    R8{detalha}
+    R9{destino}
+    R10{contem}
 
-    EVIDENCIA {
-        Tipo Atributo
-        Arquivo Atributo
-        DataRegistro Atributo
-    }
+    %% Conexões do Fluxo Central
+    RETIRO --- R1 --- USUARIO
+    RETIRO --- R5 --- TAREFA
+    RETIRO --- R6 --- MOVIMENTACAO
+    
+    USUARIO --- R2 --- TAREFA
+    USUARIO --- R3 --- ALERTA
+    USUARIO --- R4 --- MOVIMENTACAO
 
-    ALERTA {
-        Descricao Atributo
-        Categoria Atributo
-        Resolvido Atributo
-    }
-
-    MOVIMENTACAO {
-        Data Atributo
-        Tipo Atributo
-        Quantidade Atributo
-        StatusSincronizacao Atributo
-    }
-
-    NASCIMENTO {
-        RegistroMae Atributo
-        FotoNascimento Atributo
-    }
-
-    OBITO {
-        CausaMorte Atributo
-        FotoComprovacao Atributo
-    }
-
-    TRANSFERENCIA {
-        VolumeTransf Atributo
-    }
-
-    COMPRAVENDA {
-        TipoNegocio Atributo
-        ValorFinanceiro Atributo
-    }
-
-    RETIRO ||--o{ USUARIO : "aloca"
-    USUARIO ||--o{ TAREFA : "gerencia"
-    USUARIO ||--o{ ALERTA : "gera"
-    USUARIO ||--o{ MOVIMENTACAO : "efetua"
-    RETIRO ||--o{ TAREFA : "sedia"
-    RETIRO ||--o{ MOVIMENTACAO : "origina"
-    TAREFA ||--o{ EVIDENCIA : "comprova"
-    MOVIMENTACAO ||--o| NASCIMENTO : "caracteriza"
-    MOVIMENTACAO ||--o| OBITO : "caracteriza"
-    MOVIMENTACAO ||--o| TRANSFERENCIA : "caracteriza"
-    MOVIMENTACAO ||--o| COMPRAVENDA : "caracteriza"
-    TRANSFERENCIA }o--|| RETIRO : "destino"
+    TAREFA --- R7 --- EVIDENCIA
+    
+    %% Relacionamento com Lote (Conforme Insight 4)
+    MOVIMENTACAO --- R10 --- LOTE
+    
+    %% Especializações
+    MOVIMENTACAO --- R8 --- NASCIMENTO
+    MOVIMENTACAO --- R8 --- OBITO
+    MOVIMENTACAO --- R8 --- TRANSFERENCIA
+    MOVIMENTACAO --- R8 --- COMPRAVENDA
+    
+    %% Ciclo de Origem e Destino (Insight 4)
+    TRANSFERENCIA --- R9 --- RETIRO
 ```
 
 ### Decisões de modelagem
@@ -2672,7 +2679,7 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 
 [10] LEACH, P. et al. RFC 9562: Universally Unique IDentifiers (UUID). Internet Engineering Task Force, 2024. Disponível em: https://www.rfc-editor.org/rfc/rfc9562. Acesso em: 07 mai. 2026.
 
-[11] COOPER, Alan; REIMANN, Robert; CRONIN, David; NOESSEL, Christopher. About Face: The Essentials of Interaction Design. 4. ed. Indianapolis: Wiley, 2014.
+[11] COOPER, Alan; REIMANN, Robert; CRONIN, David; NOESSEL, Christopher. About Face: The Essentials of Interaction Design. 4. ed. Indianapolis: John Wiley & Sons, 2014. ISBN 978-1-118-76657-6.
 
 [12] COHN, Mike. User Stories Applied: For Agile Software Development. Boston: Addison-Wesley, 2004.
 
@@ -2680,13 +2687,20 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 
 [14] OBJECT MANAGEMENT GROUP. Unified Modeling Language Specification: Version 2.5.1. Needham, MA: OMG, 2017. Disponível em: https://www.omg.org/spec/UML/2.5.1. Acesso em: mai. 2026.
 
-[15] BOOCH, Grady; RUMBAUGH, James; JACOBSON, Ivar. The Unified Modeling Language User Guide. 2. ed. Boston: Addison-Wesley Professional, 2005. 494 p. ISBN 978-0-321-26797-9.
-
 [15] FOWLER, Martin. UML Distilled: A Brief Guide to the Standard Object Modeling Language. 3. ed. Boston: Addison-Wesley Professional, 2004. 175 p. ISBN 978-0-321-19368-1.
 
 [16] LARMAN, Craig. Applying UML and Patterns: An Introduction to Object-Oriented Analysis and Design and Iterative Development. 3. ed. Upper Saddle River: Prentice Hall, 2004. 736 p. ISBN 978-0-131-48906-6.
 
 [17] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC 19505-2:2012: Information technology — Object Management Group Unified Modeling Language (OMG UML) — Part 2: Superstructure. Genebra: ISO, 2012. Disponível em: https://www.iso.org/standard/52854.html. Acesso em: mai. 2026.
+
+[18] PROJECT MANAGEMENT INSTITUTE. Um guia do conhecimento em gerenciamento de projetos (Guia PMBOK). 7. ed. Newtown Square: PMI, 2021. ISBN 978-1-62825-664-2.
+
+[19] KOTLER, Philip; KELLER, Kevin Lane. Administração de marketing. 14. ed. São Paulo: Pearson Education do Brasil, 2012. ISBN 978-85-430-0199-4.
+
+[20] PORTER, Michael E. Competitive Strategy: Techniques for Analyzing 
+Industries and Competitors. New York: Free Press, 2008. ISBN 978-0-7432-7275-4.
+
+[21] BOOCH, Grady; RUMBAUGH, James; JACOBSON, Ivar. The Unified Modeling Language User Guide. 2. ed. Boston: Addison-Wesley Professional, 2005. 494 p. ISBN 978-0-321-26797-9.
 
 # <a name="c9"></a>Anexos
 
