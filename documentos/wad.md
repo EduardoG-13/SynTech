@@ -1775,8 +1775,6 @@ _posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelid
 
 ### 3.6.1. Modelo Entidade-Relacionamento (ER) (sprint 2)
 
-_Apresente o modelo ER conceitual com entidades, atributos e relacionamentos. Use notação consistente (Chen ou Crow's Foot - não misture)._
-
 O modelo Entidade-Relacionamento (ER) conceitual representa as principais entidades do domínio da aplicação, seus atributos e relacionamentos existentes entre elas, utilizando a notação **Chen** de forma consistente em toda a modelagem. O objetivo deste modelo é estruturar conceitualmente os dados necessários para suportar o gerenciamento operacional da BRPec Agropecuária, contemplando usuários, boletas, alertas, retiros e tipos operacionais (nascimento, óbito, transferência, compra, venda).
 
 Nesta etapa conceitual, não são representados detalhes físicos de implementação, como tipos específicos de banco de dados, chaves primárias ou estrangeiras, pois esses elementos serão tratados posteriormente no DER lógico e no modelo físico da aplicação.
