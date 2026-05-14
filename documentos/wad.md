@@ -1628,10 +1628,6 @@ A Tabela 19 consolida todos os relacionamentos modelados no diagrama, com seus t
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-### 3.2.4. Diagrama de Sequência UML (sprint 3)
-
-_Ao menos um fluxo prioritário, mostrando a interação entre as camadas Controller → Service → Repository → Banco. Linhas de vida verticais, ativação correta, mensagens síncronas e assíncronas diferenciadas, retornos tracejadas._
-
 ### 3.2.4. Diagrama de Sequência UML
 
 #### DS01 — Criar Tarefa (US01)
