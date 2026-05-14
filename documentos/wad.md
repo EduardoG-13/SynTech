@@ -1629,8 +1629,6 @@ A Tabela 19 consolida todos os relacionamentos modelados no diagrama, com seus t
 
 ### 3.2.4. Diagrama de Sequência UML (sprint 3)
 
-_Ao menos um fluxo prioritário, mostrando a interação entre as camadas Controller → Service → Repository → Banco. Linhas de vida verticais, ativação correta, mensagens síncronas e assíncronas diferenciadas, retornos tracejadas._
-
 O Diagrama de Sequência UML constitui um dos quatro tipos de diagrama de interação previstos pela especificação UML 2.5.1, sendo formalmente classificado como um diagrama comportamental que enfatiza a troca ordenada de mensagens entre participantes ao longo do tempo [13]. Segundo o Object Management Group (OMG), a semântica de uma interação é definida como um par de conjuntos de *traces* — sequências válidas e inválidas de ocorrências de eventos —, de modo que cada diagrama de sequência representa, de forma gráfica, os cenários de comunicação aceitos pelo sistema modelado [13][18]. A notação adotada emprega linhas de vida (*lifelines*) para representar os participantes, setas contínuas para mensagens síncronas e setas tracejadas para retornos, com fragmentos combinados (*combined fragments*) do tipo `alt` para expressar ramificações condicionais no fluxo de execução, conforme as convenções consolidadas por Fowler [15] e detalhadas na norma ISO/IEC 19505-2:2012 [17].
 
 No contexto do sistema BrPec, os diagramas de sequência foram elaborados para representar os fluxos operacionais críticos identificados nas User Stories (US01 a US05) e nos Requisitos Funcionais (RF001 a RF015), detalhando a interação entre o ator externo — Gerente ou Capataz — e as camadas internas da arquitetura da aplicação. A estrutura de camadas adotada segue o padrão Controller–Service–Repository, amplamente documentado na literatura de engenharia de software como uma instância concreta da arquitetura em camadas (*layered architecture*) [19], na qual cada componente possui responsabilidade única e bem delimitada:
@@ -1733,6 +1731,347 @@ sequenceDiagram
 | RNF — SEG | Todas as rotas do gerente retornam 403 para perfis não autorizados                               |
 | RNF — DES | Endpoint responde em p95 < 200ms com até 200 registros no banco                                  |
 
+#### DS02 — Consultar Tarefas Offline (US02)
+
+Fluxo que representa a consulta das tarefas do dia pelo Capataz em ambiente sem conexão com a internet, percorrendo as camadas Cliente (PWA) → Controller → Service → Repository → Armazenamento Local (IndexedDB/SQLite local). O diagrama diferencia explicitamente o que ocorre no dispositivo do capataz (offline) do que depende de sincronização prévia com o servidor. Mensagens síncronas são representadas por setas contínuas (`->>`) e retornos por setas tracejadas (`-->>`)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor C as Capataz
+    participant PWA as Cliente (PWA)
+    participant CTR as Controller
+    participant SRV as Service
+    participant REP as Repository
+    participant LS as Armazenamento Local (IndexedDB)
+
+    note over C,LS: Dispositivo sem conexão com a internet
+
+    C->>PWA: Acessa tela "Minhas Tarefas"
+    PWA->>CTR: GET /tarefas/hoje {capataz_id}
+    CTR->>CTR: Verifica perfil do usuário (RN05)
+
+    alt Perfil não autorizado
+        CTR-->>PWA: 403 Forbidden {erro: "acesso negado"}
+        PWA-->>C: Exibe mensagem de acesso negado
+    else Perfil autorizado (Capataz)
+        CTR->>SRV: buscarTarefasHoje(capataz_id)
+        SRV->>SRV: Verifica conectividade com servidor
+
+        alt Sem conexão com servidor (modo offline)
+            SRV->>REP: buscarTarefasLocais(capataz_id, data_hoje)
+            REP->>LS: SELECT * FROM tarefas WHERE capataz_id = ? AND data_execucao = ? AND sincronizada = true
+            
+            alt Tarefas sincronizadas encontradas (RN06, RN07)
+                LS-->>REP: [{id, titulo, descricao, status, data_execucao}]
+                REP-->>SRV: List<Tarefa>
+                SRV->>SRV: Filtra apenas tarefas do retiro do capataz (RN05)
+                SRV-->>CTR: List<Tarefa> ordenada
+                CTR-->>PWA: 200 OK {tarefas: [...], modo: "offline"}
+                PWA-->>C: Exibe lista de tarefas do dia (RN12)
+            else Nenhuma tarefa sincronizada (RF004, RN04)
+                LS-->>REP: []
+                REP-->>SRV: []
+                SRV-->>CTR: []
+                CTR-->>PWA: 200 OK {tarefas: [], modo: "offline"}
+                PWA-->>C: Exibe mensagem "Nenhuma tarefa disponível. Sincronize quando houver conexão."
+            end
+
+        else Com conexão disponível
+            SRV->>REP: buscarTarefasServidor(capataz_id, data_hoje)
+            REP-->>SRV: List<Tarefa> atualizada
+            SRV->>REP: atualizarArmazenamentoLocal(tarefas)
+            REP->>LS: INSERT OR REPLACE INTO tarefas (...) (sincronizada = true)
+            LS-->>REP: ok
+            SRV-->>CTR: List<Tarefa>
+            CTR-->>PWA: 200 OK {tarefas: [...], modo: "online"}
+            PWA-->>C: Exibe lista de tarefas do dia atualizada
+        end
+    end
+```
+
+**Descrição das camadas:**
+
+- **Cliente PWA (`Cliente`):** interface do dispositivo do capataz no campo. Detecta o estado de conectividade e apresenta a lista de tarefas com indicação visual do modo de operação (online ou offline).
+- **Controller (`TarefaController`):** recebe a requisição de listagem, valida o perfil do usuário e delega ao Service. Não acessa o armazenamento local diretamente.
+- **Service (`TarefaService`):** verifica a disponibilidade de conexão e decide a estratégia de busca — servidor remoto (online) ou armazenamento local (offline). Aplica a regra RN05, garantindo que apenas tarefas do retiro do capataz sejam retornadas.
+- **Repository (`TarefaRepository`):** abstrai tanto o acesso ao banco remoto quanto ao armazenamento local (IndexedDB/SQLite local), expondo a mesma interface ao Service independentemente da origem dos dados.
+- **Armazenamento Local (`IndexedDB`):** persiste localmente as tarefas previamente sincronizadas. Só contém tarefas com `sincronizada = true`, garantindo que dados incompletos nunca sejam exibidos ao capataz (RN06).
+
+**Fluxos cobertos:**
+
+| Fluxo         | Descrição                                                                                           |
+| ------------- | --------------------------------------------------------------------------------------------------- |
+| Principal     | Capataz offline com tarefas sincronizadas → lista exibida a partir do armazenamento local           |
+| Alternativo 1 | Capataz offline sem tarefas sincronizadas → mensagem de ausência exibida com linguagem simples (RN04)|
+| Alternativo 2 | Capataz online → tarefas buscadas do servidor, armazenamento local atualizado e lista exibida       |
+| Alternativo 3 | Perfil não autorizado → acesso negado com 403                                                        |
+
+**Rastreabilidade:**
+
+| Elemento     | Referência                                                                                              |
+| ------------ | ------------------------------------------------------------------------------------------------------- |
+| US02         | Como capataz, posso visualizar minha lista de tarefas do dia offline                                    |
+| RF002        | O sistema deve permitir que o capataz visualize as tarefas do dia mesmo sem conexão                     |
+| RF003        | O sistema deve armazenar localmente as tarefas sincronizadas para acesso offline                        |
+| RF004        | O sistema deve exibir mensagem simples quando não houver tarefas disponíveis offline                    |
+| RN02         | Apenas tarefas do dia atual devem ser exibidas ao capataz                                               |
+| RN05         | Apenas tarefas do retiro do capataz devem ser exibidas para ele                                         |
+| RN06         | O sistema deve permitir visualização offline apenas de tarefas previamente sincronizadas                |
+| RN07         | As tarefas do dia devem ficar disponíveis offline quando houver sincronização prévia                    |
+| RN12         | As telas do capataz devem usar linguagem simples, botões visíveis e poucos passos de interação          |
+| RNF — CONF   | 0% de perda de dados em falhas de conexão; estratégia offline-first                                     |
+| RNF — DES    | Latência p95 < 200ms para salvar e ler registros no banco de dados local                                |
+
+---
+
+#### DS03 — Concluir Tarefa Offline (US03)
+
+Fluxo que representa a marcação de uma tarefa como concluída pelo Capataz em ambiente sem conexão, com persistência local imediata e sincronização automática posterior com o servidor quando a conectividade for restabelecida. Mensagens síncronas são representadas por setas contínuas (`->>`) e retornos por setas tracejadas (`-->>`)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor C as Capataz
+    participant PWA as Cliente (PWA)
+    participant CTR as Controller
+    participant SRV as Service
+    participant REP as Repository
+    participant LS as Armazenamento Local (IndexedDB)
+    participant SYNC as SyncService
+    participant API as Servidor Remoto
+
+    note over C,LS: Dispositivo sem conexão com a internet
+
+    C->>PWA: Toca botão "Concluir Tarefa" (tarefa_id)
+    PWA->>CTR: PATCH /tarefas/{id}/concluir {capataz_id}
+    CTR->>CTR: Valida presença de tarefa_id e capataz_id
+
+    alt Campos obrigatórios ausentes
+        CTR-->>PWA: 400 Bad Request {erro: "campos obrigatórios não preenchidos"}
+        PWA-->>C: Exibe alerta de erro
+    else Dados válidos
+        CTR->>SRV: concluirTarefa(tarefa_id, capataz_id)
+        SRV->>REP: buscarTarefaLocal(tarefa_id)
+        REP->>LS: SELECT * FROM tarefas WHERE id = ? AND capataz_id = ?
+        
+        alt Tarefa não encontrada ou não pertence ao capataz (RN05)
+            LS-->>REP: null
+            REP-->>SRV: null
+            SRV-->>CTR: throw TarefaNaoEncontradaError
+            CTR-->>PWA: 404 Not Found {erro: "tarefa não encontrada"}
+            PWA-->>C: Exibe mensagem de erro
+        else Tarefa encontrada
+            LS-->>REP: {id, titulo, status: "pendente", sincronizada: true}
+            REP-->>SRV: Tarefa
+
+            SRV->>SRV: Atualiza status para "concluida" e registra timestamp (RNF — SEG)
+            SRV->>REP: salvarConclusaoLocal(tarefa_id, concluidaEm, capataz_id)
+            REP->>LS: UPDATE tarefas SET status = "concluida", concluida_em = ?, sincronizada = false WHERE id = ?
+            LS-->>REP: ok
+            REP-->>SRV: ok
+            SRV->>REP: registrarSincronizacaoPendente(tarefa_id, "Tarefa")
+            REP->>LS: INSERT INTO sincronizacoes (entidade_tipo, entidade_id, status_envio, tentativas) VALUES ("Tarefa", ?, "PENDENTE", 0)
+            LS-->>REP: ok
+            SRV-->>CTR: {status: "concluida", sincronizado: false}
+            CTR-->>PWA: 200 OK {mensagem: "Tarefa concluída. Será sincronizada quando houver conexão.", sincronizado: false}
+            PWA-->>C: Exibe confirmação visual com indicador de pendente (RN08, RN12)
+
+            note over SYNC,API: Quando conexão for restabelecida (RF010)
+
+            SYNC->>LS: SELECT * FROM sincronizacoes WHERE status_envio = "PENDENTE"
+            LS-->>SYNC: [{entidade_tipo: "Tarefa", entidade_id: ?}]
+            SYNC->>LS: SELECT * FROM tarefas WHERE id = ? AND sincronizada = false
+            LS-->>SYNC: {id, status: "concluida", concluida_em, capataz_id}
+            SYNC->>API: PATCH /tarefas/{id}/concluir {status, concluida_em, capataz_id}
+
+            alt Sincronização bem-sucedida (RF011)
+                API-->>SYNC: 200 OK
+                SYNC->>LS: UPDATE tarefas SET sincronizada = true WHERE id = ?
+                SYNC->>LS: UPDATE sincronizacoes SET status_envio = "ENVIADO" WHERE entidade_id = ?
+                LS-->>SYNC: ok
+                SYNC-->>PWA: Evento: "tarefa-sincronizada"
+                PWA-->>C: Exibe notificação "Tarefa sincronizada com sucesso" (RF011)
+            else Falha na sincronização (RF012)
+                API-->>SYNC: 5xx / timeout
+                SYNC->>LS: UPDATE sincronizacoes SET status_envio = "FALHA", tentativas = tentativas + 1 WHERE entidade_id = ?
+                LS-->>SYNC: ok
+                note over SYNC: Retentar na próxima conexão (RF012)
+            end
+        end
+    end
+```
+
+**Descrição das camadas:**
+
+- **Cliente PWA (`Cliente`):** captura a ação do capataz, dispara a requisição de conclusão e exibe confirmações visuais simples e de alto contraste, adequadas ao uso em campo (RN12). Escuta eventos de sincronização emitidos pelo SyncService para atualizar o indicador de status.
+- **Controller (`TarefaController`):** valida a presença dos identificadores obrigatórios e delega ao Service. Não acessa o armazenamento local diretamente.
+- **Service (`TarefaService`):** aplica as regras de negócio — verifica se a tarefa pertence ao capataz (RN05), atualiza o status e injeta o timestamp de conclusão (RNF — SEG). Orquestra o registro de sincronização pendente.
+- **Repository (`TarefaRepository`):** persiste a conclusão localmente com `sincronizada = false` e insere o registro de controle na tabela `sincronizacoes` (RF012).
+- **Armazenamento Local (`IndexedDB`):** mantém o estado da tarefa e o registro de pendência de sincronização até que o envio seja confirmado pelo servidor.
+- **SyncService (`SyncService`):** processo em segundo plano (background sync via Service Worker) responsável por detectar a reconexão, consultar registros pendentes e transmiti-los ao servidor remoto. Atualiza o status para `ENVIADO` em caso de sucesso ou incrementa o contador de tentativas em caso de falha (RF012).
+- **Servidor Remoto (`API`):** recebe a atualização de status da tarefa e confirma a persistência no banco de dados central, tornando a informação visível ao Gerente no painel de acompanhamento (RF007).
+
+**Fluxos cobertos:**
+
+| Fluxo         | Descrição                                                                                                    |
+| ------------- | ------------------------------------------------------------------------------------------------------------ |
+| Principal     | Capataz offline → conclusão persistida localmente → sincronização automática ao reconectar → confirmação visual |
+| Alternativo 1 | Campo obrigatório ausente → Controller retorna 400 sem acionar o Service                                     |
+| Alternativo 2 | Tarefa não encontrada ou não pertence ao capataz → Service lança erro → 404                                  |
+| Alternativo 3 | Falha na sincronização com o servidor → tentativa registrada e reenvio automático na próxima conexão (RF012) |
+
+**Rastreabilidade:**
+
+| Elemento     | Referência                                                                                              |
+| ------------ | ------------------------------------------------------------------------------------------------------- |
+| US03         | Como capataz, posso marcar uma tarefa como concluída para informar o gerente sobre o avanço             |
+| RF003        | O sistema deve armazenar localmente as tarefas sincronizadas para acesso offline                        |
+| RF010        | O sistema deve detectar automaticamente o restabelecimento da conexão e iniciar a transmissão           |
+| RF011        | O sistema deve notificar o capataz após sincronização bem-sucedida                                      |
+| RF012        | Registros com falha devem ser mantidos e reenviados automaticamente a cada nova conexão                 |
+| RN05         | Apenas tarefas do retiro do capataz devem ser exibidas e manipuladas por ele                            |
+| RN08         | A marcação de conclusão feita offline deve ser armazenada localmente até a próxima sincronização        |
+| RN09         | A tarefa concluída deve ter seu status atualizado para o gerente após sincronização                     |
+| RN12         | As telas do capataz devem usar linguagem simples, botões visíveis e poucos passos de interação          |
+| RNF — SEG    | 100% dos registros devem conter metadados de autoria (ID do capataz) e timestamp não editável           |
+| RNF — CONF   | 0% de perda de dados em falhas de conexão; estratégia offline-first com reenvio automático              |
+
+---
+
+#### DS04 — Anexar Foto na Conclusão de Tarefa (US04)
+
+Fluxo que representa o anexo de uma foto como evidência de conclusão de tarefa pelo Capataz em ambiente sem conexão, com armazenamento local da imagem e sincronização automática em lote quando a conectividade for restabelecida. Mensagens síncronas são representadas por setas contínuas (`->>`) e retornos por setas tracejadas (`-->>`)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor C as Capataz
+    participant PWA as Cliente (PWA)
+    participant CTR as Controller
+    participant SRV as Service
+    participant REP as Repository
+    participant LS as Armazenamento Local (IndexedDB)
+    participant SYNC as SyncService
+    participant API as Servidor Remoto
+
+    note over C,LS: Dispositivo sem conexão com a internet
+
+    C->>PWA: Toca botão "Anexar Foto" na tela de conclusão (tarefa_id)
+    PWA->>PWA: Aciona câmera nativa do dispositivo
+    C->>PWA: Captura foto
+    PWA->>CTR: POST /tarefas/{id}/evidencias {tipo: "FOTO", arquivo: base64, capataz_id}
+    CTR->>CTR: Valida presença de tarefa_id, tipo e arquivo
+
+    alt Campos obrigatórios ausentes
+        CTR-->>PWA: 400 Bad Request {erro: "campos obrigatórios não preenchidos"}
+        PWA-->>C: Exibe alerta de erro
+    else Dados válidos
+        CTR->>SRV: anexarFoto(tarefa_id, arquivo_base64, capataz_id)
+        SRV->>REP: buscarTarefaLocal(tarefa_id)
+        REP->>LS: SELECT * FROM tarefas WHERE id = ? AND capataz_id = ?
+
+        alt Tarefa não encontrada ou não pertence ao capataz (RN10)
+            LS-->>REP: null
+            REP-->>SRV: null
+            SRV-->>CTR: throw TarefaNaoEncontradaError
+            CTR-->>PWA: 404 Not Found {erro: "tarefa não encontrada"}
+            PWA-->>C: Exibe mensagem de erro
+        else Tarefa encontrada
+            LS-->>REP: {id, status, capataz_id}
+            REP-->>SRV: Tarefa
+
+            SRV->>SRV: Captura geolocalização do dispositivo (GPS)
+            SRV->>SRV: Gera evidencia_id e registra timestamp (RNF — SEG)
+            SRV->>REP: salvarFotoLocal(evidencia_id, tarefa_id, arquivo_base64, geolocalizacao, capataz_id)
+            REP->>LS: INSERT INTO evidencias (id, tarefa_id, tipo, arquivo_base64, geolocalizacao, criada_em, sincronizada) VALUES (?, ?, "FOTO", ?, ?, ?, false)
+            LS-->>REP: ok
+            REP-->>SRV: {evidencia_id}
+
+            SRV->>REP: registrarSincronizacaoPendente(evidencia_id, "Evidencia")
+            REP->>LS: INSERT INTO sincronizacoes (entidade_tipo, entidade_id, status_envio, tentativas) VALUES ("Evidencia", ?, "PENDENTE", 0)
+            LS-->>REP: ok
+            SRV-->>CTR: {evidencia_id, sincronizado: false}
+            CTR-->>PWA: 201 Created {mensagem: "Foto salva. Será enviada quando houver conexão.", sincronizado: false}
+            PWA-->>C: Exibe confirmação visual com thumbnail da foto e indicador de pendente (RN11, RN12)
+
+            note over SYNC,API: Quando conexão for restabelecida (RF010)
+
+            SYNC->>LS: SELECT * FROM sincronizacoes WHERE status_envio = "PENDENTE" AND entidade_tipo = "Evidencia"
+            LS-->>SYNC: [{entidade_id: evidencia_id}]
+            SYNC->>LS: SELECT * FROM evidencias WHERE id = ? AND sincronizada = false
+            LS-->>SYNC: {id, tarefa_id, tipo: "FOTO", arquivo_base64, geolocalizacao, criada_em}
+
+            SYNC->>SYNC: Verifica tamanho do arquivo (RNF — CAP: chunking se > limite)
+
+            alt Arquivo dentro do limite de envio
+                SYNC->>API: POST /tarefas/{tarefa_id}/evidencias {tipo: "FOTO", arquivo: base64, geolocalizacao, criada_em}
+                alt Sincronização bem-sucedida (RF011)
+                    API-->>SYNC: 201 Created {url_arquivo}
+                    SYNC->>LS: UPDATE evidencias SET sincronizada = true, url_arquivo = ? WHERE id = ?
+                    SYNC->>LS: UPDATE sincronizacoes SET status_envio = "ENVIADO" WHERE entidade_id = ?
+                    LS-->>SYNC: ok
+                    SYNC-->>PWA: Evento: "evidencia-sincronizada"
+                    PWA-->>C: Exibe notificação "Foto enviada com sucesso" (RF011)
+                else Falha na sincronização (RF012)
+                    API-->>SYNC: 5xx / timeout
+                    SYNC->>LS: UPDATE sincronizacoes SET status_envio = "FALHA", tentativas = tentativas + 1 WHERE entidade_id = ?
+                    LS-->>SYNC: ok
+                    note over SYNC: Retentar na próxima conexão (RF012)
+                end
+            else Arquivo acima do limite (RNF — CAP)
+                SYNC->>SYNC: Divide arquivo em chunks
+                loop Para cada chunk
+                    SYNC->>API: POST /tarefas/{tarefa_id}/evidencias/chunk {chunk_index, chunk_data, total_chunks}
+                    API-->>SYNC: 200 OK {chunk_recebido}
+                end
+                SYNC->>API: POST /tarefas/{tarefa_id}/evidencias/finalizar {evidencia_id}
+                API-->>SYNC: 201 Created {url_arquivo}
+                SYNC->>LS: UPDATE evidencias SET sincronizada = true, url_arquivo = ? WHERE id = ?
+                SYNC->>LS: UPDATE sincronizacoes SET status_envio = "ENVIADO" WHERE entidade_id = ?
+                SYNC-->>PWA: Evento: "evidencia-sincronizada"
+                PWA-->>C: Exibe notificação "Foto enviada com sucesso" (RF011)
+            end
+        end
+    end
+```
+
+**Descrição das camadas:**
+
+- **Cliente PWA (`Cliente`):** aciona a câmera nativa do dispositivo, exibe um thumbnail da imagem capturada e apresenta indicador visual de status de envio (pendente/sincronizado) com linguagem simples e botões de alto contraste (RN12). Escuta eventos de sincronização emitidos pelo SyncService.
+- **Controller (`TarefaController`):** valida a presença dos campos obrigatórios (identificador da tarefa, tipo de evidência e arquivo) e delega ao Service. Não acessa o armazenamento local diretamente.
+- **Service (`TarefaService`):** captura a geolocalização do dispositivo no momento do anexo, injeta metadados de autoria e timestamp (RNF — SEG), e orquestra o armazenamento local da imagem em formato base64 e o registro de sincronização pendente.
+- **Repository (`TarefaRepository`):** persiste a evidência no armazenamento local com `sincronizada = false` e a imagem codificada em base64, mantendo o vínculo com a tarefa correspondente (RN10). Insere o registro de controle na tabela `sincronizacoes`.
+- **Armazenamento Local (`IndexedDB`):** armazena a imagem em base64 até que a sincronização com o servidor seja concluída com sucesso, prevenindo qualquer perda de evidência durante períodos offline (RN11, RNF — CONF).
+- **SyncService (`SyncService`):** detecta a reconexão via Service Worker e transmite as evidências pendentes ao servidor. Implementa chunking para arquivos de imagem que excedam o limite de transmissão segura em conexões instáveis (RNF — CAP), garantindo a integridade do envio em lote.
+- **Servidor Remoto (`API`):** recebe a evidência, persiste o arquivo e retorna a URL definitiva do arquivo armazenado, que é então atualizada no registro local. A evidência fica disponível para consulta pelo Gerente e Coordenador (RF014, UC05).
+
+**Fluxos cobertos:**
+
+| Fluxo         | Descrição                                                                                                          |
+| ------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Principal     | Capataz offline → foto capturada e salva localmente em base64 → sincronização automática ao reconectar             |
+| Alternativo 1 | Campo obrigatório ausente → Controller retorna 400                                                                  |
+| Alternativo 2 | Tarefa não encontrada ou não pertence ao capataz → Service lança erro → 404                                        |
+| Alternativo 3 | Falha na sincronização → tentativa registrada e reenvio automático na próxima conexão (RF012)                      |
+| Alternativo 4 | Arquivo acima do limite → SyncService divide em chunks e transmite sequencialmente ao servidor (RNF — CAP)         |
+
+**Rastreabilidade:**
+
+| Elemento     | Referência                                                                                                   |
+| ------------ | ------------------------------------------------------------------------------------------------------------ |
+| US04         | Como capataz, posso anexar fotos na conclusão de uma tarefa para comprovar visualmente o serviço realizado   |
+| RF004        | O sistema deve armazenar localmente as tarefas e evidências sincronizadas para acesso offline                |
+| RF010        | O sistema deve detectar automaticamente o restabelecimento da conexão e iniciar a transmissão pendente       |
+| RF011        | O sistema deve notificar o capataz com confirmação após sincronização bem-sucedida                           |
+| RF012        | Registros com falha de envio devem ser mantidos e reenviados automaticamente a cada nova conexão             |
+| RN10         | As fotos anexadas devem estar vinculadas à tarefa correspondente                                             |
+| RN11         | Fotos registradas offline devem ser enviadas ao sistema quando houver conexão                                |
+| RN12         | As telas do capataz devem usar linguagem simples, botões visíveis e poucos passos de interação               |
+| RN19         | O sistema deve capturar automaticamente a localização GPS quando o capataz criar um registro com foto        |
+| RNF — SEG    | 100% dos registros devem conter metadados de autoria e timestamp não editável                                |
+| RNF — CONF   | 0% de perda de dados em falhas de conexão; imagem mantida localmente até confirmação do servidor             |
+| RNF — CAP    | Suporte a sincronização em lote de até 500 eventos; chunking para arquivos grandes em conexões instáveis     |
 
 O Diagrama de Sequência UML constitui um dos quatro tipos de diagrama de interação previstos pela especificação UML 2.5.1, sendo formalmente classificado como um diagrama comportamental que enfatiza a troca ordenada de mensagens entre participantes ao longo do tempo [13]. Segundo o Object Management Group (OMG), a semântica de uma interação é definida como um par de conjuntos de *traces* — sequências válidas e inválidas de ocorrências de eventos —, de modo que cada diagrama de sequência representa, de forma gráfica, os cenários de comunicação aceitos pelo sistema modelado [13][18]. A notação adotada emprega linhas de vida (*lifelines*) para representar os participantes, setas contínuas para mensagens síncronas e setas tracejadas para retornos, com fragmentos combinados (*combined fragments*) do tipo `alt` para expressar ramificações condicionais no fluxo de execução, conforme as convenções consolidadas por Fowler [15] e detalhadas na norma ISO/IEC 19505-2:2012 [17].
 
