@@ -1300,8 +1300,8 @@ em *The Unified Modeling Language User Guide* [21], obra de referência dos cria
 originais da linguagem, que estabelece o diagrama de classes como o bloco fundamental
 de construção do UML, sendo todos os outros diagramas coleções de classes ou
 representações de relações entre elas. Complementarmente, as boas práticas de
-modelagem estrutural adotadas no projeto baseiam-se em Fowler [15], cuja obra *UML
-Distilled* orienta o uso do diagrama de classes como ferramenta de comunicação de
+modelagem estrutural adotadas no projeto baseiam-se em Fowler [15], cuja obra _UML
+Distilled_ orienta o uso do diagrama de classes como ferramenta de comunicação de
 design orientado a objetos, enfatizando clareza, coesão e rastreabilidade entre modelo
 e requisitos. A estrutura de classes abstratas e a organização das responsabilidades
 entre as entidades seguem ainda os princípios de modelagem de domínio descritos por
@@ -1327,17 +1327,17 @@ projeto.
 O diagrama é organizado em três camadas conceituais:
 
 - **Camada de Identidade e Acesso:** agrupa a hierarquia de usuários do sistema
-(`Usuario`, `Gerente`, `Coordenador` e `Capataz`), modelada por herança, refletindo
-os três perfis de acesso e as responsabilidades distintas de cada ator, conforme
-descritos na seção 3.1;
+  (`Usuario`, `Gerente`, `Coordenador` e `Capataz`), modelada por herança, refletindo
+  os três perfis de acesso e as responsabilidades distintas de cada ator, conforme
+  descritos na seção 3.1;
 - **Camada Operacional:** concentra as entidades centrais do fluxo de trabalho —
-`Retiro`, `Tarefa`, `Evidencia` e `AlertaInfraestrutura` —, que materializam o
-planejamento, a execução e o reporte das atividades de campo (US01 a US07);
+  `Retiro`, `Tarefa`, `Evidencia` e `AlertaInfraestrutura` —, que materializam o
+  planejamento, a execução e o reporte das atividades de campo (US01 a US07);
 - **Camada Zootécnica e de Controle:** reúne os registros de eventos do rebanho —
-`EventoZootecnico`, `RegistroNascimento` e `RegistroObito` —, que suportam o controle
-pecuário offline (US08 a US10), além da entidade `Sincronizacao`, responsável pela
-gestão do ciclo de envio de dados ao servidor central, e `Exportacao`, que atende à
-demanda do Coordenador de geração de relatórios estruturados (RF015).
+  `EventoZootecnico`, `RegistroNascimento` e `RegistroObito` —, que suportam o controle
+  pecuário offline (US08 a US10), além da entidade `Sincronizacao`, responsável pela
+  gestão do ciclo de envio de dados ao servidor central, e `Exportacao`, que atende à
+  demanda do Coordenador de geração de relatórios estruturados (RF015).
 
 A decisão de modelar `Evidencia` e `EventoZootecnico` como classes abstratas decorre
 da necessidade de encapsular atributos e comportamentos comuns — como o vínculo com
@@ -1353,7 +1353,6 @@ entidade independente para suportar o requisito não funcional de Confiabilidade
 sobrecarregar as demais classes com atributos de controle de rede — decisão alinhada
 ao princípio de responsabilidade única descrito por Fowler [15] como critério de
 coesão em modelos orientados a objetos.
-
 
 A seguir, são detalhados os atributos, tipos de dado e métodos de cada classe
 modelada no diagrama, organizados por camada conceitual. Os tipos adotam a notação
@@ -1374,13 +1373,13 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
   <p><strong>Tabela 8</strong> — Atributos da Classe <em>Usuario</em> (superclasse abstrata)</p>
 </center>
 
-| Atributo   | Tipo     | Obrigatório | Descrição                                                  |
-| ---------- | -------- | ----------- | ---------------------------------------------------------- |
-| id         | UUID     | Sim         | Identificador único do usuário, gerado automaticamente     |
-| nome       | String   | Sim         | Nome completo do usuário                                   |
-| senha      | String   | Sim         | Credencial de acesso; para Capataz, senha simples definida pelo Gerente |
-| perfil     | Enum     | Sim         | Tipo do ator: `GERENTE`, `COORDENADOR` ou `CAPATAZ`        |
-| criadoEm  | DateTime | Sim         | Timestamp de criação do registro, gerado pelo sistema       |
+| Atributo | Tipo     | Obrigatório | Descrição                                                               |
+| -------- | -------- | ----------- | ----------------------------------------------------------------------- |
+| id       | UUID     | Sim         | Identificador único do usuário, gerado automaticamente                  |
+| nome     | String   | Sim         | Nome completo do usuário                                                |
+| senha    | String   | Sim         | Credencial de acesso; para Capataz, senha simples definida pelo Gerente |
+| perfil   | Enum     | Sim         | Tipo do ator: `GERENTE`, `COORDENADOR` ou `CAPATAZ`                     |
+| criadoEm | DateTime | Sim         | Timestamp de criação do registro, gerado pelo sistema                   |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1390,14 +1389,14 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
   <p><strong>Tabela 9</strong> — Atributos e Métodos da Classe <em>Gerente</em></p>
 </center>
 
-| Elemento        | Tipo/Retorno | Descrição                                                            |
-| --------------- | ------------ | -------------------------------------------------------------------- |
-| *(herda de Usuario)* | —       | Todos os atributos da superclasse são herdados                       |
-| criarTarefa()   | Tarefa       | Instancia uma nova tarefa e a associa a um retiro e a um capataz     |
-| editarTarefa()  | Tarefa       | Atualiza os dados de uma tarefa existente                            |
-| deletarTarefa() | void         | Remove uma tarefa do sistema, desde que não esteja concluída         |
-| visualizarPainel() | void      | Acessa o painel consolidado de status de tarefas e alertas (RF007)   |
-| visualizarAlertas() | void     | Acessa os alertas de infraestrutura abertos pelos capatazes (RF006)  |
+| Elemento             | Tipo/Retorno | Descrição                                                           |
+| -------------------- | ------------ | ------------------------------------------------------------------- |
+| _(herda de Usuario)_ | —            | Todos os atributos da superclasse são herdados                      |
+| criarTarefa()        | Tarefa       | Instancia uma nova tarefa e a associa a um retiro e a um capataz    |
+| editarTarefa()       | Tarefa       | Atualiza os dados de uma tarefa existente                           |
+| deletarTarefa()      | void         | Remove uma tarefa do sistema, desde que não esteja concluída        |
+| visualizarPainel()   | void         | Acessa o painel consolidado de status de tarefas e alertas (RF007)  |
+| visualizarAlertas()  | void         | Acessa os alertas de infraestrutura abertos pelos capatazes (RF006) |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1407,12 +1406,12 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
   <p><strong>Tabela 10</strong> — Atributos e Métodos da Classe <em>Coordenador</em></p>
 </center>
 
-| Elemento                  | Tipo/Retorno        | Descrição                                                                       |
-| ------------------------- | ------------------- | ------------------------------------------------------------------------------- |
-| *(herda de Usuario)*      | —                   | Todos os atributos da superclasse são herdados                                  |
-| visualizarMovimentacoes() | List\<EventoZootecnico\> | Recupera todos os eventos zootécnicos dos retiros sob sua responsabilidade |
-| validarMovimentacao()     | void                | Confirma a integridade de um evento zootécnico, alterando seu status para validado |
-| exportarRelatorio()       | Exportacao          | Gera e disponibiliza arquivo CSV/XLSX com os dados consolidados (RF015)         |
+| Elemento                  | Tipo/Retorno             | Descrição                                                                          |
+| ------------------------- | ------------------------ | ---------------------------------------------------------------------------------- |
+| _(herda de Usuario)_      | —                        | Todos os atributos da superclasse são herdados                                     |
+| visualizarMovimentacoes() | List\<EventoZootecnico\> | Recupera todos os eventos zootécnicos dos retiros sob sua responsabilidade         |
+| validarMovimentacao()     | void                     | Confirma a integridade de um evento zootécnico, alterando seu status para validado |
+| exportarRelatorio()       | Exportacao               | Gera e disponibiliza arquivo CSV/XLSX com os dados consolidados (RF015)            |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1422,14 +1421,14 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
   <p><strong>Tabela 11</strong> — Atributos e Métodos da Classe <em>Capataz</em></p>
 </center>
 
-| Elemento                      | Tipo/Retorno              | Descrição                                                                 |
-| ----------------------------- | ------------------------- | ------------------------------------------------------------------------- |
-| *(herda de Usuario)*          | —                         | Todos os atributos da superclasse são herdados                            |
-| retiro_id                     | UUID                      | Chave estrangeira que vincula o Capataz a um único Retiro (RN01, RN05)    |
-| visualizarTarefas()           | List\<Tarefa\>            | Recupera as tarefas do dia do retiro ao qual o capataz pertence (RF002)   |
-| concluirTarefa()              | void                      | Atualiza o status de uma tarefa para `CONCLUIDA` e aciona o envio de evidências (RF003) |
-| abrirAlerta()                 | AlertaInfraestrutura      | Registra um novo alerta de infraestrutura com geolocalização (RF006)      |
-| registrarEventoZootecnico()   | EventoZootecnico          | Preenche e persiste localmente um evento de nascimento ou óbito (RF008, RF009) |
+| Elemento                    | Tipo/Retorno         | Descrição                                                                               |
+| --------------------------- | -------------------- | --------------------------------------------------------------------------------------- |
+| _(herda de Usuario)_        | —                    | Todos os atributos da superclasse são herdados                                          |
+| retiro_id                   | UUID                 | Chave estrangeira que vincula o Capataz a um único Retiro (RN01, RN05)                  |
+| visualizarTarefas()         | List\<Tarefa\>       | Recupera as tarefas do dia do retiro ao qual o capataz pertence (RF002)                 |
+| concluirTarefa()            | void                 | Atualiza o status de uma tarefa para `CONCLUIDA` e aciona o envio de evidências (RF003) |
+| abrirAlerta()               | AlertaInfraestrutura | Registra um novo alerta de infraestrutura com geolocalização (RF006)                    |
+| registrarEventoZootecnico() | EventoZootecnico     | Preenche e persiste localmente um evento de nascimento ou óbito (RF008, RF009)          |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1443,13 +1442,13 @@ Essa camada concentra as entidades que sustentam o fluxo principal de trabalho d
   <p><strong>Tabela 12</strong> — Atributos da Classe <em>Retiro</em></p>
 </center>
 
-| Atributo         | Tipo     | Obrigatório | Descrição                                                         |
-| ---------------- | -------- | ----------- | ----------------------------------------------------------------- |
-| id               | UUID     | Sim         | Identificador único do retiro                                     |
-| nome             | String   | Sim         | Nome de identificação do retiro na fazenda                        |
-| localizacao      | String   | Sim         | Descrição geográfica ou referência da área do retiro              |
-| coordenador_id   | UUID     | Sim         | Chave estrangeira para o Coordenador responsável pelo retiro      |
-| criadoEm         | DateTime | Sim         | Timestamp de cadastro do retiro no sistema                        |
+| Atributo       | Tipo     | Obrigatório | Descrição                                                    |
+| -------------- | -------- | ----------- | ------------------------------------------------------------ |
+| id             | UUID     | Sim         | Identificador único do retiro                                |
+| nome           | String   | Sim         | Nome de identificação do retiro na fazenda                   |
+| localizacao    | String   | Sim         | Descrição geográfica ou referência da área do retiro         |
+| coordenador_id | UUID     | Sim         | Chave estrangeira para o Coordenador responsável pelo retiro |
+| criadoEm       | DateTime | Sim         | Timestamp de cadastro do retiro no sistema                   |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1459,19 +1458,19 @@ Essa camada concentra as entidades que sustentam o fluxo principal de trabalho d
   <p><strong>Tabela 13</strong> — Atributos da Classe <em>Tarefa</em></p>
 </center>
 
-| Atributo       | Tipo     | Obrigatório | Descrição                                                                         |
-| -------------- | -------- | ----------- | --------------------------------------------------------------------------------- |
-| id             | UUID     | Sim         | Identificador único da tarefa                                                     |
-| titulo         | String   | Sim         | Título resumido da atividade a ser executada                                      |
-| descricao      | String   | Não         | Detalhamento das instruções para o capataz                                        |
-| status         | Enum     | Sim         | Estado atual da tarefa: `PENDENTE`, `EM_ANDAMENTO` ou `CONCLUIDA`                 |
-| dataExecucao   | Date     | Sim         | Data prevista para execução da tarefa (base para a regra RN02)                    |
-| retiro_id      | UUID     | Sim         | Chave estrangeira para o Retiro ao qual a tarefa está vinculada (RN01)            |
-| capataz_id     | UUID     | Sim         | Chave estrangeira para o Capataz responsável pela execução (RN01)                 |
-| gerente_id     | UUID     | Sim         | Chave estrangeira para o Gerente que criou a tarefa (RF001)                       |
-| criadaEm       | DateTime | Sim         | Timestamp de criação da tarefa, injetado automaticamente pelo sistema (RNF — SEG) |
-| concluidaEm    | DateTime | Não         | Timestamp de conclusão, preenchido quando o status é alterado para `CONCLUIDA`    |
-| sincronizada   | Boolean  | Sim         | Indica se o registro já foi transmitido ao servidor central (RF010)               |
+| Atributo     | Tipo     | Obrigatório | Descrição                                                                         |
+| ------------ | -------- | ----------- | --------------------------------------------------------------------------------- |
+| id           | UUID     | Sim         | Identificador único da tarefa                                                     |
+| titulo       | String   | Sim         | Título resumido da atividade a ser executada                                      |
+| descricao    | String   | Não         | Detalhamento das instruções para o capataz                                        |
+| status       | Enum     | Sim         | Estado atual da tarefa: `PENDENTE`, `EM_ANDAMENTO` ou `CONCLUIDA`                 |
+| dataExecucao | Date     | Sim         | Data prevista para execução da tarefa (base para a regra RN02)                    |
+| retiro_id    | UUID     | Sim         | Chave estrangeira para o Retiro ao qual a tarefa está vinculada (RN01)            |
+| capataz_id   | UUID     | Sim         | Chave estrangeira para o Capataz responsável pela execução (RN01)                 |
+| gerente_id   | UUID     | Sim         | Chave estrangeira para o Gerente que criou a tarefa (RF001)                       |
+| criadaEm     | DateTime | Sim         | Timestamp de criação da tarefa, injetado automaticamente pelo sistema (RNF — SEG) |
+| concluidaEm  | DateTime | Não         | Timestamp de conclusão, preenchido quando o status é alterado para `CONCLUIDA`    |
+| sincronizada | Boolean  | Sim         | Indica se o registro já foi transmitido ao servidor central (RF010)               |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1483,19 +1482,19 @@ A classe `Evidencia` é modelada como abstrata por reunir o comportamento comum 
   <p><strong>Tabela 14</strong> — Atributos da Classe Abstrata <em>Evidencia</em> e Subclasses</p>
 </center>
 
-| Classe              | Atributo          | Tipo    | Obrigatório | Descrição                                                          |
-| ------------------- | ----------------- | ------- | ----------- | ------------------------------------------------------------------ |
-| **Evidencia**       | id                | UUID    | Sim         | Identificador único da evidência                                   |
-| **Evidencia**       | tarefa_id         | UUID    | Sim         | Chave estrangeira para a Tarefa à qual a evidência está vinculada  |
-| **Evidencia**       | tipo              | Enum    | Sim         | Natureza da evidência: `FOTO`, `AUDIO` ou `TEXTO`                  |
-| **Evidencia**       | criadaEm          | DateTime| Sim         | Timestamp de criação, gerado automaticamente pelo sistema          |
-| **Evidencia**       | sincronizada      | Boolean | Sim         | Indica se o arquivo já foi transmitido ao servidor (RF010, RN11)   |
-| **Foto**            | urlArquivo        | String  | Sim         | Caminho ou URL do arquivo de imagem após sincronização             |
-| **Foto**            | tamanhoBytes      | Integer | Sim         | Tamanho do arquivo em bytes, para controle de capacidade           |
-| **Foto**            | geolocalizacao    | String  | Sim         | Coordenadas GPS capturadas no momento do registro (RN19, RN24)     |
-| **Audio**           | urlArquivo        | String  | Sim         | Caminho ou URL do arquivo de áudio após sincronização              |
-| **Audio**           | duracaoSegundos   | Integer | Sim         | Duração da gravação em segundos (RF005, RN14)                      |
-| **TextoComplementar** | conteudo        | String  | Sim         | Conteúdo textual inserido pelo capataz como complemento da tarefa  |
+| Classe                | Atributo        | Tipo     | Obrigatório | Descrição                                                         |
+| --------------------- | --------------- | -------- | ----------- | ----------------------------------------------------------------- |
+| **Evidencia**         | id              | UUID     | Sim         | Identificador único da evidência                                  |
+| **Evidencia**         | tarefa_id       | UUID     | Sim         | Chave estrangeira para a Tarefa à qual a evidência está vinculada |
+| **Evidencia**         | tipo            | Enum     | Sim         | Natureza da evidência: `FOTO`, `AUDIO` ou `TEXTO`                 |
+| **Evidencia**         | criadaEm        | DateTime | Sim         | Timestamp de criação, gerado automaticamente pelo sistema         |
+| **Evidencia**         | sincronizada    | Boolean  | Sim         | Indica se o arquivo já foi transmitido ao servidor (RF010, RN11)  |
+| **Foto**              | urlArquivo      | String   | Sim         | Caminho ou URL do arquivo de imagem após sincronização            |
+| **Foto**              | tamanhoBytes    | Integer  | Sim         | Tamanho do arquivo em bytes, para controle de capacidade          |
+| **Foto**              | geolocalizacao  | String   | Sim         | Coordenadas GPS capturadas no momento do registro (RN19, RN24)    |
+| **Audio**             | urlArquivo      | String   | Sim         | Caminho ou URL do arquivo de áudio após sincronização             |
+| **Audio**             | duracaoSegundos | Integer  | Sim         | Duração da gravação em segundos (RF005, RN14)                     |
+| **TextoComplementar** | conteudo        | String   | Sim         | Conteúdo textual inserido pelo capataz como complemento da tarefa |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1505,19 +1504,19 @@ A classe `Evidencia` é modelada como abstrata por reunir o comportamento comum 
   <p><strong>Tabela 15</strong> — Atributos da Classe <em>AlertaInfraestrutura</em></p>
 </center>
 
-| Atributo      | Tipo     | Obrigatório | Descrição                                                                         |
-| ------------- | -------- | ----------- | --------------------------------------------------------------------------------- |
-| id            | UUID     | Sim         | Identificador único do alerta                                                     |
-| tipo          | Enum     | Sim         | Categoria do problema: `CERCA`, `BEBEDOURO`, `EQUIPAMENTO` ou `OUTRO` (RF006)     |
-| descricao     | String   | Não         | Detalhamento adicional fornecido pelo capataz                                     |
-| status        | Enum     | Sim         | Situação do chamado: `ABERTO`, `EM_ATENDIMENTO` ou `RESOLVIDO`                    |
-| capataz_id    | UUID     | Sim         | Chave estrangeira para o Capataz que originou o alerta                            |
-| retiro_id     | UUID     | Sim         | Chave estrangeira para o Retiro onde o problema foi identificado (RN26)           |
-| latitude      | Decimal  | Sim         | Coordenada geográfica capturada automaticamente pelo sistema (RN19, RN24)         |
-| longitude     | Decimal  | Sim         | Coordenada geográfica capturada automaticamente pelo sistema (RN19, RN24)         |
-| criadoEm      | DateTime | Sim         | Timestamp de criação do alerta, registrado automaticamente (RN25)                 |
-| sincronizado  | Boolean  | Sim         | Indica se o alerta já foi transmitido ao servidor (RN20, RN21)                    |
-| foto_id       | UUID     | Não         | Chave estrangeira opcional para uma Foto associada ao chamado                     |
+| Atributo     | Tipo     | Obrigatório | Descrição                                                                     |
+| ------------ | -------- | ----------- | ----------------------------------------------------------------------------- |
+| id           | UUID     | Sim         | Identificador único do alerta                                                 |
+| tipo         | Enum     | Sim         | Categoria do problema: `CERCA`, `BEBEDOURO`, `EQUIPAMENTO` ou `OUTRO` (RF006) |
+| descricao    | String   | Não         | Detalhamento adicional fornecido pelo capataz                                 |
+| status       | Enum     | Sim         | Situação do chamado: `ABERTO`, `EM_ATENDIMENTO` ou `RESOLVIDO`                |
+| capataz_id   | UUID     | Sim         | Chave estrangeira para o Capataz que originou o alerta                        |
+| retiro_id    | UUID     | Sim         | Chave estrangeira para o Retiro onde o problema foi identificado (RN26)       |
+| latitude     | Decimal  | Sim         | Coordenada geográfica capturada automaticamente pelo sistema (RN19, RN24)     |
+| longitude    | Decimal  | Sim         | Coordenada geográfica capturada automaticamente pelo sistema (RN19, RN24)     |
+| criadoEm     | DateTime | Sim         | Timestamp de criação do alerta, registrado automaticamente (RN25)             |
+| sincronizado | Boolean  | Sim         | Indica se o alerta já foi transmitido ao servidor (RN20, RN21)                |
+| foto_id      | UUID     | Não         | Chave estrangeira opcional para uma Foto associada ao chamado                 |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1531,22 +1530,22 @@ Essa camada concentra os registros de eventos do rebanho e as entidades de supor
   <p><strong>Tabela 16</strong> — Atributos da Classe Abstrata <em>EventoZootecnico</em> e Subclasses</p>
 </center>
 
-| Classe                  | Atributo              | Tipo     | Obrigatório | Descrição                                                                              |
-| ----------------------- | --------------------- | -------- | ----------- | -------------------------------------------------------------------------------------- |
-| **EventoZootecnico**    | id                    | UUID     | Sim         | Identificador único do evento                                                          |
-| **EventoZootecnico**    | capataz_id            | UUID     | Sim         | Chave estrangeira para o Capataz que realizou o registro                               |
-| **EventoZootecnico**    | retiro_id             | UUID     | Sim         | Chave estrangeira para o Retiro de origem do evento                                    |
-| **EventoZootecnico**    | data                  | Date     | Sim         | Data de ocorrência do evento no campo                                                  |
-| **EventoZootecnico**    | categoria             | String   | Sim         | Categoria do animal envolvido (ex.: bezerro, vaca, touro)                              |
-| **EventoZootecnico**    | quantidade            | Integer  | Sim         | Quantidade de animais envolvidos no evento                                             |
-| **EventoZootecnico**    | sincronizado          | Boolean  | Sim         | Indica se o registro foi transmitido ao servidor central (RF010, RF012)                |
-| **EventoZootecnico**    | validado              | Boolean  | Sim         | Indica se o Coordenador confirmou a integridade do registro (RF014)                    |
-| **EventoZootecnico**    | coordenador_id        | UUID     | Não         | Chave estrangeira preenchida pelo sistema após validação pelo Coordenador              |
-| **EventoZootecnico**    | criadoEm              | DateTime | Sim         | Timestamp de criação local do registro, injetado automaticamente (RNF — SEG)          |
-| **RegistroNascimento**  | *(sem atributos adicionais)* | — | —          | Especialização de EventoZootecnico para nascimentos (US08, RF008)                     |
-| **RegistroObito**       | identificacaoAnimal   | String   | Sim         | Identificação individual do animal (brinco, marca ou descrição) (RF013)               |
-| **RegistroObito**       | causaMorte            | String   | Sim         | Causa declarada do óbito, campo obrigatório para validação sanitária (RF013)           |
-| **RegistroObito**       | foto_id               | UUID     | Sim         | Chave estrangeira para a Foto obrigatória da carcaça, exigida para auditoria (US09, CR2) |
+| Classe                 | Atributo                     | Tipo     | Obrigatório | Descrição                                                                                |
+| ---------------------- | ---------------------------- | -------- | ----------- | ---------------------------------------------------------------------------------------- |
+| **EventoZootecnico**   | id                           | UUID     | Sim         | Identificador único do evento                                                            |
+| **EventoZootecnico**   | capataz_id                   | UUID     | Sim         | Chave estrangeira para o Capataz que realizou o registro                                 |
+| **EventoZootecnico**   | retiro_id                    | UUID     | Sim         | Chave estrangeira para o Retiro de origem do evento                                      |
+| **EventoZootecnico**   | data                         | Date     | Sim         | Data de ocorrência do evento no campo                                                    |
+| **EventoZootecnico**   | categoria                    | String   | Sim         | Categoria do animal envolvido (ex.: bezerro, vaca, touro)                                |
+| **EventoZootecnico**   | quantidade                   | Integer  | Sim         | Quantidade de animais envolvidos no evento                                               |
+| **EventoZootecnico**   | sincronizado                 | Boolean  | Sim         | Indica se o registro foi transmitido ao servidor central (RF010, RF012)                  |
+| **EventoZootecnico**   | validado                     | Boolean  | Sim         | Indica se o Coordenador confirmou a integridade do registro (RF014)                      |
+| **EventoZootecnico**   | coordenador_id               | UUID     | Não         | Chave estrangeira preenchida pelo sistema após validação pelo Coordenador                |
+| **EventoZootecnico**   | criadoEm                     | DateTime | Sim         | Timestamp de criação local do registro, injetado automaticamente (RNF — SEG)             |
+| **RegistroNascimento** | _(sem atributos adicionais)_ | —        | —           | Especialização de EventoZootecnico para nascimentos (US08, RF008)                        |
+| **RegistroObito**      | identificacaoAnimal          | String   | Sim         | Identificação individual do animal (brinco, marca ou descrição) (RF013)                  |
+| **RegistroObito**      | causaMorte                   | String   | Sim         | Causa declarada do óbito, campo obrigatório para validação sanitária (RF013)             |
+| **RegistroObito**      | foto_id                      | UUID     | Sim         | Chave estrangeira para a Foto obrigatória da carcaça, exigida para auditoria (US09, CR2) |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1556,15 +1555,15 @@ Essa camada concentra os registros de eventos do rebanho e as entidades de supor
   <p><strong>Tabela 17</strong> — Atributos da Classe <em>Sincronizacao</em></p>
 </center>
 
-| Atributo        | Tipo     | Obrigatório | Descrição                                                                                         |
-| --------------- | -------- | ----------- | ------------------------------------------------------------------------------------------------- |
-| id              | UUID     | Sim         | Identificador único do registro de sincronização                                                  |
-| entidadeTipo    | String   | Sim         | Nome da classe da entidade gerenciada (ex.: `"Tarefa"`, `"RegistroObito"`)                        |
-| entidadeId      | UUID     | Sim         | Identificador da instância específica da entidade a ser sincronizada                              |
-| statusEnvio     | Enum     | Sim         | Estado da transmissão: `PENDENTE`, `ENVIADO` ou `FALHA`                                           |
-| tentativas      | Integer  | Sim         | Contador de tentativas de envio realizadas pelo sistema (RF012)                                   |
-| ultimaTentativa | DateTime | Não         | Timestamp da última tentativa de sincronização, atualizado a cada ciclo                           |
-| criadaEm        | DateTime | Sim         | Timestamp de criação do registro de controle, gerado no momento do salvamento local               |
+| Atributo        | Tipo     | Obrigatório | Descrição                                                                           |
+| --------------- | -------- | ----------- | ----------------------------------------------------------------------------------- |
+| id              | UUID     | Sim         | Identificador único do registro de sincronização                                    |
+| entidadeTipo    | String   | Sim         | Nome da classe da entidade gerenciada (ex.: `"Tarefa"`, `"RegistroObito"`)          |
+| entidadeId      | UUID     | Sim         | Identificador da instância específica da entidade a ser sincronizada                |
+| statusEnvio     | Enum     | Sim         | Estado da transmissão: `PENDENTE`, `ENVIADO` ou `FALHA`                             |
+| tentativas      | Integer  | Sim         | Contador de tentativas de envio realizadas pelo sistema (RF012)                     |
+| ultimaTentativa | DateTime | Não         | Timestamp da última tentativa de sincronização, atualizado a cada ciclo             |
+| criadaEm        | DateTime | Sim         | Timestamp de criação do registro de controle, gerado no momento do salvamento local |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1574,15 +1573,15 @@ Essa camada concentra os registros de eventos do rebanho e as entidades de supor
   <p><strong>Tabela 18</strong> — Atributos da Classe <em>Exportacao</em></p>
 </center>
 
-| Atributo         | Tipo     | Obrigatório | Descrição                                                                              |
-| ---------------- | -------- | ----------- | -------------------------------------------------------------------------------------- |
-| id               | UUID     | Sim         | Identificador único do registro de exportação                                          |
-| coordenador_id   | UUID     | Sim         | Chave estrangeira para o Coordenador que solicitou a exportação                        |
-| formato          | Enum     | Sim         | Formato do arquivo gerado: `CSV` ou `XLSX` (RF015, RN28, RNF — ORG)                    |
-| filtroRetiro     | UUID     | Não         | Filtro opcional por retiro específico, aplicado na consulta dos dados                  |
-| filtroDataInicio | Date     | Não         | Limite inferior do intervalo de datas aplicado ao conjunto de dados exportado          |
-| filtroDataFim    | Date     | Não         | Limite superior do intervalo de datas aplicado ao conjunto de dados exportado          |
-| geradaEm         | DateTime | Sim         | Timestamp de geração do arquivo, registrado automaticamente pelo sistema               |
+| Atributo         | Tipo     | Obrigatório | Descrição                                                                     |
+| ---------------- | -------- | ----------- | ----------------------------------------------------------------------------- |
+| id               | UUID     | Sim         | Identificador único do registro de exportação                                 |
+| coordenador_id   | UUID     | Sim         | Chave estrangeira para o Coordenador que solicitou a exportação               |
+| formato          | Enum     | Sim         | Formato do arquivo gerado: `CSV` ou `XLSX` (RF015, RN28, RNF — ORG)           |
+| filtroRetiro     | UUID     | Não         | Filtro opcional por retiro específico, aplicado na consulta dos dados         |
+| filtroDataInicio | Date     | Não         | Limite inferior do intervalo de datas aplicado ao conjunto de dados exportado |
+| filtroDataFim    | Date     | Não         | Limite superior do intervalo de datas aplicado ao conjunto de dados exportado |
+| geradaEm         | DateTime | Sim         | Timestamp de geração do arquivo, registrado automaticamente pelo sistema      |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1596,34 +1595,34 @@ A Tabela 19 consolida todos os relacionamentos modelados no diagrama, com seus t
   <p><strong>Tabela 19</strong> — Síntese dos Relacionamentos do Diagrama de Classes</p>
 </center>
 
-| Classe Origem        | Tipo UML              | Classe Destino       | Multiplicidade      | Rastreabilidade   |
-| -------------------- | --------------------- | -------------------- | ------------------- | ----------------- |
-| Usuario              | Herança (△)           | Gerente              | —                   | UC01, UC02        |
-| Usuario              | Herança (△)           | Coordenador          | —                   | UC07, UC08, UC09  |
-| Usuario              | Herança (△)           | Capataz              | —                   | UC03 a UC06       |
-| Evidencia            | Herança (△)           | Foto                 | —                   | RF004, US04       |
-| Evidencia            | Herança (△)           | Audio                | —                   | RF005, US05       |
-| Evidencia            | Herança (△)           | TextoComplementar    | —                   | RF005             |
-| EventoZootecnico     | Herança (△)           | RegistroNascimento   | —                   | RF008, US08       |
-| EventoZootecnico     | Herança (△)           | RegistroObito        | —                   | RF009, US09       |
-| Gerente              | Associação            | Tarefa               | 1 para N            | RF001, RN01       |
-| Capataz              | Associação            | Tarefa               | 1 para N            | RF002, RN05       |
-| Capataz              | Associação            | Retiro               | N para 1            | RN01, RN05        |
-| Tarefa               | Composição (◆)        | Evidencia            | 1 para 0..N         | RF004, RF005, RN10|
-| Tarefa               | Associação            | Retiro               | N para 1            | RF001, RN01       |
-| Retiro               | Associação            | Coordenador          | N para 1            | UC07              |
-| Capataz              | Associação            | AlertaInfraestrutura | 1 para N            | RF006, RN19       |
-| AlertaInfraestrutura | Associação            | Retiro               | N para 1            | RN26              |
-| AlertaInfraestrutura | Associação            | Foto                 | 1 para 0..1         | RF006             |
-| Capataz              | Associação            | EventoZootecnico     | 1 para N            | RF008, RF009      |
-| EventoZootecnico     | Associação            | Retiro               | N para 1            | RF008, RF009      |
-| Coordenador          | Associação            | EventoZootecnico     | 1 para N            | RF014, RN28       |
-| RegistroObito        | Associação            | Foto                 | 1 para 1            | US09, CR2, RF013  |
-| Coordenador          | Associação            | Exportacao           | 1 para N            | RF015, RN28       |
-| Sincronizacao        | Dependência (- - →)   | Tarefa               | 1 para 1            | RF010, RF012      |
-| Sincronizacao        | Dependência (- - →)   | Evidencia            | 1 para 1            | RF010, RF012      |
-| Sincronizacao        | Dependência (- - →)   | AlertaInfraestrutura | 1 para 1            | RN20, RN21        |
-| Sincronizacao        | Dependência (- - →)   | EventoZootecnico     | 1 para 1            | RF010, RF012      |
+| Classe Origem        | Tipo UML            | Classe Destino       | Multiplicidade | Rastreabilidade    |
+| -------------------- | ------------------- | -------------------- | -------------- | ------------------ |
+| Usuario              | Herança (△)         | Gerente              | —              | UC01, UC02         |
+| Usuario              | Herança (△)         | Coordenador          | —              | UC07, UC08, UC09   |
+| Usuario              | Herança (△)         | Capataz              | —              | UC03 a UC06        |
+| Evidencia            | Herança (△)         | Foto                 | —              | RF004, US04        |
+| Evidencia            | Herança (△)         | Audio                | —              | RF005, US05        |
+| Evidencia            | Herança (△)         | TextoComplementar    | —              | RF005              |
+| EventoZootecnico     | Herança (△)         | RegistroNascimento   | —              | RF008, US08        |
+| EventoZootecnico     | Herança (△)         | RegistroObito        | —              | RF009, US09        |
+| Gerente              | Associação          | Tarefa               | 1 para N       | RF001, RN01        |
+| Capataz              | Associação          | Tarefa               | 1 para N       | RF002, RN05        |
+| Capataz              | Associação          | Retiro               | N para 1       | RN01, RN05         |
+| Tarefa               | Composição (◆)      | Evidencia            | 1 para 0..N    | RF004, RF005, RN10 |
+| Tarefa               | Associação          | Retiro               | N para 1       | RF001, RN01        |
+| Retiro               | Associação          | Coordenador          | N para 1       | UC07               |
+| Capataz              | Associação          | AlertaInfraestrutura | 1 para N       | RF006, RN19        |
+| AlertaInfraestrutura | Associação          | Retiro               | N para 1       | RN26               |
+| AlertaInfraestrutura | Associação          | Foto                 | 1 para 0..1    | RF006              |
+| Capataz              | Associação          | EventoZootecnico     | 1 para N       | RF008, RF009       |
+| EventoZootecnico     | Associação          | Retiro               | N para 1       | RF008, RF009       |
+| Coordenador          | Associação          | EventoZootecnico     | 1 para N       | RF014, RN28        |
+| RegistroObito        | Associação          | Foto                 | 1 para 1       | US09, CR2, RF013   |
+| Coordenador          | Associação          | Exportacao           | 1 para N       | RF015, RN28        |
+| Sincronizacao        | Dependência (- - →) | Tarefa               | 1 para 1       | RF010, RF012       |
+| Sincronizacao        | Dependência (- - →) | Evidencia            | 1 para 1       | RF010, RF012       |
+| Sincronizacao        | Dependência (- - →) | AlertaInfraestrutura | 1 para 1       | RN20, RN21         |
+| Sincronizacao        | Dependência (- - →) | EventoZootecnico     | 1 para 1       | RF010, RF012       |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1710,44 +1709,47 @@ _Documente os design patterns utilizados (Repository, Strategy, Factory, DTO etc
 
 ## 3.3. Wireframes (sprint 2)
 
-_Posicione aqui as imagens do wireframe construído para sua solução e, opcionalmente, o link para acesso (mantenha o link sempre público para visualização)_
-
 <center>
   <p><strong>Figura 9</strong> — Wireframe da tela de tarefas do capataz</p>
-  <img src="../assets/wireframeCapatazTarefas.png" width="800"/>
+  <img src="../documentos/assets/wireframeCapatazTarefas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-<p>Wireframe capataz - concluir tarefa (mobile)</p>
- <img src="./assets/wireframeCapatazConcluirTarefaMobile.png" width="800"/>
+<p><strong>Figura 10</strong> — Wireframe capataz - concluir tarefa (mobile/tablet/desktop)</p>
+ <img src="../documentos/assets/wireframeCapatazConcluirTarefaTablet.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-<p>Wireframe capataz - concluir tarefa (tablet/desktop)</p>
- <img src="./assets/wireframeCapatazConcluirTarefaTablet.png" width="800"/>
- <p>Fonte: Próprios autores (2026).</p>
-</center>
-
-<center>
-  <p><strong>Figura 10</strong> — Wireframe da tela de anexar fotos pelo capataz</p>
-  <img src="../assets/wireframeCapatazAnexarFotos.png" width="800"/>
+  <p><strong>Figura 11</strong> — Wireframe da tela de anexar fotos pelo capataz</p>
+  <img src="../documentos/assets/wireframeCapatazAnexarFotos.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-  <p><strong>Figura 11</strong> — Wireframe da tela de infraestrutura</p>
-  <img src="../assets/wireframeInfraestrutura.png" width="800"/>
+  <p><strong>Figura 12</strong> — Wireframe da tela de infraestrutura</p>
+  <img src="../documentos/assets/wireframeInfraestrutura.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-  <p><strong>Figura 12</strong> — Wireframe da tela de infraestrutura registrar resolução</p>
-  <img src="../assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
+  <p><strong>Figura 13</strong> — Wireframe da tela de infraestrutura registrar resolução</p>
+  <img src="../documentos/assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
+<center>
+  <p><strong>Figura 14</strong> — Wireframe da tela de dashboard do gerente</p>
+  <img src="../documentos/assets/wireframeGerenteDashboard.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+<center>
+  <p><strong>Figura 15</strong> — Wireframe da tela de nova O.S do gerente</p>
+  <img src="../documentos/assets/wireframeGerenteNovaOs.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ## 3.4. Guia de estilos (sprint 3)
 
@@ -1998,19 +2000,19 @@ O DER lógico com cardinalidades, PKs e FKs está apresentado na seção 3.6.2. 
 
 #### Modelo Relacional
 
-| Relação | Chave primária | Chaves estrangeiras principais | Observação |
-|---|---|---|---|
-| `retiros` | `id` | — | Unidades operacionais da fazenda |
-| `usuarios` | `id` | `retiro_id -> retiros(id)` | `retiro_id` é obrigatório apenas para capatazes |
-| `tarefas` | `id` | `retiro_id`, `criado_por_id`, `responsavel_id` | Registra quem criou e quem executa a tarefa |
-| `alertas` | `id` | `retiro_id`, `criado_por_id`, `tecnico_id` | Chamados com tipo, GPS e ciclo de resolução |
-| `movimentacoes` | `id` | `retiro_id`, `responsavel_id` | Evento-base de manejo do rebanho |
-| `evidencias` | `id` | `tarefa_id`, `alerta_id`, `movimentacao_id` | Cada evidência pertence a exatamente uma origem |
-| `nascimentos` | `id` | `movimentacao_id -> movimentacoes(id)` | Especialização 1:1 de movimentação |
-| `obitos` | `id` | `movimentacao_id -> movimentacoes(id)` | Especialização 1:1 com exigência de foto |
-| `transferencias` | `id` | `movimentacao_id`, `retiro_origem_id`, `retiro_destino_id` | Especialização 1:1 entre retiros distintos |
-| `compravendas` | `id` | `movimentacao_id -> movimentacoes(id)` | Especialização 1:1 de compra ou venda |
-| `sync_queue` | `id` | — | Fila técnica de sincronização offline-online |
+| Relação          | Chave primária | Chaves estrangeiras principais                             | Observação                                      |
+| ---------------- | -------------- | ---------------------------------------------------------- | ----------------------------------------------- |
+| `retiros`        | `id`           | —                                                          | Unidades operacionais da fazenda                |
+| `usuarios`       | `id`           | `retiro_id -> retiros(id)`                                 | `retiro_id` é obrigatório apenas para capatazes |
+| `tarefas`        | `id`           | `retiro_id`, `criado_por_id`, `responsavel_id`             | Registra quem criou e quem executa a tarefa     |
+| `alertas`        | `id`           | `retiro_id`, `criado_por_id`, `tecnico_id`                 | Chamados com tipo, GPS e ciclo de resolução     |
+| `movimentacoes`  | `id`           | `retiro_id`, `responsavel_id`                              | Evento-base de manejo do rebanho                |
+| `evidencias`     | `id`           | `tarefa_id`, `alerta_id`, `movimentacao_id`                | Cada evidência pertence a exatamente uma origem |
+| `nascimentos`    | `id`           | `movimentacao_id -> movimentacoes(id)`                     | Especialização 1:1 de movimentação              |
+| `obitos`         | `id`           | `movimentacao_id -> movimentacoes(id)`                     | Especialização 1:1 com exigência de foto        |
+| `transferencias` | `id`           | `movimentacao_id`, `retiro_origem_id`, `retiro_destino_id` | Especialização 1:1 entre retiros distintos      |
+| `compravendas`   | `id`           | `movimentacao_id -> movimentacoes(id)`                     | Especialização 1:1 de compra ou venda           |
+| `sync_queue`     | `id`           | —                                                          | Fila técnica de sincronização offline-online    |
 
 <center>
   <p><strong>Figura 15</strong> — Modelo Relacional</p>
@@ -2025,19 +2027,19 @@ O DER lógico com cardinalidades, PKs e FKs está apresentado na seção 3.6.2. 
 
 #### Modelo Relacional
 
-| Relação | Chave primária | Chaves estrangeiras principais | Observação |
-|---|---|---|---|
-| `retiros` | `id` | — | Unidades operacionais da fazenda |
-| `usuarios` | `id` | `retiro_id -> retiros(id)` | `retiro_id` é obrigatório apenas para capatazes |
-| `tarefas` | `id` | `retiro_id`, `criado_por_id`, `responsavel_id` | Registra quem criou e quem executa a tarefa |
-| `alertas` | `id` | `retiro_id`, `criado_por_id`, `tecnico_id` | Chamados com tipo, GPS e ciclo de resolução |
-| `movimentacoes` | `id` | `retiro_id`, `responsavel_id` | Evento-base de manejo do rebanho |
-| `evidencias` | `id` | `tarefa_id`, `alerta_id`, `movimentacao_id` | Cada evidência pertence a exatamente uma origem |
-| `nascimentos` | `id` | `movimentacao_id -> movimentacoes(id)` | Especialização 1:1 de movimentação |
-| `obitos` | `id` | `movimentacao_id -> movimentacoes(id)` | Especialização 1:1 com exigência de foto |
-| `transferencias` | `id` | `movimentacao_id`, `retiro_origem_id`, `retiro_destino_id` | Especialização 1:1 entre retiros distintos |
-| `compravendas` | `id` | `movimentacao_id -> movimentacoes(id)` | Especialização 1:1 de compra ou venda |
-| `sync_queue` | `id` | — | Fila técnica de sincronização offline-online |
+| Relação          | Chave primária | Chaves estrangeiras principais                             | Observação                                      |
+| ---------------- | -------------- | ---------------------------------------------------------- | ----------------------------------------------- |
+| `retiros`        | `id`           | —                                                          | Unidades operacionais da fazenda                |
+| `usuarios`       | `id`           | `retiro_id -> retiros(id)`                                 | `retiro_id` é obrigatório apenas para capatazes |
+| `tarefas`        | `id`           | `retiro_id`, `criado_por_id`, `responsavel_id`             | Registra quem criou e quem executa a tarefa     |
+| `alertas`        | `id`           | `retiro_id`, `criado_por_id`, `tecnico_id`                 | Chamados com tipo, GPS e ciclo de resolução     |
+| `movimentacoes`  | `id`           | `retiro_id`, `responsavel_id`                              | Evento-base de manejo do rebanho                |
+| `evidencias`     | `id`           | `tarefa_id`, `alerta_id`, `movimentacao_id`                | Cada evidência pertence a exatamente uma origem |
+| `nascimentos`    | `id`           | `movimentacao_id -> movimentacoes(id)`                     | Especialização 1:1 de movimentação              |
+| `obitos`         | `id`           | `movimentacao_id -> movimentacoes(id)`                     | Especialização 1:1 com exigência de foto        |
+| `transferencias` | `id`           | `movimentacao_id`, `retiro_origem_id`, `retiro_destino_id` | Especialização 1:1 entre retiros distintos      |
+| `compravendas`   | `id`           | `movimentacao_id -> movimentacoes(id)`                     | Especialização 1:1 de compra ou venda           |
+| `sync_queue`     | `id`           | —                                                          | Fila técnica de sincronização offline-online    |
 
 **Decisões de modelagem física:**
 
@@ -2353,12 +2355,12 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
   <p><strong>Tabela 8</strong> — Expressões SQL e Lógica Proposicional</p>
 </center>
 
-#1 | ---
---- | ---
-**Expressão SQL** | `SELECT id, titulo, descricao, status, data_prevista FROM tarefas WHERE responsavel_id = $1 AND date(data_prevista) = date('now') AND (status = 'pendente' OR status = 'em_andamento') ORDER BY data_prevista ASC;` |
-**Proposições lógicas** | $A$: a tarefa pertence ao capataz autenticado (`responsavel_id = $1`) <br> $B$: a tarefa está prevista para hoje (`date(data_prevista) = date('now')`) <br> $C$: o status é pendente (`status = 'pendente'`) <br> $D$: o status é em andamento (`status = 'em_andamento'`) |
-**Expressão lógica proposicional** | $A \land B \land (C \lor D)$ |
-**Tabela Verdade** | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$D$</th> <th>$A \land B \land (C \lor D)$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>V</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table>
+| #1                                 | ---                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Expressão SQL**                  | `SELECT id, titulo, descricao, status, data_prevista FROM tarefas WHERE responsavel_id = $1 AND date(data_prevista) = date('now') AND (status = 'pendente' OR status = 'em_andamento') ORDER BY data_prevista ASC;`                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| **Proposições lógicas**            | $A$: a tarefa pertence ao capataz autenticado (`responsavel_id = $1`) <br> $B$: a tarefa está prevista para hoje (`date(data_prevista) = date('now')`) <br> $C$: o status é pendente (`status = 'pendente'`) <br> $D$: o status é em andamento (`status = 'em_andamento'`)                                                                                                                                                                                                                                                                                                                                                            |
+| **Expressão lógica proposicional** | $A \land B \land (C \lor D)$                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| **Tabela Verdade**                 | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$D$</th> <th>$A \land B \land (C \lor D)$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>V</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table> |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -2366,12 +2368,12 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 
 ---
 
-#2 | ---
---- | ---
-**Expressão SQL** | `UPDATE tarefas SET status = 'concluida', data_conclusao = strftime('%Y-%m-%dT%H:%M:%fZ','now'), sync_status = 'pendente', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = $1 AND responsavel_id = $2 AND status <> 'concluida';` |
-**Proposições lógicas** | $A$: a tarefa corresponde ao ID informado (`id = $1`) <br> $B$: a tarefa pertence ao responsável autenticado (`responsavel_id = $2`) <br> $C$: a tarefa ainda não está concluída (`status <> 'concluida'`) |
-**Expressão lógica proposicional** | $A \land B \land C$ |
-**Tabela Verdade** | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$A \land B \land C$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table>
+| #2                                 | ---                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Expressão SQL**                  | `UPDATE tarefas SET status = 'concluida', data_conclusao = strftime('%Y-%m-%dT%H:%M:%fZ','now'), sync_status = 'pendente', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = $1 AND responsavel_id = $2 AND status <> 'concluida';`                                                                                                                                                                       |
+| **Proposições lógicas**            | $A$: a tarefa corresponde ao ID informado (`id = $1`) <br> $B$: a tarefa pertence ao responsável autenticado (`responsavel_id = $2`) <br> $C$: a tarefa ainda não está concluída (`status <> 'concluida'`)                                                                                                                                                                                                           |
+| **Expressão lógica proposicional** | $A \land B \land C$                                                                                                                                                                                                                                                                                                                                                                                                  |
+| **Tabela Verdade**                 | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$A \land B \land C$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table> |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -2379,12 +2381,12 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 
 ---
 
-#3 | ---
---- | ---
-**Expressão SQL** | `SELECT a.id, a.titulo, a.descricao, a.tipo, a.status, a.created_at, r.nome AS retiro, u.nome AS criado_por FROM alertas a JOIN retiros r ON a.retiro_id = r.id JOIN usuarios u ON a.criado_por_id = u.id WHERE (a.status = 'aberto' OR a.status = 'em_andamento') AND (a.tipo = 'infraestrutura' OR a.tipo = 'cerca' OR a.tipo = 'bebedouro') ORDER BY a.created_at DESC;` |
-**Proposições lógicas** | $A$: o alerta está aberto (`status = 'aberto'`) <br> $B$: o alerta está em andamento (`status = 'em_andamento'`) <br> $C$: o tipo é infraestrutura (`tipo = 'infraestrutura'`) <br> $D$: o tipo é cerca (`tipo = 'cerca'`) <br> $E$: o tipo é bebedouro (`tipo = 'bebedouro'`) |
-**Expressão lógica proposicional** | $(A \lor B) \land (C \lor D \lor E)$ |
-**Tabela Verdade** | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$D$</th> <th>$E$</th> <th>$(A \lor B) \land (C \lor D \lor E)$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table>
+| #3                                 | ---                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Expressão SQL**                  | `SELECT a.id, a.titulo, a.descricao, a.tipo, a.status, a.created_at, r.nome AS retiro, u.nome AS criado_por FROM alertas a JOIN retiros r ON a.retiro_id = r.id JOIN usuarios u ON a.criado_por_id = u.id WHERE (a.status = 'aberto' OR a.status = 'em_andamento') AND (a.tipo = 'infraestrutura' OR a.tipo = 'cerca' OR a.tipo = 'bebedouro') ORDER BY a.created_at DESC;`                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| **Proposições lógicas**            | $A$: o alerta está aberto (`status = 'aberto'`) <br> $B$: o alerta está em andamento (`status = 'em_andamento'`) <br> $C$: o tipo é infraestrutura (`tipo = 'infraestrutura'`) <br> $D$: o tipo é cerca (`tipo = 'cerca'`) <br> $E$: o tipo é bebedouro (`tipo = 'bebedouro'`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| **Expressão lógica proposicional** | $(A \lor B) \land (C \lor D \lor E)$                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| **Tabela Verdade**                 | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$D$</th> <th>$E$</th> <th>$(A \lor B) \land (C \lor D \lor E)$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table> |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -2392,12 +2394,12 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 
 ---
 
-#4 | ---
---- | ---
-**Expressão SQL** | `SELECT t.id, t.titulo, t.status, t.data_prevista, r.nome AS retiro, u.nome AS responsavel FROM tarefas t JOIN retiros r ON t.retiro_id = r.id JOIN usuarios u ON t.responsavel_id = u.id WHERE t.criado_por_id = $1 AND (t.status = 'pendente' OR t.status = 'em_andamento') AND date(t.data_prevista) >= date('now') ORDER BY t.data_prevista ASC, r.nome ASC;` |
-**Proposições lógicas** | $A$: a tarefa foi criada pelo gerente autenticado (`criado_por_id = $1`) <br> $B$: o status é pendente (`status = 'pendente'`) <br> $C$: o status é em andamento (`status = 'em_andamento'`) <br> $D$: a data prevista é hoje ou futura (`date(data_prevista) >= date('now')`) |
-**Expressão lógica proposicional** | $A \land (B \lor C) \land D$ |
-**Tabela Verdade** | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$D$</th> <th>$A \land (B \lor C) \land D$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table>
+| #4                                 | ---                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Expressão SQL**                  | `SELECT t.id, t.titulo, t.status, t.data_prevista, r.nome AS retiro, u.nome AS responsavel FROM tarefas t JOIN retiros r ON t.retiro_id = r.id JOIN usuarios u ON t.responsavel_id = u.id WHERE t.criado_por_id = $1 AND (t.status = 'pendente' OR t.status = 'em_andamento') AND date(t.data_prevista) >= date('now') ORDER BY t.data_prevista ASC, r.nome ASC;`                                                                                                                                                                                                                                                                     |
+| **Proposições lógicas**            | $A$: a tarefa foi criada pelo gerente autenticado (`criado_por_id = $1`) <br> $B$: o status é pendente (`status = 'pendente'`) <br> $C$: o status é em andamento (`status = 'em_andamento'`) <br> $D$: a data prevista é hoje ou futura (`date(data_prevista) >= date('now')`)                                                                                                                                                                                                                                                                                                                                                        |
+| **Expressão lógica proposicional** | $A \land (B \lor C) \land D$                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| **Tabela Verdade**                 | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$D$</th> <th>$A \land (B \lor C) \land D$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table> |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -2405,90 +2407,90 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 
 ---
 
-| #5 | Fluxo: Registro de nascimento offline com fila de sincronização (US08 / RF008) |
-|---|---|
-| **Expressão SQL** | `BEGIN; INSERT INTO movimentacoes (id, retiro_id, responsavel_id, tipo, categoria, data_movimentacao, observacoes, sync_status) VALUES ($1, $2, $3, 'nascimento', $4, $5, $6, 'pendente') ON CONFLICT(id) DO UPDATE SET categoria = excluded.categoria, data_movimentacao = excluded.data_movimentacao, observacoes = excluded.observacoes, sync_status = 'pendente', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE movimentacoes.sync_status != 'sincronizado' AND movimentacoes.responsavel_id = excluded.responsavel_id; INSERT INTO nascimentos (id, movimentacao_id, quantidade, raca) VALUES ($7, $1, $8, $9) ON CONFLICT(id) DO UPDATE SET quantidade = excluded.quantidade, raca = excluded.raca; INSERT INTO sync_queue (id, tabela, registro_id, operacao, payload_json) VALUES ($10, 'movimentacoes', $1, 'insert', $11); COMMIT;` |
-| **Proposições lógicas** | $A$: o registro ainda não existe no banco local <br> $B$: o registro existe, mas ainda não foi sincronizado (`sync_status != 'sincronizado'`) <br> $C$: o registro pertence ao mesmo responsável (`responsavel_id = excluded.responsavel_id`) |
-| **Expressão lógica proposicional** | $A \lor (B \land C)$ |
+| #5                                 | Fluxo: Registro de nascimento offline com fila de sincronização (US08 / RF008)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Expressão SQL**                  | `BEGIN; INSERT INTO movimentacoes (id, retiro_id, responsavel_id, tipo, categoria, data_movimentacao, observacoes, sync_status) VALUES ($1, $2, $3, 'nascimento', $4, $5, $6, 'pendente') ON CONFLICT(id) DO UPDATE SET categoria = excluded.categoria, data_movimentacao = excluded.data_movimentacao, observacoes = excluded.observacoes, sync_status = 'pendente', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE movimentacoes.sync_status != 'sincronizado' AND movimentacoes.responsavel_id = excluded.responsavel_id; INSERT INTO nascimentos (id, movimentacao_id, quantidade, raca) VALUES ($7, $1, $8, $9) ON CONFLICT(id) DO UPDATE SET quantidade = excluded.quantidade, raca = excluded.raca; INSERT INTO sync_queue (id, tabela, registro_id, operacao, payload_json) VALUES ($10, 'movimentacoes', $1, 'insert', $11); COMMIT;` |
+| **Proposições lógicas**            | $A$: o registro ainda não existe no banco local <br> $B$: o registro existe, mas ainda não foi sincronizado (`sync_status != 'sincronizado'`) <br> $C$: o registro pertence ao mesmo responsável (`responsavel_id = excluded.responsavel_id`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| **Expressão lógica proposicional** | $A \lor (B \land C)$                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 
 | $A$ | $B$ | $C$ | $A \lor (B \land C)$ |
-|---|---|---|---|
-| F | F | F | F |
-| F | F | V | F |
-| F | V | F | F |
-| F | V | V | V |
-| V | F | F | V |
-| V | F | V | V |
-| V | V | F | V |
-| V | V | V | V |
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
---- 
-
-| #6 | Fluxo: Registro de óbito offline com fila de sincronização (US09 / RF009) |
-|---|---|
-| **Expressão SQL** | `BEGIN; INSERT INTO movimentacoes (id, retiro_id, responsavel_id, tipo, categoria, data_movimentacao, observacoes, sync_status) VALUES ($1, $2, $3, 'obito', $4, $5, $6, 'pendente') ON CONFLICT(id) DO UPDATE SET categoria = excluded.categoria, data_movimentacao = excluded.data_movimentacao, observacoes = excluded.observacoes, sync_status = 'pendente', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE movimentacoes.sync_status != 'sincronizado' AND movimentacoes.responsavel_id = excluded.responsavel_id; INSERT INTO obitos (id, movimentacao_id, identificacao_animal, quantidade, causa, exige_evidencia_foto) VALUES ($7, $1, $8, $9, $10, 1) ON CONFLICT(id) DO UPDATE SET causa = excluded.causa, quantidade = excluded.quantidade, identificacao_animal = excluded.identificacao_animal WHERE obitos.movimentacao_id = excluded.movimentacao_id; INSERT INTO sync_queue (id, tabela, registro_id, operacao, payload_json) VALUES ($11, 'movimentacoes', $1, 'insert', $12); COMMIT;` |
-| **Proposições lógicas** | $A$: o registro de óbito ainda não existe no banco local <br> $B$: o registro existe, mas ainda não foi sincronizado (`sync_status != 'sincronizado'`) <br> $C$: o registro pertence ao mesmo responsável (`responsavel_id = excluded.responsavel_id`) <br> $D$: a causa da morte foi informada (`causa IS NOT NULL`) |
-| **Expressão lógica proposicional** | $(A \lor (B \land C)) \land D$ |
-
-| $A$ | $B$ | $C$ | $D$ | $(A \lor (B \land C)) \land D$ |
-|---|---|---|---|---|
-| F | F | F | F | F |
-| F | F | F | V | F |
-| F | F | V | V | F |
-| F | V | F | V | F |
-| F | V | V | F | F |
-| F | V | V | V | V |
-| V | F | F | F | F |
-| V | F | F | V | V |
-| V | F | V | V | V |
-| V | V | F | V | V |
-| V | V | V | F | F |
-| V | V | V | V | V |
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
-
-| **Proposições lógicas** | $A$: o registro de óbito ainda não existe no banco local <br> $B$: o registro existe, mas ainda não foi sincronizado (`sync_status != 'sincronizado'`) <br> $C$: o registro pertence ao mesmo responsável (`responsavel_id = excluded.responsavel_id`) <br> $D$: a causa da morte foi informada (`causa IS NOT NULL`) |
-| **Expressão lógica proposicional** | $(A \lor (B \land C)) \land D$ |
-
-| $A$ | $B$ | $C$ | $D$ | $(A \lor (B \land C)) \land D$ |
-|---|---|---|---|---|
-| F | F | F | F | F |
-| F | F | F | V | F |
-| F | F | V | V | F |
-| F | V | F | V | F |
-| F | V | V | F | F |
-| F | V | V | V | V |
-| V | F | F | F | F |
-| V | F | F | V | V |
-| V | F | V | V | V |
-| V | V | F | V | V |
-| V | V | V | F | F |
-| V | V | V | V | V |
+| --- | --- | --- | -------------------- |
+| F   | F   | F   | F                    |
+| F   | F   | V   | F                    |
+| F   | V   | F   | F                    |
+| F   | V   | V   | V                    |
+| V   | F   | F   | V                    |
+| V   | F   | V   | V                    |
+| V   | V   | F   | V                    |
+| V   | V   | V   | V                    |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 ---
-| #7 | Fluxo: Busca de registros pendentes na fila de sincronização (RF010 / RF012) |
-|---|---|
-| **Expressão SQL** | `SELECT id, tabela, registro_id, operacao, payload_json, tentativas FROM sync_queue WHERE status = 'pendente' AND tentativas < 5 ORDER BY created_at ASC LIMIT 50;` |
-| **Proposições lógicas** | $A$: o registro está com status pendente de envio (`status = 'pendente'`) <br> $B$: o número de tentativas de envio é menor que 5 (`tentativas < 5`) |
-| **Expressão lógica proposicional** | $A \land B$ |
+
+| #6                                 | Fluxo: Registro de óbito offline com fila de sincronização (US09 / RF009)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Expressão SQL**                  | `BEGIN; INSERT INTO movimentacoes (id, retiro_id, responsavel_id, tipo, categoria, data_movimentacao, observacoes, sync_status) VALUES ($1, $2, $3, 'obito', $4, $5, $6, 'pendente') ON CONFLICT(id) DO UPDATE SET categoria = excluded.categoria, data_movimentacao = excluded.data_movimentacao, observacoes = excluded.observacoes, sync_status = 'pendente', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE movimentacoes.sync_status != 'sincronizado' AND movimentacoes.responsavel_id = excluded.responsavel_id; INSERT INTO obitos (id, movimentacao_id, identificacao_animal, quantidade, causa, exige_evidencia_foto) VALUES ($7, $1, $8, $9, $10, 1) ON CONFLICT(id) DO UPDATE SET causa = excluded.causa, quantidade = excluded.quantidade, identificacao_animal = excluded.identificacao_animal WHERE obitos.movimentacao_id = excluded.movimentacao_id; INSERT INTO sync_queue (id, tabela, registro_id, operacao, payload_json) VALUES ($11, 'movimentacoes', $1, 'insert', $12); COMMIT;` |
+| **Proposições lógicas**            | $A$: o registro de óbito ainda não existe no banco local <br> $B$: o registro existe, mas ainda não foi sincronizado (`sync_status != 'sincronizado'`) <br> $C$: o registro pertence ao mesmo responsável (`responsavel_id = excluded.responsavel_id`) <br> $D$: a causa da morte foi informada (`causa IS NOT NULL`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| **Expressão lógica proposicional** | $(A \lor (B \land C)) \land D$                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+
+| $A$ | $B$ | $C$ | $D$ | $(A \lor (B \land C)) \land D$ |
+| --- | --- | --- | --- | ------------------------------ |
+| F   | F   | F   | F   | F                              |
+| F   | F   | F   | V   | F                              |
+| F   | F   | V   | V   | F                              |
+| F   | V   | F   | V   | F                              |
+| F   | V   | V   | F   | F                              |
+| F   | V   | V   | V   | V                              |
+| V   | F   | F   | F   | F                              |
+| V   | F   | F   | V   | V                              |
+| V   | F   | V   | V   | V                              |
+| V   | V   | F   | V   | V                              |
+| V   | V   | V   | F   | F                              |
+| V   | V   | V   | V   | V                              |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+| **Proposições lógicas** | $A$: o registro de óbito ainda não existe no banco local <br> $B$: o registro existe, mas ainda não foi sincronizado (`sync_status != 'sincronizado'`) <br> $C$: o registro pertence ao mesmo responsável (`responsavel_id = excluded.responsavel_id`) <br> $D$: a causa da morte foi informada (`causa IS NOT NULL`) |
+| **Expressão lógica proposicional** | $(A \lor (B \land C)) \land D$ |
+
+| $A$ | $B$ | $C$ | $D$ | $(A \lor (B \land C)) \land D$ |
+| --- | --- | --- | --- | ------------------------------ |
+| F   | F   | F   | F   | F                              |
+| F   | F   | F   | V   | F                              |
+| F   | F   | V   | V   | F                              |
+| F   | V   | F   | V   | F                              |
+| F   | V   | V   | F   | F                              |
+| F   | V   | V   | V   | V                              |
+| V   | F   | F   | F   | F                              |
+| V   | F   | F   | V   | V                              |
+| V   | F   | V   | V   | V                              |
+| V   | V   | F   | V   | V                              |
+| V   | V   | V   | F   | F                              |
+| V   | V   | V   | V   | V                              |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+---
+
+| #7                                 | Fluxo: Busca de registros pendentes na fila de sincronização (RF010 / RF012)                                                                                        |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Expressão SQL**                  | `SELECT id, tabela, registro_id, operacao, payload_json, tentativas FROM sync_queue WHERE status = 'pendente' AND tentativas < 5 ORDER BY created_at ASC LIMIT 50;` |
+| **Proposições lógicas**            | $A$: o registro está com status pendente de envio (`status = 'pendente'`) <br> $B$: o número de tentativas de envio é menor que 5 (`tentativas < 5`)                |
+| **Expressão lógica proposicional** | $A \land B$                                                                                                                                                         |
 
 | $A$ | $B$ | $A \land B$ |
-|---|---|---|
-| F | F | F |
-| F | V | F |
-| V | F | F |
-| V | V | V |
+| --- | --- | ----------- |
+| F   | F   | F           |
+| F   | V   | F           |
+| V   | F   | F           |
+| V   | V   | V           |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -2501,15 +2503,15 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 | **Expressão lógica proposicional** | $A \land B \land C$ |
 
 | $A$ | $B$ | $C$ | $A \land B$ | $A \land B \land C$ |
-|---|---|---|---|---|
-| F | F | F | F | F |
-| F | F | V | F | F |
-| F | V | F | F | F |
-| F | V | V | F | F |
-| V | F | F | F | F |
-| V | F | V | F | F |
-| V | V | F | V | F |
-| V | V | V | V | V |
+| --- | --- | --- | ----------- | ------------------- |
+| F   | F   | F   | F           | F                   |
+| F   | F   | V   | F           | F                   |
+| F   | V   | F   | F           | F                   |
+| F   | V   | V   | F           | F                   |
+| V   | F   | F   | F           | F                   |
+| V   | F   | V   | F           | F                   |
+| V   | V   | F   | V           | F                   |
+| V   | V   | V   | V           | V                   |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
