@@ -50,24 +50,22 @@ Dentre os arquivos e pastas presentes na raiz do projeto, definem-se:
 
 ## Configuracao para desenvolvimento
 
-### Pre-requisitos
+### Pré-requisitos
 
-| Ferramenta | Versao minima | Observacao |
-|------------|---------------|------------|
-| Node.js | 18.x LTS | [Download](https://nodejs.org/) |
-| npm | 9.x | Incluido com o Node.js |
-| Supabase | -- | Projeto configurado com banco PostgreSQL |
+- [Node.js](https://nodejs.org/pt-br/) v18 ou superior
+- [Supabase CLI](https://supabase.com/docs/guides/cli) v2 ou superior
+- [Docker](https://www.docker.com/) (necessário para o Supabase local)
 
-### Instalacao
+### Instalação
 
-1. Clone o repositorio:
+1. Clone o repositório:
 
 ```sh
-git clone https://git.inteli.edu.br/graduacao/2026-1b/t26/g03.git
+git clone <url-do-repositorio>
 cd g03
 ```
 
-2. Instale as dependencias da raiz (commitlint, husky):
+2. Instale as dependências:
 
 ```sh
 npm install

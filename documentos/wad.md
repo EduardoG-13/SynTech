@@ -31,7 +31,7 @@
 
 [7. Conclusões e trabalhos futuros](#c7)
 
-[8. Referências](c#8)
+[8. Referências](#c8)
 
 [Anexos](#c9)
 
@@ -47,7 +47,7 @@ movimentação do rebanho, fatores diretamente relacionados à produtividade e �
 da tomada de decisão.
 
 No cenário da BrPec Agropecuária S.A., empresa com 14 retiros operacionais distribuídos
-na região do Pantanal sul-mato-grossense e aproximadamente 25 usuários operacionais,
+na região do Pantanal sul-mato-grossense e aproximadamente 240 colaboradores, dos quais cerca de 25 atuam diretamente como usuários operacionais da solução,
 identificou-se que o fluxo de informações entre o campo e o escritório ocorre de forma
 inteiramente manual, por meio de anotações em boletas de papel. Esse modelo gera
 ineficiências operacionais relevantes: registros são frequentemente preenchidos de forma
@@ -99,9 +99,9 @@ O Modelo das 5 Forças de Porter foi aplicado para analisar a estrutura competit
 
 **Poder de barganha dos clientes:** O poder é alto. Os principais compradores JBS, Marfrig e Minerva Foods, operam em oligopsônio e pressionam os preços pagos por arroba (INFOMONEY, 2024). A concentração do lado comprador mantém o produtor em posição estruturalmente desfavorável, com margens sensíveis à política de compra desses grupos (REPÓRTER BRASIL, 2024).
 
-**Ameaça de substitutos:** A ameaça é moderada e crescente. No mercado interno, frango e suíno competem com a carne bovina em custo-benefício (CEPEA, 2023). Externamente, o regulamento anti-desmatamento da União Europeia, em vigor a partir de 2026, restringe produtores com histórico ambiental negativo, limitando o acesso a mercados de maior valor agregado (REHAGRO, 2024).
+**Ameaça de substitutos:** A ameaça de produtos substitutos é moderada e crescente. No mercado interno, frango e suíno competem diretamente com a carne bovina por apresentarem, em muitos períodos, melhor relação custo-benefício ao consumidor (CEPEA, 2023). Em momentos de redução do poder de compra, essa substituição tende a se intensificar, pressionando a demanda pela carne bovina. Além disso, proteínas vegetais e outras alternativas sustentáveis vêm ganhando espaço em nichos específicos de consumo, especialmente entre públicos mais atentos a questões ambientais e de saúde. Externamente, o regulamento anti-desmatamento da União Europeia, em vigor a partir de 2026, aumenta as exigências de rastreabilidade e conformidade para acesso a mercados de maior valor agregado (REHAGRO, 2024). Nesse contexto, a BrPec precisa fortalecer sua eficiência operacional e sua capacidade de comprovar a origem e a regularidade de sua produção, reduzindo sua vulnerabilidade frente a produtos substitutos e ampliando sua competitividade.
 
-**Análise estrutural:** A BrPec opera em setor com barreiras de entrada relevantes e integração vertical como diferencial, mas enfrenta forte pressão de canais de compra concentrados, alta rivalidade por escala e dependência de fornecedores especializados. O passivo ambiental representa risco estratégico: a empresa figura entre os maiores desmatadores do Pantanal segundo o Ibama (DE OLHO NOS RURALISTAS, 2020), podendo restringir o acesso aos segmentos de maior rentabilidade.
+**Análise estrutural:** A BrPec opera em setor com barreiras de entrada relevantes e integração vertical como diferencial, mas enfrenta forte pressão de canais de compra concentrados, alta rivalidade por escala e dependência de fornecedores especializados. Além disso, desafios de conformidade ambiental podem representar riscos estratégicos, especialmente em um contexto de crescente rigor regulatório e ampliação das exigências ESG. A empresa já foi mencionada em levantamentos sobre desmatamento no Pantanal (DE OLHO NOS RURALISTAS, 2020), o que pode restringir o acesso a mercados premium, linhas de crédito e segmentos de maior rentabilidade. Nesse contexto, a digitalização dos registros operacionais contribui para ampliar a rastreabilidade, fortalecer a governança das informações e apoiar a mitigação de riscos reputacionais e regulatórios.
 
 <center>
   <p><strong>Figura 1</strong> — Análise das 5 Forças de Porter aplicada à BRPec Agropecuária<br/>
@@ -135,7 +135,7 @@ A análise SWOT a seguir avalia o posicionamento estratégico da BRPec considera
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-A leitura integrada dos quadrantes revela que a principal vantagem competitiva sustentável da BRPec reside em sua escala fundiária no Pantanal e no modelo integrado grãos-pecuária, atributos que concorrentes de médio porte não replicam no curto prazo. Por outro lado, o passivo ambiental ativo representa não apenas uma fraqueza interna de compliance, mas um vetor de amplificação de ameaças externas: é simultaneamente a causa do risco de bloqueio ao mercado europeu via EUDR e do encarecimento do custo de capital frente a concorrentes com certificações ESG consolidadas — concentrando dois dos três riscos externos mapeados em uma única vulnerabilidade de origem interna. Essa sobreposição indica que a resolução do passivo ambiental não é apenas uma pauta regulatória, mas a condição estrutural para que a BRPec converta sua escala operacional em acesso real a mercados premium e crédito qualificado.
+A leitura integrada dos quadrantes revela que a principal força da BrPec está em sua escala fundiária no Pantanal e no modelo integrado entre grãos e pecuária, atributos que fortalecem sua capacidade produtiva e dificultam a replicação por concorrentes de menor porte no curto prazo. Entre as fraquezas, destacam-se a dependência de registros manuais, a baixa padronização das informações operacionais, as limitações de conectividade nos retiros e os desafios de conformidade ambiental associados à atuação em biomas sensíveis. Como oportunidades, a digitalização dos processos, a rastreabilidade do rebanho, a melhoria da gestão operacional e o acesso a mercados mais exigentes podem ampliar a eficiência e o posicionamento competitivo da empresa. Já as ameaças envolvem o aumento da pressão regulatória ambiental, a concentração de compradores, a intensificação das exigências ESG e o possível encarecimento do custo de capital frente a concorrentes com certificações consolidadas. Dessa forma, a solução proposta atua sobre as principais fragilidades operacionais da BrPec, criando condições para reduzir riscos, aumentar a confiabilidade dos dados e transformar sua escala produtiva em uma vantagem competitiva mais sustentável.
 
 ### 2.1.3. Solução (sprints 1 a 5)
 
@@ -367,13 +367,11 @@ Identifica-se que a potencialização desta oportunidade requer a garantia de qu
 
 ## Síntese
 
-Conclui-se que a análise da matriz de riscos permite a identificação de fatores críticos suscetíveis de impactar tanto o desenvolvimento do projeto quanto a efetividade da solução no contexto operacional da BrPec. Verifica-se que, ao serem estabelecidas estratégias de mitigação e potencialização, torna-se possível a condução do projeto de forma mais segura, alinhada às necessidades do parceiro e orientada à geração de valor. Observa-se, assim, que a presente análise contribui para a qualidade, a fiabilidade e a rastreabilidade das entregas projetadas.
+A matriz de riscos evidencia que os principais desafios do projeto estão relacionados à operação offline, à adoção pelos usuários de campo, à qualidade dos registros e à compatibilidade dos dados exportados com os processos já utilizados pela BrPec. Ao mesmo tempo, o projeto apresenta oportunidades relevantes, como redução de retrabalho, melhoria da tomada de decisão, aumento da rastreabilidade e fortalecimento da eficiência operacional. Dessa forma, os planos de ação definidos buscam reduzir ameaças técnicas, humanas e operacionais, ao mesmo tempo em que potencializam os ganhos esperados com a digitalização dos registros de campo.
 
 ## 2.2. Personas (sprint 1)
 
-Personas são representações semifictícias dos usuários finais construídas a partir de dados reais, hipóteses fundamentadas e observações do contexto de negócio. Seu objetivo é sintetizar características, necessidades, dores e comportamentos dos usuários, permitindo que as decisões de design e desenvolvimento sejam orientadas pelas necessidades concretas das pessoas que utilizarão o sistema. Segundo Cooper et al. (2014), o uso de personas contribui para o alinhamento da equipe em torno de perfis de usuários claramente definidos, reduzindo ambiguidades e aumentando a aderência da solução ao contexto operacional.
-
-No contexto da BrPec Agropecuária S.A., as personas representam os três principais perfis envolvidos no fluxo operacional da fazenda: o Gerente Geral, que atua no escritório corporativo em São Paulo; o Coordenador, responsável pela consolidação das informações no escritório operacional em Miranda (MS); e o Capataz, que executa atividades diretamente nos retiros localizados no Pantanal sul-mato-grossense. Esses diferentes ambientes de atuação influenciam diretamente as necessidades, limitações e expectativas em relação ao sistema.
+Personas são, de forma resumida, representaçôes fictícia dos diferentes tipos de usuários. Elas permitem que a ferramenta seja mais eficiente e focada para atender as necessidades reais do cliente. Dessa forma, as Figuras 5, 6 e 7 mostram as personas criadas para o projeto.
 
 ### Persona 1: João Pereira
 
@@ -670,9 +668,7 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 
 ## 2.3. User Stories (sprints 1 a 5)
 
-User Stories são descrições curtas e objetivas de funcionalidades sob a perspectiva do usuário final. Segundo Cohn (2004), esse artefato permite expressar necessidades de negócio de forma simples, priorizável e orientada à geração de valor. Cada história descreve quem é o usuário, qual ação deseja executar e qual benefício espera obter, servindo como base para planejamento, implementação e validação do sistema.
 
-No projeto BrPec, as User Stories foram elaboradas a partir das personas definidas anteriormente e representam as funcionalidades essenciais da aplicação, com ênfase na operação offline, no gerenciamento de tarefas e no registro das movimentações do rebanho. As cinco histórias prioritárias incluem ainda uma análise segundo o método INVEST, garantindo que sejam independentes, negociáveis, valiosas, estimáveis, pequenas e testáveis.
 
 <center>
   <p><strong>Quadro 1</strong> — User Story 01</p>
@@ -1093,19 +1089,20 @@ _Matriz de cobertura mostrando quais RN e endpoints implementam cada RF._
   <p><strong>Tabela 7</strong> — Matriz RF → RN → Endpoint</p>
 </center>
 
-| RF | RN associada(s) | Endpoint / Operação | Método | Finalidade da Operação |
-| --- | ------------- | ------------------- | ------ | ---------------------- |
-| RF001 | RN01 | /tarefas | POST | Criar tarefa vinculada a um retiro. |
-| RF002 | RN02, RN05, RN06 | /tarefas/hoje | GET | Listar tarefas do dia para o capataz logado. |
-| RF003 | RN03, RN07, RN08 | /tarefas/sincronizar | GET | Download de dados para uso offline. |
-| RF004 | RN04, RN12 | Consulta Local | N/A | Exibição de estado vazio (Offline). |
-| RF005 | RN13, RN14, RN15, RN16 | /tarefas/{id}/evidencia | POST | Upload de áudio/evidência da tarefa. |
-| RF006 | RN19, RN20, RN21, RN24 | /chamados | POST | Registrar alerta de infraestrutura (GPS imutável). |
-| RF007 | RN11 | /gerencia/status | GET | Visualização do painel de controle (Coordenador). |
-| RF008 | RN27, RN28, RN30 | /movimentacoes/nascimento | POST | Registrar novo animal no sistema. |
-| RF009 | RN31, RN33, RN34 | /movimentacoes/obito | POST | Registrar óbito com foto obrigatória. |
-| RF010 | RN37 | /sincronizacao/push | POST | Envio automático de dados ao detectar rede. |
-| RF015 | RN41 | /relatorios/exportar | GET | Gerar CSV/Excel para integração BrPec. |
+| RF    | RN associadas | Endpoint              | Método |
+| ----- | ------------- | --------------------- | ------ |
+| RF001 | RN01          | /tarefas              | POST   |
+| RF002 | RN02, RN05    | /tarefas/hoje         | GET    |
+| RF003 | RN03          | /tarefas/sincronizar  | GET    |
+| RF004 | RN04          | /tarefas/hoje/offline | GET    |
+| RF005 | RN05          | /tarefas/concluir     | POST   |
+| RF006 | RN06          | /chamados             | POST   |
+| RF007 | RN07          | /eventos/zootecnicos  | POST   |
+| RF008 | RN08          | /transacoes/gado      | POST   |
+| RF009 | RN09          | /transferencias       | POST   |
+| RF010 | RN10          | Armazenamento Local   | INSERT |
+| RF011 | RN11          | /sincronizar          | POST   |
+| RF012 | RN12          | Consulta Banco Local  | GET    |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1241,7 +1238,7 @@ UC07 — Validar movimentações (RF007)
 | Pós-condições | As movimentações são confirmadas e consideradas válidas |
 
 <center>
-  <p><strong> +Quadro 17</strong> — Caso de Uso UC07</p>
+  <p><strong>Quadro 17</strong> — Caso de Uso UC07</p>
 </center>
 
 <center>
@@ -1355,7 +1352,6 @@ sobrecarregar as demais classes com atributos de controle de rede — decisão a
 ao princípio de responsabilidade única descrito por Fowler [15] como critério de
 coesão em modelos orientados a objetos.
 
-#### Atributos e Tipos das Classes do Domínio
 
 A seguir, são detalhados os atributos, tipos de dado e métodos de cada classe
 modelada no diagrama, organizados por camada conceitual. Os tipos adotam a notação
@@ -1633,6 +1629,8 @@ A Tabela 19 consolida todos os relacionamentos modelados no diagrama, com seus t
 
 ### 3.2.4. Diagrama de Sequência UML (sprint 3)
 
+_Ao menos um fluxo prioritário, mostrando a interação entre as camadas Controller → Service → Repository → Banco. Linhas de vida verticais, ativação correta, mensagens síncronas e assíncronas diferenciadas, retornos tracejadas._
+
 O Diagrama de Sequência UML constitui um dos quatro tipos de diagrama de interação previstos pela especificação UML 2.5.1, sendo formalmente classificado como um diagrama comportamental que enfatiza a troca ordenada de mensagens entre participantes ao longo do tempo [13]. Segundo o Object Management Group (OMG), a semântica de uma interação é definida como um par de conjuntos de *traces* — sequências válidas e inválidas de ocorrências de eventos —, de modo que cada diagrama de sequência representa, de forma gráfica, os cenários de comunicação aceitos pelo sistema modelado [13][18]. A notação adotada emprega linhas de vida (*lifelines*) para representar os participantes, setas contínuas para mensagens síncronas e setas tracejadas para retornos, com fragmentos combinados (*combined fragments*) do tipo `alt` para expressar ramificações condicionais no fluxo de execução, conforme as convenções consolidadas por Fowler [15] e detalhadas na norma ISO/IEC 19505-2:2012 [17].
 
 No contexto do sistema BrPec, os diagramas de sequência foram elaborados para representar os fluxos operacionais críticos identificados nas User Stories (US01 a US05) e nos Requisitos Funcionais (RF001 a RF015), detalhando a interação entre o ator externo — Gerente ou Capataz — e as camadas internas da arquitetura da aplicação. A estrutura de camadas adotada segue o padrão Controller–Service–Repository, amplamente documentado na literatura de engenharia de software como uma instância concreta da arquitetura em camadas (*layered architecture*) [19], na qual cada componente possui responsabilidade única e bem delimitada:
@@ -1795,34 +1793,42 @@ _Documente os design patterns utilizados (Repository, Strategy, Factory, DTO etc
 
 ## 3.3. Wireframes (sprint 2)
 
+_Posicione aqui as imagens do wireframe construído para sua solução e, opcionalmente, o link para acesso (mantenha o link sempre público para visualização)_
+
 <center>
-<p>Wireframe capataz - acompanhamento de tarefas (mobile/tablet)</p>
- <img src="./assets/wireframeCapatazTarefas.png" width="800"/>
+  <p><strong>Figura 9</strong> — Wireframe da tela de tarefas do capataz</p>
+  <img src="../assets/wireframeCapatazTarefas.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+<center>
+<p>Wireframe capataz - concluir tarefa (mobile)</p>
+ <img src="./assets/wireframeCapatazConcluirTarefaMobile.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-<p>Wireframe capataz - anexar fotos (mobile/tablet)</p>
- <img src="./assets/wireframeCapatazAnexarFotos.png" width="800"/>
+<p>Wireframe capataz - concluir tarefa (tablet/desktop)</p>
+ <img src="./assets/wireframeCapatazConcluirTarefaTablet.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-<p>Wireframe infraestrutura - acompanhamento de chamados (mobile/tablet/desktop)</p>
- <img src="./assets/wireframeInfraestrutura.png" width="800"/>
- <p>Fonte: Próprios autores (2026).</p>
+  <p><strong>Figura 10</strong> — Wireframe da tela de anexar fotos pelo capataz</p>
+  <img src="../assets/wireframeCapatazAnexarFotos.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-<p>Wireframe infraestrutura - registrar resolução (mobile/tablet/desktop)</p>
- <img src="./assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
- <p>Fonte: Próprios autores (2026).</p>
+  <p><strong>Figura 11</strong> — Wireframe da tela de infraestrutura</p>
+  <img src="../assets/wireframeInfraestrutura.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-<p>Wireframe infraestrutura - detalhe do chamado (desktop/tablet/mobile)</p>
- <img src="./assets/wireframeDetalheDoChamado.png" width="800"/>
- <p>Fonte: Próprios autores (2026).</p>
+  <p><strong>Figura 12</strong> — Wireframe da tela de infraestrutura registrar resolução</p>
+  <img src="../assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 
@@ -1852,12 +1858,14 @@ _posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelid
 
 ### 3.6.1. Modelo Entidade-Relacionamento (ER) (sprint 2)
 
+_Apresente o modelo ER conceitual com entidades, atributos e relacionamentos. Use notação consistente (Chen ou Crow's Foot - não misture)._
+
 O modelo Entidade-Relacionamento (ER) conceitual representa as principais entidades do domínio da aplicação, seus atributos e relacionamentos existentes entre elas, utilizando a notação **Crow's Foot** de forma consistente em toda a modelagem. O objetivo deste modelo é estruturar conceitualmente os dados necessários para suportar o gerenciamento operacional da BRPec Agropecuária, contemplando usuários, tarefas, evidências, alertas, retiros e movimentações do rebanho.
 
 Nesta etapa conceitual, não são representados detalhes físicos de implementação, como tipos específicos de banco de dados, chaves primárias ou estrangeiras, pois esses elementos serão tratados posteriormente no DER lógico e no modelo físico da aplicação.
 
 <center>
-  <p><strong>Figura 9</strong> — Modelo Entidade-Relacionamento Conceitual — BRPec Agropecuária</p>
+  <p><strong>Figura 13</strong> — Modelo Entidade-Relacionamento Conceitual — BRPec Agropecuária</p>
 </center>
 
 ```mermaid
@@ -1958,6 +1966,8 @@ erDiagram
 
 ### 3.6.2. Diagrama Entidade-Relacionamento (DER) (sprint 2)
 
+_Posicione aqui o DER com cardinalidades explícitas em ambos os lados de cada relação e identificação de PK/FK. O DER deve ser coerente com o diagrama de classes (3.2.3)._
+
 O Diagrama Entidade-Relacionamento (DER) é uma representação gráfica da estrutura de um banco de dados, baseada no Modelo Entidade-Relacionamento (MER) proposto por Peter Chen (1976). No diagrama, entidades (objetos do mundo real com existência independente) são representadas por retângulos. Seus atributos, por elipses, e os relacionamentos entre elas, por losangos. Essa notação auxilia desenvolvedores a visualizar e comunicar a arquitetura de dados de um sistema antes de sua implementação. [9]
 
 ```mermaid
@@ -2052,10 +2062,40 @@ erDiagram
 ```
 
 <center>
+  <p><strong>Figura 14</strong> — Diagrama Entidade-Relacionamento (DER)</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 ### 3.6.3. Modelo Relacional e Modelo Físico (sprints 2 e 4)
+
+_Posicione aqui os diagramas de modelos relacionais do banco de dados, apresentando todos os esquemas de tabelas e suas relações. Inclua as migrations DDL numeradas e reproduzíveis (`CREATE TABLE`, `CREATE INDEX`, constraints `NOT NULL`, `UNIQUE`, `FOREIGN KEY`, `CHECK`). Utilize texto para complementar suas explicações quando necessário._
+
+O modelo físico deriva do modelo conceitual (ER) apresentado na seção 3.6.1 e materializa as entidades em tabelas SQLite, usando chaves primárias textuais em UUID v7, chaves estrangeiras explícitas, constraints de domínio e índices para consultas frequentes. A escolha por SQLite está associada ao requisito offline-first: os dados operacionais são gravados no dispositivo antes de qualquer tentativa de sincronização, evitando dependência exclusiva de cache do navegador.
+
+A aplicação PWA mantém os dados estruturados no banco local SQLite. Quando a conexão retorna, a camada de sincronização envia os registros pendentes para uma API central; arquivos de mídia, como fotos e áudios, são enviados a um serviço de armazenamento de evidências pela API. O banco local mantém metadados, caminho local do arquivo antes do upload e a referência remota (`storage_key` ou `url`) após a sincronização.
+
+O DER lógico com cardinalidades, PKs e FKs está apresentado na seção 3.6.2. Nesta seção, o mesmo desenho é transformado em modelo relacional e em DDL executável.
+
+#### Modelo Relacional
+
+| Relação | Chave primária | Chaves estrangeiras principais | Observação |
+|---|---|---|---|
+| `retiros` | `id` | — | Unidades operacionais da fazenda |
+| `usuarios` | `id` | `retiro_id -> retiros(id)` | `retiro_id` é obrigatório apenas para capatazes |
+| `tarefas` | `id` | `retiro_id`, `criado_por_id`, `responsavel_id` | Registra quem criou e quem executa a tarefa |
+| `alertas` | `id` | `retiro_id`, `criado_por_id`, `tecnico_id` | Chamados com tipo, GPS e ciclo de resolução |
+| `movimentacoes` | `id` | `retiro_id`, `responsavel_id` | Evento-base de manejo do rebanho |
+| `evidencias` | `id` | `tarefa_id`, `alerta_id`, `movimentacao_id` | Cada evidência pertence a exatamente uma origem |
+| `nascimentos` | `id` | `movimentacao_id -> movimentacoes(id)` | Especialização 1:1 de movimentação |
+| `obitos` | `id` | `movimentacao_id -> movimentacoes(id)` | Especialização 1:1 com exigência de foto |
+| `transferencias` | `id` | `movimentacao_id`, `retiro_origem_id`, `retiro_destino_id` | Especialização 1:1 entre retiros distintos |
+| `compravendas` | `id` | `movimentacao_id -> movimentacoes(id)` | Especialização 1:1 de compra ou venda |
+| `sync_queue` | `id` | — | Fila técnica de sincronização offline-online |
+
+<center>
+  <p><strong>Figura 15</strong> — Modelo Relacional</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 O modelo físico deriva do modelo conceitual (ER) apresentado na seção 3.6.1 e materializa as entidades em tabelas SQLite, usando chaves primárias textuais em UUID v7, chaves estrangeiras explícitas, constraints de domínio e índices para consultas frequentes. A escolha por SQLite está associada ao requisito offline-first: os dados operacionais são gravados no dispositivo antes de qualquer tentativa de sincronização, evitando dependência exclusiva de cache do navegador.
 
@@ -2366,7 +2406,7 @@ CREATE INDEX IF NOT EXISTS idx_sync_queue_registro ON sync_queue(tabela, registr
 - sincronização pela API central, com operação equivalente a UPSERT no ambiente servidor;
 - arquivos de mídia sincronizados separadamente para storage, mantendo no banco apenas metadados e referência.
 
-UPSERT é uma operação que combina UPDATE (atualizar) e INSERT (inserir). Ele insere uma nova linha se ela não existir ou atualiza um registro existente se já houver uma correspondência. Assim, evita erros de duplicidade e facilita a sincronização de dados.
+UPSERT é uma operação que combina UPdate (atualizar) e inSERT (inserir). Ele insere uma nova linha se ela não existir ou atualiza um registro existente se já houver uma correspondência. Assim, evitando erros de duplicidade e facilitando a sincronização de dados.
 
 **Alternativas consideradas:**
 
@@ -2383,27 +2423,22 @@ UPSERT é uma operação que combina UPDATE (atualizar) e INSERT (inserir). Ele 
 
 ### 3.6.4. Consultas SQL e lógica proposicional (sprint 2)
 
+_posicione aqui uma lista de consultas SQL compostas, realizadas pelo back-end da aplicação web, com sua respectiva lógica proposicional, descrita conforme template abaixo. Lembre-se que para usar LaTeX em markdown, basta você colocar as expressões entre $ ou $$_
+
+_Template de SQL + lógica proposicional_
+
 As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados ao modelo físico SQLite da seção 3.6.3. As expressões usam os nomes de colunas do modelo atual, especialmente `responsavel_id`, `criado_por_id`, `data_prevista`, `sync_status` e a fila técnica `sync_queue`.
 
 <center>
   <p><strong>Tabela 8</strong> — Expressões SQL e Lógica Proposicional</p>
 </center>
 
-| #1 | Fluxo: Lista de tarefas offline do capataz (US02 / RF002) |
-|---|---|
-| **Expressão SQL** | `SELECT id, titulo, descricao, status, data_prevista FROM tarefas WHERE responsavel_id = $1 AND date(data_prevista) = date('now') AND (status = 'pendente' OR status = 'em_andamento') ORDER BY data_prevista ASC;` |
-| **Proposições lógicas** | $A$: a tarefa pertence ao capataz autenticado (`responsavel_id = $1`) <br> $B$: a tarefa está prevista para hoje (`date(data_prevista) = date('now')`) <br> $C$: o status é pendente (`status = 'pendente'`) <br> $D$: o status é em andamento (`status = 'em_andamento'`) |
-| **Expressão lógica proposicional** | $A \land B \land (C \lor D)$ |
-
-| $A$ | $B$ | $C$ | $D$ | $A \land B \land (C \lor D)$ |
-|---|---|---|---|---|
-| F | F | F | F | F |
-| F | V | V | F | F |
-| V | F | V | F | F |
-| V | V | F | F | F |
-| V | V | V | F | V |
-| V | V | F | V | V |
-| V | V | V | V | V |
+#1 | ---
+--- | ---
+**Expressão SQL** | `SELECT id, titulo, descricao, status, data_prevista FROM tarefas WHERE responsavel_id = $1 AND date(data_prevista) = date('now') AND (status = 'pendente' OR status = 'em_andamento') ORDER BY data_prevista ASC;` |
+**Proposições lógicas** | $A$: a tarefa pertence ao capataz autenticado (`responsavel_id = $1`) <br> $B$: a tarefa está prevista para hoje (`date(data_prevista) = date('now')`) <br> $C$: o status é pendente (`status = 'pendente'`) <br> $D$: o status é em andamento (`status = 'em_andamento'`) |
+**Expressão lógica proposicional** | $A \land B \land (C \lor D)$ |
+**Tabela Verdade** | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$D$</th> <th>$A \land B \land (C \lor D)$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>V</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table>
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -2411,19 +2446,12 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 
 ---
 
-| #2 | Fluxo: Conclusão de tarefa com evidência (US03 / RF003) |
-|---|---|
-| **Expressão SQL** | `UPDATE tarefas SET status = 'concluida', data_conclusao = strftime('%Y-%m-%dT%H:%M:%fZ','now'), sync_status = 'pendente', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = $1 AND responsavel_id = $2 AND status <> 'concluida';` |
-| **Proposições lógicas** | $A$: a tarefa corresponde ao ID informado (`id = $1`) <br> $B$: a tarefa pertence ao responsável autenticado (`responsavel_id = $2`) <br> $C$: a tarefa ainda não está concluída (`status <> 'concluida'`) |
-| **Expressão lógica proposicional** | $A \land B \land C$ |
-
-| $A$ | $B$ | $C$ | $A \land B \land C$ |
-|---|---|---|---|
-| F | F | F | F |
-| F | V | V | F |
-| V | F | V | F |
-| V | V | F | F |
-| V | V | V | V |
+#2 | ---
+--- | ---
+**Expressão SQL** | `UPDATE tarefas SET status = 'concluida', data_conclusao = strftime('%Y-%m-%dT%H:%M:%fZ','now'), sync_status = 'pendente', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = $1 AND responsavel_id = $2 AND status <> 'concluida';` |
+**Proposições lógicas** | $A$: a tarefa corresponde ao ID informado (`id = $1`) <br> $B$: a tarefa pertence ao responsável autenticado (`responsavel_id = $2`) <br> $C$: a tarefa ainda não está concluída (`status <> 'concluida'`) |
+**Expressão lógica proposicional** | $A \land B \land C$ |
+**Tabela Verdade** | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$A \land B \land C$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table>
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -2431,22 +2459,12 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 
 ---
 
-| #3 | Fluxo: Alertas de infraestrutura em aberto (US06 / RF007) |
-|---|---|
-| **Expressão SQL** | `SELECT a.id, a.titulo, a.descricao, a.tipo, a.status, a.created_at, r.nome AS retiro, u.nome AS criado_por FROM alertas a JOIN retiros r ON a.retiro_id = r.id JOIN usuarios u ON a.criado_por_id = u.id WHERE (a.status = 'aberto' OR a.status = 'em_andamento') AND (a.tipo = 'infraestrutura' OR a.tipo = 'cerca' OR a.tipo = 'bebedouro') ORDER BY a.created_at DESC;` |
-| **Proposições lógicas** | $A$: o alerta está aberto (`status = 'aberto'`) <br> $B$: o alerta está em andamento (`status = 'em_andamento'`) <br> $C$: o tipo é infraestrutura (`tipo = 'infraestrutura'`) <br> $D$: o tipo é cerca (`tipo = 'cerca'`) <br> $E$: o tipo é bebedouro (`tipo = 'bebedouro'`) |
-| **Expressão lógica proposicional** | $(A \lor B) \land (C \lor D \lor E)$ |
-
-| $A$ | $B$ | $C$ | $D$ | $E$ | $(A \lor B) \land (C \lor D \lor E)$ |
-|---|---|---|---|---|---|
-| F | F | F | F | F | F |
-| F | F | V | F | F | F |
-| V | F | F | F | F | F |
-| F | V | F | F | F | F |
-| V | F | V | F | F | V |
-| V | F | F | V | F | V |
-| F | V | F | F | V | V |
-| V | V | V | V | V | V |
+#3 | ---
+--- | ---
+**Expressão SQL** | `SELECT a.id, a.titulo, a.descricao, a.tipo, a.status, a.created_at, r.nome AS retiro, u.nome AS criado_por FROM alertas a JOIN retiros r ON a.retiro_id = r.id JOIN usuarios u ON a.criado_por_id = u.id WHERE (a.status = 'aberto' OR a.status = 'em_andamento') AND (a.tipo = 'infraestrutura' OR a.tipo = 'cerca' OR a.tipo = 'bebedouro') ORDER BY a.created_at DESC;` |
+**Proposições lógicas** | $A$: o alerta está aberto (`status = 'aberto'`) <br> $B$: o alerta está em andamento (`status = 'em_andamento'`) <br> $C$: o tipo é infraestrutura (`tipo = 'infraestrutura'`) <br> $D$: o tipo é cerca (`tipo = 'cerca'`) <br> $E$: o tipo é bebedouro (`tipo = 'bebedouro'`) |
+**Expressão lógica proposicional** | $(A \lor B) \land (C \lor D \lor E)$ |
+**Tabela Verdade** | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$D$</th> <th>$E$</th> <th>$(A \lor B) \land (C \lor D \lor E)$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table>
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -2454,21 +2472,12 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 
 ---
 
-| #4 | Fluxo: Painel do gerente — tarefas por status e retiro (US07 / RF007) |
-|---|---|
-| **Expressão SQL** | `SELECT t.id, t.titulo, t.status, t.data_prevista, r.nome AS retiro, u.nome AS responsavel FROM tarefas t JOIN retiros r ON t.retiro_id = r.id JOIN usuarios u ON t.responsavel_id = u.id WHERE t.criado_por_id = $1 AND (t.status = 'pendente' OR t.status = 'em_andamento') AND date(t.data_prevista) >= date('now') ORDER BY t.data_prevista ASC, r.nome ASC;` |
-| **Proposições lógicas** | $A$: a tarefa foi criada pelo gerente autenticado (`criado_por_id = $1`) <br> $B$: o status é pendente (`status = 'pendente'`) <br> $C$: o status é em andamento (`status = 'em_andamento'`) <br> $D$: a data prevista é hoje ou futura (`date(data_prevista) >= date('now')`) |
-| **Expressão lógica proposicional** | $A \land (B \lor C) \land D$ |
-
-| $A$ | $B$ | $C$ | $D$ | $A \land (B \lor C) \land D$ |
-|---|---|---|---|---|
-| F | F | F | F | F |
-| F | V | F | V | F |
-| V | F | F | V | F |
-| V | V | F | F | F |
-| V | V | F | V | V |
-| V | F | V | V | V |
-| V | V | V | V | V |
+#4 | ---
+--- | ---
+**Expressão SQL** | `SELECT t.id, t.titulo, t.status, t.data_prevista, r.nome AS retiro, u.nome AS responsavel FROM tarefas t JOIN retiros r ON t.retiro_id = r.id JOIN usuarios u ON t.responsavel_id = u.id WHERE t.criado_por_id = $1 AND (t.status = 'pendente' OR t.status = 'em_andamento') AND date(t.data_prevista) >= date('now') ORDER BY t.data_prevista ASC, r.nome ASC;` |
+**Proposições lógicas** | $A$: a tarefa foi criada pelo gerente autenticado (`criado_por_id = $1`) <br> $B$: o status é pendente (`status = 'pendente'`) <br> $C$: o status é em andamento (`status = 'em_andamento'`) <br> $D$: a data prevista é hoje ou futura (`date(data_prevista) >= date('now')`) |
+**Expressão lógica proposicional** | $A \land (B \lor C) \land D$ |
+**Tabela Verdade** | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$D$</th> <th>$A \land (B \lor C) \land D$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table>
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -2496,6 +2505,96 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+--- 
+
+| #6 | Fluxo: Registro de óbito offline com fila de sincronização (US09 / RF009) |
+|---|---|
+| **Expressão SQL** | `BEGIN; INSERT INTO movimentacoes (id, retiro_id, responsavel_id, tipo, categoria, data_movimentacao, observacoes, sync_status) VALUES ($1, $2, $3, 'obito', $4, $5, $6, 'pendente') ON CONFLICT(id) DO UPDATE SET categoria = excluded.categoria, data_movimentacao = excluded.data_movimentacao, observacoes = excluded.observacoes, sync_status = 'pendente', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE movimentacoes.sync_status != 'sincronizado' AND movimentacoes.responsavel_id = excluded.responsavel_id; INSERT INTO obitos (id, movimentacao_id, identificacao_animal, quantidade, causa, exige_evidencia_foto) VALUES ($7, $1, $8, $9, $10, 1) ON CONFLICT(id) DO UPDATE SET causa = excluded.causa, quantidade = excluded.quantidade, identificacao_animal = excluded.identificacao_animal WHERE obitos.movimentacao_id = excluded.movimentacao_id; INSERT INTO sync_queue (id, tabela, registro_id, operacao, payload_json) VALUES ($11, 'movimentacoes', $1, 'insert', $12); COMMIT;` |
+| **Proposições lógicas** | $A$: o registro de óbito ainda não existe no banco local <br> $B$: o registro existe, mas ainda não foi sincronizado (`sync_status != 'sincronizado'`) <br> $C$: o registro pertence ao mesmo responsável (`responsavel_id = excluded.responsavel_id`) <br> $D$: a causa da morte foi informada (`causa IS NOT NULL`) |
+| **Expressão lógica proposicional** | $(A \lor (B \land C)) \land D$ |
+
+| $A$ | $B$ | $C$ | $D$ | $(A \lor (B \land C)) \land D$ |
+|---|---|---|---|---|
+| F | F | F | F | F |
+| F | F | F | V | F |
+| F | F | V | V | F |
+| F | V | F | V | F |
+| F | V | V | F | F |
+| F | V | V | V | V |
+| V | F | F | F | F |
+| V | F | F | V | V |
+| V | F | V | V | V |
+| V | V | F | V | V |
+| V | V | V | F | F |
+| V | V | V | V | V |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+
+| **Proposições lógicas** | $A$: o registro de óbito ainda não existe no banco local <br> $B$: o registro existe, mas ainda não foi sincronizado (`sync_status != 'sincronizado'`) <br> $C$: o registro pertence ao mesmo responsável (`responsavel_id = excluded.responsavel_id`) <br> $D$: a causa da morte foi informada (`causa IS NOT NULL`) |
+| **Expressão lógica proposicional** | $(A \lor (B \land C)) \land D$ |
+
+| $A$ | $B$ | $C$ | $D$ | $(A \lor (B \land C)) \land D$ |
+|---|---|---|---|---|
+| F | F | F | F | F |
+| F | F | F | V | F |
+| F | F | V | V | F |
+| F | V | F | V | F |
+| F | V | V | F | F |
+| F | V | V | V | V |
+| V | F | F | F | F |
+| V | F | F | V | V |
+| V | F | V | V | V |
+| V | V | F | V | V |
+| V | V | V | F | F |
+| V | V | V | V | V |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+---
+| #7 | Fluxo: Busca de registros pendentes na fila de sincronização (RF010 / RF012) |
+|---|---|
+| **Expressão SQL** | `SELECT id, tabela, registro_id, operacao, payload_json, tentativas FROM sync_queue WHERE status = 'pendente' AND tentativas < 5 ORDER BY created_at ASC LIMIT 50;` |
+| **Proposições lógicas** | $A$: o registro está com status pendente de envio (`status = 'pendente'`) <br> $B$: o número de tentativas de envio é menor que 5 (`tentativas < 5`) |
+| **Expressão lógica proposicional** | $A \land B$ |
+
+| $A$ | $B$ | $A \land B$ |
+|---|---|---|
+| F | F | F |
+| F | V | F |
+| V | F | F |
+| V | V | V |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+---
+| #8 | Fluxo: Exportação de movimentações sincronizadas pelo coordenador (RF015) |
+|---|---|
+| **Expressão SQL** | `SELECT m.id, m.tipo, m.categoria, m.data_movimentacao, m.observacoes, r.nome AS retiro, u.nome AS responsavel, o.causa AS causa_obito, o.identificacao_animal, n.quantidade AS qtd_nascimento, t.retiro_origem_id, t.retiro_destino_id, cv.tipo_negocio, cv.valor_financeiro FROM movimentacoes m JOIN retiros r ON m.retiro_id = r.id JOIN usuarios u ON m.responsavel_id = u.id LEFT JOIN obitos o ON o.movimentacao_id = m.id LEFT JOIN nascimentos n ON n.movimentacao_id = m.id LEFT JOIN transferencias t ON t.movimentacao_id = m.id LEFT JOIN compravendas cv ON cv.movimentacao_id = m.id WHERE m.sync_status = 'sincronizado' AND m.retiro_id = $1 AND date(m.data_movimentacao) BETWEEN date($2) AND date($3) ORDER BY m.data_movimentacao ASC;` |
+| **Proposições lógicas** | $A$: a movimentação já foi sincronizada com o servidor (`sync_status = 'sincronizado'`) <br> $B$: a movimentação pertence ao retiro selecionado pelo coordenador (`retiro_id = $1`) <br> $C$: a data da movimentação está dentro do intervalo de exportação (`data_movimentacao BETWEEN $2 AND $3`) |
+| **Expressão lógica proposicional** | $A \land B \land C$ |
+
+| $A$ | $B$ | $C$ | $A \land B$ | $A \land B \land C$ |
+|---|---|---|---|---|
+| F | F | F | F | F |
+| F | F | V | F | F |
+| F | V | F | F | F |
+| F | V | V | F | F |
+| V | F | F | F | F |
+| V | F | V | F | F |
+| V | V | F | V | F |
+| V | V | V | V | V |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+---
 ## 3.7. WebAPI e endpoints (sprints 3 e 4)
 
 _Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema._
