@@ -1745,6 +1745,14 @@ Por fim, para o encerramento, o botão "Salvar e Concluir" consolida as informa�
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
+### Coordenador:
+#### Tela Infraestrutura:
+A Figura 12 apresenta a interface de Gestão de Infraestrutura, onde o Capataz pode monitorar e organizar as manutenções da fazenda, com uma tela que segue o padrão de design responsivo para uso em dispositivos móveis e desktop. 
+
+Para facilitar a organização, a categorização de chamados agrupa as demandas de manutenção em três seções principais, sendo hidráulica (gestão de bebedouros, bombas e encanamentos), cerca (reparos e vistorias de perímetros e divisões de pastos) e elétrica (manutenção de cercas elétricas, painéis e iluminação). 
+
+Ao selecionar uma categoria, o sistema permite o monitoramento de status e detalha o fluxo de trabalho através de indicadores específicos, como pendentes/abertos para visualização da quantidade de novos chamados, em andamento para acompanhamento dos serviços iniciados e o histórico semanal como relatório de chamados concluídos nos últimos sete dias. Como ação rápida, dentro de cada seção, existe a funcionalidade de criar uma nova Ordem de Serviço (O.S.) específica para aquele setor, garantindo que o registro seja feito no local do problema.
+
 <center>
   <p><strong>Figura 12</strong> — Wireframe da tela de infraestrutura</p>
   <img src="./assets/wireframeInfraestrutura.png" width="800"/>
@@ -1752,7 +1760,7 @@ Por fim, para o encerramento, o botão "Salvar e Concluir" consolida as informa�
 </center>
 
 <center>
-  <p><strong>Figura 13</strong> — Wireframe da tela de infraestrutura registrar resolução</p>
+  <p><strong>Figura 13</strong> — Wireframe da tela de infraestrutura - registrar resolução</p>
   <img src="./assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
