@@ -1719,8 +1719,15 @@ Em relação à navegação e detalhes, o botão "Ver Todos" permite que, ao cli
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
+#### Informações sobre a tarefa (mobile/tablet/desktop)
+A Figura 10 ilustra a interface de Detalhamento da Tarefa, acessada após o Capataz selecionar uma atividade específica na lista principal e, assim como a tela anterior, a interface é responsiva, garantindo usabilidade tanto em dispositivos móveis (campo) quanto em desktops (escritório). 
+
+Para assegurar a execução precisa da ordem de serviço, a tela centraliza todo o conteúdo da tarefa e as diretrizes enviadas pela gestão, incluindo a identificação com título da atividade e descrição detalhada do serviço, os parâmetros de controle com prazo de entrega e nível de prioridade, e os recursos multimídia como reprodutor de áudio (instruções gravadas pelo gerente) e visualização de fotos para referência visual do local ou do problema. 
+
+Quanto às ações do usuário, um botão de "Iniciar Tarefa" permite o controle de fluxo para registrar o exato momento em que a atividade começa, gerando dados de produtividade, enquanto um botão de retorno estrategicamente posicionado permite a navegação para voltar à tela inicial de tarefas de forma rápida.
+
 <center>
-<p><strong>Figura 10</strong> — Wireframe capataz - concluir tarefa (mobile/tablet/desktop)</p>
+<p><strong>Figura 10</strong> — Wireframe da tela de detalhes sobre a tarefa do capataz (mobile/tablet/desktop)</p>
  <img src="./assets/wireframeCapatazConcluirTarefaTablet.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
