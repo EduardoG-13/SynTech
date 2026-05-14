@@ -1705,7 +1705,7 @@ _Documente os design patterns utilizados (Repository, Strategy, Factory, DTO etc
 
 ## 3.3. Wireframes (sprint 2)
 
-### Capataz
+### Capataz:
 #### Tela de Tarefas:
 Este wireframe (figura 9) representa a interface destinada ao Capataz, com design responsivo adaptado para dispositivos móveis (parte da esquerda) e desktop (parte da direita). 
 
@@ -1719,7 +1719,7 @@ Em relação à navegação e detalhes, o botão "Ver Todos" permite que, ao cli
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-#### Informações sobre a tarefa (mobile/tablet/desktop)
+#### Informações sobre a tarefa:
 A Figura 10 ilustra a interface de Detalhamento da Tarefa, acessada após o Capataz selecionar uma atividade específica na lista principal e, assim como a tela anterior, a interface é responsiva, garantindo usabilidade tanto em dispositivos móveis (campo) quanto em desktops (escritório). 
 
 Para assegurar a execução precisa da ordem de serviço, a tela centraliza todo o conteúdo da tarefa e as diretrizes enviadas pela gestão, incluindo a identificação com título da atividade e descrição detalhada do serviço, os parâmetros de controle com prazo de entrega e nível de prioridade, e os recursos multimídia como reprodutor de áudio (instruções gravadas pelo gerente) e visualização de fotos para referência visual do local ou do problema. 
@@ -1727,13 +1727,20 @@ Para assegurar a execução precisa da ordem de serviço, a tela centraliza todo
 Quanto às ações do usuário, um botão de "Iniciar Tarefa" permite o controle de fluxo para registrar o exato momento em que a atividade começa, gerando dados de produtividade, enquanto um botão de retorno estrategicamente posicionado permite a navegação para voltar à tela inicial de tarefas de forma rápida.
 
 <center>
-<p><strong>Figura 10</strong> — Wireframe da tela de detalhes sobre a tarefa do capataz (mobile/tablet/desktop)</p>
+<p><strong>Figura 10</strong> — Wireframe da tela de detalhes sobre a tarefa do capataz</p>
  <img src="./assets/wireframeCapatazConcluirTarefaTablet.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
+#### Concluir tarefa:
+A Figura 11 detalha a interface de Conclusão de Atividade, etapa final do fluxo de trabalho do Capataz, com uma tela projetada para garantir a confiabilidade dos dados e o registro fiel do que foi executado em campo. 
+
+Para a confirmação de atividade e evitar erros operacionais, a tela exibe o título da tarefa em progresso, permitindo que o usuário valide se está encerrando o chamado correto, apresentando também as evidências e feedback através do registro fotográfico, com opção para anexar uma imagem da tarefa concluída para servir como comprovante visual da execução (ex: uma cerca reparada ou um animal tratado), e do campo de observações, espaço dedicado para que o Capataz relate eventuais problemas encontrados, comentários pertinentes ou detalhes que fujam ao padrão da ordem de serviço. 
+
+Por fim, para o encerramento, o botão "Salvar e Concluir" consolida as informações, altera o status da tarefa no sistema e prepara o dado para a sincronização com o banco de dados central.
+
 <center>
-  <p><strong>Figura 11</strong> — Wireframe da tela de anexar fotos pelo capataz</p>
+  <p><strong>Figura 11</strong> — Wireframe da tela de concluir tarefa do capataz</p>
   <img src="./assets/wireframeCapatazAnexarFotos.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
