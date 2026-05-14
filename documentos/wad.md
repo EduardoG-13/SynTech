@@ -1705,6 +1705,14 @@ _Documente os design patterns utilizados (Repository, Strategy, Factory, DTO etc
 
 ## 3.3. Wireframes (sprint 2)
 
+### Capataz
+#### Tela de Tarefas:
+Este wireframe (figura 9) representa a interface destinada ao Capataz, com design responsivo adaptado para dispositivos móveis (parte da esquerda) e desktop (parte da direita). 
+
+Esta tela é o núcleo operacional do usuário em campo, cujas ações possíveis são a Gestão de Prioridades, onde o sistema lista as tarefas pendentes organizadas automaticamente por ordem de importância, garantindo que as atividades críticas sejam atendidas primeiro, e a Abertura de O.S., onde na parte inferior da interface, um botão de ação rápida permite a criação imediata de novas Ordens de Serviço, eliminando a necessidade de anotações manuais. 
+
+Em relação à navegação e detalhes, o botão "Ver Todos" permite que, ao clicar, o usuário expanda a visualização para uma gestão completa do histórico de atividades, enquanto um botão lateral provê acesso direto às informações do rebanho e dados zootécnicos (estoque e categorias de animais) e, ao selecionar uma tarefa específica no detalhamento de tarefas, o sistema exibe uma tela com as especificações detalhadas, insumos necessários e orientações para a execução.
+
 <center>
   <p><strong>Figura 9</strong> — Wireframe da tela de tarefas do capataz</p>
   <img src="./assets/wireframeCapatazTarefas.png" width="800"/>
