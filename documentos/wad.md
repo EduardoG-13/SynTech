@@ -670,7 +670,7 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 
 ## 2.3. User Stories (sprints 1 a 5)
 
-
+User Stories são descrições concisas de uma funcionalidade do sistema sob a perspectiva do usuário final. Diferente de requisitos técnicos tradicionais, elas focam no valor de negócio e na necessidade do usuário, servindo como ponto de partida para a implementação técnica. [12]
 
 <center>
   <p><strong>Quadro 1</strong> — User Story 01</p>
