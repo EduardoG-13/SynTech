@@ -7,7 +7,7 @@
 #### Nomes dos integrantes do grupo
 
 - <a href="https://www.linkedin.com/in/filipe-salotti-9ab184310/">Arthur Morais </a>
-- <a href="https://www.linkedin.com/in/eduardo-gabriel-de-oliveira-1ab818220/">Eduardo Oliveira</a>
+- <a href="https://www.linkedin.com/in/eduardo-oliveira05/">Eduardo Gabriel de Oliveira</a>
 - <a href="https://www.linkedin.com/in/enzo-santos-bezerra-1904403bb/">Enzo Santos Bezerra</a>
 - <a href="https://www.linkedin.com/in/guilherme-beltrame-18b1b429b/">Guilherme Munhoz Beltrame</a>
 - <a href="https://www.linkedin.com/in/laiza-guimar%C3%A3es-2748b2313/">Laiza Guimaraes</a>
@@ -1320,7 +1320,7 @@ projeto.
 
 <center>
   <p><strong>Figura 9</strong> — Diagrama de Classes do Domínio do Sistema BrPec</p>
-  <img src="/documentos/assets/DiagramaClasses.jpeg" width="800"/>
+  <img src="./assets/DiagramaClasses.jpeg" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1711,43 +1711,43 @@ _Documente os design patterns utilizados (Repository, Strategy, Factory, DTO etc
 
 <center>
   <p><strong>Figura 9</strong> — Wireframe da tela de tarefas do capataz</p>
-  <img src="../documentos/assets/wireframeCapatazTarefas.png" width="800"/>
+  <img src="./assets/wireframeCapatazTarefas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
 <p><strong>Figura 10</strong> — Wireframe capataz - concluir tarefa (mobile/tablet/desktop)</p>
- <img src="../documentos/assets/wireframeCapatazConcluirTarefaTablet.png" width="800"/>
+ <img src="./assets/wireframeCapatazConcluirTarefaTablet.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
   <p><strong>Figura 11</strong> — Wireframe da tela de anexar fotos pelo capataz</p>
-  <img src="../documentos/assets/wireframeCapatazAnexarFotos.png" width="800"/>
+  <img src="./assets/wireframeCapatazAnexarFotos.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
   <p><strong>Figura 12</strong> — Wireframe da tela de infraestrutura</p>
-  <img src="../documentos/assets/wireframeInfraestrutura.png" width="800"/>
+  <img src="./assets/wireframeInfraestrutura.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
   <p><strong>Figura 13</strong> — Wireframe da tela de infraestrutura registrar resolução</p>
-  <img src="../documentos/assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
+  <img src="./assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
   <p><strong>Figura 14</strong> — Wireframe da tela de dashboard do gerente</p>
-  <img src="../documentos/assets/wireframeGerenteDashboard.png" width="800"/>
+  <img src="./assets/wireframeGerenteDashboard.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
   <p><strong>Figura 15</strong> — Wireframe da tela de nova O.S do gerente</p>
-  <img src="../documentos/assets/wireframeGerenteNovaOs.png" width="800"/>
+  <img src="./assets/wireframeGerenteNovaOs.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1777,9 +1777,7 @@ _posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelid
 
 ### 3.6.1. Modelo Entidade-Relacionamento (ER) (sprint 2)
 
-_Apresente o modelo ER conceitual com entidades, atributos e relacionamentos. Use notação consistente (Chen ou Crow's Foot - não misture)._
-
-O modelo Entidade-Relacionamento (ER) conceitual representa as principais entidades do domínio da aplicação, seus atributos e relacionamentos existentes entre elas, utilizando a notação **Crow's Foot** de forma consistente em toda a modelagem. O objetivo deste modelo é estruturar conceitualmente os dados necessários para suportar o gerenciamento operacional da BRPec Agropecuária, contemplando usuários, tarefas, evidências, alertas, retiros e movimentações do rebanho.
+O modelo Entidade-Relacionamento (ER) conceitual representa as principais entidades do domínio da aplicação, seus atributos e relacionamentos existentes entre elas, utilizando a notação **Chen** de forma consistente em toda a modelagem. O objetivo deste modelo é estruturar conceitualmente os dados necessários para suportar o gerenciamento operacional da BRPec Agropecuária, contemplando usuários, boletas, alertas, retiros e tipos operacionais (nascimento, óbito, transferência, compra, venda).
 
 Nesta etapa conceitual, não são representados detalhes físicos de implementação, como tipos específicos de banco de dados, chaves primárias ou estrangeiras, pois esses elementos serão tratados posteriormente no DER lógico e no modelo físico da aplicação.
 
@@ -1787,100 +1785,27 @@ Nesta etapa conceitual, não são representados detalhes físicos de implementa�
   <p><strong>Figura 13</strong> — Modelo Entidade-Relacionamento Conceitual — BRPec Agropecuária</p>
 </center>
 
-### 3.6.1 Modelo Entidade-Relacionamento (ER) conceitual
-
-O modelo conceitual a seguir utiliza a notação de Chen para representar as entidades e relacionamentos do sistema Salli-AI. Esta modelagem foca exclusivamente nas regras de negócio da BrPec Agropecuária, omitindo detalhes técnicos de implementação, tipos de dados ou chaves primárias, conforme as diretrizes desta etapa.
-
-```mermaid
-flowchart TD
-    %% Entidades
-    USUARIO[USUARIO]
-    RETIRO[RETIRO]
-    TAREFA[TAREFA]
-    ALERTA[ALERTA]
-    MOVIMENTACAO[MOVIMENTACAO]
-    EVIDENCIA[EVIDENCIA]
-    LOTE[LOTE]
-    
-    %% Especializações da Movimentação
-    NASCIMENTO[NASCIMENTO]
-    OBITO[OBITO]
-    TRANSFERENCIA[TRANSFERENCIA]
-    COMPRAVENDA[COMPRAVENDA]
-
-    %% Atributos (Círculos/Pílulas)
-    attrU1([Perfil_Acesso]) --- USUARIO
-    attrU2([Nome]) --- USUARIO
-    
-    attrR1([Nome_Retiro]) --- RETIRO
-    attrR2([Localizacao_Curral]) --- RETIRO
-    
-    attrT1([Prioridade]) --- TAREFA
-    attrT2([Status_Validacao]) --- TAREFA
-    
-    attrE1([Georreferenciamento]) --- EVIDENCIA
-    attrE2([Arquivo_Foto]) --- EVIDENCIA
-    
-    attrM1([Data_Sincronizacao]) --- MOVIMENTACAO
-    attrM2([Status_Confirmacao]) --- MOVIMENTACAO
-    
-    attrL1([Identificacao_Lote]) --- LOTE
-
-    %% Relacionamentos (Losangos)
-    R1{aloca}
-    R2{executa}
-    R3{emite}
-    R4{registra}
-    R5{sedia}
-    R6{origina}
-    R7{comprova}
-    R8{detalha}
-    R9{destino}
-    R10{contem}
-
-    %% Conexões do Fluxo Central
-    RETIRO --- R1 --- USUARIO
-    RETIRO --- R5 --- TAREFA
-    RETIRO --- R6 --- MOVIMENTACAO
-    
-    USUARIO --- R2 --- TAREFA
-    USUARIO --- R3 --- ALERTA
-    USUARIO --- R4 --- MOVIMENTACAO
-
-    TAREFA --- R7 --- EVIDENCIA
-    
-    %% Relacionamento com Lote (Conforme Insight 4)
-    MOVIMENTACAO --- R10 --- LOTE
-    
-    %% Especializações
-    MOVIMENTACAO --- R8 --- NASCIMENTO
-    MOVIMENTACAO --- R8 --- OBITO
-    MOVIMENTACAO --- R8 --- TRANSFERENCIA
-    MOVIMENTACAO --- R8 --- COMPRAVENDA
-    
-    %% Ciclo de Origem e Destino (Insight 4)
-    TRANSFERENCIA --- R9 --- RETIRO
-```
+<img src="./assets/modelo-er-brpec.png" width="800"/>
 
 ### Decisões de modelagem
 
-- A entidade **USUARIO** representa genericamente os perfis operacionais do sistema, incluindo gerente, coordenador e capataz. A diferenciação entre os tipos de usuário é realizada pelo atributo `perfil`, evitando redundância estrutural entre entidades com atributos equivalentes.
+- A entidade USUÁRIO representa os perfis operacionais do sistema (Gerente, Coordenador e Capataz). A distinção de funções é realizada pelo atributo perfil, centralizando a gestão de acessos e garantindo que cada ação no sistema seja vinculada a um id único para fins de rastreabilidade.
 
-- A entidade **RETIRO** representa as unidades operacionais da fazenda e centraliza os relacionamentos relacionados às tarefas e movimentações realizadas em campo.
+- A entidade RETIRO representa as unidades físicas e operacionais da fazenda.  O relacionamento "pertence" (1,1 para 1,n) estabelece que um usuário deve estar vinculado a pelo menos um retiro para operar, enquanto um retiro pode possuir múltiplos usuários associados.
 
-- A entidade **TAREFA** foi modelada para representar atividades operacionais atribuídas aos usuários, permitindo acompanhamento de execução, status e data planejada.
+- A entidade ALERTA é utilizada para reportar problemas de infraestrutura (hidráulica, cerca, elétrica). O relacionamento "emite" (1,1 para 1,n) garante que cada alerta seja rastreável a um único autor (Usuário), permitindo que o Gerente saiba exatamente quem reportou a ocorrência.
 
-- A entidade **EVIDENCIA** armazena registros comprobatórios relacionados às tarefas executadas, como fotografias, áudios ou anexos utilizados para validação operacional.
+- A entidade BOLETA é o núcleo do registro de manejo, substituindo os processos manuais em papel.  Inclui atributos essenciais para a fiscalização e transporte, como RG/CPF, tipo_transporte (rodoviário/estrada) e georreferenciamento, conforme exigido pelos formulários físicos da empresa.
 
-- A entidade **ALERTA** representa notificações operacionais geradas pelos usuários durante a execução das atividades em campo, permanecendo disponíveis até serem resolvidas.
+- Relacionamento REGISTRA (Usuário-Boleta): Estabelece uma conexão (1,n para 1,1), onde cada boleta digitalizada é obrigatoriamente vinculada ao usuário que a criou, eliminando falhas de transcrição e garantindo a autoria dos dados.
 
-- A entidade **MOVIMENTACAO** representa eventos relacionados ao manejo do rebanho bovino, incluindo nascimentos, óbitos, transferências e operações de compra e venda.
+- Relacionamento CONTÉM (Retiro-Boleta): Define que cada boleta pertence a um retiro de referência (1,1), permitindo a organização dos registros por localidade e facilitando a exportação de dados consolidados por área.
 
-- As entidades **NASCIMENTO**, **OBITO**, **TRANSFERENCIA** e **COMPRAVENDA** foram modeladas como detalhamentos específicos de movimentações, permitindo representar atributos particulares de cada tipo de operação sem duplicação de informações comuns.
+- Especialização DETALHA (Nascimento, Óbito, Transferência, Compra e Venda): A entidade BOLETA atua como uma classe base que se ramifica em eventos zootécnicos específicos.
 
-- O relacionamento entre **TAREFA** e **EVIDENCIA** representa dependência operacional, indicando que evidências somente podem existir associadas a uma tarefa previamente cadastrada.
+A cardinalidade (1,1) entre o losango detalha e a Boleta indica que um registro de manejo deve corresponder obrigatoriamente a um desses tipos.
 
-- A notação **Crow's Foot** foi utilizada de forma consistente em toda a modelagem conceitual, sem mistura com elementos de UML ou notação Chen.
+Cada subtipo (ex: Óbito ou Nascimento) possui seus próprios campos de evidência, como foto e áudio, para validar a execução da tarefa em campo.
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
