@@ -2356,16 +2356,26 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
   <p><strong>Tabela 8</strong> — Expressões SQL e Lógica Proposicional</p>
 </center>
 
-#1 | ---
---- | ---
-**Expressão SQL** | `SELECT id, titulo, descricao, status, data_prevista FROM tarefas WHERE responsavel_id = $1 AND date(data_prevista) = date('now') AND (status = 'pendente' OR status = 'em_andamento') ORDER BY data_prevista ASC;` |
-**Proposições lógicas** | $A$: a tarefa pertence ao capataz autenticado (`responsavel_id = $1`) <br> $B$: a tarefa está prevista para hoje (`date(data_prevista) = date('now')`) <br> $C$: o status é pendente (`status = 'pendente'`) <br> $D$: o status é em andamento (`status = 'em_andamento'`) |
-**Expressão lógica proposicional** | $A \land B \land (C \lor D)$ |
-**Tabela Verdade** | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$D$</th> <th>$A \land B \land (C \lor D)$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>V</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table>
+| #1 | Fluxo: Listagem de tarefas do dia pelo capataz |
+|---|---|
+| **Expressão SQL** | `SELECT id, titulo, descricao, status, data_prevista FROM tarefas WHERE responsavel_id = $1 AND date(data_prevista) = date('now') AND (status = 'pendente' OR status = 'em_andamento') ORDER BY data_prevista ASC;` |
+| **Proposições lógicas** | $A$: a tarefa pertence ao capataz autenticado (`responsavel_id = $1`) <br> $B$: a tarefa está prevista para hoje (`date(data_prevista) = date('now')`) <br> $C$: o status é pendente (`status = 'pendente'`) <br> $D$: o status é em andamento (`status = 'em_andamento'`) |
+| **Expressão lógica proposicional** | $A \land B \land (C \lor D)$ |
+
+| $A$ | $B$ | $C$ | $D$ | $A \land B \land (C \lor D)$ |
+|---|---|---|---|---|
+| F | F | F | F | F |
+| F | V | V | F | F |
+| V | F | V | F | F |
+| V | V | F | F | F |
+| V | V | V | F | V |
+| V | V | F | V | V |
+| V | V | V | V | V |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
 
 ---
 
