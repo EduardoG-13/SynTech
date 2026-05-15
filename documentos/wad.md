@@ -1628,7 +1628,52 @@ A Tabela 19 consolida todos os relacionamentos modelados no diagrama, com seus t
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-### 3.2.4. Diagrama de Sequência UML
+### 3.2.4. Diagrama de Sequência UML (sprint 3)
+
+O Diagrama de Sequência UML constitui um dos quatro tipos de diagrama de interação previstos pela especificação UML 2.5.1, sendo formalmente classificado como um diagrama comportamental que enfatiza a troca ordenada de mensagens entre participantes ao longo do tempo [13]. Segundo o Object Management Group (OMG), a semântica de uma interação é definida como um par de conjuntos de *traces* — sequências válidas e inválidas de ocorrências de eventos —, de modo que cada diagrama de sequência representa, de forma gráfica, os cenários de comunicação aceitos pelo sistema modelado [13][18]. A notação adotada emprega linhas de vida (*lifelines*) para representar os participantes, setas contínuas para mensagens síncronas e setas tracejadas para retornos, com fragmentos combinados (*combined fragments*) do tipo `alt` para expressar ramificações condicionais no fluxo de execução, conforme as convenções consolidadas por Fowler [15] e detalhadas na norma ISO/IEC 19505-2:2012 [17].
+
+No contexto do sistema BrPec, os diagramas de sequência foram elaborados para representar os fluxos operacionais críticos identificados nas User Stories (US01 a US05) e nos Requisitos Funcionais (RF001 a RF015), detalhando a interação entre o ator externo — Gerente ou Capataz — e as camadas internas da arquitetura da aplicação. A estrutura de camadas adotada segue o padrão Controller–Service–Repository, amplamente documentado na literatura de engenharia de software como uma instância concreta da arquitetura em camadas (*layered architecture*) [19], na qual cada componente possui responsabilidade única e bem delimitada:
+
+- **Controller:** recebe a requisição HTTP, valida a presença dos campos obrigatórios e delega o processamento à camada de negócio, sem acessar o banco de dados diretamente;
+- **Service:** aplica as regras de negócio do domínio (RNs) e orquestra as chamadas ao Repository, encapsulando a lógica que determina se a operação será executada localmente ou remotamente;
+- **Repository:** abstrai o acesso ao mecanismo de persistência — banco de dados central (SQLite no servidor) ou armazenamento local (IndexedDB no dispositivo) —, expondo uma interface uniforme ao Service independentemente da origem dos dados;
+- **Banco de dados / Armazenamento Local:** camada de persistência que varia conforme o modo de operação do dispositivo (online ou offline).
+
+Essa separação garante que as regras de negócio permaneçam isoladas das preocupações de transporte HTTP e de persistência, facilitando a manutenção e a evolução do sistema — critério alinhado ao requisito não funcional de Suportabilidade (RNF — SUP), que limita o Tempo Médio de Reparo (MTTR) a 8 horas para defeitos críticos.
+
+Os diagramas subsequentes cobrem tanto operações executadas em ambiente conectado (DS01) quanto fluxos que operam integralmente em modo offline, com sincronização assíncrona posterior (DS02, DS03, DS04). A diferenciação explícita entre os dois modos de operação constitui um requisito estrutural do projeto, visto que os retiros da BrPec dispõem de conectividade Starlink apenas em janelas limitadas (manhã e noite), exigindo que a aplicação funcione como fonte primária de dados localmente e trate a rede como camada de sincronização secundária — paradigma denominado *offline-first* na literatura de sistemas distribuídos [20]. Cada diagrama inclui, ao final, tabela de rastreabilidade que vincula os elementos representados às User Stories, Requisitos Funcionais, Regras de Negócio e Requisitos Não Funcionais correspondentes, assegurando a coerência com os demais artefatos de engenharia de requisitos do projeto.
+
+#### Fundamentação Tecnológica: Persistência Offline e Sincronização
+
+Os diagramas de sequência apresentados nesta seção referenciam, de forma recorrente, componentes de persistência local e mecanismos de sincronização assíncrona que fundamentam a operação offline da aplicação. A presente subseção detalha as tecnologias adotadas e justifica as decisões arquiteturais que sustentam o funcionamento do sistema nos retiros da BrPec, onde a conectividade à internet é restrita a janelas de cobertura Starlink.
+
+**SQLite — Banco de dados relacional do servidor**
+
+O SQLite é um sistema de gerenciamento de banco de dados relacional (*RDBMS*) autocontido (*self-contained*), sem servidor (*serverless*) e de configuração zero (*zero-configuration*) [21]. Diferentemente de sistemas cliente-servidor convencionais — como PostgreSQL ou MySQL —, o SQLite opera como uma biblioteca vinculada diretamente ao processo da aplicação, lendo e gravando o banco de dados como um arquivo único no disco, sem a necessidade de um processo daemon separado [21]. Essa característica o torna particularmente adequado ao contexto da BrPec, em que a infraestrutura de servidor deve ser leve e de fácil implantação, dado que os nós de processamento central operam em ambientes com recursos computacionais limitados.
+
+No escopo da arquitetura do sistema, o SQLite é empregado como banco de dados central do servidor Node.js, persistindo todas as entidades modeladas no Diagrama de Classes (seção 3.2.3): `Usuario`, `Tarefa`, `Evidencia`, `EventoZootecnico`, `AlertaInfraestrutura`, `Sincronizacao` e `Exportacao`. Os diagramas de sequência DS01 (Criar Tarefa) e os fluxos de sincronização dos diagramas DS03 e DS04 representam a interação do Repository com esse banco central por meio de instruções SQL padrão (`INSERT`, `SELECT`, `UPDATE`), garantindo a compatibilidade com o modelo relacional definido nas tabelas de atributos da seção 3.2.3. A escolha pelo SQLite no servidor está alinhada ao requisito não funcional de Desempenho (RNF — DES), que exige latência p95 inferior a 200 ms para operações de leitura e escrita, e ao requisito de Suportabilidade (RNF — SUP), dado que o SQLite dispensa a administração de processos, usuários e permissões de banco de dados, reduzindo a complexidade operacional de manutenção.
+
+A escolha pelo SQLite no servidor fundamenta-se em três critérios: (i) suporte nativo a transações ACID garante integridade mesmo em interrupções abruptas (RNF — CONF); (ii) consultas SQL relacionais permitem filtrar tarefas por `capataz_id`, `retiro_id` e `data_execucao` sem carregar conjuntos completos em memória; (iii) ausência de processo daemon reduz a complexidade operacional de manutenção (RNF — SUP).
+
+**IndexedDB — Armazenamento local no dispositivo do capataz**
+
+O IndexedDB é uma API de armazenamento local de baixo nível, padronizada pelo W3C, projetada para a persistência de volumes significativos de dados estruturados no navegador do cliente [22]. Trata-se de um banco de dados transacional não relacional (*NoSQL*), com suporte a índices sobre propriedades de objetos, que opera de forma inteiramente assíncrona para evitar o bloqueio da interface do usuário [22].
+
+No sistema BrPec, o IndexedDB é utilizado nos dispositivos móveis dos capatazes como camada de armazenamento local para as tarefas sincronizadas, evidências (fotos e áudios), registros de eventos zootécnicos e alertas de infraestrutura. Conforme representado nos diagramas DS02, DS03 e DS04, o Repository abstrai o acesso ao IndexedDB por meio da mesma interface exposta ao Service, de modo que as operações de leitura e escrita sejam transparentes à camada de negócio — independentemente de o dispositivo estar online ou offline. A tabela `sincronizacoes`, persistida no IndexedDB, funciona como fila de controle de envio, registrando cada entidade modificada localmente com status `PENDENTE`, `ENVIADO` ou `FALHA`, e o respectivo contador de tentativas de reenvio, conforme previsto nos requisitos RF010, RF011 e RF012.
+
+A decisão de adotar o IndexedDB como mecanismo de armazenamento local, em complemento ao SQLite do servidor, decorre de três fatores técnicos: (i) o IndexedDB é nativamente disponível em todos os navegadores modernos, sem necessidade de extensões ou plugins; (ii) sua natureza transacional garante a integridade dos dados mesmo em cenários de interrupção abrupta da aplicação, como queda de bateria ou encerramento involuntário do navegador; e (iii) sua capacidade de armazenamento excede amplamente as limitações do Web Storage (5 MB típico), suportando os volumes de fotos codificadas em base64 e registros acumulados durante os períodos sem conexão — requisito crítico dado que os capatazes podem operar offline durante todo o intervalo entre as janelas de Starlink.
+
+**Service Workers e Background Sync — Sincronização assíncrona**
+
+O mecanismo de sincronização representado nos diagramas DS03 e DS04 pelo participante `SyncService` é implementado tecnicamente por meio de Service Workers em combinação com a Background Synchronization API [23]. O Service Worker é um script executado pelo navegador em segundo plano, separado do contexto da página web, que permite interceptar requisições de rede, gerenciar o cache da aplicação e executar tarefas assíncronas mesmo quando o usuário não está interagindo ativamente com a interface [23].
+
+A Background Sync API estende as capacidades do Service Worker ao permitir que ações diferidas — como o envio de tarefas concluídas ou evidências fotográficas — sejam registradas como eventos de sincronização pendentes e executadas automaticamente pelo navegador assim que uma conexão de rede estável for detectada [23]. No contexto operacional da BrPec, esse comportamento é essencial: o capataz registra a conclusão de tarefas e anexa evidências durante o período offline, e o SyncService, ativado automaticamente pela reconexão Starlink, percorre a fila de sincronizações pendentes no IndexedDB, transmite os dados ao servidor remoto e atualiza o status local para `ENVIADO` ou incrementa o contador de tentativas em caso de falha, conforme modelado nas ramificações `alt` dos diagramas DS03 e DS04.
+
+Esse mecanismo implementa o padrão de *Outbox* [24], no qual toda operação que altera o estado local gera um registro de controle com status `PENDENTE` consumido pelo SyncService ao reconectar, garantindo que nenhuma operação seja perdida mesmo que o dispositivo seja desligado entre o registro e a sincronização (RF012).
+
+A combinação dessas três camadas tecnológicas — SQLite no servidor, IndexedDB no cliente e Service Workers para sincronização — materializa a arquitetura *offline-first* exigida pelo contexto operacional do projeto, assegurando o cumprimento dos requisitos não funcionais de Confiabilidade (RNF — CONF: 0% de perda de dados em falhas de conexão), Desempenho (RNF — DES: latência p95 < 200 ms no armazenamento local) e Capacidade (RNF — CAP: sincronização em lote de até 500 eventos pendentes).
+
+---
 
 #### DS01 — Criar Tarefa (US01)
 
@@ -1691,6 +1736,349 @@ sequenceDiagram
 | RNF — SEG | Todas as rotas do gerente retornam 403 para perfis não autorizados                               |
 | RNF — DES | Endpoint responde em p95 < 200ms com até 200 registros no banco                                  |
 
+#### DS02 — Consultar Tarefas Offline (US02)
+
+Fluxo que representa a consulta das tarefas do dia pelo Capataz em ambiente sem conexão com a internet, percorrendo as camadas Cliente (PWA) → Controller → Service → Repository → Armazenamento Local (IndexedDB/SQLite local). O diagrama diferencia explicitamente o que ocorre no dispositivo do capataz (offline) do que depende de sincronização prévia com o servidor. Mensagens síncronas são representadas por setas contínuas (`->>`) e retornos por setas tracejadas (`-->>`)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor C as Capataz
+    participant PWA as Cliente (PWA)
+    participant CTR as Controller
+    participant SRV as Service
+    participant REP as Repository
+    participant LS as Armazenamento Local (IndexedDB)
+
+    note over C,LS: Dispositivo sem conexão com a internet
+
+    C->>PWA: Acessa tela "Minhas Tarefas"
+    PWA->>CTR: GET /tarefas/hoje {capataz_id}
+    CTR->>CTR: Verifica perfil do usuário (RN05)
+
+    alt Perfil não autorizado
+        CTR-->>PWA: 403 Forbidden {erro: "acesso negado"}
+        PWA-->>C: Exibe mensagem de acesso negado
+    else Perfil autorizado (Capataz)
+        CTR->>SRV: buscarTarefasHoje(capataz_id)
+        SRV->>SRV: Verifica conectividade com servidor
+
+        alt Sem conexão com servidor (modo offline)
+            SRV->>REP: buscarTarefasLocais(capataz_id, data_hoje)
+            REP->>LS: SELECT * FROM tarefas WHERE capataz_id = ? AND data_execucao = ? AND sincronizada = true
+            
+            alt Tarefas sincronizadas encontradas (RN06, RN07)
+                LS-->>REP: [{id, titulo, descricao, status, data_execucao}]
+                REP-->>SRV: List<Tarefa>
+                SRV->>SRV: Filtra apenas tarefas do retiro do capataz (RN05)
+                SRV-->>CTR: List<Tarefa> ordenada
+                CTR-->>PWA: 200 OK {tarefas: [...], modo: "offline"}
+                PWA-->>C: Exibe lista de tarefas do dia (RN12)
+            else Nenhuma tarefa sincronizada (RF004, RN04)
+                LS-->>REP: []
+                REP-->>SRV: []
+                SRV-->>CTR: []
+                CTR-->>PWA: 200 OK {tarefas: [], modo: "offline"}
+                PWA-->>C: Exibe mensagem "Nenhuma tarefa disponível. Sincronize quando houver conexão."
+            end
+
+        else Com conexão disponível
+            SRV->>REP: buscarTarefasServidor(capataz_id, data_hoje)
+            REP-->>SRV: List<Tarefa> atualizada
+            SRV->>REP: atualizarArmazenamentoLocal(tarefas)
+            REP->>LS: INSERT OR REPLACE INTO tarefas (...) (sincronizada = true)
+            LS-->>REP: ok
+            SRV-->>CTR: List<Tarefa>
+            CTR-->>PWA: 200 OK {tarefas: [...], modo: "online"}
+            PWA-->>C: Exibe lista de tarefas do dia atualizada
+        end
+    end
+```
+
+**Descrição das camadas:**
+
+- **Cliente PWA (`Cliente`):** interface do dispositivo do capataz no campo. Detecta o estado de conectividade e apresenta a lista de tarefas com indicação visual do modo de operação (online ou offline).
+- **Controller (`TarefaController`):** recebe a requisição de listagem, valida o perfil do usuário e delega ao Service. Não acessa o armazenamento local diretamente.
+- **Service (`TarefaService`):** verifica a disponibilidade de conexão e decide a estratégia de busca — servidor remoto (online) ou armazenamento local (offline). Aplica a regra RN05, garantindo que apenas tarefas do retiro do capataz sejam retornadas.
+- **Repository (`TarefaRepository`):** abstrai tanto o acesso ao banco remoto quanto ao armazenamento local (IndexedDB/SQLite local), expondo a mesma interface ao Service independentemente da origem dos dados.
+- **Armazenamento Local (`IndexedDB`):** persiste localmente as tarefas previamente sincronizadas. Só contém tarefas com `sincronizada = true`, garantindo que dados incompletos nunca sejam exibidos ao capataz (RN06).
+
+**Fluxos cobertos:**
+
+| Fluxo         | Descrição                                                                                           |
+| ------------- | --------------------------------------------------------------------------------------------------- |
+| Principal     | Capataz offline com tarefas sincronizadas → lista exibida a partir do armazenamento local           |
+| Alternativo 1 | Capataz offline sem tarefas sincronizadas → mensagem de ausência exibida com linguagem simples (RN04)|
+| Alternativo 2 | Capataz online → tarefas buscadas do servidor, armazenamento local atualizado e lista exibida       |
+| Alternativo 3 | Perfil não autorizado → acesso negado com 403                                                        |
+
+**Rastreabilidade:**
+
+| Elemento     | Referência                                                                                              |
+| ------------ | ------------------------------------------------------------------------------------------------------- |
+| US02         | Como capataz, posso visualizar minha lista de tarefas do dia offline                                    |
+| RF002        | O sistema deve permitir que o capataz visualize as tarefas do dia mesmo sem conexão                     |
+| RF003        | O sistema deve armazenar localmente as tarefas sincronizadas para acesso offline                        |
+| RF004        | O sistema deve exibir mensagem simples quando não houver tarefas disponíveis offline                    |
+| RN02         | Apenas tarefas do dia atual devem ser exibidas ao capataz                                               |
+| RN05         | Apenas tarefas do retiro do capataz devem ser exibidas para ele                                         |
+| RN06         | O sistema deve permitir visualização offline apenas de tarefas previamente sincronizadas                |
+| RN07         | As tarefas do dia devem ficar disponíveis offline quando houver sincronização prévia                    |
+| RN12         | As telas do capataz devem usar linguagem simples, botões visíveis e poucos passos de interação          |
+| RNF — CONF   | 0% de perda de dados em falhas de conexão; estratégia offline-first                                     |
+| RNF — DES    | Latência p95 < 200ms para salvar e ler registros no banco de dados local                                |
+
+---
+
+#### DS03 — Concluir Tarefa Offline (US03)
+
+Fluxo que representa a marcação de uma tarefa como concluída pelo Capataz em ambiente sem conexão, com persistência local imediata e sincronização automática posterior com o servidor quando a conectividade for restabelecida. Mensagens síncronas são representadas por setas contínuas (`->>`) e retornos por setas tracejadas (`-->>`)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor C as Capataz
+    participant PWA as Cliente (PWA)
+    participant CTR as Controller
+    participant SRV as Service
+    participant REP as Repository
+    participant LS as Armazenamento Local (IndexedDB)
+    participant SYNC as SyncService
+    participant API as Servidor Remoto
+
+    note over C,LS: Dispositivo sem conexão com a internet
+
+    C->>PWA: Toca botão "Concluir Tarefa" (tarefa_id)
+    PWA->>CTR: PATCH /tarefas/{id}/concluir {capataz_id}
+    CTR->>CTR: Valida presença de tarefa_id e capataz_id
+
+    alt Campos obrigatórios ausentes
+        CTR-->>PWA: 400 Bad Request {erro: "campos obrigatórios não preenchidos"}
+        PWA-->>C: Exibe alerta de erro
+    else Dados válidos
+        CTR->>SRV: concluirTarefa(tarefa_id, capataz_id)
+        SRV->>REP: buscarTarefaLocal(tarefa_id)
+        REP->>LS: SELECT * FROM tarefas WHERE id = ? AND capataz_id = ?
+        
+        alt Tarefa não encontrada ou não pertence ao capataz (RN05)
+            LS-->>REP: null
+            REP-->>SRV: null
+            SRV-->>CTR: throw TarefaNaoEncontradaError
+            CTR-->>PWA: 404 Not Found {erro: "tarefa não encontrada"}
+            PWA-->>C: Exibe mensagem de erro
+        else Tarefa encontrada
+            LS-->>REP: {id, titulo, status: "pendente", sincronizada: true}
+            REP-->>SRV: Tarefa
+
+            SRV->>SRV: Atualiza status para "concluida" e registra timestamp (RNF — SEG)
+            SRV->>REP: salvarConclusaoLocal(tarefa_id, concluidaEm, capataz_id)
+            REP->>LS: UPDATE tarefas SET status = "concluida", concluida_em = ?, sincronizada = false WHERE id = ?
+            LS-->>REP: ok
+            REP-->>SRV: ok
+            SRV->>REP: registrarSincronizacaoPendente(tarefa_id, "Tarefa")
+            REP->>LS: INSERT INTO sincronizacoes (entidade_tipo, entidade_id, status_envio, tentativas) VALUES ("Tarefa", ?, "PENDENTE", 0)
+            LS-->>REP: ok
+            SRV-->>CTR: {status: "concluida", sincronizado: false}
+            CTR-->>PWA: 200 OK {mensagem: "Tarefa concluída. Será sincronizada quando houver conexão.", sincronizado: false}
+            PWA-->>C: Exibe confirmação visual com indicador de pendente (RN08, RN12)
+
+            note over SYNC,API: Quando conexão for restabelecida (RF010)
+
+            SYNC->>LS: SELECT * FROM sincronizacoes WHERE status_envio = "PENDENTE"
+            LS-->>SYNC: [{entidade_tipo: "Tarefa", entidade_id: ?}]
+            SYNC->>LS: SELECT * FROM tarefas WHERE id = ? AND sincronizada = false
+            LS-->>SYNC: {id, status: "concluida", concluida_em, capataz_id}
+            SYNC->>API: PATCH /tarefas/{id}/concluir {status, concluida_em, capataz_id}
+
+            alt Sincronização bem-sucedida (RF011)
+                API-->>SYNC: 200 OK
+                SYNC->>LS: UPDATE tarefas SET sincronizada = true WHERE id = ?
+                SYNC->>LS: UPDATE sincronizacoes SET status_envio = "ENVIADO" WHERE entidade_id = ?
+                LS-->>SYNC: ok
+                SYNC-->>PWA: Evento: "tarefa-sincronizada"
+                PWA-->>C: Exibe notificação "Tarefa sincronizada com sucesso" (RF011)
+            else Falha na sincronização (RF012)
+                API-->>SYNC: 5xx / timeout
+                SYNC->>LS: UPDATE sincronizacoes SET status_envio = "FALHA", tentativas = tentativas + 1 WHERE entidade_id = ?
+                LS-->>SYNC: ok
+                note over SYNC: Retentar na próxima conexão (RF012)
+            end
+        end
+    end
+```
+
+**Descrição das camadas:**
+
+- **Cliente PWA (`Cliente`):** captura a ação do capataz, dispara a requisição de conclusão e exibe confirmações visuais simples e de alto contraste, adequadas ao uso em campo (RN12). Escuta eventos de sincronização emitidos pelo SyncService para atualizar o indicador de status.
+- **Controller (`TarefaController`):** valida a presença dos identificadores obrigatórios e delega ao Service. Não acessa o armazenamento local diretamente.
+- **Service (`TarefaService`):** aplica as regras de negócio — verifica se a tarefa pertence ao capataz (RN05), atualiza o status e injeta o timestamp de conclusão (RNF — SEG). Orquestra o registro de sincronização pendente.
+- **Repository (`TarefaRepository`):** persiste a conclusão localmente com `sincronizada = false` e insere o registro de controle na tabela `sincronizacoes` (RF012).
+- **Armazenamento Local (`IndexedDB`):** mantém o estado da tarefa e o registro de pendência de sincronização até que o envio seja confirmado pelo servidor.
+- **SyncService (`SyncService`):** processo em segundo plano (background sync via Service Worker) responsável por detectar a reconexão, consultar registros pendentes e transmiti-los ao servidor remoto. Atualiza o status para `ENVIADO` em caso de sucesso ou incrementa o contador de tentativas em caso de falha (RF012).
+- **Servidor Remoto (`API`):** recebe a atualização de status da tarefa e confirma a persistência no banco de dados central, tornando a informação visível ao Gerente no painel de acompanhamento (RF007).
+
+**Fluxos cobertos:**
+
+| Fluxo         | Descrição                                                                                                    |
+| ------------- | ------------------------------------------------------------------------------------------------------------ |
+| Principal     | Capataz offline → conclusão persistida localmente → sincronização automática ao reconectar → confirmação visual |
+| Alternativo 1 | Campo obrigatório ausente → Controller retorna 400 sem acionar o Service                                     |
+| Alternativo 2 | Tarefa não encontrada ou não pertence ao capataz → Service lança erro → 404                                  |
+| Alternativo 3 | Falha na sincronização com o servidor → tentativa registrada e reenvio automático na próxima conexão (RF012) |
+
+**Rastreabilidade:**
+
+| Elemento     | Referência                                                                                              |
+| ------------ | ------------------------------------------------------------------------------------------------------- |
+| US03         | Como capataz, posso marcar uma tarefa como concluída para informar o gerente sobre o avanço             |
+| RF003        | O sistema deve armazenar localmente as tarefas sincronizadas para acesso offline                        |
+| RF010        | O sistema deve detectar automaticamente o restabelecimento da conexão e iniciar a transmissão           |
+| RF011        | O sistema deve notificar o capataz após sincronização bem-sucedida                                      |
+| RF012        | Registros com falha devem ser mantidos e reenviados automaticamente a cada nova conexão                 |
+| RN05         | Apenas tarefas do retiro do capataz devem ser exibidas e manipuladas por ele                            |
+| RN08         | A marcação de conclusão feita offline deve ser armazenada localmente até a próxima sincronização        |
+| RN09         | A tarefa concluída deve ter seu status atualizado para o gerente após sincronização                     |
+| RN12         | As telas do capataz devem usar linguagem simples, botões visíveis e poucos passos de interação          |
+| RNF — SEG    | 100% dos registros devem conter metadados de autoria (ID do capataz) e timestamp não editável           |
+| RNF — CONF   | 0% de perda de dados em falhas de conexão; estratégia offline-first com reenvio automático              |
+
+---
+
+#### DS04 — Anexar Foto na Conclusão de Tarefa (US04)
+
+Fluxo que representa o anexo de uma foto como evidência de conclusão de tarefa pelo Capataz em ambiente sem conexão, com armazenamento local da imagem e sincronização automática em lote quando a conectividade for restabelecida. Mensagens síncronas são representadas por setas contínuas (`->>`) e retornos por setas tracejadas (`-->>`)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor C as Capataz
+    participant PWA as Cliente (PWA)
+    participant CTR as Controller
+    participant SRV as Service
+    participant REP as Repository
+    participant LS as Armazenamento Local (IndexedDB)
+    participant SYNC as SyncService
+    participant API as Servidor Remoto
+
+    note over C,LS: Dispositivo sem conexão com a internet
+
+    C->>PWA: Toca botão "Anexar Foto" na tela de conclusão (tarefa_id)
+    PWA->>PWA: Aciona câmera nativa do dispositivo
+    C->>PWA: Captura foto
+    PWA->>CTR: POST /tarefas/{id}/evidencias {tipo: "FOTO", arquivo: base64, capataz_id}
+    CTR->>CTR: Valida presença de tarefa_id, tipo e arquivo
+
+    alt Campos obrigatórios ausentes
+        CTR-->>PWA: 400 Bad Request {erro: "campos obrigatórios não preenchidos"}
+        PWA-->>C: Exibe alerta de erro
+    else Dados válidos
+        CTR->>SRV: anexarFoto(tarefa_id, arquivo_base64, capataz_id)
+        SRV->>REP: buscarTarefaLocal(tarefa_id)
+        REP->>LS: SELECT * FROM tarefas WHERE id = ? AND capataz_id = ?
+
+        alt Tarefa não encontrada ou não pertence ao capataz (RN05)git 
+            LS-->>REP: null
+            REP-->>SRV: null
+            SRV-->>CTR: throw TarefaNaoEncontradaError
+            CTR-->>PWA: 404 Not Found {erro: "tarefa não encontrada"}
+            PWA-->>C: Exibe mensagem de erro
+        else Tarefa encontrada
+            LS-->>REP: {id, status, capataz_id}
+            REP-->>SRV: Tarefa
+
+            SRV->>SRV: Captura geolocalização do dispositivo (GPS)
+            SRV->>SRV: Gera evidencia_id e registra timestamp (RNF — SEG)
+            SRV->>REP: salvarFotoLocal(evidencia_id, tarefa_id, arquivo_base64, geolocalizacao, capataz_id)
+            REP->>LS: INSERT INTO evidencias (id, tarefa_id, tipo, arquivo_base64, geolocalizacao, criada_em, sincronizada) VALUES (?, ?, "FOTO", ?, ?, ?, false)
+            LS-->>REP: ok
+            REP-->>SRV: {evidencia_id}
+
+            SRV->>REP: registrarSincronizacaoPendente(evidencia_id, "Evidencia")
+            REP->>LS: INSERT INTO sincronizacoes (entidade_tipo, entidade_id, status_envio, tentativas) VALUES ("Evidencia", ?, "PENDENTE", 0)
+            LS-->>REP: ok
+            SRV-->>CTR: {evidencia_id, sincronizado: false}
+            CTR-->>PWA: 201 Created {mensagem: "Foto salva. Será enviada quando houver conexão.", sincronizado: false}
+            PWA-->>C: Exibe confirmação visual com thumbnail da foto e indicador de pendente (RN11, RN12)
+
+            note over SYNC,API: Quando conexão for restabelecida (RF010)
+
+            SYNC->>LS: SELECT * FROM sincronizacoes WHERE status_envio = "PENDENTE" AND entidade_tipo = "Evidencia"
+            LS-->>SYNC: [{entidade_id: evidencia_id}]
+            SYNC->>LS: SELECT * FROM evidencias WHERE id = ? AND sincronizada = false
+            LS-->>SYNC: {id, tarefa_id, tipo: "FOTO", arquivo_base64, geolocalizacao, criada_em}
+
+            SYNC->>SYNC: Verifica tamanho do arquivo (RNF — CAP: chunking se > limite)
+
+            alt Arquivo dentro do limite de envio
+                SYNC->>API: POST /tarefas/{tarefa_id}/evidencias {tipo: "FOTO", arquivo: base64, geolocalizacao, criada_em}
+                alt Sincronização bem-sucedida (RF011)
+                    API-->>SYNC: 201 Created {url_arquivo}
+                    SYNC->>LS: UPDATE evidencias SET sincronizada = true, url_arquivo = ? WHERE id = ?
+                    SYNC->>LS: UPDATE sincronizacoes SET status_envio = "ENVIADO" WHERE entidade_id = ?
+                    LS-->>SYNC: ok
+                    SYNC-->>PWA: Evento: "evidencia-sincronizada"
+                    PWA-->>C: Exibe notificação "Foto enviada com sucesso" (RF011)
+                else Falha na sincronização (RF012)
+                    API-->>SYNC: 5xx / timeout
+                    SYNC->>LS: UPDATE sincronizacoes SET status_envio = "FALHA", tentativas = tentativas + 1 WHERE entidade_id = ?
+                    LS-->>SYNC: ok
+                    note over SYNC: Retentar na próxima conexão (RF012)
+                end
+            else Arquivo acima do limite (RNF — CAP)
+                SYNC->>SYNC: Divide arquivo em chunks
+                loop Para cada chunk
+                    SYNC->>API: POST /tarefas/{tarefa_id}/evidencias/chunk {chunk_index, chunk_data, total_chunks}
+                    API-->>SYNC: 200 OK {chunk_recebido}
+                end
+                SYNC->>API: POST /tarefas/{tarefa_id}/evidencias/finalizar {evidencia_id}
+                API-->>SYNC: 201 Created {url_arquivo}
+                SYNC->>LS: UPDATE evidencias SET sincronizada = true, url_arquivo = ? WHERE id = ?
+                SYNC->>LS: UPDATE sincronizacoes SET status_envio = "ENVIADO" WHERE entidade_id = ?
+                SYNC-->>PWA: Evento: "evidencia-sincronizada"
+                PWA-->>C: Exibe notificação "Foto enviada com sucesso" (RF011)
+            end
+        end
+    end
+```
+
+**Descrição das camadas:**
+
+- **Cliente PWA (`Cliente`):** aciona a câmera nativa do dispositivo, exibe um thumbnail da imagem capturada e apresenta indicador visual de status de envio (pendente/sincronizado) com linguagem simples e botões de alto contraste (RN12). Escuta eventos de sincronização emitidos pelo SyncService.
+- **Controller (`TarefaController`):** valida a presença dos campos obrigatórios (identificador da tarefa, tipo de evidência e arquivo) e delega ao Service. Não acessa o armazenamento local diretamente.
+- **Service (`TarefaService`):** captura a geolocalização do dispositivo no momento do anexo, injeta metadados de autoria e timestamp (RNF — SEG), e orquestra o armazenamento local da imagem em formato base64 e o registro de sincronização pendente.
+- **Repository (`TarefaRepository`):** persiste a evidência no armazenamento local com `sincronizada = false` e a imagem codificada em base64, mantendo o vínculo com a tarefa correspondente (RN10). Insere o registro de controle na tabela `sincronizacoes`.
+- **Armazenamento Local (`IndexedDB`):** armazena a imagem em base64 até que a sincronização com o servidor seja concluída com sucesso, prevenindo qualquer perda de evidência durante períodos offline (RN11, RNF — CONF).
+- **SyncService (`SyncService`):** detecta a reconexão via Service Worker e transmite as evidências pendentes ao servidor. Implementa chunking para arquivos de imagem que excedam o limite de transmissão segura em conexões instáveis (RNF — CAP), garantindo a integridade do envio em lote.
+- **Servidor Remoto (`API`):** recebe a evidência, persiste o arquivo e retorna a URL definitiva do arquivo armazenado, que é então atualizada no registro local. A evidência fica disponível para consulta pelo Gerente e Coordenador (RF014, UC05).
+
+**Fluxos cobertos:**
+
+| Fluxo         | Descrição                                                                                                          |
+| ------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Principal     | Capataz offline → foto capturada e salva localmente em base64 → sincronização automática ao reconectar             |
+| Alternativo 1 | Campo obrigatório ausente → Controller retorna 400                                                                  |
+| Alternativo 2 | Tarefa não encontrada ou não pertence ao capataz → Service lança erro → 404                                        |
+| Alternativo 3 | Falha na sincronização → tentativa registrada e reenvio automático na próxima conexão (RF012)                      |
+| Alternativo 4 | Arquivo acima do limite → SyncService divide em chunks e transmite sequencialmente ao servidor (RNF — CAP)         |
+
+**Rastreabilidade:**
+
+| Elemento     | Referência                                                                                                   |
+| ------------ | ------------------------------------------------------------------------------------------------------------ |
+| US04         | Como capataz, posso anexar fotos na conclusão de uma tarefa para comprovar visualmente o serviço realizado   |
+| RF004        | O sistema deve armazenar localmente as tarefas e evidências sincronizadas para acesso offline                |
+| RF010        | O sistema deve detectar automaticamente o restabelecimento da conexão e iniciar a transmissão pendente       |
+| RF011        | O sistema deve notificar o capataz com confirmação após sincronização bem-sucedida                           |
+| RF012        | Registros com falha de envio devem ser mantidos e reenviados automaticamente a cada nova conexão             |
+| RN10         | As fotos anexadas devem estar vinculadas à tarefa correspondente                                             |
+| RN11         | Fotos registradas offline devem ser enviadas ao sistema quando houver conexão                                |
+| RN12         | As telas do capataz devem usar linguagem simples, botões visíveis e poucos passos de interação               |
+| RN19         | O sistema deve capturar automaticamente a localização GPS quando o capataz criar um registro com foto        |
+| RNF — SEG    | 100% dos registros devem conter metadados de autoria e timestamp não editável                                |
+| RNF — CONF   | 0% de perda de dados em falhas de conexão; imagem mantida localmente até confirmação do servidor             |
+| RNF — CAP    | Suporte a sincronização em lote de até 500 eventos; chunking para arquivos grandes em conexões instáveis     |
+
+
 ### 3.2.5. Diagrama de Atividades ou Estados (sprint 3)
 
 _Ao menos um fluxo relevante em UML ou BPMN. Use a notação da ferramenta escolhida de forma consistente (sem misturar convenções)._
@@ -1714,7 +2102,7 @@ Esta tela é o núcleo operacional do usuário em campo, cujas ações possívei
 Em relação à navegação e detalhes, o botão "Ver Todos" permite que, ao clicar, o usuário expanda a visualização para uma gestão completa do histórico de atividades, enquanto um botão lateral provê acesso direto às informações do rebanho e dados zootécnicos (estoque e categorias de animais) e, ao selecionar uma tarefa específica no detalhamento de tarefas, o sistema exibe uma tela com as especificações detalhadas, insumos necessários e orientações para a execução.
 
 <center>
-  <p><strong>Figura 9</strong> — Wireframe da tela de tarefas do capataz</p>
+  <p><strong>Figura 10</strong> — Wireframe da tela de tarefas do capataz</p>
   <img src="./assets/wireframeCapatazTarefas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -1754,7 +2142,7 @@ Para facilitar a organização, a categorização de chamados agrupa as demandas
 Ao selecionar uma categoria, o sistema permite o monitoramento de status e detalha o fluxo de trabalho através de indicadores específicos, como pendentes/abertos para visualização da quantidade de novos chamados, em andamento para acompanhamento dos serviços iniciados e o histórico semanal como relatório de chamados concluídos nos últimos sete dias. Como ação rápida, dentro de cada seção, existe a funcionalidade de criar uma nova Ordem de Serviço (O.S.) específica para aquele setor, garantindo que o registro seja feito no local do problema.
 
 <center>
-  <p><strong>Figura 12</strong> — Wireframe da tela de infraestrutura</p>
+  <p><strong>Figura 13</strong> — Wireframe da tela de infraestrutura</p>
   <img src="./assets/wireframeInfraestrutura.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -1772,13 +2160,13 @@ Além disso, uma funcionalidade crítica desta tela é a linha do tempo (histór
 </center>
 
 <center>
-  <p><strong>Figura 14</strong> — Wireframe da tela de dashboard do gerente</p>
+  <p><strong>Figura 15</strong> — Wireframe da tela de dashboard do gerente</p>
   <img src="./assets/wireframeGerenteDashboard.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-  <p><strong>Figura 15</strong> — Wireframe da tela de nova O.S do gerente</p>
+  <p><strong>Figura 16</strong> — Wireframe da tela de nova O.S do gerente</p>
   <img src="./assets/wireframeGerenteNovaOs.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -1809,141 +2197,48 @@ _posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelid
 
 ### 3.6.1. Modelo Entidade-Relacionamento (ER) (sprint 2)
 
-O modelo Entidade-Relacionamento (ER) conceitual representa as principais entidades do domínio da aplicação, seus atributos e relacionamentos existentes entre elas, utilizando a notação **Chen** de forma consistente em toda a modelagem. O objetivo deste modelo é estruturar conceitualmente os dados necessários para suportar o gerenciamento operacional da BRPec Agropecuária, contemplando usuários, boletas, alertas, retiros e tipos operacionais (nascimento, óbito, transferência, compra, venda).
+O modelo Entidade-Relacionamento (ER) conceitual descreve as principais entidades do domínio da aplicação, seus atributos e os relacionamentos existentes entre elas. O objetivo é estruturar conceitualmente os dados necessários para suportar o gerenciamento operacional da BRPec Agropecuária, contemplando usuários, retiros, tarefas, alertas, movimentações de rebanho e evidências.
 
-Nesta etapa conceitual, não são representados detalhes físicos de implementação, como tipos específicos de banco de dados, chaves primárias ou estrangeiras, pois esses elementos serão tratados posteriormente no DER lógico e no modelo físico da aplicação.
+No contexto do projeto, a boleta representa o formulário digital utilizado pelo capataz para registrar as informações de campo que antes eram anotadas em papel. Conceitualmente, a boleta funciona como o fluxo operacional de entrada de dados: por meio dela o capataz visualiza e conclui tarefas, registra movimentações do rebanho, emite alertas de infraestrutura e anexa evidências. Por não possuir ciclo de vida independente das informações registradas, a boleta não é modelada como uma entidade isolada; ela é materializada no modelo pelos registros de tarefa, alerta, movimentação e evidência. Para cada relacionamento são indicadas as cardinalidades mínima e máxima em ambos os lados, expressando diretamente as regras de negócio do domínio.
+
+
+#### Decisões de modelagem
+
+- **USUÁRIO:** representa os perfis operacionais do sistema (Gerente, Coordenador, Capataz e Técnico de Infraestrutura). A distinção de funções é realizada pelo atributo `perfil`, centralizando a gestão de acessos e garantindo que cada ação no sistema seja vinculada a um identificador único para fins de rastreabilidade.
+
+- **RETIRO:** representa as unidades físicas e operacionais da fazenda. O relacionamento *pertence* estabelece que cada capataz deve estar vinculado a exatamente um retiro (USUÁRIO 1,1), enquanto um retiro pode possuir nenhum, um ou múltiplos usuários associados (RETIRO 0,n), considerando que perfis como gerente, coordenador e técnico podem atuar em escopo mais amplo.
+
+- **TAREFA:** registra ordens de serviço criadas por gerentes ou coordenadores e atribuídas a capatazes para execução em campo. Cada tarefa é criada por exatamente um usuário autorizado (TAREFA 1,1) e um usuário pode criar várias tarefas (USUÁRIO 0,n). Cada tarefa também possui exatamente um responsável pela execução (TAREFA 1,1), enquanto um capataz pode executar várias tarefas ao longo do tempo (USUÁRIO 0,n). Toda tarefa pertence obrigatoriamente a um retiro (TAREFA 1,1; RETIRO 0,n).
+
+- **ALERTA:** é utilizado para reportar problemas de infraestrutura (cerca, bebedouro, hidráulica, elétrica, entre outros), com localização geográfica e ciclo de resolução rastreável. Cada alerta é emitido por exatamente um usuário (ALERTA 1,1), enquanto um usuário pode emitir nenhum, um ou vários alertas (USUÁRIO 0,n). Um alerta pode ainda ser atendido por no máximo um técnico de infraestrutura (ALERTA 0,1), e um técnico pode atender vários alertas (USUÁRIO 0,n). Todo alerta pertence obrigatoriamente a um retiro (ALERTA 1,1; RETIRO 0,n).
+
+- **MOVIMENTAÇÃO:** é o núcleo do registro de manejo do rebanho realizado na boleta digital, substituindo os processos manuais em papel. Registra o tipo de evento zootécnico (nascimento, óbito, transferência ou compravenda), a categoria do animal, a quantidade e a data da ocorrência. Cada movimentação é registrada por exatamente um usuário responsável (MOVIMENTAÇÃO 1,1), enquanto um usuário pode registrar várias movimentações (USUÁRIO 0,n). Cada movimentação ocorre obrigatoriamente em um retiro de referência (MOVIMENTAÇÃO 1,1; RETIRO 0,n).
+
+- **EVIDÊNCIA:** armazena mídias de comprovação (foto, áudio, vídeo, documento ou texto) anexadas durante o preenchimento da boleta digital. Cada evidência pertence a exatamente uma origem: uma tarefa, um alerta ou uma movimentação (EVIDÊNCIA 1,1 em uma única origem). A exclusividade é representada por três relacionamentos *comprova* mutuamente exclusivos, enquanto cada tarefa, alerta ou movimentação pode possuir nenhuma, uma ou várias evidências associadas (0,n). Essa decisão mantém a rastreabilidade do registro sem duplicar arquivos de mídia nas entidades operacionais.
+
+- **Tipos específicos de movimentação:** (Nascimento, Óbito, Transferência e CompraVenda): Movimentação atua como entidade genérica que se especializa em quatro subtipos zootécnicos. A especialização é total e disjunta, cada movimentação corresponde a exatamente um subtipo (cardinalidade 1,1 no lado de movimentação). Cada subtipo possui atributos próprios: nascimento registra quantidade e raça; óbito registra identificação do animal, quantidade, causa da morte e exigência de evidência fotográfica; transferência registra retiros de origem e destino e a quantidade transferida; compravenda registra tipo de negócio, valor financeiro e quantidade.
+
+Dessa forma, o ER cobre os principais fluxos de dados do sistema: planejamento e execução de tarefas, emissão e atendimento de alertas, registro de eventos zootécnicos, anexação de evidências e sincronização posterior dos dados coletados em campo.
+
+### 3.6.2. Diagrama Entidade-Relacionamento (DER) (sprint 2)
+
+O DER abaixo é a representação gráfica, na notação de Peter Chen (1976), da versão conceitual concebida durante a sprint 2. Entidades são representadas por retângulos, atributos por elipses e relacionamentos por losangos.
+
+Este diagrama registra a estrutura de dados concebida na sprint 2, com a Boleta como entidade central, concentrando os atributos comuns a todos os eventos zootécnicos (`tipo_boleta`, `data`, `RG/CPF`, `status`, `tipo_animal`, `tipo_transporte`, `quantidade_animal`, `georreferenciamento`). As especializações, Nascimento, Óbito, Transferência, Compra e Venda, conectam-se à Boleta pelo relacionamento detalha com cardinalidade (1,1) em ambos os lados, implementando herança por especialização total e disjunta: cada boleta corresponde a exatamente um tipo de evento, e cada evento pertence a exatamente uma boleta.
+
+A seção 3.6.1 apresenta a versão conceitual consolidada após a evolução deste DER: a Boleta deixa de ser uma entidade isolada e passa a ser materializada pelos registros de Movimentação, Tarefa, Alerta e Evidência. Essa decisão separou melhor as responsabilidades de cada entidade e eliminou atributos que não são pertinentes a todos os tipos de evento.
 
 <center>
-  <p><strong>Figura 13</strong> — Modelo Entidade-Relacionamento Conceitual — BRPec Agropecuária</p>
+  <p><strong>Figura 17</strong> — DER conceitual da sprint 2 — BRPec Agropecuária</p>
 </center>
 
 <img src="./assets/modelo-er-brpec.png" width="800"/>
 
-### Decisões de modelagem
-
-- A entidade USUÁRIO representa os perfis operacionais do sistema (Gerente, Coordenador e Capataz). A distinção de funções é realizada pelo atributo perfil, centralizando a gestão de acessos e garantindo que cada ação no sistema seja vinculada a um id único para fins de rastreabilidade.
-
-- A entidade RETIRO representa as unidades físicas e operacionais da fazenda.  O relacionamento "pertence" (1,1 para 1,n) estabelece que um usuário deve estar vinculado a pelo menos um retiro para operar, enquanto um retiro pode possuir múltiplos usuários associados.
-
-- A entidade ALERTA é utilizada para reportar problemas de infraestrutura (hidráulica, cerca, elétrica). O relacionamento "emite" (1,1 para 1,n) garante que cada alerta seja rastreável a um único autor (Usuário), permitindo que o Gerente saiba exatamente quem reportou a ocorrência.
-
-- A entidade BOLETA é o núcleo do registro de manejo, substituindo os processos manuais em papel.  Inclui atributos essenciais para a fiscalização e transporte, como RG/CPF, tipo_transporte (rodoviário/estrada) e georreferenciamento, conforme exigido pelos formulários físicos da empresa.
-
-- Relacionamento REGISTRA (Usuário-Boleta): Estabelece uma conexão (1,n para 1,1), onde cada boleta digitalizada é obrigatoriamente vinculada ao usuário que a criou, eliminando falhas de transcrição e garantindo a autoria dos dados.
-
-- Relacionamento CONTÉM (Retiro-Boleta): Define que cada boleta pertence a um retiro de referência (1,1), permitindo a organização dos registros por localidade e facilitando a exportação de dados consolidados por área.
-
-- Especialização DETALHA (Nascimento, Óbito, Transferência, Compra e Venda): A entidade BOLETA atua como uma classe base que se ramifica em eventos zootécnicos específicos.
-
-A cardinalidade (1,1) entre o losango detalha e a Boleta indica que um registro de manejo deve corresponder obrigatoriamente a um desses tipos.
-
-Cada subtipo (ex: Óbito ou Nascimento) possui seus próprios campos de evidência, como foto e áudio, para validar a execução da tarefa em campo.
-
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-### 3.6.2. Diagrama Entidade-Relacionamento (DER) (sprint 2)
 
-_Posicione aqui o DER com cardinalidades explícitas em ambos os lados de cada relação e identificação de PK/FK. O DER deve ser coerente com o diagrama de classes (3.2.3)._
-
-O Diagrama Entidade-Relacionamento (DER) é uma representação gráfica da estrutura de um banco de dados, baseada no Modelo Entidade-Relacionamento (MER) proposto por Peter Chen (1976). No diagrama, entidades (objetos do mundo real com existência independente) são representadas por retângulos. Seus atributos, por elipses, e os relacionamentos entre elas, por losangos. Essa notação auxilia desenvolvedores a visualizar e comunicar a arquitetura de dados de um sistema antes de sua implementação. [9]
-
-```mermaid
-erDiagram
-    RETIROS {
-        uuid id PK
-        varchar(100) nome
-        text localizacao
-    }
-    USUARIOS {
-        uuid id PK
-        varchar(150) nome
-        varchar(255) senha_hash
-        varchar(20) perfil
-        text area_responsavel
-        uuid retiro_id FK
-        timestamptz created_at
-    }
-    TAREFAS {
-        uuid id PK
-        varchar(200) titulo
-        text descricao
-        varchar(20) status
-        date data_execucao
-        uuid gerente_id FK
-        uuid capataz_id FK
-        uuid retiro_id FK
-        timestamptz created_at
-    }
-    EVIDENCIAS {
-        uuid id PK
-        varchar(10) tipo
-        bytea conteudo
-        uuid tarefa_id FK
-        timestamptz created_at
-    }
-    ALERTAS {
-        uuid id PK
-        text descricao
-        varchar(30) tipo
-        boolean resolvido
-        uuid capataz_id FK
-        uuid retiro_id FK
-        timestamptz created_at
-    }
-    MOVIMENTACOES {
-        uuid id PK
-        date data
-        varchar(20) categoria
-        integer quantidade
-        boolean sincronizado
-        uuid usuario_id FK
-        uuid retiro_id FK
-        timestamptz created_at
-    }
-    NASCIMENTOS {
-        uuid movimentacao_id PK
-        uuid mae_id
-        bytea foto
-    }
-    OBITOS {
-        uuid movimentacao_id PK
-        text causa
-        bytea foto
-    }
-    TRANSFERENCIAS {
-        uuid movimentacao_id PK
-        uuid retiro_origem_id FK
-        uuid retiro_destino_id FK
-    }
-    COMPRAVENDAS {
-        uuid movimentacao_id PK
-        varchar(10) tipo_operacao
-        numeric(12) valor
-    }
-
-    USUARIOS }o--|| RETIROS : "retiro_id"
-    TAREFAS }o--|| USUARIOS : "gerente_id"
-    TAREFAS }o--|| USUARIOS : "capataz_id"
-    TAREFAS }o--|| RETIROS : "retiro_id"
-    EVIDENCIAS }o--|| TAREFAS : "tarefa_id"
-    ALERTAS }o--|| USUARIOS : "capataz_id"
-    ALERTAS }o--|| RETIROS : "retiro_id"
-    MOVIMENTACOES }o--|| USUARIOS : "usuario_id"
-    MOVIMENTACOES }o--|| RETIROS : "retiro_id"
-    NASCIMENTOS ||--|| MOVIMENTACOES : "movimentacao_id"
-    OBITOS ||--|| MOVIMENTACOES : "movimentacao_id"
-    TRANSFERENCIAS ||--|| MOVIMENTACOES : "movimentacao_id"
-    TRANSFERENCIAS }o--|| RETIROS : "retiro_origem_id"
-    TRANSFERENCIAS }o--|| RETIROS : "retiro_destino_id"
-    COMPRAVENDAS ||--|| MOVIMENTACOES : "movimentacao_id"
-```
-
-<center>
-  <p><strong>Figura 14</strong> — Diagrama Entidade-Relacionamento (DER)</p>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
 
 ### 3.6.3. Modelo Relacional e Modelo Físico (sprints 2 e 4)
 
@@ -1951,7 +2246,7 @@ O modelo físico deriva do modelo conceitual (ER) apresentado na seção 3.6.1 e
 
 A aplicação PWA mantém os dados estruturados no banco local SQLite. Quando a conexão retorna, a camada de sincronização envia os registros pendentes para uma API central; arquivos de mídia, como fotos e áudios, são enviados a um serviço de armazenamento de evidências pela API. O banco local mantém metadados, caminho local do arquivo antes do upload e a referência remota (`storage_key` ou `url`) após a sincronização.
 
-O DER lógico com cardinalidades, PKs e FKs está apresentado na seção 3.6.2. Nesta seção, o mesmo desenho é transformado em modelo relacional e em DDL executável.
+A evolução conceitual está apresentada nas seções 3.6.1 e 3.6.2. Nesta seção, o modelo consolidado é transformado em modelo relacional e em DDL executável.
 
 #### Modelo Relacional
 
@@ -1970,7 +2265,7 @@ O DER lógico com cardinalidades, PKs e FKs está apresentado na seção 3.6.2. 
 | `sync_queue`     | `id`           | —                                                          | Fila técnica de sincronização offline-online    |
 
 <center>
-  <p><strong>Figura 15</strong> — Modelo Relacional</p>
+  <p><strong>Figura 18</strong> — Modelo Relacional</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1985,6 +2280,7 @@ O DER lógico com cardinalidades, PKs e FKs está apresentado na seção 3.6.2. 
 - **`evidencias` com vínculo polimórfico controlado por `CHECK`**: cada evidência pertence a exatamente uma tarefa, um alerta ou uma movimentação. Isso permite registrar fotos de óbito sem guardar o arquivo binário diretamente na tabela de óbitos.
 - **Mídias fora do banco relacional**: `arquivo_local_uri` guarda o caminho local antes da sincronização; `storage_key` e `url` guardam a referência remota após upload pela API; `conteudo_texto` cobre evidências textuais simples.
 - **Especialização de `movimentacoes`**: `nascimentos`, `obitos`, `transferencias` e `compravendas` detalham uma movimentação e usam `UNIQUE (movimentacao_id)` para evitar mais de um detalhe do mesmo tipo para o mesmo evento.
+- **Regra de totalidade e disjunção das especializações**: no modelo conceitual, cada movimentação pertence a exatamente um subtipo. No SQLite local, essa regra é apoiada por `movimentacoes.tipo`, pelas tabelas especializadas e pela camada de aplicação/sincronização, que só grava o detalhe compatível com o tipo do evento. Caso a validação precise ficar totalmente no banco, a regra pode ser reforçada por triggers.
 - **Timestamp de atualização nas especializações**: as tabelas especializadas não possuem `updated_at` próprio porque mudanças de estado do evento são rastreadas na tabela-mãe `movimentacoes`.
 - **`sync_queue`**: tabela técnica que registra operações pendentes (`insert`, `update`, `delete` ou `upload`) para a camada de sincronização executar quando houver conexão.
 
@@ -2279,22 +2575,39 @@ UPSERT é uma operação que combina UPdate (atualizar) e inSERT (inserir). Ele 
 
 ### 3.6.4. Consultas SQL e lógica proposicional (sprint 2)
 
-_posicione aqui uma lista de consultas SQL compostas, realizadas pelo back-end da aplicação web, com sua respectiva lógica proposicional, descrita conforme template abaixo. Lembre-se que para usar LaTeX em markdown, basta você colocar as expressões entre $ ou $$_
+Consultas SQL são instruções que permitem ao sistema recuperar, inserir, atualizar ou remover dados em um banco de dados relacional. Cada consulta é composta por cláusulas que definem quais tabelas serão acessadas (`FROM`, `JOIN`), quais registros serão selecionados (`WHERE`) e como o resultado será apresentado (`ORDER BY`, `LIMIT`). A cláusula `WHERE`, em particular, especifica um conjunto de condições que cada linha precisa satisfazer para ser incluída no resultado, exatamente o ponto onde a lógica proposicional se aplica.
 
-_Template de SQL + lógica proposicional_
+A lógica proposicional é o ramo da lógica matemática que estuda proposições: afirmações que assumem valor verdadeiro (V) ou falso (F). Proposições simples são combinadas por operadores lógicos: conjunção ($\land$, equivalente ao `AND` do SQL), disjunção ($\lor$, equivalente ao `OR`) e negação ($\lnot$, equivalente ao `NOT`), formando expressões compostas cujo valor de verdade depende dos valores de cada parte. A tabela-verdade enumera todas as combinações possíveis de valores das proposições elementares e o resultado da expressão composta para cada combinação, tornando explícita a semântica da condição de filtragem.
+
+A conexão entre os dois formalismos é direta: cada predicado da cláusula `WHERE` de uma consulta SQL corresponde a uma proposição lógica, e os operadores `AND`/`OR` mapeiam diretamente para $\land$/$\lor$. Representar as consultas dessa forma dupla, como código SQL e como expressão proposicional com tabela-verdade, permite verificar formalmente se a lógica de filtragem está correta e comunicar a intenção da consulta de maneira precisa, independente do dialeto SQL utilizado.
 
 As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados ao modelo físico SQLite da seção 3.6.3. As expressões usam os nomes de colunas do modelo atual, especialmente `responsavel_id`, `criado_por_id`, `data_prevista`, `sync_status` e a fila técnica `sync_queue`.
+
 
 <center>
   <p><strong>Tabela 8</strong> — Expressões SQL e Lógica Proposicional</p>
 </center>
 
-| #1                                 | ---                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Expressão SQL**                  | `SELECT id, titulo, descricao, status, data_prevista FROM tarefas WHERE responsavel_id = $1 AND date(data_prevista) = date('now') AND (status = 'pendente' OR status = 'em_andamento') ORDER BY data_prevista ASC;`                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| **Proposições lógicas**            | $A$: a tarefa pertence ao capataz autenticado (`responsavel_id = $1`) <br> $B$: a tarefa está prevista para hoje (`date(data_prevista) = date('now')`) <br> $C$: o status é pendente (`status = 'pendente'`) <br> $D$: o status é em andamento (`status = 'em_andamento'`)                                                                                                                                                                                                                                                                                                                                                            |
-| **Expressão lógica proposicional** | $A \land B \land (C \lor D)$                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| **Tabela Verdade**                 | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$D$</th> <th>$A \land B \land (C \lor D)$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>V</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table> |
+#1 | ---
+--- | ---
+**Expressão SQL** | `SELECT id, titulo, descricao, status, data_prevista FROM tarefas WHERE responsavel_id = $1 AND date(data_prevista) = date('now') AND (status = 'pendente' OR status = 'em_andamento') ORDER BY data_prevista ASC;` |
+**Proposições lógicas** | $A$: a tarefa pertence ao capataz autenticado (`responsavel_id = $1`) <br> $B$: a tarefa está prevista para hoje (`date(data_prevista) = date('now')`) <br> $C$: o status é pendente (`status = 'pendente'`) <br> $D$: o status é em andamento (`status = 'em_andamento'`) |
+**Expressão lógica proposicional** | $A \land B \land (C \lor D)$ |
+**Tabela Verdade** | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$D$</th> <th>$A \land B \land (C \lor D)$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>V</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table>
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+
+---
+
+#2 | ---
+--- | ---
+**Expressão SQL** | `UPDATE tarefas SET status = 'concluida', data_conclusao = strftime('%Y-%m-%dT%H:%M:%fZ','now'), sync_status = 'pendente', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = $1 AND responsavel_id = $2 AND status <> 'concluida';` |
+**Proposições lógicas** | $A$: a tarefa corresponde ao ID informado (`id = $1`) <br> $B$: a tarefa pertence ao responsável autenticado (`responsavel_id = $2`) <br> $C$: a tarefa ainda não está concluída (`status <> 'concluida'`) |
+**Expressão lógica proposicional** | $A \land B \land C$ |
+**Tabela Verdade** | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$A \land B \land C$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table>
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -2302,12 +2615,12 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 
 ---
 
-| #2                                 | ---                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Expressão SQL**                  | `UPDATE tarefas SET status = 'concluida', data_conclusao = strftime('%Y-%m-%dT%H:%M:%fZ','now'), sync_status = 'pendente', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = $1 AND responsavel_id = $2 AND status <> 'concluida';`                                                                                                                                                                       |
-| **Proposições lógicas**            | $A$: a tarefa corresponde ao ID informado (`id = $1`) <br> $B$: a tarefa pertence ao responsável autenticado (`responsavel_id = $2`) <br> $C$: a tarefa ainda não está concluída (`status <> 'concluida'`)                                                                                                                                                                                                           |
-| **Expressão lógica proposicional** | $A \land B \land C$                                                                                                                                                                                                                                                                                                                                                                                                  |
-| **Tabela Verdade**                 | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$A \land B \land C$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table> |
+#3 | ---
+--- | ---
+**Expressão SQL** | `SELECT a.id, a.titulo, a.descricao, a.tipo, a.status, a.created_at, r.nome AS retiro, u.nome AS criado_por FROM alertas a JOIN retiros r ON a.retiro_id = r.id JOIN usuarios u ON a.criado_por_id = u.id WHERE (a.status = 'aberto' OR a.status = 'em_andamento') AND (a.tipo = 'infraestrutura' OR a.tipo = 'cerca' OR a.tipo = 'bebedouro') ORDER BY a.created_at DESC;` |
+**Proposições lógicas** | $A$: o alerta está aberto (`status = 'aberto'`) <br> $B$: o alerta está em andamento (`status = 'em_andamento'`) <br> $C$: o tipo é infraestrutura (`tipo = 'infraestrutura'`) <br> $D$: o tipo é cerca (`tipo = 'cerca'`) <br> $E$: o tipo é bebedouro (`tipo = 'bebedouro'`) |
+**Expressão lógica proposicional** | $(A \lor B) \land (C \lor D \lor E)$ |
+**Tabela Verdade** | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$D$</th> <th>$E$</th> <th>$(A \lor B) \land (C \lor D \lor E)$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table>
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -2315,30 +2628,16 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 
 ---
 
-| #3                                 | ---                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Expressão SQL**                  | `SELECT a.id, a.titulo, a.descricao, a.tipo, a.status, a.created_at, r.nome AS retiro, u.nome AS criado_por FROM alertas a JOIN retiros r ON a.retiro_id = r.id JOIN usuarios u ON a.criado_por_id = u.id WHERE (a.status = 'aberto' OR a.status = 'em_andamento') AND (a.tipo = 'infraestrutura' OR a.tipo = 'cerca' OR a.tipo = 'bebedouro') ORDER BY a.created_at DESC;`                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| **Proposições lógicas**            | $A$: o alerta está aberto (`status = 'aberto'`) <br> $B$: o alerta está em andamento (`status = 'em_andamento'`) <br> $C$: o tipo é infraestrutura (`tipo = 'infraestrutura'`) <br> $D$: o tipo é cerca (`tipo = 'cerca'`) <br> $E$: o tipo é bebedouro (`tipo = 'bebedouro'`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| **Expressão lógica proposicional** | $(A \lor B) \land (C \lor D \lor E)$                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| **Tabela Verdade**                 | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$D$</th> <th>$E$</th> <th>$(A \lor B) \land (C \lor D \lor E)$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table> |
+#4 | ---
+--- | ---
+**Expressão SQL** | `SELECT t.id, t.titulo, t.status, t.data_prevista, r.nome AS retiro, u.nome AS responsavel FROM tarefas t JOIN retiros r ON t.retiro_id = r.id JOIN usuarios u ON t.responsavel_id = u.id WHERE t.criado_por_id = $1 AND (t.status = 'pendente' OR t.status = 'em_andamento') AND date(t.data_prevista) >= date('now') ORDER BY t.data_prevista ASC, r.nome ASC;` |
+**Proposições lógicas** | $A$: a tarefa foi criada pelo gerente autenticado (`criado_por_id = $1`) <br> $B$: o status é pendente (`status = 'pendente'`) <br> $C$: o status é em andamento (`status = 'em_andamento'`) <br> $D$: a data prevista é hoje ou futura (`date(data_prevista) >= date('now')`) |
+**Expressão lógica proposicional** | $A \land (B \lor C) \land D$ |
+**Tabela Verdade** | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$D$</th> <th>$A \land (B \lor C) \land D$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table>
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
-
----
-
-| #4                                 | ---                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Expressão SQL**                  | `SELECT t.id, t.titulo, t.status, t.data_prevista, r.nome AS retiro, u.nome AS responsavel FROM tarefas t JOIN retiros r ON t.retiro_id = r.id JOIN usuarios u ON t.responsavel_id = u.id WHERE t.criado_por_id = $1 AND (t.status = 'pendente' OR t.status = 'em_andamento') AND date(t.data_prevista) >= date('now') ORDER BY t.data_prevista ASC, r.nome ASC;`                                                                                                                                                                                                                                                                     |
-| **Proposições lógicas**            | $A$: a tarefa foi criada pelo gerente autenticado (`criado_por_id = $1`) <br> $B$: o status é pendente (`status = 'pendente'`) <br> $C$: o status é em andamento (`status = 'em_andamento'`) <br> $D$: a data prevista é hoje ou futura (`date(data_prevista) >= date('now')`)                                                                                                                                                                                                                                                                                                                                                        |
-| **Expressão lógica proposicional** | $A \land (B \lor C) \land D$                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| **Tabela Verdade**                 | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$D$</th> <th>$A \land (B \lor C) \land D$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table> |
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
 ---
 
 | #5                                 | Fluxo: Registro de nascimento offline com fila de sincronização (US08 / RF008)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
@@ -2362,32 +2661,33 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
----
+--- 
 
-| #6                                 | Fluxo: Registro de óbito offline com fila de sincronização (US09 / RF009)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Expressão SQL**                  | `BEGIN; INSERT INTO movimentacoes (id, retiro_id, responsavel_id, tipo, categoria, data_movimentacao, observacoes, sync_status) VALUES ($1, $2, $3, 'obito', $4, $5, $6, 'pendente') ON CONFLICT(id) DO UPDATE SET categoria = excluded.categoria, data_movimentacao = excluded.data_movimentacao, observacoes = excluded.observacoes, sync_status = 'pendente', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE movimentacoes.sync_status != 'sincronizado' AND movimentacoes.responsavel_id = excluded.responsavel_id; INSERT INTO obitos (id, movimentacao_id, identificacao_animal, quantidade, causa, exige_evidencia_foto) VALUES ($7, $1, $8, $9, $10, 1) ON CONFLICT(id) DO UPDATE SET causa = excluded.causa, quantidade = excluded.quantidade, identificacao_animal = excluded.identificacao_animal WHERE obitos.movimentacao_id = excluded.movimentacao_id; INSERT INTO sync_queue (id, tabela, registro_id, operacao, payload_json) VALUES ($11, 'movimentacoes', $1, 'insert', $12); COMMIT;` |
-| **Proposições lógicas**            | $A$: o registro de óbito ainda não existe no banco local <br> $B$: o registro existe, mas ainda não foi sincronizado (`sync_status != 'sincronizado'`) <br> $C$: o registro pertence ao mesmo responsável (`responsavel_id = excluded.responsavel_id`) <br> $D$: a causa da morte foi informada (`causa IS NOT NULL`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| **Expressão lógica proposicional** | $(A \lor (B \land C)) \land D$                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| #6 | Fluxo: Registro de óbito offline com fila de sincronização (US09 / RF009) |
+|---|---|
+| **Expressão SQL** | `BEGIN; INSERT INTO movimentacoes (id, retiro_id, responsavel_id, tipo, categoria, data_movimentacao, observacoes, sync_status) VALUES ($1, $2, $3, 'obito', $4, $5, $6, 'pendente') ON CONFLICT(id) DO UPDATE SET categoria = excluded.categoria, data_movimentacao = excluded.data_movimentacao, observacoes = excluded.observacoes, sync_status = 'pendente', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE movimentacoes.sync_status != 'sincronizado' AND movimentacoes.responsavel_id = excluded.responsavel_id; INSERT INTO obitos (id, movimentacao_id, identificacao_animal, quantidade, causa, exige_evidencia_foto) VALUES ($7, $1, $8, $9, $10, 1) ON CONFLICT(id) DO UPDATE SET causa = excluded.causa, quantidade = excluded.quantidade, identificacao_animal = excluded.identificacao_animal WHERE obitos.movimentacao_id = excluded.movimentacao_id; INSERT INTO sync_queue (id, tabela, registro_id, operacao, payload_json) VALUES ($11, 'movimentacoes', $1, 'insert', $12); COMMIT;` |
+| **Proposições lógicas** | $A$: o registro de óbito ainda não existe no banco local <br> $B$: o registro existe, mas ainda não foi sincronizado (`sync_status != 'sincronizado'`) <br> $C$: o registro pertence ao mesmo responsável (`responsavel_id = excluded.responsavel_id`) <br> $D$: a causa da morte foi informada (`causa IS NOT NULL`) |
+| **Expressão lógica proposicional** | $(A \lor (B \land C)) \land D$ |
 
 | $A$ | $B$ | $C$ | $D$ | $(A \lor (B \land C)) \land D$ |
-| --- | --- | --- | --- | ------------------------------ |
-| F   | F   | F   | F   | F                              |
-| F   | F   | F   | V   | F                              |
-| F   | F   | V   | V   | F                              |
-| F   | V   | F   | V   | F                              |
-| F   | V   | V   | F   | F                              |
-| F   | V   | V   | V   | V                              |
-| V   | F   | F   | F   | F                              |
-| V   | F   | F   | V   | V                              |
-| V   | F   | V   | V   | V                              |
-| V   | V   | F   | V   | V                              |
-| V   | V   | V   | F   | F                              |
-| V   | V   | V   | V   | V                              |
+|---|---|---|---|---|
+| F | F | F | F | F |
+| F | F | F | V | F |
+| F | F | V | V | F |
+| F | V | F | V | F |
+| F | V | V | F | F |
+| F | V | V | V | V |
+| V | F | F | F | F |
+| V | F | F | V | V |
+| V | F | V | V | V |
+| V | V | F | V | V |
+| V | V | V | F | F |
+| V | V | V | V | V |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
 
 | **Proposições lógicas** | $A$: o registro de óbito ainda não existe no banco local <br> $B$: o registro existe, mas ainda não foi sincronizado (`sync_status != 'sincronizado'`) <br> $C$: o registro pertence ao mesmo responsável (`responsavel_id = excluded.responsavel_id`) <br> $D$: a causa da morte foi informada (`causa IS NOT NULL`) |
 | **Expressão lógica proposicional** | $(A \lor (B \land C)) \land D$ |
@@ -2412,12 +2712,11 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 </center>
 
 ---
-
-| #7                                 | Fluxo: Busca de registros pendentes na fila de sincronização (RF010 / RF012)                                                                                        |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Expressão SQL**                  | `SELECT id, tabela, registro_id, operacao, payload_json, tentativas FROM sync_queue WHERE status = 'pendente' AND tentativas < 5 ORDER BY created_at ASC LIMIT 50;` |
-| **Proposições lógicas**            | $A$: o registro está com status pendente de envio (`status = 'pendente'`) <br> $B$: o número de tentativas de envio é menor que 5 (`tentativas < 5`)                |
-| **Expressão lógica proposicional** | $A \land B$                                                                                                                                                         |
+| #7 | Fluxo: Busca de registros pendentes na fila de sincronização (RF010 / RF012) |
+|---|---|
+| **Expressão SQL** | `SELECT id, tabela, registro_id, operacao, payload_json, tentativas FROM sync_queue WHERE status = 'pendente' AND tentativas < 5 ORDER BY created_at ASC LIMIT 50;` |
+| **Proposições lógicas** | $A$: o registro está com status pendente de envio (`status = 'pendente'`) <br> $B$: o número de tentativas de envio é menor que 5 (`tentativas < 5`) |
+| **Expressão lógica proposicional** | $A \land B$ |
 
 | $A$ | $B$ | $A \land B$ |
 | --- | --- | ----------- |
@@ -2429,6 +2728,7 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
 ---
 | #8 | Fluxo: Exportação de movimentações sincronizadas pelo coordenador (RF015) |
 |---|---|
