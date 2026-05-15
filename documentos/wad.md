@@ -2464,7 +2464,6 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
-
 --- 
 
 | #6 | Fluxo: Registro de óbito offline com fila de sincronização (US09 / RF009) |
