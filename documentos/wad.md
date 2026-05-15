@@ -2161,17 +2161,12 @@ _posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelid
 
 ### 3.6.1. Modelo Entidade-Relacionamento (ER) (sprint 2)
 
-O modelo Entidade-Relacionamento (ER) conceitual representa as principais entidades do domínio da aplicação, seus atributos e relacionamentos existentes entre elas, utilizando a notação **Chen** de forma consistente em toda a modelagem. O objetivo deste modelo é estruturar conceitualmente os dados necessários para suportar o gerenciamento operacional da BRPec Agropecuária, contemplando usuários, boletas, alertas, retiros e tipos operacionais (nascimento, óbito, transferência, compra, venda).
+O modelo Entidade-Relacionamento (ER) conceitual descreve as principais entidades do domínio da aplicação, seus atributos e os relacionamentos existentes entre elas. O objetivo é estruturar conceitualmente os dados necessários para suportar o gerenciamento operacional da BRPec Agropecuária, contemplando usuários, retiros, tarefas, alertas, movimentações de rebanho e evidências.
 
-Nesta etapa conceitual, não são representados detalhes físicos de implementação, como tipos específicos de banco de dados, chaves primárias ou estrangeiras, pois esses elementos serão tratados posteriormente no DER lógico e no modelo físico da aplicação.
+No contexto do projeto, a boleta representa o formulário digital utilizado pelo capataz para registrar as informações de campo que antes eram anotadas em papel. Conceitualmente, a boleta funciona como o fluxo operacional de entrada de dados: por meio dela o capataz visualiza e conclui tarefas, registra movimentações do rebanho, emite alertas de infraestrutura e anexa evidências. Por não possuir ciclo de vida independente das informações registradas, a boleta não é modelada como uma entidade isolada; ela é materializada no modelo pelos registros de tarefa, alerta, movimentação e evidência. Para cada relacionamento são indicadas as cardinalidades mínima e máxima em ambos os lados, expressando diretamente as regras de negócio do domínio.
 
-<center>
-  <p><strong>Figura 13</strong> — Modelo Entidade-Relacionamento Conceitual — BRPec Agropecuária</p>
-</center>
 
-<img src="./assets/modelo-er-brpec.png" width="800"/>
-
-### Decisões de modelagem
+#### Decisões de modelagem
 
 - **USUÁRIO:** representa os perfis operacionais do sistema (Gerente, Coordenador, Capataz e Técnico de Infraestrutura). A distinção de funções é realizada pelo atributo `perfil`, centralizando a gestão de acessos e garantindo que cada ação no sistema seja vinculada a um identificador único para fins de rastreabilidade.
 
