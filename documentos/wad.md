@@ -1091,20 +1091,15 @@ _Matriz de cobertura mostrando quais RN e endpoints implementam cada RF._
   <p><strong>Tabela 7</strong> — Matriz RF → RN → Endpoint</p>
 </center>
 
-| RF    | RN associadas | Endpoint              | Método |
-| ----- | ------------- | --------------------- | ------ |
-| RF001 | RN01          | /tarefas              | POST   |
-| RF002 | RN02, RN05    | /tarefas/hoje         | GET    |
-| RF003 | RN03          | /tarefas/sincronizar  | GET    |
-| RF004 | RN04          | /tarefas/hoje/offline | GET    |
-| RF005 | RN05          | /tarefas/concluir     | POST   |
-| RF006 | RN06          | /chamados             | POST   |
-| RF007 | RN07          | /eventos/zootecnicos  | POST   |
-| RF008 | RN08          | /transacoes/gado      | POST   |
-| RF009 | RN09          | /transferencias       | POST   |
-| RF010 | RN10          | Armazenamento Local   | INSERT |
-| RF011 | RN11          | /sincronizar          | POST   |
-| RF012 | RN12          | Consulta Banco Local  | GET    |
+| RF    | RN associada(s)  | Endpoint / consulta              | Metodo        | Operacao esperada                                                |
+| ----- | ---------------- | -------------------------------- | ------------- | ---------------------------------------------------------------- |
+| RF001 | RN01             | /tarefas                         | POST          | Criar tarefa vinculada a um retiro                               |
+| RF002 | RN02, RN05       | /tarefas/hoje                    | GET           | Consultar tarefas do dia do capataz                              |
+| RF003 | RN03, RN08       | /tarefas/sincronizar             | GET           | Sincronizar e armazenar tarefas localmente                       |
+| RF004 | RN04             | consulta local de tarefas offline| leitura local | Exibir mensagem simples quando nao houver tarefas                |
+| RF005 | RN13, RN15       | /tarefas/{id}/audios             | POST          | Anexar audio a tarefa e permitir sincronizacao posterior         |
+| RF006 | RN19, RN21, RN26 | /chamados                        | POST          | Registrar alerta com localizacao e envio imediato ou posterior   |
+| RF008 | RN27             | /eventos-zootecnicos/nascimentos | POST          | Registrar nascimento de bezerros                                 |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -2903,3 +2898,4 @@ Industries and Competitors. New York: Free Press, 2008. ISBN 978-0-7432-7275-4.
 # <a name="c9"></a>Anexos
 
 _Inclua aqui quaisquer complementos para seu projeto, como diagramas, imagens, tabelas etc. Organize em sub-tópicos utilizando headings menores (use ## ou ### para isso)_
+
