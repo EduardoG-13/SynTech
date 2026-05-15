@@ -2094,43 +2094,43 @@ _Documente os design patterns utilizados (Repository, Strategy, Factory, DTO etc
 ## 3.3. Wireframes (sprint 2)
 
 <center>
-  <p><strong>Figura 9</strong> — Wireframe da tela de tarefas do capataz</p>
+  <p><strong>Figura 10</strong> — Wireframe da tela de tarefas do capataz</p>
   <img src="./assets/wireframeCapatazTarefas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-<p><strong>Figura 10</strong> — Wireframe capataz - concluir tarefa (mobile/tablet/desktop)</p>
+<p><strong>Figura 11</strong> — Wireframe capataz - concluir tarefa (mobile/tablet/desktop)</p>
  <img src="./assets/wireframeCapatazConcluirTarefaTablet.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-  <p><strong>Figura 11</strong> — Wireframe da tela de anexar fotos pelo capataz</p>
+  <p><strong>Figura 12</strong> — Wireframe da tela de anexar fotos pelo capataz</p>
   <img src="./assets/wireframeCapatazAnexarFotos.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-  <p><strong>Figura 12</strong> — Wireframe da tela de infraestrutura</p>
+  <p><strong>Figura 13</strong> — Wireframe da tela de infraestrutura</p>
   <img src="./assets/wireframeInfraestrutura.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-  <p><strong>Figura 13</strong> — Wireframe da tela de infraestrutura registrar resolução</p>
+  <p><strong>Figura 14</strong> — Wireframe da tela de infraestrutura registrar resolução</p>
   <img src="./assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-  <p><strong>Figura 14</strong> — Wireframe da tela de dashboard do gerente</p>
+  <p><strong>Figura 15</strong> — Wireframe da tela de dashboard do gerente</p>
   <img src="./assets/wireframeGerenteDashboard.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-  <p><strong>Figura 15</strong> — Wireframe da tela de nova O.S do gerente</p>
+  <p><strong>Figura 16</strong> — Wireframe da tela de nova O.S do gerente</p>
   <img src="./assets/wireframeGerenteNovaOs.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -2186,105 +2186,23 @@ Dessa forma, o ER cobre os principais fluxos de dados do sistema: planejamento e
 
 ### 3.6.2. Diagrama Entidade-Relacionamento (DER) (sprint 2)
 
-_Posicione aqui o DER com cardinalidades explícitas em ambos os lados de cada relação e identificação de PK/FK. O DER deve ser coerente com o diagrama de classes (3.2.3)._
+O DER abaixo é a representação gráfica, na notação de Peter Chen (1976), da versão conceitual concebida durante a sprint 2. Entidades são representadas por retângulos, atributos por elipses e relacionamentos por losangos.
 
-O Diagrama Entidade-Relacionamento (DER) é uma representação gráfica da estrutura de um banco de dados, baseada no Modelo Entidade-Relacionamento (MER) proposto por Peter Chen (1976). No diagrama, entidades (objetos do mundo real com existência independente) são representadas por retângulos. Seus atributos, por elipses, e os relacionamentos entre elas, por losangos. Essa notação auxilia desenvolvedores a visualizar e comunicar a arquitetura de dados de um sistema antes de sua implementação. [9]
+Este diagrama registra a estrutura de dados concebida na sprint 2, com a Boleta como entidade central, concentrando os atributos comuns a todos os eventos zootécnicos (`tipo_boleta`, `data`, `RG/CPF`, `status`, `tipo_animal`, `tipo_transporte`, `quantidade_animal`, `georreferenciamento`). As especializações, Nascimento, Óbito, Transferência, Compra e Venda, conectam-se à Boleta pelo relacionamento detalha com cardinalidade (1,1) em ambos os lados, implementando herança por especialização total e disjunta: cada boleta corresponde a exatamente um tipo de evento, e cada evento pertence a exatamente uma boleta.
 
-```mermaid
-erDiagram
-    RETIROS {
-        uuid id PK
-        varchar(100) nome
-        text localizacao
-    }
-    USUARIOS {
-        uuid id PK
-        varchar(150) nome
-        varchar(255) senha_hash
-        varchar(20) perfil
-        text area_responsavel
-        uuid retiro_id FK
-        timestamptz created_at
-    }
-    TAREFAS {
-        uuid id PK
-        varchar(200) titulo
-        text descricao
-        varchar(20) status
-        date data_execucao
-        uuid gerente_id FK
-        uuid capataz_id FK
-        uuid retiro_id FK
-        timestamptz created_at
-    }
-    EVIDENCIAS {
-        uuid id PK
-        varchar(10) tipo
-        bytea conteudo
-        uuid tarefa_id FK
-        timestamptz created_at
-    }
-    ALERTAS {
-        uuid id PK
-        text descricao
-        varchar(30) tipo
-        boolean resolvido
-        uuid capataz_id FK
-        uuid retiro_id FK
-        timestamptz created_at
-    }
-    MOVIMENTACOES {
-        uuid id PK
-        date data
-        varchar(20) categoria
-        integer quantidade
-        boolean sincronizado
-        uuid usuario_id FK
-        uuid retiro_id FK
-        timestamptz created_at
-    }
-    NASCIMENTOS {
-        uuid movimentacao_id PK
-        uuid mae_id
-        bytea foto
-    }
-    OBITOS {
-        uuid movimentacao_id PK
-        text causa
-        bytea foto
-    }
-    TRANSFERENCIAS {
-        uuid movimentacao_id PK
-        uuid retiro_origem_id FK
-        uuid retiro_destino_id FK
-    }
-    COMPRAVENDAS {
-        uuid movimentacao_id PK
-        varchar(10) tipo_operacao
-        numeric(12) valor
-    }
-
-    USUARIOS }o--|| RETIROS : "retiro_id"
-    TAREFAS }o--|| USUARIOS : "gerente_id"
-    TAREFAS }o--|| USUARIOS : "capataz_id"
-    TAREFAS }o--|| RETIROS : "retiro_id"
-    EVIDENCIAS }o--|| TAREFAS : "tarefa_id"
-    ALERTAS }o--|| USUARIOS : "capataz_id"
-    ALERTAS }o--|| RETIROS : "retiro_id"
-    MOVIMENTACOES }o--|| USUARIOS : "usuario_id"
-    MOVIMENTACOES }o--|| RETIROS : "retiro_id"
-    NASCIMENTOS ||--|| MOVIMENTACOES : "movimentacao_id"
-    OBITOS ||--|| MOVIMENTACOES : "movimentacao_id"
-    TRANSFERENCIAS ||--|| MOVIMENTACOES : "movimentacao_id"
-    TRANSFERENCIAS }o--|| RETIROS : "retiro_origem_id"
-    TRANSFERENCIAS }o--|| RETIROS : "retiro_destino_id"
-    COMPRAVENDAS ||--|| MOVIMENTACOES : "movimentacao_id"
-```
+A seção 3.6.1 apresenta a versão conceitual consolidada após a evolução deste DER: a Boleta deixa de ser uma entidade isolada e passa a ser materializada pelos registros de Movimentação, Tarefa, Alerta e Evidência. Essa decisão separou melhor as responsabilidades de cada entidade e eliminou atributos que não são pertinentes a todos os tipos de evento.
 
 <center>
-  <p><strong>Figura 14</strong> — Diagrama Entidade-Relacionamento (DER)</p>
+  <p><strong>Figura 17</strong> — DER conceitual da sprint 2 — BRPec Agropecuária</p>
+</center>
+
+<img src="./assets/modelo-er-brpec.png" width="800"/>
+
+<center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+
 
 ### 3.6.3. Modelo Relacional e Modelo Físico (sprints 2 e 4)
 
@@ -2292,7 +2210,7 @@ O modelo físico deriva do modelo conceitual (ER) apresentado na seção 3.6.1 e
 
 A aplicação PWA mantém os dados estruturados no banco local SQLite. Quando a conexão retorna, a camada de sincronização envia os registros pendentes para uma API central; arquivos de mídia, como fotos e áudios, são enviados a um serviço de armazenamento de evidências pela API. O banco local mantém metadados, caminho local do arquivo antes do upload e a referência remota (`storage_key` ou `url`) após a sincronização.
 
-O DER lógico com cardinalidades, PKs e FKs está apresentado na seção 3.6.2. Nesta seção, o mesmo desenho é transformado em modelo relacional e em DDL executável.
+A evolução conceitual está apresentada nas seções 3.6.1 e 3.6.2. Nesta seção, o modelo consolidado é transformado em modelo relacional e em DDL executável.
 
 #### Modelo Relacional
 
@@ -2311,7 +2229,7 @@ O DER lógico com cardinalidades, PKs e FKs está apresentado na seção 3.6.2. 
 | `sync_queue`     | `id`           | —                                                          | Fila técnica de sincronização offline-online    |
 
 <center>
-  <p><strong>Figura 15</strong> — Modelo Relacional</p>
+  <p><strong>Figura 18</strong> — Modelo Relacional</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2326,6 +2244,7 @@ O DER lógico com cardinalidades, PKs e FKs está apresentado na seção 3.6.2. 
 - **`evidencias` com vínculo polimórfico controlado por `CHECK`**: cada evidência pertence a exatamente uma tarefa, um alerta ou uma movimentação. Isso permite registrar fotos de óbito sem guardar o arquivo binário diretamente na tabela de óbitos.
 - **Mídias fora do banco relacional**: `arquivo_local_uri` guarda o caminho local antes da sincronização; `storage_key` e `url` guardam a referência remota após upload pela API; `conteudo_texto` cobre evidências textuais simples.
 - **Especialização de `movimentacoes`**: `nascimentos`, `obitos`, `transferencias` e `compravendas` detalham uma movimentação e usam `UNIQUE (movimentacao_id)` para evitar mais de um detalhe do mesmo tipo para o mesmo evento.
+- **Regra de totalidade e disjunção das especializações**: no modelo conceitual, cada movimentação pertence a exatamente um subtipo. No SQLite local, essa regra é apoiada por `movimentacoes.tipo`, pelas tabelas especializadas e pela camada de aplicação/sincronização, que só grava o detalhe compatível com o tipo do evento. Caso a validação precise ficar totalmente no banco, a regra pode ser reforçada por triggers.
 - **Timestamp de atualização nas especializações**: as tabelas especializadas não possuem `updated_at` próprio porque mudanças de estado do evento são rastreadas na tabela-mãe `movimentacoes`.
 - **`sync_queue`**: tabela técnica que registra operações pendentes (`insert`, `update`, `delete` ou `upload`) para a camada de sincronização executar quando houver conexão.
 
