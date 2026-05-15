@@ -2492,6 +2492,7 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 </center>
 
 ---
+
 | #7 | Fluxo: Busca de registros pendentes na fila de sincronização (RF010 / RF012) |
 |---|---|
 | **Expressão SQL** | `SELECT id, tabela, registro_id, operacao, payload_json, tentativas FROM sync_queue WHERE status = 'pendente' AND tentativas < 5 ORDER BY created_at ASC LIMIT 50;` |
@@ -2508,6 +2509,7 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
 ---
 | #8 | Fluxo: Exportação de movimentações sincronizadas pelo coordenador (RF015) |
 |---|---|
