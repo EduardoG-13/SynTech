@@ -1759,26 +1759,32 @@ Ao selecionar uma categoria, o sistema permite o monitoramento de status e detal
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
+<center>
+  <p><strong>Figura 13</strong> — Wireframe da tela de lista de boletos</p>
+  <img src="./assets/wireframeListaDeBoletos.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 #### Tela Infraestrutura- registrar resolução:
-A Figura 13 detalha a interface de Registro de Resolução, permitindo que o Capataz formalize o encerramento dos chamados de infraestrutura, mantendo a responsividade para facilitar o uso tanto no campo quanto no escritório. 
+A Figura 14 detalha a interface de Registro de Resolução, permitindo que o Capataz formalize o encerramento dos chamados de infraestrutura, mantendo a responsividade para facilitar o uso tanto no campo quanto no escritório. 
 
 O formulário de registro de solução permite documentar o fechamento da tarefa com precisão, incluindo a descrição da atividade com o relato detalhado do que foi executado para resolver o problema, dados temporais com o registro da data e horário de conclusão, e evidência visual por meio de campo para anexar fotos que comprovem a resolução do chamado. 
 
 Além disso, uma funcionalidade crítica desta tela é a linha do tempo (histórico do chamado), que permite a visualização do ciclo de vida da tarefa apresentando todas as fases até a entrega final, como a abertura, com o registro de quando o chamado foi criado e por quem, o andamento, indicando o horário em que a tarefa foi iniciada e o tempo de resposta, e a conclusão, marcando o momento exato da resolução e permitindo o cálculo da eficiência operacional.
 <center>
-  <p><strong>Figura 13</strong> — Wireframe da tela de registrar resolução- infraestrutura</p>
+  <p><strong>Figura 14</strong> — Wireframe da tela de registrar resolução- infraestrutura</p>
   <img src="./assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-  <p><strong>Figura 14</strong> — Wireframe da tela de dashboard do gerente</p>
+  <p><strong>Figura 15</strong> — Wireframe da tela de dashboard do gerente</p>
   <img src="./assets/wireframeGerenteDashboard.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-  <p><strong>Figura 15</strong> — Wireframe da tela de nova O.S do gerente</p>
+  <p><strong>Figura 16</strong> — Wireframe da tela de nova O.S do gerente</p>
   <img src="./assets/wireframeGerenteNovaOs.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -1814,7 +1820,7 @@ O modelo Entidade-Relacionamento (ER) conceitual representa as principais entida
 Nesta etapa conceitual, não são representados detalhes físicos de implementação, como tipos específicos de banco de dados, chaves primárias ou estrangeiras, pois esses elementos serão tratados posteriormente no DER lógico e no modelo físico da aplicação.
 
 <center>
-  <p><strong>Figura 13</strong> — Modelo Entidade-Relacionamento Conceitual — BRPec Agropecuária</p>
+  <p><strong>Figura 17</strong> — Modelo Entidade-Relacionamento Conceitual — BRPec Agropecuária</p>
 </center>
 
 <img src="./assets/modelo-er-brpec.png" width="800"/>
@@ -1941,7 +1947,7 @@ erDiagram
 ```
 
 <center>
-  <p><strong>Figura 14</strong> — Diagrama Entidade-Relacionamento (DER)</p>
+  <p><strong>Figura 18</strong> — Diagrama Entidade-Relacionamento (DER)</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
