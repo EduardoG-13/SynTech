@@ -2088,6 +2088,20 @@ _Documente os design patterns utilizados (Repository, Strategy, Factory, DTO etc
 
 ## 3.3. Wireframes (sprint 2)
 
+Os wireframes apresentados nesta seção foram elaborados para representar as User Stories priorizadas junto ao orientador: **US01** (Gerente cria e distribui tarefas), **US02** (Capataz visualiza lista de tarefas offline), **US03** (Capataz conclui tarefa), **US04** (Capataz anexa fotos como evidência) e **US06/US07** (Capataz emite alerta de infraestrutura; Gerente acompanha painel de tarefas e alertas). O design foi desenvolvido no Figma, priorizando clareza e uso de grid para organização dos elementos. O arquivo completo pode ser acessado pelo link público: [Wireframes BRPec — Figma](https://www.figma.com/design/jJjDkweFhygUKwONkyivtb/Untitled?node-id=0-1&t=QpPbn00WVpCx2EiT-0).
+
+Os fluxos de navegação estão organizados em três jornadas principais:
+
+**Fluxo 1 — Capataz (US02 → US03 → US04):** O capataz acessa a lista de tarefas do dia (US02). Ao selecionar uma tarefa, é direcionado à tela de conclusão, onde pode marcar a tarefa como concluída (US03). A partir dessa tela, ele acessa a tela de anexo de fotos para registrar evidências fotográficas do serviço realizado (US04).
+
+**Fluxo 2 — Capataz e Técnico de Infraestrutura (US06):** O capataz acessa a seção de infraestrutura, visualiza os chamados abertos e pode registrar um novo alerta informando tipo de problema, localização e descrição. O técnico de infraestrutura, ao acessar o mesmo módulo, visualiza o detalhe do chamado e registra a resolução, encerrando o ciclo do alerta.
+
+**Fluxo 3 — Gerente (US07 → US01):** O gerente acessa o dashboard, onde visualiza o status consolidado de todas as tarefas e alertas por retiro (US07). A partir do painel, pode criar uma nova Ordem de Serviço (US01), preenchendo as informações da tarefa e atribuindo-a ao retiro e capataz responsável. O capataz também pode abrir uma O.S. em campo quando identificar uma nova demanda operacional.
+
+---
+
+### Fluxo 1 — Capataz: visualizar e concluir tarefas com evidências (US02, US03, US04)
+
 ### Capataz:
 #### Tela de Tarefas:
 Este wireframe (figura 9) representa a interface destinada ao Capataz, com design responsivo adaptado para dispositivos móveis (parte da esquerda) e desktop (parte da direita). 
@@ -2097,10 +2111,12 @@ Esta tela é o núcleo operacional do usuário em campo, cujas ações possívei
 Em relação à navegação e detalhes, o botão "Ver Todos" permite que, ao clicar, o usuário expanda a visualização para uma gestão completa do histórico de atividades, enquanto um botão lateral provê acesso direto às informações do rebanho e dados zootécnicos (estoque e categorias de animais) e, ao selecionar uma tarefa específica no detalhamento de tarefas, o sistema exibe uma tela com as especificações detalhadas, insumos necessários e orientações para a execução.
 
 <center>
-  <p><strong>Figura 10</strong> — Wireframe da tela de tarefas do capataz</p>
+  <p><strong>Figura 10</strong> — Wireframe da tela de lista de tarefas do capataz (US02)</p>
   <img src="./assets/wireframeCapatazTarefas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+A tela de lista de tarefas é o ponto de entrada do capataz no aplicativo. Ela exibe as tarefas do dia agrupadas por status (pendente, em andamento, concluída), atendendo à necessidade de acesso offline (US02). O capataz seleciona uma tarefa para avançar ao fluxo de conclusão e também pode abrir uma nova Ordem de Serviço quando identificar uma demanda em campo.
 
 #### Informações sobre a tarefa:
 A Figura 10 ilustra a interface de Detalhamento da Tarefa, acessada após o Capataz selecionar uma atividade específica na lista principal e, assim como a tela anterior, a interface é responsiva, garantindo usabilidade tanto em dispositivos móveis (campo) quanto em desktops (escritório). 
@@ -2110,10 +2126,13 @@ Para assegurar a execução precisa da ordem de serviço, a tela centraliza todo
 Quanto às ações do usuário, um botão de "Iniciar Tarefa" permite o controle de fluxo para registrar o exato momento em que a atividade começa, gerando dados de produtividade, enquanto um botão de retorno estrategicamente posicionado permite a navegação para voltar à tela inicial de tarefas de forma rápida.
 
 <center>
+<p><strong>Figura 11</strong> — Wireframe da tela de conclusão de tarefa do capataz — versões mobile, tablet e desktop (US03)</p>
 <p><strong>Figura 10</strong> — Wireframe da tela de detalhes sobre a tarefa do capataz</p>
  <img src="./assets/wireframeCapatazConcluirTarefaTablet.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+A tela de conclusão de tarefa permite ao capataz marcar a tarefa como concluída e, opcionalmente, adicionar observações (US03). O layout foi projetado de forma responsiva, adaptando-se a dispositivos móveis, tablets e desktops. A partir desta tela, o capataz pode acessar a tela de anexo de fotos.
 
 #### Concluir tarefa:
 A Figura 11 detalha a interface de Conclusão de Atividade, etapa final do fluxo de trabalho do Capataz, com uma tela projetada para garantir a confiabilidade dos dados e o registro fiel do que foi executado em campo. 
@@ -2123,10 +2142,17 @@ Para a confirmação de atividade e evitar erros operacionais, a tela exibe o t�
 Por fim, para o encerramento, o botão "Salvar e Concluir" consolida as informações, altera o status da tarefa no sistema e prepara o dado para a sincronização com o banco de dados central.
 
 <center>
+  <p><strong>Figura 12</strong> — Wireframe da tela de anexo de fotos pelo capataz (US04)</p>
   <p><strong>Figura 11</strong> — Wireframe da tela de concluir tarefa do capataz</p>
   <img src="./assets/wireframeCapatazAnexarFotos.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+A tela de anexo de fotos permite ao capataz capturar ou selecionar imagens da galeria do dispositivo para comprovar visualmente o serviço realizado (US04).
+
+---
+
+### Fluxo 2 — Capataz e Técnico: emitir e resolver alertas de infraestrutura (US06)
 
 ### Coordenador e Gerente:
 #### Dashboard inicial:
@@ -2134,18 +2160,36 @@ Por fim, para o encerramento, o botão "Salvar e Concluir" consolida as informa�
 A Figura 15 ilustra a Interface Principal (Dashboard) destinada aos perfis de Gerente e Coordenador, desenvolvida com design responsivo para dispositivos móveis e desktop, onde esta tela funciona como o núcleo centralizador para o monitoramento e a tomada de decisões na fazenda. Os indicadores do painel central oferecem uma visão macro e em tempo real das operações, permitindo acesso rápido aos chamados por retiro, com a distribuição volumétrica das demandas de manutenção entre as 14 áreas da propriedade, à evolução dos chamados, através de gráficos ou métricas que demonstram o ritmo de abertura e fechamento de ordens de serviço, aos alertas em aberto, com notificações críticas que exigem atenção imediata da gestão, e às prioridades, que trazem uma lista consolidada das tarefas mais urgentes em execução no campo. No menu de navegação lateral (desktop) / atalhos, posicionado no canto esquerdo da interface, destacam-se abas estruturadas para navegação direta nas seguintes verticais: retiros, para detalhamento de estoque de rebanho e infraestrutura local; ordens, para a gestão e distribuição de novas Ordens de Serviço; e alertas, consistindo em um painel dedicado à triagem de ocorrências críticas.
 
 <center>
-  <p><strong>Figura 15</strong> — Wireframe da tela de dashboard do gerente</p>
+  <p><strong>Figura 15</strong> — Wireframe da tela de dashboard do gerente — lista de chamados (US06)</p>
   <img src="./assets/wireframeGerenteDashboard.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
+A tela de infraestrutura exibe os chamados de manutenção em aberto. O capataz pode registrar um novo alerta informando o tipo de problema (cerca, bebedouro, hidráulica, elétrica), a localização e uma descrição (US06). O técnico de infraestrutura visualiza os chamados atribuídos a ele nesta mesma lista.
+
 ### Gerente
 #### Wireframe da tela de novsa O.S.:
 <center>
+  <p><strong>Figura 14</strong> — Wireframe da tela de detalhe do chamado (US06)</p>
+  <img src="./assets/wireframeDetalheDoChamado.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+A tela de detalhe do chamado apresenta as informações completas do alerta: tipo de problema, localização, data de abertura, capataz responsável pela emissão e status atual. A partir desta tela, o técnico de infraestrutura acessa a opção de registrar a resolução.
+
+<center>
+  <p><strong>Figura 15</strong> — Wireframe da tela de registro de resolução de infraestrutura (US06)</p>
+  <img src="./assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
   <p><strong>Figura 16</strong> — Wireframe da tela de nova O.S do gerente</p>
   <img src="./assets/wireframeGerenteNovaOs.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+A tela de registro de resolução permite ao técnico de infraestrutura descrever a solução aplicada e encerrar o chamado.
+
+---
+
+### Fluxo 3 — Gerente: acompanhar painel e criar ordens de serviço (US07, US01)
 
 
 ### Coordenador:
@@ -2153,8 +2197,12 @@ A Figura 15 ilustra a Interface Principal (Dashboard) destinada aos perfis de Ge
 <center>
   <p><strong>Figura 14</strong> — Wireframe da tela de lista de boletos</p>
   <img src="./assets/wireframeListaDeBoletos.png" width="800"/>
+  <p><strong>Figura 16</strong> — Wireframe da tela de dashboard do gerente (US07)</p>
+  <img src="./assets/wireframeGerenteDashboard.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+O dashboard do gerente consolida o status de todas as tarefas e alertas por retiro (US07). As tarefas são agrupadas por status (pendente, em andamento, concluída) e os alertas de infraestrutura aparecem em seção destacada. A partir do painel, o gerente pode navegar para a criação de uma nova Ordem de Serviço.
 
 ### Infraestrutura:
 #### Tela Infraestrutura:
@@ -2168,8 +2216,12 @@ Ao selecionar uma categoria, o sistema permite o monitoramento de status e detal
 <center>
   <p><strong>Figura 13</strong> — Wireframe da tela de infraestrutura</p>
   <img src="./assets/wireframeInfraestrutura.png" width="800"/>
+  <p><strong>Figura 17</strong> — Wireframe da tela de criação de nova O.S. pelo gerente (US01)</p>
+  <img src="./assets/wireframeGerenteNovaOs.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+A tela de nova Ordem de Serviço permite ao gerente criar uma tarefa, definir a descrição, o retiro de destino, o capataz responsável e o prazo de execução (US01).
 
 
 #### Tela Infraestrutura- registrar resolução:
@@ -2244,7 +2296,7 @@ Este diagrama registra a estrutura de dados concebida na sprint 2, com a Boleta 
 A seção 3.6.1 apresenta a versão conceitual consolidada após a evolução deste DER: a Boleta deixa de ser uma entidade isolada e passa a ser materializada pelos registros de Movimentação, Tarefa, Alerta e Evidência. Essa decisão separou melhor as responsabilidades de cada entidade e eliminou atributos que não são pertinentes a todos os tipos de evento.
 
 <center>
-  <p><strong>Figura 17</strong> — DER conceitual da sprint 2 — BRPec Agropecuária</p>
+  <p><strong>Figura 18</strong> — DER conceitual da sprint 2 — BRPec Agropecuária</p>
 </center>
 
 <img src="./assets/modelo-er-brpec.png" width="800"/>
@@ -2280,7 +2332,7 @@ A evolução conceitual está apresentada nas seções 3.6.1 e 3.6.2. Nesta seç
 | `sync_queue`     | `id`           | —                                                          | Fila técnica de sincronização offline-online    |
 
 <center>
-  <p><strong>Figura 18</strong> — Modelo Relacional</p>
+  <p><strong>Figura 19</strong> — Modelo Relacional</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
