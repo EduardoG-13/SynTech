@@ -1281,7 +1281,7 @@ UC09 — Exportar relatórios (RF009)
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-### 3.2.3. Diagrama de Classes do Dominio (sprint 2)
+### 3.2.3. Diagrama de Classes do Dominio (sprint 2) 
 
 O Diagrama de Classes do Domínio representa, em notação UML, a estrutura estática
 do sistema BrPec: suas entidades principais, os atributos que as compõem, os métodos
@@ -1324,7 +1324,7 @@ projeto.
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-O diagrama é organizado em três camadas conceituais:
+O diagrama é organizado em três camadas conceituais: 
 
 - **Camada de Identidade e Acesso:** agrupa a hierarquia de usuários do sistema
   (`Usuario`, `Gerente`, `Coordenador` e `Capataz`), modelada por herança, refletindo
