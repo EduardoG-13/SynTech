@@ -2184,7 +2184,6 @@ No contexto do projeto, a boleta representa o formulário digital utilizado pelo
 
 Dessa forma, o ER cobre os principais fluxos de dados do sistema: planejamento e execução de tarefas, emissão e atendimento de alertas, registro de eventos zootécnicos, anexação de evidências e sincronização posterior dos dados coletados em campo.
 
-
 ### 3.6.2. Diagrama Entidade-Relacionamento (DER) (sprint 2)
 
 _Posicione aqui o DER com cardinalidades explícitas em ambos os lados de cada relação e identificação de PK/FK. O DER deve ser coerente com o diagrama de classes (3.2.3)._
