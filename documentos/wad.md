@@ -2133,9 +2133,38 @@ Por fim, para o encerramento, o botão "Salvar e Concluir" consolida as informa�
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
+### Coordenador e Gerente:
+#### Dashboard inicial:
+
+A Figura 15 ilustra a Interface Principal (Dashboard) destinada aos perfis de Gerente e Coordenador, desenvolvida com design responsivo para dispositivos móveis e desktop, onde esta tela funciona como o núcleo centralizador para o monitoramento e a tomada de decisões na fazenda. Os indicadores do painel central oferecem uma visão macro e em tempo real das operações, permitindo acesso rápido aos chamados por retiro, com a distribuição volumétrica das demandas de manutenção entre as 14 áreas da propriedade, à evolução dos chamados, através de gráficos ou métricas que demonstram o ritmo de abertura e fechamento de ordens de serviço, aos alertas em aberto, com notificações críticas que exigem atenção imediata da gestão, e às prioridades, que trazem uma lista consolidada das tarefas mais urgentes em execução no campo. No menu de navegação lateral (desktop) / atalhos, posicionado no canto esquerdo da interface, destacam-se abas estruturadas para navegação direta nas seguintes verticais: retiros, para detalhamento de estoque de rebanho e infraestrutura local; ordens, para a gestão e distribuição de novas Ordens de Serviço; e alertas, consistindo em um painel dedicado à triagem de ocorrências críticas.
+
+<center>
+  <p><strong>Figura 15</strong> — Wireframe da tela de dashboard do gerente</p>
+  <img src="./assets/wireframeGerenteDashboard.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+### Gerente
+#### Wireframe da tela de novsa O.S.:
+<center>
+  <p><strong>Figura 16</strong> — Wireframe da tela de nova O.S do gerente</p>
+  <img src="./assets/wireframeGerenteNovaOs.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+
 ### Coordenador:
+#### Visualizar boletas:
+<center>
+  <p><strong>Figura 14</strong> — Wireframe da tela de lista de boletos</p>
+  <img src="./assets/wireframeListaDeBoletos.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+### Infraestrutura:
 #### Tela Infraestrutura:
-A Figura 12 apresenta a interface de Gestão de Infraestrutura, onde o Capataz pode monitorar e organizar as manutenções da fazenda, com uma tela que segue o padrão de design responsivo para uso em dispositivos móveis e desktop. 
+
+A Figura 13 apresenta a interface de Gestão de Infraestrutura, onde o Capataz pode monitorar e organizar as manutenções da fazenda, com uma tela que segue o padrão de design responsivo para uso em dispositivos móveis e desktop. 
 
 Para facilitar a organização, a categorização de chamados agrupa as demandas de manutenção em três seções principais, sendo hidráulica (gestão de bebedouros, bombas e encanamentos), cerca (reparos e vistorias de perímetros e divisões de pastos) e elétrica (manutenção de cercas elétricas, painéis e iluminação). 
 
@@ -2147,11 +2176,6 @@ Ao selecionar uma categoria, o sistema permite o monitoramento de status e detal
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-<center>
-  <p><strong>Figura 13</strong> — Wireframe da tela de lista de boletos</p>
-  <img src="./assets/wireframeListaDeBoletos.png" width="800"/>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
 
 #### Tela Infraestrutura- registrar resolução:
 A Figura 14 detalha a interface de Registro de Resolução, permitindo que o Capataz formalize o encerramento dos chamados de infraestrutura, mantendo a responsividade para facilitar o uso tanto no campo quanto no escritório. 
@@ -2159,23 +2183,13 @@ A Figura 14 detalha a interface de Registro de Resolução, permitindo que o Cap
 O formulário de registro de solução permite documentar o fechamento da tarefa com precisão, incluindo a descrição da atividade com o relato detalhado do que foi executado para resolver o problema, dados temporais com o registro da data e horário de conclusão, e evidência visual por meio de campo para anexar fotos que comprovem a resolução do chamado. 
 
 Além disso, uma funcionalidade crítica desta tela é a linha do tempo (histórico do chamado), que permite a visualização do ciclo de vida da tarefa apresentando todas as fases até a entrega final, como a abertura, com o registro de quando o chamado foi criado e por quem, o andamento, indicando o horário em que a tarefa foi iniciada e o tempo de resposta, e a conclusão, marcando o momento exato da resolução e permitindo o cálculo da eficiência operacional.
+
 <center>
   <p><strong>Figura 14</strong> — Wireframe da tela de registrar resolução- infraestrutura</p>
   <img src="./assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-<center>
-  <p><strong>Figura 15</strong> — Wireframe da tela de dashboard do gerente</p>
-  <img src="./assets/wireframeGerenteDashboard.png" width="800"/>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
-<center>
-  <p><strong>Figura 16</strong> — Wireframe da tela de nova O.S do gerente</p>
-  <img src="./assets/wireframeGerenteNovaOs.png" width="800"/>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
 
 ## 3.4. Guia de estilos (sprint 3)
 
