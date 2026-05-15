@@ -2173,27 +2173,22 @@ Nesta etapa conceitual, não são representados detalhes físicos de implementa�
 
 ### Decisões de modelagem
 
-- A entidade USUÁRIO representa os perfis operacionais do sistema (Gerente, Coordenador e Capataz). A distinção de funções é realizada pelo atributo perfil, centralizando a gestão de acessos e garantindo que cada ação no sistema seja vinculada a um id único para fins de rastreabilidade.
+- **USUÁRIO:** representa os perfis operacionais do sistema (Gerente, Coordenador, Capataz e Técnico de Infraestrutura). A distinção de funções é realizada pelo atributo `perfil`, centralizando a gestão de acessos e garantindo que cada ação no sistema seja vinculada a um identificador único para fins de rastreabilidade.
 
-- A entidade RETIRO representa as unidades físicas e operacionais da fazenda.  O relacionamento "pertence" (1,1 para 1,n) estabelece que um usuário deve estar vinculado a pelo menos um retiro para operar, enquanto um retiro pode possuir múltiplos usuários associados.
+- **RETIRO:** representa as unidades físicas e operacionais da fazenda. O relacionamento *pertence* estabelece que cada capataz deve estar vinculado a exatamente um retiro (USUÁRIO 1,1), enquanto um retiro pode possuir nenhum, um ou múltiplos usuários associados (RETIRO 0,n), considerando que perfis como gerente, coordenador e técnico podem atuar em escopo mais amplo.
 
-- A entidade ALERTA é utilizada para reportar problemas de infraestrutura (hidráulica, cerca, elétrica). O relacionamento "emite" (1,1 para 1,n) garante que cada alerta seja rastreável a um único autor (Usuário), permitindo que o Gerente saiba exatamente quem reportou a ocorrência.
+- **TAREFA:** registra ordens de serviço criadas por gerentes ou coordenadores e atribuídas a capatazes para execução em campo. Cada tarefa é criada por exatamente um usuário autorizado (TAREFA 1,1) e um usuário pode criar várias tarefas (USUÁRIO 0,n). Cada tarefa também possui exatamente um responsável pela execução (TAREFA 1,1), enquanto um capataz pode executar várias tarefas ao longo do tempo (USUÁRIO 0,n). Toda tarefa pertence obrigatoriamente a um retiro (TAREFA 1,1; RETIRO 0,n).
 
-- A entidade BOLETA é o núcleo do registro de manejo, substituindo os processos manuais em papel.  Inclui atributos essenciais para a fiscalização e transporte, como RG/CPF, tipo_transporte (rodoviário/estrada) e georreferenciamento, conforme exigido pelos formulários físicos da empresa.
+- **ALERTA:** é utilizado para reportar problemas de infraestrutura (cerca, bebedouro, hidráulica, elétrica, entre outros), com localização geográfica e ciclo de resolução rastreável. Cada alerta é emitido por exatamente um usuário (ALERTA 1,1), enquanto um usuário pode emitir nenhum, um ou vários alertas (USUÁRIO 0,n). Um alerta pode ainda ser atendido por no máximo um técnico de infraestrutura (ALERTA 0,1), e um técnico pode atender vários alertas (USUÁRIO 0,n). Todo alerta pertence obrigatoriamente a um retiro (ALERTA 1,1; RETIRO 0,n).
 
-- Relacionamento REGISTRA (Usuário-Boleta): Estabelece uma conexão (1,n para 1,1), onde cada boleta digitalizada é obrigatoriamente vinculada ao usuário que a criou, eliminando falhas de transcrição e garantindo a autoria dos dados.
+- **MOVIMENTAÇÃO:** é o núcleo do registro de manejo do rebanho realizado na boleta digital, substituindo os processos manuais em papel. Registra o tipo de evento zootécnico (nascimento, óbito, transferência ou compravenda), a categoria do animal, a quantidade e a data da ocorrência. Cada movimentação é registrada por exatamente um usuário responsável (MOVIMENTAÇÃO 1,1), enquanto um usuário pode registrar várias movimentações (USUÁRIO 0,n). Cada movimentação ocorre obrigatoriamente em um retiro de referência (MOVIMENTAÇÃO 1,1; RETIRO 0,n).
 
-- Relacionamento CONTÉM (Retiro-Boleta): Define que cada boleta pertence a um retiro de referência (1,1), permitindo a organização dos registros por localidade e facilitando a exportação de dados consolidados por área.
+- **EVIDÊNCIA:** armazena mídias de comprovação (foto, áudio, vídeo, documento ou texto) anexadas durante o preenchimento da boleta digital. Cada evidência pertence a exatamente uma origem: uma tarefa, um alerta ou uma movimentação (EVIDÊNCIA 1,1 em uma única origem). A exclusividade é representada por três relacionamentos *comprova* mutuamente exclusivos, enquanto cada tarefa, alerta ou movimentação pode possuir nenhuma, uma ou várias evidências associadas (0,n). Essa decisão mantém a rastreabilidade do registro sem duplicar arquivos de mídia nas entidades operacionais.
 
-- Especialização DETALHA (Nascimento, Óbito, Transferência, Compra e Venda): A entidade BOLETA atua como uma classe base que se ramifica em eventos zootécnicos específicos.
+- **Tipos específicos de movimentação:** (Nascimento, Óbito, Transferência e CompraVenda): Movimentação atua como entidade genérica que se especializa em quatro subtipos zootécnicos. A especialização é total e disjunta, cada movimentação corresponde a exatamente um subtipo (cardinalidade 1,1 no lado de movimentação). Cada subtipo possui atributos próprios: nascimento registra quantidade e raça; óbito registra identificação do animal, quantidade, causa da morte e exigência de evidência fotográfica; transferência registra retiros de origem e destino e a quantidade transferida; compravenda registra tipo de negócio, valor financeiro e quantidade.
 
-A cardinalidade (1,1) entre o losango detalha e a Boleta indica que um registro de manejo deve corresponder obrigatoriamente a um desses tipos.
+Dessa forma, o ER cobre os principais fluxos de dados do sistema: planejamento e execução de tarefas, emissão e atendimento de alertas, registro de eventos zootécnicos, anexação de evidências e sincronização posterior dos dados coletados em campo.
 
-Cada subtipo (ex: Óbito ou Nascimento) possui seus próprios campos de evidência, como foto e áudio, para validar a execução da tarefa em campo.
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
 
 ### 3.6.2. Diagrama Entidade-Relacionamento (DER) (sprint 2)
 
