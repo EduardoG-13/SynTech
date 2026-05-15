@@ -2088,35 +2088,50 @@ _Documente os design patterns utilizados (Repository, Strategy, Factory, DTO etc
 
 ## 3.3. Wireframes (sprint 2)
 
+### Capataz:
+#### Tela de Tarefas:
+Este wireframe (figura 9) representa a interface destinada ao Capataz, com design responsivo adaptado para dispositivos móveis (parte da esquerda) e desktop (parte da direita). 
+
+Esta tela é o núcleo operacional do usuário em campo, cujas ações possíveis são a Gestão de Prioridades, onde o sistema lista as tarefas pendentes organizadas automaticamente por ordem de importância, garantindo que as atividades críticas sejam atendidas primeiro, e a Abertura de O.S., onde na parte inferior da interface, um botão de ação rápida permite a criação imediata de novas Ordens de Serviço, eliminando a necessidade de anotações manuais. 
+
+Em relação à navegação e detalhes, o botão "Ver Todos" permite que, ao clicar, o usuário expanda a visualização para uma gestão completa do histórico de atividades, enquanto um botão lateral provê acesso direto às informações do rebanho e dados zootécnicos (estoque e categorias de animais) e, ao selecionar uma tarefa específica no detalhamento de tarefas, o sistema exibe uma tela com as especificações detalhadas, insumos necessários e orientações para a execução.
+
 <center>
   <p><strong>Figura 10</strong> — Wireframe da tela de tarefas do capataz</p>
   <img src="./assets/wireframeCapatazTarefas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
+#### Informações sobre a tarefa:
+A Figura 10 ilustra a interface de Detalhamento da Tarefa, acessada após o Capataz selecionar uma atividade específica na lista principal e, assim como a tela anterior, a interface é responsiva, garantindo usabilidade tanto em dispositivos móveis (campo) quanto em desktops (escritório). 
+
+Para assegurar a execução precisa da ordem de serviço, a tela centraliza todo o conteúdo da tarefa e as diretrizes enviadas pela gestão, incluindo a identificação com título da atividade e descrição detalhada do serviço, os parâmetros de controle com prazo de entrega e nível de prioridade, e os recursos multimídia como reprodutor de áudio (instruções gravadas pelo gerente) e visualização de fotos para referência visual do local ou do problema. 
+
+Quanto às ações do usuário, um botão de "Iniciar Tarefa" permite o controle de fluxo para registrar o exato momento em que a atividade começa, gerando dados de produtividade, enquanto um botão de retorno estrategicamente posicionado permite a navegação para voltar à tela inicial de tarefas de forma rápida.
+
 <center>
-<p><strong>Figura 11</strong> — Wireframe capataz - concluir tarefa (mobile/tablet/desktop)</p>
+<p><strong>Figura 10</strong> — Wireframe da tela de detalhes sobre a tarefa do capataz</p>
  <img src="./assets/wireframeCapatazConcluirTarefaTablet.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
+#### Concluir tarefa:
+A Figura 11 detalha a interface de Conclusão de Atividade, etapa final do fluxo de trabalho do Capataz, com uma tela projetada para garantir a confiabilidade dos dados e o registro fiel do que foi executado em campo. 
+
+Para a confirmação de atividade e evitar erros operacionais, a tela exibe o título da tarefa em progresso, permitindo que o usuário valide se está encerrando o chamado correto, apresentando também as evidências e feedback através do registro fotográfico, com opção para anexar uma imagem da tarefa concluída para servir como comprovante visual da execução (ex: uma cerca reparada ou um animal tratado), e do campo de observações, espaço dedicado para que o Capataz relate eventuais problemas encontrados, comentários pertinentes ou detalhes que fujam ao padrão da ordem de serviço. 
+
+Por fim, para o encerramento, o botão "Salvar e Concluir" consolida as informações, altera o status da tarefa no sistema e prepara o dado para a sincronização com o banco de dados central.
+
 <center>
-  <p><strong>Figura 12</strong> — Wireframe da tela de anexar fotos pelo capataz</p>
+  <p><strong>Figura 11</strong> — Wireframe da tela de concluir tarefa do capataz</p>
   <img src="./assets/wireframeCapatazAnexarFotos.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-<center>
-  <p><strong>Figura 13</strong> — Wireframe da tela de infraestrutura</p>
-  <img src="./assets/wireframeInfraestrutura.png" width="800"/>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
+### Coordenador e Gerente:
+#### Dashboard inicial:
 
-<center>
-  <p><strong>Figura 14</strong> — Wireframe da tela de infraestrutura registrar resolução</p>
-  <img src="./assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
+A Figura 15 ilustra a Interface Principal (Dashboard) destinada aos perfis de Gerente e Coordenador, desenvolvida com design responsivo para dispositivos móveis e desktop, onde esta tela funciona como o núcleo centralizador para o monitoramento e a tomada de decisões na fazenda. Os indicadores do painel central oferecem uma visão macro e em tempo real das operações, permitindo acesso rápido aos chamados por retiro, com a distribuição volumétrica das demandas de manutenção entre as 14 áreas da propriedade, à evolução dos chamados, através de gráficos ou métricas que demonstram o ritmo de abertura e fechamento de ordens de serviço, aos alertas em aberto, com notificações críticas que exigem atenção imediata da gestão, e às prioridades, que trazem uma lista consolidada das tarefas mais urgentes em execução no campo. No menu de navegação lateral (desktop) / atalhos, posicionado no canto esquerdo da interface, destacam-se abas estruturadas para navegação direta nas seguintes verticais: retiros, para detalhamento de estoque de rebanho e infraestrutura local; ordens, para a gestão e distribuição de novas Ordens de Serviço; e alertas, consistindo em um painel dedicado à triagem de ocorrências críticas.
 
 <center>
   <p><strong>Figura 15</strong> — Wireframe da tela de dashboard do gerente</p>
@@ -2124,11 +2139,52 @@ _Documente os design patterns utilizados (Repository, Strategy, Factory, DTO etc
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
+### Gerente
+#### Wireframe da tela de novsa O.S.:
 <center>
   <p><strong>Figura 16</strong> — Wireframe da tela de nova O.S do gerente</p>
   <img src="./assets/wireframeGerenteNovaOs.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+
+### Coordenador:
+#### Visualizar boletas:
+<center>
+  <p><strong>Figura 14</strong> — Wireframe da tela de lista de boletos</p>
+  <img src="./assets/wireframeListaDeBoletos.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+### Infraestrutura:
+#### Tela Infraestrutura:
+
+A Figura 13 apresenta a interface de Gestão de Infraestrutura, onde o Capataz pode monitorar e organizar as manutenções da fazenda, com uma tela que segue o padrão de design responsivo para uso em dispositivos móveis e desktop. 
+
+Para facilitar a organização, a categorização de chamados agrupa as demandas de manutenção em três seções principais, sendo hidráulica (gestão de bebedouros, bombas e encanamentos), cerca (reparos e vistorias de perímetros e divisões de pastos) e elétrica (manutenção de cercas elétricas, painéis e iluminação). 
+
+Ao selecionar uma categoria, o sistema permite o monitoramento de status e detalha o fluxo de trabalho através de indicadores específicos, como pendentes/abertos para visualização da quantidade de novos chamados, em andamento para acompanhamento dos serviços iniciados e o histórico semanal como relatório de chamados concluídos nos últimos sete dias. Como ação rápida, dentro de cada seção, existe a funcionalidade de criar uma nova Ordem de Serviço (O.S.) específica para aquele setor, garantindo que o registro seja feito no local do problema.
+
+<center>
+  <p><strong>Figura 13</strong> — Wireframe da tela de infraestrutura</p>
+  <img src="./assets/wireframeInfraestrutura.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+
+#### Tela Infraestrutura- registrar resolução:
+A Figura 14 detalha a interface de Registro de Resolução, permitindo que o Capataz formalize o encerramento dos chamados de infraestrutura, mantendo a responsividade para facilitar o uso tanto no campo quanto no escritório. 
+
+O formulário de registro de solução permite documentar o fechamento da tarefa com precisão, incluindo a descrição da atividade com o relato detalhado do que foi executado para resolver o problema, dados temporais com o registro da data e horário de conclusão, e evidência visual por meio de campo para anexar fotos que comprovem a resolução do chamado. 
+
+Além disso, uma funcionalidade crítica desta tela é a linha do tempo (histórico do chamado), que permite a visualização do ciclo de vida da tarefa apresentando todas as fases até a entrega final, como a abertura, com o registro de quando o chamado foi criado e por quem, o andamento, indicando o horário em que a tarefa foi iniciada e o tempo de resposta, e a conclusão, marcando o momento exato da resolução e permitindo o cálculo da eficiência operacional.
+
+<center>
+  <p><strong>Figura 14</strong> — Wireframe da tela de registrar resolução- infraestrutura</p>
+  <img src="./assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 
 ## 3.4. Guia de estilos (sprint 3)
 
