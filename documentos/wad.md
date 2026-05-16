@@ -387,7 +387,7 @@ Personas são, de forma resumida, representaçôes fictícia dos diferentes tipo
 
 - Nome e sobrenome: João Pereira;
 - Idade: 40 anos [3];
-- Cargo: Gerente geral na BrPec Agropecuária S.A.;
+- Cargo: gerente geral na BrPec Agropecuária S.A.;
 - Estado Civil: Casado;
 - Localização: Miranda-MS;
 - Escolaridade: Pós-graduado em veterinária.
@@ -454,7 +454,7 @@ Informações extras:
 #### Notas e Justificativas:
 
 **Idade e perfil do cargo:**
-A faixa etária de 40 anos foi baseada no perfil médio do Gerente de Produção e Operações Agropecuárias (CBO 1411-15), que aponta 40 anos como idade mais recorrente segundo o Portal Salário a partir de dados do CAGED. Além disso, outras informações sobre o perfil do foram baseadas a partir dessa fonte [3].
+A faixa etária de 40 anos foi baseada no perfil médio do gerente de Produção e Operações Agropecuárias (CBO 1411-15), que aponta 40 anos como idade mais recorrente segundo o Portal Salário a partir de dados do CAGED. Além disso, outras informações sobre o perfil do foram baseadas a partir dessa fonte [3].
 
 **Framework de Competência Digital - DigComp 3.0:**
 Os níveis de familiaridade com tecnologia foram classificados seguindo o DigComp 3.0, framework europeu de competência digital desenvolvido pelo Joint Research Centre da Comissão Europeia. Ele define quatro níveis de proficiência (Basic, Intermediate, Advanced e Highly Advanced) com base na complexidade das tarefas executadas e no grau de autonomia do indivíduo [4].
@@ -484,7 +484,7 @@ João se comunica com supervisores e coordenadores frequentemente, mas essa comu
 
 - Nome e sobrenome: Marcos Cesar Filho;
 - Idade: 35 anos;
-- Cargo: Coordenador na BrPec Agropecuária S.A.;
+- Cargo: coordenador na BrPec Agropecuária S.A.;
 - Estado Civil: Solteiro;
 - Localização: Miranda- MS;
 - Escolaridade: Pós-graduado em administração [6].
@@ -574,7 +574,7 @@ Sua rotina começa organizando as boletas vindas dos capatazes. Assim, ele tenta
 
 - Nome e sobrenome: Gabriel Galdino;
 - Idade: 33 anos [7];
-- Cargo: Capataz na BrPec Agropecuária S.A. [8];
+- Cargo: capataz na BrPec Agropecuária S.A. [8];
 - Estado Civil: Casado;
 - Localização: Aquidauana (MS) – Atua em retiros na região do Pantanal;
 - Escolaridade: Ensino Fundamental completo;
@@ -651,7 +651,7 @@ Informações extras:
 **Idade e perfil salarial do capataz:**  
 A faixa etária de 33 anos foi baseada no perfil médio de trabalhadores que ocupam o cargo de capataz na pecuária, conforme levantamento disponível no site consultado [7].
 
-**Descrição do cargo de Capataz:**  
+**Descrição do cargo de capataz:**  
 As atribuições descritas, como exemplo a administração de mão de obra ou o controle do rebanho, estão alinhadas com a Classificação Brasileira de Ocupações (CBO), que define formalmente as competências e atividades do capataz na agropecuária [8].
 
 **Baixa familiaridade com tecnologias digitais na pecuária:**  
@@ -680,9 +680,9 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Identificação**        | US01                                                                                                                                                                                     |
 | **Persona**              | João Pereira (Gerente Geral)                                                                                                                                                             |
-| **User Story**           | Como gerente geral, posso criar tarefas e atribuí-las a um retiro específico para organizar a rotina diária da equipe de campo e garantir que o planejamento seja executado corretamente |
+| **User Story**           | Como Gerente geral, posso criar tarefas e atribuí-las a um retiro específico para organizar a rotina diária da equipe de campo e garantir que o planejamento seja executado corretamente |
 | **Critério de Aceite 1** | CR1: Dado que João acessa o sistema, quando cria uma tarefa e seleciona um retiro, então a tarefa deve ser salva corretamente vinculada ao retiro                                        |
-| **Critério de Aceite 2** | CR2: Dado que a tarefa foi criada, quando o sistema sincronizar, então ela deve ficar disponível para os capatazes responsáveis pelo retiro                                              |
+| **Critério de Aceite 2** | CR2: Dado que a tarefa foi criada, quando o sistema sincronizar, então ela deve ficar disponível para os Capatazes responsáveis pelo retiro                                              |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -692,7 +692,7 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 
 **Independente:** Pode ser implementada sem depender da visualização offline
 
-**Negociável:** Campos e detalhes da tarefa podem ser ajustados conforme necessidade do gerente
+**Negociável:** Campos e detalhes da tarefa podem ser ajustados conforme necessidade do Gerente
 
 **Valorosa:** Permite maior controle e organização das atividades da fazenda
 
@@ -710,7 +710,7 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Identificação**        | US02                                                                                                                                                       |
 | **Persona**              | Gabriel Galdino (Capataz)                                                                                                                                  |
-| **User Story**           | Como capataz, posso visualizar minha lista de tarefas do dia offline para saber o que precisa ser executado, mesmo longe da sede, de forma simples e clara |
+| **User Story**           | Como Capataz, posso visualizar minha lista de tarefas do dia offline para saber o que precisa ser executado, mesmo longe da sede, de forma simples e clara |
 | **Critério de Aceite 1** | CR1: Dado que as tarefas foram previamente sincronizadas, quando Gabriel estiver sem internet, então deve conseguir visualizar a lista de tarefas do dia   |
 | **Critério de Aceite 2** | CR2: Dado que não há tarefas sincronizadas, quando acessar offline, então o sistema deve exibir uma mensagem simples informando ausência de tarefas        |
 | **Critério de Aceite 3** | CR3: Dado que Gabriel acessa as tarefas, quando exibidas, então devem estar organizadas de forma simples e de fácil entendimento                           |
@@ -743,9 +743,9 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Identificação**        | US03                                                                                                                                                |
 | **Persona**              | Gabriel Galdino (Capataz)                                                                                                                           |
-| **User Story**           | Como capataz, posso marcar uma tarefa como concluída para informar o gerente sobre o avanço do trabalho de forma simples e rápida                   |
+| **User Story**           | Como Capataz, posso marcar uma tarefa como concluída para informar o Gerente sobre o avanço do trabalho de forma simples e rápida                   |
 | **Critério de Aceite 1** | CR1: Dado que Gabriel visualiza uma tarefa, quando marcar como concluída, então o status da tarefa deve ser atualizado no sistema                   |
-| **Critério de Aceite 2** | CR2: Dado que a tarefa foi marcada como concluída offline, quando o dispositivo sincronizar, então o status deve ser atualizado para o gerente      |
+| **Critério de Aceite 2** | CR2: Dado que a tarefa foi marcada como concluída offline, quando o dispositivo sincronizar, então o status deve ser atualizado para o Gerente      |
 | **Critério de Aceite 3** | CR3: Dado que Gabriel interage com a tarefa, quando marcar como concluída, então a ação deve ser simples, com botão visível e de fácil entendimento |
 
 <center>
@@ -776,7 +776,7 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Identificação**        | US04                                                                                                                                               |
 | **Persona**              | Gabriel Galdino (Capataz)                                                                                                                          |
-| **User Story**           | Como capataz, posso anexar fotos na conclusão de uma tarefa para comprovar visualmente o serviço realizado, mesmo em ambiente com conexão limitada |
+| **User Story**           | Como Capataz, posso anexar fotos na conclusão de uma tarefa para comprovar visualmente o serviço realizado, mesmo em ambiente com conexão limitada |
 | **Critério de Aceite 1** | CR1: Dado que Gabriel conclui uma tarefa, quando anexar uma foto, então ela deve ser associada corretamente à tarefa                               |
 | **Critério de Aceite 2** | CR2: Dado que a foto foi registrada offline, quando o dispositivo sincronizar, então a imagem deve ser enviada ao sistema                          |
 | **Critério de Aceite 3** | CR3: Dado que Gabriel utiliza a funcionalidade, quando anexar a foto, então o processo deve ser simples e intuitivo                                |
@@ -809,7 +809,7 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Identificação**        | US05                                                                                                                                         |
 | **Persona**              | Gabriel Galdino (Capataz)                                                                                                                    |
-| **User Story**           | Como capataz, posso gravar e anexar um áudio curto à tarefa, para explicar detalhes complexos sem precisar digitar textos longos             |
+| **User Story**           | Como Capataz, posso gravar e anexar um áudio curto à tarefa, para explicar detalhes complexos sem precisar digitar textos longos             |
 | **Critério de Aceite 1** | CR1: Dado que Gabriel está visualizando uma tarefa, quando clicar na opção de gravar áudio, então o sistema deve permitir iniciar a gravação |
 | **Critério de Aceite 2** | CR2: Dado que a gravação foi finalizada, quando salvar, então o áudio deve ser anexado corretamente à tarefa                                 |
 | **Critério de Aceite 3** | CR3: Dado que o áudio foi anexado, quando o supervisor acessar a tarefa, então deve conseguir reproduzir o áudio                             |
@@ -842,7 +842,7 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
 | **Identificação**        | US06                                                                                                                                   |
 | **Persona**              | Gabriel Galdino (Capataz)                                                                                                              |
-| **User Story**           | Como capataz, posso criar um alerta de infraestrutura (ticket), para avisar a gerência sobre cercas ou bebedouros quebrados            |
+| **User Story**           | Como Capataz, posso criar um alerta de infraestrutura (ticket), para avisar a gerência sobre cercas ou bebedouros quebrados            |
 | **Critério de Aceite 1** | CR1: Dado que Gabriel deseja registrar um problema, quando acessar a opção de novo alerta, então deve visualizar um formulário simples |
 | **Critério de Aceite 2** | CR2: Dado que o alerta está sendo criado, quando preencher os dados, então deve ser obrigatório informar o tipo de problema            |
 | **Critério de Aceite 3** | CR3: Dado que o alerta é enviado, então o sistema deve registrar automaticamente a localização (GPS)                                   |
@@ -862,10 +862,10 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Identificação**        | US07                                                                                                                                                                                                                                                       |
 | **Persona**              | João Pereira (Gerente)                                                                                                                                                                                                                                     |
-| **User Story**           | Como gerente, posso visualizar um painel com o status de todas as tarefas e alertas em aberto, para priorizar a equipe de manutenção e garantir que as rotinas de campo sejam executadas conforme o planejamento                                           |
-| **Critério de Aceite 1** | CR1: Dado que João acessa o painel de acompanhamento, quando a tela é carregada, então são exibidas todas as tarefas atribuídas aos capatazes com seus respectivos status (pendente, em andamento, concluída), agrupadas por retiro ou capataz responsável |
-| **Critério de Aceite 2** | CR2: Dado que um ou mais capatazes enviaram alertas ao gerente, quando João visualiza o painel, então os alertas aparecem em seção destacada, com identificação do capataz, do retiro e da data/hora de envio, ordenados do mais recente ao mais antigo    |
-| **Critério de Aceite 3** | CR3: Dado que um usuário com perfil diferente de gerente tenta acessar o painel de acompanhamento, quando a requisição é feita, então o sistema nega o acesso e redireciona para a interface correspondente ao seu perfil                                  |
+| **User Story**           | Como Gerente, posso visualizar um painel com o status de todas as tarefas e alertas em aberto, para priorizar a equipe de manutenção e garantir que as rotinas de campo sejam executadas conforme o planejamento                                           |
+| **Critério de Aceite 1** | CR1: Dado que João acessa o painel de acompanhamento, quando a tela é carregada, então são exibidas todas as tarefas atribuídas aos Capatazes com seus respectivos status (pendente, em andamento, concluída), agrupadas por retiro ou Capataz responsável |
+| **Critério de Aceite 2** | CR2: Dado que um ou mais Capatazes enviaram alertas ao Gerente, quando João visualiza o painel, então os alertas aparecem em seção destacada, com identificação do Capataz, do retiro e da data/hora de envio, ordenados do mais recente ao mais antigo    |
+| **Critério de Aceite 3** | CR3: Dado que um usuário com perfil diferente de Gerente tenta acessar o painel de acompanhamento, quando a requisição é feita, então o sistema nega o acesso e redireciona para a interface correspondente ao seu perfil                                  |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -881,7 +881,7 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Identificação**        | US08                                                                                                                                                                                                                                                                                                      |
 | **Persona**              | Gabriel Galdino (Capataz)                                                                                                                                                                                                                                                                                 |
-| **User Story**           | Como capataz, posso registrar o nascimento de bezerros de forma offline para manter o rebanho atualizado sem usar boletas de papel                                                                                                                                                                        |
+| **User Story**           | Como Capataz, posso registrar o nascimento de bezerros de forma offline para manter o rebanho atualizado sem usar boletas de papel                                                                                                                                                                        |
 | **Critério de Aceite 1** | CR1: Dado que Gabriel está no pasto sem acesso à internet, quando ele acessa o formulário de registro de nascimento e preenche os campos obrigatórios (data, retiro, categoria e quantidade), então o registro é salvo localmente no dispositivo com confirmação visual de que foi armazenado com sucesso |
 | **Critério de Aceite 2** | CR2: Dado que Gabriel registrou um ou mais nascimentos enquanto estava offline, quando o dispositivo se conecta à internet, então os registros são sincronizados automaticamente com o servidor e Gabriel recebe uma confirmação visual de que os dados foram enviados                                    |
 | **Critério de Aceite 3** | CR3: Dado que Gabriel tenta salvar um registro de nascimento sem preencher todos os campos obrigatórios, quando ele tenta confirmar o formulário, então o sistema exibe uma mensagem indicando quais campos estão incompletos e não permite o salvamento do registro                                      |
@@ -901,7 +901,7 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Identificação**         | US09                                                                                                                                                                                                                                                                                                                                            |
 | **Persona**               | Gabriel Galdino (Capataz)                                                                                                                                                                                                                                                                                                                       |
-| **User Story**            | Como capataz, posso registrar a morte de um animal offline para reportar rapidamente a baixa ao coordenador, garantindo que nenhuma informação se perca mesmo sem conexão disponível no campo.                                                                                                                                                  |
+| **User Story**            | Como Capataz, posso registrar a morte de um animal offline para reportar rapidamente a baixa ao Coordenador, garantindo que nenhuma informação se perca mesmo sem conexão disponível no campo.                                                                                                                                                  |
 | **Critério de Aceite 1**  | CR1: Dado que Gabriel está sem conexão Starlink no momento do óbito, quando ele preenche os campos obrigatórios do formulário de morte (identificação do animal, categoria, causa e data) e confirma, então o sistema deve salvar o registro localmente no dispositivo e exibir a mensagem "Registro salvo. Será enviado quando houver conexão" |
 | **Critério de Aceite 2:** | Dado que o formulário exige evidências sanitárias, quando o usuário realizar o registro de óbito, então o sistema deve requerer a captura e a anexação obrigatória de uma fotografia georreferenciada da carcaça do animal.                                                                                                                     |
 | **Critério de Aceite 3:** | Dado que o registro foi persistido localmente, quando a conectividade com a rede de satélite for restabelecida nos horários de cobertura, então a sincronização com o servidor central deve ser executada de forma assíncrona, e o status do relatório deve ser alterado para "Sincronizado".                                                   |
@@ -917,15 +917,81 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Identificação**        | US10                                                                                                                                                                                                           |
 | **Persona**              | Gabriel Galdino (Capataz)                                                                                                                                                                                      |
-| **User Story**           | Como capataz, posso (e devo) anexar a foto do animal no registro de óbito para cumprir as regras de auditoria e controle sanitário da fazenda.                                                                 |
-| **Critério de Aceite 1** | CR1: Dado que o capataz está registrando um óbito, quando preencher as informações do registro, então o sistema deve exigir o anexo de pelo menos uma foto do animal antes de finalizar o cadastro.            |
-| **Critério de Aceite 2** | CR2: Dado que o capataz esteja sem conexão com a internet, quando anexar a foto ao registro de óbito, então o sistema deve armazenar a imagem localmente para sincronização posterior.                         |
-| **Critério de Aceite 3** | CR3: Dado que o registro de óbito foi sincronizado com sucesso, quando o gerente ou coordenador acessar o sistema, então a foto anexada deve estar vinculada ao respectivo registro para consulta e auditoria. |
+| **User Story**           | Como Capataz, posso (e devo) anexar a foto do animal no registro de óbito para cumprir as regras de auditoria e controle sanitário da fazenda.                                                                 |
+| **Critério de Aceite 1** | CR1: Dado que o Capataz está registrando um óbito, quando preencher as informações do registro, então o sistema deve exigir o anexo de pelo menos uma foto do animal antes de finalizar o cadastro.            |
+| **Critério de Aceite 2** | CR2: Dado que o Capataz esteja sem conexão com a internet, quando anexar a foto ao registro de óbito, então o sistema deve armazenar a imagem localmente para sincronização posterior.                         |
+| **Critério de Aceite 3** | CR3: Dado que o registro de óbito foi sincronizado com sucesso, quando o Gerente ou Coordenador acessar o sistema, então a foto anexada deve estar vinculada ao respectivo registro para consulta e auditoria. |
 | **Critérios INVEST**     | Não se aplica (US10 é de prioridade secundária).                                                                                                                                                               |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+---
+
+<center>
+  <p><strong>Quadro 11</strong> — User Story 11</p>
+</center>
+
+| Campo                    | Descrição                                                                                                                                                                                                                                                                                                                    |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Identificação**        | US11                                                                                                                                                                                                                                                                                                                         |
+| **Persona**              | Marcos Cesar Filho (Coordenador)                                                                                                                                                                                                                                                                                             |
+| **User Story**           | Como Coordenador, posso visualizar as movimentações zootécnicas registradas pelos Capatazes, organizadas por retiro e tipo de evento, para validar os dados antes da consolidação final sem depender de boletas de papel                                                                                                      |
+| **Critério de Aceite 1** | CR1: Dado que Marcos acessa o painel de movimentações, quando a tela é carregada, então são exibidas todas as movimentações sincronizadas pelos Capatazes, com identificação do tipo de evento (nascimento, óbito, transferência, compra/venda), retiro de origem, data e Capataz responsável                                 |
+| **Critério de Aceite 2** | CR2: Dado que existem movimentações de múltiplos retiros, quando Marcos aplica um filtro por retiro ou por tipo de evento, então o sistema deve exibir apenas os registros correspondentes ao critério selecionado                                                                                                            |
+| **Critério de Aceite 3** | CR3: Dado que Marcos seleciona uma movimentação específica, quando acessar os detalhes, então o sistema deve exibir todas as informações do registro, incluindo evidências fotográficas anexadas pelo Capataz, quando aplicável                                                                                               |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+### Critérios INVEST
+
+**Independente:** Pode ser implementada sem depender da exportação de dados
+
+**Negociável:** Campos exibidos e forma de organização podem ser ajustados conforme necessidade do Coordenador
+
+**Valorosa:** Permite validação rápida dos registros de campo sem necessidade de boletas físicas
+
+**Estimável:** Escopo claro de consulta e exibição de movimentações sincronizadas
+
+**Pequena:** Foco apenas na visualização e filtragem de movimentações
+
+**Testável:** Possível validar exibição, filtragem e detalhamento dos registros
+
+---
+
+<center>
+  <p><strong>Quadro 12</strong> — User Story 12</p>
+</center>
+
+| Campo                    | Descrição                                                                                                                                                                                                                                                                                                               |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Identificação**        | US12                                                                                                                                                                                                                                                                                                                    |
+| **Persona**              | Marcos Cesar Filho (Coordenador)                                                                                                                                                                                                                                                                                        |
+| **User Story**           | Como Coordenador, posso exportar os dados consolidados das movimentações zootécnicas em formato Excel/CSV, para alimentar os controles centrais da empresa sem necessidade de redigitação manual                                                                                                                         |
+| **Critério de Aceite 1** | CR1: Dado que Marcos está no painel de movimentações, quando clicar no botão de exportação, então o sistema deve gerar um arquivo em formato Excel/CSV contendo todos os registros filtrados, com colunas padronizadas (data, retiro, tipo de evento, categoria animal, quantidade, Capataz responsável)                  |
+| **Critério de Aceite 2** | CR2: Dado que o arquivo foi gerado, quando Marcos abrir o arquivo no Excel, então os dados devem estar corretamente formatados, com acentuação preservada e campos delimitados de forma compatível com os templates legados utilizados pela coordenação                                                                  |
+| **Critério de Aceite 3** | CR3: Dado que Marcos deseja exportar dados de um período específico, quando aplicar filtros de data e retiro antes da exportação, então o arquivo gerado deve conter exclusivamente os registros correspondentes ao período e retiro selecionados                                                                        |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+### Critérios INVEST
+
+**Independente:** Pode ser implementada separadamente da visualização de movimentações
+
+**Negociável:** Formato do arquivo e colunas exportadas podem ser ajustados conforme templates da empresa
+
+**Valorosa:** Elimina a redigitação manual de dados e reduz erros de transcrição
+
+**Estimável:** Escopo claro de geração e download de arquivo estruturado
+
+**Pequena:** Foco apenas na exportação de dados consolidados
+
+**Testável:** Possível validar geração do arquivo, formatação e compatibilidade com Excel
 
 ---
 
@@ -937,11 +1003,11 @@ O sistema a ser desenvolvido abrange a modernização do fluxo de informações 
 
 **Atores e Responsabilidades**
 
-- **Capatazes:** A aplicação é utilizada como ferramenta diária no campo, operando de modo offline. As tarefas designadas são visualizadas e o status é reportado mediante o envio de evidências (fotos, áudios e textos). Os eventos zootécnicos do retiro são registrados e alertas de infraestrutura são enviados aos gerentes.
+- **Capatazes:** A aplicação é utilizada como ferramenta diária no campo, operando de modo offline. As tarefas designadas são visualizadas e o status é reportado mediante o envio de evidências (fotos, áudios e textos). Os eventos zootécnicos do retiro são registrados e alertas de infraestrutura são enviados aos Gerentes.
 
-- **Gerentes:** As atividades calendarizadas são criadas, editadas, deletadas e designadas aos capatazes. A evolução e o status das tarefas em campo, bem como os alertas reportados, são monitorados por meio de um painel de acompanhamento.
+- **Gerentes:** As atividades calendarizadas são criadas, editadas, deletadas e designadas aos Capatazes. A evolução e o status das tarefas em campo, bem como os alertas reportados, são monitorados por meio de um painel de acompanhamento.
 
-- **Coordenadores:** As informações e movimentações enviadas pelos capatazes são visualizadas e validadas. Os dados consolidados são exportados em formato de planilha (Excel/CSV) para a atualização dos controles centrais da empresa, eliminando a necessidade de redigitação manual.
+- **Coordenadores:** As informações e movimentações enviadas pelos Capatazes são visualizadas e validadas. Os dados consolidados são exportados em formato de planilha (Excel/CSV) para a atualização dos controles centrais da empresa, eliminando a necessidade de redigitação manual.
 
 ### 3.1.1. Requisitos Funcionais (sprint 1, refinar até sprint 5)
 
@@ -953,21 +1019,21 @@ Os Requisitos Funcionais (RF) determinam a competência computacional e os servi
 
 | ID    | Descrição                                                                                                                                                                                                                                                             | Prioridade | Status    |
 | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------- |
-| RF001 | O sistema deve permitir que o gerente crie tarefas e as associe a um retiro específico                                                                                                                                                                                | Alta       | Planejado |
-| RF002 | O sistema deve permitir que o capataz visualize as tarefas do dia mesmo sem conexão com a internet                                                                                                                                                                    | Alta       | Planejado |
+| RF001 | O sistema deve permitir que o Gerente crie tarefas e as associe a um retiro específico                                                                                                                                                                                | Alta       | Planejado |
+| RF002 | O sistema deve permitir que o Capataz visualize as tarefas do dia mesmo sem conexão com a internet                                                                                                                                                                    | Alta       | Planejado |
 | RF003 | O sistema deve armazenar localmente as tarefas sincronizadas para acesso offline                                                                                                                                                                                      | Alta       | Planejado |
 | RF004 | O sistema deve exibir mensagem simples quando não houver tarefas disponíveis offline                                                                                                                                                                                  | Média      | Planejado |
-| RF005 | O sistema deve permitir que o capataz grave um áudio curto e o anexe a uma tarefa                                                                                                                                                                                     | Média      | Planejado |
-| RF006 | O sistema deve permitir que o capataz crie alertas de infraestrutura (ticket), informando: tipo de problema, retirada e localização                                                                                                                                   | Média      | Planejado |
-| RF007 | O sistema deve exibir ao gerente um painel com o status de todas as tarefas (pendente, em andamento, concluída) e alertas em aberto, agrupados por retiro.                                                                                                            | Média      | Planejado |
-| RF008 | O sistema deve permitir que o capataz registre o nascimento de bezerros de forma offline, informando: data, retiro, categoria e quantidade                                                                                                                            | Média      | Planejado |
-| RF009 | O sistema deve permitir que o capataz preencha e confirme o formulário de registro de morte de animal mesmo sem conexão com a internet, salvando os dados localmente no dispositivo                                                                                   | Alta       | Planejado |
-| RF010 | O sistema deve detectar automaticamente o restabelecimento da conexão com a rede e iniciar a transmissão dos registros locais pendentes para o servidor remoto, sem exigir nenhuma ação manual do capataz                                                             | Alta       | Planejado |
-| RF011 | O sistema deve notificar o capataz com uma mensagem de confirmação após a sincronização bem-sucedida dos dados com o servidor ("Registro sincronizado com sucesso")                                                                                                   | Média      | Planejado |
+| RF005 | O sistema deve permitir que o Capataz grave um áudio curto e o anexe a uma tarefa                                                                                                                                                                                     | Média      | Planejado |
+| RF006 | O sistema deve permitir que o Capataz crie alertas de infraestrutura (ticket), informando: tipo de problema, retirada e localização                                                                                                                                   | Média      | Planejado |
+| RF007 | O sistema deve exibir ao Gerente um painel com o status de todas as tarefas (pendente, em andamento, concluída) e alertas em aberto, agrupados por retiro.                                                                                                            | Média      | Planejado |
+| RF008 | O sistema deve permitir que o Capataz registre o nascimento de bezerros de forma offline, informando: data, retiro, categoria e quantidade                                                                                                                            | Média      | Planejado |
+| RF009 | O sistema deve permitir que o Capataz preencha e confirme o formulário de registro de morte de animal mesmo sem conexão com a internet, salvando os dados localmente no dispositivo                                                                                   | Alta       | Planejado |
+| RF010 | O sistema deve detectar automaticamente o restabelecimento da conexão com a rede e iniciar a transmissão dos registros locais pendentes para o servidor remoto, sem exigir nenhuma ação manual do Capataz                                                             | Alta       | Planejado |
+| RF011 | O sistema deve notificar o Capataz com uma mensagem de confirmação após a sincronização bem-sucedida dos dados com o servidor ("Registro sincronizado com sucesso")                                                                                                   | Média      | Planejado |
 | RF012 | O sistema deve manter os registros com falha de envio salvos localmente e tentar reenvio automático a cada nova conexão disponível, até que a sincronização seja concluída com sucesso                                                                                | Alta       | Planejado |
 | RF013 | O sistema deve validar o preenchimento dos campos obrigatórios do formulário de óbito (identificação do animal, categoria, causa da morte e data) antes de permitir o salvamento local, bloqueando o registro incompleto e sinalizando visualmente os campos faltante | Alta       | Planejado |
-| RF014 | Após a sincronização, o sistema deve disponibilizar automaticamente o registro de óbito no painel do coordenador, vinculado ao retiro do capataz que realizou o lançamento                                                                                            | Média      | Planejado |
-| RF015 | O sistema deve permitir que o coordenador exporte os dados consolidados das movimentações zootécnicas e do status operacional em arquivos formatados como planilha eletrônica (Excel/CSV)                                                                             | Alta       | Planejado |
+| RF014 | Após a sincronização, o sistema deve disponibilizar automaticamente o registro de óbito no painel do Coordenador, vinculado ao retiro do Capataz que realizou o lançamento                                                                                            | Média      | Planejado |
+| RF015 | O sistema deve permitir que o Coordenador exporte os dados consolidados das movimentações zootécnicas e do status operacional em arquivos formatados como planilha eletrônica (Excel/CSV)                                                                             | Alta       | Planejado |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -984,33 +1050,33 @@ As Regras de Negócio (RN) balizam as lógicas limitantes, condições contingen
 | ID   | Descrição                                                                                                                                                                  | RF associado        |
 | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
 | RN01 | Toda tarefa deve estar obrigatoriamente vinculada a um único retiro                                                                                                        | RF001               |
-| RN02 | Apenas tarefas do dia atual devem ser exibidas ao capataz                                                                                                                  | RF002               |
+| RN02 | Apenas tarefas do dia atual devem ser exibidas ao Capataz                                                                                                                  | RF002               |
 | RN03 | As tarefas devem ser armazenadas localmente após sincronização                                                                                                             | RF003               |
 | RN04 | A mensagem exibida deve utilizar linguagem simples e direta                                                                                                                | RF004               |
-| RN05 | Apenas tarefas associadas ao retiro do capataz devem ser exibidas para ele                                                                                                 | RF002               |
+| RN05 | Apenas tarefas associadas ao retiro do Capataz devem ser exibidas para ele                                                                                                 | RF002               |
 | RN06 | O sistema deve permitir visualização offline apenas de tarefas previamente sincronizadas                                                                                   | RF002               |
 | RN07 | As tarefas do dia devem ficar disponíveis offline quando houver sincronização prévia                                                                                       | RF002               |
 | RN08 | A marcação de conclusão feita offline deve ser armazenada localmente até a próxima sincronização                                                                           | RF003               |
-| RN09 | Uma tarefa concluída deve ter seu status atualizado para o gerente após sincronização                                                                                      | RF003               |
+| RN09 | Uma tarefa concluída deve ter seu status atualizado para o Gerente após sincronização                                                                                      | RF003               |
 | RN10 | As fotos anexadas devem estar vinculadas à tarefa correspondente                                                                                                           | RF004               |
 | RN11 | Fotos registradas offline devem ser enviadas ao sistema quando houver conexão                                                                                              | RF004               |
-| RN12 | As telas destinadas ao capataz devem usar linguagem simples, botões visíveis e poucos passos de interação                                                                  | RF002, RF003, RF004 |
-| RN13 | O áudio anexado pelo capataz deve estar vinculado a uma tarefa existente                                                                                                   | RF005               |
-| RN14 | O capataz deve conseguir gravar um áudio curto para complementar a conclusão ou atualização de uma tarefa                                                                  | RF005               |
+| RN12 | As telas destinadas ao Capataz devem usar linguagem simples, botões visíveis e poucos passos de interação                                                                  | RF002, RF003, RF004 |
+| RN13 | O áudio anexado pelo Capataz deve estar vinculado a uma tarefa existente                                                                                                   | RF005               |
+| RN14 | O Capataz deve conseguir gravar um áudio curto para complementar a conclusão ou atualização de uma tarefa                                                                  | RF005               |
 | RN15 | O áudio gravado sem conexão com a internet deve ser armazenado localmente até a próxima sincronização                                                                      | RF005               |
 | RN16 | O áudio registrado offline deve ser enviado ao sistema quando houver conexão disponível                                                                                    | RF005               |
 | RN17 | O sistema deve exibir uma mensagem simples de confirmação após o áudio ser salvo ou sincronizado                                                                           | RF005               |
 | RN18 | O áudio anexado deve ficar disponível junto aos detalhes da tarefa correspondente                                                                                          | RF005               |
-| RN19 | O sistema deve capturar automaticamente a localização (GPS) quando o capataz criar um alerta                                                                               | RF006               |
+| RN19 | O sistema deve capturar automaticamente a localização (GPS) quando o Capataz criar um alerta                                                                               | RF006               |
 | RN20 | O alerta deve ser enviado imediatamente ao servidor caso haja conexão com a internet                                                                                       | RF006               |
 | RN21 | Se não houver conexão, o alerta deve ser armazenado localmente e enviado na próxima sincronização                                                                          | RF006               |
 | RN22 | O sistema deve exibir uma mensagem de confirmação após o envio bem-sucedido do alerta                                                                                      | RF006               |
-| RN23 | Se o alerta não puder ser enviado devido à falta de conexão, o sistema deve informar ao capataz que o registro foi salvo localmente e será enviado posteriormente          | RF006               |
+| RN23 | Se o alerta não puder ser enviado devido à falta de conexão, o sistema deve informar ao Capataz que o registro foi salvo localmente e será enviado posteriormente          | RF006               |
 | RN24 | As coordenadas geográficas (GPS) anexadas ao alerta de infraestrutura devem ser imutáveis e não editáveis pelo usuário, visando garantir a precisão do georreferenciamento | RF006               |
 | RN25 | O sistema deve registrar a data e hora exatas da criação do alerta                                                                                                         | RF006               |
-| RN26 | O sistema deve associar o alerta ao retiro selecionado pelo capataz                                                                                                        | RF006               |
-| RN27 | O sistema deve permitir que o capataz registre o nascimento de bezerros de forma offline, informando: data, retiro, categoria e quantidade                                 | RF008               |
-| RN28 | A exportação de relatórios pelo coordenador deve refletir estritamente os dados que já foram submetidos a validação estrutural no banco de dados central                   | RF015               |
+| RN26 | O sistema deve associar o alerta ao retiro selecionado pelo Capataz                                                                                                        | RF006               |
+| RN27 | O sistema deve permitir que o Capataz registre o nascimento de bezerros de forma offline, informando: data, retiro, categoria e quantidade                                 | RF008               |
+| RN28 | A exportação de relatórios pelo Coordenador deve refletir estritamente os dados que já foram submetidos a validação estrutural no banco de dados central                   | RF015               |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1066,7 +1132,7 @@ No contexto do nosso projeto para a BrPec, esses requisitos são fundamentais, p
 **5. Segurança (Quem fez o quê?)**
 
 - **O que é:** Estabelece o princípio da integridade autoral e o rastreamento das submissões por meio de controles lógicos irrefutáveis.
-- **Explicação:** O sistema injeta algoritmicamente parâmetros de identificação nas requisições, vinculando todo o ciclo de vida dos dados aos identificadores dos capatazes e registrando carimbos de tempo sistêmicos invioláveis. Este controle de auditoria possibilita que os níveis de coordenação e gerência isolem responsabilidades, procedam com validações precisas e identifiquem com exatidão a procedência e a temporalidade das informações colhidas.
+- **Explicação:** O sistema injeta algoritmicamente parâmetros de identificação nas requisições, vinculando todo o ciclo de vida dos dados aos identificadores dos Capatazes e registrando carimbos de tempo sistêmicos invioláveis. Este controle de auditoria possibilita que os níveis de coordenação e gerência isolem responsabilidades, procedam com validações precisas e identifiquem com exatidão a procedência e a temporalidade das informações colhidas.
 
 **6. Capacidade (Adequação Funcional)**
 
@@ -1094,7 +1160,7 @@ _Matriz de cobertura mostrando quais RN e endpoints implementam cada RF._
 | RF    | RN associada(s)  | Endpoint / consulta              | Metodo        | Operacao esperada                                                |
 | ----- | ---------------- | -------------------------------- | ------------- | ---------------------------------------------------------------- |
 | RF001 | RN01             | /tarefas                         | POST          | Criar tarefa vinculada a um retiro                               |
-| RF002 | RN02, RN05       | /tarefas/hoje                    | GET           | Consultar tarefas do dia do capataz                              |
+| RF002 | RN02, RN05       | /tarefas/hoje                    | GET           | Consultar tarefas do dia do Capataz                              |
 | RF003 | RN03, RN08       | /tarefas/sincronizar             | GET           | Sincronizar e armazenar tarefas localmente                       |
 | RF004 | RN04             | consulta local de tarefas offline| leitura local | Exibir mensagem simples quando nao houver tarefas                |
 | RF005 | RN13, RN15       | /tarefas/{id}/audios             | POST          | Anexar audio a tarefa e permitir sincronizacao posterior         |
@@ -1129,7 +1195,7 @@ UC01 — Planejar tarefas (RF001)
 | Ator principal | Gerente Geral |
 | Atores secundários | Não se aplica |
 | Pré-condições | O sistema deve estar acessível e o usuário autenticado |
-| Fluxo principal | O gerente define uma nova tarefa, estabelece prazos e descreve a atividade a ser executada |
+| Fluxo principal | O Gerente define uma nova tarefa, estabelece prazos e descreve a atividade a ser executada |
 | Pós-condições | A tarefa é registrada no sistema e fica disponível para distribuição |
 
 <center>
@@ -1146,8 +1212,8 @@ UC02 — Distribuir tarefas por retiro (RF002)
 | Ator principal | Gerente Geral |
 | Atores secundários | Não se aplica |
 | Pré-condições | Deve existir ao menos uma tarefa previamente cadastrada |
-| Fluxo principal | O gerente associa a tarefa a um ou mais retiros, definindo responsáveis |
-| Pós-condições | A tarefa é atribuída e visível para execução pelos capatazes |
+| Fluxo principal | O Gerente associa a tarefa a um ou mais retiros, definindo responsáveis |
+| Pós-condições | A tarefa é atribuída e visível para execução pelos Capatazes |
 
 <center>
   <p><strong>Quadro 12</strong> — Caso de Uso UC02</p>
@@ -1162,8 +1228,8 @@ UC03 — Visualizar tarefas do dia (RF003)
 | ------------------ | ------------------------------------------------------------------- |
 | Ator principal | Capataz |
 | Atores secundários | Não se aplica |
-| Pré-condições | O capataz deve estar autenticado no sistema |
-| Fluxo principal | O capataz acessa a lista de tarefas disponíveis para o dia corrente |
+| Pré-condições | O Capataz deve estar autenticado no sistema |
+| Fluxo principal | O Capataz acessa a lista de tarefas disponíveis para o dia corrente |
 | Pós-condições | As tarefas são exibidas para execução |
 
 <center>
@@ -1179,8 +1245,8 @@ UC04 — Registrar execução de tarefa (RF004)
 | ------------------ | ------------------------------------------------------------ |
 | Ator principal | Capataz |
 | Atores secundários | Não se aplica |
-| Pré-condições | Deve existir uma tarefa atribuída ao capataz |
-| Fluxo principal | O capataz marca a tarefa como concluída no sistema |
+| Pré-condições | Deve existir uma tarefa atribuída ao Capataz |
+| Fluxo principal | O Capataz marca a tarefa como concluída no sistema |
 | Pós-condições | A tarefa é registrada como concluída e atualizada no sistema |
 
 <center>
@@ -1197,7 +1263,7 @@ UC05 — Anexar evidência (RF005)
 | Ator principal | Capataz |
 | Atores secundários | Não se aplica |
 | Pré-condições | A tarefa deve estar em processo de conclusão |
-| Fluxo principal | O capataz adiciona uma foto ou áudio como evidência da execução |
+| Fluxo principal | O Capataz adiciona uma foto ou áudio como evidência da execução |
 | Pós-condições | A evidência é armazenada e vinculada à tarefa |
 
 <center>
@@ -1214,7 +1280,7 @@ UC06 — Registrar movimentação (RF006)
 | Ator principal | Capataz |
 | Atores secundários | Não se aplica |
 | Pré-condições | O sistema deve estar disponível para registro |
-| Fluxo principal | O capataz registra uma movimentação relacionada ao rebanho |
+| Fluxo principal | O Capataz registra uma movimentação relacionada ao rebanho |
 | Pós-condições | A movimentação é armazenada para posterior validação |
 
 <center>
@@ -1231,7 +1297,7 @@ UC07 — Validar movimentações (RF007)
 | Ator principal | Coordenador |
 | Atores secundários | Não se aplica |
 | Pré-condições | Devem existir movimentações previamente registradas |
-| Fluxo principal | O coordenador revisa e valida as movimentações registradas |
+| Fluxo principal | O Coordenador revisa e valida as movimentações registradas |
 | Pós-condições | As movimentações são confirmadas e consideradas válidas |
 
 <center>
@@ -1265,7 +1331,7 @@ UC09 — Exportar relatórios (RF009)
 | Ator principal | Coordenador |
 | Atores secundários | Não se aplica |
 | Pré-condições | Deve haver dados consolidados disponíveis |
-| Fluxo principal | O coordenador solicita a exportação dos dados em formato estruturado |
+| Fluxo principal | O Coordenador solicita a exportação dos dados em formato estruturado |
 | Pós-condições | O relatório é gerado e disponibilizado para download |
 
 <center>
@@ -1373,7 +1439,7 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
 | id       | UUID     | Sim         | Identificador único do usuário, gerado automaticamente                  |
 | nome     | String   | Sim         | Nome completo do usuário                                                |
 | senha    | String   | Sim         | Credencial de acesso; para Capataz, senha simples definida pelo Gerente |
-| perfil   | Enum     | Sim         | Tipo do ator: `GERENTE`, `COORDENADOR` ou `CAPATAZ`                     |
+| perfil   | Enum     | Sim         | Tipo do ator: `Gerente`, `Coordenador` ou `Capataz`                     |
 | criadoEm | DateTime | Sim         | Timestamp de criação do registro, gerado pelo sistema                   |
 
 <center>
@@ -1387,11 +1453,11 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
 | Elemento             | Tipo/Retorno | Descrição                                                           |
 | -------------------- | ------------ | ------------------------------------------------------------------- |
 | _(herda de Usuario)_ | —            | Todos os atributos da superclasse são herdados                      |
-| criarTarefa()        | Tarefa       | Instancia uma nova tarefa e a associa a um retiro e a um capataz    |
+| criarTarefa()        | Tarefa       | Instancia uma nova tarefa e a associa a um retiro e a um Capataz    |
 | editarTarefa()       | Tarefa       | Atualiza os dados de uma tarefa existente                           |
 | deletarTarefa()      | void         | Remove uma tarefa do sistema, desde que não esteja concluída        |
 | visualizarPainel()   | void         | Acessa o painel consolidado de status de tarefas e alertas (RF007)  |
-| visualizarAlertas()  | void         | Acessa os alertas de infraestrutura abertos pelos capatazes (RF006) |
+| visualizarAlertas()  | void         | Acessa os alertas de infraestrutura abertos pelos Capatazes (RF006) |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1420,7 +1486,7 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
 | --------------------------- | -------------------- | --------------------------------------------------------------------------------------- |
 | _(herda de Usuario)_        | —                    | Todos os atributos da superclasse são herdados                                          |
 | retiro_id                   | UUID                 | Chave estrangeira que vincula o Capataz a um único Retiro (RN01, RN05)                  |
-| visualizarTarefas()         | List\<Tarefa\>       | Recupera as tarefas do dia do retiro ao qual o capataz pertence (RF002)                 |
+| visualizarTarefas()         | List\<Tarefa\>       | Recupera as tarefas do dia do retiro ao qual o Capataz pertence (RF002)                 |
 | concluirTarefa()            | void                 | Atualiza o status de uma tarefa para `CONCLUIDA` e aciona o envio de evidências (RF003) |
 | abrirAlerta()               | AlertaInfraestrutura | Registra um novo alerta de infraestrutura com geolocalização (RF006)                    |
 | registrarEventoZootecnico() | EventoZootecnico     | Preenche e persiste localmente um evento de nascimento ou óbito (RF008, RF009)          |
@@ -1457,7 +1523,7 @@ Essa camada concentra as entidades que sustentam o fluxo principal de trabalho d
 | ------------ | -------- | ----------- | --------------------------------------------------------------------------------- |
 | id           | UUID     | Sim         | Identificador único da tarefa                                                     |
 | titulo       | String   | Sim         | Título resumido da atividade a ser executada                                      |
-| descricao    | String   | Não         | Detalhamento das instruções para o capataz                                        |
+| descricao    | String   | Não         | Detalhamento das instruções para o Capataz                                        |
 | status       | Enum     | Sim         | Estado atual da tarefa: `PENDENTE`, `EM_ANDAMENTO` ou `CONCLUIDA`                 |
 | dataExecucao | Date     | Sim         | Data prevista para execução da tarefa (base para a regra RN02)                    |
 | retiro_id    | UUID     | Sim         | Chave estrangeira para o Retiro ao qual a tarefa está vinculada (RN01)            |
@@ -1489,7 +1555,7 @@ A classe `Evidencia` é modelada como abstrata por reunir o comportamento comum 
 | **Foto**              | geolocalizacao  | String   | Sim         | Coordenadas GPS capturadas no momento do registro (RN19, RN24)    |
 | **Audio**             | urlArquivo      | String   | Sim         | Caminho ou URL do arquivo de áudio após sincronização             |
 | **Audio**             | duracaoSegundos | Integer  | Sim         | Duração da gravação em segundos (RF005, RN14)                     |
-| **TextoComplementar** | conteudo        | String   | Sim         | Conteúdo textual inserido pelo capataz como complemento da tarefa |
+| **TextoComplementar** | conteudo        | String   | Sim         | Conteúdo textual inserido pelo Capataz como complemento da tarefa |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1503,7 +1569,7 @@ A classe `Evidencia` é modelada como abstrata por reunir o comportamento comum 
 | ------------ | -------- | ----------- | ----------------------------------------------------------------------------- |
 | id           | UUID     | Sim         | Identificador único do alerta                                                 |
 | tipo         | Enum     | Sim         | Categoria do problema: `CERCA`, `BEBEDOURO`, `EQUIPAMENTO` ou `OUTRO` (RF006) |
-| descricao    | String   | Não         | Detalhamento adicional fornecido pelo capataz                                 |
+| descricao    | String   | Não         | Detalhamento adicional fornecido pelo Capataz                                 |
 | status       | Enum     | Sim         | Situação do chamado: `ABERTO`, `EM_ATENDIMENTO` ou `RESOLVIDO`                |
 | capataz_id   | UUID     | Sim         | Chave estrangeira para o Capataz que originou o alerta                        |
 | retiro_id    | UUID     | Sim         | Chave estrangeira para o Retiro onde o problema foi identificado (RN26)       |
@@ -1650,19 +1716,19 @@ No escopo da arquitetura do sistema, o SQLite é empregado como banco de dados c
 
 A escolha pelo SQLite no servidor fundamenta-se em três critérios: (i) suporte nativo a transações ACID garante integridade mesmo em interrupções abruptas (RNF — CONF); (ii) consultas SQL relacionais permitem filtrar tarefas por `capataz_id`, `retiro_id` e `data_execucao` sem carregar conjuntos completos em memória; (iii) ausência de processo daemon reduz a complexidade operacional de manutenção (RNF — SUP).
 
-**IndexedDB — Armazenamento local no dispositivo do capataz**
+**IndexedDB — Armazenamento local no dispositivo do Capataz**
 
 O IndexedDB é uma API de armazenamento local de baixo nível, padronizada pelo W3C, projetada para a persistência de volumes significativos de dados estruturados no navegador do cliente [22]. Trata-se de um banco de dados transacional não relacional (*NoSQL*), com suporte a índices sobre propriedades de objetos, que opera de forma inteiramente assíncrona para evitar o bloqueio da interface do usuário [22].
 
-No sistema BrPec, o IndexedDB é utilizado nos dispositivos móveis dos capatazes como camada de armazenamento local para as tarefas sincronizadas, evidências (fotos e áudios), registros de eventos zootécnicos e alertas de infraestrutura. Conforme representado nos diagramas DS02, DS03 e DS04, o Repository abstrai o acesso ao IndexedDB por meio da mesma interface exposta ao Service, de modo que as operações de leitura e escrita sejam transparentes à camada de negócio — independentemente de o dispositivo estar online ou offline. A tabela `sincronizacoes`, persistida no IndexedDB, funciona como fila de controle de envio, registrando cada entidade modificada localmente com status `PENDENTE`, `ENVIADO` ou `FALHA`, e o respectivo contador de tentativas de reenvio, conforme previsto nos requisitos RF010, RF011 e RF012.
+No sistema BrPec, o IndexedDB é utilizado nos dispositivos móveis dos Capatazes como camada de armazenamento local para as tarefas sincronizadas, evidências (fotos e áudios), registros de eventos zootécnicos e alertas de infraestrutura. Conforme representado nos diagramas DS02, DS03 e DS04, o Repository abstrai o acesso ao IndexedDB por meio da mesma interface exposta ao Service, de modo que as operações de leitura e escrita sejam transparentes à camada de negócio — independentemente de o dispositivo estar online ou offline. A tabela `sincronizacoes`, persistida no IndexedDB, funciona como fila de controle de envio, registrando cada entidade modificada localmente com status `PENDENTE`, `ENVIADO` ou `FALHA`, e o respectivo contador de tentativas de reenvio, conforme previsto nos requisitos RF010, RF011 e RF012.
 
-A decisão de adotar o IndexedDB como mecanismo de armazenamento local, em complemento ao SQLite do servidor, decorre de três fatores técnicos: (i) o IndexedDB é nativamente disponível em todos os navegadores modernos, sem necessidade de extensões ou plugins; (ii) sua natureza transacional garante a integridade dos dados mesmo em cenários de interrupção abrupta da aplicação, como queda de bateria ou encerramento involuntário do navegador; e (iii) sua capacidade de armazenamento excede amplamente as limitações do Web Storage (5 MB típico), suportando os volumes de fotos codificadas em base64 e registros acumulados durante os períodos sem conexão — requisito crítico dado que os capatazes podem operar offline durante todo o intervalo entre as janelas de Starlink.
+A decisão de adotar o IndexedDB como mecanismo de armazenamento local, em complemento ao SQLite do servidor, decorre de três fatores técnicos: (i) o IndexedDB é nativamente disponível em todos os navegadores modernos, sem necessidade de extensões ou plugins; (ii) sua natureza transacional garante a integridade dos dados mesmo em cenários de interrupção abrupta da aplicação, como queda de bateria ou encerramento involuntário do navegador; e (iii) sua capacidade de armazenamento excede amplamente as limitações do Web Storage (5 MB típico), suportando os volumes de fotos codificadas em base64 e registros acumulados durante os períodos sem conexão — requisito crítico dado que os Capatazes podem operar offline durante todo o intervalo entre as janelas de Starlink.
 
 **Service Workers e Background Sync — Sincronização assíncrona**
 
 O mecanismo de sincronização representado nos diagramas DS03 e DS04 pelo participante `SyncService` é implementado tecnicamente por meio de Service Workers em combinação com a Background Synchronization API [23]. O Service Worker é um script executado pelo navegador em segundo plano, separado do contexto da página web, que permite interceptar requisições de rede, gerenciar o cache da aplicação e executar tarefas assíncronas mesmo quando o usuário não está interagindo ativamente com a interface [23].
 
-A Background Sync API estende as capacidades do Service Worker ao permitir que ações diferidas — como o envio de tarefas concluídas ou evidências fotográficas — sejam registradas como eventos de sincronização pendentes e executadas automaticamente pelo navegador assim que uma conexão de rede estável for detectada [23]. No contexto operacional da BrPec, esse comportamento é essencial: o capataz registra a conclusão de tarefas e anexa evidências durante o período offline, e o SyncService, ativado automaticamente pela reconexão Starlink, percorre a fila de sincronizações pendentes no IndexedDB, transmite os dados ao servidor remoto e atualiza o status local para `ENVIADO` ou incrementa o contador de tentativas em caso de falha, conforme modelado nas ramificações `alt` dos diagramas DS03 e DS04.
+A Background Sync API estende as capacidades do Service Worker ao permitir que ações diferidas — como o envio de tarefas concluídas ou evidências fotográficas — sejam registradas como eventos de sincronização pendentes e executadas automaticamente pelo navegador assim que uma conexão de rede estável for detectada [23]. No contexto operacional da BrPec, esse comportamento é essencial: o Capataz registra a conclusão de tarefas e anexa evidências durante o período offline, e o SyncService, ativado automaticamente pela reconexão Starlink, percorre a fila de sincronizações pendentes no IndexedDB, transmite os dados ao servidor remoto e atualiza o status local para `ENVIADO` ou incrementa o contador de tentativas em caso de falha, conforme modelado nas ramificações `alt` dos diagramas DS03 e DS04.
 
 Esse mecanismo implementa o padrão de *Outbox* [24], no qual toda operação que altera o estado local gera um registro de controle com status `PENDENTE` consumido pelo SyncService ao reconectar, garantindo que nenhuma operação seja perdida mesmo que o dispositivo seja desligado entre o registro e a sincronização (RF012).
 
@@ -1690,11 +1756,11 @@ sequenceDiagram
         CTR-->>G: 400 Bad Request {erro: "campos obrigatórios não preenchidos"}
     else Dados válidos
         CTR->>SRV: criarTarefa(dados)
-        SRV->>SRV: Verifica se capataz pertence ao retiro (RN01)
+        SRV->>SRV: Verifica se Capataz pertence ao retiro (RN01)
 
         alt Capataz não pertence ao retiro (RN01)
             SRV-->>CTR: throw CapatazRetiroInvalidoError
-            CTR-->>G: 422 Unprocessable Entity {erro: "capataz não pertence ao retiro"}
+            CTR-->>G: 422 Unprocessable Entity {erro: "Capataz não pertence ao retiro"}
         else Validação aprovada
             SRV->>REP: inserirTarefa(dados)
             REP->>DB: INSERT INTO tarefas (...) VALUES (...)
@@ -1709,7 +1775,7 @@ sequenceDiagram
 **Descrição das camadas:**
 
 - **Controller (`TarefaController`):** recebe a requisição HTTP do Gerente, valida a presença dos campos obrigatórios e delega a lógica de negócio ao Service. Não acessa o banco diretamente.
-- **Service (`TarefaService`):** aplica as regras de negócio do domínio — em especial a RN01, que impede a atribuição de uma tarefa a um capataz que não pertence ao retiro informado. Orquestra a chamada ao Repository.
+- **Service (`TarefaService`):** aplica as regras de negócio do domínio — em especial a RN01, que impede a atribuição de uma tarefa a um Capataz que não pertence ao retiro informado. Orquestra a chamada ao Repository.
 - **Repository (`TarefaRepository`):** responsável exclusivamente pelo acesso ao banco de dados. Executa o `INSERT` e retorna o `id` gerado.
 - **Banco (`SQLite`):** persiste o registro com `status = "pendente"` e retorna o identificador da nova linha.
 
@@ -1725,15 +1791,15 @@ sequenceDiagram
 
 | Elemento  | Referência                                                                                       |
 | --------- | ------------------------------------------------------------------------------------------------ |
-| US01      | Como gerente, posso criar tarefas e atribuí-las a um retiro específico                           |
-| RF001     | O sistema deve permitir que o gerente crie tarefas com título, descrição, retiro, capataz e data |
-| RN01      | Uma tarefa só pode ser atribuída a um capataz vinculado ao retiro selecionado                    |
-| RNF — SEG | Todas as rotas do gerente retornam 403 para perfis não autorizados                               |
+| US01      | Como Gerente, posso criar tarefas e atribuí-las a um retiro específico                           |
+| RF001     | O sistema deve permitir que o Gerente crie tarefas com título, descrição, retiro, Capataz e data |
+| RN01      | Uma tarefa só pode ser atribuída a um Capataz vinculado ao retiro selecionado                    |
+| RNF — SEG | Todas as rotas do Gerente retornam 403 para perfis não autorizados                               |
 | RNF — DES | Endpoint responde em p95 < 200ms com até 200 registros no banco                                  |
 
 #### DS02 — Consultar Tarefas Offline (US02)
 
-Fluxo que representa a consulta das tarefas do dia pelo Capataz em ambiente sem conexão com a internet, percorrendo as camadas Cliente (PWA) → Controller → Service → Repository → Armazenamento Local (IndexedDB/SQLite local). O diagrama diferencia explicitamente o que ocorre no dispositivo do capataz (offline) do que depende de sincronização prévia com o servidor. Mensagens síncronas são representadas por setas contínuas (`->>`) e retornos por setas tracejadas (`-->>`)
+Fluxo que representa a consulta das tarefas do dia pelo Capataz em ambiente sem conexão com a internet, percorrendo as camadas Cliente (PWA) → Controller → Service → Repository → Armazenamento Local (IndexedDB/SQLite local). O diagrama diferencia explicitamente o que ocorre no dispositivo do Capataz (offline) do que depende de sincronização prévia com o servidor. Mensagens síncronas são representadas por setas contínuas (`->>`) e retornos por setas tracejadas (`-->>`)
 
 ```mermaid
 sequenceDiagram
@@ -1765,7 +1831,7 @@ sequenceDiagram
             alt Tarefas sincronizadas encontradas (RN06, RN07)
                 LS-->>REP: [{id, titulo, descricao, status, data_execucao}]
                 REP-->>SRV: List<Tarefa>
-                SRV->>SRV: Filtra apenas tarefas do retiro do capataz (RN05)
+                SRV->>SRV: Filtra apenas tarefas do retiro do Capataz (RN05)
                 SRV-->>CTR: List<Tarefa> ordenada
                 CTR-->>PWA: 200 OK {tarefas: [...], modo: "offline"}
                 PWA-->>C: Exibe lista de tarefas do dia (RN12)
@@ -1792,11 +1858,11 @@ sequenceDiagram
 
 **Descrição das camadas:**
 
-- **Cliente PWA (`Cliente`):** interface do dispositivo do capataz no campo. Detecta o estado de conectividade e apresenta a lista de tarefas com indicação visual do modo de operação (online ou offline).
+- **Cliente PWA (`Cliente`):** interface do dispositivo do Capataz no campo. Detecta o estado de conectividade e apresenta a lista de tarefas com indicação visual do modo de operação (online ou offline).
 - **Controller (`TarefaController`):** recebe a requisição de listagem, valida o perfil do usuário e delega ao Service. Não acessa o armazenamento local diretamente.
-- **Service (`TarefaService`):** verifica a disponibilidade de conexão e decide a estratégia de busca — servidor remoto (online) ou armazenamento local (offline). Aplica a regra RN05, garantindo que apenas tarefas do retiro do capataz sejam retornadas.
+- **Service (`TarefaService`):** verifica a disponibilidade de conexão e decide a estratégia de busca — servidor remoto (online) ou armazenamento local (offline). Aplica a regra RN05, garantindo que apenas tarefas do retiro do Capataz sejam retornadas.
 - **Repository (`TarefaRepository`):** abstrai tanto o acesso ao banco remoto quanto ao armazenamento local (IndexedDB/SQLite local), expondo a mesma interface ao Service independentemente da origem dos dados.
-- **Armazenamento Local (`IndexedDB`):** persiste localmente as tarefas previamente sincronizadas. Só contém tarefas com `sincronizada = true`, garantindo que dados incompletos nunca sejam exibidos ao capataz (RN06).
+- **Armazenamento Local (`IndexedDB`):** persiste localmente as tarefas previamente sincronizadas. Só contém tarefas com `sincronizada = true`, garantindo que dados incompletos nunca sejam exibidos ao Capataz (RN06).
 
 **Fluxos cobertos:**
 
@@ -1811,15 +1877,15 @@ sequenceDiagram
 
 | Elemento     | Referência                                                                                              |
 | ------------ | ------------------------------------------------------------------------------------------------------- |
-| US02         | Como capataz, posso visualizar minha lista de tarefas do dia offline                                    |
-| RF002        | O sistema deve permitir que o capataz visualize as tarefas do dia mesmo sem conexão                     |
+| US02         | Como Capataz, posso visualizar minha lista de tarefas do dia offline                                    |
+| RF002        | O sistema deve permitir que o Capataz visualize as tarefas do dia mesmo sem conexão                     |
 | RF003        | O sistema deve armazenar localmente as tarefas sincronizadas para acesso offline                        |
 | RF004        | O sistema deve exibir mensagem simples quando não houver tarefas disponíveis offline                    |
-| RN02         | Apenas tarefas do dia atual devem ser exibidas ao capataz                                               |
-| RN05         | Apenas tarefas do retiro do capataz devem ser exibidas para ele                                         |
+| RN02         | Apenas tarefas do dia atual devem ser exibidas ao Capataz                                               |
+| RN05         | Apenas tarefas do retiro do Capataz devem ser exibidas para ele                                         |
 | RN06         | O sistema deve permitir visualização offline apenas de tarefas previamente sincronizadas                |
 | RN07         | As tarefas do dia devem ficar disponíveis offline quando houver sincronização prévia                    |
-| RN12         | As telas do capataz devem usar linguagem simples, botões visíveis e poucos passos de interação          |
+| RN12         | As telas do Capataz devem usar linguagem simples, botões visíveis e poucos passos de interação          |
 | RNF — CONF   | 0% de perda de dados em falhas de conexão; estratégia offline-first                                     |
 | RNF — DES    | Latência p95 < 200ms para salvar e ler registros no banco de dados local                                |
 
@@ -1855,7 +1921,7 @@ sequenceDiagram
         SRV->>REP: buscarTarefaLocal(tarefa_id)
         REP->>LS: SELECT * FROM tarefas WHERE id = ? AND capataz_id = ?
         
-        alt Tarefa não encontrada ou não pertence ao capataz (RN05)
+        alt Tarefa não encontrada ou não pertence ao Capataz (RN05)
             LS-->>REP: null
             REP-->>SRV: null
             SRV-->>CTR: throw TarefaNaoEncontradaError
@@ -1904,9 +1970,9 @@ sequenceDiagram
 
 **Descrição das camadas:**
 
-- **Cliente PWA (`Cliente`):** captura a ação do capataz, dispara a requisição de conclusão e exibe confirmações visuais simples e de alto contraste, adequadas ao uso em campo (RN12). Escuta eventos de sincronização emitidos pelo SyncService para atualizar o indicador de status.
+- **Cliente PWA (`Cliente`):** captura a ação do Capataz, dispara a requisição de conclusão e exibe confirmações visuais simples e de alto contraste, adequadas ao uso em campo (RN12). Escuta eventos de sincronização emitidos pelo SyncService para atualizar o indicador de status.
 - **Controller (`TarefaController`):** valida a presença dos identificadores obrigatórios e delega ao Service. Não acessa o armazenamento local diretamente.
-- **Service (`TarefaService`):** aplica as regras de negócio — verifica se a tarefa pertence ao capataz (RN05), atualiza o status e injeta o timestamp de conclusão (RNF — SEG). Orquestra o registro de sincronização pendente.
+- **Service (`TarefaService`):** aplica as regras de negócio — verifica se a tarefa pertence ao Capataz (RN05), atualiza o status e injeta o timestamp de conclusão (RNF — SEG). Orquestra o registro de sincronização pendente.
 - **Repository (`TarefaRepository`):** persiste a conclusão localmente com `sincronizada = false` e insere o registro de controle na tabela `sincronizacoes` (RF012).
 - **Armazenamento Local (`IndexedDB`):** mantém o estado da tarefa e o registro de pendência de sincronização até que o envio seja confirmado pelo servidor.
 - **SyncService (`SyncService`):** processo em segundo plano (background sync via Service Worker) responsável por detectar a reconexão, consultar registros pendentes e transmiti-los ao servidor remoto. Atualiza o status para `ENVIADO` em caso de sucesso ou incrementa o contador de tentativas em caso de falha (RF012).
@@ -1918,23 +1984,23 @@ sequenceDiagram
 | ------------- | ------------------------------------------------------------------------------------------------------------ |
 | Principal     | Capataz offline → conclusão persistida localmente → sincronização automática ao reconectar → confirmação visual |
 | Alternativo 1 | Campo obrigatório ausente → Controller retorna 400 sem acionar o Service                                     |
-| Alternativo 2 | Tarefa não encontrada ou não pertence ao capataz → Service lança erro → 404                                  |
+| Alternativo 2 | Tarefa não encontrada ou não pertence ao Capataz → Service lança erro → 404                                  |
 | Alternativo 3 | Falha na sincronização com o servidor → tentativa registrada e reenvio automático na próxima conexão (RF012) |
 
 **Rastreabilidade:**
 
 | Elemento     | Referência                                                                                              |
 | ------------ | ------------------------------------------------------------------------------------------------------- |
-| US03         | Como capataz, posso marcar uma tarefa como concluída para informar o gerente sobre o avanço             |
+| US03         | Como Capataz, posso marcar uma tarefa como concluída para informar o Gerente sobre o avanço             |
 | RF003        | O sistema deve armazenar localmente as tarefas sincronizadas para acesso offline                        |
 | RF010        | O sistema deve detectar automaticamente o restabelecimento da conexão e iniciar a transmissão           |
-| RF011        | O sistema deve notificar o capataz após sincronização bem-sucedida                                      |
+| RF011        | O sistema deve notificar o Capataz após sincronização bem-sucedida                                      |
 | RF012        | Registros com falha devem ser mantidos e reenviados automaticamente a cada nova conexão                 |
-| RN05         | Apenas tarefas do retiro do capataz devem ser exibidas e manipuladas por ele                            |
+| RN05         | Apenas tarefas do retiro do Capataz devem ser exibidas e manipuladas por ele                            |
 | RN08         | A marcação de conclusão feita offline deve ser armazenada localmente até a próxima sincronização        |
-| RN09         | A tarefa concluída deve ter seu status atualizado para o gerente após sincronização                     |
-| RN12         | As telas do capataz devem usar linguagem simples, botões visíveis e poucos passos de interação          |
-| RNF — SEG    | 100% dos registros devem conter metadados de autoria (ID do capataz) e timestamp não editável           |
+| RN09         | A tarefa concluída deve ter seu status atualizado para o Gerente após sincronização                     |
+| RN12         | As telas do Capataz devem usar linguagem simples, botões visíveis e poucos passos de interação          |
+| RNF — SEG    | 100% dos registros devem conter metadados de autoria (ID do Capataz) e timestamp não editável           |
 | RNF — CONF   | 0% de perda de dados em falhas de conexão; estratégia offline-first com reenvio automático              |
 
 ---
@@ -1971,7 +2037,7 @@ sequenceDiagram
         SRV->>REP: buscarTarefaLocal(tarefa_id)
         REP->>LS: SELECT * FROM tarefas WHERE id = ? AND capataz_id = ?
 
-        alt Tarefa não encontrada ou não pertence ao capataz (RN05)git 
+        alt Tarefa não encontrada ou não pertence ao Capataz (RN05)git 
             LS-->>REP: null
             REP-->>SRV: null
             SRV-->>CTR: throw TarefaNaoEncontradaError
@@ -2052,7 +2118,7 @@ sequenceDiagram
 | ------------- | ------------------------------------------------------------------------------------------------------------------ |
 | Principal     | Capataz offline → foto capturada e salva localmente em base64 → sincronização automática ao reconectar             |
 | Alternativo 1 | Campo obrigatório ausente → Controller retorna 400                                                                  |
-| Alternativo 2 | Tarefa não encontrada ou não pertence ao capataz → Service lança erro → 404                                        |
+| Alternativo 2 | Tarefa não encontrada ou não pertence ao Capataz → Service lança erro → 404                                        |
 | Alternativo 3 | Falha na sincronização → tentativa registrada e reenvio automático na próxima conexão (RF012)                      |
 | Alternativo 4 | Arquivo acima do limite → SyncService divide em chunks e transmite sequencialmente ao servidor (RNF — CAP)         |
 
@@ -2060,15 +2126,15 @@ sequenceDiagram
 
 | Elemento     | Referência                                                                                                   |
 | ------------ | ------------------------------------------------------------------------------------------------------------ |
-| US04         | Como capataz, posso anexar fotos na conclusão de uma tarefa para comprovar visualmente o serviço realizado   |
+| US04         | Como Capataz, posso anexar fotos na conclusão de uma tarefa para comprovar visualmente o serviço realizado   |
 | RF004        | O sistema deve armazenar localmente as tarefas e evidências sincronizadas para acesso offline                |
 | RF010        | O sistema deve detectar automaticamente o restabelecimento da conexão e iniciar a transmissão pendente       |
-| RF011        | O sistema deve notificar o capataz com confirmação após sincronização bem-sucedida                           |
+| RF011        | O sistema deve notificar o Capataz com confirmação após sincronização bem-sucedida                           |
 | RF012        | Registros com falha de envio devem ser mantidos e reenviados automaticamente a cada nova conexão             |
 | RN10         | As fotos anexadas devem estar vinculadas à tarefa correspondente                                             |
 | RN11         | Fotos registradas offline devem ser enviadas ao sistema quando houver conexão                                |
-| RN12         | As telas do capataz devem usar linguagem simples, botões visíveis e poucos passos de interação               |
-| RN19         | O sistema deve capturar automaticamente a localização GPS quando o capataz criar um registro com foto        |
+| RN12         | As telas do Capataz devem usar linguagem simples, botões visíveis e poucos passos de interação               |
+| RN19         | O sistema deve capturar automaticamente a localização GPS quando o Capataz criar um registro com foto        |
 | RNF — SEG    | 100% dos registros devem conter metadados de autoria e timestamp não editável                                |
 | RNF — CONF   | 0% de perda de dados em falhas de conexão; imagem mantida localmente até confirmação do servidor             |
 | RNF — CAP    | Suporte a sincronização em lote de até 500 eventos; chunking para arquivos grandes em conexões instáveis     |
@@ -2088,152 +2154,148 @@ _Documente os design patterns utilizados (Repository, Strategy, Factory, DTO etc
 
 ## 3.3. Wireframes (sprint 2)
 
-Os wireframes apresentados nesta seção foram elaborados para representar as User Stories priorizadas junto ao orientador: **US01** (Gerente cria e distribui tarefas), **US02** (Capataz visualiza lista de tarefas offline), **US03** (Capataz conclui tarefa), **US04** (Capataz anexa fotos como evidência) e **US06/US07** (Capataz emite alerta de infraestrutura; Gerente acompanha painel de tarefas e alertas). O design foi desenvolvido no Figma, priorizando clareza e uso de grid para organização dos elementos. O arquivo completo pode ser acessado pelo link público: [Wireframes BRPec — Figma](https://www.figma.com/design/jJjDkweFhygUKwONkyivtb/Untitled?node-id=0-1&t=QpPbn00WVpCx2EiT-0).
+Os wireframes apresentados nesta seção foram elaborados para representar as User Stories priorizadas junto ao orientador: **US01** (Gerente cria e distribui tarefas), **US02** (Capataz visualiza lista de tarefas offline), **US03** (Capataz conclui tarefa), **US04** (Capataz anexa fotos como evidência), **US06/US07** (Capataz emite alerta de infraestrutura; Gerente acompanha painel de tarefas e alertas) e **US11/US12** (Coordenador visualiza movimentações e exporta dados consolidados). O design foi desenvolvido no Figma, priorizando clareza e uso de grid para organização dos elementos. O arquivo completo pode ser acessado pelo link público: [Wireframes BRPec — Figma](https://www.figma.com/design/jJjDkweFhygUKwONkyivtb/Untitled?node-id=0-1&t=QpPbn00WVpCx2EiT-0).
 
-Os fluxos de navegação estão organizados em três jornadas principais:
+Os fluxos de navegação estão organizados em quatro jornadas principais:
 
-**Fluxo 1 — Capataz (US02 → US03 → US04):** O capataz acessa a lista de tarefas do dia (US02). Ao selecionar uma tarefa, é direcionado à tela de conclusão, onde pode marcar a tarefa como concluída (US03). A partir dessa tela, ele acessa a tela de anexo de fotos para registrar evidências fotográficas do serviço realizado (US04).
+**Fluxo 1 — Capataz (US02 → US03 → US04 → US05):** O Capataz acessa a lista de tarefas do dia (US02). Ao selecionar uma tarefa, é direcionado à tela de conclusão, onde pode marcar a tarefa como concluída (US03). A partir dessa tela, ele acessa a tela de anexo de fotos para registrar evidências fotográficas do serviço realizado (US04) e, com a possibilidade de gravar áudios (US05).
 
-**Fluxo 2 — Capataz e Técnico de Infraestrutura (US06):** O capataz acessa a seção de infraestrutura, visualiza os chamados abertos e pode registrar um novo alerta informando tipo de problema, localização e descrição. O técnico de infraestrutura, ao acessar o mesmo módulo, visualiza o detalhe do chamado e registra a resolução, encerrando o ciclo do alerta.
+**Fluxo 2 — Capataz e Técnico de Infraestrutura (US06 e US07):** O Capataz acessa a seção de infraestrutura, visualiza os chamados abertos e pode registrar um novo alerta informando tipo de problema, localização e descrição. O técnico de infraestrutura, ao acessar o mesmo módulo, visualiza o detalhe do chamado e registra a resolução, encerrando o ciclo do alerta.
 
-**Fluxo 3 — Gerente (US07 → US01):** O gerente acessa o dashboard, onde visualiza o status consolidado de todas as tarefas e alertas por retiro (US07). A partir do painel, pode criar uma nova Ordem de Serviço (US01), preenchendo as informações da tarefa e atribuindo-a ao retiro e capataz responsável. O capataz também pode abrir uma O.S. em campo quando identificar uma nova demanda operacional.
+**Fluxo 3 — Gerente (US07 → US01):** O Gerente acessa o dashboard, onde visualiza o status consolidado de todas as tarefas e alertas por retiro (US07). A partir do painel, pode criar uma nova Ordem de Serviço (US01), preenchendo as informações da tarefa e atribuindo-a ao retiro e Capataz responsável. O Capataz também pode abrir uma O.S. em campo quando identificar uma nova demanda operacional.
+
+**Fluxo 4 — Coordenador (US11 → US12):** O Coordenador acessa o painel de movimentações, onde visualiza todas as movimentações zootécnicas registradas pelos Capatazes, organizadas por retiro e tipo de evento (US11). Após revisar e validar os registros, pode aplicar filtros por retiro, tipo de evento e período, e então exportar os dados consolidados em formato Excel/CSV para alimentar os controles centrais da empresa (US12), eliminando a necessidade de redigitação manual.
 
 ---
 
 ### Fluxo 1 — Capataz: visualizar e concluir tarefas com evidências (US02, US03, US04)
-
-### Capataz:
 #### Tela de Tarefas:
-Este wireframe (figura 9) representa a interface destinada ao Capataz, com design responsivo adaptado para dispositivos móveis (parte da esquerda) e desktop (parte da direita). 
+Este wireframe (figura 10) representa a interface destinada ao Capataz, com design responsivo adaptado para dispositivos móveis (parte da esquerda) e desktop (parte da direita). 
 
-Esta tela é o núcleo operacional do usuário em campo, cujas ações possíveis são a Gestão de Prioridades, onde o sistema lista as tarefas pendentes organizadas automaticamente por ordem de importância, garantindo que as atividades críticas sejam atendidas primeiro, e a Abertura de O.S., onde na parte inferior da interface, um botão de ação rápida permite a criação imediata de novas Ordens de Serviço, eliminando a necessidade de anotações manuais. 
+Esta tela é o ponto de entrada do Capataz no aplicativo. Na parte central é possível ver uma lista com as tarefas pendentes organizadas automaticamente por ordem de importância, garantindo que as atividades críticas sejam atendidas primeiro mesmo offline, atendendo a (US02). Na parte inferior da interface, há um botão "Nova O.S." que permite a criação imediata de novas Ordens de Serviço, eliminando a necessidade de anotações manuais. 
 
-Em relação à navegação e detalhes, o botão "Ver Todos" permite que, ao clicar, o usuário expanda a visualização para uma gestão completa do histórico de atividades, enquanto um botão lateral provê acesso direto às informações do rebanho e dados zootécnicos (estoque e categorias de animais) e, ao selecionar uma tarefa específica no detalhamento de tarefas, o sistema exibe uma tela com as especificações detalhadas, insumos necessários e orientações para a execução.
+Em relação à navegação e detalhes, o botão "Todos" permite que, ao clicar, o usuário expanda a visualização para uma gestão completa do histórico de atividades, enquanto o botão "Rebanhos" provê acesso às informações do rebanho e dados zootécnicos. Ao selecionar uma tarefa específica no detalhamento de tarefas, o sistema exibe uma tela com as especificações detalhadas e orientações para a execução. 
 
 <center>
-  <p><strong>Figura 10</strong> — Wireframe da tela de lista de tarefas do capataz (US02)</p>
+  <p><strong>Figura 10</strong> — Wireframe da tela de lista de tarefas do Capataz (US02)</p>
   <img src="./assets/wireframeCapatazTarefas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-A tela de lista de tarefas é o ponto de entrada do capataz no aplicativo. Ela exibe as tarefas do dia agrupadas por status (pendente, em andamento, concluída), atendendo à necessidade de acesso offline (US02). O capataz seleciona uma tarefa para avançar ao fluxo de conclusão e também pode abrir uma nova Ordem de Serviço quando identificar uma demanda em campo.
-
 #### Informações sobre a tarefa:
-A Figura 10 ilustra a interface de Detalhamento da Tarefa, acessada após o Capataz selecionar uma atividade específica na lista principal e, assim como a tela anterior, a interface é responsiva, garantindo usabilidade tanto em dispositivos móveis (campo) quanto em desktops (escritório). 
+A Figura 11 ilustra a interface de Detalhamento da Tarefa, acessada após o Capataz selecionar uma atividade específica na lista principal e, assim como a tela anterior, a interface é responsiva, garantindo usabilidade tanto em dispositivos móveis (campo) quanto em desktops (escritório). 
 
-Para assegurar a execução precisa da ordem de serviço, a tela centraliza todo o conteúdo da tarefa e as diretrizes enviadas pela gestão, incluindo a identificação com título da atividade e descrição detalhada do serviço, os parâmetros de controle com prazo de entrega e nível de prioridade, e os recursos multimídia como reprodutor de áudio (instruções gravadas pelo gerente) e visualização de fotos para referência visual do local ou do problema. 
+Para assegurar a execução precisa da ordem de serviço, a tela centraliza todo o conteúdo da tarefa, incluindo a identificação com título da atividade e descrição detalhada do serviço, os parâmetros de controle com prazo de entrega e nível de prioridade, e os recursos multimídia como reprodutor de áudio (instruções gravadas pelo Gerente) e visualização de fotos para referência visual do local ou do problema, atendendo a (US02).
 
-Quanto às ações do usuário, um botão de "Iniciar Tarefa" permite o controle de fluxo para registrar o exato momento em que a atividade começa, gerando dados de produtividade, enquanto um botão de retorno estrategicamente posicionado permite a navegação para voltar à tela inicial de tarefas de forma rápida.
+Quanto às ações do usuário, um botão de "Iniciar Tarefa" permite o controle de fluxo para registrar o exato momento em que a atividade começa, mesmo offline, gerando dados de produtividade, enquanto um botão de retorno estrategicamente posicionado permite a navegação para voltar à tela inicial de tarefas de forma rápida.
 
 <center>
-<p><strong>Figura 11</strong> — Wireframe da tela de conclusão de tarefa do capataz — versões mobile, tablet e desktop (US03)</p>
-<p><strong>Figura 10</strong> — Wireframe da tela de detalhes sobre a tarefa do capataz</p>
+<p><strong>Figura 11</strong> — Wireframe da tela de detalhes sobre a tarefa do Capataz (US02)</p>
  <img src="./assets/wireframeCapatazConcluirTarefaTablet.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-A tela de conclusão de tarefa permite ao capataz marcar a tarefa como concluída e, opcionalmente, adicionar observações (US03). O layout foi projetado de forma responsiva, adaptando-se a dispositivos móveis, tablets e desktops. A partir desta tela, o capataz pode acessar a tela de anexo de fotos.
-
 #### Concluir tarefa:
-A Figura 11 detalha a interface de Conclusão de Atividade, etapa final do fluxo de trabalho do Capataz, com uma tela projetada para garantir a confiabilidade dos dados e o registro fiel do que foi executado em campo. 
+A Figura 12 detalha a interface de Conclusão de Atividade, etapa final do fluxo de trabalho do Capataz, com uma tela projetada para garantir a confiabilidade dos dados e o registro fiel do que foi executado em campo. 
 
-Para a confirmação de atividade e evitar erros operacionais, a tela exibe o título da tarefa em progresso, permitindo que o usuário valide se está encerrando o chamado correto, apresentando também as evidências e feedback através do registro fotográfico, com opção para anexar uma imagem da tarefa concluída para servir como comprovante visual da execução (ex: uma cerca reparada ou um animal tratado), e do campo de observações, espaço dedicado para que o Capataz relate eventuais problemas encontrados, comentários pertinentes ou detalhes que fujam ao padrão da ordem de serviço. 
+Para a confirmação de atividade e evitar erros operacionais, a tela exibe o título da tarefa em progresso, permitindo que o usuário valide se está encerrando o chamado correto, apresentando também as evidências e feedback através do registro fotográfico, com opção para anexar uma imagem da tarefa concluída para servir como comprovante visual da execução (ex: um animal tratado), e do campo de observações, espaço dedicado para que o Capataz relate eventuais problemas encontrados, comentários pertinentes ou detalhes que fujam ao padrão da ordem de serviço, podendo ser preenchido de forma escrita ou por áudio.
 
-Por fim, para o encerramento, o botão "Salvar e Concluir" consolida as informações, altera o status da tarefa no sistema e prepara o dado para a sincronização com o banco de dados central.
+Por fim, para o encerramento, o botão "Salvar" consolida as informações, e depois o de "Concluir", que só aparecerá após salvas as informações, altera o status da tarefa no sistema e prepara os dados para a sincronização com o banco de dados central.
 
 <center>
-  <p><strong>Figura 12</strong> — Wireframe da tela de anexo de fotos pelo capataz (US04)</p>
-  <p><strong>Figura 11</strong> — Wireframe da tela de concluir tarefa do capataz</p>
+  <p><strong>Figura 12</strong> — Wireframe da tela de concluir tarefa do Capataz (US04) e (US05) </p>
   <img src="./assets/wireframeCapatazAnexarFotos.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-A tela de anexo de fotos permite ao capataz capturar ou selecionar imagens da galeria do dispositivo para comprovar visualmente o serviço realizado (US04).
-
 ---
 
-### Fluxo 2 — Capataz e Técnico: emitir e resolver alertas de infraestrutura (US06)
-
-### Coordenador e Gerente:
-#### Dashboard inicial:
-
-A Figura 15 ilustra a Interface Principal (Dashboard) destinada aos perfis de Gerente e Coordenador, desenvolvida com design responsivo para dispositivos móveis e desktop, onde esta tela funciona como o núcleo centralizador para o monitoramento e a tomada de decisões na fazenda. Os indicadores do painel central oferecem uma visão macro e em tempo real das operações, permitindo acesso rápido aos chamados por retiro, com a distribuição volumétrica das demandas de manutenção entre as 14 áreas da propriedade, à evolução dos chamados, através de gráficos ou métricas que demonstram o ritmo de abertura e fechamento de ordens de serviço, aos alertas em aberto, com notificações críticas que exigem atenção imediata da gestão, e às prioridades, que trazem uma lista consolidada das tarefas mais urgentes em execução no campo. No menu de navegação lateral (desktop) / atalhos, posicionado no canto esquerdo da interface, destacam-se abas estruturadas para navegação direta nas seguintes verticais: retiros, para detalhamento de estoque de rebanho e infraestrutura local; ordens, para a gestão e distribuição de novas Ordens de Serviço; e alertas, consistindo em um painel dedicado à triagem de ocorrências críticas.
-
-<center>
-  <p><strong>Figura 15</strong> — Wireframe da tela de dashboard do gerente — lista de chamados (US06)</p>
-  <img src="./assets/wireframeGerenteDashboard.png" width="800"/>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
-A tela de infraestrutura exibe os chamados de manutenção em aberto. O capataz pode registrar um novo alerta informando o tipo de problema (cerca, bebedouro, hidráulica, elétrica), a localização e uma descrição (US06). O técnico de infraestrutura visualiza os chamados atribuídos a ele nesta mesma lista.
-
-### Gerente
-#### Wireframe da tela de novsa O.S.:
-<center>
-  <p><strong>Figura 14</strong> — Wireframe da tela de detalhe do chamado (US06)</p>
-  <img src="./assets/wireframeDetalheDoChamado.png" width="800"/>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
-A tela de detalhe do chamado apresenta as informações completas do alerta: tipo de problema, localização, data de abertura, capataz responsável pela emissão e status atual. A partir desta tela, o técnico de infraestrutura acessa a opção de registrar a resolução.
-
-<center>
-  <p><strong>Figura 15</strong> — Wireframe da tela de registro de resolução de infraestrutura (US06)</p>
-  <img src="./assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
-  <p><strong>Figura 16</strong> — Wireframe da tela de nova O.S do gerente</p>
-  <img src="./assets/wireframeGerenteNovaOs.png" width="800"/>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
-A tela de registro de resolução permite ao técnico de infraestrutura descrever a solução aplicada e encerrar o chamado.
-
----
-
-### Fluxo 3 — Gerente: acompanhar painel e criar ordens de serviço (US07, US01)
-
-
-### Coordenador:
-#### Visualizar boletas:
-<center>
-  <p><strong>Figura 14</strong> — Wireframe da tela de lista de boletos</p>
-  <img src="./assets/wireframeListaDeBoletos.png" width="800"/>
-  <p><strong>Figura 16</strong> — Wireframe da tela de dashboard do gerente (US07)</p>
-  <img src="./assets/wireframeGerenteDashboard.png" width="800"/>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
-O dashboard do gerente consolida o status de todas as tarefas e alertas por retiro (US07). As tarefas são agrupadas por status (pendente, em andamento, concluída) e os alertas de infraestrutura aparecem em seção destacada. A partir do painel, o gerente pode navegar para a criação de uma nova Ordem de Serviço.
-
-### Infraestrutura:
+### Fluxo 2 — Capataz, Coordenador e Técnico: emitir e resolver alertas de infraestrutura (US06)
 #### Tela Infraestrutura:
 
-A Figura 13 apresenta a interface de Gestão de Infraestrutura, onde o Capataz pode monitorar e organizar as manutenções da fazenda, com uma tela que segue o padrão de design responsivo para uso em dispositivos móveis e desktop. 
+A Figura 13 apresenta a interface de Gestão de Infraestrutura, onde o Gerente e o Capataz podem monitorar e organizar as manutenções da fazenda (US06) e (US07), com uma tela que segue o padrão de design responsivo para uso em dispositivos móveis e desktop. 
 
 Para facilitar a organização, a categorização de chamados agrupa as demandas de manutenção em três seções principais, sendo hidráulica (gestão de bebedouros, bombas e encanamentos), cerca (reparos e vistorias de perímetros e divisões de pastos) e elétrica (manutenção de cercas elétricas, painéis e iluminação). 
 
 Ao selecionar uma categoria, o sistema permite o monitoramento de status e detalha o fluxo de trabalho através de indicadores específicos, como pendentes/abertos para visualização da quantidade de novos chamados, em andamento para acompanhamento dos serviços iniciados e o histórico semanal como relatório de chamados concluídos nos últimos sete dias. Como ação rápida, dentro de cada seção, existe a funcionalidade de criar uma nova Ordem de Serviço (O.S.) específica para aquele setor, garantindo que o registro seja feito no local do problema.
 
 <center>
-  <p><strong>Figura 13</strong> — Wireframe da tela de infraestrutura</p>
+  <p><strong>Figura 13</strong> — Wireframe do painel de infraestrutura (US06) e (US07)</p>
   <img src="./assets/wireframeInfraestrutura.png" width="800"/>
-  <p><strong>Figura 17</strong> — Wireframe da tela de criação de nova O.S. pelo gerente (US01)</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+#### Nova O.S.:
+
+A Figura 14 ilustra a interface de Abertura de Nova Ordem de Serviço (O.S.), acessível para os perfis do Gerente e do Capataz, onde a tela adota o padrão de design responsivo, operando perfeitamente em dispositivos móveis e desktop. No fluxo de acesso do Gerente, o processo de criação segue a mesma jornada padronizada de abertura de tarefas comuns, de modo que, após acessar o painel de criação, o Gerente deve selecionar o botão "Infraestrutura" para habilitar o formulário específico de manutenção. Já no fluxo do Capataz, esse acesso seria através do botão de "Nova O.S." presente na tela inicial e não apareceria a opção de selecionar a equipe "Capataz", atendendo a (US06) e a (US07). 
+  
+Para garantir o direcionamento correto da demanda, os campos e parâmetros de cadastro oferecem preenchimento para o tipo de chamado, realizando a classificação da O.S. entre as três categorias principais da fazenda, que são Hidráulica, Cerca ou Elétrica, para a definição de prioridade, com a atribuição do nível de urgência do reparo (ex: Alta, Média, Baixa) para auxiliar na organização da fila de trabalho do Capataz, para o prazo ideal, definindo uma data limite esperada para a conclusão do serviço, e para o detalhamento técnico, que consiste em um campo descritivo para que o gestor insira todas as informações, orientações e especificações necessárias, garantindo clareza para a equipe de execução em campo.
+
+<center>
+  <p><strong>Figura 14</strong> — Wireframe da tela de criação de nova O.S. pelo Gerente (US06) e (US07)</p>
   <img src="./assets/wireframeGerenteNovaOs.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-A tela de nova Ordem de Serviço permite ao gerente criar uma tarefa, definir a descrição, o retiro de destino, o capataz responsável e o prazo de execução (US01).
-
 
 #### Tela Infraestrutura- registrar resolução:
-A Figura 14 detalha a interface de Registro de Resolução, permitindo que o Capataz formalize o encerramento dos chamados de infraestrutura, mantendo a responsividade para facilitar o uso tanto no campo quanto no escritório. 
+
+A Figura 15 detalha a interface de Detalhes do Chamado, permitindo que o funcionário da Infraestrutura formalize o encerramento dos chamados de infraestrutura, mantendo a responsividade para facilitar o uso tanto no campo quanto no escritório. 
 
 O formulário de registro de solução permite documentar o fechamento da tarefa com precisão, incluindo a descrição da atividade com o relato detalhado do que foi executado para resolver o problema, dados temporais com o registro da data e horário de conclusão, e evidência visual por meio de campo para anexar fotos que comprovem a resolução do chamado. 
 
-Além disso, uma funcionalidade crítica desta tela é a linha do tempo (histórico do chamado), que permite a visualização do ciclo de vida da tarefa apresentando todas as fases até a entrega final, como a abertura, com o registro de quando o chamado foi criado e por quem, o andamento, indicando o horário em que a tarefa foi iniciada e o tempo de resposta, e a conclusão, marcando o momento exato da resolução e permitindo o cálculo da eficiência operacional.
+Além disso, uma funcionalidade crítica desta tela é a linha do tempo (histórico do chamado), que permite a visualização do ciclo de vida da tarefa apresentando todas as fases até a entrega final, como a abertura, com o registro de quando o chamado foi criado e por quem, o andamento, indicando o horário em que a tarefa foi iniciada e o tempo de resposta, e a conclusão, marcando o momento exato da resolução e permitindo o cálculo da eficiência operacional. Essas informações poderão ser vistas pelos Gerentes e Capatazes também, atendendo ao (US06) e ao (US07).
 
 <center>
-  <p><strong>Figura 14</strong> — Wireframe da tela de registrar resolução- infraestrutura</p>
+  <p><strong>Figura 15</strong> — Wireframe da tela de registrar resolução- infraestrutura</p>
   <img src="./assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+---
+
+### Fluxo 3 — Gerente: acompanhar painel e criar ordens de serviço (US07, US01)
+#### Dashboard inicial:
+
+A Figura 16 ilustra a Interface Principal (Dashboard) destinada aos perfis de Gerente e Coordenador, desenvolvida com design responsivo para dispositivos móveis e desktop, onde esta tela funciona como o núcleo centralizador para o monitoramento e a tomada de decisões na fazenda. 
+
+Os indicadores do painel central oferecem uma visão macro e em tempo real das operações, permitindo acesso rápido aos chamados por retiro, com a distribuição volumétrica das demandas de manutenção entre as áreas da propriedade, à evolução dos chamados, através de gráficos ou métricas que demonstram o ritmo de abertura e fechamento de ordens de serviço, aos alertas em aberto, com notificações críticas que exigem atenção imediata da gestão, e às prioridades, que trazem uma lista consolidada das tarefas mais urgentes em execução no campo. 
+
+No menu de navegação lateral (desktop), posicionado no canto esquerdo da interface, destacam-se abas estruturadas para navegação direta nas seguintes verticais: retiros, para detalhamento de estoque de rebanho e infraestrutura local; ordens, para a gestão e distribuição de novas Ordens de Serviço; e alertas, consistindo em um painel dedicado à triagem de ocorrências críticas, atendendo a (US07).
+
+<center>
+  <p><strong>Figura 16</strong> — Wireframe da tela de dashboard do Gerente e Coordenador (US07)</p>
+  <img src="./assets/wireframeGerenteCoordenadorDashboard.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+#### Nova O.S.:
+A Figura 14 (citada anteriormente) ilustra a interface unificada de Abertura de Demandas, utilizada pelo Gerente para delegar atividades tanto para a equipe de manutenção quanto para os Capatazes de campo, adotando o padrão de design responsivo para dispositivos móveis e desktop. 
+
+No fluxo de seleção de tipo, ao acessar o painel, o gestor pode alternar entre duas verticais de trabalho, sendo elas a de infraestrutura, para manutenção Hidráulica, Cerca ou Elétrica, e a de operações de manejo, para demandas zootécnicas direcionadas diretamente aos Capatazes, tais como Movimentação de Rebanho, Registro de Óbito, entre outras. 
+
+Para garantir o direcionamento correto e a clareza da atividade, os campos e parâmetros de cadastro oferecem recursos como o nível de prioridade, para atribuição de urgência para organizar a fila de trabalho em campo, o prazo limite, definindo a data esperada para a conclusão do serviço, o detalhamento descritivo, em um campo de texto livre para detalhar as especificações da tarefa, e os recursos multimídia, trazendo a opção para anexar áudios (com instruções gravadas por voz) e imagens/fotos de referência, eliminando qualquer ambiguidade na comunicação entre o escritório e o campo, atendendo a (US01), (US06) e (US07).
+
+---
+
+### Fluxo 4 — Coordenador: visualizar movimentações e exportar dados consolidados (US11, US12)
+#### Dashboard inicial:
+
+A Interface Principal (Dashboard) destinada aos perfis de Gerente e Coordenador, desenvolvida com design responsivo para dispositivos móveis e desktop, funciona como o núcleo centralizador para o monitoramento e a tomada de decisões na fazenda. Ela foi descrita anteriormente, no fluxo 3, na parte de "Dashboard inicial". O respectivo wireframe foi apresentado na Figura 16.
+
+#### Tela de movimentações (boletas digitais):
+
+A Figura 17, ilustra a tela de movimentações. A interface foi projetada em design responsivo para uso em desktop e dispositivos móveis, permitindo ao Coordenador acessar, revisar e validar os registros enviados pelos Capatazes após a sincronização.
+
+Na parte central da tela, é exibida uma lista consolidada de todos os retiros, sendo possível, ao clicar em um deles, visualizar os detalhes das movimentações zootécnicas registradas, contendo as informações essenciais de cada evento: tipo de movimentação (nascimento, óbito, transferência ou compra/venda), retiro de origem, categoria animal, quantidade, data do registro e Capataz responsável (US11).
+
+Para facilitar a gestão dos registros, a interface disponibiliza filtros por retiro, tipo de evento e período (data inicial e data final), permitindo que o Coordenador isole rapidamente os registros de interesse. Indicadores visuais na parte superior da tela apresentam um resumo quantitativo das movimentações por tipo de evento, oferecendo uma visão macro do fluxo zootécnico recente.
+
+Além disso, o Coordenador dispõe de um botão de exportação posicionado de forma destacada na interface, permitindo gerar e baixar um arquivo em formato Excel/CSV contendo os registros filtrados (US12). A exportação respeita a estrutura de colunas padronizada e compatível com os templates legados utilizados pela coordenação da BrPec, contemplando: data, retiro, tipo de evento, categoria animal, quantidade e Capataz responsável.
+
+<center>
+  <p><strong>Figura 17</strong> — Wireframe da tela de lista de movimentações do Coordenador (US11)</p>
+  <img src="./assets/wireframeListaDeBoletos.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2266,16 +2328,16 @@ _posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelid
 
 O modelo Entidade-Relacionamento (ER) conceitual descreve as principais entidades do domínio da aplicação, seus atributos e os relacionamentos existentes entre elas. O objetivo é estruturar conceitualmente os dados necessários para suportar o gerenciamento operacional da BRPec Agropecuária, contemplando usuários, retiros, tarefas, alertas, movimentações de rebanho e evidências.
 
-No contexto do projeto, a boleta representa o formulário digital utilizado pelo capataz para registrar as informações de campo que antes eram anotadas em papel. Conceitualmente, a boleta funciona como o fluxo operacional de entrada de dados: por meio dela o capataz visualiza e conclui tarefas, registra movimentações do rebanho, emite alertas de infraestrutura e anexa evidências. Por não possuir ciclo de vida independente das informações registradas, a boleta não é modelada como uma entidade isolada; ela é materializada no modelo pelos registros de tarefa, alerta, movimentação e evidência. Para cada relacionamento são indicadas as cardinalidades mínima e máxima em ambos os lados, expressando diretamente as regras de negócio do domínio.
+No contexto do projeto, a boleta representa o formulário digital utilizado pelo Capataz para registrar as informações de campo que antes eram anotadas em papel. Conceitualmente, a boleta funciona como o fluxo operacional de entrada de dados: por meio dela o Capataz visualiza e conclui tarefas, registra movimentações do rebanho, emite alertas de infraestrutura e anexa evidências. Por não possuir ciclo de vida independente das informações registradas, a boleta não é modelada como uma entidade isolada; ela é materializada no modelo pelos registros de tarefa, alerta, movimentação e evidência. Para cada relacionamento são indicadas as cardinalidades mínima e máxima em ambos os lados, expressando diretamente as regras de negócio do domínio.
 
 
 #### Decisões de modelagem
 
 - **USUÁRIO:** representa os perfis operacionais do sistema (Gerente, Coordenador, Capataz e Técnico de Infraestrutura). A distinção de funções é realizada pelo atributo `perfil`, centralizando a gestão de acessos e garantindo que cada ação no sistema seja vinculada a um identificador único para fins de rastreabilidade.
 
-- **RETIRO:** representa as unidades físicas e operacionais da fazenda. O relacionamento *pertence* estabelece que cada capataz deve estar vinculado a exatamente um retiro (USUÁRIO 1,1), enquanto um retiro pode possuir nenhum, um ou múltiplos usuários associados (RETIRO 0,n), considerando que perfis como gerente, coordenador e técnico podem atuar em escopo mais amplo.
+- **RETIRO:** representa as unidades físicas e operacionais da fazenda. O relacionamento *pertence* estabelece que cada Capataz deve estar vinculado a exatamente um retiro (USUÁRIO 1,1), enquanto um retiro pode possuir nenhum, um ou múltiplos usuários associados (RETIRO 0,n), considerando que perfis como Gerente, Coordenador e técnico podem atuar em escopo mais amplo.
 
-- **TAREFA:** registra ordens de serviço criadas por gerentes ou coordenadores e atribuídas a capatazes para execução em campo. Cada tarefa é criada por exatamente um usuário autorizado (TAREFA 1,1) e um usuário pode criar várias tarefas (USUÁRIO 0,n). Cada tarefa também possui exatamente um responsável pela execução (TAREFA 1,1), enquanto um capataz pode executar várias tarefas ao longo do tempo (USUÁRIO 0,n). Toda tarefa pertence obrigatoriamente a um retiro (TAREFA 1,1; RETIRO 0,n).
+- **TAREFA:** registra ordens de serviço criadas por Gerentes ou Coordenadores e atribuídas a Capatazes para execução em campo. Cada tarefa é criada por exatamente um usuário autorizado (TAREFA 1,1) e um usuário pode criar várias tarefas (USUÁRIO 0,n). Cada tarefa também possui exatamente um responsável pela execução (TAREFA 1,1), enquanto um Capataz pode executar várias tarefas ao longo do tempo (USUÁRIO 0,n). Toda tarefa pertence obrigatoriamente a um retiro (TAREFA 1,1; RETIRO 0,n).
 
 - **ALERTA:** é utilizado para reportar problemas de infraestrutura (cerca, bebedouro, hidráulica, elétrica, entre outros), com localização geográfica e ciclo de resolução rastreável. Cada alerta é emitido por exatamente um usuário (ALERTA 1,1), enquanto um usuário pode emitir nenhum, um ou vários alertas (USUÁRIO 0,n). Um alerta pode ainda ser atendido por no máximo um técnico de infraestrutura (ALERTA 0,1), e um técnico pode atender vários alertas (USUÁRIO 0,n). Todo alerta pertence obrigatoriamente a um retiro (ALERTA 1,1; RETIRO 0,n).
 
@@ -2320,7 +2382,7 @@ A evolução conceitual está apresentada nas seções 3.6.1 e 3.6.2. Nesta seç
 | Relação          | Chave primária | Chaves estrangeiras principais                             | Observação                                      |
 | ---------------- | -------------- | ---------------------------------------------------------- | ----------------------------------------------- |
 | `retiros`        | `id`           | —                                                          | Unidades operacionais da fazenda                |
-| `usuarios`       | `id`           | `retiro_id -> retiros(id)`                                 | `retiro_id` é obrigatório apenas para capatazes |
+| `usuarios`       | `id`           | `retiro_id -> retiros(id)`                                 | `retiro_id` é obrigatório apenas para Capatazes |
 | `tarefas`        | `id`           | `retiro_id`, `criado_por_id`, `responsavel_id`             | Registra quem criou e quem executa a tarefa     |
 | `alertas`        | `id`           | `retiro_id`, `criado_por_id`, `tecnico_id`                 | Chamados com tipo, GPS e ciclo de resolução     |
 | `movimentacoes`  | `id`           | `retiro_id`, `responsavel_id`                              | Evento-base de manejo do rebanho                |
@@ -2341,7 +2403,7 @@ A evolução conceitual está apresentada nas seções 3.6.1 e 3.6.2. Nesta seç
 
 - **SQLite local como fonte offline**: os registros são gravados localmente primeiro, com `sync_status` para indicar se ainda precisam ser enviados à API.
 - **UUID v7 em colunas `TEXT`**: o identificador é gerado no cliente, antes da conexão com o servidor, e armazenado como texto por compatibilidade com SQLite.
-- **`usuarios.retiro_id` opcional para perfis globais**: capatazes devem estar vinculados a um retiro, mas gerente, coordenador e técnico de infraestrutura podem atuar em escopo mais amplo.
+- **`usuarios.retiro_id` opcional para perfis globais**: Capatazes devem estar vinculados a um retiro, mas Gerente, Coordenador e técnico de infraestrutura podem atuar em escopo mais amplo.
 - **`tarefas.criado_por_id` e `tarefas.responsavel_id`**: a primeira FK registra quem criou a tarefa; a segunda registra quem deve executá-la.
 - **`alertas.retiro_id` e `alertas.tipo`**: o chamado de infraestrutura fica vinculado ao retiro e ao tipo de problema exigidos nos requisitos.
 - **`evidencias` com vínculo polimórfico controlado por `CHECK`**: cada evidência pertence a exatamente uma tarefa, um alerta ou uma movimentação. Isso permite registrar fotos de óbito sem guardar o arquivo binário diretamente na tabela de óbitos.
@@ -2383,10 +2445,10 @@ CREATE TABLE IF NOT EXISTS usuarios (
     email      TEXT NOT NULL UNIQUE,
     senha_hash TEXT NOT NULL,
     perfil     TEXT NOT NULL
-                   CHECK (perfil IN ('gerente','capataz','coordenador','tecnico_infra')),
+                   CHECK (perfil IN ('Gerente','Capataz','Coordenador','tecnico_infra')),
     created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
     updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
-    CHECK (perfil != 'capataz' OR retiro_id IS NOT NULL)
+    CHECK (perfil != 'Capataz' OR retiro_id IS NOT NULL)
 );
 CREATE INDEX IF NOT EXISTS idx_usuarios_retiro ON usuarios(retiro_id);
 CREATE INDEX IF NOT EXISTS idx_usuarios_perfil ON usuarios(perfil);
@@ -2658,7 +2720,7 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 #1 | ---
 --- | ---
 **Expressão SQL** | `SELECT id, titulo, descricao, status, data_prevista FROM tarefas WHERE responsavel_id = $1 AND date(data_prevista) = date('now') AND (status = 'pendente' OR status = 'em_andamento') ORDER BY data_prevista ASC;` |
-**Proposições lógicas** | $A$: a tarefa pertence ao capataz autenticado (`responsavel_id = $1`) <br> $B$: a tarefa está prevista para hoje (`date(data_prevista) = date('now')`) <br> $C$: o status é pendente (`status = 'pendente'`) <br> $D$: o status é em andamento (`status = 'em_andamento'`) |
+**Proposições lógicas** | $A$: a tarefa pertence ao Capataz autenticado (`responsavel_id = $1`) <br> $B$: a tarefa está prevista para hoje (`date(data_prevista) = date('now')`) <br> $C$: o status é pendente (`status = 'pendente'`) <br> $D$: o status é em andamento (`status = 'em_andamento'`) |
 **Expressão lógica proposicional** | $A \land B \land (C \lor D)$ |
 **Tabela Verdade** | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$D$</th> <th>$A \land B \land (C \lor D)$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>V</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table>
 
@@ -2698,7 +2760,7 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 #4 | ---
 --- | ---
 **Expressão SQL** | `SELECT t.id, t.titulo, t.status, t.data_prevista, r.nome AS retiro, u.nome AS responsavel FROM tarefas t JOIN retiros r ON t.retiro_id = r.id JOIN usuarios u ON t.responsavel_id = u.id WHERE t.criado_por_id = $1 AND (t.status = 'pendente' OR t.status = 'em_andamento') AND date(t.data_prevista) >= date('now') ORDER BY t.data_prevista ASC, r.nome ASC;` |
-**Proposições lógicas** | $A$: a tarefa foi criada pelo gerente autenticado (`criado_por_id = $1`) <br> $B$: o status é pendente (`status = 'pendente'`) <br> $C$: o status é em andamento (`status = 'em_andamento'`) <br> $D$: a data prevista é hoje ou futura (`date(data_prevista) >= date('now')`) |
+**Proposições lógicas** | $A$: a tarefa foi criada pelo Gerente autenticado (`criado_por_id = $1`) <br> $B$: o status é pendente (`status = 'pendente'`) <br> $C$: o status é em andamento (`status = 'em_andamento'`) <br> $D$: a data prevista é hoje ou futura (`date(data_prevista) >= date('now')`) |
 **Expressão lógica proposicional** | $A \land (B \lor C) \land D$ |
 **Tabela Verdade** | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$D$</th> <th>$A \land (B \lor C) \land D$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table>
 
@@ -2797,10 +2859,10 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 </center>
 
 ---
-| #8 | Fluxo: Exportação de movimentações sincronizadas pelo coordenador (RF015) |
+| #8 | Fluxo: Exportação de movimentações sincronizadas pelo Coordenador (RF015) |
 |---|---|
 | **Expressão SQL** | `SELECT m.id, m.tipo, m.categoria, m.data_movimentacao, m.observacoes, r.nome AS retiro, u.nome AS responsavel, o.causa AS causa_obito, o.identificacao_animal, n.quantidade AS qtd_nascimento, t.retiro_origem_id, t.retiro_destino_id, cv.tipo_negocio, cv.valor_financeiro FROM movimentacoes m JOIN retiros r ON m.retiro_id = r.id JOIN usuarios u ON m.responsavel_id = u.id LEFT JOIN obitos o ON o.movimentacao_id = m.id LEFT JOIN nascimentos n ON n.movimentacao_id = m.id LEFT JOIN transferencias t ON t.movimentacao_id = m.id LEFT JOIN compravendas cv ON cv.movimentacao_id = m.id WHERE m.sync_status = 'sincronizado' AND m.retiro_id = $1 AND date(m.data_movimentacao) BETWEEN date($2) AND date($3) ORDER BY m.data_movimentacao ASC;` |
-| **Proposições lógicas** | $A$: a movimentação já foi sincronizada com o servidor (`sync_status = 'sincronizado'`) <br> $B$: a movimentação pertence ao retiro selecionado pelo coordenador (`retiro_id = $1`) <br> $C$: a data da movimentação está dentro do intervalo de exportação (`data_movimentacao BETWEEN $2 AND $3`) |
+| **Proposições lógicas** | $A$: a movimentação já foi sincronizada com o servidor (`sync_status = 'sincronizado'`) <br> $B$: a movimentação pertence ao retiro selecionado pelo Coordenador (`retiro_id = $1`) <br> $C$: a data da movimentação está dentro do intervalo de exportação (`data_movimentacao BETWEEN $2 AND $3`) |
 | **Expressão lógica proposicional** | $A \land B \land C$ |
 
 | $A$ | $B$ | $C$ | $A \land B$ | $A \land B \land C$ |
@@ -2964,7 +3026,7 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 
 [2] REVISTA DE GESTÃO E PROJETOS — GeP. Gestão de riscos em projetos: uma análise comparativa da norma ISO 31000 e o Guia PMBOK®, 2012. Revista de Gestão e Projetos — GeP, São Paulo, v. 4, n. 3, p. 46–72, set./dez. 2013. Disponível em: https://www.bibliotecadeseguranca.com.br/wp-content/uploads/2020/05/gerenciamento-de-riscos-em-projetos-uma-comparacao-entre-o-pmbok-e-a-iso-31000.pdf. Acesso em: 29 abr. 2026.
 
-[3] PORTAL SALÁRIO. Gerente de Produção e Operações Agropecuárias - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/gerente-de-producao-e-operacoes-agropecuarias-cbo-141115/. Acesso em: 28 abr. 2026.
+[3] PORTAL SALÁRIO. gerente de Produção e Operações Agropecuárias - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/gerente-de-producao-e-operacoes-agropecuarias-cbo-141115/. Acesso em: 28 abr. 2026.
 
 [4] COSGROVE, J.; CACHIA, R. DigComp 3.0: European Digital Competence Framework. 5. ed. Luxembourg: Publications Office of the European Union, 2025. Disponível em: https://data.europa.eu/doi/10.2760/0001149. Acesso em: 28 abr. 2026.
 
@@ -2972,9 +3034,9 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 
 [6] CONFEDERAÇÃO DA AGRICULTURA E PECUÁRIA DO BRASIL. Conheça as 4 carreiras mais quentes do agronegócio brasileiro. CNA Brasil, [S.d.]. Disponível em: https://www.cnabrasil.org.br/noticias/conheca-as-4-carreiras-mais-quentes-do-agronegocio-brasileiro. Acesso em: 28 abr. 2026.
 
-[7] PORTAL SALÁRIO. Capataz na Pecuária - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/capataz-na-pecuaria-cbo-620115/. Acesso em: 28 abr. 2026.
+[7] PORTAL SALÁRIO. capataz na Pecuária - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/capataz-na-pecuaria-cbo-620115/. Acesso em: 28 abr. 2026.
 
-[8] BRASIL. Ministério do Trabalho e Emprego. Classificação Brasileira de Ocupações (CBO): Capataz na Agropecuária - CBO 6210-05. [S.d.]. Disponível em: https://www.mtecbo.gov.br. Acesso em: 28 abr. 2026.
+[8] BRASIL. Ministério do Trabalho e Emprego. Classificação Brasileira de Ocupações (CBO): capataz na Agropecuária - CBO 6210-05. [S.d.]. Disponível em: https://www.mtecbo.gov.br. Acesso em: 28 abr. 2026.
 
 [9] MACHADO, João Guilherme de Camargo Ferraz; NANTES, José Flávio Diniz. Adoção da tecnologia da informação em organizações rurais: o caso da pecuária de corte. Gestão & Produção, São Carlos, v. 18, n. 3, p. 555-570, 2011. Disponível em: https://www.scielo.br/j/gp/a/cwVwLsPgq8FBq5kvgXZPpLQ/. Acesso em: 28 abr. 2026.
 
