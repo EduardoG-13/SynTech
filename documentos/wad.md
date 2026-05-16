@@ -2259,7 +2259,7 @@ Além disso, uma funcionalidade crítica desta tela é a linha do tempo (histór
 
 A Figura 16 ilustra a Interface Principal (Dashboard) destinada aos perfis de Gerente e Coordenador, desenvolvida com design responsivo para dispositivos móveis e desktop, onde esta tela funciona como o núcleo centralizador para o monitoramento e a tomada de decisões na fazenda. 
 
-Os indicadores do painel central oferecem uma visão macro e em tempo real das operações, permitindo acesso rápido aos chamados por retiro, com a distribuição volumétrica das demandas de manutenção entre as 14 áreas da propriedade, à evolução dos chamados, através de gráficos ou métricas que demonstram o ritmo de abertura e fechamento de ordens de serviço, aos alertas em aberto, com notificações críticas que exigem atenção imediata da gestão, e às prioridades, que trazem uma lista consolidada das tarefas mais urgentes em execução no campo. 
+Os indicadores do painel central oferecem uma visão macro e em tempo real das operações, permitindo acesso rápido aos chamados por retiro, com a distribuição volumétrica das demandas de manutenção entre as áreas da propriedade, à evolução dos chamados, através de gráficos ou métricas que demonstram o ritmo de abertura e fechamento de ordens de serviço, aos alertas em aberto, com notificações críticas que exigem atenção imediata da gestão, e às prioridades, que trazem uma lista consolidada das tarefas mais urgentes em execução no campo. 
 
 No menu de navegação lateral (desktop) / atalhos, posicionado no canto esquerdo da interface, destacam-se abas estruturadas para navegação direta nas seguintes verticais: retiros, para detalhamento de estoque de rebanho e infraestrutura local; ordens, para a gestão e distribuição de novas Ordens de Serviço; e alertas, consistindo em um painel dedicado à triagem de ocorrências críticas, atendendo a (US07).
 
@@ -2270,85 +2270,28 @@ No menu de navegação lateral (desktop) / atalhos, posicionado no canto esquerd
 </center>
 
 #### Nova O.S.:
-A Figura 17 ilustra a interface unificada de Abertura de Demandas, utilizada pelo Gerente para delegar atividades tanto para a equipe de manutenção quanto para os capatazes de campo, adotando o padrão de design responsivo para dispositivos móveis e desktop. 
+A Figura 14 (citada anteriormente) ilustra a interface unificada de Abertura de Demandas, utilizada pelo Gerente para delegar atividades tanto para a equipe de manutenção quanto para os capatazes de campo, adotando o padrão de design responsivo para dispositivos móveis e desktop. 
 
 No fluxo de seleção de tipo, ao acessar o painel, o gestor pode alternar entre duas verticais de trabalho, sendo elas a de infraestrutura, para manutenção Hidráulica, Cerca ou Elétrica, e a de operações de manejo, para demandas zootécnicas direcionadas diretamente aos capatazes, tais como Movimentação de Rebanho, Registro de Óbito, entre outras. 
 
 Para garantir o direcionamento correto e a clareza da atividade, os campos e parâmetros de cadastro oferecem recursos como o nível de prioridade, para atribuição de urgência para organizar a fila de trabalho em campo, o prazo limite, definindo a data esperada para a conclusão do serviço, o detalhamento descritivo, em um campo de texto livre para detalhar as especificações da tarefa, e os recursos multimídia, trazendo a opção para anexar áudios (com instruções gravadas por voz) e imagens/fotos de referência, eliminando qualquer ambiguidade na comunicação entre o escritório e o campo, atendendo a (US01), (US06) e (US07).
-
-<center>
-  <p><strong>Figura 17</strong> — Wireframe da tela de criação de nova O.S. pelo Gerente (US01), (US06) e (US07)</p>
-  <img src="./assets/wireframeGerenteNovaOs.png" width="800"/>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
 
 ---
 
 ### Fluxo 4 — Coordenador: visualizar movimentações e exportar dados consolidados (US11, US12)
 #### Dashboard inicial:
 
-A Interface Principal (Dashboard) destinada aos perfis de Gerente e Coordenador, desenvolvida com design responsivo para dispositivos móveis e desktop, funciona como o núcleo centralizador para o monitoramento e a tomada de decisões na fazenda. Ela foi descrita anteriormente, no fluxo 3, na parte de "Dashboard inicial". O wireframe foi apresentado na Figura 16.
-
+A Interface Principal (Dashboard) destinada aos perfis de Gerente e Coordenador, desenvolvida com design responsivo para dispositivos móveis e desktop, funciona como o núcleo centralizador para o monitoramento e a tomada de decisões na fazenda. Ela foi descrita anteriormente, no fluxo 3, na parte de "Dashboard inicial". O respectivo wireframe foi apresentado na Figura 16.
 
 #### Tela de movimentações (boletas digitais):
 
-A Figura 18 ilustra a tela de movimentações, que constitui o ponto de entrada do Coordenador no sistema, substituindo o processo manual de recepção e transcrição de boletas de papel. A interface foi projetada em design responsivo para uso em desktop e dispositivos móveis, permitindo ao Coordenador acessar, revisar e validar os registros enviados pelos Capatazes após a sincronização.
+A Figura 17, ilustra a tela de movimentações. A interface foi projetada em design responsivo para uso em desktop e dispositivos móveis, permitindo ao Coordenador acessar, revisar e validar os registros enviados pelos Capatazes após a sincronização.
 
-Na parte central da tela, é exibida uma lista consolidada de todas as movimentações zootécnicas registradas, contendo as informações essenciais de cada evento: tipo de movimentação (nascimento, óbito, transferência ou compra/venda), retiro de origem, categoria animal, quantidade, data do registro e Capataz responsável (US11). Cada linha da lista é clicável, direcionando o Coordenador à tela de detalhes da movimentação.
-
-Para facilitar a gestão dos registros, a interface disponibiliza filtros por retiro, tipo de evento e período (data inicial e data final), permitindo que o Coordenador isole rapidamente os registros de interesse. Indicadores visuais na parte superior da tela apresentam um resumo quantitativo das movimentações por tipo de evento, oferecendo uma visão macro do fluxo zootécnico recente.
-
-<center>
-  <p><strong>Figura 18</strong> — Wireframe da tela de lista de movimentações do Coordenador (US11)</p>
-  <img src="./assets/wireframeListaDeBoletos.png" width="800"/>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
-#### Detalhes da movimentação:
-
-Ao selecionar uma movimentação na lista, o Coordenador é direcionado à tela de detalhes, que exibe todas as informações do registro: tipo de evento, retiro, categoria animal, quantidade, data e hora, Capataz responsável, além das evidências anexadas (fotografias georreferenciadas, quando aplicável). Essa tela permite ao Coordenador verificar a consistência e a completude dos dados antes da consolidação final, garantindo que os registros estejam corretos e prontos para exportação (US11).
-
-A visualização das evidências fotográficas, especialmente nos registros de óbito, atende à exigência de auditoria e controle sanitário da fazenda, assegurando a rastreabilidade documental de cada evento zootécnico registrado no campo.
-
-#### Exportação de dados consolidados:
-
-Na tela de movimentações, o Coordenador dispõe de um botão de exportação posicionado de forma destacada na interface, permitindo gerar e baixar um arquivo em formato Excel/CSV contendo os registros filtrados (US12). A exportação respeita a estrutura de colunas padronizada e compatível com os templates legados utilizados pela coordenação da BrPec, contemplando: data, retiro, tipo de evento, categoria animal, quantidade e Capataz responsável.
-
-O sistema gera o arquivo com codificação adequada (UTF-8 com BOM) e delimitação de campos compatível com o Microsoft Excel, preservando a acentuação e evitando erros de importação. O Coordenador pode aplicar filtros de retiro, tipo de evento e período antes da exportação, garantindo que o arquivo gerado contenha exclusivamente os dados de interesse para a consolidação nos controles centrais da empresa.
-
-Essa funcionalidade elimina o processo de redigitação manual de boletas de papel em planilhas eletrônicas, reduzindo o tempo operacional, os erros de transcrição e o retrabalho, conforme identificado como necessidade prioritária na análise do problema.
-
-<center>
-  <p><strong>Figura 18</strong> — Wireframe da tela de dashboard do Coordenador com opção de exportação (US12)</p>
-  <img src="./assets/wireframeGerenteCoordenadorDashboard.png" width="800"/>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
-
-### Coordenador:
-#### Visualizar boletas:
-<center>
-  <p><strong>Figura 14</strong> — Wireframe da tela de lista de boletos</p>
-  <img src="./assets/wireframeListaDeBoletos.png" width="800"/>
-  <p><strong>Figura 16</strong> — Wireframe da tela de dashboard do Gerente (US07)</p>
-  <img src="./assets/wireframeGerenteDashboard.png" width="800"/>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
-O dashboard do Gerente consolida o status de todas as tarefas e alertas por retiro (US07). As tarefas são agrupadas por status (pendente, em andamento, concluída) e os alertas de infraestrutura aparecem em seção destacada. A partir do painel, o Gerente pode navegar para a criação de uma nova Ordem de Serviço.
-
----
-
-### Fluxo 4 — Coordenador: visualizar movimentações e exportar dados consolidados (US11, US12)
-
-### Coordenador:
-#### Tela de movimentações (boletas digitais):
-
-A tela de movimentações constitui o ponto de entrada do Coordenador no sistema, substituindo o processo manual de recepção e transcrição de boletas de papel. A interface foi projetada em design responsivo para uso em desktop e dispositivos móveis, permitindo ao Coordenador acessar, revisar e validar os registros enviados pelos Capatazes após a sincronização.
-
-Na parte central da tela, é exibida uma lista consolidada de todas as movimentações zootécnicas registradas, contendo as informações essenciais de cada evento: tipo de movimentação (nascimento, óbito, transferência ou compra/venda), retiro de origem, categoria animal, quantidade, data do registro e Capataz responsável (US11). Cada linha da lista é clicável, direcionando o Coordenador à tela de detalhes da movimentação.
+Na parte central da tela, é exibida uma lista consolidada de todos os retiros, sendo possível, ao clicar em um deles, visualizar os detalhes das movimentações zootécnicas registradas, contendo as informações essenciais de cada evento: tipo de movimentação (nascimento, óbito, transferência ou compra/venda), retiro de origem, categoria animal, quantidade, data do registro e Capataz responsável (US11).
 
 Para facilitar a gestão dos registros, a interface disponibiliza filtros por retiro, tipo de evento e período (data inicial e data final), permitindo que o Coordenador isole rapidamente os registros de interesse. Indicadores visuais na parte superior da tela apresentam um resumo quantitativo das movimentações por tipo de evento, oferecendo uma visão macro do fluxo zootécnico recente.
+
+Além disso, o Coordenador dispõe de um botão de exportação posicionado de forma destacada na interface, permitindo gerar e baixar um arquivo em formato Excel/CSV contendo os registros filtrados (US12). A exportação respeita a estrutura de colunas padronizada e compatível com os templates legados utilizados pela coordenação da BrPec, contemplando: data, retiro, tipo de evento, categoria animal, quantidade e Capataz responsável.
 
 <center>
   <p><strong>Figura 17</strong> — Wireframe da tela de lista de movimentações do Coordenador (US11)</p>
@@ -2356,25 +2299,6 @@ Para facilitar a gestão dos registros, a interface disponibiliza filtros por re
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-#### Detalhes da movimentação:
-
-Ao selecionar uma movimentação na lista, o Coordenador é direcionado à tela de detalhes, que exibe todas as informações do registro: tipo de evento, retiro, categoria animal, quantidade, data e hora, Capataz responsável, além das evidências anexadas (fotografias georreferenciadas, quando aplicável). Essa tela permite ao Coordenador verificar a consistência e a completude dos dados antes da consolidação final, garantindo que os registros estejam corretos e prontos para exportação (US11).
-
-A visualização das evidências fotográficas, especialmente nos registros de óbito, atende à exigência de auditoria e controle sanitário da fazenda, assegurando a rastreabilidade documental de cada evento zootécnico registrado no campo.
-
-#### Exportação de dados consolidados:
-
-Na tela de movimentações, o Coordenador dispõe de um botão de exportação posicionado de forma destacada na interface, permitindo gerar e baixar um arquivo em formato Excel/CSV contendo os registros filtrados (US12). A exportação respeita a estrutura de colunas padronizada e compatível com os templates legados utilizados pela coordenação da BrPec, contemplando: data, retiro, tipo de evento, categoria animal, quantidade e Capataz responsável.
-
-O sistema gera o arquivo com codificação adequada (UTF-8 com BOM) e delimitação de campos compatível com o Microsoft Excel, preservando a acentuação e evitando erros de importação. O Coordenador pode aplicar filtros de retiro, tipo de evento e período antes da exportação, garantindo que o arquivo gerado contenha exclusivamente os dados de interesse para a consolidação nos controles centrais da empresa.
-
-Essa funcionalidade elimina o processo de redigitação manual de boletas de papel em planilhas eletrônicas, reduzindo o tempo operacional, os erros de transcrição e o retrabalho, conforme identificado como necessidade prioritária na análise do problema.
-
-<center>
-  <p><strong>Figura 18</strong> — Wireframe da tela de dashboard do Coordenador com opção de exportação (US12)</p>
-  <img src="./assets/wireframeGerenteCoordenadorDashboard.png" width="800"/>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
 
 ## 3.4. Guia de estilos (sprint 3)
 
@@ -2434,7 +2358,7 @@ Este diagrama registra a estrutura de dados concebida na sprint 2, com a Boleta 
 A seção 3.6.1 apresenta a versão conceitual consolidada após a evolução deste DER: a Boleta deixa de ser uma entidade isolada e passa a ser materializada pelos registros de Movimentação, Tarefa, Alerta e Evidência. Essa decisão separou melhor as responsabilidades de cada entidade e eliminou atributos que não são pertinentes a todos os tipos de evento.
 
 <center>
-  <p><strong>Figura 20</strong> — DER conceitual da sprint 2 — BRPec Agropecuária</p>
+  <p><strong>Figura 18</strong> — DER conceitual da sprint 2 — BRPec Agropecuária</p>
 </center>
 
 <img src="./assets/modelo-er-brpec.png" width="800"/>
@@ -2470,7 +2394,7 @@ A evolução conceitual está apresentada nas seções 3.6.1 e 3.6.2. Nesta seç
 | `sync_queue`     | `id`           | —                                                          | Fila técnica de sincronização offline-online    |
 
 <center>
-  <p><strong>Figura 21</strong> — Modelo Relacional</p>
+  <p><strong>Figura 19</strong> — Modelo Relacional</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
