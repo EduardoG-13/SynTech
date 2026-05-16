@@ -929,6 +929,72 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 
 ---
 
+<center>
+  <p><strong>Quadro 11</strong> — User Story 11</p>
+</center>
+
+| Campo                    | Descrição                                                                                                                                                                                                                                                                                                                    |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Identificação**        | US11                                                                                                                                                                                                                                                                                                                         |
+| **Persona**              | Marcos Cesar Filho (Coordenador)                                                                                                                                                                                                                                                                                             |
+| **User Story**           | Como Coordenador, posso visualizar as movimentações zootécnicas registradas pelos Capatazes, organizadas por retiro e tipo de evento, para validar os dados antes da consolidação final sem depender de boletas de papel                                                                                                      |
+| **Critério de Aceite 1** | CR1: Dado que Marcos acessa o painel de movimentações, quando a tela é carregada, então são exibidas todas as movimentações sincronizadas pelos Capatazes, com identificação do tipo de evento (nascimento, óbito, transferência, compra/venda), retiro de origem, data e Capataz responsável                                 |
+| **Critério de Aceite 2** | CR2: Dado que existem movimentações de múltiplos retiros, quando Marcos aplica um filtro por retiro ou por tipo de evento, então o sistema deve exibir apenas os registros correspondentes ao critério selecionado                                                                                                            |
+| **Critério de Aceite 3** | CR3: Dado que Marcos seleciona uma movimentação específica, quando acessar os detalhes, então o sistema deve exibir todas as informações do registro, incluindo evidências fotográficas anexadas pelo Capataz, quando aplicável                                                                                               |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+### Critérios INVEST
+
+**Independente:** Pode ser implementada sem depender da exportação de dados
+
+**Negociável:** Campos exibidos e forma de organização podem ser ajustados conforme necessidade do Coordenador
+
+**Valorosa:** Permite validação rápida dos registros de campo sem necessidade de boletas físicas
+
+**Estimável:** Escopo claro de consulta e exibição de movimentações sincronizadas
+
+**Pequena:** Foco apenas na visualização e filtragem de movimentações
+
+**Testável:** Possível validar exibição, filtragem e detalhamento dos registros
+
+---
+
+<center>
+  <p><strong>Quadro 12</strong> — User Story 12</p>
+</center>
+
+| Campo                    | Descrição                                                                                                                                                                                                                                                                                                               |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Identificação**        | US12                                                                                                                                                                                                                                                                                                                    |
+| **Persona**              | Marcos Cesar Filho (Coordenador)                                                                                                                                                                                                                                                                                        |
+| **User Story**           | Como Coordenador, posso exportar os dados consolidados das movimentações zootécnicas em formato Excel/CSV, para alimentar os controles centrais da empresa sem necessidade de redigitação manual                                                                                                                         |
+| **Critério de Aceite 1** | CR1: Dado que Marcos está no painel de movimentações, quando clicar no botão de exportação, então o sistema deve gerar um arquivo em formato Excel/CSV contendo todos os registros filtrados, com colunas padronizadas (data, retiro, tipo de evento, categoria animal, quantidade, Capataz responsável)                  |
+| **Critério de Aceite 2** | CR2: Dado que o arquivo foi gerado, quando Marcos abrir o arquivo no Excel, então os dados devem estar corretamente formatados, com acentuação preservada e campos delimitados de forma compatível com os templates legados utilizados pela coordenação                                                                  |
+| **Critério de Aceite 3** | CR3: Dado que Marcos deseja exportar dados de um período específico, quando aplicar filtros de data e retiro antes da exportação, então o arquivo gerado deve conter exclusivamente os registros correspondentes ao período e retiro selecionados                                                                        |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+### Critérios INVEST
+
+**Independente:** Pode ser implementada separadamente da visualização de movimentações
+
+**Negociável:** Formato do arquivo e colunas exportadas podem ser ajustados conforme templates da empresa
+
+**Valorosa:** Elimina a redigitação manual de dados e reduz erros de transcrição
+
+**Estimável:** Escopo claro de geração e download de arquivo estruturado
+
+**Pequena:** Foco apenas na exportação de dados consolidados
+
+**Testável:** Possível validar geração do arquivo, formatação e compatibilidade com Excel
+
+---
+
 # <a name="c3"></a>3. Projeto da Aplicação Web (sprints 1 a 5)
 
 ## 3.1. Requisitos do Sistema (sprints 1 a 5)
@@ -2103,8 +2169,6 @@ Os fluxos de navegação estão organizados em quatro jornadas principais:
 ---
 
 ### Fluxo 1 — Capataz: visualizar e concluir tarefas com evidências (US02, US03, US04)
-
-### Capataz:
 #### Tela de Tarefas:
 Este wireframe (figura 10) representa a interface destinada ao Capataz, com design responsivo adaptado para dispositivos móveis (parte da esquerda) e desktop (parte da direita). 
 
@@ -2147,8 +2211,6 @@ Por fim, para o encerramento, o botão "Salvar" consolida as informações, e de
 ---
 
 ### Fluxo 2 — Capataz, Coordenador e Técnico: emitir e resolver alertas de infraestrutura (US06)
-
-### Infraestrutura:
 #### Tela Infraestrutura:
 
 A Figura 13 apresenta a interface de Gestão de Infraestrutura, onde o Gerente e o Capataz podem monitorar e organizar as manutenções da fazenda (US06) e (US07), com uma tela que segue o padrão de design responsivo para uso em dispositivos móveis e desktop. 
@@ -2193,39 +2255,80 @@ Além disso, uma funcionalidade crítica desta tela é a linha do tempo (histór
 ---
 
 ### Fluxo 3 — Gerente: acompanhar painel e criar ordens de serviço (US07, US01)
-
-### Coordenador e Gerente:
 #### Dashboard inicial:
 
-A Figura 15 ilustra a Interface Principal (Dashboard) destinada aos perfis de Gerente e Coordenador, desenvolvida com design responsivo para dispositivos móveis e desktop, onde esta tela funciona como o núcleo centralizador para o monitoramento e a tomada de decisões na fazenda. 
+A Figura 16 ilustra a Interface Principal (Dashboard) destinada aos perfis de Gerente e Coordenador, desenvolvida com design responsivo para dispositivos móveis e desktop, onde esta tela funciona como o núcleo centralizador para o monitoramento e a tomada de decisões na fazenda. 
 
 Os indicadores do painel central oferecem uma visão macro e em tempo real das operações, permitindo acesso rápido aos chamados por retiro, com a distribuição volumétrica das demandas de manutenção entre as 14 áreas da propriedade, à evolução dos chamados, através de gráficos ou métricas que demonstram o ritmo de abertura e fechamento de ordens de serviço, aos alertas em aberto, com notificações críticas que exigem atenção imediata da gestão, e às prioridades, que trazem uma lista consolidada das tarefas mais urgentes em execução no campo. 
 
-No menu de navegação lateral (desktop) / atalhos, posicionado no canto esquerdo da interface, destacam-se abas estruturadas para navegação direta nas seguintes verticais: retiros, para detalhamento de estoque de rebanho e infraestrutura local; ordens, para a gestão e distribuição de novas Ordens de Serviço; e alertas, consistindo em um painel dedicado à triagem de ocorrências críticas.
+No menu de navegação lateral (desktop) / atalhos, posicionado no canto esquerdo da interface, destacam-se abas estruturadas para navegação direta nas seguintes verticais: retiros, para detalhamento de estoque de rebanho e infraestrutura local; ordens, para a gestão e distribuição de novas Ordens de Serviço; e alertas, consistindo em um painel dedicado à triagem de ocorrências críticas, atendendo a (US07).
 
 <center>
-  <p><strong>Figura 15</strong> — Wireframe da tela de dashboard do Gerente — lista de chamados (US06) e do Coordenador</p>
+  <p><strong>Figura 16</strong> — Wireframe da tela de dashboard do Gerente e Coordenador (US07)</p>
   <img src="./assets/wireframeGerenteCoordenadorDashboard.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 #### Nova O.S.:
-A tela de infraestrutura exibe os chamados de manutenção em aberto. O Gerente pode registrar um novo alerta informando o tipo de problema (cerca, bebedouro, hidráulica, elétrica), a localização e uma descrição (US06). O técnico de infraestrutura visualiza os chamados atribuídos a ele nesta mesma lista.
+A Figura 14 ilustra a interface unificada de Abertura de Demandas, utilizada pelo Gerente para delegar atividades tanto para a equipe de manutenção quanto para os capatazes de campo, adotando o padrão de design responsivo para dispositivos móveis e desktop. 
 
+No fluxo de seleção de tipo, ao acessar o painel, o gestor pode alternar entre duas verticais de trabalho, sendo elas a de infraestrutura, para manutenção Hidráulica, Cerca ou Elétrica, e a de operações de manejo, para demandas zootécnicas direcionadas diretamente aos capatazes, tais como Movimentação de Rebanho, Registro de Óbito, entre outras. 
 
-### Gerente
-#### Wireframe da tela de novsa O.S.:
+Para garantir o direcionamento correto e a clareza da atividade, os campos e parâmetros de cadastro oferecem recursos como o nível de prioridade, para atribuição de urgência para organizar a fila de trabalho em campo, o prazo limite, definindo a data esperada para a conclusão do serviço, o detalhamento descritivo, em um campo de texto livre para detalhar as especificações da tarefa, e os recursos multimídia, trazendo a opção para anexar áudios (com instruções gravadas por voz) e imagens/fotos de referência, eliminando qualquer ambiguidade na comunicação entre o escritório e o campo, atendendo a (US01), (US06) e (US07).
+
 <center>
-  <p><strong>Figura 14</strong> — Wireframe da tela de detalhe do chamado (US06)</p>
-  <img src="./assets/wireframeDetalheDoChamado.png" width="800"/>
+  <p><strong>Figura 14</strong> — Wireframe da tela de criação de nova O.S. pelo Gerente (US01), (US06) e (US07)</p>
+  <img src="./assets/wireframeGerenteNovaOs.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-A tela de detalhe do chamado apresenta as informações completas do alerta: tipo de problema, localização, data de abertura, Capataz responsável pela emissão e status atual. A partir desta tela, o técnico de infraestrutura acessa a opção de registrar a resolução.
-
 ---
 
-### Fluxo 3 — Gerente: acompanhar painel e criar ordens de serviço (US07, US01)
+### Fluxo 4 — Coordenador: visualizar movimentações e exportar dados consolidados (US11, US12)
+#### Dashboard inicial:
+
+A Figura 15 ilustra a Interface Principal (Dashboard) destinada aos perfis de Gerente e Coordenador, desenvolvida com design responsivo para dispositivos móveis e desktop, onde esta tela funciona como o núcleo centralizador para o monitoramento e a tomada de decisões na fazenda. Ela foi descrita anteriormente, no fluxo 3, na parte de "Dashboard inicial". Wireframe foi nomeado por "Figura 15".
+
+<center>
+  <p><strong>Figura 15</strong> — Wireframe da tela de registrar resolução- infraestrutura</p>
+  <img src="./assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+
+#### Tela de movimentações (boletas digitais):
+
+A Figura 17, ilustra a tela de movimentações, que constitui o ponto de entrada do Coordenador no sistema, substituindo o processo manual de recepção e transcrição de boletas de papel. A interface foi projetada em design responsivo para uso em desktop e dispositivos móveis, permitindo ao Coordenador acessar, revisar e validar os registros enviados pelos Capatazes após a sincronização.
+
+Na parte central da tela, é exibida uma lista consolidada de todas as movimentações zootécnicas registradas, contendo as informações essenciais de cada evento: tipo de movimentação (nascimento, óbito, transferência ou compra/venda), retiro de origem, categoria animal, quantidade, data do registro e Capataz responsável (US11). Cada linha da lista é clicável, direcionando o Coordenador à tela de detalhes da movimentação.
+
+Para facilitar a gestão dos registros, a interface disponibiliza filtros por retiro, tipo de evento e período (data inicial e data final), permitindo que o Coordenador isole rapidamente os registros de interesse. Indicadores visuais na parte superior da tela apresentam um resumo quantitativo das movimentações por tipo de evento, oferecendo uma visão macro do fluxo zootécnico recente.
+
+<center>
+  <p><strong>Figura 17</strong> — Wireframe da tela de lista de movimentações do Coordenador (US11)</p>
+  <img src="./assets/wireframeListaDeBoletos.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+#### Detalhes da movimentação:
+
+Ao selecionar uma movimentação na lista, o Coordenador é direcionado à tela de detalhes, que exibe todas as informações do registro: tipo de evento, retiro, categoria animal, quantidade, data e hora, Capataz responsável, além das evidências anexadas (fotografias georreferenciadas, quando aplicável). Essa tela permite ao Coordenador verificar a consistência e a completude dos dados antes da consolidação final, garantindo que os registros estejam corretos e prontos para exportação (US11).
+
+A visualização das evidências fotográficas, especialmente nos registros de óbito, atende à exigência de auditoria e controle sanitário da fazenda, assegurando a rastreabilidade documental de cada evento zootécnico registrado no campo.
+
+#### Exportação de dados consolidados:
+
+Na tela de movimentações, o Coordenador dispõe de um botão de exportação posicionado de forma destacada na interface, permitindo gerar e baixar um arquivo em formato Excel/CSV contendo os registros filtrados (US12). A exportação respeita a estrutura de colunas padronizada e compatível com os templates legados utilizados pela coordenação da BrPec, contemplando: data, retiro, tipo de evento, categoria animal, quantidade e Capataz responsável.
+
+O sistema gera o arquivo com codificação adequada (UTF-8 com BOM) e delimitação de campos compatível com o Microsoft Excel, preservando a acentuação e evitando erros de importação. O Coordenador pode aplicar filtros de retiro, tipo de evento e período antes da exportação, garantindo que o arquivo gerado contenha exclusivamente os dados de interesse para a consolidação nos controles centrais da empresa.
+
+Essa funcionalidade elimina o processo de redigitação manual de boletas de papel em planilhas eletrônicas, reduzindo o tempo operacional, os erros de transcrição e o retrabalho, conforme identificado como necessidade prioritária na análise do problema.
+
+<center>
+  <p><strong>Figura 18</strong> — Wireframe da tela de dashboard do Coordenador com opção de exportação (US12)</p>
+  <img src="./assets/wireframeGerenteCoordenadorDashboard.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 
 ### Coordenador:
