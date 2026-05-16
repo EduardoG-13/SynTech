@@ -387,7 +387,7 @@ Personas são, de forma resumida, representaçôes fictícia dos diferentes tipo
 
 - Nome e sobrenome: João Pereira;
 - Idade: 40 anos [3];
-- Cargo: Gerente geral na BrPec Agropecuária S.A.;
+- Cargo: gerente geral na BrPec Agropecuária S.A.;
 - Estado Civil: Casado;
 - Localização: Miranda-MS;
 - Escolaridade: Pós-graduado em veterinária.
@@ -454,7 +454,7 @@ Informações extras:
 #### Notas e Justificativas:
 
 **Idade e perfil do cargo:**
-A faixa etária de 40 anos foi baseada no perfil médio do Gerente de Produção e Operações Agropecuárias (CBO 1411-15), que aponta 40 anos como idade mais recorrente segundo o Portal Salário a partir de dados do CAGED. Além disso, outras informações sobre o perfil do foram baseadas a partir dessa fonte [3].
+A faixa etária de 40 anos foi baseada no perfil médio do gerente de Produção e Operações Agropecuárias (CBO 1411-15), que aponta 40 anos como idade mais recorrente segundo o Portal Salário a partir de dados do CAGED. Além disso, outras informações sobre o perfil do foram baseadas a partir dessa fonte [3].
 
 **Framework de Competência Digital - DigComp 3.0:**
 Os níveis de familiaridade com tecnologia foram classificados seguindo o DigComp 3.0, framework europeu de competência digital desenvolvido pelo Joint Research Centre da Comissão Europeia. Ele define quatro níveis de proficiência (Basic, Intermediate, Advanced e Highly Advanced) com base na complexidade das tarefas executadas e no grau de autonomia do indivíduo [4].
@@ -484,7 +484,7 @@ João se comunica com supervisores e coordenadores frequentemente, mas essa comu
 
 - Nome e sobrenome: Marcos Cesar Filho;
 - Idade: 35 anos;
-- Cargo: Coordenador na BrPec Agropecuária S.A.;
+- Cargo: coordenador na BrPec Agropecuária S.A.;
 - Estado Civil: Solteiro;
 - Localização: Miranda- MS;
 - Escolaridade: Pós-graduado em administração [6].
@@ -574,7 +574,7 @@ Sua rotina começa organizando as boletas vindas dos capatazes. Assim, ele tenta
 
 - Nome e sobrenome: Gabriel Galdino;
 - Idade: 33 anos [7];
-- Cargo: Capataz na BrPec Agropecuária S.A. [8];
+- Cargo: capataz na BrPec Agropecuária S.A. [8];
 - Estado Civil: Casado;
 - Localização: Aquidauana (MS) – Atua em retiros na região do Pantanal;
 - Escolaridade: Ensino Fundamental completo;
@@ -648,11 +648,11 @@ Informações extras:
 
 #### Notas e Justificativas:
 
-**Idade e perfil salarial do Capataz:**  
-A faixa etária de 33 anos foi baseada no perfil médio de trabalhadores que ocupam o cargo de Capataz na pecuária, conforme levantamento disponível no site consultado [7].
+**Idade e perfil salarial do capataz:**  
+A faixa etária de 33 anos foi baseada no perfil médio de trabalhadores que ocupam o cargo de capataz na pecuária, conforme levantamento disponível no site consultado [7].
 
-**Descrição do cargo de Capataz:**  
-As atribuições descritas, como exemplo a administração de mão de obra ou o controle do rebanho, estão alinhadas com a Classificação Brasileira de Ocupações (CBO), que define formalmente as competências e atividades do Capataz na agropecuária [8].
+**Descrição do cargo de capataz:**  
+As atribuições descritas, como exemplo a administração de mão de obra ou o controle do rebanho, estão alinhadas com a Classificação Brasileira de Ocupações (CBO), que define formalmente as competências e atividades do capataz na agropecuária [8].
 
 **Baixa familiaridade com tecnologias digitais na pecuária:**  
 A pesquisa acadêmica publicada na SciELO expõe a dificuldade de adoção de tecnologias por trabalhadores rurais na pecuária. O estudo aponta que características individuais como formação profissional e a posição ocupada dentro da propriedade influenciam diretamente a adoção ou rejeição de tecnologias, sendo a baixa escolaridade um fator determinante para a resistência ao uso de ferramentas digitais no campo [9].
@@ -662,9 +662,9 @@ Os níveis de familiaridade com tecnologia foram classificados seguindo o DigCom
 
 #### Biografia:
 
-Gabriel Galdino tem 33 anos e atua como Capataz na BrPec Agropecuária S.A, sendo responsável pela gestão do retiro da Barra Bonita. Sua rotina é voltada à execução das atividades operacionais, organização da equipe de vaqueiros e acompanhamento direto das demandas relacionadas ao rebanho. Com forte experiência prática no campo, coordena tarefas como movimentação de gado, manutenção de cercas e resolução de imprevistos. Também realiza registros básicos das atividades e comunica atualizações ao Coordenador.
+Gabriel Galdino tem 33 anos e atua como capataz na BrPec Agropecuária S.A, sendo responsável pela gestão do retiro da Barra Bonita. Sua rotina é voltada à execução das atividades operacionais, organização da equipe de vaqueiros e acompanhamento direto das demandas relacionadas ao rebanho. Com forte experiência prática no campo, coordena tarefas como movimentação de gado, manutenção de cercas e resolução de imprevistos. Também realiza registros básicos das atividades e comunica atualizações ao coordenador.
 
-Comprometido com o sustento da família e com o bom funcionamento do retiro, Gabriel é um profissional que se destaca ao ser um ótimo Capataz para seu retiro e comunidade. Apesar disso, enfrenta limitações no uso de ferramentas digitais e depende, em grande parte, de anotações informais e comunicação via rádio, o que dificulta o controle das informações e o acompanhamento das tarefas.
+Comprometido com o sustento da família e com o bom funcionamento do retiro, Gabriel é um profissional que se destaca ao ser um ótimo capataz para seu retiro e comunidade. Apesar disso, enfrenta limitações no uso de ferramentas digitais e depende, em grande parte, de anotações informais e comunicação via rádio, o que dificulta o controle das informações e o acompanhamento das tarefas.
 
 "Quando o bicho adoece ou a cerca arrebenta, não tem tempo de procurar papel, tem que resolver na hora. O que não ficou na cabeça, ficou perdido."
 
@@ -682,7 +682,7 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | **Persona**              | João Pereira (Gerente Geral)                                                                                                                                                             |
 | **User Story**           | Como Gerente geral, posso criar tarefas e atribuí-las a um retiro específico para organizar a rotina diária da equipe de campo e garantir que o planejamento seja executado corretamente |
 | **Critério de Aceite 1** | CR1: Dado que João acessa o sistema, quando cria uma tarefa e seleciona um retiro, então a tarefa deve ser salva corretamente vinculada ao retiro                                        |
-| **Critério de Aceite 2** | CR2: Dado que a tarefa foi criada, quando o sistema sincronizar, então ela deve ficar disponível para os capatazes responsáveis pelo retiro                                              |
+| **Critério de Aceite 2** | CR2: Dado que a tarefa foi criada, quando o sistema sincronizar, então ela deve ficar disponível para os Capatazes responsáveis pelo retiro                                              |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -863,8 +863,8 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | **Identificação**        | US07                                                                                                                                                                                                                                                       |
 | **Persona**              | João Pereira (Gerente)                                                                                                                                                                                                                                     |
 | **User Story**           | Como Gerente, posso visualizar um painel com o status de todas as tarefas e alertas em aberto, para priorizar a equipe de manutenção e garantir que as rotinas de campo sejam executadas conforme o planejamento                                           |
-| **Critério de Aceite 1** | CR1: Dado que João acessa o painel de acompanhamento, quando a tela é carregada, então são exibidas todas as tarefas atribuídas aos capatazes com seus respectivos status (pendente, em andamento, concluída), agrupadas por retiro ou Capataz responsável |
-| **Critério de Aceite 2** | CR2: Dado que um ou mais capatazes enviaram alertas ao Gerente, quando João visualiza o painel, então os alertas aparecem em seção destacada, com identificação do Capataz, do retiro e da data/hora de envio, ordenados do mais recente ao mais antigo    |
+| **Critério de Aceite 1** | CR1: Dado que João acessa o painel de acompanhamento, quando a tela é carregada, então são exibidas todas as tarefas atribuídas aos Capatazes com seus respectivos status (pendente, em andamento, concluída), agrupadas por retiro ou Capataz responsável |
+| **Critério de Aceite 2** | CR2: Dado que um ou mais Capatazes enviaram alertas ao Gerente, quando João visualiza o painel, então os alertas aparecem em seção destacada, com identificação do Capataz, do retiro e da data/hora de envio, ordenados do mais recente ao mais antigo    |
 | **Critério de Aceite 3** | CR3: Dado que um usuário com perfil diferente de Gerente tenta acessar o painel de acompanhamento, quando a requisição é feita, então o sistema nega o acesso e redireciona para a interface correspondente ao seu perfil                                  |
 
 <center>
@@ -1003,11 +1003,11 @@ O sistema a ser desenvolvido abrange a modernização do fluxo de informações 
 
 **Atores e Responsabilidades**
 
-- **Capatazes:** A aplicação é utilizada como ferramenta diária no campo, operando de modo offline. As tarefas designadas são visualizadas e o status é reportado mediante o envio de evidências (fotos, áudios e textos). Os eventos zootécnicos do retiro são registrados e alertas de infraestrutura são enviados aos gerentes.
+- **Capatazes:** A aplicação é utilizada como ferramenta diária no campo, operando de modo offline. As tarefas designadas são visualizadas e o status é reportado mediante o envio de evidências (fotos, áudios e textos). Os eventos zootécnicos do retiro são registrados e alertas de infraestrutura são enviados aos Gerentes.
 
-- **Gerentes:** As atividades calendarizadas são criadas, editadas, deletadas e designadas aos capatazes. A evolução e o status das tarefas em campo, bem como os alertas reportados, são monitorados por meio de um painel de acompanhamento.
+- **Gerentes:** As atividades calendarizadas são criadas, editadas, deletadas e designadas aos Capatazes. A evolução e o status das tarefas em campo, bem como os alertas reportados, são monitorados por meio de um painel de acompanhamento.
 
-- **Coordenadores:** As informações e movimentações enviadas pelos capatazes são visualizadas e validadas. Os dados consolidados são exportados em formato de planilha (Excel/CSV) para a atualização dos controles centrais da empresa, eliminando a necessidade de redigitação manual.
+- **Coordenadores:** As informações e movimentações enviadas pelos Capatazes são visualizadas e validadas. Os dados consolidados são exportados em formato de planilha (Excel/CSV) para a atualização dos controles centrais da empresa, eliminando a necessidade de redigitação manual.
 
 ### 3.1.1. Requisitos Funcionais (sprint 1, refinar até sprint 5)
 
@@ -1132,7 +1132,7 @@ No contexto do nosso projeto para a BrPec, esses requisitos são fundamentais, p
 **5. Segurança (Quem fez o quê?)**
 
 - **O que é:** Estabelece o princípio da integridade autoral e o rastreamento das submissões por meio de controles lógicos irrefutáveis.
-- **Explicação:** O sistema injeta algoritmicamente parâmetros de identificação nas requisições, vinculando todo o ciclo de vida dos dados aos identificadores dos capatazes e registrando carimbos de tempo sistêmicos invioláveis. Este controle de auditoria possibilita que os níveis de coordenação e gerência isolem responsabilidades, procedam com validações precisas e identifiquem com exatidão a procedência e a temporalidade das informações colhidas.
+- **Explicação:** O sistema injeta algoritmicamente parâmetros de identificação nas requisições, vinculando todo o ciclo de vida dos dados aos identificadores dos Capatazes e registrando carimbos de tempo sistêmicos invioláveis. Este controle de auditoria possibilita que os níveis de coordenação e gerência isolem responsabilidades, procedam com validações precisas e identifiquem com exatidão a procedência e a temporalidade das informações colhidas.
 
 **6. Capacidade (Adequação Funcional)**
 
@@ -1213,7 +1213,7 @@ UC02 — Distribuir tarefas por retiro (RF002)
 | Atores secundários | Não se aplica |
 | Pré-condições | Deve existir ao menos uma tarefa previamente cadastrada |
 | Fluxo principal | O Gerente associa a tarefa a um ou mais retiros, definindo responsáveis |
-| Pós-condições | A tarefa é atribuída e visível para execução pelos capatazes |
+| Pós-condições | A tarefa é atribuída e visível para execução pelos Capatazes |
 
 <center>
   <p><strong>Quadro 12</strong> — Caso de Uso UC02</p>
@@ -1457,7 +1457,7 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
 | editarTarefa()       | Tarefa       | Atualiza os dados de uma tarefa existente                           |
 | deletarTarefa()      | void         | Remove uma tarefa do sistema, desde que não esteja concluída        |
 | visualizarPainel()   | void         | Acessa o painel consolidado de status de tarefas e alertas (RF007)  |
-| visualizarAlertas()  | void         | Acessa os alertas de infraestrutura abertos pelos capatazes (RF006) |
+| visualizarAlertas()  | void         | Acessa os alertas de infraestrutura abertos pelos Capatazes (RF006) |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1720,9 +1720,9 @@ A escolha pelo SQLite no servidor fundamenta-se em três critérios: (i) suporte
 
 O IndexedDB é uma API de armazenamento local de baixo nível, padronizada pelo W3C, projetada para a persistência de volumes significativos de dados estruturados no navegador do cliente [22]. Trata-se de um banco de dados transacional não relacional (*NoSQL*), com suporte a índices sobre propriedades de objetos, que opera de forma inteiramente assíncrona para evitar o bloqueio da interface do usuário [22].
 
-No sistema BrPec, o IndexedDB é utilizado nos dispositivos móveis dos capatazes como camada de armazenamento local para as tarefas sincronizadas, evidências (fotos e áudios), registros de eventos zootécnicos e alertas de infraestrutura. Conforme representado nos diagramas DS02, DS03 e DS04, o Repository abstrai o acesso ao IndexedDB por meio da mesma interface exposta ao Service, de modo que as operações de leitura e escrita sejam transparentes à camada de negócio — independentemente de o dispositivo estar online ou offline. A tabela `sincronizacoes`, persistida no IndexedDB, funciona como fila de controle de envio, registrando cada entidade modificada localmente com status `PENDENTE`, `ENVIADO` ou `FALHA`, e o respectivo contador de tentativas de reenvio, conforme previsto nos requisitos RF010, RF011 e RF012.
+No sistema BrPec, o IndexedDB é utilizado nos dispositivos móveis dos Capatazes como camada de armazenamento local para as tarefas sincronizadas, evidências (fotos e áudios), registros de eventos zootécnicos e alertas de infraestrutura. Conforme representado nos diagramas DS02, DS03 e DS04, o Repository abstrai o acesso ao IndexedDB por meio da mesma interface exposta ao Service, de modo que as operações de leitura e escrita sejam transparentes à camada de negócio — independentemente de o dispositivo estar online ou offline. A tabela `sincronizacoes`, persistida no IndexedDB, funciona como fila de controle de envio, registrando cada entidade modificada localmente com status `PENDENTE`, `ENVIADO` ou `FALHA`, e o respectivo contador de tentativas de reenvio, conforme previsto nos requisitos RF010, RF011 e RF012.
 
-A decisão de adotar o IndexedDB como mecanismo de armazenamento local, em complemento ao SQLite do servidor, decorre de três fatores técnicos: (i) o IndexedDB é nativamente disponível em todos os navegadores modernos, sem necessidade de extensões ou plugins; (ii) sua natureza transacional garante a integridade dos dados mesmo em cenários de interrupção abrupta da aplicação, como queda de bateria ou encerramento involuntário do navegador; e (iii) sua capacidade de armazenamento excede amplamente as limitações do Web Storage (5 MB típico), suportando os volumes de fotos codificadas em base64 e registros acumulados durante os períodos sem conexão — requisito crítico dado que os capatazes podem operar offline durante todo o intervalo entre as janelas de Starlink.
+A decisão de adotar o IndexedDB como mecanismo de armazenamento local, em complemento ao SQLite do servidor, decorre de três fatores técnicos: (i) o IndexedDB é nativamente disponível em todos os navegadores modernos, sem necessidade de extensões ou plugins; (ii) sua natureza transacional garante a integridade dos dados mesmo em cenários de interrupção abrupta da aplicação, como queda de bateria ou encerramento involuntário do navegador; e (iii) sua capacidade de armazenamento excede amplamente as limitações do Web Storage (5 MB típico), suportando os volumes de fotos codificadas em base64 e registros acumulados durante os períodos sem conexão — requisito crítico dado que os Capatazes podem operar offline durante todo o intervalo entre as janelas de Starlink.
 
 **Service Workers e Background Sync — Sincronização assíncrona**
 
@@ -2261,7 +2261,7 @@ A Figura 16 ilustra a Interface Principal (Dashboard) destinada aos perfis de Ge
 
 Os indicadores do painel central oferecem uma visão macro e em tempo real das operações, permitindo acesso rápido aos chamados por retiro, com a distribuição volumétrica das demandas de manutenção entre as áreas da propriedade, à evolução dos chamados, através de gráficos ou métricas que demonstram o ritmo de abertura e fechamento de ordens de serviço, aos alertas em aberto, com notificações críticas que exigem atenção imediata da gestão, e às prioridades, que trazem uma lista consolidada das tarefas mais urgentes em execução no campo. 
 
-No menu de navegação lateral (desktop) / atalhos, posicionado no canto esquerdo da interface, destacam-se abas estruturadas para navegação direta nas seguintes verticais: retiros, para detalhamento de estoque de rebanho e infraestrutura local; ordens, para a gestão e distribuição de novas Ordens de Serviço; e alertas, consistindo em um painel dedicado à triagem de ocorrências críticas, atendendo a (US07).
+No menu de navegação lateral (desktop), posicionado no canto esquerdo da interface, destacam-se abas estruturadas para navegação direta nas seguintes verticais: retiros, para detalhamento de estoque de rebanho e infraestrutura local; ordens, para a gestão e distribuição de novas Ordens de Serviço; e alertas, consistindo em um painel dedicado à triagem de ocorrências críticas, atendendo a (US07).
 
 <center>
   <p><strong>Figura 16</strong> — Wireframe da tela de dashboard do Gerente e Coordenador (US07)</p>
@@ -2270,9 +2270,9 @@ No menu de navegação lateral (desktop) / atalhos, posicionado no canto esquerd
 </center>
 
 #### Nova O.S.:
-A Figura 14 (citada anteriormente) ilustra a interface unificada de Abertura de Demandas, utilizada pelo Gerente para delegar atividades tanto para a equipe de manutenção quanto para os capatazes de campo, adotando o padrão de design responsivo para dispositivos móveis e desktop. 
+A Figura 14 (citada anteriormente) ilustra a interface unificada de Abertura de Demandas, utilizada pelo Gerente para delegar atividades tanto para a equipe de manutenção quanto para os Capatazes de campo, adotando o padrão de design responsivo para dispositivos móveis e desktop. 
 
-No fluxo de seleção de tipo, ao acessar o painel, o gestor pode alternar entre duas verticais de trabalho, sendo elas a de infraestrutura, para manutenção Hidráulica, Cerca ou Elétrica, e a de operações de manejo, para demandas zootécnicas direcionadas diretamente aos capatazes, tais como Movimentação de Rebanho, Registro de Óbito, entre outras. 
+No fluxo de seleção de tipo, ao acessar o painel, o gestor pode alternar entre duas verticais de trabalho, sendo elas a de infraestrutura, para manutenção Hidráulica, Cerca ou Elétrica, e a de operações de manejo, para demandas zootécnicas direcionadas diretamente aos Capatazes, tais como Movimentação de Rebanho, Registro de Óbito, entre outras. 
 
 Para garantir o direcionamento correto e a clareza da atividade, os campos e parâmetros de cadastro oferecem recursos como o nível de prioridade, para atribuição de urgência para organizar a fila de trabalho em campo, o prazo limite, definindo a data esperada para a conclusão do serviço, o detalhamento descritivo, em um campo de texto livre para detalhar as especificações da tarefa, e os recursos multimídia, trazendo a opção para anexar áudios (com instruções gravadas por voz) e imagens/fotos de referência, eliminando qualquer ambiguidade na comunicação entre o escritório e o campo, atendendo a (US01), (US06) e (US07).
 
@@ -2337,7 +2337,7 @@ No contexto do projeto, a boleta representa o formulário digital utilizado pelo
 
 - **RETIRO:** representa as unidades físicas e operacionais da fazenda. O relacionamento *pertence* estabelece que cada Capataz deve estar vinculado a exatamente um retiro (USUÁRIO 1,1), enquanto um retiro pode possuir nenhum, um ou múltiplos usuários associados (RETIRO 0,n), considerando que perfis como Gerente, Coordenador e técnico podem atuar em escopo mais amplo.
 
-- **TAREFA:** registra ordens de serviço criadas por gerentes ou coordenadores e atribuídas a capatazes para execução em campo. Cada tarefa é criada por exatamente um usuário autorizado (TAREFA 1,1) e um usuário pode criar várias tarefas (USUÁRIO 0,n). Cada tarefa também possui exatamente um responsável pela execução (TAREFA 1,1), enquanto um Capataz pode executar várias tarefas ao longo do tempo (USUÁRIO 0,n). Toda tarefa pertence obrigatoriamente a um retiro (TAREFA 1,1; RETIRO 0,n).
+- **TAREFA:** registra ordens de serviço criadas por Gerentes ou Coordenadores e atribuídas a Capatazes para execução em campo. Cada tarefa é criada por exatamente um usuário autorizado (TAREFA 1,1) e um usuário pode criar várias tarefas (USUÁRIO 0,n). Cada tarefa também possui exatamente um responsável pela execução (TAREFA 1,1), enquanto um Capataz pode executar várias tarefas ao longo do tempo (USUÁRIO 0,n). Toda tarefa pertence obrigatoriamente a um retiro (TAREFA 1,1; RETIRO 0,n).
 
 - **ALERTA:** é utilizado para reportar problemas de infraestrutura (cerca, bebedouro, hidráulica, elétrica, entre outros), com localização geográfica e ciclo de resolução rastreável. Cada alerta é emitido por exatamente um usuário (ALERTA 1,1), enquanto um usuário pode emitir nenhum, um ou vários alertas (USUÁRIO 0,n). Um alerta pode ainda ser atendido por no máximo um técnico de infraestrutura (ALERTA 0,1), e um técnico pode atender vários alertas (USUÁRIO 0,n). Todo alerta pertence obrigatoriamente a um retiro (ALERTA 1,1; RETIRO 0,n).
 
@@ -2382,7 +2382,7 @@ A evolução conceitual está apresentada nas seções 3.6.1 e 3.6.2. Nesta seç
 | Relação          | Chave primária | Chaves estrangeiras principais                             | Observação                                      |
 | ---------------- | -------------- | ---------------------------------------------------------- | ----------------------------------------------- |
 | `retiros`        | `id`           | —                                                          | Unidades operacionais da fazenda                |
-| `usuarios`       | `id`           | `retiro_id -> retiros(id)`                                 | `retiro_id` é obrigatório apenas para capatazes |
+| `usuarios`       | `id`           | `retiro_id -> retiros(id)`                                 | `retiro_id` é obrigatório apenas para Capatazes |
 | `tarefas`        | `id`           | `retiro_id`, `criado_por_id`, `responsavel_id`             | Registra quem criou e quem executa a tarefa     |
 | `alertas`        | `id`           | `retiro_id`, `criado_por_id`, `tecnico_id`                 | Chamados com tipo, GPS e ciclo de resolução     |
 | `movimentacoes`  | `id`           | `retiro_id`, `responsavel_id`                              | Evento-base de manejo do rebanho                |
@@ -2403,7 +2403,7 @@ A evolução conceitual está apresentada nas seções 3.6.1 e 3.6.2. Nesta seç
 
 - **SQLite local como fonte offline**: os registros são gravados localmente primeiro, com `sync_status` para indicar se ainda precisam ser enviados à API.
 - **UUID v7 em colunas `TEXT`**: o identificador é gerado no cliente, antes da conexão com o servidor, e armazenado como texto por compatibilidade com SQLite.
-- **`usuarios.retiro_id` opcional para perfis globais**: capatazes devem estar vinculados a um retiro, mas Gerente, Coordenador e técnico de infraestrutura podem atuar em escopo mais amplo.
+- **`usuarios.retiro_id` opcional para perfis globais**: Capatazes devem estar vinculados a um retiro, mas Gerente, Coordenador e técnico de infraestrutura podem atuar em escopo mais amplo.
 - **`tarefas.criado_por_id` e `tarefas.responsavel_id`**: a primeira FK registra quem criou a tarefa; a segunda registra quem deve executá-la.
 - **`alertas.retiro_id` e `alertas.tipo`**: o chamado de infraestrutura fica vinculado ao retiro e ao tipo de problema exigidos nos requisitos.
 - **`evidencias` com vínculo polimórfico controlado por `CHECK`**: cada evidência pertence a exatamente uma tarefa, um alerta ou uma movimentação. Isso permite registrar fotos de óbito sem guardar o arquivo binário diretamente na tabela de óbitos.
@@ -3026,7 +3026,7 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 
 [2] REVISTA DE GESTÃO E PROJETOS — GeP. Gestão de riscos em projetos: uma análise comparativa da norma ISO 31000 e o Guia PMBOK®, 2012. Revista de Gestão e Projetos — GeP, São Paulo, v. 4, n. 3, p. 46–72, set./dez. 2013. Disponível em: https://www.bibliotecadeseguranca.com.br/wp-content/uploads/2020/05/gerenciamento-de-riscos-em-projetos-uma-comparacao-entre-o-pmbok-e-a-iso-31000.pdf. Acesso em: 29 abr. 2026.
 
-[3] PORTAL SALÁRIO. Gerente de Produção e Operações Agropecuárias - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/Gerente-de-producao-e-operacoes-agropecuarias-cbo-141115/. Acesso em: 28 abr. 2026.
+[3] PORTAL SALÁRIO. gerente de Produção e Operações Agropecuárias - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/gerente-de-producao-e-operacoes-agropecuarias-cbo-141115/. Acesso em: 28 abr. 2026.
 
 [4] COSGROVE, J.; CACHIA, R. DigComp 3.0: European Digital Competence Framework. 5. ed. Luxembourg: Publications Office of the European Union, 2025. Disponível em: https://data.europa.eu/doi/10.2760/0001149. Acesso em: 28 abr. 2026.
 
@@ -3034,9 +3034,9 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 
 [6] CONFEDERAÇÃO DA AGRICULTURA E PECUÁRIA DO BRASIL. Conheça as 4 carreiras mais quentes do agronegócio brasileiro. CNA Brasil, [S.d.]. Disponível em: https://www.cnabrasil.org.br/noticias/conheca-as-4-carreiras-mais-quentes-do-agronegocio-brasileiro. Acesso em: 28 abr. 2026.
 
-[7] PORTAL SALÁRIO. Capataz na Pecuária - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/Capataz-na-pecuaria-cbo-620115/. Acesso em: 28 abr. 2026.
+[7] PORTAL SALÁRIO. capataz na Pecuária - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/capataz-na-pecuaria-cbo-620115/. Acesso em: 28 abr. 2026.
 
-[8] BRASIL. Ministério do Trabalho e Emprego. Classificação Brasileira de Ocupações (CBO): Capataz na Agropecuária - CBO 6210-05. [S.d.]. Disponível em: https://www.mtecbo.gov.br. Acesso em: 28 abr. 2026.
+[8] BRASIL. Ministério do Trabalho e Emprego. Classificação Brasileira de Ocupações (CBO): capataz na Agropecuária - CBO 6210-05. [S.d.]. Disponível em: https://www.mtecbo.gov.br. Acesso em: 28 abr. 2026.
 
 [9] MACHADO, João Guilherme de Camargo Ferraz; NANTES, José Flávio Diniz. Adoção da tecnologia da informação em organizações rurais: o caso da pecuária de corte. Gestão & Produção, São Carlos, v. 18, n. 3, p. 555-570, 2011. Disponível em: https://www.scielo.br/j/gp/a/cwVwLsPgq8FBq5kvgXZPpLQ/. Acesso em: 28 abr. 2026.
 
