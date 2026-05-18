@@ -2302,7 +2302,12 @@ Além disso, o Coordenador dispõe de um botão de exportação posicionado de f
 
 ## 3.4. Guia de estilos (sprint 3)
 
+Um guia de estilo (style guide) é um documento de referência que centraliza todas as decisões visuais de um produto digital, como cores, tipografia, ícones, espaçamentos, componentes e outros. Isso, garantindo consistência em todo o sistema. É tanto um instrumento de comunicação entre designers e desenvolvedores quanto um repositório vivo de decisões de design [1][2].
+
 _Descreva aqui orientações gerais para o leitor sobre como utilizar os componentes do guia de estilos de sua solução_
+### Passo a passo da construção do Guia de Estilos
+
+
 
 ### 3.4.1 Cores
 
@@ -3064,6 +3069,11 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 Industries and Competitors. New York: Free Press, 2008. ISBN 978-0-7432-7275-4.
 
 [21] BOOCH, Grady; RUMBAUGH, James; JACOBSON, Ivar. The Unified Modeling Language User Guide. 2. ed. Boston: Addison-Wesley Professional, 2005. 494 p. ISBN 978-0-321-26797-9.
+
+[22] NIELSEN NORMAN GROUP. Design Systems vs. Style Guides. 2024. Disponível em: https://www.nngroup.com/articles/design-systems-vs-style-guides/. Acesso em: 18 maio 2026.
+
+[23] UXPIN. Design System vs. Pattern Library vs. Style Guide vs. Component Library. 2026. Disponível em: https://www.uxpin.com/studio/blog/design-systems-vs-pattern-libraries-vs-style-guides-whats-difference/. Acesso em: 18 maio 2026.
+
 
 # <a name="c9"></a>Anexos
 
