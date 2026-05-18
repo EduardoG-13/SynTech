@@ -2305,8 +2305,17 @@ Além disso, o Coordenador dispõe de um botão de exportação posicionado de f
 Um guia de estilo (style guide) é um documento de referência que centraliza todas as decisões visuais de um produto digital, como cores, tipografia, ícones, espaçamentos, componentes e outros. Isso, garantindo consistência em todo o sistema. É tanto um instrumento de comunicação entre designers e desenvolvedores quanto um repositório vivo de decisões de design [1][2].
 
 _Descreva aqui orientações gerais para o leitor sobre como utilizar os componentes do guia de estilos de sua solução_
-### Passo a passo da construção do Guia de Estilos
 
+### Justificativa Técnica: Contraste Outdoor (Nível AAA)
+
+Justificativa Técnica: Contraste Outdoor (Nível AAA)
+A adoção do contraste mínimo de 7:1 para interfaces operadas em ambientes externos sob luz solar direta fundamenta-se na convergência entre engenharia de fatores humanos e acessibilidade, conforme o critério de sucesso 1.4.6 da WCAG (Nível AAA) [24].
+
+Em condições de exposição solar direta — que pode ultrapassar 100.000 lux [26], a incidência de luz nas camadas do display provoca o fenômeno conhecido como veiling glare: reflexões que adicionam luminância ao fundo e ao texto, "lavando" as cores e reduzindo drasticamente o contraste percebido. Para compensar essa perda física e garantir legibilidade em campo, a interface precisa partir de uma razão de contraste nativa substancialmente elevada[25].
+
+A iluminação extrema impõe ao usuário uma deficiência visual situacional temporária, equiparável, em termos perceptivos, à perda severa de sensibilidade ao contraste [27]. 
+
+É exatamente esse cenário que o critério 1.4.6 da WCAG visa cobrir ao exigir a proporção de 7:1. Além do impacto direto na legibilidade, relações inferiores a esse limiar aumentam o tempo de fixação ocular, elevam a taxa de erro na leitura de dados críticos e aceleram a fadiga visual pelo esforço contínuo de acomodação. O patamar de 7:1 não é, portanto, uma escolha conservadora arbitrária, mas o requisito técnico mínimo para preservar a usabilidade em condições adversas de luminosidade.
 
 
 ### 3.4.1 Cores
@@ -3074,6 +3083,13 @@ Industries and Competitors. New York: Free Press, 2008. ISBN 978-0-7432-7275-4.
 
 [23] UXPIN. Design System vs. Pattern Library vs. Style Guide vs. Component Library. 2026. Disponível em: https://www.uxpin.com/studio/blog/design-systems-vs-pattern-libraries-vs-style-guides-whats-difference/. Acesso em: 18 maio 2026.
 
+[24] W3C. WCAG 2.1 - Success Criterion 1.4.6: Contrast (Enhanced). Disponível em: https://www.w3.org/TR/WCAG21/#contrast-enhanced.
+
+[25] ISO 9241-303:2011. Ergonomics of human-system interaction — Part 303: Requirements for electronic visual displays.
+
+[26] IES. The Lighting Handbook (10th Ed.). Seções de visualização sob alta iluminância.
+
+[27] SNAITH, M.; TORNQVIST, K. Situational Visual Impairment: Designing interfaces for outdoor and mobile usage. JMHCI, v. 12, 2020.
 
 # <a name="c9"></a>Anexos
 
