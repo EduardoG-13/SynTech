@@ -1,15 +1,19 @@
 /**
  * server.js - Entrypoint do backend BRPec.
- * Carrega variaveis de ambiente e inicia o servidor.
+ * Carrega variáveis de ambiente, inicializa o banco e inicia o servidor.
  */
 
 require('dotenv').config();
 
 const app = require('./app');
+const { inicializarBanco } = require('./config/initDb');
+
+// Inicializa o banco de dados (cria tabelas se necessário)
+inicializarBanco();
 
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
-  console.log(`Health-check: http://localhost:${PORT}/health`);
+  console.log(`[server] Servidor BrPec rodando na porta ${PORT}`);
+  console.log(`   Health-check: http://localhost:${PORT}/api/health`);
 });

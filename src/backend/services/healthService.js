@@ -1,26 +1,40 @@
 /**
  * services/healthService.js
  * Logica de negocio do health-check. Nao conhece HTTP.
+ * node:sqlite (DatabaseSync) e sincrono -- sem async/await.
  */
 
 const db = require('../config/database');
 
-const checkHealth = async () => {
-  let databaseStatus = 'desconectado';
+/**
+ * Verifica a saude do sistema: servidor ativo e banco acessivel.
+ * @returns {Object} Objeto com status, timestamp, uptime e estado do banco.
+ */
+function verificarSaude() {
+  let bancoStatus = 'desconectado';
+  let erro = null;
 
   try {
-    await db.query('SELECT NOW()');
-    databaseStatus = 'conectado';
-  } catch (error) {
-    databaseStatus = 'erro: ' + error.message;
+    const stmt = db.prepare('SELECT 1 AS ok');
+    stmt.get();
+    bancoStatus = 'conectado';
+  } catch (err) {
+    bancoStatus = 'desconectado';
+    erro = err.message;
   }
 
-  return {
-    status: 'ok',
+  const resultado = {
+    status: bancoStatus === 'conectado' ? 'ok' : 'erro',
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
-    database: databaseStatus,
+    banco: bancoStatus,
   };
-};
 
-module.exports = { checkHealth };
+  if (erro) {
+    resultado.erro = erro;
+  }
+
+  return resultado;
+}
+
+module.exports = { verificarSaude };

@@ -52,9 +52,8 @@ Dentre os arquivos e pastas presentes na raiz do projeto, definem-se:
 
 ### Pré-requisitos
 
-- [Node.js](https://nodejs.org/pt-br/) v18 ou superior
-- [Supabase CLI](https://supabase.com/docs/guides/cli) v2 ou superior
-- [Docker](https://www.docker.com/) (necessário para o Supabase local)
+- [Node.js](https://nodejs.org/pt-br/) v22.5.0 ou superior (necessário para o módulo embutido `node:sqlite`)
+- npm (incluso com o Node.js)
 
 ### Instalação
 
@@ -84,13 +83,7 @@ npm install
 cp .env.example .env
 ```
 
-5. Preencha o `.env` com os dados do seu projeto Supabase. A connection string esta disponivel em Supabase Dashboard > Settings > Database > Connection string > URI.
-
-```env
-PORT=3000
-DATABASE_URL=postgresql://postgres:[SUA-SENHA]@db.[SEU-PROJETO].supabase.co:5432/postgres
-NODE_ENV=development
-```
+O arquivo `.env` já vem com valores padrão funcionais. Não é necessário preencher credenciais externas — o banco SQLite é criado automaticamente na primeira execução.
 
 ### Execucao
 
@@ -103,16 +96,18 @@ npm run dev
 O terminal deve exibir:
 
 ```
-Servidor rodando em http://localhost:3000
-Health-check: http://localhost:3000/health
+[database] Banco SQLite conectado: .../database/brpec.sqlite
+[initDb] Banco de dados inicializado com sucesso
+[server] Servidor BrPec rodando na porta 3000
+   Health-check: http://localhost:3000/api/health
 ```
 
 ### Verificacao
 
-Acesse `http://localhost:3000/health` no navegador ou execute no terminal:
+Acesse `http://localhost:3000/api/health` no navegador ou execute no terminal:
 
 ```sh
-curl http://localhost:3000/health
+curl http://localhost:3000/api/health
 ```
 
 Resposta esperada:
@@ -120,31 +115,31 @@ Resposta esperada:
 ```json
 {
   "status": "ok",
-  "timestamp": "2026-05-07T18:00:00.000Z",
+  "timestamp": "2026-05-18T18:00:00.000Z",
   "uptime": 1.234,
-  "database": "conectado"
+  "banco": "conectado"
 }
-
 ```
 
-Se o campo `database` retornar `"erro: ..."`, verifique se a `DATABASE_URL` no `.env` esta correta.
+Se o campo `banco` retornar `"desconectado"`, verifique se o Node.js esta na versão 22.5.0 ou superior.
 
 ### Estrutura do backend
 
-Arquitetura em camadas: Controller > Service > Repository > DB. Documentacao detalhada em [`src/ESTRUTURA_BACKEND.md`](src/ESTRUTURA_BACKEND.md).
+Arquitetura em camadas: Controller > Service > Repository > Banco SQLite. Documentacao detalhada em [`src/backend/README_BACKEND.md`](src/backend/README_BACKEND.md).
 
 ```
 src/backend/
-├── server.js              # Entrypoint
+├── server.js              # Entrypoint (ponto de entrada)
 ├── app.js                 # Configuracao do Express
 ├── config/
-│   └── database.js        # Pool de conexao PostgreSQL
+│   ├── database.js        # Conexao com o SQLite (node:sqlite)
+│   └── initDb.js          # Execucao automatica das migrations
 ├── controllers/           # Recebe requisicao, delega para o service
 ├── services/              # Logica de negocio
 ├── repositories/          # Acesso a dados (queries SQL)
 ├── models/                # Definicoes de entidades
 ├── routes/                # Registro de rotas
-├── middlewares/            # Error handler
+├── database/              # Diretorio do arquivo SQLite (nao versionado)
 ├── tests/                 # Testes
 ├── .env.example           # Modelo de variaveis de ambiente
 └── package.json           # Dependencias e scripts
@@ -157,9 +152,9 @@ Os seguintes arquivos e pastas estao no `.gitignore` e nao devem ser versionados
 | Arquivo/Pasta | Motivo |
 |---------------|--------|
 | `node_modules/` | Dependencias instaladas. Cada dev gera ao rodar `npm install` |
-| `.env` | Contem credenciais do banco de dados |
+| `.env` | Contem configuracoes locais do ambiente |
+| `src/backend/database/*.sqlite` | Banco de dados local, gerado automaticamente |
 | `package-lock.json` (backend) | Gerado automaticamente pelo npm |
-| `supabase/.branches`, `supabase/.temp` | Estado local do Supabase CLI |
 | `.vscode/`, `.idea/` | Configuracoes de IDE pessoais |
 | `.DS_Store`, `Thumbs.db` | Arquivos gerados pelo sistema operacional |
 
