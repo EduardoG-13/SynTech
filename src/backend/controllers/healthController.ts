@@ -3,7 +3,7 @@
  * Endpoint de verificacao de saude do sistema.
  */
 
-const healthService = require('../services/healthService');
+import healthService from '../services/healthService';
 
 /**
  * GET /api/health
@@ -19,4 +19,6 @@ function verificarSaude(req, res) {
   return res.status(503).json(resultado);
 }
 
-module.exports = { verificarSaude };
+export default { verificarSaude };
+
+

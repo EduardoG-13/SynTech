@@ -4,9 +4,9 @@
  * Usa node:sqlite (embutido no Node.js >= 22.5.0) -- operacoes sincronas.
  */
 
-const { DatabaseSync } = require('node:sqlite');
-const path = require('path');
-const fs = require('fs');
+import { DatabaseSync } from 'node:sqlite';
+import path from 'path';
+import fs from 'fs';
 
 const dbPath = process.env.DB_PATH || './database/brpec.sqlite';
 const resolvedPath = path.resolve(__dirname, '..', dbPath);
@@ -26,4 +26,6 @@ db.exec('PRAGMA foreign_keys = ON');
 
 console.log(`[database] Banco SQLite conectado: ${resolvedPath}`);
 
-module.exports = db;
+export default db;
+
+

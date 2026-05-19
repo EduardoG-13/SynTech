@@ -5,8 +5,8 @@
 
 require('dotenv').config();
 
-const app = require('./app');
-const { inicializarBanco } = require('./config/initDb');
+import app from './app';
+import { inicializarBanco } from './config/initDb';
 
 // Inicializa o banco de dados (cria tabelas se necessário)
 inicializarBanco();
@@ -17,3 +17,5 @@ app.listen(PORT, () => {
   console.log(`[server] Servidor BrPec rodando na porta ${PORT}`);
   console.log(`   Health-check: http://localhost:${PORT}/api/health`);
 });
+
+

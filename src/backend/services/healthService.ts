@@ -4,7 +4,7 @@
  * node:sqlite (DatabaseSync) e sincrono -- sem async/await.
  */
 
-const db = require('../config/database');
+import db from '../config/database';
 
 /**
  * Verifica a saude do sistema: servidor ativo e banco acessivel.
@@ -20,10 +20,10 @@ function verificarSaude() {
     bancoStatus = 'conectado';
   } catch (err) {
     bancoStatus = 'desconectado';
-    erro = err.message;
+    erro = (err as Error).message;
   }
 
-  const resultado = {
+  const resultado: any = {
     status: bancoStatus === 'conectado' ? 'ok' : 'erro',
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
@@ -37,4 +37,6 @@ function verificarSaude() {
   return resultado;
 }
 
-module.exports = { verificarSaude };
+export default { verificarSaude };
+
+

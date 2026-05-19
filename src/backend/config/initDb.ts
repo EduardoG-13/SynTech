@@ -4,9 +4,9 @@
  * Chamado uma vez na inicializacao do servidor.
  */
 
-const fs = require('fs');
-const path = require('path');
-const db = require('./database');
+import fs from 'fs';
+import path from 'path';
+import db from './database';
 
 /**
  * Inicializa o banco de dados executando o script de migration.
@@ -14,11 +14,11 @@ const db = require('./database');
  */
 function inicializarBanco() {
   try {
-    const migrationPath = path.resolve(__dirname, '..', '..', 'src', 'migration.sql');
+    const migrationPath = path.resolve(__dirname, '..', 'database', 'migration.sql');
 
     if (!fs.existsSync(migrationPath)) {
       console.error(`[initDb] ERRO: Arquivo de migration nao encontrado: ${migrationPath}`);
-      console.error('   Verifique se o arquivo src/src/migration.sql existe.');
+      console.error('   Verifique se o arquivo src/backend/database/migration.sql existe.');
       return;
     }
 
@@ -31,4 +31,6 @@ function inicializarBanco() {
   }
 }
 
-module.exports = { inicializarBanco };
+export { inicializarBanco  };
+
+

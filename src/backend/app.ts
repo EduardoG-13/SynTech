@@ -3,8 +3,8 @@
  * Separado do server.js para facilitar testes futuros.
  */
 
-const express = require('express');
-const cors = require('cors');
+import express from 'express';
+import cors from 'cors';
 
 const app = express();
 
@@ -14,7 +14,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // --------------- Rotas ---------------
-const routes = require('./routes/index');
+import routes from './routes/index';
 app.use('/api', routes);
 
-module.exports = app;
+export default app;
+
+
