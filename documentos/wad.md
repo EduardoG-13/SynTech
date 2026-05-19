@@ -2308,7 +2308,16 @@ _Descreva aqui orientações gerais para o leitor sobre como utilizar os compone
 
 ### 3.4.1 Cores
 
-_Apresente aqui a paleta de cores, com seus códigos de aplicação e suas respectivas funções_
+## Paleta de Cores — Campo Verde
+
+| Imagem | Cor | Hex | Função |
+|---|---|---|---|
+| <img src="./assets/verde-profundo.png" width="40"/> | Verde Profundo | `#1A4D2E` | Cor primária — botões principais, cabeçalhos, elementos de destaque |
+| <img src="./assets/verde-medio.png" width="40"/> | Verde Médio | `#2E7D52` | Cor secundária — hover states, ícones ativos, badges de status |
+| <img src="./assets/off-white-quente.png" width="40"/> | Off-white Quente | `#F5F0E8` | Fundo principal — base de todas as telas (evita reflexo do branco puro) |
+| <img src="./assets/quase-preto.png" width="40"/> | Quase Preto | `#1B1B1B` | Texto primário — corpo, títulos, labels funcionais |
+| <img src="./assets/ambar-escuro.png" width="40"/> | Âmbar Escuro | `#A64B00` | Ação e alerta — botões de ação secundária, avisos, notificações |
+| <img src="./assets/vermelho-escuro.png" width="40"/> | Vermelho Escuro | `#D32F2F` | Erro — mensagens de falha, campos inválidos, ações destrutivas |
 
 ### Justificativa Técnica: Contraste Outdoor (Nível AAA)
 
