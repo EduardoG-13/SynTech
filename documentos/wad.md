@@ -2905,6 +2905,24 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 </center>
 
 ---
+| #9 | Fluxo: Contagem de nascimentos sincronizados por retiro e período (US11 / RF008) |
+|---|---|
+| **Expressão SQL** | `SELECT r.nome AS retiro, SUM(n.quantidade) AS total_nascimentos FROM nascimentos n JOIN movimentacoes m ON n.movimentacao_id = m.id JOIN retiros r ON m.retiro_id = r.id WHERE m.sync_status = 'sincronizado' AND date(m.data_movimentacao) BETWEEN date($1) AND date($2) GROUP BY r.nome ORDER BY r.nome ASC;` |
+| **Proposições lógicas** | $A$: a movimentação foi sincronizada com o servidor (`sync_status = 'sincronizado'`) <br> $B$: a data da movimentação está dentro do intervalo selecionado (`date(m.data_movimentacao) BETWEEN date($1) AND date($2)`) |
+| **Expressão lógica proposicional** | $A \land B$ |
+
+| $A$ | $B$ | $A \land B$ |
+| --- | --- | ----------- |
+| F   | F   | F           |
+| F   | V   | F           |
+| V   | F   | F           |
+| V   | V   | V           |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+---
 ## 3.7. WebAPI e endpoints (sprints 3 e 4)
 
 _Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema._
