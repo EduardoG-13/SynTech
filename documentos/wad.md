@@ -2754,7 +2754,17 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 **Expressão SQL** | `UPDATE tarefas SET status = 'concluida', data_conclusao = strftime('%Y-%m-%dT%H:%M:%fZ','now'), sync_status = 'pendente', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = $1 AND responsavel_id = $2 AND status <> 'concluida';` |
 **Proposições lógicas** | $A$: a tarefa corresponde ao ID informado (`id = $1`) <br> $B$: a tarefa pertence ao responsável autenticado (`responsavel_id = $2`) <br> $C$: a tarefa ainda não está concluída (`status <> 'concluida'`) |
 **Expressão lógica proposicional** | $A \land B \land C$ |
-**Tabela Verdade** | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$A \land B \land C$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table>
+
+| $A$ | $B$ | $C$ | $A \land B \land C$ |
+| --- | --- | --- | ------------------- |
+| F   | F   | F   | F                   |
+| F   | F   | V   | F                   |
+| F   | V   | F   | F                   |
+| F   | V   | V   | F                   |
+| V   | F   | F   | F                   |
+| V   | F   | V   | F                   |
+| V   | V   | F   | F                   |
+| V   | V   | V   | V                   |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
