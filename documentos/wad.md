@@ -2354,6 +2354,26 @@ da logo. A **Inter**, por sua vez, foi projetada especificamente para interfaces
 digitais, com alto desempenho em tamanhos reduzidos e em condições adversas de
 luminosidade [28].
 
+### Escala tipográfica
+
+A escala tipográfica foi definida com base nos critérios de contraste e legibilidade
+das diretrizes WCAG 2.1, que recomendam tamanhos e pesos mínimos para garantir
+acessibilidade em diferentes contextos de uso [24]. Para ambientes externos com alta
+incidência de luz, recomenda-se priorizar pesos a partir de 500 (Medium) e tamanhos
+a partir de 16px no corpo do texto [27].
+
+| Nível | Família | Peso | Tamanho | Uso |
+|---|---|---|---|---|
+| Título H1 | Nunito Sans | 700 | 32px | Títulos de página |
+| Título H2 | Nunito Sans | 600 | 24px | Títulos de seção |
+| Título H3 | Nunito Sans | 600 | 20px | Subtítulos e cards |
+| Corpo | Inter | 400 | 16px | Texto principal |
+| Label | Inter | 500 | 14px | Labels de formulário e tabelas |
+| Caption | Inter | 400 | 12px | Textos auxiliares e rodapés |
+
+> Tamanho mínimo adotado: **12px**. Nenhum texto funcional da interface
+> utiliza tamanho inferior a esse valor, garantindo legibilidade mesmo em
+> dispositivos móveis sob luz solar direta [24][25].
 
 ### 3.4.3 Iconografia e imagens
 
