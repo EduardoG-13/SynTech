@@ -50,39 +50,212 @@ O frontend (a tela que o usuario ve) envia requisicoes para o backend, e o backe
 
 ## 3. Como instalar e executar
 
-### Pre-requisitos
+### Pre-requisitos (todos os sistemas operacionais)
 
-- Node.js versao 22.5.0 ou superior instalado na maquina
-- npm (gerenciador de pacotes, ja vem com o Node.js)
+- **Node.js** versao 22.5.0 ou superior
+- **npm** (gerenciador de pacotes, ja vem incluido com o Node.js)
 
-### Passo a passo
+Para verificar se o Node.js esta instalado e na versao correta, abra o terminal e execute:
 
-```bash
-# 1. Acesse a pasta do backend
-cd src/backend
+```
+node --version
+```
 
-# 2. Instale as dependencias
+O resultado deve ser `v22.5.0` ou superior. Caso nao tenha instalado, siga as instrucoes de instalacao do seu sistema operacional abaixo.
+
+---
+
+### Windows
+
+#### 1. Instalar o Node.js
+
+Acesse https://nodejs.org e baixe o instalador `.msi` da versao LTS (22.x ou superior). Execute o instalador e siga as opcoes padrao. Apos a instalacao, abra o **PowerShell** e confirme:
+
+```powershell
+node --version
+npm --version
+```
+
+#### 2. Configurar o projeto
+
+Abra o **PowerShell** e navegue ate a pasta do backend:
+
+```powershell
+cd C:\caminho\para\g03\src\backend
+```
+
+Instale as dependencias:
+
+```powershell
 npm install
+```
 
-# 3. Crie o arquivo de configuracao local
-cp .env.example .env
+Crie o arquivo de configuracao copiando o modelo:
 
-# 4. Inicie o servidor em modo desenvolvimento
+```powershell
+copy .env.example .env
+```
+
+#### 3. Iniciar o servidor
+
+Modo desenvolvimento (reinicia automaticamente ao salvar arquivos):
+
+```powershell
 npm run dev
+```
 
-# 5. Para iniciar em modo producao (sem auto-reload)
+Modo producao:
+
+```powershell
 npm start
 ```
 
-### Verificacao
+#### 4. Verificar
 
-Apos iniciar o servidor, abra o navegador ou use o terminal:
+Abra outro terminal PowerShell e execute:
+
+```powershell
+Invoke-RestMethod -Uri http://localhost:3000/api/health
+```
+
+Ou acesse `http://localhost:3000/api/health` direto no navegador.
+
+---
+
+### macOS
+
+#### 1. Instalar o Node.js
+
+Opcao A -- via Homebrew (recomendado):
+
+```bash
+brew install node@22
+```
+
+Opcao B -- via instalador: acesse https://nodejs.org e baixe o `.pkg` para macOS.
+
+Confirme a instalacao:
+
+```bash
+node --version
+npm --version
+```
+
+#### 2. Configurar o projeto
+
+Abra o **Terminal** e navegue ate a pasta do backend:
+
+```bash
+cd /caminho/para/g03/src/backend
+```
+
+Instale as dependencias:
+
+```bash
+npm install
+```
+
+Crie o arquivo de configuracao:
+
+```bash
+cp .env.example .env
+```
+
+#### 3. Iniciar o servidor
+
+Modo desenvolvimento:
+
+```bash
+npm run dev
+```
+
+Modo producao:
+
+```bash
+npm start
+```
+
+#### 4. Verificar
+
+Em outro terminal:
+
+```bash
+curl http://localhost:3000/api/health
+```
+
+---
+
+### Linux (Ubuntu/Debian)
+
+#### 1. Instalar o Node.js
+
+Opcao A -- via NodeSource (recomendado para obter a versao 22.x):
+
+```bash
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+Opcao B -- via nvm (gerenciador de versoes):
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+source ~/.bashrc
+nvm install 22
+nvm use 22
+```
+
+Confirme a instalacao:
+
+```bash
+node --version
+npm --version
+```
+
+#### 2. Configurar o projeto
+
+```bash
+cd /caminho/para/g03/src/backend
+npm install
+cp .env.example .env
+```
+
+#### 3. Iniciar o servidor
+
+Modo desenvolvimento:
+
+```bash
+npm run dev
+```
+
+Modo producao:
+
+```bash
+npm start
+```
+
+#### 4. Verificar
+
+Em outro terminal:
+
+```bash
+curl http://localhost:3000/api/health
+```
+
+---
+
+### Saida esperada (todos os sistemas)
+
+Ao iniciar o servidor, o terminal deve exibir:
 
 ```
-GET http://localhost:3000/api/health
+[database] Banco SQLite conectado: .../database/brpec.sqlite
+[initDb] Banco de dados inicializado com sucesso
+[server] Servidor BrPec rodando na porta 3000
+   Health-check: http://localhost:3000/api/health
 ```
 
-Se tudo estiver funcionando, a resposta sera:
+A resposta do endpoint `/api/health` deve ser:
 
 ```json
 {
@@ -93,10 +266,14 @@ Se tudo estiver funcionando, a resposta sera:
 }
 ```
 
-- **status**: "ok" significa que o servidor esta rodando e o banco esta acessivel. "erro" significa problema.
-- **timestamp**: data e hora exata da verificacao.
-- **uptime**: ha quantos segundos o servidor esta rodando.
-- **banco**: "conectado" significa que o SQLite respondeu corretamente. "desconectado" indica falha.
+| Campo | Significado |
+|---|---|
+| **status** | "ok" = servidor rodando e banco acessivel. "erro" = problema |
+| **timestamp** | Data e hora exata da verificacao |
+| **uptime** | Ha quantos segundos o servidor esta rodando |
+| **banco** | "conectado" = SQLite respondeu corretamente. "desconectado" = falha |
+
+Se o campo `banco` retornar "desconectado", verifique se o Node.js esta na versao 22.5.0 ou superior executando `node --version`.
 
 ---
 
