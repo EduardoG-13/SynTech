@@ -2332,16 +2332,28 @@ Em condições de exposição solar direta, que pode ultrapassar 100.000 lux [26
 
 _Apresente aqui a tipografia da solução, com famílias de fontes e suas respectivas funções_
 
-A tipografia da solução utiliza duas famílias de fontes complementares, ambas
-disponíveis gratuitamente via Google Fonts, selecionadas para garantir legibilidade
-em telas mobile e web, inclusive sob luz solar direta.
-
-A escolha tipográfica em interfaces digitais vai além da estética — fontes sem serifa
+A escolha tipográfica em interfaces digitais vai além da estética. Fontes sem serifa
 de traço uniforme apresentam melhor desempenho em telas de baixa resolução e em
 condições adversas de luminosidade, como a exposição solar direta enfrentada pelos
 usuários deste projeto [28]. Além disso, o tamanho e o peso das fontes impactam
 diretamente a acessibilidade da interface: textos com peso insuficiente ou tamanho
 reduzido comprometem a leitura em ambientes de alta iluminância [25][27].
+
+A tipografia da solução utiliza duas famílias de fontes complementares, ambas
+disponíveis gratuitamente via Google Fonts, selecionadas para garantir legibilidade
+em telas mobile e web, inclusive sob luz solar direta.
+
+| Imagem | Família | Uso | Pesos utilizados |
+|---|---|---|---|
+| <img src="./assets/fonte-nunito-sans.png" width="40"/> | Nunito Sans | Títulos, botões e elementos de destaque | 600 (SemiBold), 700 (Bold) |
+| <img src="./assets/fonte-inter.png" width="40"/> | Inter | Corpo de texto, labels e tabelas | 400 (Regular), 500 (Medium) |
+
+A **Nunito Sans** foi escolhida por sua compatibilidade visual com a identidade da
+marca Syntech. Suas formas arredondadas e traços suaves refletem a personalidade
+da logo. A **Inter**, por sua vez, foi projetada especificamente para interfaces
+digitais, com alto desempenho em tamanhos reduzidos e em condições adversas de
+luminosidade [28].
+
 
 ### 3.4.3 Iconografia e imagens
 
