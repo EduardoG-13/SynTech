@@ -45,11 +45,6 @@ class TarefaRepository {
     return this.buscarPorId(id);
   }
 
-  buscarUsuario(id) {
-    const stmt = db.prepare('SELECT * FROM usuarios WHERE id = ?');
-    return stmt.get(id);
-  }
-
   salvarEvidencia(tarefa_id, tipo, arquivo_base64, geolocalizacao) {
     const id = uuidv4();
     const stmt = db.prepare(`

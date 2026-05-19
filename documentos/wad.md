@@ -1173,9 +1173,17 @@ _Matriz de cobertura mostrando quais RN e endpoints implementam cada RF._
 
 ## 3.2. Arquitetura (sprints 1 a 5)
 
-### 3.2.1. Diagrama de Arquitetura (sprints 3 e 4)
+### 3.2.1. Arquitetura em Camadas (sprints 3 e 4)
 
-_Posicione aqui o diagrama de arquitetura da solução, indicando as camadas principais (Controller, Service, Repository, Model) e suas responsabilidades. Atualize sempre que necessário._
+O backend do sistema BRPec foi desenvolvido utilizando a arquitetura em camadas **Controller-Service-Repository**, garantindo uma rigorosa separação de responsabilidades (Separation of Concerns). Essa estrutura modulariza o código, facilita a manutenção e permite a criação de testes automatizados isolados para as regras de negócio.
+
+As camadas estão divididas da seguinte forma:
+
+* **Controller (Camada de Apresentação/Rotas):** Responsável exclusivamente por receber as requisições HTTP enviadas pelo frontend, validar a presença dos parâmetros obrigatórios e formatar as respostas (status codes e JSON). O Controller **não** aplica regras de negócio do domínio pecuário e **não** acessa o banco de dados diretamente. Ele atua apenas como um orquestrador que delega a lógica para os Services correspondentes.
+* **Service (Camada de Domínio/Negócio):** Concentra o núcleo das regras de negócio (RNs) e as validações complexas. Por exemplo, é nesta camada que o sistema verifica se um Capataz pertence ao retiro correto (RN01) antes de prosseguir com uma ação. Os Services processam os dados recebidos dos Controllers, tomam decisões lógicas e invocam os Repositories adequados para persistência. Eles são independentes do protocolo HTTP.
+* **Repository (Camada de Acesso a Dados):** Responsável exclusivo pela comunicação com o mecanismo de persistência, que no projeto BRPec é um banco de dados SQLite local. Os Repositories encapsulam todas as operações SQL (`INSERT`, `SELECT`, `UPDATE`), transações (`BEGIN`, `COMMIT`, `ROLLBACK`) e a modelagem física. Essa abstração permite que a lógica de negócio permaneça intacta mesmo se houver mudanças estruturais no banco de dados.
+
+Essa padronização arquitetural está integralmente aplicada nos módulos operacionais do backend (Tarefas, Eventos Zootécnicos, Alertas de Infraestrutura e Health Checks).
 
 ### 3.2.2. Diagrama de Casos de Uso (sprint 1)
 

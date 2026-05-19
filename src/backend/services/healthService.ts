@@ -4,7 +4,7 @@
  * node:sqlite (DatabaseSync) e sincrono -- sem async/await.
  */
 
-import db from '../config/database';
+import healthRepository from '../repositories/healthRepository';
 
 /**
  * Verifica a saude do sistema: servidor ativo e banco acessivel.
@@ -15,8 +15,7 @@ function verificarSaude() {
   let erro = null;
 
   try {
-    const stmt = db.prepare('SELECT 1 AS ok');
-    stmt.get();
+    healthRepository.verificarConexao();
     bancoStatus = 'conectado';
   } catch (err) {
     bancoStatus = 'desconectado';

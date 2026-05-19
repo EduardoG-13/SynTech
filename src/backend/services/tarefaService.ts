@@ -1,9 +1,10 @@
 import tarefaRepository from '../repositories/tarefaRepository';
+import usuarioRepository from '../repositories/usuarioRepository';
 
 class TarefaService {
   criarTarefa(dados) {
     // RN01: O capataz deve estar vinculado ao retiro informado
-    const capataz = tarefaRepository.buscarUsuario(dados.capataz_id);
+    const capataz = usuarioRepository.buscarPorId(dados.capataz_id);
     if (!capataz || capataz.perfil !== 'Capataz') {
       throw new Error('Usuário informado não é um Capataz válido.');
     }
