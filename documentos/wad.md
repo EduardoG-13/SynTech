@@ -2302,21 +2302,127 @@ Além disso, o Coordenador dispõe de um botão de exportação posicionado de f
 
 ## 3.4. Guia de estilos (sprint 3)
 
+Um guia de estilo (style guide) é um documento de referência que centraliza todas as decisões visuais de um produto digital, como cores, tipografia, ícones, espaçamentos, componentes e outros. Isso, garantindo consistência em todo o sistema. É tanto um instrumento de comunicação entre designers e desenvolvedores quanto um repositório vivo de decisões de design [1][2].
+
 _Descreva aqui orientações gerais para o leitor sobre como utilizar os componentes do guia de estilos de sua solução_
 
 ### 3.4.1 Cores
 
-_Apresente aqui a paleta de cores, com seus códigos de aplicação e suas respectivas funções_
+## Paleta de Cores — Campo Verde
+
+| Imagem | Cor | Hex | Função |
+|---|---|---|---|
+| <img src="./assets/verde-profundo.png" width="40"/> | Verde Profundo | `#1A4D2E` | Cor primária — botões principais, cabeçalhos, elementos de destaque |
+| <img src="./assets/verde-medio.png" width="40"/> | Verde Médio | `#2E7D52` | Cor secundária — hover states, ícones ativos, badges de status |
+| <img src="./assets/off-white-quente.png" width="40"/> | Off-white Quente | `#F5F0E8` | Fundo principal — base de todas as telas (evita reflexo do branco puro) |
+| <img src="./assets/quase-preto.png" width="40"/> | Quase Preto | `#1B1B1B` | Texto primário — corpo, títulos, labels funcionais |
+| <img src="./assets/ambar-escuro.png" width="40"/> | Âmbar Escuro | `#A64B00` | Ação e alerta — botões de ação secundária, avisos, notificações |
+| <img src="./assets/vermelho-escuro.png" width="40"/> | Vermelho Escuro | `#D32F2F` | Erro — mensagens de falha, campos inválidos, ações destrutivas |
+
+### Justificativa Técnica: Contraste Outdoor (Nível AAA)
+
+Justificativa Técnica: Contraste Outdoor (Nível AAA)
+A adoção do contraste mínimo de 7:1 para interfaces operadas em ambientes externos sob luz solar direta fundamenta-se na convergência entre engenharia de fatores humanos e acessibilidade, conforme o critério de sucesso 1.4.6 da WCAG (Nível AAA) [24].
+
+Em condições de exposição solar direta, que pode ultrapassar 100.000 lux [26], a luz incidente nas camadas do display desencadeia o fenômeno conhecido como veiling glare: reflexões que adicionam luminância ao fundo e ao texto, "lavando" as cores e reduzindo drasticamente o contraste percebido. Para compensar essa perda física e garantir legibilidade em campo, a interface precisa partir de uma razão de contraste nativa substancialmente elevada [25]. Nesse contexto, a iluminação extrema impõe ao usuário uma deficiência visual situacional temporária, equiparável, em termos perceptivos, à perda severa de sensibilidade ao contraste [27].
+
+É exatamente esse cenário que o critério 1.4.6 da WCAG visa cobrir ao exigir a proporção de 7:1. Além do impacto direto na legibilidade, relações inferiores a esse limiar aumentam o tempo de fixação ocular, elevam a taxa de erro na leitura de dados críticos e aceleram a fadiga visual pelo esforço contínuo de acomodação. O patamar de 7:1 é, portanto, o requisito técnico mínimo para preservar a usabilidade em condições adversas de luminosidade.
 
 ### 3.4.2 Tipografia
 
 _Apresente aqui a tipografia da solução, com famílias de fontes e suas respectivas funções_
+
+A escolha tipográfica em interfaces digitais vai além da estética. Fontes sem serifa
+de traço uniforme apresentam melhor desempenho em telas de baixa resolução e em
+condições adversas de luminosidade, como a exposição solar direta enfrentada pelos
+usuários deste projeto [28]. Além disso, o tamanho e o peso das fontes impactam
+diretamente a acessibilidade da interface: textos com peso insuficiente ou tamanho
+reduzido comprometem a leitura em ambientes de alta iluminância [25][27].
+
+A tipografia da solução utiliza duas famílias de fontes complementares, ambas
+disponíveis gratuitamente via Google Fonts, selecionadas para garantir legibilidade
+em telas mobile e web, inclusive sob luz solar direta.
+
+| Imagem | Família | Uso | Pesos utilizados |
+|---|---|---|---|
+| <img src="./assets/fonte-nunito-sans.png" width="40"/> | Nunito Sans | Títulos, botões e elementos de destaque | 600 (SemiBold), 700 (Bold) |
+| <img src="./assets/fonte-inter.png" width="40"/> | Inter | Corpo de texto, labels e tabelas | 400 (Regular), 500 (Medium) |
+
+A **Nunito Sans** foi escolhida por sua compatibilidade visual com a identidade da
+marca Syntech. Suas formas arredondadas e traços suaves refletem a personalidade
+da logo. A **Inter**, por sua vez, foi projetada especificamente para interfaces
+digitais, com alto desempenho em tamanhos reduzidos e em condições adversas de
+luminosidade [28].
+
+### Escala tipográfica
+
+A escala tipográfica foi definida com base nos critérios de contraste e legibilidade
+das diretrizes WCAG 2.1, que recomendam tamanhos e pesos mínimos para garantir
+acessibilidade em diferentes contextos de uso [24]. Para ambientes externos com alta
+incidência de luz, recomenda-se priorizar pesos a partir de 500 (Medium) e tamanhos
+a partir de 16px no corpo do texto [27].
+
+| Nível | Família | Peso | Tamanho | Uso |
+|---|---|---|---|---|
+| Título H1 | Nunito Sans | 700 | 32px | Títulos de página |
+| Título H2 | Nunito Sans | 600 | 24px | Títulos de seção |
+| Título H3 | Nunito Sans | 600 | 20px | Subtítulos e cards |
+| Corpo | Inter | 400 | 16px | Texto principal |
+| Label | Inter | 500 | 14px | Labels de formulário e tabelas |
+| Caption | Inter | 400 | 12px | Textos auxiliares e rodapés |
+
+> Tamanho mínimo adotado: **12px**. Nenhum texto funcional da interface
+> utiliza tamanho inferior a esse valor, garantindo legibilidade mesmo em
+> dispositivos móveis sob luz solar direta [24][25].
 
 ### 3.4.3 Iconografia e imagens
 
 _(esta subseção é opcional, caso não existam ícones e imagens, apague esta subseção)_
 
 _posicione aqui imagens e textos contendo exemplos padronizados de ícones e imagens, com seus respectivos atributos de aplicação, utilizadas na solução_
+
+A iconografia da solução utiliza a biblioteca **Phosphor Icons**, escolhida por seu
+traço generoso e alta legibilidade em telas mobile e web sob luz solar direta. Os
+ícones são aplicados exclusivamente nos estilos **Bold** e **Fill**, que apresentam
+melhor desempenho em condições de alta iluminância, onde traços finos tendem a
+desaparecer [27].
+
+De acordo com Nielsen [22], os ícones podem ser classificados em três categorias
+segundo seu grau de correspondência com o conceito que representam:
+
+- **Semelhança** — representam visualmente o objeto ao qual se referem
+(ex.: folha para natureza, gota para água);
+- **Referência** — estabelecem uma analogia com o conceito representado
+(ex.: engrenagem para configurações);
+- **Arbitrários** — têm significado definido apenas por convenção
+(ex.: triângulo de alerta).
+
+A biblioteca foi selecionada priorizando ícones de semelhança, categoria que
+apresenta melhor usabilidade e menor dependência cultural [22]. Ícones arbitrários
+foram adotados apenas quando já amplamente convencionados — como o símbolo de
+alerta — evitando ambiguidade para o usuário.
+
+Todo ícone funcional da interface é acompanhado de rótulo textual, nunca utilizado
+de forma isolada em ações críticas. Essa decisão reforça a acessibilidade e reduz
+erros de interpretação, especialmente em contextos de uso ao ar livre onde a atenção
+do usuário pode estar dividida [28].
+
+### Atributos de aplicação
+
+| Imagem | Ícone | Estilo | Tamanho | Uso |
+|---|---|---|---|---|
+| <img src="./assets/icone-home.png" width="40"/> | Home | Bold | 24px | Navegação principal |
+| <img src="./assets/icone-alerta.png" width="40"/> | Warning | Fill | 24px | Alertas e erros |
+| <img src="./assets/icone-check.png" width="40"/> | Check Circle | Fill | 24px | Confirmações e sucesso |
+| <img src="./assets/icone-configs.png" width="40"/> | Gear | Bold | 24px | Configurações |
+| <img src="./assets/icone-usuario.png" width="40"/> | User | Bold | 24px | Perfil e autenticação |
+| <img src="./assets/icone-mapa.png" width="40"/> | Map Pin | Fill | 24px | Localização e área |
+| <img src="./assets/icone-calendario.png" width="40"/> | Calendar | Bold | 24px | Datas e agendamentos |
+| <img src="./assets/icone-relatorio.png" width="40"/> | Chart Bar | Bold | 24px | Relatórios e dados |
+
+> Tamanho mínimo adotado: **24px**. Nenhum ícone funcional da interface
+> utiliza tamanho inferior a esse valor, garantindo identificação visual
+> mesmo em dispositivos móveis sob luz solar direta [25][27].
 
 ## 3.5 Protótipo de alta fidelidade (sprint 3)
 
@@ -2958,6 +3064,19 @@ Industries and Competitors. New York: Free Press, 2008. ISBN 978-0-7432-7275-4.
 
 [21] BOOCH, Grady; RUMBAUGH, James; JACOBSON, Ivar. The Unified Modeling Language User Guide. 2. ed. Boston: Addison-Wesley Professional, 2005. 494 p. ISBN 978-0-321-26797-9.
 
+[22] NIELSEN NORMAN GROUP. Design Systems vs. Style Guides. 2024. Disponível em: https://www.nngroup.com/articles/design-systems-vs-style-guides/. Acesso em: 18 maio 2026.
+
+[23] UXPIN. Design System vs. Pattern Library vs. Style Guide vs. Component Library. 2026. Disponível em: https://www.uxpin.com/studio/blog/design-systems-vs-pattern-libraries-vs-style-guides-whats-difference/. Acesso em: 18 maio 2026.
+
+[24] W3C. WCAG 2.1 - Success Criterion 1.4.6: Contrast (Enhanced). Disponível em: https://www.w3.org/TR/WCAG21/#contrast-enhanced.
+
+[25] ISO 9241-303:2011. Ergonomics of human-system interaction — Part 303: Requirements for electronic visual displays.
+
+[26] IES. The Lighting Handbook (10th Ed.). Seções de visualização sob alta iluminância.
+
+[27] SNAITH, M.; TORNQVIST, K. Situational Visual Impairment: Designing interfaces for outdoor and mobile usage. JMHCI, v. 12, 2020.
+
+[28] BABICH, Nick. Principles of Typography in UI Design. UX Planet, 2016. Disponível em: https://uxplanet.org/principles-of-typography-in-ui-design-bc28f1f9666d. Acesso em: 19 maio 2026.
 # <a name="c9"></a>Anexos
 
 _Inclua aqui quaisquer complementos para seu projeto, como diagramas, imagens, tabelas etc. Organize em sub-tópicos utilizando headings menores (use ## ou ### para isso)_
