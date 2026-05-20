@@ -2407,6 +2407,23 @@ de forma isolada em ações críticas. Essa decisão reforça a acessibilidade e
 erros de interpretação, especialmente em contextos de uso ao ar livre onde a atenção
 do usuário pode estar dividida [28].
 
+### Atributos de aplicação
+
+| Imagem | Ícone | Estilo | Tamanho | Uso |
+|---|---|---|---|---|
+| <img src="./assets/icone-home.png" width="40"/> | Home | Bold | 24px | Navegação principal |
+| <img src="./assets/icone-alerta.png" width="40"/> | Warning | Fill | 24px | Alertas e erros |
+| <img src="./assets/icone-check.png" width="40"/> | Check Circle | Fill | 24px | Confirmações e sucesso |
+| <img src="./assets/icone-configs.png" width="40"/> | Gear | Bold | 24px | Configurações |
+| <img src="./assets/icone-usuario.png" width="40"/> | User | Bold | 24px | Perfil e autenticação |
+| <img src="./assets/icone-mapa.png" width="40"/> | Map Pin | Fill | 24px | Localização e área |
+| <img src="./assets/icone-calendario.png" width="40"/> | Calendar | Bold | 24px | Datas e agendamentos |
+| <img src="./assets/icone-relatorio.png" width="40"/> | Chart Bar | Bold | 24px | Relatórios e dados |
+
+> Tamanho mínimo adotado: **24px**. Nenhum ícone funcional da interface
+> utiliza tamanho inferior a esse valor, garantindo identificação visual
+> mesmo em dispositivos móveis sob luz solar direta [25][27].
+
 ## 3.5 Protótipo de alta fidelidade (sprint 3)
 
 _posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelidade e o link para acesso ao protótipo completo (mantenha o link sempre público para visualização)_
