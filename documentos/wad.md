@@ -2398,8 +2398,6 @@ Além disso, o Coordenador dispõe de um botão de exportação posicionado de f
 
 Um guia de estilo (style guide) é um documento de referência que centraliza todas as decisões visuais de um produto digital, como cores, tipografia, ícones, espaçamentos, componentes e outros. Isso, garantindo consistência em todo o sistema. É tanto um instrumento de comunicação entre designers e desenvolvedores quanto um repositório vivo de decisões de design [1][2].
 
-_Descreva aqui orientações gerais para o leitor sobre como utilizar os componentes do guia de estilos de sua solução_
-
 ### 3.4.1 Cores
 
 ## Paleta de Cores — Campo Verde
