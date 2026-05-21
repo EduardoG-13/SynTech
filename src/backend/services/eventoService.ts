@@ -1,12 +1,9 @@
 import eventoRepository from '../repositories/eventoRepository';
+import { MovimentacaoBase } from '../models/Movimentacao';
 
 class EventoService {
-  registrarNascimento(dados) {
-    // RN27
-    if (!dados.data || !dados.retiro_id || !dados.categoria || !dados.quantidade || !dados.capataz_id) {
-      throw new Error('Campos obrigatórios não preenchidos: data, retiro_id, categoria, quantidade, capataz_id');
-    }
-
+  registrarNascimento(dados: Partial<MovimentacaoBase>) {
+    // RN27 e outras regras de domínio
     return eventoRepository.criarNascimento(dados);
   }
 }
