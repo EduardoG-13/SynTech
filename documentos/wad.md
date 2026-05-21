@@ -1173,9 +1173,103 @@ _Matriz de cobertura mostrando quais RN e endpoints implementam cada RF._
 
 ## 3.2. Arquitetura (sprints 1 a 5)
 
-### 3.2.1. Diagrama de Arquitetura (sprints 3 e 4)
+### 3.2.1. Diagrama de Arquitetura e Camadas (sprints 3 e 4)
 
-_Posicione aqui o diagrama de arquitetura da solução, indicando as camadas principais (Controller, Service, Repository, Model) e suas responsabilidades. Atualize sempre que necessário._
+O Sistema BrPec adota o padrão **Arquitetura em Camadas (Layered Architecture)** no estilo **Controller-Service-Repository (CSR)**, organizando o backend em responsabilidades isoladas que se comunicam de forma unidirecional. A escolha desse padrão se justifica por quatro motivos centrais para o projeto: (i) **separação de responsabilidades**, isolando regras de negócio do transporte HTTP e do acesso a dados; (ii) **testabilidade**, já que cada camada pode ser testada de forma independente com mocks das camadas inferiores; (iii) **manutenibilidade**, permitindo evoluir uma camada sem propagar mudanças para as demais; e (iv) **baixo acoplamento com a infraestrutura escolhida** (Supabase + PostgreSQL), de modo que uma eventual troca do provedor de banco ou do framework HTTP impacte apenas a camada correspondente.
+
+A solução é composta por **cinco camadas lógicas** no backend, implementadas em Node.js + Express.js, com persistência em PostgreSQL gerenciado pelo Supabase:
+
+<center>
+  <p><strong>Figura X</strong> — Diagrama de Arquitetura em Camadas do Sistema BrPec</p>
+  <img src="./assets/diagramaArquitetura.png" width="800" alt="Diagrama da arquitetura em camadas Controller-Service-Repository do BrPec"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+<!-- TODO sprint 3/4: gerar PNG em g03/documentos/assets/diagramaArquitetura.png -->
+
+#### Camadas e suas responsabilidades
+
+**1. Routes (Camada de Rotas)**
+- **Responsabilidade:** definir os endpoints HTTP expostos pela API, associando cada método/URL ao seu respectivo handler na camada Controller. **Não** contém lógica de negócio nem manipula req/res além do roteamento.
+- **Localização:** `g03/src/backend/routes/` (ex.: `routes/index.js`).
+- **Quem chama / chama quem:** recebe requisições do cliente (frontend mobile/web ou ferramentas externas) e delega para a camada Controller.
+- **Implementação:** Express Router. Hoje já existe `routes/index.js` registrando `GET /health → healthController.getHealth`.
+
+**2. Controller (Camada de Apresentação)**
+- **Responsabilidade:** traduzir a requisição HTTP em uma chamada à camada de Service, validar o formato do payload (presença e tipo dos campos), e formatar a resposta (status code, JSON de retorno, mensagens de erro). **Não** acessa o banco de dados nem implementa regras de negócio.
+- **Localização:** `g03/src/backend/controllers/` (pasta criada, controllers serão implementados ao longo das sprints 3 e 4).
+- **Quem chama / chama quem:** chamado pelas Routes, chama a camada de Service.
+
+**3. Service (Camada de Regras de Negócio)**
+- **Responsabilidade:** concentrar a lógica de negócio do domínio pecuário — orquestrar operações, aplicar validações de regra (ex.: usuário tem permissão para criar tarefa em determinado retiro?), gerar identificadores offline (UUID), montar entradas para a `sync_queue` e coordenar chamadas a um ou mais repositórios. **Não** conhece HTTP nem detalhes do dialeto SQL.
+- **Localização:** `g03/src/backend/services/` (ex.: [healthService.js](g03/src/backend/services/healthService.js) já implementado como referência da camada).
+- **Quem chama / chama quem:** chamado pelos Controllers, chama um ou mais Repositories.
+
+**4. Repository (Camada de Acesso a Dados)**
+- **Responsabilidade:** encapsular todo o acesso ao banco de dados — consultas SQL, inserts, updates, deletes e chamadas ao cliente Supabase. Cada Repository corresponde, em geral, a uma entidade (`tarefasRepository`, `usuariosRepository`, etc.). **Não** contém regras de negócio: opera sobre dados.
+- **Localização:** `g03/src/backend/repositories/` (pasta criada, implementação prevista para as sprints 3 e 4). O cliente Supabase compartilhado fica em [g03/src/lib/supabaseClient.js](g03/src/lib/supabaseClient.js) e o pool `pg` é configurado em `g03/src/backend/config/database.js`.
+- **Quem chama / chama quem:** chamado pelos Services, chama o driver do banco (`pg` ou `@supabase/supabase-js`).
+
+**5. Model (Camada de Entidades de Domínio)**
+- **Responsabilidade:** representar as entidades do domínio em código (Tarefa, Retiro, Usuário, Movimentação, Alerta, etc.), refletindo o modelo ER descrito na seção 3.6. Define a forma dos dados que trafegam entre as camadas, sem comportamento de persistência.
+- **Localização:** `g03/src/backend/models/` (pasta criada, implementação prevista para as sprints 3 e 4).
+- **Quem chama / chama quem:** instanciado e consumido pelas camadas Repository e Service.
+
+#### Fluxo de dependência (unidirecional)
+
+```
+Cliente (App/Front)  →  Routes  →  Controller  →  Service  →  Repository  →  Model  →  Supabase/PostgreSQL
+```
+
+Cada camada conhece apenas a imediatamente inferior — uma Route não chama um Repository diretamente, e um Repository não conhece HTTP. Essa regra é o que garante a substituibilidade de cada camada e habilita testes isolados.
+
+#### Tabela-resumo
+
+| Camada      | Pasta                         | Responsabilidade                                  | Pode chamar     | Exemplo de arquivo                                       |
+|-------------|-------------------------------|---------------------------------------------------|-----------------|----------------------------------------------------------|
+| Routes      | `src/backend/routes/`         | Mapear URL/método para o handler                  | Controller      | `routes/index.js`                                        |
+| Controller  | `src/backend/controllers/`    | Validar payload, traduzir HTTP ↔ Service          | Service         | `controllers/tarefasController.js` (planejado)           |
+| Service     | `src/backend/services/`       | Regras de negócio do domínio pecuário             | Repository      | `services/healthService.js` · `services/tarefasService.js` (planejado) |
+| Repository  | `src/backend/repositories/`   | Acesso a dados (SQL / Supabase client)            | Driver do banco | `repositories/tarefasRepository.js` (planejado)          |
+| Model       | `src/backend/models/`         | Representar entidade de domínio                   | —               | `models/Tarefa.js` (planejado)                           |
+
+#### Exemplo de fluxo end-to-end — US01 "Criar Tarefa"
+
+Para ilustrar como uma requisição atravessa as camadas, considere a **US01** (seção 2.3): "Como Gerente geral, posso criar tarefas e atribuí-las a um retiro específico". O fluxo previsto para a requisição `POST /tarefas` é:
+
+1. **Routes** (`routes/tarefas.js`) recebe a requisição HTTP e delega:
+   ```js
+   router.post('/tarefas', tarefasController.criar);
+   ```
+2. **Controller** (`controllers/tarefasController.js`) valida o payload (campos obrigatórios: `titulo`, `retiro_id`, `prazo`), extrai o usuário autenticado e chama o service:
+   ```js
+   const tarefa = await tarefasService.criarTarefa(req.body, req.user);
+   res.status(201).json(tarefa);
+   ```
+3. **Service** (`services/tarefasService.js`) aplica as regras de negócio: gera o UUID localmente (estratégia offline-first descrita na seção 3.6.4), verifica se o `retiro_id` pertence à fazenda do usuário, registra a operação na `sync_queue` e chama o repositório:
+   ```js
+   const novaTarefa = new Tarefa({ id: uuidv4(), ...dados, autor: usuario.id });
+   await tarefasRepository.inserir(novaTarefa);
+   await syncQueueRepository.enfileirar('INSERT', 'tarefas', novaTarefa);
+   ```
+4. **Repository** (`repositories/tarefasRepository.js`) executa o `INSERT` na tabela `tarefas` via cliente `pg` ou `@supabase/supabase-js`, sem conhecer regras de negócio.
+5. **Model** (`models/Tarefa.js`) é a classe/objeto que representa a entidade Tarefa, garantindo a forma dos dados trafegados entre Service e Repository.
+
+A resposta percorre o caminho inverso (Repository → Service → Controller → Routes → Cliente), atendendo aos critérios de aceite CR1 (tarefa vinculada ao retiro) e CR2 (disponibilidade após sincronização).
+
+#### Estado atual da implementação
+
+A arquitetura descrita acima é a **arquitetura-alvo** do projeto. O estado da implementação ao final desta sprint é:
+
+| Camada       | Status                                                                                  |
+|--------------|-----------------------------------------------------------------------------------------|
+| Routes       | ✅ Implementada (estrutura inicial em [routes/index.js](g03/src/backend/routes/index.js)) |
+| Controllers  | ⏳ Pasta criada, primeiros controllers a serem implementados na sprint 3                 |
+| Services     | ✅ Camada validada com [healthService.js](g03/src/backend/services/healthService.js); demais services seguirão o mesmo padrão |
+| Repositories | ⏳ Pasta criada, implementação prevista para a sprint 3                                  |
+| Models       | ⏳ Pasta criada, implementação prevista para a sprint 3                                  |
+
+A configuração do banco (`config/database.js`) e o cliente Supabase compartilhado ([src/lib/supabaseClient.js](g03/src/lib/supabaseClient.js)) já estão preparados para suportar a camada Repository quando ela for desenvolvida.
 
 ### 3.2.2. Diagrama de Casos de Uso (sprint 1)
 
@@ -2302,15 +2396,78 @@ Além disso, o Coordenador dispõe de um botão de exportação posicionado de f
 
 ## 3.4. Guia de estilos (sprint 3)
 
+Um guia de estilo (style guide) é um documento de referência que centraliza todas as decisões visuais de um produto digital, como cores, tipografia, ícones, espaçamentos, componentes e outros. Isso, garantindo consistência em todo o sistema. É tanto um instrumento de comunicação entre designers e desenvolvedores quanto um repositório vivo de decisões de design [1][2].
+
 _Descreva aqui orientações gerais para o leitor sobre como utilizar os componentes do guia de estilos de sua solução_
 
 ### 3.4.1 Cores
 
-_Apresente aqui a paleta de cores, com seus códigos de aplicação e suas respectivas funções_
+## Paleta de Cores — Campo Verde
+
+| Imagem | Cor | Hex | Função |
+|---|---|---|---|
+| <img src="./assets/verde-profundo.png" width="40"/> | Verde Profundo | `#1A4D2E` | Cor primária — botões principais, cabeçalhos, elementos de destaque |
+| <img src="./assets/verde-medio.png" width="40"/> | Verde Médio | `#2E7D52` | Cor secundária — hover states, ícones ativos, badges de status |
+| <img src="./assets/off-white-quente.png" width="40"/> | Off-white Quente | `#F5F0E8` | Fundo principal — base de todas as telas (evita reflexo do branco puro) |
+| <img src="./assets/quase-preto.png" width="40"/> | Quase Preto | `#1B1B1B` | Texto primário — corpo, títulos, labels funcionais |
+| <img src="./assets/ambar-escuro.png" width="40"/> | Âmbar Escuro | `#A64B00` | Ação e alerta — botões de ação secundária, avisos, notificações |
+| <img src="./assets/vermelho-escuro.png" width="40"/> | Vermelho Escuro | `#D32F2F` | Erro — mensagens de falha, campos inválidos, ações destrutivas |
+
+### Justificativa Técnica: Contraste Outdoor (Nível AAA)
+
+Justificativa Técnica: Contraste Outdoor (Nível AAA)
+A adoção do contraste mínimo de 7:1 para interfaces operadas em ambientes externos sob luz solar direta fundamenta-se na convergência entre engenharia de fatores humanos e acessibilidade, conforme o critério de sucesso 1.4.6 da WCAG (Nível AAA) [24].
+
+Em condições de exposição solar direta, que pode ultrapassar 100.000 lux [26], a luz incidente nas camadas do display desencadeia o fenômeno conhecido como veiling glare: reflexões que adicionam luminância ao fundo e ao texto, "lavando" as cores e reduzindo drasticamente o contraste percebido. Para compensar essa perda física e garantir legibilidade em campo, a interface precisa partir de uma razão de contraste nativa substancialmente elevada [25]. Nesse contexto, a iluminação extrema impõe ao usuário uma deficiência visual situacional temporária, equiparável, em termos perceptivos, à perda severa de sensibilidade ao contraste [27].
+
+É exatamente esse cenário que o critério 1.4.6 da WCAG visa cobrir ao exigir a proporção de 7:1. Além do impacto direto na legibilidade, relações inferiores a esse limiar aumentam o tempo de fixação ocular, elevam a taxa de erro na leitura de dados críticos e aceleram a fadiga visual pelo esforço contínuo de acomodação. O patamar de 7:1 é, portanto, o requisito técnico mínimo para preservar a usabilidade em condições adversas de luminosidade.
 
 ### 3.4.2 Tipografia
 
 _Apresente aqui a tipografia da solução, com famílias de fontes e suas respectivas funções_
+
+A escolha tipográfica em interfaces digitais vai além da estética. Fontes sem serifa
+de traço uniforme apresentam melhor desempenho em telas de baixa resolução e em
+condições adversas de luminosidade, como a exposição solar direta enfrentada pelos
+usuários deste projeto [28]. Além disso, o tamanho e o peso das fontes impactam
+diretamente a acessibilidade da interface: textos com peso insuficiente ou tamanho
+reduzido comprometem a leitura em ambientes de alta iluminância [25][27].
+
+A tipografia da solução utiliza duas famílias de fontes complementares, ambas
+disponíveis gratuitamente via Google Fonts, selecionadas para garantir legibilidade
+em telas mobile e web, inclusive sob luz solar direta.
+
+| Imagem | Família | Uso | Pesos utilizados |
+|---|---|---|---|
+| <img src="./assets/fonte-nunito-sans.png" width="40"/> | Nunito Sans | Títulos, botões e elementos de destaque | 600 (SemiBold), 700 (Bold) |
+| <img src="./assets/fonte-inter.png" width="40"/> | Inter | Corpo de texto, labels e tabelas | 400 (Regular), 500 (Medium) |
+
+A **Nunito Sans** foi escolhida por sua compatibilidade visual com a identidade da
+marca Syntech. Suas formas arredondadas e traços suaves refletem a personalidade
+da logo. A **Inter**, por sua vez, foi projetada especificamente para interfaces
+digitais, com alto desempenho em tamanhos reduzidos e em condições adversas de
+luminosidade [28].
+
+### Escala tipográfica
+
+A escala tipográfica foi definida com base nos critérios de contraste e legibilidade
+das diretrizes WCAG 2.1, que recomendam tamanhos e pesos mínimos para garantir
+acessibilidade em diferentes contextos de uso [24]. Para ambientes externos com alta
+incidência de luz, recomenda-se priorizar pesos a partir de 500 (Medium) e tamanhos
+a partir de 16px no corpo do texto [27].
+
+| Nível | Família | Peso | Tamanho | Uso |
+|---|---|---|---|---|
+| Título H1 | Nunito Sans | 700 | 32px | Títulos de página |
+| Título H2 | Nunito Sans | 600 | 24px | Títulos de seção |
+| Título H3 | Nunito Sans | 600 | 20px | Subtítulos e cards |
+| Corpo | Inter | 400 | 16px | Texto principal |
+| Label | Inter | 500 | 14px | Labels de formulário e tabelas |
+| Caption | Inter | 400 | 12px | Textos auxiliares e rodapés |
+
+> Tamanho mínimo adotado: **12px**. Nenhum texto funcional da interface
+> utiliza tamanho inferior a esse valor, garantindo legibilidade mesmo em
+> dispositivos móveis sob luz solar direta [24][25].
 
 ### 3.4.3 Iconografia e imagens
 
@@ -2318,9 +2475,84 @@ _(esta subseção é opcional, caso não existam ícones e imagens, apague esta 
 
 _posicione aqui imagens e textos contendo exemplos padronizados de ícones e imagens, com seus respectivos atributos de aplicação, utilizadas na solução_
 
+A iconografia da solução utiliza a biblioteca **Phosphor Icons**, escolhida por seu
+traço generoso e alta legibilidade em telas mobile e web sob luz solar direta. Os
+ícones são aplicados exclusivamente nos estilos **Bold** e **Fill**, que apresentam
+melhor desempenho em condições de alta iluminância, onde traços finos tendem a
+desaparecer [27].
+
+De acordo com Nielsen [22], os ícones podem ser classificados em três categorias
+segundo seu grau de correspondência com o conceito que representam:
+
+- **Semelhança** — representam visualmente o objeto ao qual se referem
+(ex.: folha para natureza, gota para água);
+- **Referência** — estabelecem uma analogia com o conceito representado
+(ex.: engrenagem para configurações);
+- **Arbitrários** — têm significado definido apenas por convenção
+(ex.: triângulo de alerta).
+
+A biblioteca foi selecionada priorizando ícones de semelhança, categoria que
+apresenta melhor usabilidade e menor dependência cultural [22]. Ícones arbitrários
+foram adotados apenas quando já amplamente convencionados — como o símbolo de
+alerta — evitando ambiguidade para o usuário.
+
+Todo ícone funcional da interface é acompanhado de rótulo textual, nunca utilizado
+de forma isolada em ações críticas. Essa decisão reforça a acessibilidade e reduz
+erros de interpretação, especialmente em contextos de uso ao ar livre onde a atenção
+do usuário pode estar dividida [28].
+
+### Atributos de aplicação
+
+| Imagem | Ícone | Estilo | Tamanho | Uso |
+|---|---|---|---|---|
+| <img src="./assets/icone-home.png" width="40"/> | Home | Bold | 24px | Navegação principal |
+| <img src="./assets/icone-alerta.png" width="40"/> | Warning | Fill | 24px | Alertas e erros |
+| <img src="./assets/icone-check.png" width="40"/> | Check Circle | Fill | 24px | Confirmações e sucesso |
+| <img src="./assets/icone-configs.png" width="40"/> | Gear | Bold | 24px | Configurações |
+| <img src="./assets/icone-usuario.png" width="40"/> | User | Bold | 24px | Perfil e autenticação |
+| <img src="./assets/icone-mapa.png" width="40"/> | Map Pin | Fill | 24px | Localização e área |
+| <img src="./assets/icone-calendario.png" width="40"/> | Calendar | Bold | 24px | Datas e agendamentos |
+| <img src="./assets/icone-relatorio.png" width="40"/> | Chart Bar | Bold | 24px | Relatórios e dados |
+
+> Tamanho mínimo adotado: **24px**. Nenhum ícone funcional da interface
+> utiliza tamanho inferior a esse valor, garantindo identificação visual
+> mesmo em dispositivos móveis sob luz solar direta [25][27].
+
 ## 3.5 Protótipo de alta fidelidade (sprint 3)
 
-_posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelidade e o link para acesso ao protótipo completo (mantenha o link sempre público para visualização)_
+## 3.5. Protótipo de Alta Fidelidade (sprint 3)
+
+O protótipo de alta fidelidade foi desenvolvido no Figma com base nas personas, User Stories priorizadas e no Guia de Estilos definido na seção 3.4. As decisões visuais priorizaram a acessibilidade operacional dos usuários de campo — em especial os Capatazes, que apresentam baixo letramento digital e utilizam o sistema em ambientes externos com alta incidência solar.
+
+As telas seguem as diretrizes de contraste nível AAA (WCAG 1.4.6, razão mínima de 7:1), tipografia Inter com tamanhos mínimos de 14px e elementos de interação dimensionados para uso tátil em dispositivos móveis (altura mínima de 56px nos botões de ação principal). A paleta aplicada segue integralmente a definida na seção 3.4.1 — Verde Profundo (`#1A4D2E`) como cor primária e Off-white Quente (`#F5F0E8`) como fundo. O layout foi estruturado com base em um sistema de grid de 12 colunas com margens de 20px nas versões mobile e 48px nas versões desktop, garantindo alinhamento consistente entre todos os elementos.
+
+O protótipo navegável completo está disponível em: [Figma — Alta Fidelidade BRPec](https://www.figma.com/design/hsrRfUs4i1Veye6B88vDvy/Alta-fidelidade-BrPec)
+
+---
+
+### 3.5.1. Tela de Tarefas — Capataz (US02 / US03)
+
+A tela de tarefas é a interface principal do Capataz. Projetada para exibir apenas o essencial — lista de tarefas do dia, status de cada item e botão de ação principal —, o design evita textos longos e instruções complexas, apoiando-se em badges coloridos para indicar o estado de cada tarefa sem exigir leitura extensiva.
+
+**Critérios de aceite cobertos:**
+
+- **CR1 (US02):** O Capataz visualiza a lista de tarefas do dia ao acessar a tela, mesmo offline.
+- **CR2 (US02):** Quando não há tarefas sincronizadas, uma mensagem simples é exibida no lugar da lista.
+- **CR3 (US02):** As tarefas são exibidas de forma organizada e de fácil entendimento.
+
+<center>
+  <p><strong>Figura X</strong> — Protótipo de Alta Fidelidade: Tela de Tarefas do Capataz (Mobile e Desktop)</p>
+  <img src="./assets/mockup_tela_tarefas_capataz.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+**Decisões de design:**
+
+- **Header verde profundo** com o título da tela em destaque, garantindo orientação imediata mesmo sob luz solar direta.
+- **Filtros "Todos" e "Rebanhos"** posicionados logo abaixo do cabeçalho, com o filtro ativo preenchido em verde e o inativo com borda, diferenciando os estados sem ambiguidade.
+- **Cards de tarefa** com barra lateral colorida indicando o status (âmbar para "Em andamento", verde para "Pendente"), título em destaque e badge de status. A seta à direita sinaliza que o item é clicável, seguindo convenções já familiares ao usuário de aplicativos móveis.
+- **Botão "Nova O.S."** centralizado com altura generosa (56px), permitindo acionamento fácil mesmo com dedos em movimento.
+- **Versão desktop** mantém a mesma hierarquia visual da versão mobile, com os cards expandidos em largura total e badge de status posicionado à direita do título.
 
 ## 3.6. Modelagem do banco de dados (sprints 2 e 4)
 
@@ -2708,63 +2940,26 @@ Consultas SQL são instruções que permitem ao sistema recuperar, inserir, atua
 
 A lógica proposicional é o ramo da lógica matemática que estuda proposições: afirmações que assumem valor verdadeiro (V) ou falso (F). Proposições simples são combinadas por operadores lógicos: conjunção ($\land$, equivalente ao `AND` do SQL), disjunção ($\lor$, equivalente ao `OR`) e negação ($\lnot$, equivalente ao `NOT`), formando expressões compostas cujo valor de verdade depende dos valores de cada parte. A tabela-verdade enumera todas as combinações possíveis de valores das proposições elementares e o resultado da expressão composta para cada combinação, tornando explícita a semântica da condição de filtragem.
 
-A conexão entre os dois formalismos é direta: cada predicado da cláusula `WHERE` de uma consulta SQL corresponde a uma proposição lógica, e os operadores `AND`/`OR` mapeiam diretamente para $\land$/$\lor$. Representar as consultas dessa forma dupla, como código SQL e como expressão proposicional com tabela-verdade, permite verificar formalmente se a lógica de filtragem está correta e comunicar a intenção da consulta de maneira precisa, independente do dialeto SQL utilizado.
+A conexão entre os dois formalismos é direta: cada predicado da cláusula `WHERE` de uma consulta SQL corresponde a uma proposição lógica, e os operadores `AND` e `OR` mapeiam diretamente para $\land$ e $\lor$. Representar as consultas dessa forma dupla, como código SQL e como expressão proposicional com tabela-verdade, permite verificar formalmente se a lógica de filtragem está correta e comunicar a intenção da consulta de maneira precisa, independentemente do dialeto SQL utilizado.
 
-As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados ao modelo físico SQLite da seção 3.6.3. As expressões usam os nomes de colunas do modelo atual, especialmente `responsavel_id`, `criado_por_id`, `data_prevista`, `sync_status` e a fila técnica `sync_queue`.
-
+As consultas abaixo representam fluxos priorizados do sistema BrPec e foram extraídas do backend da aplicação, sendo posteriormente validadas tecnicamente com a equipe de desenvolvimento. Elas contemplam funcionalidades centrais do sistema, incluindo o gerenciamento de tarefas operacionais, o controle de nascimentos do rebanho e o mecanismo de sincronização automática de dados em ambientes com conectividade limitada.
 
 <center>
   <p><strong>Tabela 8</strong> — Expressões SQL e Lógica Proposicional</p>
 </center>
 
-#1 | ---
---- | ---
-**Expressão SQL** | `SELECT id, titulo, descricao, status, data_prevista FROM tarefas WHERE responsavel_id = $1 AND date(data_prevista) = date('now') AND (status = 'pendente' OR status = 'em_andamento') ORDER BY data_prevista ASC;` |
-**Proposições lógicas** | $A$: a tarefa pertence ao Capataz autenticado (`responsavel_id = $1`) <br> $B$: a tarefa está prevista para hoje (`date(data_prevista) = date('now')`) <br> $C$: o status é pendente (`status = 'pendente'`) <br> $D$: o status é em andamento (`status = 'em_andamento'`) |
-**Expressão lógica proposicional** | $A \land B \land (C \lor D)$ |
+| #1 | Fluxo: Consulta de tarefas pendentes do Capataz (US02 / RF002) |
+| --- | --- |
+| **Expressão SQL** | `SELECT * FROM tasks WHERE assigned_to = $1 AND status = 'PENDING';` |
+| **Proposições lógicas** | $A$: a tarefa está atribuída ao capataz autenticado (`assigned_to = $1`) <br> $B$: o status da tarefa é pendente (`status = 'PENDING'`) |
+| **Expressão lógica proposicional** | $A \land B$ |
 
-| $A$ | $B$ | $C$ | $D$ | $A \land B \land (C \lor D)$ |
-| --- | --- | --- | --- | ----------------------------- |
-| F   | F   | F   | F   | F                             |
-| F   | F   | F   | V   | F                             |
-| F   | F   | V   | F   | F                             |
-| F   | F   | V   | V   | F                             |
-| F   | V   | F   | F   | F                             |
-| F   | V   | F   | V   | F                             |
-| F   | V   | V   | F   | F                             |
-| F   | V   | V   | V   | F                             |
-| V   | F   | F   | F   | F                             |
-| V   | F   | F   | V   | F                             |
-| V   | F   | V   | F   | F                             |
-| V   | F   | V   | V   | F                             |
-| V   | V   | F   | F   | F                             |
-| V   | V   | F   | V   | V                             |
-| V   | V   | V   | F   | V                             |
-| V   | V   | V   | V   | V                             |
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
-
----
-
-#2 | ---
---- | ---
-**Expressão SQL** | `UPDATE tarefas SET status = 'concluida', data_conclusao = strftime('%Y-%m-%dT%H:%M:%fZ','now'), sync_status = 'pendente', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = $1 AND responsavel_id = $2 AND status <> 'concluida';` |
-**Proposições lógicas** | $A$: a tarefa corresponde ao ID informado (`id = $1`) <br> $B$: a tarefa pertence ao responsável autenticado (`responsavel_id = $2`) <br> $C$: a tarefa ainda não está concluída (`status <> 'concluida'`) |
-**Expressão lógica proposicional** | $A \land B \land C$ |
-
-| $A$ | $B$ | $C$ | $A \land B \land C$ |
-| --- | --- | --- | ------------------- |
-| F   | F   | F   | F                   |
-| F   | F   | V   | F                   |
-| F   | V   | F   | F                   |
-| F   | V   | V   | F                   |
-| V   | F   | F   | F                   |
-| V   | F   | V   | F                   |
-| V   | V   | F   | F                   |
-| V   | V   | V   | V                   |
+| $A$ | $B$ | $A \land B$ |
+| --- | --- | ----------- |
+| F   | F   | F           |
+| F   | V   | F           |
+| V   | F   | F           |
+| V   | V   | V           |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -2772,12 +2967,16 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 
 ---
 
-#3 | ---
---- | ---
-**Expressão SQL** | `SELECT a.id, a.titulo, a.descricao, a.tipo, a.status, a.created_at, r.nome AS retiro, u.nome AS criado_por FROM alertas a JOIN retiros r ON a.retiro_id = r.id JOIN usuarios u ON a.criado_por_id = u.id WHERE (a.status = 'aberto' OR a.status = 'em_andamento') AND (a.tipo = 'infraestrutura' OR a.tipo = 'cerca' OR a.tipo = 'bebedouro') ORDER BY a.created_at DESC;` |
-**Proposições lógicas** | $A$: o alerta está aberto (`status = 'aberto'`) <br> $B$: o alerta está em andamento (`status = 'em_andamento'`) <br> $C$: o tipo é infraestrutura (`tipo = 'infraestrutura'`) <br> $D$: o tipo é cerca (`tipo = 'cerca'`) <br> $E$: o tipo é bebedouro (`tipo = 'bebedouro'`) |
-**Expressão lógica proposicional** | $(A \lor B) \land (C \lor D \lor E)$ |
-**Tabela Verdade** | <table> <thead> <tr> <th>$A$</th> <th>$B$</th> <th>$C$</th> <th>$D$</th> <th>$E$</th> <th>$(A \lor B) \land (C \lor D \lor E)$</th> </tr> </thead> <tbody> <tr> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>F</td> <td>F</td> </tr> <tr> <td>V</td> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>V</td> </tr> <tr> <td>V</td> <td>F</td> <td>F</td> <td>V</td> <td>F</td> <td>V</td> </tr> <tr> <td>F</td> <td>V</td> <td>F</td> <td>F</td> <td>V</td> <td>V</td> </tr> <tr> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> <td>V</td> </tr> </tbody> </table>
+| #2 | Fluxo: Contagem de nascimentos registrados (US08 / RF008) |
+| --- | --- |
+| **Expressão SQL** | `SELECT COUNT(*) FROM events WHERE event_type = 'NASCIMENTO';` |
+| **Proposições lógicas** | $A$: o evento registrado é do tipo nascimento (`event_type = 'NASCIMENTO'`) |
+| **Expressão lógica proposicional** | $A$ |
+
+| $A$ | Resultado |
+| --- | --------- |
+| F   | F         |
+| V   | V         |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -2785,79 +2984,22 @@ As consultas abaixo representam fluxos priorizados do sistema BRPec, alinhados a
 
 ---
 
-#4 | ---
---- | ---
-**Expressão SQL** | `SELECT t.id, t.titulo, t.status, t.data_prevista, r.nome AS retiro, u.nome AS responsavel FROM tarefas t JOIN retiros r ON t.retiro_id = r.id JOIN usuarios u ON t.responsavel_id = u.id WHERE t.criado_por_id = $1 AND (t.status = 'pendente' OR t.status = 'em_andamento') AND date(t.data_prevista) >= date('now') ORDER BY t.data_prevista ASC, r.nome ASC;` |
-**Proposições lógicas** | $A$: a tarefa foi criada pelo Gerente autenticado (`criado_por_id = $1`) <br> $B$: o status é pendente (`status = 'pendente'`) <br> $C$: o status é em andamento (`status = 'em_andamento'`) <br> $D$: a data prevista é hoje ou futura (`date(data_prevista) >= date('now')`) |
-**Expressão lógica proposicional** | $A \land (B \lor C) \land D$ |
+| #3 | Fluxo: Busca de eventos offline não sincronizados (RF010) |
+| --- | --- |
+| **Expressão SQL** | `SELECT * FROM events WHERE synced = 0 AND event_type IN ('VACINACAO', 'PESAGEM', 'TRATAMENTO', 'NASCIMENTO') ORDER BY created_at ASC;` |
+| **Proposições lógicas** | $A$: o evento ainda não foi sincronizado (`synced = 0`) <br> $B$: o tipo do evento é vacinação <br> $C$: o tipo do evento é pesagem <br> $D$: o tipo do evento é tratamento <br> $E$: o tipo do evento é nascimento |
+| **Expressão lógica proposicional** | $A \land (B \lor C \lor D \lor E)$ |
 
-| $A$ | $B$ | $C$ | $D$ | $A \land (B \lor C) \land D$ |
-| --- | --- | --- | --- | ----------------------------- |
-| F   | F   | F   | F   | F                             |
-| F   | F   | F   | V   | F                             |
-| F   | F   | V   | F   | F                             |
-| F   | F   | V   | V   | F                             |
-| F   | V   | F   | F   | F                             |
-| F   | V   | F   | V   | F                             |
-| F   | V   | V   | F   | F                             |
-| F   | V   | V   | V   | F                             |
-| V   | F   | F   | F   | F                             |
-| V   | F   | F   | V   | F                             |
-| V   | F   | V   | F   | F                             |
-| V   | F   | V   | V   | V                             |
-| V   | V   | F   | F   | F                             |
-| V   | V   | F   | V   | V                             |
-| V   | V   | V   | F   | F                             |
-| V   | V   | V   | V   | V                             |
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
----
-
-| #5                                 | Fluxo: Registro de nascimento offline com fila de sincronização (US08 / RF008)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Expressão SQL**                  | `BEGIN; INSERT INTO movimentacoes (id, retiro_id, responsavel_id, tipo, categoria, data_movimentacao, observacoes, sync_status) VALUES ($1, $2, $3, 'nascimento', $4, $5, $6, 'pendente') ON CONFLICT(id) DO UPDATE SET categoria = excluded.categoria, data_movimentacao = excluded.data_movimentacao, observacoes = excluded.observacoes, sync_status = 'pendente', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE movimentacoes.sync_status != 'sincronizado' AND movimentacoes.responsavel_id = excluded.responsavel_id; INSERT INTO nascimentos (id, movimentacao_id, quantidade, raca) VALUES ($7, $1, $8, $9) ON CONFLICT(id) DO UPDATE SET quantidade = excluded.quantidade, raca = excluded.raca; INSERT INTO sync_queue (id, tabela, registro_id, operacao, payload_json) VALUES ($10, 'movimentacoes', $1, 'insert', $11); COMMIT;` |
-| **Proposições lógicas**            | $A$: o registro ainda não existe no banco local <br> $B$: o registro existe, mas ainda não foi sincronizado (`sync_status != 'sincronizado'`) <br> $C$: o registro pertence ao mesmo responsável (`responsavel_id = excluded.responsavel_id`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| **Expressão lógica proposicional** | $A \lor (B \land C)$                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-
-| $A$ | $B$ | $C$ | $A \lor (B \land C)$ |
-| --- | --- | --- | -------------------- |
-| F   | F   | F   | F                    |
-| F   | F   | V   | F                    |
-| F   | V   | F   | F                    |
-| F   | V   | V   | V                    |
-| V   | F   | F   | V                    |
-| V   | F   | V   | V                    |
-| V   | V   | F   | V                    |
-| V   | V   | V   | V                    |
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
---- 
-
-| #6 | Fluxo: Registro de óbito offline com fila de sincronização (US09 / RF009) |
-|---|---|
-| **Expressão SQL** | `BEGIN; INSERT INTO movimentacoes (id, retiro_id, responsavel_id, tipo, categoria, data_movimentacao, observacoes, sync_status) VALUES ($1, $2, $3, 'obito', $4, $5, $6, 'pendente') ON CONFLICT(id) DO UPDATE SET categoria = excluded.categoria, data_movimentacao = excluded.data_movimentacao, observacoes = excluded.observacoes, sync_status = 'pendente', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE movimentacoes.sync_status != 'sincronizado' AND movimentacoes.responsavel_id = excluded.responsavel_id; INSERT INTO obitos (id, movimentacao_id, identificacao_animal, quantidade, causa, exige_evidencia_foto) VALUES ($7, $1, $8, $9, $10, 1) ON CONFLICT(id) DO UPDATE SET causa = excluded.causa, quantidade = excluded.quantidade, identificacao_animal = excluded.identificacao_animal WHERE obitos.movimentacao_id = excluded.movimentacao_id; INSERT INTO sync_queue (id, tabela, registro_id, operacao, payload_json) VALUES ($11, 'movimentacoes', $1, 'insert', $12); COMMIT;` |
-| **Proposições lógicas** | $A$: o registro de óbito ainda não existe no banco local <br> $B$: o registro existe, mas ainda não foi sincronizado (`sync_status != 'sincronizado'`) <br> $C$: o registro pertence ao mesmo responsável (`responsavel_id = excluded.responsavel_id`) <br> $D$: a causa da morte foi informada (`causa IS NOT NULL`) |
-| **Expressão lógica proposicional** | $(A \lor (B \land C)) \land D$ |
-
-| $A$ | $B$ | $C$ | $D$ | $(A \lor (B \land C)) \land D$ |
-|---|---|---|---|---|
-| F | F | F | F | F |
-| F | F | F | V | F |
-| F | F | V | V | F |
-| F | V | F | V | F |
-| F | V | V | F | F |
-| F | V | V | V | V |
-| V | F | F | F | F |
-| V | F | F | V | V |
-| V | F | V | V | V |
-| V | V | F | V | V |
-| V | V | V | F | F |
-| V | V | V | V | V |
+| $A$ | $B$ | $C$ | $D$ | $E$ | $A \land (B \lor C \lor D \lor E)$ |
+| --- | --- | --- | --- | --- | --------------------------------- |
+| F   | F   | F   | F   | F   | F |
+| F   | V   | F   | F   | F   | F |
+| V   | F   | F   | F   | F   | F |
+| V   | V   | F   | F   | F   | V |
+| V   | F   | V   | F   | F   | V |
+| V   | F   | F   | V   | F   | V |
+| V   | F   | F   | F   | V   | V |
+| V   | V   | V   | V   | V   | V |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -3108,6 +3250,19 @@ Industries and Competitors. New York: Free Press, 2008. ISBN 978-0-7432-7275-4.
 
 [21] BOOCH, Grady; RUMBAUGH, James; JACOBSON, Ivar. The Unified Modeling Language User Guide. 2. ed. Boston: Addison-Wesley Professional, 2005. 494 p. ISBN 978-0-321-26797-9.
 
+[22] NIELSEN NORMAN GROUP. Design Systems vs. Style Guides. 2024. Disponível em: https://www.nngroup.com/articles/design-systems-vs-style-guides/. Acesso em: 18 maio 2026.
+
+[23] UXPIN. Design System vs. Pattern Library vs. Style Guide vs. Component Library. 2026. Disponível em: https://www.uxpin.com/studio/blog/design-systems-vs-pattern-libraries-vs-style-guides-whats-difference/. Acesso em: 18 maio 2026.
+
+[24] W3C. WCAG 2.1 - Success Criterion 1.4.6: Contrast (Enhanced). Disponível em: https://www.w3.org/TR/WCAG21/#contrast-enhanced.
+
+[25] ISO 9241-303:2011. Ergonomics of human-system interaction — Part 303: Requirements for electronic visual displays.
+
+[26] IES. The Lighting Handbook (10th Ed.). Seções de visualização sob alta iluminância.
+
+[27] SNAITH, M.; TORNQVIST, K. Situational Visual Impairment: Designing interfaces for outdoor and mobile usage. JMHCI, v. 12, 2020.
+
+[28] BABICH, Nick. Principles of Typography in UI Design. UX Planet, 2016. Disponível em: https://uxplanet.org/principles-of-typography-in-ui-design-bc28f1f9666d. Acesso em: 19 maio 2026.
 # <a name="c9"></a>Anexos
 
 _Inclua aqui quaisquer complementos para seu projeto, como diagramas, imagens, tabelas etc. Organize em sub-tópicos utilizando headings menores (use ## ou ### para isso)_
