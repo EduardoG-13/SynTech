@@ -1173,9 +1173,103 @@ _Matriz de cobertura mostrando quais RN e endpoints implementam cada RF._
 
 ## 3.2. Arquitetura (sprints 1 a 5)
 
-### 3.2.1. Diagrama de Arquitetura (sprints 3 e 4)
+### 3.2.1. Diagrama de Arquitetura e Camadas (sprints 3 e 4)
 
-_Posicione aqui o diagrama de arquitetura da solução, indicando as camadas principais (Controller, Service, Repository, Model) e suas responsabilidades. Atualize sempre que necessário._
+O Sistema BrPec adota o padrão **Arquitetura em Camadas (Layered Architecture)** no estilo **Controller-Service-Repository (CSR)**, organizando o backend em responsabilidades isoladas que se comunicam de forma unidirecional. A escolha desse padrão se justifica por quatro motivos centrais para o projeto: (i) **separação de responsabilidades**, isolando regras de negócio do transporte HTTP e do acesso a dados; (ii) **testabilidade**, já que cada camada pode ser testada de forma independente com mocks das camadas inferiores; (iii) **manutenibilidade**, permitindo evoluir uma camada sem propagar mudanças para as demais; e (iv) **baixo acoplamento com a infraestrutura escolhida** (Supabase + PostgreSQL), de modo que uma eventual troca do provedor de banco ou do framework HTTP impacte apenas a camada correspondente.
+
+A solução é composta por **cinco camadas lógicas** no backend, implementadas em Node.js + Express.js, com persistência em PostgreSQL gerenciado pelo Supabase:
+
+<center>
+  <p><strong>Figura X</strong> — Diagrama de Arquitetura em Camadas do Sistema BrPec</p>
+  <img src="./assets/diagramaArquitetura.png" width="800" alt="Diagrama da arquitetura em camadas Controller-Service-Repository do BrPec"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+<!-- TODO sprint 3/4: gerar PNG em g03/documentos/assets/diagramaArquitetura.png -->
+
+#### Camadas e suas responsabilidades
+
+**1. Routes (Camada de Rotas)**
+- **Responsabilidade:** definir os endpoints HTTP expostos pela API, associando cada método/URL ao seu respectivo handler na camada Controller. **Não** contém lógica de negócio nem manipula req/res além do roteamento.
+- **Localização:** `g03/src/backend/routes/` (ex.: `routes/index.js`).
+- **Quem chama / chama quem:** recebe requisições do cliente (frontend mobile/web ou ferramentas externas) e delega para a camada Controller.
+- **Implementação:** Express Router. Hoje já existe `routes/index.js` registrando `GET /health → healthController.getHealth`.
+
+**2. Controller (Camada de Apresentação)**
+- **Responsabilidade:** traduzir a requisição HTTP em uma chamada à camada de Service, validar o formato do payload (presença e tipo dos campos), e formatar a resposta (status code, JSON de retorno, mensagens de erro). **Não** acessa o banco de dados nem implementa regras de negócio.
+- **Localização:** `g03/src/backend/controllers/` (pasta criada, controllers serão implementados ao longo das sprints 3 e 4).
+- **Quem chama / chama quem:** chamado pelas Routes, chama a camada de Service.
+
+**3. Service (Camada de Regras de Negócio)**
+- **Responsabilidade:** concentrar a lógica de negócio do domínio pecuário — orquestrar operações, aplicar validações de regra (ex.: usuário tem permissão para criar tarefa em determinado retiro?), gerar identificadores offline (UUID), montar entradas para a `sync_queue` e coordenar chamadas a um ou mais repositórios. **Não** conhece HTTP nem detalhes do dialeto SQL.
+- **Localização:** `g03/src/backend/services/` (ex.: [healthService.js](g03/src/backend/services/healthService.js) já implementado como referência da camada).
+- **Quem chama / chama quem:** chamado pelos Controllers, chama um ou mais Repositories.
+
+**4. Repository (Camada de Acesso a Dados)**
+- **Responsabilidade:** encapsular todo o acesso ao banco de dados — consultas SQL, inserts, updates, deletes e chamadas ao cliente Supabase. Cada Repository corresponde, em geral, a uma entidade (`tarefasRepository`, `usuariosRepository`, etc.). **Não** contém regras de negócio: opera sobre dados.
+- **Localização:** `g03/src/backend/repositories/` (pasta criada, implementação prevista para as sprints 3 e 4). O cliente Supabase compartilhado fica em [g03/src/lib/supabaseClient.js](g03/src/lib/supabaseClient.js) e o pool `pg` é configurado em `g03/src/backend/config/database.js`.
+- **Quem chama / chama quem:** chamado pelos Services, chama o driver do banco (`pg` ou `@supabase/supabase-js`).
+
+**5. Model (Camada de Entidades de Domínio)**
+- **Responsabilidade:** representar as entidades do domínio em código (Tarefa, Retiro, Usuário, Movimentação, Alerta, etc.), refletindo o modelo ER descrito na seção 3.6. Define a forma dos dados que trafegam entre as camadas, sem comportamento de persistência.
+- **Localização:** `g03/src/backend/models/` (pasta criada, implementação prevista para as sprints 3 e 4).
+- **Quem chama / chama quem:** instanciado e consumido pelas camadas Repository e Service.
+
+#### Fluxo de dependência (unidirecional)
+
+```
+Cliente (App/Front)  →  Routes  →  Controller  →  Service  →  Repository  →  Model  →  Supabase/PostgreSQL
+```
+
+Cada camada conhece apenas a imediatamente inferior — uma Route não chama um Repository diretamente, e um Repository não conhece HTTP. Essa regra é o que garante a substituibilidade de cada camada e habilita testes isolados.
+
+#### Tabela-resumo
+
+| Camada      | Pasta                         | Responsabilidade                                  | Pode chamar     | Exemplo de arquivo                                       |
+|-------------|-------------------------------|---------------------------------------------------|-----------------|----------------------------------------------------------|
+| Routes      | `src/backend/routes/`         | Mapear URL/método para o handler                  | Controller      | `routes/index.js`                                        |
+| Controller  | `src/backend/controllers/`    | Validar payload, traduzir HTTP ↔ Service          | Service         | `controllers/tarefasController.js` (planejado)           |
+| Service     | `src/backend/services/`       | Regras de negócio do domínio pecuário             | Repository      | `services/healthService.js` · `services/tarefasService.js` (planejado) |
+| Repository  | `src/backend/repositories/`   | Acesso a dados (SQL / Supabase client)            | Driver do banco | `repositories/tarefasRepository.js` (planejado)          |
+| Model       | `src/backend/models/`         | Representar entidade de domínio                   | —               | `models/Tarefa.js` (planejado)                           |
+
+#### Exemplo de fluxo end-to-end — US01 "Criar Tarefa"
+
+Para ilustrar como uma requisição atravessa as camadas, considere a **US01** (seção 2.3): "Como Gerente geral, posso criar tarefas e atribuí-las a um retiro específico". O fluxo previsto para a requisição `POST /tarefas` é:
+
+1. **Routes** (`routes/tarefas.js`) recebe a requisição HTTP e delega:
+   ```js
+   router.post('/tarefas', tarefasController.criar);
+   ```
+2. **Controller** (`controllers/tarefasController.js`) valida o payload (campos obrigatórios: `titulo`, `retiro_id`, `prazo`), extrai o usuário autenticado e chama o service:
+   ```js
+   const tarefa = await tarefasService.criarTarefa(req.body, req.user);
+   res.status(201).json(tarefa);
+   ```
+3. **Service** (`services/tarefasService.js`) aplica as regras de negócio: gera o UUID localmente (estratégia offline-first descrita na seção 3.6.4), verifica se o `retiro_id` pertence à fazenda do usuário, registra a operação na `sync_queue` e chama o repositório:
+   ```js
+   const novaTarefa = new Tarefa({ id: uuidv4(), ...dados, autor: usuario.id });
+   await tarefasRepository.inserir(novaTarefa);
+   await syncQueueRepository.enfileirar('INSERT', 'tarefas', novaTarefa);
+   ```
+4. **Repository** (`repositories/tarefasRepository.js`) executa o `INSERT` na tabela `tarefas` via cliente `pg` ou `@supabase/supabase-js`, sem conhecer regras de negócio.
+5. **Model** (`models/Tarefa.js`) é a classe/objeto que representa a entidade Tarefa, garantindo a forma dos dados trafegados entre Service e Repository.
+
+A resposta percorre o caminho inverso (Repository → Service → Controller → Routes → Cliente), atendendo aos critérios de aceite CR1 (tarefa vinculada ao retiro) e CR2 (disponibilidade após sincronização).
+
+#### Estado atual da implementação
+
+A arquitetura descrita acima é a **arquitetura-alvo** do projeto. O estado da implementação ao final desta sprint é:
+
+| Camada       | Status                                                                                  |
+|--------------|-----------------------------------------------------------------------------------------|
+| Routes       | ✅ Implementada (estrutura inicial em [routes/index.js](g03/src/backend/routes/index.js)) |
+| Controllers  | ⏳ Pasta criada, primeiros controllers a serem implementados na sprint 3                 |
+| Services     | ✅ Camada validada com [healthService.js](g03/src/backend/services/healthService.js); demais services seguirão o mesmo padrão |
+| Repositories | ⏳ Pasta criada, implementação prevista para a sprint 3                                  |
+| Models       | ⏳ Pasta criada, implementação prevista para a sprint 3                                  |
+
+A configuração do banco (`config/database.js`) e o cliente Supabase compartilhado ([src/lib/supabaseClient.js](g03/src/lib/supabaseClient.js)) já estão preparados para suportar a camada Repository quando ela for desenvolvida.
 
 ### 3.2.2. Diagrama de Casos de Uso (sprint 1)
 
