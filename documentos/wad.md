@@ -1948,6 +1948,16 @@ classDiagram
             +findByCoordenador(coordenadorId) List~RetiroModel~
         }
     }
+
+    UsuarioRepository "1" --o "0..*" UsuarioModel
+    TarefaRepository "1" --o "0..*" TarefaModel
+    EvidenciaRepository "1" --o "0..*" EvidenciaModel
+    EventoZootecnicoRepository "1" --o "0..*" EventoZootecnicoModel
+    AlertaInfraestruturaRepository "1" --o "0..*" AlertaInfraestruturaModel
+    SincronizacaoRepository "1" --o "0..*" SincronizacaoModel
+    ExportacaoRepository "1" --o "0..*" ExportacaoModel
+    RetiroRepository "1" --o "0..*" RetiroModel
+
 ```
 
 ### 3.2.4. Diagrama de Sequência UML (sprint 3)
