@@ -2048,6 +2048,10 @@ classDiagram
             +GET /alertas()
             +PATCH /alertas/:id/status()
         }
+        class SincronizacaoController {
+            +POST /sync()
+            +GET /sync/pendentes()
+        }
     }
 ```
 
