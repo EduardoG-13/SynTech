@@ -1813,6 +1813,14 @@ classDiagram
             +DateTime concluidaEm
             +Boolean sincronizada
         }
+        class EvidenciaModel {
+            <<abstract>>
+            +UUID id
+            +UUID tarefa_id
+            +Enum tipo
+            +DateTime criadaEm
+            +Boolean sincronizada
+        }
     }
 ```
 
