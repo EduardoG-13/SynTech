@@ -1846,6 +1846,8 @@ classDiagram
             +UUID coordenador_id
             +DateTime criadoEm
         }
+        class RegistroNascimentoModel {
+        }
     }
 ```
 
