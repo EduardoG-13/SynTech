@@ -1899,6 +1899,17 @@ classDiagram
     EventoZootecnicoModel <|-- RegistroNascimentoModel
     EventoZootecnicoModel <|-- RegistroObitoModel
 
+    %% ─────────────────────────────────────────
+    %% CAMADA: REPOSITORY
+    %% ─────────────────────────────────────────
+    namespace Repository {
+        class UsuarioRepository {
+            +findById(id) UsuarioModel
+            +findByPerfil(perfil) List~UsuarioModel~
+            +findByRetiro(retiroId) List~UsuarioModel~
+            +save(dados) UsuarioModel
+        }
+    }
 ```
 
 ### 3.2.4. Diagrama de Sequência UML (sprint 3)
