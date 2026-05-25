@@ -2033,6 +2033,10 @@ classDiagram
             +DELETE /tarefas/:id()
             +PATCH /tarefas/:id/concluir()
         }
+        class EvidenciaController {
+            +POST /tarefas/:id/evidencias()
+            +GET /tarefas/:id/evidencias()
+        }
     }
 ```
 
