@@ -1833,6 +1833,19 @@ classDiagram
         class TextoComplementarModel {
             +String conteudo
         }
+        class EventoZootecnicoModel {
+            <<abstract>>
+            +UUID id
+            +UUID capataz_id
+            +UUID retiro_id
+            +Date data
+            +String categoria
+            +Integer quantidade
+            +Boolean sincronizado
+            +Boolean validado
+            +UUID coordenador_id
+            +DateTime criadoEm
+        }
     }
 ```
 
