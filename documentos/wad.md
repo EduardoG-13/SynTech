@@ -2017,6 +2017,15 @@ classDiagram
     ExportacaoService ..> ExportacaoRepository : registra exportação
     RetiroService ..> RetiroRepository : usa
 
+    %% ─────────────────────────────────────────
+    %% CAMADA: CONTROLLER
+    %% ─────────────────────────────────────────
+    namespace Controller {
+        class AuthController {
+            +POST /auth/login()
+            +POST /auth/usuarios()
+        }
+    }
 ```
 
 ### 3.2.4. Diagrama de Sequência UML (sprint 3)
