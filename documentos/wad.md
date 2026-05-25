@@ -1796,9 +1796,6 @@ Cada camada possui responsabilidade única e bem delimitada [15][16]:
 
 O diagrama a seguir utiliza a notação UML 2.5.1 [14], com dependências de uso (`..>`) entre Controller → Service e Service → Repository, e associações de composição entre Repository e os Models correspondentes. As classes de mesmo domínio funcional são agrupadas por módulo: **Autenticação**, **Tarefas**, **Eventos Zootécnicos**, **Alertas de Infraestrutura**, **Sincronização** e **Exportação**.
 
-<center>
-  <p><strong>Figura 10</strong> — Diagrama de Classes Arquitetural do Sistema BrPec</p>
-</center>
 ```mermaid
 classDiagram
     direction TB
@@ -2084,7 +2081,9 @@ classDiagram
     ExportacaoController ..> ExportacaoService : delega
     RetiroController ..> RetiroService : delega
 ```
+
 <center>
+  <p><strong>Figura 10</strong> — Diagrama de Classes Arquitetural do Sistema BrPec</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
