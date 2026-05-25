@@ -1995,6 +1995,9 @@ classDiagram
             +processarFila() void
             +reenviarFalhos() void
         }
+        class ExportacaoService {
+            +gerarRelatorio(coordenadorId, filtros) Exportacao
+        }
     }
 ```
 
