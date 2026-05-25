@@ -9,7 +9,7 @@ import path from 'path';
 import fs from 'fs';
 
 const dbPath = process.env.DB_PATH || './database/brpec.sqlite';
-const resolvedPath = path.resolve(__dirname, '..', dbPath);
+const resolvedPath = dbPath === ':memory:' ? ':memory:' : path.resolve(__dirname, '..', dbPath);
 
 // Cria o diretorio do banco se nao existir
 const dbDir = path.dirname(resolvedPath);
