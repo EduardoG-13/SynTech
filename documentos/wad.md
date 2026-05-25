@@ -1985,6 +1985,11 @@ classDiagram
             +listarEventosPorRetiro(retiroId) List~EventoZootecnicoModel~
             +validarEvento(id, coordenadorId) void
         }
+        class AlertaInfraestruturaService {
+            +abrirAlerta(dados) AlertaInfraestruturaModel
+            +listarAlertas(retiroId) List~AlertaInfraestruturaModel~
+            +atualizarStatusAlerta(id, status) void
+        }
     }
 ```
 
