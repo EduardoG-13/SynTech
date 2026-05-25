@@ -2055,6 +2055,10 @@ classDiagram
         class ExportacaoController {
             +GET /exportar()
         }
+        class RetiroController {
+            +GET /retiros()
+            +GET /retiros/:id()
+        }
     }
 ```
 
