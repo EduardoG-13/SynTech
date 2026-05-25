@@ -3262,7 +3262,7 @@ As consultas abaixo representam fluxos priorizados do sistema BrPec e foram extr
   <p><strong>Tabela 8</strong> — Expressões SQL e Lógica Proposicional</p>
 </center>
 
-| #1 | Fluxo: Consulta de tarefas pendentes do Capataz (US02 / RF002) |
+| 1 | Fluxo: Consulta de tarefas pendentes do Capataz (US02 / RF002) |
 | --- | --- |
 | **Expressão SQL** | `SELECT * FROM tasks WHERE assigned_to = $1 AND status = 'PENDING';` |
 | **Proposições lógicas** | $A$: a tarefa está atribuída ao capataz autenticado (`assigned_to = $1`) <br> $B$: o status da tarefa é pendente (`status = 'PENDING'`) |
@@ -3281,7 +3281,7 @@ As consultas abaixo representam fluxos priorizados do sistema BrPec e foram extr
 
 ---
 
-| #2 | Fluxo: Contagem de nascimentos registrados (US08 / RF008) |
+| 2 | Fluxo: Contagem de nascimentos registrados (US08 / RF008) |
 | --- | --- |
 | **Expressão SQL** | `SELECT COUNT(*) FROM events WHERE event_type = 'NASCIMENTO';` |
 | **Proposições lógicas** | $A$: o evento registrado é do tipo nascimento (`event_type = 'NASCIMENTO'`) |
@@ -3298,7 +3298,7 @@ As consultas abaixo representam fluxos priorizados do sistema BrPec e foram extr
 
 ---
 
-| #3 | Fluxo: Busca de eventos offline não sincronizados (RF010) |
+| 3 | Fluxo: Busca de eventos offline não sincronizados (RF010) |
 | --- | --- |
 | **Expressão SQL** | `SELECT * FROM events WHERE synced = 0 AND event_type IN ('VACINACAO', 'PESAGEM', 'TRATAMENTO', 'NASCIMENTO') ORDER BY created_at ASC;` |
 | **Proposições lógicas** | $A$: o evento ainda não foi sincronizado (`synced = 0`) <br> $B$: o tipo do evento é vacinação <br> $C$: o tipo do evento é pesagem <br> $D$: o tipo do evento é tratamento <br> $E$: o tipo do evento é nascimento |
@@ -3321,7 +3321,7 @@ As consultas abaixo representam fluxos priorizados do sistema BrPec e foram extr
 
 
 ---
-| #7 | Fluxo: Busca de registros pendentes na fila de sincronização (RF010 / RF012) |
+| 7 | Fluxo: Busca de registros pendentes na fila de sincronização (RF010 / RF012) |
 |---|---|
 | **Expressão SQL** | `SELECT id, tabela, registro_id, operacao, payload_json, tentativas FROM sync_queue WHERE status = 'pendente' AND tentativas < 5 ORDER BY created_at ASC LIMIT 50;` |
 | **Proposições lógicas** | $A$: o registro está com status pendente de envio (`status = 'pendente'`) <br> $B$: o número de tentativas de envio é menor que 5 (`tentativas < 5`) |
@@ -3339,7 +3339,7 @@ As consultas abaixo representam fluxos priorizados do sistema BrPec e foram extr
 </center>
 
 ---
-| #8 | Fluxo: Exportação de movimentações sincronizadas pelo Coordenador (RF015) |
+| 8 | Fluxo: Exportação de movimentações sincronizadas pelo Coordenador (RF015) |
 |---|---|
 | **Expressão SQL** | `SELECT m.id, m.tipo, m.categoria, m.data_movimentacao, m.observacoes, r.nome AS retiro, u.nome AS responsavel, o.causa AS causa_obito, o.identificacao_animal, n.quantidade AS qtd_nascimento, t.retiro_origem_id, t.retiro_destino_id, cv.tipo_negocio, cv.valor_financeiro FROM movimentacoes m JOIN retiros r ON m.retiro_id = r.id JOIN usuarios u ON m.responsavel_id = u.id LEFT JOIN obitos o ON o.movimentacao_id = m.id LEFT JOIN nascimentos n ON n.movimentacao_id = m.id LEFT JOIN transferencias t ON t.movimentacao_id = m.id LEFT JOIN compravendas cv ON cv.movimentacao_id = m.id WHERE m.sync_status = 'sincronizado' AND m.retiro_id = $1 AND date(m.data_movimentacao) BETWEEN date($2) AND date($3) ORDER BY m.data_movimentacao ASC;` |
 | **Proposições lógicas** | $A$: a movimentação já foi sincronizada com o servidor (`sync_status = 'sincronizado'`) <br> $B$: a movimentação pertence ao retiro selecionado pelo Coordenador (`retiro_id = $1`) <br> $C$: a data da movimentação está dentro do intervalo de exportação (`data_movimentacao BETWEEN $2 AND $3`) |
@@ -3361,7 +3361,7 @@ As consultas abaixo representam fluxos priorizados do sistema BrPec e foram extr
 </center>
 
 ---
-| #9 | Fluxo: Contagem de nascimentos sincronizados por retiro e período (US11 / RF008) |
+| 9 | Fluxo: Contagem de nascimentos sincronizados por retiro e período (US11 / RF008) |
 |---|---|
 | **Expressão SQL** | `SELECT r.nome AS retiro, SUM(n.quantidade) AS total_nascimentos FROM nascimentos n JOIN movimentacoes m ON n.movimentacao_id = m.id JOIN retiros r ON m.retiro_id = r.id WHERE m.sync_status = 'sincronizado' AND date(m.data_movimentacao) BETWEEN date($1) AND date($2) GROUP BY r.nome ORDER BY r.nome ASC;` |
 | **Proposições lógicas** | $A$: a movimentação foi sincronizada com o servidor (`sync_status = 'sincronizado'`) <br> $B$: a data da movimentação está dentro do intervalo selecionado (`date(m.data_movimentacao) BETWEEN date($1) AND date($2)`) |
