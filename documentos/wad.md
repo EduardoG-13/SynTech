@@ -1998,6 +1998,10 @@ classDiagram
         class ExportacaoService {
             +gerarRelatorio(coordenadorId, filtros) Exportacao
         }
+        class RetiroService {
+            +listarRetiros() List~RetiroModel~
+            +buscarRetiro(id) RetiroModel
+        }
     }
 ```
 
