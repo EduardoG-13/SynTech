@@ -1967,6 +1967,14 @@ classDiagram
             +validarToken(token) UsuarioModel
             +criarUsuario(dados) UsuarioModel
         }
+        class TarefaService {
+            +criarTarefa(dados) TarefaModel
+            +listarTarefasCapataz(capatazId, data) List~TarefaModel~
+            +listarTarefasRetiro(retiroId) List~TarefaModel~
+            +concluirTarefa(id, capatazId) void
+            +editarTarefa(id, dados) TarefaModel
+            +deletarTarefa(id) void
+        }
     }
 ```
 
