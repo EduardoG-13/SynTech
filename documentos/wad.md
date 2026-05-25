@@ -1830,6 +1830,9 @@ classDiagram
             +String urlArquivo
             +Integer duracaoSegundos
         }
+        class TextoComplementarModel {
+            +String conteudo
+        }
     }
 ```
 
