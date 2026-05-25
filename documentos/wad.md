@@ -3067,9 +3067,209 @@ As consultas abaixo representam fluxos priorizados do sistema BrPec e foram extr
 ---
 ## 3.7. WebAPI e endpoints (sprints 3 e 4)
 
-_Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema._
+A arquitetura da WebAPI do BrPec Agropecuária segue o padrão RESTful, expondo serviços estruturados sob o prefixo `/api` para comunicação segura e eficiente entre a aplicação cliente (PWA offline-first) e o servidor em nuvem central.
 
-_Cada endpoint deve conter endereço, método (GET, POST, PUT, PATCH, DELETE), header, body, formatos de response e os status codes possíveis (200, 201, 204, 400, 401, 403, 404, 409, 422, 500)._
+Abaixo é apresentada a especificação completa de cada endpoint ativo, incluindo método, URI, cabeçalhos, payloads de envio, corpos de resposta e status HTTP possíveis.
+
+### 3.7.1. Especificação de Endpoints
+
+#### 1. Baseline e Monitoramento
+- **Endpoint**: `GET /api/health`
+- **Headers**: `Accept: application/json`
+- **Resposta (200 OK)**:
+  ```json
+  {
+    "status": "ok",
+    "timestamp": "2026-05-25T15:00:00.000Z",
+    "uptime": 12.345,
+    "banco": "conectado"
+  }
+  ```
+- **Status Codes**:
+  - `200 OK`: Servidor ativo e banco de dados SQLite conectado e respondendo corretamente.
+  - `503 Service Unavailable`: O banco de dados está inacessível ou desconectado.
+
+#### 2. Criar Tarefa (UC01 / RF001)
+- **Endpoint**: `POST /api/tarefas`
+- **Headers**: `Content-Type: application/json`, `Accept: application/json`
+- **Payload (Body)**:
+  ```json
+  {
+    "titulo": "Vacinação de Lote",
+    "descricao": "Vacinação contra febre aftosa no piquete 2",
+    "retiro_id": "retiro-1",
+    "capataz_id": "capataz-1",
+    "data_execucao": "2026-06-20",
+    "gerente_id": "gerente-1"
+  }
+  ```
+- **Resposta (201 Created)**:
+  ```json
+  {
+    "id": "uuid-v4-gerado",
+    "mensagem": "Tarefa criada com sucesso",
+    "tarefa": {
+      "id": "uuid-v4-gerado",
+      "titulo": "Vacinação de Lote",
+      "status": "PENDENTE",
+      "data_execucao": "2026-06-20",
+      "retiro_id": "retiro-1",
+      "capataz_id": "capataz-1",
+      "gerente_id": "gerente-1"
+    }
+  }
+  ```
+- **Status Codes**:
+  - `201 Created`: Tarefa criada com sucesso.
+  - `400 Bad Request`: Campos obrigatórios ausentes.
+  - `422 Unprocessable Entity`: Violação de regra de negócio (`RN01`) — Capataz não pertence ao retiro informado.
+  - `500 Internal Server Error`: Falha na persistência de dados.
+
+#### 3. Buscar Tarefas de Hoje (UC01 / RF001)
+- **Endpoint**: `GET /api/tarefas/hoje`
+- **Parâmetros (Query)**: `?capataz_id=capataz-1`
+- **Resposta (200 OK)**:
+  ```json
+  {
+    "tarefas": [
+      {
+        "id": "uuid-v4",
+        "titulo": "Vacinação de Lote",
+        "status": "PENDENTE",
+        "data_execucao": "2026-05-25"
+      }
+    ],
+    "modo": "online"
+  }
+  ```
+- **Status Codes**:
+  - `200 OK`: Lista retornada com sucesso (ou array vazio se sem tarefas).
+  - `400 Bad Request`: Parâmetro `capataz_id` ausente.
+  - `500 Internal Server Error`: Erro de busca no banco de dados.
+
+#### 4. Concluir Tarefa (UC01 / RF001)
+- **Endpoint**: `PATCH /api/tarefas/:id/concluir`
+- **Headers**: `Content-Type: application/json`
+- **Payload (Body)**:
+  ```json
+  {
+    "capataz_id": "capataz-1"
+  }
+  ```
+- **Resposta (200 OK)**:
+  ```json
+  {
+    "mensagem": "Tarefa concluída com sucesso",
+    "tarefa": {
+      "id": "uuid-v4",
+      "status": "CONCLUIDA",
+      "concluida_em": "2026-05-25T15:20:00.000Z"
+    }
+  }
+  ```
+- **Status Codes**:
+  - `200 OK`: Tarefa concluída com sucesso.
+  - `400 Bad Request`: ID da tarefa ou `capataz_id` ausente.
+  - `404 Not Found`: Tarefa inexistente ou que não pertence ao capataz informado.
+  - `500 Internal Server Error`: Erro de atualização.
+
+#### 5. Anexar Evidência (UC01 / RF001 / RN05)
+- **Endpoint**: `POST /api/tarefas/:id/evidencias`
+- **Headers**: `Content-Type: application/json`
+- **Payload (Body)**:
+  ```json
+  {
+    "tipo": "FOTO",
+    "arquivo_base64": "data:image/png;base64,...",
+    "capataz_id": "capataz-1",
+    "geolocalizacao": "-23.5505,-46.6333"
+  }
+  ```
+- **Resposta (201 Created)**:
+  ```json
+  {
+    "mensagem": "Evidência salva com sucesso",
+    "evidencia_id": "uuid-v4-evidencia"
+  }
+  ```
+- **Status Codes**:
+  - `201 Created`: Evidência gravada e associada com sucesso.
+  - `400 Bad Request`: Campos obrigatórios inválidos ou ausentes.
+  - `404 Not Found`: Violação de regra de negócio (`RN05`) — Tarefa inexistente ou que não pertence ao capataz.
+  - `500 Internal Server Error`: Erro de escrita.
+
+#### 6. Registrar Alerta de Infraestrutura (UC02+ / RF002+)
+- **Endpoint**: `POST /api/chamados`
+- **Headers**: `Content-Type: application/json`
+- **Payload (Body)**:
+  ```json
+  {
+    "tipo": "cerca",
+    "descricao": "Cerca do piquete 3 caída",
+    "capataz_id": "capataz-1",
+    "retiro_id": "retiro-1",
+    "latitude": -23.5505,
+    "longitude": -46.6333
+  }
+  ```
+- **Resposta (201 Created)**:
+  ```json
+  {
+    "id": "uuid-alerta",
+    "mensagem": "Alerta criado com sucesso",
+    "alerta": {
+      "id": "uuid-alerta",
+      "tipo": "cerca",
+      "status": "ABERTO",
+      "latitude": -23.5505,
+      "longitude": -46.6333
+    }
+  }
+  ```
+- **Status Codes**:
+  - `201 Created`: Alerta registrado com sucesso no banco.
+  - `400 Bad Request`: Parâmetros obrigatórios ausentes.
+  - `500 Internal Server Error`: Falha de gravação.
+
+#### 7. Registrar Nascimento (UC02+ / RF002+)
+- **Endpoint**: `POST /api/eventos-zootecnicos/nascimentos`
+- **Headers**: `Content-Type: application/json`
+- **Payload (Body)**:
+  ```json
+  {
+    "data": "2026-05-25",
+    "retiro_id": "retiro-1",
+    "categoria": "bezerro",
+    "quantidade": 3,
+    "capataz_id": "capataz-1"
+  }
+  ```
+- **Resposta (201 Created)**:
+  ```json
+  {
+    "id": "uuid-movimentacao",
+    "mensagem": "Registro de nascimento criado com sucesso",
+    "registro": {
+      "id": "uuid-movimentacao",
+      "categoria": "bezerro",
+      "quantidade": 3
+    }
+  }
+  ```
+- **Status Codes**:
+  - `201 Created`: Nascimento registrado nas tabelas `movimentacoes` e `nascimentos` (via transação síncrona).
+  - `400 Bad Request`: Validação incorreta de campos.
+  - `500 Internal Server Error`: Erro no banco de dados.
+
+### 3.7.2. Artefato 08 — Evidência de Funcionamento dos Endpoints (WebAPI)
+
+Como decisão de engenharia de software e garantia de qualidade do ciclo de desenvolvimento, toda a WebAPI descrita acima possui validação automatizada de regressão e comportamento por meio do framework de testes de integração **Jest** em combinação com **Supertest**. 
+
+Todas as asserções de cabeçalhos HTTP, formatos de payloads de requisição/resposta e regras de negócio críticas (como `RN01` e `RN05`) são validadas de forma determinística no SQLite em memória.
+
+Os recursos comprobatórios da execução estão disponíveis nos seguintes links diretos:
+- **Suites de Testes Executáveis**: [uc01-planejar-tarefas.test.ts](file:///Users/mcristiano/g03/src/backend/tests/uc01-planejar-tarefas.test.ts) e [outros-endpoints.test.ts](file:///Users/mcristiano/g03/src/backend/tests/outros-endpoints.test.ts)
+- **Relatório Técnico de Evidências (PASS)**: [jest-testes-endpoints.md](file:///Users/mcristiano/g03/documentos/evidencias/jest-testes-endpoints.md)
 
 ## 3.8. Autenticação, Autorização e Resiliência (sprint 5)
 
@@ -3123,12 +3323,58 @@ _Descreva e ilustre aqui o desenvolvimento da versão final do sistema web, com 
 
 ## 5.1. Relatório de testes de integração de endpoints automatizados (sprint 4)
 
-_Liste e descreva os testes automatizados dos endpoints criados e planejados para sua solução, implementados com **Jest**. Cubra as duas abordagens:_
+A suite de testes automatizados cobre integralmente os endpoints operacionais do BrPec Agropecuária, utilizando **Jest 29 + ts-jest + Supertest** sobre banco de dados SQLite em memória (`:memory:`). Foram criadas duas suites de testes, totalizando **19 casos** de teste que validam a integridade de contratos HTTP, regras de negócio e persistência no banco local.
 
-- **_White-box_** _- testes unitários de Service que exercitam ramos internos, exceções e regras de negócio (conhecimento da implementação)._
-- **_Black-box_** _- testes de integração dos endpoints via Jest + Supertest, verificando apenas o contrato HTTP (status, body, efeito observável), sem depender da implementação interna._
+### 5.1.1. Estratégia de Testes
 
-_Posicione aqui também o relatório de cobertura de testes Jest se houver (através de link ou transcrito para estrutura markdown)._
+- **Isolamento de Banco**: Cada suíte inicia uma conexão síncrona exclusiva com um banco SQLite em memória (`DB_PATH=':memory:'`).
+- **Schema e Seed**: `beforeAll` executa `inicializarBanco()` para ler e aplicar as migrações SQL. A semente de retiros e usuários é limpa e reinserida no `beforeEach`.
+- **Efeito Colateral**: Toda inserção, atualização ou remoção é validada tanto no retorno da requisição HTTP (Supertest) quanto via consulta direta ao banco pelo objeto `db`.
+
+### 5.1.2. Classificação por Abordagem
+
+- **Black-box**: Testes focados na interface pública HTTP — códigos de status, shape do JSON de resposta, validação de tipos de dados e tratamento correto de erros sem acessar a lógica interna.
+- **White-box**: Validação de regras internas, como transações de banco complexas no registro de nascimento, consistência de FKs em cascata e interceptação de erros no repositório.
+
+### 5.1.3. Matriz de Cobertura de Testes
+
+#### Suite 1 — `tests/uc01-planejar-tarefas.test.ts` (14 casos)
+- **Criar Tarefas (C1-C4)**: Criação válida (201), violação de `RN01` (422), payload incompleto (400), persistência direta no SQLite (SELECT).
+- **Buscar Tarefas Hoje (H1-H3)**: Busca com sucesso (200), array vazio para capataz sem tarefas (200), erro por falta de `capataz_id` (400).
+- **Concluir Tarefa (K1-K3)**: Conclusão válida (200), erro ao tentar concluir tarefa de outro capataz (404), persistência da data de conclusão.
+- **Anexar Evidência (E1-E4)**: Anexar foto base64 (201), erro de `RN05` por tarefa de outro capataz (404), erro por falta de arquivo (400), persistência de texto como evidência (201).
+
+#### Suite 2 — `tests/outros-endpoints.test.ts` (5 casos)
+- **Health-check (H1)**: Resposta 200 OK informando status geral "ok" e conectividade "conectado" com o banco SQLite.
+- **Alertas de Infraestrutura (A1-A2)**: Registro de chamado com sucesso (201, status ABERTO), erro por falta de geolocalização latitude/longitude (400).
+- **Eventos Zootécnicos (E1-E2)**: Registro de nascimento animal com transação síncrona bem-sucedida (201), erro por falta de quantidade ou categoria (400).
+
+### 5.1.4. Resumo e Resultados
+
+Toda a suíte foi executada e aprovada com sucesso. Detalhes completos das evidências visuais e logs do terminal podem ser encontrados no relatório técnico de [jest-testes-endpoints.md](evidencias/jest-testes-endpoints.md).
+
+```bash
+PASS tests/outros-endpoints.test.ts
+  H — GET /api/health (Health check)
+    ✓ H1. Sucesso — retorna status 200 com informações de saúde do servidor e banco (26 ms)
+  A — POST /api/chamados (Criar Alerta)
+    ✓ A1. Sucesso — cria alerta com dados válidos e retorna HTTP 201 (13 ms)
+    ✓ A2. Payload inválido — campos obrigatórios ausentes retorna HTTP 400 (5 ms)
+  E — POST /api/eventos-zootecnicos/nascimentos (Registrar Nascimento)
+    ✓ E1. Sucesso — registra nascimento animal com sucesso e retorna HTTP 201 (5 ms)
+    ✓ E2. Payload inválido — campos obrigatórios ausentes retorna HTTP 400 (6 ms)
+
+PASS tests/uc01-planejar-tarefas.test.ts
+  C — POST /api/tarefas (criar tarefa — UC01 / RF001)
+    ✓ C1. Sucesso — cria tarefa com dados válidos e retorna HTTP 201 (23 ms)
+    ✓ C2. Regra de negócio (RN01) — capataz não pertence ao retiro retorna HTTP 422 (5 ms)
+    ...
+Test Suites: 2 passed, 2 total
+Tests:       19 passed, 19 total
+Snapshots:   0 total
+Time:        1.373 s
+Ran all test suites.
+```
 
 ## 5.2. Testes de usabilidade (sprint 5)
 
