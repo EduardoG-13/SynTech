@@ -1826,6 +1826,10 @@ classDiagram
             +Integer tamanhoBytes
             +String geolocalizacao
         }
+        class AudioModel {
+            +String urlArquivo
+            +Integer duracaoSegundos
+        }
     }
 ```
 
