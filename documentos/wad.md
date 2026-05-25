@@ -2037,6 +2037,12 @@ classDiagram
             +POST /tarefas/:id/evidencias()
             +GET /tarefas/:id/evidencias()
         }
+        class EventoZootecnicoController {
+            +POST /eventos/nascimentos()
+            +POST /eventos/obitos()
+            +GET /eventos()
+            +PATCH /eventos/:id/validar()
+        }
     }
 ```
 
