@@ -1848,6 +1848,11 @@ classDiagram
         }
         class RegistroNascimentoModel {
         }
+        class RegistroObitoModel {
+            +String identificacaoAnimal
+            +String causaMorte
+            +UUID foto_id
+        }
     }
 ```
 
