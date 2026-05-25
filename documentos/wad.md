@@ -3064,6 +3064,142 @@ As consultas abaixo representam fluxos priorizados do sistema BrPec e foram extr
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
+
+### 3.6.4.1 Consulta de Tarefas Pendentes por Capataz
+
+#### Objetivo da Consulta
+
+Identificar tarefas que ainda não foram concluídas, relacionando-as aos respectivos capatazes responsáveis e aos retiros associados.
+
+#### Código SQL
+
+```sql
+SELECT 
+    t.id,
+    t.titulo,
+    t.descricao,
+    t.data_prevista,
+    u.nome AS capataz,
+    r.nome AS retiro
+FROM tarefas t
+JOIN usuarios u ON t.responsavel_id = u.id
+JOIN retiros r ON t.retiro_id = r.id
+WHERE t.status = 'pendente'
+  AND u.perfil = 'capataz';
+```
+
+#### Descrição Técnica
+
+A consulta realiza a integração entre as tabelas `tarefas`, `usuarios` e `retiros`, permitindo identificar quais atividades ainda permanecem pendentes dentro da operação da fazenda.
+
+Além disso, possibilita visualizar o responsável pela execução de cada tarefa e sua localização operacional.
+
+Essa funcionalidade auxilia diretamente o gerente e os coordenadores na supervisão das atividades realizadas em campo, contribuindo para:
+
+- maior controle operacional;
+- rastreabilidade das ações executadas;
+- redução de atrasos em tarefas críticas.
+
+#### Tabelas Relacionadas
+
+| Tabela | Função |
+|---|---|
+| `tarefas` | Armazena as tarefas cadastradas no sistema |
+| `usuarios` | Contém os responsáveis pelas tarefas |
+| `retiros` | Representa os retiros da fazenda |
+
+---
+
+### 3.6.4.2 Consulta de Número de Nascimentos Registrados
+
+#### Objetivo da Consulta
+
+Calcular a quantidade total de nascimentos registrados por retiro da fazenda.
+
+#### Código SQL
+
+```sql
+SELECT 
+    r.nome AS retiro,
+    SUM(n.quantidade) AS total_nascimentos
+FROM nascimentos n
+JOIN movimentacoes m ON n.movimentacao_id = m.id
+JOIN retiros r ON m.retiro_id = r.id
+WHERE m.tipo = 'nascimento'
+GROUP BY r.nome;
+```
+
+#### Descrição Técnica
+
+A consulta relaciona os registros de nascimento às movimentações do sistema e aos respectivos retiros da propriedade rural.
+
+Seu principal objetivo é fornecer indicadores produtivos relacionados ao crescimento do rebanho.
+
+Os dados obtidos podem ser utilizados para:
+
+- acompanhamento zootécnico;
+- controle de produtividade;
+- apoio à tomada de decisão gerencial.
+
+#### Tabelas Relacionadas
+
+| Tabela | Função |
+|---|---|
+| `nascimentos` | Armazena registros de nascimentos |
+| `movimentacoes` | Controla eventos relacionados ao rebanho |
+| `retiros` | Identifica o local associado ao registro |
+
+---
+
+### 3.6.4.3 Consulta de Registros Offline Não Sincronizados
+
+#### Objetivo da Consulta
+
+Identificar registros que ainda não foram sincronizados ou que apresentaram falha durante o processo de sincronização com o servidor principal.
+
+#### Código SQL
+
+```sql
+SELECT 
+    tabela,
+    registro_id,
+    operacao,
+    status,
+    tentativas,
+    ultimo_erro,
+    created_at
+FROM sync_queue
+WHERE status IN ('pendente', 'erro');
+```
+
+#### Descrição Técnica
+
+A consulta utiliza a tabela `sync_queue`, responsável pelo gerenciamento das operações executadas localmente em modo offline.
+
+Sua função é monitorar registros pendentes de sincronização ou operações que falharam devido à ausência de conectividade.
+
+Essa funcionalidade é essencial no contexto do BrPec, considerando que diversas operações ocorrem em áreas rurais com acesso limitado à internet.
+
+Dessa forma, o mecanismo de sincronização garante:
+
+- continuidade operacional;
+- integridade das informações;
+- confiabilidade dos dados registrados em campo.
+
+#### Tabelas Relacionadas
+
+| Tabela | Função |
+|---|---|
+| `sync_queue` | Gerencia operações pendentes de sincronização |
+
+---
+
+### Considerações da Seção
+
+As consultas SQL apresentadas demonstram operações relevantes implementadas no backend do sistema BrPec, contemplando funcionalidades críticas relacionadas à gestão operacional da fazenda.
+
+Além de atenderem necessidades práticas do domínio do negócio, essas consultas reforçam requisitos funcionais e não funcionais previamente definidos, especialmente aqueles associados ao suporte offline, rastreabilidade das informações e monitoramento das atividades executadas em campo.
+
 ---
 ## 3.7. WebAPI e endpoints (sprints 3 e 4)
 
