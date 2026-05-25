@@ -1909,6 +1909,13 @@ classDiagram
             +findByRetiro(retiroId) List~UsuarioModel~
             +save(dados) UsuarioModel
         }
+        class TarefaRepository {
+            +inserirTarefa(dados) TarefaModel
+            +findByCapatazEData(capatazId, data) List~TarefaModel~
+            +findByRetiro(retiroId) List~TarefaModel~
+            +updateStatus(id, status) void
+            +deleteById(id) void
+        }
     }
 ```
 
