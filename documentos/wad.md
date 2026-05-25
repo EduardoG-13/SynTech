@@ -2052,6 +2052,9 @@ classDiagram
             +POST /sync()
             +GET /sync/pendentes()
         }
+        class ExportacaoController {
+            +GET /exportar()
+        }
     }
 ```
 
