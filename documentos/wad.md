@@ -1990,6 +1990,11 @@ classDiagram
             +listarAlertas(retiroId) List~AlertaInfraestruturaModel~
             +atualizarStatusAlerta(id, status) void
         }
+        class SincronizacaoService {
+            +enfileirarSincronizacao(entidadeTipo, entidadeId) void
+            +processarFila() void
+            +reenviarFalhos() void
+        }
     }
 ```
 
