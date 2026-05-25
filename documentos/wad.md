@@ -1884,6 +1884,13 @@ classDiagram
             +Date filtroDataFim
             +DateTime geradaEm
         }
+        class RetiroModel {
+            +UUID id
+            +String nome
+            +String localizacao
+            +UUID coordenador_id
+            +DateTime criadoEm
+        }
     }
 ```
 
