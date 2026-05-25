@@ -2088,6 +2088,8 @@ classDiagram
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
+O diagrama organiza o backend em quatro camadas horizontais bem delimitadas. A camada **Controller** expõe oito grupos de endpoints REST, cada um responsável por um módulo funcional do sistema: autenticação, tarefas, evidências, eventos zootécnicos, alertas de infraestrutura, sincronização, exportação e retiros. Nenhum Controller acessa repositórios ou modelos diretamente — toda lógica é delegada ao Service correspondente via dependência de uso (`..>`), conforme o princípio de responsabilidade única [15].
+
 ### 3.2.4. Diagrama de Sequência UML (sprint 3)
 
 O Diagrama de Sequência UML constitui um dos quatro tipos de diagrama de interação previstos pela especificação UML 2.5.1, sendo formalmente classificado como um diagrama comportamental que enfatiza a troca ordenada de mensagens entre participantes ao longo do tempo [13]. Segundo o Object Management Group (OMG), a semântica de uma interação é definida como um par de conjuntos de *traces* — sequências válidas e inválidas de ocorrências de eventos —, de modo que cada diagrama de sequência representa, de forma gráfica, os cenários de comunicação aceitos pelo sistema modelado [13][18]. A notação adotada emprega linhas de vida (*lifelines*) para representar os participantes, setas contínuas para mensagens síncronas e setas tracejadas para retornos, com fragmentos combinados (*combined fragments*) do tipo `alt` para expressar ramificações condicionais no fluxo de execução, conforme as convenções consolidadas por Fowler [15] e detalhadas na norma ISO/IEC 19505-2:2012 [17].
