@@ -2025,6 +2025,14 @@ classDiagram
             +POST /auth/login()
             +POST /auth/usuarios()
         }
+        class TarefaController {
+            +POST /tarefas()
+            +GET /tarefas()
+            +GET /tarefas/:id()
+            +PUT /tarefas/:id()
+            +DELETE /tarefas/:id()
+            +PATCH /tarefas/:id/concluir()
+        }
     }
 ```
 
