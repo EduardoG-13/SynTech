@@ -1975,6 +1975,10 @@ classDiagram
             +editarTarefa(id, dados) TarefaModel
             +deletarTarefa(id) void
         }
+        class EvidenciaService {
+            +adicionarEvidencia(tarefaId, dados) EvidenciaModel
+            +listarEvidencias(tarefaId) List~EvidenciaModel~
+        }
     }
 ```
 
