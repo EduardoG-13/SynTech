@@ -1821,6 +1821,11 @@ classDiagram
             +DateTime criadaEm
             +Boolean sincronizada
         }
+        class FotoModel {
+            +String urlArquivo
+            +Integer tamanhoBytes
+            +String geolocalizacao
+        }
     }
 ```
 
