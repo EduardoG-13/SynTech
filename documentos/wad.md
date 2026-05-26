@@ -3881,26 +3881,42 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
 #### 10. Painel Gerencial (RF007)
 - **Endpoint**: `GET /api/painel-gerencial`
 - **Headers**: `Accept: application/json`
-- **Parâmetros (Query)**: `?gerente_id=gerente-1`
+- **Parâmetros (Query)**: `?gerente_id=gerente-1` _(obrigatório)_
 - **Resposta (200 OK)**:
   ```json
   {
-    "total_tarefas_pendentes": 5,
-    "total_tarefas_concluidas": 12,
-    "total_alertas_abertos": 3,
-    "nascimentos_mes": 42,
-    "obitos_mes": 2,
-    "retiros_ativos": [
+    "resumo_tarefas": {
+      "total": 17,
+      "pendentes": 5,
+      "em_andamento": 0,
+      "concluidas": 12,
+      "concluidas_hoje": 2
+    },
+    "tarefas_por_retiro": [
       {
-        "id": "retiro-1",
-        "nome": "Retiro Central",
-        "tarefas_pendentes": 2
+        "retiro_id": "retiro-1",
+        "retiro_nome": "Retiro Central",
+        "tarefas": {
+          "PENDENTE": 2,
+          "CONCLUIDA": 5
+        }
       }
-    ]
+    ],
+    "alertas_abertos": [
+      {
+        "id": "uuid-alerta",
+        "tipo": "cerca",
+        "status": "ABERTO",
+        "retiro_id": "retiro-1",
+        "capataz_id": "capataz-1"
+      }
+    ],
+    "total_alertas_abertos": 3,
+    "gerado_em": "2026-05-26T10:00:00.000Z"
   }
   ```
 - **Status Codes**:
-  - `200 OK`: Métricas calculadas com sucesso.
+  - `200 OK`: Métricas calculadas e consolidadas com sucesso.
   - `400 Bad Request`: `gerente_id` ausente nos parâmetros de consulta.
   - `403 Forbidden`: O usuário informado não possui perfil de Gerente (`ACESSO_NEGADO`).
   - `404 Not Found`: Gerente inexistente no banco.
