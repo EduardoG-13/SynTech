@@ -2878,6 +2878,11 @@ A tela de detalhe exibe todas as informações necessárias para que o Capataz e
 - **CR2 (US02):** O player de áudio permite que o Capataz ouça orientações gravadas pelo Gerente sem precisar ler textos longos.
 - **CR3 (US02):** O botão "Iniciar Tarefa" registra localmente o início da execução, mesmo offline.
 
+<center>
+  <p><strong>Figura X</strong> — Protótipo de Alta Fidelidade: Tela de Detalhe da Tarefa do Capataz (Mobile e Desktop)</p>
+  <img src="./assets/alta-fidelidade-capataz-detalhe-tarefa.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ## 3.6. Modelagem do banco de dados (sprints 2 e 4)
 
