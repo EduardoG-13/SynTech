@@ -2918,6 +2918,17 @@ A tela de conclusão de tarefa centraliza todas as ações necessárias para o C
 - **Botões "Tirar Foto" e "Salvar"** posicionados lado a lado na base da tela, com alturas de 56px e diferenciação visual clara: "Tirar Foto" com borda verde e fundo off-white, "Salvar" preenchido em verde profundo.
 - **Sidebar na versão desktop** com navegação entre Início, Tarefas, Movimentação e Configurações, garantindo que o usuário possa navegar para outras seções sem perder o contexto da tarefa em andamento.
 
+### 3.5.4. Painel de Infraestrutura — Capataz e Gerente (US06 / US07)
+
+O painel de infraestrutura oferece uma visão consolidada dos chamados de manutenção da fazenda, organizados por categoria e status. A estrutura kanban na versão desktop e a lista de contadores na versão mobile permitem que tanto o Capataz quanto o Gerente identifiquem rapidamente o volume de demandas abertas, em andamento e encerradas, sem precisar navegar por múltiplas telas.
+
+**Critérios de aceite cobertos:**
+
+- **CR1 (US06):** O Capataz consegue visualizar os chamados de infraestrutura abertos e criar uma nova O.S. diretamente pelo painel.
+- **CR2 (US06):** Os chamados são organizados por categoria (Hidráulica, Cerca, Elétrica), facilitando a triagem por tipo de problema.
+- **CR1 (US07):** O Gerente visualiza o status consolidado de todos os chamados de infraestrutura por categoria e status.
+
+
 ## 3.6. Modelagem do banco de dados (sprints 2 e 4)
 
 ### 3.6.1. Modelo Entidade-Relacionamento (ER) (sprint 2)
