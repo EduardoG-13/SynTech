@@ -1783,6 +1783,320 @@ A Tabela 19 consolida todos os relacionamentos modelados no diagrama, com seus t
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
+#### 3.2.3.1. Diagrama de Classes Arquitetural (sprint 3)
+
+O Diagrama de Classes Arquitetural representa a estrutura técnica do backend do sistema BrPec, com foco nas responsabilidades e nos relacionamentos entre as classes concretas distribuídas pelas quatro camadas da arquitetura em camadas adotada: **Controller**, **Service**, **Repository** e **Model**. Diferentemente do Diagrama de Classes do Domínio (seção 3.2.3), que modela os conceitos do negócio e suas relações semânticas, este diagrama evidencia como o código está organizado no servidor Node.js, quais classes dependem de quais e de que forma as requisições HTTP percorrem as camadas até atingir a persistência — conforme o padrão Controller–Service–Repository descrito na seção 3.2.4.
+
+Cada camada possui responsabilidade única e bem delimitada [15][16]:
+
+- **Controller:** recebe e valida a requisição HTTP, delega ao Service correspondente e retorna a resposta HTTP ao cliente. Nunca acessa o banco de dados diretamente.
+- **Service:** concentra as regras de negócio (RNs), orquestra chamadas ao Repository e lança exceções de domínio em caso de violações.
+- **Repository:** abstrai o acesso à camada de persistência (SQLite no servidor), expondo métodos de consulta e escrita ao Service por meio de uma interface uniforme.
+- **Model:** representa as entidades persistidas no banco de dados (tabelas SQLite), correspondendo às classes do domínio com seus atributos e tipos de dado.
+
+O diagrama a seguir utiliza a notação UML 2.5.1 [14], com dependências de uso (`..>`) entre Controller → Service e Service → Repository, e associações de composição entre Repository e os Models correspondentes. As classes de mesmo domínio funcional são agrupadas por módulo: **Autenticação**, **Tarefas**, **Eventos Zootécnicos**, **Alertas de Infraestrutura**, **Sincronização** e **Exportação**.
+
+```mermaid
+classDiagram
+    direction TB
+
+    %% ─────────────────────────────────────────
+    %% CAMADA: MODEL
+    %% ─────────────────────────────────────────
+    namespace Model {
+        class UsuarioModel {
+            +UUID id
+            +String nome
+            +String senha
+            +Enum perfil
+            +DateTime criadoEm
+        }
+        class TarefaModel {
+            +UUID id
+            +String titulo
+            +String descricao
+            +Enum status
+            +Date dataExecucao
+            +UUID retiro_id
+            +UUID capataz_id
+            +UUID gerente_id
+            +DateTime criadaEm
+            +DateTime concluidaEm
+            +Boolean sincronizada
+        }
+        class EvidenciaModel {
+            <<abstract>>
+            +UUID id
+            +UUID tarefa_id
+            +Enum tipo
+            +DateTime criadaEm
+            +Boolean sincronizada
+        }
+        class FotoModel {
+            +String urlArquivo
+            +Integer tamanhoBytes
+            +String geolocalizacao
+        }
+        class AudioModel {
+            +String urlArquivo
+            +Integer duracaoSegundos
+        }
+        class TextoComplementarModel {
+            +String conteudo
+        }
+        class EventoZootecnicoModel {
+            <<abstract>>
+            +UUID id
+            +UUID capataz_id
+            +UUID retiro_id
+            +Date data
+            +String categoria
+            +Integer quantidade
+            +Boolean sincronizado
+            +Boolean validado
+            +UUID coordenador_id
+            +DateTime criadoEm
+        }
+        class RegistroNascimentoModel {
+        }
+        class RegistroObitoModel {
+            +String identificacaoAnimal
+            +String causaMorte
+            +UUID foto_id
+        }
+        class AlertaInfraestruturaModel {
+            +UUID id
+            +Enum tipo
+            +String descricao
+            +Enum status
+            +UUID capataz_id
+            +UUID retiro_id
+            +Decimal latitude
+            +Decimal longitude
+            +DateTime criadoEm
+            +Boolean sincronizado
+            +UUID foto_id
+        }
+        class SincronizacaoModel {
+            +UUID id
+            +String entidadeTipo
+            +UUID entidadeId
+            +Enum statusEnvio
+            +Integer tentativas
+            +DateTime ultimaTentativa
+            +DateTime criadaEm
+        }
+        class ExportacaoModel {
+            +UUID id
+            +UUID coordenador_id
+            +Enum formato
+            +UUID filtroRetiro
+            +Date filtroDataInicio
+            +Date filtroDataFim
+            +DateTime geradaEm
+        }
+        class RetiroModel {
+            +UUID id
+            +String nome
+            +String localizacao
+            +UUID coordenador_id
+            +DateTime criadoEm
+        }
+    }
+
+    EvidenciaModel <|-- FotoModel
+    EvidenciaModel <|-- AudioModel
+    EvidenciaModel <|-- TextoComplementarModel
+    EventoZootecnicoModel <|-- RegistroNascimentoModel
+    EventoZootecnicoModel <|-- RegistroObitoModel
+
+    %% ─────────────────────────────────────────
+    %% CAMADA: REPOSITORY
+    %% ─────────────────────────────────────────
+    namespace Repository {
+        class UsuarioRepository {
+            +findById(id) UsuarioModel
+            +findByPerfil(perfil) List~UsuarioModel~
+            +findByRetiro(retiroId) List~UsuarioModel~
+            +save(dados) UsuarioModel
+        }
+        class TarefaRepository {
+            +inserirTarefa(dados) TarefaModel
+            +findByCapatazEData(capatazId, data) List~TarefaModel~
+            +findByRetiro(retiroId) List~TarefaModel~
+            +updateStatus(id, status) void
+            +deleteById(id) void
+        }
+        class EvidenciaRepository {
+            +inserirEvidencia(dados) EvidenciaModel
+            +findByTarefa(tarefaId) List~EvidenciaModel~
+            +marcarSincronizada(id) void
+        }
+        class EventoZootecnicoRepository {
+            +inserirEvento(dados) EventoZootecnicoModel
+            +findByRetiro(retiroId) List~EventoZootecnicoModel~
+            +findPendentesValidacao() List~EventoZootecnicoModel~
+            +marcarValidado(id, coordenadorId) void
+        }
+        class AlertaInfraestruturaRepository {
+            +inserirAlerta(dados) AlertaInfraestruturaModel
+            +findByRetiro(retiroId) List~AlertaInfraestruturaModel~
+            +updateStatus(id, status) void
+        }
+        class SincronizacaoRepository {
+            +inserirRegistro(dados) SincronizacaoModel
+            +findPendentes() List~SincronizacaoModel~
+            +updateStatusEnvio(id, status) void
+            +incrementarTentativa(id) void
+        }
+        class ExportacaoRepository {
+            +registrarExportacao(dados) ExportacaoModel
+            +findByCoordenador(coordenadorId) List~ExportacaoModel~
+        }
+        class RetiroRepository {
+            +findAll() List~RetiroModel~
+            +findById(id) RetiroModel
+            +findByCoordenador(coordenadorId) List~RetiroModel~
+        }
+    }
+
+    UsuarioRepository "1" --o "0..*" UsuarioModel
+    TarefaRepository "1" --o "0..*" TarefaModel
+    EvidenciaRepository "1" --o "0..*" EvidenciaModel
+    EventoZootecnicoRepository "1" --o "0..*" EventoZootecnicoModel
+    AlertaInfraestruturaRepository "1" --o "0..*" AlertaInfraestruturaModel
+    SincronizacaoRepository "1" --o "0..*" SincronizacaoModel
+    ExportacaoRepository "1" --o "0..*" ExportacaoModel
+    RetiroRepository "1" --o "0..*" RetiroModel
+
+    %% ─────────────────────────────────────────
+    %% CAMADA: SERVICE
+    %% ─────────────────────────────────────────
+    namespace Service {
+        class AuthService {
+            +login(nome, senha) String
+            +validarToken(token) UsuarioModel
+            +criarUsuario(dados) UsuarioModel
+        }
+        class TarefaService {
+            +criarTarefa(dados) TarefaModel
+            +listarTarefasCapataz(capatazId, data) List~TarefaModel~
+            +listarTarefasRetiro(retiroId) List~TarefaModel~
+            +concluirTarefa(id, capatazId) void
+            +editarTarefa(id, dados) TarefaModel
+            +deletarTarefa(id) void
+        }
+        class EvidenciaService {
+            +adicionarEvidencia(tarefaId, dados) EvidenciaModel
+            +listarEvidencias(tarefaId) List~EvidenciaModel~
+        }
+        class EventoZootecnicoService {
+            +registrarNascimento(dados) RegistroNascimentoModel
+            +registrarObito(dados) RegistroObitoModel
+            +listarEventosPorRetiro(retiroId) List~EventoZootecnicoModel~
+            +validarEvento(id, coordenadorId) void
+        }
+        class AlertaInfraestruturaService {
+            +abrirAlerta(dados) AlertaInfraestruturaModel
+            +listarAlertas(retiroId) List~AlertaInfraestruturaModel~
+            +atualizarStatusAlerta(id, status) void
+        }
+        class SincronizacaoService {
+            +enfileirarSincronizacao(entidadeTipo, entidadeId) void
+            +processarFila() void
+            +reenviarFalhos() void
+        }
+        class ExportacaoService {
+            +gerarRelatorio(coordenadorId, filtros) Exportacao
+        }
+        class RetiroService {
+            +listarRetiros() List~RetiroModel~
+            +buscarRetiro(id) RetiroModel
+        }
+    }
+
+    AuthService ..> UsuarioRepository : usa
+    TarefaService ..> TarefaRepository : usa
+    TarefaService ..> UsuarioRepository : verifica vínculo (RN01)
+    TarefaService ..> RetiroRepository : valida retiro
+    EvidenciaService ..> EvidenciaRepository : usa
+    EvidenciaService ..> TarefaRepository : verifica tarefa
+    EventoZootecnicoService ..> EventoZootecnicoRepository : usa
+    AlertaInfraestruturaService ..> AlertaInfraestruturaRepository : usa
+    SincronizacaoService ..> SincronizacaoRepository : usa
+    ExportacaoService ..> EventoZootecnicoRepository : consulta dados
+    ExportacaoService ..> ExportacaoRepository : registra exportação
+    RetiroService ..> RetiroRepository : usa
+
+    %% ─────────────────────────────────────────
+    %% CAMADA: CONTROLLER
+    %% ─────────────────────────────────────────
+    namespace Controller {
+        class AuthController {
+            +POST /auth/login()
+            +POST /auth/usuarios()
+        }
+        class TarefaController {
+            +POST /tarefas()
+            +GET /tarefas()
+            +GET /tarefas/:id()
+            +PUT /tarefas/:id()
+            +DELETE /tarefas/:id()
+            +PATCH /tarefas/:id/concluir()
+        }
+        class EvidenciaController {
+            +POST /tarefas/:id/evidencias()
+            +GET /tarefas/:id/evidencias()
+        }
+        class EventoZootecnicoController {
+            +POST /eventos/nascimentos()
+            +POST /eventos/obitos()
+            +GET /eventos()
+            +PATCH /eventos/:id/validar()
+        }
+        class AlertaInfraestruturaController {
+            +POST /alertas()
+            +GET /alertas()
+            +PATCH /alertas/:id/status()
+        }
+        class SincronizacaoController {
+            +POST /sync()
+            +GET /sync/pendentes()
+        }
+        class ExportacaoController {
+            +GET /exportar()
+        }
+        class RetiroController {
+            +GET /retiros()
+            +GET /retiros/:id()
+        }
+    }
+
+    AuthController ..> AuthService : delega
+    TarefaController ..> TarefaService : delega
+    EvidenciaController ..> EvidenciaService : delega
+    EventoZootecnicoController ..> EventoZootecnicoService : delega
+    AlertaInfraestruturaController ..> AlertaInfraestruturaService : delega
+    SincronizacaoController ..> SincronizacaoService : delega
+    ExportacaoController ..> ExportacaoService : delega
+    RetiroController ..> RetiroService : delega
+```
+
+<center>
+  <p><strong>Figura 10</strong> — Diagrama de Classes Arquitetural do Sistema BrPec</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+O diagrama organiza o backend em quatro camadas horizontais bem delimitadas. A camada **Controller** expõe oito grupos de endpoints REST, cada um responsável por um módulo funcional do sistema: autenticação, tarefas, evidências, eventos zootécnicos, alertas de infraestrutura, sincronização, exportação e retiros. Nenhum Controller acessa repositórios ou modelos diretamente — toda lógica é delegada ao Service correspondente via dependência de uso (`..>`), conforme o princípio de responsabilidade única [15].
+
+A camada **Service** concentra as regras de negócio críticas do sistema. O `TarefaService`, por exemplo, é o único ponto onde a RN01 é aplicada (verificação de que o Capataz pertence ao retiro antes de inserir a tarefa), cruzando dados de `UsuarioRepository` e `RetiroRepository` antes de acionar o `TarefaRepository`. O `SincronizacaoService` implementa o padrão *Outbox* descrito na seção 3.2.4, enfileirando registros com status `PENDENTE` e reprocessando falhas automaticamente. O `ExportacaoService` consulta os repositórios de eventos e registra o metadado da exportação, sem expor dados brutos ao Controller.
+
+A camada **Repository** abstrai completamente a tecnologia de persistência (SQLite via `better-sqlite3`), expondo métodos nomeados por intenção de negócio (`findByCapatazEData`, `findPendentesValidacao`, `marcarValidado`) em vez de queries SQL abertas. Cada Repository é proprietário de um conjunto de Models — representado por agregação (`--o`) no diagrama —, garantindo que o acesso a cada tabela ocorra por um único ponto de entrada.
+
+A camada **Model** corresponde às entidades persistidas no banco de dados SQLite, diretamente alinhadas ao Diagrama de Classes do Domínio (seção 3.2.3). A hierarquia de herança é mantida (`EvidenciaModel` → `FotoModel`, `AudioModel`, `TextoComplementarModel`; `EventoZootecnicoModel` → `RegistroNascimentoModel`, `RegistroObitoModel`), refletindo a especialização dos tipos de registro conforme os requisitos funcionais RF004, RF005, RF008 e RF009.
+
+A separação em camadas garante que alterações na tecnologia de persistência (ex.: migração de SQLite para PostgreSQL) impactem apenas os Repositories, sem afetar Services ou Controllers — critério alinhado ao requisito não funcional de Suportabilidade (RNF — SUP), que limita o MTTR a 8 horas para defeitos críticos.
+
 ### 3.2.4. Diagrama de Sequência UML (sprint 3)
 
 O Diagrama de Sequência UML constitui um dos quatro tipos de diagrama de interação previstos pela especificação UML 2.5.1, sendo formalmente classificado como um diagrama comportamental que enfatiza a troca ordenada de mensagens entre participantes ao longo do tempo [13]. Segundo o Object Management Group (OMG), a semântica de uma interação é definida como um par de conjuntos de *traces* — sequências válidas e inválidas de ocorrências de eventos —, de modo que cada diagrama de sequência representa, de forma gráfica, os cenários de comunicação aceitos pelo sistema modelado [13][18]. A notação adotada emprega linhas de vida (*lifelines*) para representar os participantes, setas contínuas para mensagens síncronas e setas tracejadas para retornos, com fragmentos combinados (*combined fragments*) do tipo `alt` para expressar ramificações condicionais no fluxo de execução, conforme as convenções consolidadas por Fowler [15] e detalhadas na norma ISO/IEC 19505-2:2012 [17].
@@ -2948,7 +3262,7 @@ As consultas abaixo representam fluxos priorizados do sistema BrPec e foram extr
   <p><strong>Tabela 8</strong> — Expressões SQL e Lógica Proposicional</p>
 </center>
 
-| #1 | Fluxo: Consulta de tarefas pendentes do Capataz (US02 / RF002) |
+| 1 | Fluxo: Consulta de tarefas pendentes do Capataz (US02 / RF002) |
 | --- | --- |
 | **Expressão SQL** | `SELECT * FROM tasks WHERE assigned_to = $1 AND status = 'PENDING';` |
 | **Proposições lógicas** | $A$: a tarefa está atribuída ao capataz autenticado (`assigned_to = $1`) <br> $B$: o status da tarefa é pendente (`status = 'PENDING'`) |
@@ -2967,7 +3281,7 @@ As consultas abaixo representam fluxos priorizados do sistema BrPec e foram extr
 
 ---
 
-| #2 | Fluxo: Contagem de nascimentos registrados (US08 / RF008) |
+| 2 | Fluxo: Contagem de nascimentos registrados (US08 / RF008) |
 | --- | --- |
 | **Expressão SQL** | `SELECT COUNT(*) FROM events WHERE event_type = 'NASCIMENTO';` |
 | **Proposições lógicas** | $A$: o evento registrado é do tipo nascimento (`event_type = 'NASCIMENTO'`) |
@@ -2984,7 +3298,7 @@ As consultas abaixo representam fluxos priorizados do sistema BrPec e foram extr
 
 ---
 
-| #3 | Fluxo: Busca de eventos offline não sincronizados (RF010) |
+| 3 | Fluxo: Busca de eventos offline não sincronizados (RF010) |
 | --- | --- |
 | **Expressão SQL** | `SELECT * FROM events WHERE synced = 0 AND event_type IN ('VACINACAO', 'PESAGEM', 'TRATAMENTO', 'NASCIMENTO') ORDER BY created_at ASC;` |
 | **Proposições lógicas** | $A$: o evento ainda não foi sincronizado (`synced = 0`) <br> $B$: o tipo do evento é vacinação <br> $C$: o tipo do evento é pesagem <br> $D$: o tipo do evento é tratamento <br> $E$: o tipo do evento é nascimento |
@@ -3007,7 +3321,7 @@ As consultas abaixo representam fluxos priorizados do sistema BrPec e foram extr
 
 
 ---
-| #7 | Fluxo: Busca de registros pendentes na fila de sincronização (RF010 / RF012) |
+| 7 | Fluxo: Busca de registros pendentes na fila de sincronização (RF010 / RF012) |
 |---|---|
 | **Expressão SQL** | `SELECT id, tabela, registro_id, operacao, payload_json, tentativas FROM sync_queue WHERE status = 'pendente' AND tentativas < 5 ORDER BY created_at ASC LIMIT 50;` |
 | **Proposições lógicas** | $A$: o registro está com status pendente de envio (`status = 'pendente'`) <br> $B$: o número de tentativas de envio é menor que 5 (`tentativas < 5`) |
@@ -3025,7 +3339,7 @@ As consultas abaixo representam fluxos priorizados do sistema BrPec e foram extr
 </center>
 
 ---
-| #8 | Fluxo: Exportação de movimentações sincronizadas pelo Coordenador (RF015) |
+| 8 | Fluxo: Exportação de movimentações sincronizadas pelo Coordenador (RF015) |
 |---|---|
 | **Expressão SQL** | `SELECT m.id, m.tipo, m.categoria, m.data_movimentacao, m.observacoes, r.nome AS retiro, u.nome AS responsavel, o.causa AS causa_obito, o.identificacao_animal, n.quantidade AS qtd_nascimento, t.retiro_origem_id, t.retiro_destino_id, cv.tipo_negocio, cv.valor_financeiro FROM movimentacoes m JOIN retiros r ON m.retiro_id = r.id JOIN usuarios u ON m.responsavel_id = u.id LEFT JOIN obitos o ON o.movimentacao_id = m.id LEFT JOIN nascimentos n ON n.movimentacao_id = m.id LEFT JOIN transferencias t ON t.movimentacao_id = m.id LEFT JOIN compravendas cv ON cv.movimentacao_id = m.id WHERE m.sync_status = 'sincronizado' AND m.retiro_id = $1 AND date(m.data_movimentacao) BETWEEN date($2) AND date($3) ORDER BY m.data_movimentacao ASC;` |
 | **Proposições lógicas** | $A$: a movimentação já foi sincronizada com o servidor (`sync_status = 'sincronizado'`) <br> $B$: a movimentação pertence ao retiro selecionado pelo Coordenador (`retiro_id = $1`) <br> $C$: a data da movimentação está dentro do intervalo de exportação (`data_movimentacao BETWEEN $2 AND $3`) |
@@ -3047,7 +3361,7 @@ As consultas abaixo representam fluxos priorizados do sistema BrPec e foram extr
 </center>
 
 ---
-| #9 | Fluxo: Contagem de nascimentos sincronizados por retiro e período (US11 / RF008) |
+| 9 | Fluxo: Contagem de nascimentos sincronizados por retiro e período (US11 / RF008) |
 |---|---|
 | **Expressão SQL** | `SELECT r.nome AS retiro, SUM(n.quantidade) AS total_nascimentos FROM nascimentos n JOIN movimentacoes m ON n.movimentacao_id = m.id JOIN retiros r ON m.retiro_id = r.id WHERE m.sync_status = 'sincronizado' AND date(m.data_movimentacao) BETWEEN date($1) AND date($2) GROUP BY r.nome ORDER BY r.nome ASC;` |
 | **Proposições lógicas** | $A$: a movimentação foi sincronizada com o servidor (`sync_status = 'sincronizado'`) <br> $B$: a data da movimentação está dentro do intervalo selecionado (`date(m.data_movimentacao) BETWEEN date($1) AND date($2)`) |
@@ -3063,6 +3377,142 @@ As consultas abaixo representam fluxos priorizados do sistema BrPec e foram extr
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+
+### 3.6.4.1 Consulta de Tarefas Pendentes por Capataz
+
+#### Objetivo da Consulta
+
+Identificar tarefas que ainda não foram concluídas, relacionando-as aos respectivos capatazes responsáveis e aos retiros associados.
+
+#### Código SQL
+
+```sql
+SELECT 
+    t.id,
+    t.titulo,
+    t.descricao,
+    t.data_prevista,
+    u.nome AS capataz,
+    r.nome AS retiro
+FROM tarefas t
+JOIN usuarios u ON t.responsavel_id = u.id
+JOIN retiros r ON t.retiro_id = r.id
+WHERE t.status = 'pendente'
+  AND u.perfil = 'capataz';
+```
+
+#### Descrição Técnica
+
+A consulta realiza a integração entre as tabelas `tarefas`, `usuarios` e `retiros`, permitindo identificar quais atividades ainda permanecem pendentes dentro da operação da fazenda.
+
+Além disso, possibilita visualizar o responsável pela execução de cada tarefa e sua localização operacional.
+
+Essa funcionalidade auxilia diretamente o gerente e os coordenadores na supervisão das atividades realizadas em campo, contribuindo para:
+
+- maior controle operacional;
+- rastreabilidade das ações executadas;
+- redução de atrasos em tarefas críticas.
+
+#### Tabelas Relacionadas
+
+| Tabela | Função |
+|---|---|
+| `tarefas` | Armazena as tarefas cadastradas no sistema |
+| `usuarios` | Contém os responsáveis pelas tarefas |
+| `retiros` | Representa os retiros da fazenda |
+
+---
+
+### 3.6.4.2 Consulta de Número de Nascimentos Registrados
+
+#### Objetivo da Consulta
+
+Calcular a quantidade total de nascimentos registrados por retiro da fazenda.
+
+#### Código SQL
+
+```sql
+SELECT 
+    r.nome AS retiro,
+    SUM(n.quantidade) AS total_nascimentos
+FROM nascimentos n
+JOIN movimentacoes m ON n.movimentacao_id = m.id
+JOIN retiros r ON m.retiro_id = r.id
+WHERE m.tipo = 'nascimento'
+GROUP BY r.nome;
+```
+
+#### Descrição Técnica
+
+A consulta relaciona os registros de nascimento às movimentações do sistema e aos respectivos retiros da propriedade rural.
+
+Seu principal objetivo é fornecer indicadores produtivos relacionados ao crescimento do rebanho.
+
+Os dados obtidos podem ser utilizados para:
+
+- acompanhamento zootécnico;
+- controle de produtividade;
+- apoio à tomada de decisão gerencial.
+
+#### Tabelas Relacionadas
+
+| Tabela | Função |
+|---|---|
+| `nascimentos` | Armazena registros de nascimentos |
+| `movimentacoes` | Controla eventos relacionados ao rebanho |
+| `retiros` | Identifica o local associado ao registro |
+
+---
+
+### 3.6.4.3 Consulta de Registros Offline Não Sincronizados
+
+#### Objetivo da Consulta
+
+Identificar registros que ainda não foram sincronizados ou que apresentaram falha durante o processo de sincronização com o servidor principal.
+
+#### Código SQL
+
+```sql
+SELECT 
+    tabela,
+    registro_id,
+    operacao,
+    status,
+    tentativas,
+    ultimo_erro,
+    created_at
+FROM sync_queue
+WHERE status IN ('pendente', 'erro');
+```
+
+#### Descrição Técnica
+
+A consulta utiliza a tabela `sync_queue`, responsável pelo gerenciamento das operações executadas localmente em modo offline.
+
+Sua função é monitorar registros pendentes de sincronização ou operações que falharam devido à ausência de conectividade.
+
+Essa funcionalidade é essencial no contexto do BrPec, considerando que diversas operações ocorrem em áreas rurais com acesso limitado à internet.
+
+Dessa forma, o mecanismo de sincronização garante:
+
+- continuidade operacional;
+- integridade das informações;
+- confiabilidade dos dados registrados em campo.
+
+#### Tabelas Relacionadas
+
+| Tabela | Função |
+|---|---|
+| `sync_queue` | Gerencia operações pendentes de sincronização |
+
+---
+
+### Considerações da Seção
+
+As consultas SQL apresentadas demonstram operações relevantes implementadas no backend do sistema BrPec, contemplando funcionalidades críticas relacionadas à gestão operacional da fazenda.
+
+Além de atenderem necessidades práticas do domínio do negócio, essas consultas reforçam requisitos funcionais e não funcionais previamente definidos, especialmente aqueles associados ao suporte offline, rastreabilidade das informações e monitoramento das atividades executadas em campo.
 
 ---
 ## 3.7. WebAPI e endpoints (sprints 3 e 4)
