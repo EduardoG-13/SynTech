@@ -3663,7 +3663,7 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
   - `422 Unprocessable Entity`: Violação de regra de negócio (`RN01`) — Capataz não pertence ao retiro informado.
   - `500 Internal Server Error`: Falha na persistência de dados.
 
-#### 3. Buscar Tarefas de Hoje (UC01 / RF001)
+#### 3. Buscar Tarefas de Hoje (RF002 / RN02, RN05)
 - **Endpoint**: `GET /api/tarefas/hoje`
 - **Parâmetros (Query)**: `?capataz_id=capataz-1`
 - **Resposta (200 OK)**:
@@ -3685,8 +3685,9 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
   - `400 Bad Request`: Parâmetro `capataz_id` ausente.
   - `500 Internal Server Error`: Erro de busca no banco de dados.
 
-#### 4. Concluir Tarefa (UC01 / RF001)
+#### 4. Concluir Tarefa (RF002 / RN02, RN05)
 - **Endpoint**: `PATCH /api/tarefas/:id/concluir`
+- **Path Parameter**: `id` — UUID da tarefa a ser concluída
 - **Headers**: `Content-Type: application/json`
 - **Payload (Body)**:
   ```json
@@ -3700,19 +3701,27 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
     "mensagem": "Tarefa concluída com sucesso",
     "tarefa": {
       "id": "uuid-v4",
+      "titulo": "Vacinação de Lote",
+      "descricao": "Vacinação contra febre aftosa no piquete 2",
       "status": "CONCLUIDA",
-      "concluida_em": "2026-05-25T15:20:00.000Z"
+      "data_execucao": "2026-06-20",
+      "retiro_id": "retiro-1",
+      "capataz_id": "capataz-1",
+      "gerente_id": "gerente-1",
+      "concluida_em": "2026-05-25T15:20:00.000Z",
+      "sincronizada": 1
     }
   }
   ```
 - **Status Codes**:
   - `200 OK`: Tarefa concluída com sucesso.
-  - `400 Bad Request`: ID da tarefa ou `capataz_id` ausente.
+  - `400 Bad Request`: `id` da tarefa (path) ou `capataz_id` (body) ausente.
   - `404 Not Found`: Tarefa inexistente ou que não pertence ao capataz informado.
   - `500 Internal Server Error`: Erro de atualização.
 
-#### 5. Anexar Evidência (UC01 / RF001 / RN05)
+#### 5. Anexar Evidência (RF005 / RN13, RN15)
 - **Endpoint**: `POST /api/tarefas/:id/evidencias`
+- **Path Parameter**: `id` — UUID da tarefa à qual a evidência será vinculada
 - **Headers**: `Content-Type: application/json`
 - **Payload (Body)**:
   ```json
