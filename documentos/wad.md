@@ -2558,7 +2558,88 @@ _Diagrama UML de deployment mostrando nós físicos, artefatos e canais de comun
 
 ### 3.2.7. Padrões de Projeto Aplicados (sprints 3 a 5)
 
-_Documente os design patterns utilizados (Repository, Strategy, Factory, DTO etc.) e quais princípios SOLID se aplicam. Justifique a adoção de cada padrão com base em uma necessidade real do projeto._
+O Sistema BrPec aplica padrões de projeto motivados por **três restrições estruturais** documentadas neste WAD: (i) a **conectividade satelital intermitente** via Starlink, que impõe arquitetura offline-first (seções 1 e 3.1.3); (ii) os **quatro perfis distintos de usuário** — Gerente, Coordenador, Capataz e Técnico — com regras de operação diferentes (seção 2.2); e (iii) a possibilidade de **evolução da camada de persistência**, hoje implementada com `better-sqlite3` para o cache local e `@supabase/supabase-js` para o servidor central (seção 3.2.1). Cada padrão a seguir é apresentado com categoria GoF [29], localização no repositório, necessidade de negócio que atende e princípios SOLID materializados [30].
+
+A tabela a seguir consolida os seis padrões adotados, indicando para cada um a categoria GoF, a pasta/arquivo correspondente no repositório, a necessidade de negócio atendida e os princípios SOLID materializados. Os padrões com status "previsto" estão planejados para sprints posteriores e serão implementados conforme as funcionalidades correspondentes forem desenvolvidas.
+
+<center>
+  <p><strong>Quadro X</strong> — Padrões de projeto aplicados ao Sistema BrPec</p>
+</center>
+
+| # | Padrão              | Categoria        | Localização no repositório                                  | Necessidade que atende                                  | SOLID    |
+|---|---------------------|------------------|-------------------------------------------------------------|---------------------------------------------------------|----------|
+| 1 | Repository          | Estrutural       | `src/repositories/` (ex.: `movimentacaoRepository.ts`)      | Isolar a troca de driver/ORM da camada de persistência  | S, D     |
+| 2 | Outbox (Sync Queue) | Arquitetural [31] | Tabela `sync_queue` (Migration 011) + `src/services/syncNotifier.ts` | Offline-first: 0% de perda de dados em falha de rede    | S, O     |
+| 3 | DTO                 | Estrutural       | `src/dtos/` (previsto na sprint 3)                          | Desacoplar schema do banco da API pública               | S, I     |
+| 4 | Singleton           | Criacional       | `src/lib/supabaseClient.js`                                 | Reuso de uma única instância do cliente Supabase        | D        |
+| 5 | Middleware Chain    | Comportamental   | `src/middlewares/` (previsto na sprint 3)                   | Pipeline plugável de cross-cutting concerns             | S, O     |
+| 6 | Strategy            | Comportamental   | `src/middlewares/permissions/` (previsto na sprint 5)       | Regras de autorização distintas por perfil de usuário   | O, L     |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+Os padrões 1, 2 e 4 já possuem implementação parcial no repositório, validando a arquitetura proposta. Os padrões 3, 5 e 6 estão planejados para as próximas sprints, conforme o cronograma de implementação dos endpoints (sprint 3), das validações de payload (sprint 3) e do controle de autorização (sprint 5). O detalhamento de cada padrão, com sua justificativa de negócio e princípios SOLID associados, é apresentado nas subseções seguintes.
+
+#### 1. Repository Pattern *(estrutural)*
+
+**Localização:** `src/repositories/` (já implementado: `movimentacaoRepository.ts`; demais repositories — `tarefasRepository.ts`, `usuariosRepository.ts`, `retirosRepository.ts` — em desenvolvimento nesta sprint).
+
+**Necessidade que atende:** o backend acessa duas fontes de dados distintas — `better-sqlite3` para o cache local offline e `@supabase/supabase-js` para o servidor central. Sem uma camada que abstraia esse acesso, qualquer evolução (introduzir cache, migrar para um ORM como Prisma, trocar provedor) propagaria mudanças por Controllers e Services. O Repository centraliza o acesso a dados e expõe métodos com semântica de domínio (`movimentacaoRepository.inserir(mov)`), em linha com a definição clássica de Fowler [32]: *"mediates between the domain and data mapping layers"*.
+
+**Validação pela equipe:** o padrão foi validado em revisão dedicada na issue [#202](https://git.inteli.edu.br/graduacao/2026-1b/t26/g03/-/issues/202).
+
+**Princípios SOLID:** **S** — cada repository é responsável por uma única entidade do domínio pecuário; **D** — Services dependem da abstração do repository, não do driver de banco.
+
+#### 2. Outbox / Sync Queue *(arquitetural)*
+
+**Localização:** tabela `sync_queue` (Migration 011, seção 3.6.3) + serviço já implementado em `src/services/syncNotifier.ts`.
+
+**Necessidade que atende:** é o coração da arquitetura offline-first do BrPec e atende diretamente ao RNF de **integridade da sincronização** ("0% de perda de dados em falhas de conexão", seção 3.1.3, eixo CONF). Quando o capataz conclui uma tarefa sem internet (US03), a operação é gravada no banco local SQLite e enfileirada na `sync_queue`. Ao restabelecer comunicação com a Starlink, o `syncNotifier` drena a fila e replica as operações no servidor central via Supabase, com idempotência garantida pelo UUID gerado client-side (seção 3.6.3 — Nota Técnica). É a aplicação direta do **Transactional Outbox** [31], padrão consagrado em sistemas distribuídos para garantir entrega eventual sem perda de dados.
+
+**Princípios SOLID:** **S** — a fila tem uma única responsabilidade (garantir entrega eventual); **O** — novos tipos de operação (`INSERT`, `UPDATE`, `DELETE`, futuramente `MERGE`) podem ser adicionados sem alterar o processador.
+
+#### 3. DTO (Data Transfer Object) *(estrutural)*
+
+**Localização planejada:** `src/dtos/` (ex.: `CriarTarefaDTO.ts`, `TarefaResponseDTO.ts`), a implementar ao longo da sprint 3 conforme os endpoints são desenvolvidos.
+
+**Necessidade que atende:** existe uma diferença real entre o que o cliente envia, o que o banco persiste e o que a API devolve. Para a US01, o cliente envia `{titulo, retiro_id, prazo}`; o banco persiste `{id, titulo, retiro_id, autor_id, criado_em, sincronizado_em, deletado_em}` (Migration 003); e a resposta da API expõe `{id, titulo, retiro: {id, nome}, prazo, status}`, sem campos internos como `autor_id`. DTOs evitam que detalhes do schema vazem na API pública e protegem o backend de payloads mal formados, validando entrada na fronteira Controller → Service. O padrão segue a recomendação de Evans [33] de isolar o modelo de domínio da camada de apresentação.
+
+**Princípios SOLID:** **S** — separa "modelo de entrada da API" de "entidade de domínio"; **I** — clientes da API recebem apenas os campos que precisam, sem dependências desnecessárias.
+
+#### 4. Singleton *(criacional)*
+
+**Localização:** `src/lib/supabaseClient.js` — uma única instância do `createClient(SUPABASE_URL, SUPABASE_ANON_KEY)` reutilizada em todo o backend.
+
+**Necessidade que atende:** evita inicializações redundantes do cliente Supabase a cada requisição, economizando alocação de pool de conexões e leitura repetida de variáveis de ambiente. Vale registrar a crítica de Fowler [32] e da comunidade DDD ao uso indiscriminado do padrão (acoplamento global, dificuldade de teste); aqui o uso é justificado por se tratar de um cliente de infraestrutura sem estado de negócio, e a injeção do cliente nos repositories preserva a testabilidade.
+
+**Princípios SOLID:** **D** — toda a aplicação depende da mesma abstração de cliente, injetada nos repositories.
+
+#### 5. Middleware Chain (Chain of Responsibility) *(comportamental)*
+
+**Localização planejada:** `src/middlewares/` (autenticação, autorização, validação de payload, tratamento de erros), a implementar ao longo das sprints 3 a 5 conforme os requisitos da seção 3.8 são desenvolvidos.
+
+**Necessidade que atende:** cada requisição ao backend precisa passar por uma sequência de verificações antes de chegar ao Controller — autenticar o usuário (seção 3.8.1), autorizar a operação (seção 3.8.3), validar o payload contra o DTO esperado e, ao final, tratar exceções de forma uniforme (seção 3.8.4). O Middleware Chain do Express materializa esse pipeline de forma plugável: cada novo cross-cutting concern (logging, métricas, rate-limiting) entra como um novo middleware sem alterar os existentes — instância concreta do padrão Chain of Responsibility [29].
+
+**Princípios SOLID:** **S** — cada middleware tem uma responsabilidade isolada; **O** — novos middlewares são plugados na cadeia sem modificar os anteriores.
+
+#### 6. Strategy *(comportamental — previsto para a sprint 5)*
+
+**Localização planejada:** `src/middlewares/permissions/` (ex.: `GerenteStrategy.ts`, `CoordenadorStrategy.ts`, `CapatazStrategy.ts`, `TecnicoStrategy.ts`), invocadas pelo middleware de autorização da seção 3.8.3.
+
+**Necessidade que atende:** os quatro perfis do sistema têm regras de operação fundamentalmente diferentes — o Gerente cria tarefas para qualquer retiro (US01), o Capataz só visualiza tarefas do próprio retiro (US02), o Coordenador exporta dados consolidados (US12) e o Técnico fecha ordens de serviço (US06). Implementar essas regras com `if/else` aninhados no Controller tornaria a manutenção inviável conforme novos perfis ou novas permissões surgissem. O Strategy [29] encapsula cada conjunto de regras em uma classe própria, selecionada em runtime pelo perfil do usuário autenticado.
+
+**Princípios SOLID:** **O** — adicionar um quinto perfil significa criar uma nova classe sem alterar o middleware; **L** — todas as strategies são intercambiáveis pela mesma interface (`podeExecutar(acao, recurso)`).
+
+#### Síntese SOLID
+
+Em conjunto, os padrões adotados materializam os cinco princípios SOLID [30]:
+
+- **S — Single Responsibility:** todas as camadas e padrões (Repository, DTO, Middleware) isolam responsabilidades únicas.
+- **O — Open/Closed:** Outbox, Strategy e Middleware Chain permitem extensão sem modificação do código existente.
+- **L — Liskov Substitution:** as Strategies de permissão são plenamente substituíveis pela mesma interface.
+- **I — Interface Segregation:** DTOs garantem que clientes da API recebam apenas os campos pertinentes.
+- **D — Dependency Inversion:** Services dependem de abstrações de Repository, não de drivers concretos; o Singleton do Supabase é injetado, não instanciado in-loco.
 
 ## 3.3. Wireframes (sprint 2)
 
@@ -3959,6 +4040,17 @@ Industries and Competitors. New York: Free Press, 2008. ISBN 978-0-7432-7275-4.
 [27] SNAITH, M.; TORNQVIST, K. Situational Visual Impairment: Designing interfaces for outdoor and mobile usage. JMHCI, v. 12, 2020.
 
 [28] BABICH, Nick. Principles of Typography in UI Design. UX Planet, 2016. Disponível em: https://uxplanet.org/principles-of-typography-in-ui-design-bc28f1f9666d. Acesso em: 19 maio 2026.
+
+[29] GAMMA, Erich; HELM, Richard; JOHNSON, Ralph; VLISSIDES, John. *Design Patterns: Elements of Reusable Object-Oriented Software*. Boston: Addison-Wesley, 1994. ISBN 978-0-201-63361-0.
+
+[30] MARTIN, Robert C. *Clean Architecture: A Craftsman's Guide to Software Structure and Design*. Boston: Prentice Hall, 2017. ISBN 978-0-134-49416-6.
+
+[31] HOHPE, Gregor; WOOLF, Bobby. *Enterprise Integration Patterns: Designing, Building, and Deploying Messaging Solutions*. Boston: Addison-Wesley, 2003. ISBN 978-0-321-20068-6.
+
+[32] FOWLER, Martin. *Patterns of Enterprise Application Architecture*. Boston: Addison-Wesley, 2002. ISBN 978-0-321-12742-6.
+
+[33] EVANS, Eric. *Domain-Driven Design: Tackling Complexity in the Heart of Software*. Boston: Addison-Wesley, 2003. ISBN 978-0-321-12521-7.
+
 # <a name="c9"></a>Anexos
 
 _Inclua aqui quaisquer complementos para seu projeto, como diagramas, imagens, tabelas etc. Organize em sub-tópicos utilizando headings menores (use ## ou ### para isso)_
