@@ -7,16 +7,18 @@
   "scripts": {
     "start": "ts-node server.ts",
     "dev": "npx nodemon --exec ts-node server.ts",
-    "test": "jest --forceExit"
+    "test": "jest --runInBand --forceExit"
   },
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
+    "verbose": true,
     "setupFiles": [
       "<rootDir>/jest.setup.env.ts"
     ],
     "testMatch": [
-      "**/__tests__/**/*.test.ts"
+      "**/__tests__/**/*.test.ts",
+      "**/tests/**/*.test.ts"
     ],
     "transform": {
       "^.+\\.ts$": ["ts-jest", { "tsconfig": { "types": ["jest", "node"] } }]
