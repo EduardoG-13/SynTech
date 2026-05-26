@@ -2928,6 +2928,19 @@ O painel de infraestrutura oferece uma visão consolidada dos chamados de manute
 - **CR2 (US06):** Os chamados são organizados por categoria (Hidráulica, Cerca, Elétrica), facilitando a triagem por tipo de problema.
 - **CR1 (US07):** O Gerente visualiza o status consolidado de todos os chamados de infraestrutura por categoria e status.
 
+<center>
+  <p><strong>Figura X</strong> — Protótipo de Alta Fidelidade: Painel de Infraestrutura (Mobile e Desktop)</p>
+  <img src="./assets/alta-fidelidade-infraestrutura.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+**Decisões de design:**
+
+- **Filtros de categoria** (Hidráulica, Cerca, Elétrica) posicionados no topo da tela mobile e na sidebar da versão desktop, com o item ativo destacado em verde profundo, permitindo alternância rápida entre tipos de chamado.
+- **Cards de status** na versão mobile com ícone identificador, label descritivo, subtítulo "Total de chamados" e contador numérico em destaque, permitindo leitura imediata da situação operacional sem necessidade de abrir filtros.
+- **Layout kanban** na versão desktop com três colunas — Abertos, Em andamento e Fechados — e contadores numéricos no cabeçalho de cada coluna, oferecendo visão macro do pipeline de manutenção em um único olhar.
+- **Botão "+ Nova O.S."** em largura total na versão mobile e posicionado no canto inferior direito na versão desktop, sempre visível e de fácil acesso para registro imediato de um novo chamado em campo.
+- **Avatar circular verde** no canto superior direito identifica o usuário logado em ambas as versões, mantendo consistência visual com as demais telas do sistema.
 
 ## 3.6. Modelagem do banco de dados (sprints 2 e 4)
 
