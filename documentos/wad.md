@@ -2434,10 +2434,13 @@ A tipografia da solução utiliza duas famílias de fontes complementares, ambas
 disponíveis gratuitamente via Google Fonts, selecionadas para garantir legibilidade
 em telas mobile e web, inclusive sob luz solar direta.
 
+
+<img src="./assets/fonte-inter.png" width="40"/> 
+
 | Imagem | Família | Uso | Pesos utilizados |
 |---|---|---|---|
 | <img src="./assets/fonte-inter.png" width="40"/> | Inter | Títulos, botões e elementos de destaque | 600 (SemiBold), 700 (Bold) |
-| <img src="./assets/fonte-inter.png" width="40"/> | Inter | Corpo de texto, labels e tabelas | 400 (Regular), 500 (Medium) |
+| <img src="./assets/interFont.png" width="40"/> | Inter | Corpo de texto, labels e tabelas | 400 (Regular), 500 (Medium) |
 
  A **Inter** foi projetada especificamente para interfaces
 digitais, com alto desempenho em tamanhos reduzidos e em condições adversas de
