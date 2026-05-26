@@ -3745,7 +3745,7 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
   - `404 Not Found`: Violação de regra de negócio (`RN05`) — Tarefa inexistente ou que não pertence ao capataz.
   - `500 Internal Server Error`: Erro de escrita.
 
-#### 6. Registrar Alerta de Infraestrutura (UC02+ / RF002+)
+#### 6. Registrar Chamado de Infraestrutura (RF006 / RN19, RN21, RN26)
 - **Endpoint**: `POST /api/chamados`
 - **Headers**: `Content-Type: application/json`
 - **Payload (Body)**:
@@ -3778,7 +3778,7 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
   - `400 Bad Request`: Parâmetros obrigatórios ausentes.
   - `500 Internal Server Error`: Falha de gravação.
 
-#### 7. Registrar Nascimento (UC02+ / RF002+)
+#### 7. Registrar Nascimento (RF008 / RN27)
 - **Endpoint**: `POST /api/eventos-zootecnicos/nascimentos`
 - **Headers**: `Content-Type: application/json`
 - **Payload (Body)**:
