@@ -3663,7 +3663,7 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
   - `422 Unprocessable Entity`: Violação de regra de negócio (`RN01`) — Capataz não pertence ao retiro informado.
   - `500 Internal Server Error`: Falha na persistência de dados.
 
-#### 3. Buscar Tarefas de Hoje (UC01 / RF001)
+#### 3. Buscar Tarefas de Hoje (RF002 / RN02, RN05)
 - **Endpoint**: `GET /api/tarefas/hoje`
 - **Parâmetros (Query)**: `?capataz_id=capataz-1`
 - **Resposta (200 OK)**:
@@ -3685,8 +3685,9 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
   - `400 Bad Request`: Parâmetro `capataz_id` ausente.
   - `500 Internal Server Error`: Erro de busca no banco de dados.
 
-#### 4. Concluir Tarefa (UC01 / RF001)
+#### 4. Concluir Tarefa (RF002 / RN02, RN05)
 - **Endpoint**: `PATCH /api/tarefas/:id/concluir`
+- **Path Parameter**: `id` — UUID da tarefa a ser concluída
 - **Headers**: `Content-Type: application/json`
 - **Payload (Body)**:
   ```json
@@ -3700,19 +3701,27 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
     "mensagem": "Tarefa concluída com sucesso",
     "tarefa": {
       "id": "uuid-v4",
+      "titulo": "Vacinação de Lote",
+      "descricao": "Vacinação contra febre aftosa no piquete 2",
       "status": "CONCLUIDA",
-      "concluida_em": "2026-05-25T15:20:00.000Z"
+      "data_execucao": "2026-06-20",
+      "retiro_id": "retiro-1",
+      "capataz_id": "capataz-1",
+      "gerente_id": "gerente-1",
+      "concluida_em": "2026-05-25T15:20:00.000Z",
+      "sincronizada": 1
     }
   }
   ```
 - **Status Codes**:
   - `200 OK`: Tarefa concluída com sucesso.
-  - `400 Bad Request`: ID da tarefa ou `capataz_id` ausente.
+  - `400 Bad Request`: `id` da tarefa (path) ou `capataz_id` (body) ausente.
   - `404 Not Found`: Tarefa inexistente ou que não pertence ao capataz informado.
   - `500 Internal Server Error`: Erro de atualização.
 
-#### 5. Anexar Evidência (UC01 / RF001 / RN05)
+#### 5. Anexar Evidência (RF005 / RN13, RN15)
 - **Endpoint**: `POST /api/tarefas/:id/evidencias`
+- **Path Parameter**: `id` — UUID da tarefa à qual a evidência será vinculada
 - **Headers**: `Content-Type: application/json`
 - **Payload (Body)**:
   ```json
@@ -3736,7 +3745,7 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
   - `404 Not Found`: Violação de regra de negócio (`RN05`) — Tarefa inexistente ou que não pertence ao capataz.
   - `500 Internal Server Error`: Erro de escrita.
 
-#### 6. Registrar Alerta de Infraestrutura (UC02+ / RF002+)
+#### 6. Registrar Chamado de Infraestrutura (RF006 / RN19, RN21, RN26)
 - **Endpoint**: `POST /api/chamados`
 - **Headers**: `Content-Type: application/json`
 - **Payload (Body)**:
@@ -3769,7 +3778,7 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
   - `400 Bad Request`: Parâmetros obrigatórios ausentes.
   - `500 Internal Server Error`: Falha de gravação.
 
-#### 7. Registrar Nascimento (UC02+ / RF002+)
+#### 7. Registrar Nascimento (RF008 / RN27)
 - **Endpoint**: `POST /api/eventos-zootecnicos/nascimentos`
 - **Headers**: `Content-Type: application/json`
 - **Payload (Body)**:
@@ -3831,13 +3840,20 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
 - **Status Codes**:
   - `201 Created`: Óbito registrado nas tabelas `movimentacoes` e `obitos` com sucesso.
   - `400 Bad Request`: Campos obrigatórios ausentes.
-  - `422 Unprocessable Entity`: Causa da morte inválida (violação da regra de negócio `RN28`).
+  - `422 Unprocessable Entity`: Campos obrigatórios violados na camada de serviço (violação da regra de negócio `RF013` — foto, identificação ou causa da morte ausentes).
   - `500 Internal Server Error`: Falha técnica no servidor.
 
 #### 9. Listar Eventos Zootécnicos (RF014 / US11)
 - **Endpoint**: `GET /api/eventos-zootecnicos`
 - **Headers**: `Accept: application/json`
-- **Parâmetros (Query)**: `?retiro_id=retiro-1&categoria=bezerro&limite=10`
+- **Parâmetros (Query)** — todos opcionais:
+  - `retiro_id` — filtra por retiro específico
+  - `categoria` — filtra por categoria do animal (ex.: `bezerro`, `bezerra`)
+  - `tipo` — filtra por tipo de evento (`nascimento` ou `obito`)
+  - `data_inicio` — data de início do intervalo (formato `YYYY-MM-DD`)
+  - `data_fim` — data de fim do intervalo (formato `YYYY-MM-DD`)
+  - `pagina` — número da página (padrão: `1`)
+  - `limite` — registros por página (padrão: `10`)
 - **Resposta (200 OK)**:
   ```json
   {
@@ -3859,32 +3875,48 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
   }
   ```
 - **Status Codes**:
-  - `200 OK`: Lista retornada com sucesso.
+  - `200 OK`: Lista retornada com sucesso (pode ser array vazio se não houver registros).
   - `500 Internal Server Error`: Erro ao consultar a base SQLite.
 
 #### 10. Painel Gerencial (RF007)
 - **Endpoint**: `GET /api/painel-gerencial`
 - **Headers**: `Accept: application/json`
-- **Parâmetros (Query)**: `?gerente_id=gerente-1`
+- **Parâmetros (Query)**: `?gerente_id=gerente-1` _(obrigatório)_
 - **Resposta (200 OK)**:
   ```json
   {
-    "total_tarefas_pendentes": 5,
-    "total_tarefas_concluidas": 12,
-    "total_alertas_abertos": 3,
-    "nascimentos_mes": 42,
-    "obitos_mes": 2,
-    "retiros_ativos": [
+    "resumo_tarefas": {
+      "total": 17,
+      "pendentes": 5,
+      "em_andamento": 0,
+      "concluidas": 12,
+      "concluidas_hoje": 2
+    },
+    "tarefas_por_retiro": [
       {
-        "id": "retiro-1",
-        "nome": "Retiro Central",
-        "tarefas_pendentes": 2
+        "retiro_id": "retiro-1",
+        "retiro_nome": "Retiro Central",
+        "tarefas": {
+          "PENDENTE": 2,
+          "CONCLUIDA": 5
+        }
       }
-    ]
+    ],
+    "alertas_abertos": [
+      {
+        "id": "uuid-alerta",
+        "tipo": "cerca",
+        "status": "ABERTO",
+        "retiro_id": "retiro-1",
+        "capataz_id": "capataz-1"
+      }
+    ],
+    "total_alertas_abertos": 3,
+    "gerado_em": "2026-05-26T10:00:00.000Z"
   }
   ```
 - **Status Codes**:
-  - `200 OK`: Métricas calculadas com sucesso.
+  - `200 OK`: Métricas calculadas e consolidadas com sucesso.
   - `400 Bad Request`: `gerente_id` ausente nos parâmetros de consulta.
   - `403 Forbidden`: O usuário informado não possui perfil de Gerente (`ACESSO_NEGADO`).
   - `404 Not Found`: Gerente inexistente no banco.
@@ -3929,7 +3961,11 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
 #### 12. Exportação de Dados em CSV (RF015)
 - **Endpoint**: `GET /api/exportacao/csv`
 - **Headers**: `Accept: text/csv`
-- **Parâmetros (Query)**: `?coordenador_id=coordenador-1&retiro_id=retiro-1`
+- **Parâmetros (Query)**:
+  - `coordenador_id` _(obrigatório)_ — identifica o solicitante e valida perfil de Coordenador
+  - `retiro_id` _(opcional)_ — filtra os dados de um retiro específico
+  - `data_inicio` _(opcional)_ — data de início do intervalo a exportar (formato `YYYY-MM-DD`)
+  - `data_fim` _(opcional)_ — data de fim do intervalo a exportar (formato `YYYY-MM-DD`)
 - **Resposta (200 OK)**: Retorna o corpo binário ou texto plano com os dados em formato CSV delimitado por vírgulas, com cabeçalhos personalizados:
   - `Content-Type: text/csv; charset=utf-8`
   - `Content-Disposition: attachment; filename="movimentacoes_2026-05-26.csv"`
