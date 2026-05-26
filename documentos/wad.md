@@ -1157,15 +1157,20 @@ _Matriz de cobertura mostrando quais RN e endpoints implementam cada RF._
   <p><strong>Tabela 7</strong> — Matriz RF → RN → Endpoint</p>
 </center>
 
-| RF    | RN associada(s)  | Endpoint / consulta              | Metodo        | Operacao esperada                                                |
+| RF    | RN associada(s)  | Endpoint / Consulta              | Método        | Operação Esperada                                                |
 | ----- | ---------------- | -------------------------------- | ------------- | ---------------------------------------------------------------- |
-| RF001 | RN01             | /tarefas                         | POST          | Criar tarefa vinculada a um retiro                               |
-| RF002 | RN02, RN05       | /tarefas/hoje                    | GET           | Consultar tarefas do dia do Capataz                              |
-| RF003 | RN03, RN08       | /tarefas/sincronizar             | GET           | Sincronizar e armazenar tarefas localmente                       |
-| RF004 | RN04             | consulta local de tarefas offline| leitura local | Exibir mensagem simples quando nao houver tarefas                |
-| RF005 | RN13, RN15       | /tarefas/{id}/audios             | POST          | Anexar audio a tarefa e permitir sincronizacao posterior         |
-| RF006 | RN19, RN21, RN26 | /chamados                        | POST          | Registrar alerta com localizacao e envio imediato ou posterior   |
-| RF008 | RN27             | /eventos-zootecnicos/nascimentos | POST          | Registrar nascimento de bezerros                                 |
+| -     | -                | /health                          | GET           | Verificar integridade do servidor e conexão com o SQLite         |
+| RF001 | RN01             | /tarefas                         | POST          | Criar tarefa vinculada a um retiro e responsável                 |
+| RF002 | RN02, RN05       | /tarefas/hoje                    | GET           | Buscar tarefas agendadas para o dia atual do capataz             |
+| RF002 | RN02, RN05       | /tarefas/:id/concluir            | PATCH         | Alterar o status da tarefa para concluída (com timestamp)        |
+| RF005 | RN13, RN15       | /tarefas/:id/evidencias          | POST          | Anexar evidência de texto ou arquivo (Base64) a uma tarefa       |
+| RF006 | RN19, RN21, RN26 | /chamados                        | POST          | Criar chamado/alerta de infraestrutura com geolocalização        |
+| RF014 | -                | /eventos-zootecnicos             | GET           | Listar todos os eventos zootécnicos registrados                  |
+| RF008 | RN27             | /eventos-zootecnicos/nascimentos | POST          | Registrar nascimento de animal (transação tabela detalhe)        |
+| RF009 | RN27, RN28, RF013| /eventos-zootecnicos/obitos      | POST          | Registrar óbito de animal com causa da morte                     |
+| RF007 | -                | /painel-gerencial                | GET           | Obter métricas consolidadas de tarefas e eventos para o painel   |
+| RF010 | RF011, RF012     | /sincronizacao/lote              | POST          | Processar fila de sincronização em lote enviada pelo PWA         |
+| RF015 | -                | /exportacao/csv                  | GET           | Gerar e exportar arquivo CSV com dados operacionais consolidados |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -3517,7 +3522,9 @@ Além de atenderem necessidades práticas do domínio do negócio, essas consult
 ---
 ## 3.7. WebAPI e endpoints (sprints 3 e 4)
 
-A arquitetura da WebAPI do BrPec Agropecuária segue o padrão RESTful, expondo serviços estruturados sob o prefixo `/api` para comunicação segura e eficiente entre a aplicação cliente (PWA offline-first) e o servidor em nuvem central.
+A arquitetura da WebAPI do BrPec Agropecuária segue o padrão RESTful, expondo serviços estruturados sob o prefixo `/api` para comunicação síncrona e eficiente com o banco local gerenciado pelo módulo embutido `node:sqlite`. 
+
+Como decisão estratégica para viabilizar a arquitetura offline-first em fazendas no Pantanal com conectividade limitada, o sistema adota um modelo de **Zero Autenticação (Sem JWT)**. A identificação e a responsabilização dos operadores (Capatazes, Gerentes, Coordenadores) são tratadas por meio da passagem explícita de identificadores diretos nos corpos (`body`) ou parâmetros de consulta (`query`) das requisições HTTP, eliminando a dependência de tokens de sessão.
 
 Abaixo é apresentada a especificação completa de cada endpoint ativo, incluindo método, URI, cabeçalhos, payloads de envio, corpos de resposta e status HTTP possíveis.
 
@@ -3711,6 +3718,149 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
   - `400 Bad Request`: Validação incorreta de campos.
   - `500 Internal Server Error`: Erro no banco de dados.
 
+#### 8. Registrar Óbito (RF009 / RF013)
+- **Endpoint**: `POST /api/eventos-zootecnicos/obitos`
+- **Headers**: `Content-Type: application/json`
+- **Payload (Body)**:
+  ```json
+  {
+    "capataz_id": "capataz-1",
+    "retiro_id": "retiro-1",
+    "data": "2026-05-25",
+    "categoria": "bezerra",
+    "quantidade": 1,
+    "identificacao_animal": "BR-987",
+    "causa_morte": "acidente",
+    "foto_base64": "data:image/png;base64,...",
+    "geolocalizacao": "-23.5505,-46.6333"
+  }
+  ```
+- **Resposta (201 Created)**:
+  ```json
+  {
+    "mensagem": "Registro de óbito criado com sucesso",
+    "registro": {
+      "id": "uuid-movimentacao-obito",
+      "categoria": "bezerra",
+      "quantidade": 1,
+      "causa_morte": "acidente"
+    }
+  }
+  ```
+- **Status Codes**:
+  - `201 Created`: Óbito registrado nas tabelas `movimentacoes` e `obitos` com sucesso.
+  - `400 Bad Request`: Campos obrigatórios ausentes.
+  - `422 Unprocessable Entity`: Causa da morte inválida (violação da regra de negócio `RN28`).
+  - `500 Internal Server Error`: Falha técnica no servidor.
+
+#### 9. Listar Eventos Zootécnicos (RF014 / US11)
+- **Endpoint**: `GET /api/eventos-zootecnicos`
+- **Headers**: `Accept: application/json`
+- **Parâmetros (Query)**: `?retiro_id=retiro-1&categoria=bezerro&limite=10`
+- **Resposta (200 OK)**:
+  ```json
+  {
+    "eventos": [
+      {
+        "id": "uuid-movimentacao",
+        "tipo": "nascimento",
+        "categoria": "bezerro",
+        "quantidade": 3,
+        "data": "2026-05-25",
+        "retiro_nome": "Retiro Pantanal"
+      }
+    ],
+    "paginacao": {
+      "total": 1,
+      "pagina": 1,
+      "limite": 10
+    }
+  }
+  ```
+- **Status Codes**:
+  - `200 OK`: Lista retornada com sucesso.
+  - `500 Internal Server Error`: Erro ao consultar a base SQLite.
+
+#### 10. Painel Gerencial (RF007)
+- **Endpoint**: `GET /api/painel-gerencial`
+- **Headers**: `Accept: application/json`
+- **Parâmetros (Query)**: `?gerente_id=gerente-1`
+- **Resposta (200 OK)**:
+  ```json
+  {
+    "total_tarefas_pendentes": 5,
+    "total_tarefas_concluidas": 12,
+    "total_alertas_abertos": 3,
+    "nascimentos_mes": 42,
+    "obitos_mes": 2,
+    "retiros_ativos": [
+      {
+        "id": "retiro-1",
+        "nome": "Retiro Central",
+        "tarefas_pendentes": 2
+      }
+    ]
+  }
+  ```
+- **Status Codes**:
+  - `200 OK`: Métricas calculadas com sucesso.
+  - `400 Bad Request`: `gerente_id` ausente nos parâmetros de consulta.
+  - `403 Forbidden`: O usuário informado não possui perfil de Gerente (`ACESSO_NEGADO`).
+  - `404 Not Found`: Gerente inexistente no banco.
+  - `500 Internal Server Error`: Erro de processamento.
+
+#### 11. Sincronização em Lote (RF010 / RF011 / RF012)
+- **Endpoint**: `POST /api/sincronizacao/lote`
+- **Headers**: `Content-Type: application/json`
+- **Payload (Body)**:
+  ```json
+  {
+    "itens": [
+      {
+        "entidade_tipo": "tarefa",
+        "dados": {
+          "id": "uuid-tarefa-offline",
+          "titulo": "Consertar porteira",
+          "status": "CONCLUIDA",
+          "retiro_id": "retiro-1",
+          "capataz_id": "capataz-1",
+          "data_execucao": "2026-05-25"
+        }
+      }
+    ]
+  }
+  ```
+- **Resposta (200 OK)**:
+  ```json
+  {
+    "mensagem": "Lote de sincronização processado",
+    "processados": 1,
+    "falhas": 0,
+    "detalhes": []
+  }
+  ```
+- **Status Codes**:
+  - `200 OK`: Lote processado, mesmo que contenha conflitos ou erros individuais nas entidades (detalhados no corpo).
+  - `400 Bad Request`: Estrutura do lote inválida ou array vazio.
+  - `413 Payload Too Large`: Quantidade de itens excede o limite máximo de 500 registros por lote.
+  - `500 Internal Server Error`: Falha interna de sincronização.
+
+#### 12. Exportação de Dados em CSV (RF015)
+- **Endpoint**: `GET /api/exportacao/csv`
+- **Headers**: `Accept: text/csv`
+- **Parâmetros (Query)**: `?coordenador_id=coordenador-1&retiro_id=retiro-1`
+- **Resposta (200 OK)**: Retorna o corpo binário ou texto plano com os dados em formato CSV delimitado por vírgulas, com cabeçalhos personalizados:
+  - `Content-Type: text/csv; charset=utf-8`
+  - `Content-Disposition: attachment; filename="movimentacoes_2026-05-26.csv"`
+  - `X-Exportacao-Id: uuid-registro-exportacao`
+  - `X-Total-Registros: 15`
+- **Status Codes**:
+  - `200 OK`: Download do arquivo iniciado com sucesso.
+  - `400 Bad Request`: `coordenador_id` ausente nos parâmetros de consulta.
+  - `403 Forbidden`: O usuário informado não possui perfil de Coordenador (`ACESSO_NEGADO`).
+  - `404 Not Found`: Coordenador inexistente.
+  - `500 Internal Server Error`: Erro de geração do arquivo CSV.
+
 ### 3.7.2. Artefato 08 — Evidência de Funcionamento dos Endpoints (WebAPI)
 
 Como decisão de engenharia de software e garantia de qualidade do ciclo de desenvolvimento, toda a WebAPI descrita acima possui validação automatizada de regressão e comportamento por meio do framework de testes de integração **Jest** em combinação com **Supertest**. 
@@ -3718,8 +3868,8 @@ Como decisão de engenharia de software e garantia de qualidade do ciclo de dese
 Todas as asserções de cabeçalhos HTTP, formatos de payloads de requisição/resposta e regras de negócio críticas (como `RN01` e `RN05`) são validadas de forma determinística no SQLite em memória.
 
 Os recursos comprobatórios da execução estão disponíveis nos seguintes links diretos:
-- **Suites de Testes Executáveis**: [uc01-planejar-tarefas.test.ts](file:///Users/mcristiano/g03/src/backend/tests/uc01-planejar-tarefas.test.ts) e [outros-endpoints.test.ts](file:///Users/mcristiano/g03/src/backend/tests/outros-endpoints.test.ts)
-- **Relatório Técnico de Evidências (PASS)**: [jest-testes-endpoints.md](file:///Users/mcristiano/g03/documentos/evidencias/jest-testes-endpoints.md)
+- **Suíte de Testes Executável**: [endpoints.test.ts](file:///c:/Users/Inteli/OneDrive/Área de Trabalho/Modulo II/BRPec/V1.0/g03/src/backend/__tests__/endpoints.test.ts)
+- **Relatório Técnico de Evidências (PASS)**: [jest-testes-endpoints.md](file:///c:/Users/Inteli/OneDrive/Área de Trabalho/Modulo II/BRPec/V1.0/g03/documentos/evidencias/jest-testes-endpoints.md)
 
 ## 3.8. Autenticação, Autorização e Resiliência (sprint 5)
 
