@@ -3087,34 +3087,44 @@ JOIN retiros r ON t.retiro_id = r.id
 WHERE t.status = 'pendente'
   AND u.perfil = 'capataz';
 ```
+### Proposições Atômicas
 
-#### Descrição Técnica
+A: a tarefa está com status pendente (t.status = 'pendente');
 
-A consulta realiza a integração entre as tabelas `tarefas`, `usuarios` e `retiros`, permitindo identificar quais atividades ainda permanecem pendentes dentro da operação da fazenda.
+B: o usuário responsável possui perfil de capataz (u.perfil = 'capataz').
 
-Além disso, possibilita visualizar o responsável pela execução de cada tarefa e sua localização operacional.
+Expressão Lógica Proposicional
+$A \land B$
 
-Essa funcionalidade auxilia diretamente o gerente e os coordenadores na supervisão das atividades realizadas em campo, contribuindo para:
+### Leitura Lógica
 
-- maior controle operacional;
-- rastreabilidade das ações executadas;
-- redução de atrasos em tarefas críticas.
+A consulta retorna apenas as tarefas em que a tarefa está pendente e o responsável é um usuário com perfil de capataz.
 
-#### Tabelas Relacionadas
+### Tabela-Verdade
+| A | B | A ∧ B |
+| - | - | ----- |
+| F | F | F     |
+| F | V | F     |
+| V | F | F     |
+| V | V | V     |
 
-| Tabela | Função |
-|---|---|
-| `tarefas` | Armazena as tarefas cadastradas no sistema |
-| `usuarios` | Contém os responsáveis pelas tarefas |
-| `retiros` | Representa os retiros da fazenda |
+### Descrição Técnica
 
----
+A consulta realiza a integração entre as tabelas tarefas, usuarios e retiros, permitindo identificar quais atividades ainda permanecem pendentes dentro da operação da fazenda. Além disso, possibilita visualizar o responsável pela execução de cada tarefa e sua localização operacional.
+
+### Tabelas Relacionadas
+| Tabela     | Função                                     |
+| ---------- | ------------------------------------------ |
+| `tarefas`  | Armazena as tarefas cadastradas no sistema |
+| `usuarios` | Contém os responsáveis pelas tarefas       |
+| `retiros`  | Representa os retiros da fazenda           |
 
 ### 3.6.4.2 Consulta de Número de Nascimentos Registrados
 
 #### Objetivo da Consulta
 
 Calcular a quantidade total de nascimentos registrados por retiro da fazenda.
+
 
 #### Código SQL
 
@@ -3128,28 +3138,33 @@ JOIN retiros r ON m.retiro_id = r.id
 WHERE m.tipo = 'nascimento'
 GROUP BY r.nome;
 ```
+### Proposições Atômicas
 
-#### Descrição Técnica
+A: a movimentação registrada é do tipo nascimento (m.tipo = 'nascimento').
 
-A consulta relaciona os registros de nascimento às movimentações do sistema e aos respectivos retiros da propriedade rural.
+Expressão Lógica Proposicional
 
-Seu principal objetivo é fornecer indicadores produtivos relacionados ao crescimento do rebanho.
+$A$
 
-Os dados obtidos podem ser utilizados para:
+### Leitura Lógica
 
-- acompanhamento zootécnico;
-- controle de produtividade;
-- apoio à tomada de decisão gerencial.
+A consulta contabiliza apenas as movimentações classificadas como nascimento.
+| A | Resultado |
+| - | --------- |
+| F | F         |
+| V | V         |
 
-#### Tabelas Relacionadas
 
-| Tabela | Função |
-|---|---|
-| `nascimentos` | Armazena registros de nascimentos |
+### Descrição Técnica
+A consulta relaciona os registros de nascimento às movimentações do sistema e aos respectivos retiros da propriedade rural. Seu principal objetivo é fornecer indicadores produtivos relacionados ao crescimento do rebanho.
+
+### Tabelas Relacionadas
+| Tabela          | Função                                   |
+| --------------- | ---------------------------------------- |
+| `nascimentos`   | Armazena registros de nascimentos        |
 | `movimentacoes` | Controla eventos relacionados ao rebanho |
-| `retiros` | Identifica o local associado ao registro |
+| `retiros`       | Identifica o local associado ao registro |
 
----
 
 ### 3.6.4.3 Consulta de Registros Offline Não Sincronizados
 
@@ -3172,25 +3187,31 @@ FROM sync_queue
 WHERE status IN ('pendente', 'erro');
 ```
 
-#### Descrição Técnica
+### Proposições Atômicas
 
-A consulta utiliza a tabela `sync_queue`, responsável pelo gerenciamento das operações executadas localmente em modo offline.
+A: o registro está pendente de sincronização (status = 'pendente');
 
-Sua função é monitorar registros pendentes de sincronização ou operações que falharam devido à ausência de conectividade.
+B: o registro apresentou erro na sincronização (status = 'erro').
 
-Essa funcionalidade é essencial no contexto do BrPec, considerando que diversas operações ocorrem em áreas rurais com acesso limitado à internet.
+### Expressão Lógica Proposicional
+$A \lor B$
 
-Dessa forma, o mecanismo de sincronização garante:
+### Leitura Lógica
+A consulta retorna registros que precisam de atenção da rotina de sincronização, seja porque ainda estão pendentes ou porque apresentaram erro no envio.
+| A | B | A ∨ B |
+| - | - | ----- |
+| F | F | F     |
+| F | V | V     |
+| V | F | V     |
+| V | V | V     |
 
-- continuidade operacional;
-- integridade das informações;
-- confiabilidade dos dados registrados em campo.
+### Descrição Técnica
+A consulta utiliza a tabela sync_queue, responsável pelo gerenciamento das operações executadas localmente em modo offline. Sua função é monitorar registros pendentes de sincronização ou operações que falharam devido à ausência de conectividade.
 
-#### Tabelas Relacionadas
-
-| Tabela | Função |
-|---|---|
-| `sync_queue` | Gerencia operações pendentes de sincronização |
+### Tabelas Relacionadas
+| Tabela       | Função                                                       |
+| ------------ | ------------------------------------------------------------ |
+| `sync_queue` | Controla a fila de registros locais aguardando sincronização |
 
 ---
 
