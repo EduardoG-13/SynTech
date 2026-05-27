@@ -2944,126 +2944,6 @@ A conexão entre os dois formalismos é direta: cada predicado da cláusula `WHE
 
 As consultas abaixo representam fluxos priorizados do sistema BrPec e foram extraídas do backend da aplicação, sendo posteriormente validadas tecnicamente com a equipe de desenvolvimento. Elas contemplam funcionalidades centrais do sistema, incluindo o gerenciamento de tarefas operacionais, o controle de nascimentos do rebanho e o mecanismo de sincronização automática de dados em ambientes com conectividade limitada.
 
-<center>
-  <p><strong>Tabela 8</strong> — Expressões SQL e Lógica Proposicional</p>
-</center>
-
-| 1 | Fluxo: Consulta de tarefas pendentes do Capataz (US02 / RF002) |
-| --- | --- |
-| **Expressão SQL** | `SELECT * FROM tasks WHERE assigned_to = $1 AND status = 'PENDING';` |
-| **Proposições lógicas** | $A$: a tarefa está atribuída ao capataz autenticado (`assigned_to = $1`) <br> $B$: o status da tarefa é pendente (`status = 'PENDING'`) |
-| **Expressão lógica proposicional** | $A \land B$ |
-
-| $A$ | $B$ | $A \land B$ |
-| --- | --- | ----------- |
-| F   | F   | F           |
-| F   | V   | F           |
-| V   | F   | F           |
-| V   | V   | V           |
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
----
-
-| 2 | Fluxo: Contagem de nascimentos registrados (US08 / RF008) |
-| --- | --- |
-| **Expressão SQL** | `SELECT COUNT(*) FROM events WHERE event_type = 'NASCIMENTO';` |
-| **Proposições lógicas** | $A$: o evento registrado é do tipo nascimento (`event_type = 'NASCIMENTO'`) |
-| **Expressão lógica proposicional** | $A$ |
-
-| $A$ | Resultado |
-| --- | --------- |
-| F   | F         |
-| V   | V         |
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
----
-
-| 3 | Fluxo: Busca de eventos offline não sincronizados (RF010) |
-| --- | --- |
-| **Expressão SQL** | `SELECT * FROM events WHERE synced = 0 AND event_type IN ('VACINACAO', 'PESAGEM', 'TRATAMENTO', 'NASCIMENTO') ORDER BY created_at ASC;` |
-| **Proposições lógicas** | $A$: o evento ainda não foi sincronizado (`synced = 0`) <br> $B$: o tipo do evento é vacinação <br> $C$: o tipo do evento é pesagem <br> $D$: o tipo do evento é tratamento <br> $E$: o tipo do evento é nascimento |
-| **Expressão lógica proposicional** | $A \land (B \lor C \lor D \lor E)$ |
-
-| $A$ | $B$ | $C$ | $D$ | $E$ | $A \land (B \lor C \lor D \lor E)$ |
-| --- | --- | --- | --- | --- | --------------------------------- |
-| F   | F   | F   | F   | F   | F |
-| F   | V   | F   | F   | F   | F |
-| V   | F   | F   | F   | F   | F |
-| V   | V   | F   | F   | F   | V |
-| V   | F   | V   | F   | F   | V |
-| V   | F   | F   | V   | F   | V |
-| V   | F   | F   | F   | V   | V |
-| V   | V   | V   | V   | V   | V |
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
-
----
-| 7 | Fluxo: Busca de registros pendentes na fila de sincronização (RF010 / RF012) |
-|---|---|
-| **Expressão SQL** | `SELECT id, tabela, registro_id, operacao, payload_json, tentativas FROM sync_queue WHERE status = 'pendente' AND tentativas < 5 ORDER BY created_at ASC LIMIT 50;` |
-| **Proposições lógicas** | $A$: o registro está com status pendente de envio (`status = 'pendente'`) <br> $B$: o número de tentativas de envio é menor que 5 (`tentativas < 5`) |
-| **Expressão lógica proposicional** | $A \land B$ |
-
-| $A$ | $B$ | $A \land B$ |
-| --- | --- | ----------- |
-| F   | F   | F           |
-| F   | V   | F           |
-| V   | F   | F           |
-| V   | V   | V           |
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
----
-| 8 | Fluxo: Exportação de movimentações sincronizadas pelo Coordenador (RF015) |
-|---|---|
-| **Expressão SQL** | `SELECT m.id, m.tipo, m.categoria, m.data_movimentacao, m.observacoes, r.nome AS retiro, u.nome AS responsavel, o.causa AS causa_obito, o.identificacao_animal, n.quantidade AS qtd_nascimento, t.retiro_origem_id, t.retiro_destino_id, cv.tipo_negocio, cv.valor_financeiro FROM movimentacoes m JOIN retiros r ON m.retiro_id = r.id JOIN usuarios u ON m.responsavel_id = u.id LEFT JOIN obitos o ON o.movimentacao_id = m.id LEFT JOIN nascimentos n ON n.movimentacao_id = m.id LEFT JOIN transferencias t ON t.movimentacao_id = m.id LEFT JOIN compravendas cv ON cv.movimentacao_id = m.id WHERE m.sync_status = 'sincronizado' AND m.retiro_id = $1 AND date(m.data_movimentacao) BETWEEN date($2) AND date($3) ORDER BY m.data_movimentacao ASC;` |
-| **Proposições lógicas** | $A$: a movimentação já foi sincronizada com o servidor (`sync_status = 'sincronizado'`) <br> $B$: a movimentação pertence ao retiro selecionado pelo Coordenador (`retiro_id = $1`) <br> $C$: a data da movimentação está dentro do intervalo de exportação (`data_movimentacao BETWEEN $2 AND $3`) |
-| **Expressão lógica proposicional** | $A \land B \land C$ |
-
-| $A$ | $B$ | $C$ | $A \land B$ | $A \land B \land C$ |
-| --- | --- | --- | ----------- | ------------------- |
-| F   | F   | F   | F           | F                   |
-| F   | F   | V   | F           | F                   |
-| F   | V   | F   | F           | F                   |
-| F   | V   | V   | F           | F                   |
-| V   | F   | F   | F           | F                   |
-| V   | F   | V   | F           | F                   |
-| V   | V   | F   | V           | F                   |
-| V   | V   | V   | V           | V                   |
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
----
-| 9 | Fluxo: Contagem de nascimentos sincronizados por retiro e período (US11 / RF008) |
-|---|---|
-| **Expressão SQL** | `SELECT r.nome AS retiro, SUM(n.quantidade) AS total_nascimentos FROM nascimentos n JOIN movimentacoes m ON n.movimentacao_id = m.id JOIN retiros r ON m.retiro_id = r.id WHERE m.sync_status = 'sincronizado' AND date(m.data_movimentacao) BETWEEN date($1) AND date($2) GROUP BY r.nome ORDER BY r.nome ASC;` |
-| **Proposições lógicas** | $A$: a movimentação foi sincronizada com o servidor (`sync_status = 'sincronizado'`) <br> $B$: a data da movimentação está dentro do intervalo selecionado (`date(m.data_movimentacao) BETWEEN date($1) AND date($2)`) |
-| **Expressão lógica proposicional** | $A \land B$ |
-
-| $A$ | $B$ | $A \land B$ |
-| --- | --- | ----------- |
-| F   | F   | F           |
-| F   | V   | F           |
-| V   | F   | F           |
-| V   | V   | V           |
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
 
 ### 3.6.4.1 Consulta de Tarefas Pendentes por Capataz
 
@@ -3214,6 +3094,47 @@ A consulta utiliza a tabela sync_queue, responsável pelo gerenciamento das oper
 | `sync_queue` | Controla a fila de registros locais aguardando sincronização |
 
 ---
+### 3.6.4.4 Consulta de Atualização de Tentativas de Sincronização
+
+#### Objetivo da Consulta
+
+Atualizar registros da fila de sincronização que apresentaram erro, incrementando o número de tentativas e armazenando a mensagem de falha.
+
+#### Código SQL
+
+```sql
+UPDATE sync_queue
+SET 
+    tentativas = tentativas + 1,
+    status = 'erro',
+    ultimo_erro = $1,
+    updated_at = CURRENT_TIMESTAMP
+WHERE status = 'processando'
+  AND tentativas < 5;
+
+```
+### Proposições Atômicas
+
+A: o registro está em processamento (status = 'processando');
+
+B: o número de tentativas é menor que 5 (tentativas < 5).
+
+### Expressão Lógica Proposicional
+
+$A \land B$
+
+### Leitura Lógica
+
+A atualização só ocorre quando o registro está em processamento e ainda não ultrapassou o limite de tentativas.
+
+### Tabela-Verdade
+
+| A | B | A ∧ B |
+| - | - | ----- |
+| F | F | F     |
+| F | V | F     |
+| V | F | F     |
+| V | V | V     |
 
 ### Considerações da Seção
 
