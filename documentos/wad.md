@@ -3147,9 +3147,18 @@ A tela de boletas é a interface principal do Coordenador para acesso e exporta�
 
 <center>
   <p><strong>Figura X</strong> — Protótipo de Alta Fidelidade: Tela de Lista de Boletas do Coordenador (Mobile e Desktop)</p>
-  <img src="./assets/alta-fidelidade-coordenador-boletas.png.png" width="800"/>
+  <img src="./assets/alta-fidelidade-coordenador-boletas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+**Decisões de design:**
+
+- **Sub-navegação "Painel / Boletas"** posicionada logo abaixo do cabeçalho, com o item ativo "Boletas" preenchido em verde profundo, permitindo alternância rápida entre a visão de painel e a lista de registros sem alterar a navegação principal.
+- **Cards de boleta** com duas linhas de texto em tons de cinza representando o título e o subtítulo do registro, e ícone de download em verde profundo posicionado à direita, mantendo a ação de exportação sempre visível sem sobrecarregar o layout.
+- **Lista em coluna única** em ambas as versões, priorizando a leitura sequencial dos registros e facilitando a localização de boletas específicas sem necessidade de grade ou tabela complexa.
+- **Sidebar na versão desktop** com navegação entre Início, Tarefas e Boletas, com o item ativo destacado em verde mais escuro, garantindo orientação espacial clara dentro do sistema.
+- **Avatar com foto real** do usuário logado no canto superior direito, mantendo consistência com o dashboard do Gerente e reforçando a identidade do Coordenador na interface.
+- **Configurações** acessíveis pelo ícone de engrenagem no rodapé da sidebar na versão desktop, mantendo a opção disponível sem ocupar espaço na área principal de conteúdo.
 
 ## 3.6. Modelagem do banco de dados (sprints 2 e 4)
 
