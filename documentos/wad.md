@@ -3758,6 +3758,16 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
     "banco": "conectado"
   }
   ```
+- **Resposta (503 Service Unavailable)**:
+  ```json
+  {
+    "status": "erro",
+    "timestamp": "2026-05-25T15:00:00.000Z",
+    "uptime": 12.345,
+    "banco": "desconectado",
+    "erro": "Connection error details"
+  }
+  ```
 - **Status Codes**:
   - `200 OK`: Servidor ativo e banco de dados SQLite conectado e respondendo corretamente.
   - `503 Service Unavailable`: O banco de dados está inacessível ou desconectado.
@@ -3792,11 +3802,30 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
     }
   }
   ```
+- **Resposta (400 Bad Request)**:
+  ```json
+  {
+    "erro": "Campos obrigatórios não preenchidos"
+  }
+  ```
+- **Resposta (422 Unprocessable Entity)**:
+  ```json
+  {
+    "erro": "RN01: Capataz não pertence ao retiro informado."
+  }
+  ```
+- **Resposta (500 Internal Server Error)**:
+  ```json
+  {
+    "erro": "Erro interno do servidor",
+    "detalhe": "Erro message details"
+  }
+  ```
 - **Status Codes**:
   - `201 Created`: Tarefa criada com sucesso.
   - `400 Bad Request`: Campos obrigatórios ausentes.
   - `422 Unprocessable Entity`: Violação de regra de negócio (`RN01`) — Capataz não pertence ao retiro informado.
-  - `500 Internal Server Error`: Falha na persistência de dados.
+  - `500 Internal Server Error`: Falha na persistência de dados ou erro de servidor.
 
 #### 3. Buscar Tarefas de Hoje (RF002 / RN02, RN05)
 - **Endpoint**: `GET /api/tarefas/hoje`
@@ -3813,6 +3842,18 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
       }
     ],
     "modo": "online"
+  }
+  ```
+- **Resposta (400 Bad Request)**:
+  ```json
+  {
+    "erro": "capataz_id obrigatório"
+  }
+  ```
+- **Resposta (500 Internal Server Error)**:
+  ```json
+  {
+    "erro": "Erro ao buscar tarefas"
   }
   ```
 - **Status Codes**:
@@ -3848,6 +3889,24 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
     }
   }
   ```
+- **Resposta (400 Bad Request)**:
+  ```json
+  {
+    "erro": "campos obrigatórios não preenchidos"
+  }
+  ```
+- **Resposta (404 Not Found)**:
+  ```json
+  {
+    "erro": "Tarefa não encontrada ou não pertence ao capataz."
+  }
+  ```
+- **Resposta (500 Internal Server Error)**:
+  ```json
+  {
+    "erro": "Erro de processamento interno"
+  }
+  ```
 - **Status Codes**:
   - `200 OK`: Tarefa concluída com sucesso.
   - `400 Bad Request`: `id` da tarefa (path) ou `capataz_id` (body) ausente.
@@ -3872,6 +3931,24 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
   {
     "mensagem": "Evidência salva com sucesso",
     "evidencia_id": "uuid-v4-evidencia"
+  }
+  ```
+- **Resposta (400 Bad Request)**:
+  ```json
+  {
+    "erro": "campos obrigatórios não preenchidos"
+  }
+  ```
+- **Resposta (404 Not Found)**:
+  ```json
+  {
+    "erro": "RN05: Tarefa não encontrada ou não pertence ao capataz."
+  }
+  ```
+- **Resposta (500 Internal Server Error)**:
+  ```json
+  {
+    "erro": "Erro interno de escrita"
   }
   ```
 - **Status Codes**:
@@ -3908,6 +3985,19 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
     }
   }
   ```
+- **Resposta (400 Bad Request)**:
+  ```json
+  {
+    "erro": "Campos obrigatórios não preenchidos: tipo, capataz_id, retiro_id, latitude, longitude"
+  }
+  ```
+- **Resposta (500 Internal Server Error)**:
+  ```json
+  {
+    "erro": "Erro ao criar alerta",
+    "detalhe": "Erro details"
+  }
+  ```
 - **Status Codes**:
   - `201 Created`: Alerta registrado com sucesso no banco.
   - `400 Bad Request`: Parâmetros obrigatórios ausentes.
@@ -3933,9 +4023,26 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
     "mensagem": "Registro de nascimento criado com sucesso",
     "registro": {
       "id": "uuid-movimentacao",
+      "capataz_id": "capataz-1",
+      "retiro_id": "retiro-1",
+      "data": "2026-05-25",
       "categoria": "bezerro",
-      "quantidade": 3
+      "quantidade": 3,
+      "sincronizado": 1
     }
+  }
+  ```
+- **Resposta (400 Bad Request)**:
+  ```json
+  {
+    "erro": "Campos obrigatórios não preenchidos: data, retiro_id, categoria, quantidade, capataz_id"
+  }
+  ```
+- **Resposta (500 Internal Server Error)**:
+  ```json
+  {
+    "erro": "Erro ao criar registro",
+    "detalhe": "Erro details"
   }
   ```
 - **Status Codes**:

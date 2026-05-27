@@ -128,4 +128,10 @@ Ran all test suites.
 
 ### 4.2. Captura de Tela da Execução
 
-![Captura de tela mostrando a execução bem sucedida dos testes com todos os 19 casos aprovados em verde](/Users/mcristiano/g03/documentos/evidencias/jest-testes-executados.png)
+Captura de tela mostrando a execução bem sucedida dos testes com todos os 19 casos aprovados em verde
+
+</center>
+<img src="../assets/jest.png" width="800"/>
+  
+Fonte: Próprios autores (2026).</p>
+</center>
