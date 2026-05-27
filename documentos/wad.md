@@ -3135,6 +3135,22 @@ O dashboard é a tela inicial do Gerente e do Coordenador, oferecendo uma visão
 - **Avatar com foto real** do usuário logado no canto superior direito, substituindo as iniciais usadas nas demais telas e reforçando a identidade do gestor no painel executivo.
 - **Versão mobile** organiza os cards em lista vertical com dois itens por linha para os indicadores menores, mantendo a hierarquia de informação sem sacrificar a legibilidade em telas reduzidas.
 
+### 3.5.8. Tela de Boletas — Coordenador (US11 / US12)
+
+A tela de boletas é a interface principal do Coordenador para acesso e exportação das movimentações zootécnicas registradas pelos capatazes. A lista exibe os registros consolidados de forma clara e objetiva, com ícone de download posicionado à direita de cada item para exportação individual, eliminando a necessidade de redigitação manual dos dados em planilhas externas.
+
+**Critérios de aceite cobertos:**
+
+- **CR1 (US11):** O Coordenador visualiza em lista todas as movimentações reportadas pelos capatazes sob sua responsabilidade.
+- **CR1 (US12):** O Coordenador consegue exportar os registros de movimentação em formato Excel/CSV diretamente pela interface.
+- **CR2 (US12):** Cada boleta exibe informações suficientes para identificação do registro antes do download.
+
+<center>
+  <p><strong>Figura X</strong> — Protótipo de Alta Fidelidade: Tela de Lista de Boletas do Coordenador (Mobile e Desktop)</p>
+  <img src="./assets/alta-fidelidade-coordenador-boletas.png.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 ## 3.6. Modelagem do banco de dados (sprints 2 e 4)
 
 ### 3.6.1. Modelo Entidade-Relacionamento (ER) (sprint 2)
