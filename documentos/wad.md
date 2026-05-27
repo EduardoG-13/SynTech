@@ -1151,30 +1151,45 @@ No contexto do nosso projeto para a BrPec, esses requisitos são fundamentais, p
 
 ### 3.1.4. Matriz RF → RN → Endpoint (sprints 3 a 5)
 
-_Matriz de cobertura mostrando quais RN e endpoints implementam cada RF._
+A matriz a seguir consolida a rastreabilidade entre Requisitos Funcionais (RF, seção 3.1.1), Regras de Negócio (RN, seção 3.1.2) e os endpoints REST que materializam cada requisito no backend do BrPec. Os endpoints listados refletem a implementação real em `src/backend/routes/`, validada com os cards #191, #192, #203 e #211. A coluna "Camada principal (CSR)" indica o caminho da requisição através da arquitetura em camadas descrita na seção 3.2.1.
 
 <center>
   <p><strong>Tabela 7</strong> — Matriz RF → RN → Endpoint</p>
 </center>
 
-| RF    | RN associada(s)  | Endpoint / Consulta              | Método        | Operação Esperada                                                |
-| ----- | ---------------- | -------------------------------- | ------------- | ---------------------------------------------------------------- |
-| -     | -                | /health                          | GET           | Verificar integridade do servidor e conexão com o SQLite         |
-| RF001 | RN01             | /tarefas                         | POST          | Criar tarefa vinculada a um retiro e responsável                 |
-| RF002 | RN02, RN05       | /tarefas/hoje                    | GET           | Buscar tarefas agendadas para o dia atual do capataz             |
-| RF002 | RN02, RN05       | /tarefas/:id/concluir            | PATCH         | Alterar o status da tarefa para concluída (com timestamp)        |
-| RF005 | RN13, RN15       | /tarefas/:id/evidencias          | POST          | Anexar evidência de texto ou arquivo (Base64) a uma tarefa       |
-| RF006 | RN19, RN21, RN26 | /chamados                        | POST          | Criar chamado/alerta de infraestrutura com geolocalização        |
-| RF014 | -                | /eventos-zootecnicos             | GET           | Listar todos os eventos zootécnicos registrados                  |
-| RF008 | RN27             | /eventos-zootecnicos/nascimentos | POST          | Registrar nascimento de animal (transação tabela detalhe)        |
-| RF009 | RN27, RN28, RF013| /eventos-zootecnicos/obitos      | POST          | Registrar óbito de animal com causa da morte                     |
-| RF007 | -                | /painel-gerencial                | GET           | Obter métricas consolidadas de tarefas e eventos para o painel   |
-| RF010 | RF011, RF012     | /sincronizacao/lote              | POST          | Processar fila de sincronização em lote enviada pelo PWA         |
-| RF015 | -                | /exportacao/csv                  | GET           | Gerar e exportar arquivo CSV com dados operacionais consolidados |
+| RF    | RN associada(s)  | Endpoint / Consulta              | Método        | Camada principal (CSR)                                              | Operação Esperada                                                |
+| ----- | ---------------- | -------------------------------- | ------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| —     | —                | `/health`                        | GET           | Routes → Controller                                                 | Verificar integridade do servidor e conexão com o SQLite         |
+| RF001 | RN01             | `/tarefas`                       | POST          | Routes → Controller → Service → Repository (`tarefaRepository`)     | Criar tarefa vinculada a um retiro e responsável                 |
+| RF002 | RN02, RN05       | `/tarefas/hoje`                  | GET           | Routes → Controller → Service → Repository                          | Buscar tarefas agendadas para o dia atual do capataz             |
+| RF002 | RN02, RN05       | `/tarefas/:id/concluir`          | PATCH         | Routes → Controller → Service → Repository                          | Alterar o status da tarefa para concluída (com timestamp)        |
+| RF005 | RN13, RN15       | `/tarefas/:id/evidencias`        | POST          | Routes → Controller → Service → Repository (evidência Base64)       | Anexar evidência de texto ou arquivo (Base64) a uma tarefa       |
+| RF006 | RN19, RN21, RN26 | `/chamados`                      | POST          | Routes → Controller → Service → Repository (`alertaRepository`)     | Criar chamado/alerta de infraestrutura com geolocalização        |
+| RF014 | RN29, RN31       | `/eventos-zootecnicos`           | GET           | Routes → Controller → Service → Repository (`eventoRepository`)     | Listar todos os eventos zootécnicos registrados                  |
+| RF008 | RN27             | `/eventos-zootecnicos/nascimentos` | POST        | Routes → Controller → Service → Repository                          | Registrar nascimento de animal (transação tabela detalhe)        |
+| RF009 | RN27, RN28, RF013| `/eventos-zootecnicos/obitos`    | POST          | Routes → Controller (+ validação) → Service → Repository            | Registrar óbito de animal com causa da morte                     |
+| RF007 | RN10, RN11       | `/painel-gerencial`              | GET           | Routes → Controller → Service (agregação) → Repository              | Obter métricas consolidadas de tarefas e eventos para o painel   |
+| RF010 | RF011, RF012     | `/sincronizacao/lote`            | POST          | Routes → Controller → Service (drena fila) → Repository             | Processar fila de sincronização em lote enviada pelo PWA         |
+| RF015 | RN31, RN32       | `/exportacao/csv`                | GET           | Routes → Controller → Service (gerador CSV) → Repository            | Gerar e exportar arquivo CSV com dados operacionais consolidados |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+**Legenda das camadas:**
+
+- **Routes** — define o endpoint HTTP e delega ao Controller (`src/backend/routes/`)
+- **Controller** — valida payload e traduz HTTP ↔ Service (`src/backend/controllers/`)
+- **Service** — aplica regras de negócio (`src/backend/services/`)
+- **Repository** — encapsula acesso ao banco SQLite e à sincronização com PostgreSQL/Supabase (`src/backend/repositories/`)
+- **UI/cliente** — comportamento executado no PWA, fora do backend (validações client-side, leitura local, feedback visual)
+
+**Estado de implementação ao fim da sprint 3:**
+
+- ✅ **Implementados e testados** (cards #191, #192, #203, #211): `/health`, `POST /tarefas`, `GET /tarefas/hoje`, `PATCH /tarefas/:id/concluir`, `POST /tarefas/:id/evidencias`, `POST /chamados`, `GET /eventos-zootecnicos`, `POST /eventos-zootecnicos/nascimentos`, `POST /eventos-zootecnicos/obitos`, `GET /painel-gerencial`, `POST /sincronizacao/lote`, `GET /exportacao/csv`
+- ⏳ **Comportamentos client-side** previstos para a sprint 4: RF004 (mensagem offline sem tarefas), RF011 (feedback de sincronização), RF013 (validação client-side de óbito)
+
+**Rastreabilidade complementar:** os Requisitos Funcionais e Regras de Negócio referenciados nesta matriz estão detalhados nas seções 3.1.1 (RFs) e 3.1.2 (RNs). A arquitetura em camadas mencionada na coluna "Camada principal (CSR)" é descrita na seção 3.2.1, e os padrões de projeto que sustentam essa arquitetura (Repository, Outbox, DTO, etc.) constam na seção 3.2.7. A documentação completa de cada endpoint, com payloads de exemplo, body de requisição/resposta e códigos HTTP esperados, é apresentada na seção 3.7 (WebAPI e endpoints).
 
 ## 3.2. Arquitetura (sprints 1 a 5)
 
