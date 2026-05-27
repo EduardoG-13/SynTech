@@ -2665,6 +2665,11 @@ Em conjunto, os padrões adotados materializam os cinco princípios SOLID [30]:
 
 Os wireframes apresentados nesta seção foram elaborados para representar as User Stories priorizadas junto ao orientador: **US01** (Gerente cria e distribui tarefas), **US02** (Capataz visualiza lista de tarefas offline), **US03** (Capataz conclui tarefa), **US04** (Capataz anexa fotos como evidência), **US06/US07** (Capataz emite alerta de infraestrutura; Gerente acompanha painel de tarefas e alertas) e **US11/US12** (Coordenador visualiza movimentações e exporta dados consolidados). O design foi desenvolvido no Figma, priorizando clareza e uso de grid para organização dos elementos. O arquivo completo pode ser acessado pelo link público: [Wireframes BRPec — Figma](https://www.figma.com/design/jJjDkweFhygUKwONkyivtb/Untitled?node-id=0-1&t=QpPbn00WVpCx2EiT-0).
 
+Do ponto de vista metodológico, wireframes são utilizados como artefatos de baixa ou média fidelidade para representar a estrutura das telas, a hierarquia das informações e os principais fluxos de navegação antes da implementação visual definitiva. No contexto do BrPec, esse recurso foi adotado para validar a lógica de interação das jornadas priorizadas, reduzindo ambiguidades entre requisitos, User Stories e solução proposta. Assim, os wireframes funcionam como ponte entre a definição funcional do sistema e sua posterior implementação em interface, permitindo avaliar se cada persona consegue cumprir seus objetivos principais com clareza, poucos passos e compatibilidade com seu contexto de uso.
+
+A definição dos dispositivos considerou o ambiente real de uso de cada persona. Para o Capataz, priorizou-se a interface mobile, pois sua atuação ocorre majoritariamente em campo, com uso de celular e conectividade instável. As versões desktop relacionadas a esse fluxo foram mantidas apenas como referência responsiva e de documentação, não como dispositivo principal de uso. Para o Gerente e o Coordenador, as interfaces desktop têm maior relevância, pois esses perfis atuam em ambiente administrativo, com maior necessidade de visualização consolidada, filtros, painéis e exportações.
+
+
 Os fluxos de navegação estão organizados em quatro jornadas principais:
 
 **Fluxo 1 — Capataz (US02 → US03 → US04 → US05):** O Capataz acessa a lista de tarefas do dia (US02). Ao selecionar uma tarefa, é direcionado à tela de conclusão, onde pode marcar a tarefa como concluída (US03). A partir dessa tela, ele acessa a tela de anexo de fotos para registrar evidências fotográficas do serviço realizado (US04) e, com a possibilidade de gravar áudios (US05).
@@ -2692,7 +2697,7 @@ Em relação à navegação e detalhes, o botão "Todos" permite que, ao clicar,
 </center>
 
 #### Informações sobre a tarefa:
-A Figura 11 ilustra a interface de Detalhamento da Tarefa, acessada após o Capataz selecionar uma atividade específica na lista principal e, assim como a tela anterior, a interface é responsiva, garantindo usabilidade tanto em dispositivos móveis (campo) quanto em desktops (escritório). 
+A Figura 11 ilustra a interface de Detalhamento da Tarefa, acessada após o Capataz selecionar uma atividade específica na lista principal. A solução foi priorizada para dispositivos móveis, considerando que esse usuário atua majoritariamente em campo, com necessidade de acesso rápido, offline e simplificado às informações operacionais. A versão desktop é apresentada apenas como adaptação responsiva da interface, garantindo consistência visual caso o sistema seja acessado em telas maiores, mas não representa o dispositivo principal da persona.
 
 Para assegurar a execução precisa da ordem de serviço, a tela centraliza todo o conteúdo da tarefa, incluindo a identificação com título da atividade e descrição detalhada do serviço, os parâmetros de controle com prazo de entrega e nível de prioridade, e os recursos multimídia como reprodutor de áudio (instruções gravadas pelo Gerente) e visualização de fotos para referência visual do local ou do problema, atendendo a (US02).
 
@@ -2807,6 +2812,17 @@ Além disso, o Coordenador dispõe de um botão de exportação posicionado de f
   <img src="./assets/wireframeListaDeBoletos.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+### 3.3.5. Síntese de rastreabilidade dos wireframes
+
+O quadro a seguir consolida a relação entre personas, User Stories priorizadas, necessidades atendidas, telas representadas e dispositivos considerados. Essa síntese facilita a leitura da seção e evidencia que os wireframes foram definidos a partir das jornadas mais relevantes para validação da solução.
+
+| Persona | User Stories relacionadas | Necessidade principal | Wireframes associados | Dispositivo prioritário |
+|---|---|---|---|---|
+| João Pereira — Gerente | US01, US07 | Criar tarefas, acompanhar status e priorizar demandas operacionais | Dashboard inicial; Nova O.S.; Painel de infraestrutura | Desktop |
+| Gabriel Galdino — Capataz | US02, US03, US04, US05, US06 | Visualizar tarefas offline, concluir atividades e registrar evidências com baixa digitação | Lista de tarefas; Detalhe da tarefa; Concluir tarefa; Infraestrutura; Nova O.S. | Mobile |
+| Marcos Cesar Filho — Coordenador | US11, US12 | Visualizar movimentações, validar registros e exportar dados consolidados | Dashboard; Tela de movimentações; Exportação de dados | Desktop |
+| Técnico de Infraestrutura | US06, US07 | Visualizar chamados e registrar resolução de problemas | Painel de infraestrutura; Detalhe do chamado; Registrar resolução | Mobile/Desktop |
 
 
 ## 3.4. Guia de estilos (sprint 3)
@@ -3115,7 +3131,7 @@ A seção 3.6.1 apresenta a versão conceitual consolidada após a evolução de
 
 
 
-### 3.6.3. Modelo Relacional e Modelo Físico (sprints 2 e 4)
+### 3.6.3.1 Modelo Relacional e Modelo Físico (sprints 2 e 4)
 
 O modelo físico deriva do modelo conceitual (ER) apresentado na seção 3.6.1 e materializa as entidades em tabelas SQLite, usando chaves primárias textuais em UUID v7, chaves estrangeiras explícitas, constraints de domínio e índices para consultas frequentes. A escolha por SQLite está associada ao requisito offline-first: os dados operacionais são gravados no dispositivo antes de qualquer tentativa de sincronização, evitando dependência exclusiva de cache do navegador.
 
@@ -3411,15 +3427,21 @@ CREATE TABLE IF NOT EXISTS sync_queue (
 );
 CREATE INDEX IF NOT EXISTS idx_sync_queue_status ON sync_queue(status);
 CREATE INDEX IF NOT EXISTS idx_sync_queue_registro ON sync_queue(tabela, registro_id);
-```
 
-> O arquivo executável completo está disponível em [`src/src/migration.sql`](../src/src/migration.sql).
+```
+As migrations foram organizadas em ordem explícita de execução para garantir reprodutibilidade do banco local. O arquivo `migration.sql` consolida a criação das tabelas respeitando as dependências de chave estrangeira: primeiro são criadas as tabelas-base (`retiros` e `usuarios`), depois as entidades operacionais (`tarefas`, `alertas`, `movimentacoes` e `evidencias`) e, por fim, as especializações zootécnicas e a fila técnica de sincronização (`sync_queue`). A ativação de `PRAGMA foreign_keys = ON` assegura que as restrições referenciais sejam aplicadas pelo SQLite durante a execução.
+
+```
+Para reproduzir o banco em ambiente local, a execução deve seguir o comando:
+
+sqlite3 brpec.db < migration.sql
+````
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-#### Nota Técnica - Estratégia de UUID para criação e atualização offline
+<h3>Nota Técnica — Estratégia de UUID para criação e atualização offline</h3>
 
 **Contexto:** Como evidenciado nas User Stories US03, US08 e US09, o sistema prevê criação e atualização de registros em ambiente sem conexão, com sincronização posterior via API. Assim, existe a possibilidade de ocorrerem conflitos de IDs se cada dispositivo depender de identificadores sequenciais emitidos pelo servidor. Para evitar conflito de PKs ao sincronizar com o ambiente central, adota-se UUID versão 7 como identificador primário das entidades criadas localmente [10].
 
@@ -3448,6 +3470,7 @@ UPSERT é uma operação que combina UPdate (atualizar) e inSERT (inserir). Ele 
 - UUIDv4 (opção viável, mas houve uma preferência para a UUIDv7)
   Justificativa: O UUIDv4 funcionaria perfeitamente para o problema de conflito de IDs, porém, ele é puramente aleatório. Isso significa que os registros inseridos no banco não ficam em nenhuma ordem que possa ser utilizada para organizar o banco ou para outras ações. Nele, cada novo UUID vai para uma posição aleatória no índice, causando fragmentação ao longo do tempo e prejudicando a performance de consultas.
 
+
 ### 3.6.4. Consultas SQL e lógica proposicional (sprint 2)
 
 Consultas SQL são instruções que permitem ao sistema recuperar, inserir, atualizar ou remover dados em um banco de dados relacional. Cada consulta é composta por cláusulas que definem quais tabelas serão acessadas (`FROM`, `JOIN`), quais registros serão selecionados (`WHERE`) e como o resultado será apresentado (`ORDER BY`, `LIMIT`). A cláusula `WHERE`, em particular, especifica um conjunto de condições que cada linha precisa satisfazer para ser incluída no resultado, exatamente o ponto onde a lógica proposicional se aplica.
@@ -3457,126 +3480,6 @@ A lógica proposicional é o ramo da lógica matemática que estuda proposiçõe
 A conexão entre os dois formalismos é direta: cada predicado da cláusula `WHERE` de uma consulta SQL corresponde a uma proposição lógica, e os operadores `AND` e `OR` mapeiam diretamente para $\land$ e $\lor$. Representar as consultas dessa forma dupla, como código SQL e como expressão proposicional com tabela-verdade, permite verificar formalmente se a lógica de filtragem está correta e comunicar a intenção da consulta de maneira precisa, independentemente do dialeto SQL utilizado.
 
 As consultas abaixo representam fluxos priorizados do sistema BrPec e foram extraídas do backend da aplicação, sendo posteriormente validadas tecnicamente com a equipe de desenvolvimento. Elas contemplam funcionalidades centrais do sistema, incluindo o gerenciamento de tarefas operacionais, o controle de nascimentos do rebanho e o mecanismo de sincronização automática de dados em ambientes com conectividade limitada.
-
-<center>
-  <p><strong>Tabela 8</strong> — Expressões SQL e Lógica Proposicional</p>
-</center>
-
-| 1 | Fluxo: Consulta de tarefas pendentes do Capataz (US02 / RF002) |
-| --- | --- |
-| **Expressão SQL** | `SELECT * FROM tasks WHERE assigned_to = $1 AND status = 'PENDING';` |
-| **Proposições lógicas** | $A$: a tarefa está atribuída ao capataz autenticado (`assigned_to = $1`) <br> $B$: o status da tarefa é pendente (`status = 'PENDING'`) |
-| **Expressão lógica proposicional** | $A \land B$ |
-
-| $A$ | $B$ | $A \land B$ |
-| --- | --- | ----------- |
-| F   | F   | F           |
-| F   | V   | F           |
-| V   | F   | F           |
-| V   | V   | V           |
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
----
-
-| 2 | Fluxo: Contagem de nascimentos registrados (US08 / RF008) |
-| --- | --- |
-| **Expressão SQL** | `SELECT COUNT(*) FROM events WHERE event_type = 'NASCIMENTO';` |
-| **Proposições lógicas** | $A$: o evento registrado é do tipo nascimento (`event_type = 'NASCIMENTO'`) |
-| **Expressão lógica proposicional** | $A$ |
-
-| $A$ | Resultado |
-| --- | --------- |
-| F   | F         |
-| V   | V         |
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
----
-
-| 3 | Fluxo: Busca de eventos offline não sincronizados (RF010) |
-| --- | --- |
-| **Expressão SQL** | `SELECT * FROM events WHERE synced = 0 AND event_type IN ('VACINACAO', 'PESAGEM', 'TRATAMENTO', 'NASCIMENTO') ORDER BY created_at ASC;` |
-| **Proposições lógicas** | $A$: o evento ainda não foi sincronizado (`synced = 0`) <br> $B$: o tipo do evento é vacinação <br> $C$: o tipo do evento é pesagem <br> $D$: o tipo do evento é tratamento <br> $E$: o tipo do evento é nascimento |
-| **Expressão lógica proposicional** | $A \land (B \lor C \lor D \lor E)$ |
-
-| $A$ | $B$ | $C$ | $D$ | $E$ | $A \land (B \lor C \lor D \lor E)$ |
-| --- | --- | --- | --- | --- | --------------------------------- |
-| F   | F   | F   | F   | F   | F |
-| F   | V   | F   | F   | F   | F |
-| V   | F   | F   | F   | F   | F |
-| V   | V   | F   | F   | F   | V |
-| V   | F   | V   | F   | F   | V |
-| V   | F   | F   | V   | F   | V |
-| V   | F   | F   | F   | V   | V |
-| V   | V   | V   | V   | V   | V |
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
-
----
-| 7 | Fluxo: Busca de registros pendentes na fila de sincronização (RF010 / RF012) |
-|---|---|
-| **Expressão SQL** | `SELECT id, tabela, registro_id, operacao, payload_json, tentativas FROM sync_queue WHERE status = 'pendente' AND tentativas < 5 ORDER BY created_at ASC LIMIT 50;` |
-| **Proposições lógicas** | $A$: o registro está com status pendente de envio (`status = 'pendente'`) <br> $B$: o número de tentativas de envio é menor que 5 (`tentativas < 5`) |
-| **Expressão lógica proposicional** | $A \land B$ |
-
-| $A$ | $B$ | $A \land B$ |
-| --- | --- | ----------- |
-| F   | F   | F           |
-| F   | V   | F           |
-| V   | F   | F           |
-| V   | V   | V           |
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
----
-| 8 | Fluxo: Exportação de movimentações sincronizadas pelo Coordenador (RF015) |
-|---|---|
-| **Expressão SQL** | `SELECT m.id, m.tipo, m.categoria, m.data_movimentacao, m.observacoes, r.nome AS retiro, u.nome AS responsavel, o.causa AS causa_obito, o.identificacao_animal, n.quantidade AS qtd_nascimento, t.retiro_origem_id, t.retiro_destino_id, cv.tipo_negocio, cv.valor_financeiro FROM movimentacoes m JOIN retiros r ON m.retiro_id = r.id JOIN usuarios u ON m.responsavel_id = u.id LEFT JOIN obitos o ON o.movimentacao_id = m.id LEFT JOIN nascimentos n ON n.movimentacao_id = m.id LEFT JOIN transferencias t ON t.movimentacao_id = m.id LEFT JOIN compravendas cv ON cv.movimentacao_id = m.id WHERE m.sync_status = 'sincronizado' AND m.retiro_id = $1 AND date(m.data_movimentacao) BETWEEN date($2) AND date($3) ORDER BY m.data_movimentacao ASC;` |
-| **Proposições lógicas** | $A$: a movimentação já foi sincronizada com o servidor (`sync_status = 'sincronizado'`) <br> $B$: a movimentação pertence ao retiro selecionado pelo Coordenador (`retiro_id = $1`) <br> $C$: a data da movimentação está dentro do intervalo de exportação (`data_movimentacao BETWEEN $2 AND $3`) |
-| **Expressão lógica proposicional** | $A \land B \land C$ |
-
-| $A$ | $B$ | $C$ | $A \land B$ | $A \land B \land C$ |
-| --- | --- | --- | ----------- | ------------------- |
-| F   | F   | F   | F           | F                   |
-| F   | F   | V   | F           | F                   |
-| F   | V   | F   | F           | F                   |
-| F   | V   | V   | F           | F                   |
-| V   | F   | F   | F           | F                   |
-| V   | F   | V   | F           | F                   |
-| V   | V   | F   | V           | F                   |
-| V   | V   | V   | V           | V                   |
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
----
-| 9 | Fluxo: Contagem de nascimentos sincronizados por retiro e período (US11 / RF008) |
-|---|---|
-| **Expressão SQL** | `SELECT r.nome AS retiro, SUM(n.quantidade) AS total_nascimentos FROM nascimentos n JOIN movimentacoes m ON n.movimentacao_id = m.id JOIN retiros r ON m.retiro_id = r.id WHERE m.sync_status = 'sincronizado' AND date(m.data_movimentacao) BETWEEN date($1) AND date($2) GROUP BY r.nome ORDER BY r.nome ASC;` |
-| **Proposições lógicas** | $A$: a movimentação foi sincronizada com o servidor (`sync_status = 'sincronizado'`) <br> $B$: a data da movimentação está dentro do intervalo selecionado (`date(m.data_movimentacao) BETWEEN date($1) AND date($2)`) |
-| **Expressão lógica proposicional** | $A \land B$ |
-
-| $A$ | $B$ | $A \land B$ |
-| --- | --- | ----------- |
-| F   | F   | F           |
-| F   | V   | F           |
-| V   | F   | F           |
-| V   | V   | V           |
-
-<center>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
 
 
 ### 3.6.4.1 Consulta de Tarefas Pendentes por Capataz
@@ -3633,7 +3536,25 @@ A consulta realiza a integração entre as tabelas tarefas, usuarios e retiros, 
 | `usuarios` | Contém os responsáveis pelas tarefas       |
 | `retiros`  | Representa os retiros da fazenda           |
 
-### 3.6.4.2 Consulta de Número de Nascimentos Registrados
+#### 3.6.4.2 Matriz de Rastreabilidade entre Regras de Negócio e Modelo Físico
+Com o objetivo de garantir rastreabilidade entre as regras de negócio definidas anteriormente e os artefatos de modelagem do banco de dados, a matriz a seguir relaciona cada RN às respectivas entidades do domínio, tabelas físicas e mecanismos de implementação utilizados no modelo relacional. Essa associação contribui para o sincronismo entre requisitos, modelagem conceitual e implementação física do sistema.
+
+#### Rastreabilidade RN → Entidade → Tabela
+
+| Regra de Negócio | Entidade do domínio | Tabela física | Constraint / Implementação |
+|---|---|---|---|
+| RN01 — Toda tarefa deve estar vinculada a um retiro | Tarefa / Retiro | `tarefas` | `retiro_id TEXT NOT NULL REFERENCES retiros(id)` |
+| RN02 — Apenas tarefas do dia atual devem ser exibidas | Tarefa | `tarefas` | Consulta filtrada por `data_prevista` |
+| RN05 — Apenas tarefas do retiro do Capataz devem ser exibidas | Usuario / Tarefa / Retiro | `usuarios`, `tarefas`, `retiros` | Relação por `responsavel_id` e `retiro_id` |
+| RN08 — Conclusão offline deve ser armazenada localmente | Tarefa / Sincronizacao | `tarefas`, `sync_queue` | `sync_status` e registro pendente na fila |
+| RN10 — Fotos devem estar vinculadas à tarefa correspondente | Evidencia / Tarefa | `evidencias`, `tarefas` | `tarefa_id REFERENCES tarefas(id)` |
+| RN19 — Alerta deve capturar localização | AlertaInfraestrutura | `alertas` | `localizacao_lat REAL NOT NULL` e `localizacao_lng REAL NOT NULL` |
+| RN26 — Alerta deve estar associado a um retiro | AlertaInfraestrutura / Retiro | `alertas`, `retiros` | `retiro_id TEXT NOT NULL REFERENCES retiros(id)` |
+| RN27 — Nascimento deve registrar data, retiro, categoria e quantidade | Movimentacao / Nascimento | `movimentacoes`, `nascimentos` | `tipo = 'nascimento'`, `categoria`, `data_movimentacao`, `quantidade` |
+| RN28 — Exportação deve refletir dados validados | Movimentacao / Exportacao | `movimentacoes`, `sync_queue` | Uso de registros sincronizados e validados antes da exportação |
+
+
+### 3.6.4.3 Consulta de Número de Nascimentos Registrados
 
 #### Objetivo da Consulta
 
@@ -3680,7 +3601,7 @@ A consulta relaciona os registros de nascimento às movimentações do sistema e
 | `retiros`       | Identifica o local associado ao registro |
 
 
-### 3.6.4.3 Consulta de Registros Offline Não Sincronizados
+### 3.6.4.4 Consulta de Registros Offline Não Sincronizados
 
 #### Objetivo da Consulta
 
@@ -3728,6 +3649,47 @@ A consulta utiliza a tabela sync_queue, responsável pelo gerenciamento das oper
 | `sync_queue` | Controla a fila de registros locais aguardando sincronização |
 
 ---
+### 3.6.4.5 Consulta de Atualização de Tentativas de Sincronização
+
+#### Objetivo da Consulta
+
+Atualizar registros da fila de sincronização que apresentaram erro, incrementando o número de tentativas e armazenando a mensagem de falha.
+
+#### Código SQL
+
+```sql
+UPDATE sync_queue
+SET 
+    tentativas = tentativas + 1,
+    status = 'erro',
+    ultimo_erro = $1,
+    updated_at = CURRENT_TIMESTAMP
+WHERE status = 'processando'
+  AND tentativas < 5;
+
+```
+### Proposições Atômicas
+
+A: o registro está em processamento (status = 'processando');
+
+B: o número de tentativas é menor que 5 (tentativas < 5).
+
+### Expressão Lógica Proposicional
+
+$A \land B$
+
+### Leitura Lógica
+
+A atualização só ocorre quando o registro está em processamento e ainda não ultrapassou o limite de tentativas.
+
+### Tabela-Verdade
+
+| A | B | A ∧ B |
+| - | - | ----- |
+| F | F | F     |
+| F | V | F     |
+| V | F | F     |
+| V | V | V     |
 
 ### Considerações da Seção
 
