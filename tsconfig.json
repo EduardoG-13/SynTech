@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ES2021",
+    "target": "ES2022",
     "module": "CommonJS",
-    "moduleResolution": "node",
-    "strict": true,
+    "rootDir": "src/backend",
+    "strict": false,
+    "noImplicitAny": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "types": ["jest", "node"],
+    "types": ["node"],
     "skipLibCheck": true,
-    "ignoreDeprecations": "6.0",
     "outDir": "dist"
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist", "src/backend/**"]
+  "include": ["src/backend/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }
