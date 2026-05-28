@@ -2490,6 +2490,9 @@ Todo ícone funcional da interface é acompanhado de rótulo textual, nunca util
 | <img src="./assets/icones/baixar.png" width="40"/> | Download Simple | 24px | Baixar dados |
 | <img src="./assets/icones/tarefas.png" width="40"/> | Paper Clip | 24px | Anexar foto |
 | <img src="./assets/icones/tempo.png" width="40"/> | Clock Counter Clockwise | 24px | Histórico do chamado |
+| <img src="./assets/icones/quase.png" width="40"/> | Circle Notch | 24px | Em andamento |
+
+
 
 > Tamanho mínimo adotado: **24px**. Nenhum ícone funcional da interface
 > utiliza tamanho inferior a esse valor, garantindo identificação visual
