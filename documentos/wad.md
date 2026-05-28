@@ -2403,11 +2403,11 @@ Um guia de estilo (style guide) é um documento de referência que centraliza to
 
 | Imagem | Cor | Hex | Função |
 |---|---|---|---|
-| <img src="./assets/verde-profundo.png" width="40"/> | Verde Profundo | `#1A4D2E` | Cor primária — botões principais, cabeçalhos, elementos de destaque |
-| <img src="./assets/verde-medio.png" width="40"/> | Verde Médio | `#2E7D52` | Cor secundária — hover states, ícones ativos, badges de status |
-| <img src="./assets/off-white-quente.png" width="40"/> | Off-white Quente | `#F5F0E8` | Fundo principal — base de todas as telas (evita reflexo do branco puro) |
-| <img src="./assets/quase-preto.png" width="40"/> | Quase Preto | `#1B1B1B` | Texto primário — corpo, títulos, labels funcionais |
-| <img src="./assets/ambar-escuro.png" width="40"/> | Âmbar Escuro | `#A64B00` | Ação e alerta — botões de ação secundária, avisos, notificações |
+| <img src="./assets/cores/verde-profundo.png" width="40"/> | Verde Profundo | `#1A4D2E` | Cor primária — botões principais, cabeçalhos, elementos de destaque |
+| <img src="./assets/cores/verde-medio.png" width="40"/> | Verde Médio | `#2E7D52` | Cor secundária — hover states, ícones ativos, badges de status |
+| <img src="./assets/cores/off-white-quente.png" width="40"/> | Off-white Quente | `#F5F0E8` | Fundo principal — base de todas as telas (evita reflexo do branco puro) |
+| <img src="./assets/cores/quase-preto.png" width="40"/> | Quase Preto | `#1B1B1B` | Texto primário — corpo, títulos, labels funcionais |
+| <img src="./assets/cores/ambar-escuro.png" width="40"/> | Âmbar Escuro | `#A64B00` | Ação e alerta — botões de ação secundária, avisos, notificações |
 | <img src="./assets/vermelho-escuro.png" width="40"/> | Vermelho Escuro | `#D32F2F` | Erro — mensagens de falha, campos inválidos, ações destrutivas |
 
 ### Justificativa Técnica: Contraste Outdoor (Nível AAA)
@@ -2482,34 +2482,24 @@ desaparecer [27].
 De acordo com Nielsen [22], os ícones podem ser classificados em três categorias
 segundo seu grau de correspondência com o conceito que representam:
 
-- **Semelhança** — representam visualmente o objeto ao qual se referem
-(ex.: folha para natureza, gota para água);
-- **Referência** — estabelecem uma analogia com o conceito representado
-(ex.: engrenagem para configurações);
-- **Arbitrários** — têm significado definido apenas por convenção
-(ex.: triângulo de alerta).
+- **Semelhança** — representam visualmente o objeto ao qual se referem (ex.: folha para natureza, gota para água);
+- **Referência** — estabelecem uma analogia com o conceito representado (ex.: engrenagem para configurações);
+- **Arbitrários** — têm significado definido apenas por convenção (ex.: triângulo de alerta).
 
-A biblioteca foi selecionada priorizando ícones de semelhança, categoria que
-apresenta melhor usabilidade e menor dependência cultural [22]. Ícones arbitrários
-foram adotados apenas quando já amplamente convencionados — como o símbolo de
-alerta — evitando ambiguidade para o usuário.
+A biblioteca foi selecionada priorizando ícones de semelhança, categoria que apresenta melhor usabilidade e menor dependência cultural [22]. Ícones arbitrários foram adotados apenas quando já amplamente convencionados — como o símbolo de alerta — evitando ambiguidade para o usuário.
 
-Todo ícone funcional da interface é acompanhado de rótulo textual, nunca utilizado
-de forma isolada em ações críticas. Essa decisão reforça a acessibilidade e reduz
-erros de interpretação, especialmente em contextos de uso ao ar livre onde a atenção
-do usuário pode estar dividida [28].
+Todo ícone funcional da interface é acompanhado de rótulo textual, nunca utilizadode forma isolada em ações críticas. Essa decisão reforça a acessibilidade e reduzerros de interpretação, especialmente em contextos de uso ao ar livre onde a atenção do usuário pode estar dividida [28].
 
 ### Atributos de aplicação
 
-| Imagem | Ícone | Estilo | Tamanho | Uso |
+| Imagem | Ícone | Tamanho | Uso |
 |---|---|---|---|---|
 | <img src="./assets/icone-home.png" width="40"/> | Home | Bold | 24px | Navegação principal |
 | <img src="./assets/icone-alerta.png" width="40"/> | Warning | Fill | 24px | Alertas e erros |
 | <img src="./assets/icone-check.png" width="40"/> | Check Circle | Fill | 24px | Confirmações e sucesso |
-| <img src="./assets/icone-configs.png" width="40"/> | Gear | Bold | 24px | Configurações |
+| <img src="./assets/icone-config.png" width="40"/> | Gear | Bold | 24px | Configurações |
 | <img src="./assets/icone-usuario.png" width="40"/> | User | Bold | 24px | Perfil e autenticação |
 | <img src="./assets/icone-mapa.png" width="40"/> | Map Pin | Fill | 24px | Localização e área |
-| <img src="./assets/icone-calendario.png" width="40"/> | Calendar | Bold | 24px | Datas e agendamentos |
 | <img src="./assets/icone-relatorio.png" width="40"/> | Chart Bar | Bold | 24px | Relatórios e dados |
 
 > Tamanho mínimo adotado: **24px**. Nenhum ícone funcional da interface
