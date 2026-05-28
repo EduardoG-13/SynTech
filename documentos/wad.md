@@ -1179,15 +1179,15 @@ A matriz a seguir consolida a rastreabilidade entre Requisitos Funcionais (RF, s
 **Legenda das camadas:**
 
 - **Routes** — define o endpoint HTTP e delega ao Controller (`src/backend/routes/`)
-- **Controller** — valida payload e traduz HTTP ↔ Service (`src/backend/controllers/`)
+- **Controller** — valida payload e traduz HTTP Service (`src/backend/controllers/`)
 - **Service** — aplica regras de negócio (`src/backend/services/`)
 - **Repository** — encapsula acesso ao banco SQLite e à sincronização com PostgreSQL/Supabase (`src/backend/repositories/`)
 - **UI/cliente** — comportamento executado no PWA, fora do backend (validações client-side, leitura local, feedback visual)
 
 **Estado de implementação ao fim da sprint 3:**
 
-- ✅ **Implementados e testados** (cards #191, #192, #203, #211): `/health`, `POST /tarefas`, `GET /tarefas/hoje`, `PATCH /tarefas/:id/concluir`, `POST /tarefas/:id/evidencias`, `POST /chamados`, `GET /eventos-zootecnicos`, `POST /eventos-zootecnicos/nascimentos`, `POST /eventos-zootecnicos/obitos`, `GET /painel-gerencial`, `POST /sincronizacao/lote`, `GET /exportacao/csv`
-- ⏳ **Comportamentos client-side** previstos para a sprint 4: RF004 (mensagem offline sem tarefas), RF011 (feedback de sincronização), RF013 (validação client-side de óbito)
+- **Implementados e testados** (cards #191, #192, #203, #211): `/health`, `POST /tarefas`, `GET /tarefas/hoje`, `PATCH /tarefas/:id/concluir`, `POST /tarefas/:id/evidencias`, `POST /chamados`, `GET /eventos-zootecnicos`, `POST /eventos-zootecnicos/nascimentos`, `POST /eventos-zootecnicos/obitos`, `GET /painel-gerencial`, `POST /sincronizacao/lote`, `GET /exportacao/csv`
+- **Comportamentos client-side** previstos para a sprint 4: RF004 (mensagem offline sem tarefas), RF011 (feedback de sincronização), RF013 (validação client-side de óbito)
 
 **Rastreabilidade complementar:** os Requisitos Funcionais e Regras de Negócio referenciados nesta matriz estão detalhados nas seções 3.1.1 (RFs) e 3.1.2 (RNs). A arquitetura em camadas mencionada na coluna "Camada principal (CSR)" é descrita na seção 3.2.1, e os padrões de projeto que sustentam essa arquitetura (Repository, Outbox, DTO, etc.) constam na seção 3.2.7. A documentação completa de cada endpoint, com payloads de exemplo, body de requisição/resposta e códigos HTTP esperados, é apresentada na seção 3.7 (WebAPI e endpoints).
 
@@ -1370,7 +1370,7 @@ Cada camada conhece apenas a imediatamente inferior — uma Route não chama um 
 | Camada      | Pasta                         | Responsabilidade                                  | Pode chamar     | Exemplo de arquivo                                       |
 |-------------|-------------------------------|---------------------------------------------------|-----------------|----------------------------------------------------------|
 | Routes      | `src/backend/routes/`         | Mapear URL/método para o handler                  | Controller      | `routes/index.js`                                        |
-| Controller  | `src/backend/controllers/`    | Validar payload, traduzir HTTP ↔ Service          | Service         | `controllers/tarefasController.js` (planejado)           |
+| Controller  | `src/backend/controllers/`    | Validar payload, traduzir HTTP Service          | Service         | `controllers/tarefasController.js` (planejado)           |
 | Service     | `src/backend/services/`       | Regras de negócio do domínio pecuário             | Repository      | `services/healthService.js` · `services/tarefasService.js` (planejado) |
 | Repository  | `src/backend/repositories/`   | Acesso a dados (SQL / Supabase client)            | Driver do banco | `repositories/tarefasRepository.js` (planejado)          |
 | Model       | `src/backend/models/`         | Representar entidade de domínio                   | —               | `models/Tarefa.js` (planejado)                           |
@@ -1405,11 +1405,11 @@ A arquitetura descrita acima é a **arquitetura-alvo** do projeto. O estado da i
 
 | Camada       | Status                                                                                  |
 |--------------|-----------------------------------------------------------------------------------------|
-| Routes       | ✅ Implementada (estrutura inicial em [routes/index.js](g03/src/backend/routes/index.js)) |
-| Controllers  | ⏳ Pasta criada, primeiros controllers a serem implementados na sprint 3                 |
-| Services     | ✅ Camada validada com [healthService.js](g03/src/backend/services/healthService.js); demais services seguirão o mesmo padrão |
-| Repositories | ⏳ Pasta criada, implementação prevista para a sprint 3                                  |
-| Models       | ⏳ Pasta criada, implementação prevista para a sprint 3                                  |
+| Routes       | Implementada (estrutura inicial em [routes/index.js](g03/src/backend/routes/index.js)) |
+| Controllers  | Pasta criada, primeiros controllers a serem implementados na sprint 3                  |
+| Services     | Camada validada com [healthService.js](g03/src/backend/services/healthService.js); demais services seguirão o mesmo padrão |
+| Repositories | Pasta criada, implementação prevista para a sprint 3                                  |
+| Models       | Pasta criada, implementação prevista para a sprint 3                                  |
 
 A configuração do banco (`config/database.js`) e o cliente Supabase compartilhado ([src/lib/supabaseClient.js](g03/src/lib/supabaseClient.js)) já estão preparados para suportar a camada Repository quando ela for desenvolvida.
 
