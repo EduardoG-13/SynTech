@@ -2434,8 +2434,6 @@ Em condições de exposição solar direta, que pode ultrapassar 100.000 lux [26
 
 ### 3.4.2 Tipografia
 
-_Apresente aqui a tipografia da solução, com famílias de fontes e suas respectivas funções_
-
 A escolha tipográfica em interfaces digitais vai além da estética. Fontes sem serifa de traço uniforme apresentam melhor desempenho em telas de baixa resolução e em condições adversas de luminosidade, como a exposição solar direta enfrentada pelos usuários deste projeto [28]. Além disso, o tamanho e o peso das fontes impactam diretamente a acessibilidade da interface: textos com peso insuficiente ou tamanho reduzido comprometem a leitura em ambientes de alta iluminância [25][27].
 
 A tipografia da solução utiliza duas famílias de fontes complementares, ambas disponíveis gratuitamente via Google Fonts, selecionadas para garantir legibilidade em telas mobile e web, inclusive sob luz solar direta.
@@ -2522,8 +2520,6 @@ No caso desta solução, o único asset de imagem utilizado é o **logotipo da S
 </center>
 
 ## 3.5 Protótipo de alta fidelidade (sprint 3)
-
-## 3.5. Protótipo de Alta Fidelidade (sprint 3)
 
 O protótipo de alta fidelidade foi desenvolvido no Figma com base nas personas, User Stories priorizadas e no Guia de Estilos definido na seção 3.4. As decisões visuais priorizaram a acessibilidade operacional dos usuários de campo — em especial os Capatazes, que apresentam baixo letramento digital e utilizam o sistema em ambientes externos com alta incidência solar.
 
