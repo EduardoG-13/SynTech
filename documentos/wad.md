@@ -2479,12 +2479,11 @@ Todo ícone funcional da interface é acompanhado de rótulo textual, nunca util
 | Imagem | Ícone | Tamanho | Uso |
 |---|---|---|---|
 | <img src="./assets/icones/casa.png" width="40"/> | Home | 24px | Navegação principal |
-| <img src="./assets/icone-alerta.png" width="40"/> | Warning | 24px | Alertas e erros |
 | <img src="./assets/icones/concluido.png" width="40"/> | Check Circle | 24px | Confirmações e sucesso |
 | <img src="./assets/icones/engrenagem.png" width="40"/> | Gear | 24px | Configurações |
 | <img src="./assets/icones/ferramenta.png" width="40"/> | Tool | 24px | Acessar infraestrutura |
 | <img src="./assets/icones/microfone.png" width="40"/> | Microphone | 24px | Localização e área |
-| <img src="./assets/icone-relatorio.png" width="40"/> | Chart Bar | 24px | Relatórios e dados |
+| <img src="./assets/icones/camera.png" width="40"/> | Camera | 24px e 84px | Adicionar fotos |
 
 > Tamanho mínimo adotado: **24px**. Nenhum ícone funcional da interface
 > utiliza tamanho inferior a esse valor, garantindo identificação visual
