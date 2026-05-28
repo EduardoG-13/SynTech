@@ -1,10 +1,10 @@
 import db from '../config/database';
-import { v4 as uuidv4 } from 'uuid';
+import { v7 as uuidv7 } from 'uuid';
 
 class EventoRepository {
   criarNascimento(evento) {
-    const mov_id = uuidv4();
-    const nas_id = uuidv4();
+    const mov_id = uuidv7();
+    const nas_id = uuidv7();
     
     // Inicia transação
     db.exec('BEGIN TRANSACTION');
@@ -55,9 +55,9 @@ class EventoRepository {
     foto_base64: string;
     geolocalizacao?: string;
   }) {
-    const mov_id = uuidv4();
-    const obito_id = uuidv4();
-    const foto_id = uuidv4();
+    const mov_id = uuidv7();
+    const obito_id = uuidv7();
+    const foto_id = uuidv7();
 
     db.exec('BEGIN TRANSACTION');
     try {

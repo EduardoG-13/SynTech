@@ -1390,7 +1390,7 @@ Para ilustrar como uma requisição atravessa as camadas, considere a **US01** (
    ```
 3. **Service** (`services/tarefasService.js`) aplica as regras de negócio: gera o UUID localmente (estratégia offline-first descrita na seção 3.6.4), verifica se o `retiro_id` pertence à fazenda do usuário, registra a operação na `sync_queue` e chama o repositório:
    ```js
-   const novaTarefa = new Tarefa({ id: uuidv4(), ...dados, autor: usuario.id });
+   const novaTarefa = new Tarefa({ id: uuidv7(), ...dados, autor: usuario.id });
    await tarefasRepository.inserir(novaTarefa);
    await syncQueueRepository.enfileirar('INSERT', 'tarefas', novaTarefa);
    ```
@@ -4000,10 +4000,10 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
 - **Resposta (201 Created)**:
   ```json
   {
-    "id": "uuid-v4-gerado",
+    "id": "uuid-v7-gerado",
     "mensagem": "Tarefa criada com sucesso",
     "tarefa": {
-      "id": "uuid-v4-gerado",
+      "id": "uuid-v7-gerado",
       "titulo": "Vacinação de Lote",
       "status": "PENDENTE",
       "data_execucao": "2026-06-20",
@@ -4046,7 +4046,7 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
   {
     "tarefas": [
       {
-        "id": "uuid-v4",
+        "id": "uuid-v7",
         "titulo": "Vacinação de Lote",
         "status": "PENDENTE",
         "data_execucao": "2026-05-25"
@@ -4087,9 +4087,9 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
   {
     "mensagem": "Tarefa concluída com sucesso",
     "tarefa": {
-      "id": "uuid-v4",
       "titulo": "Vacinação de Lote",
       "descricao": "Vacinação contra febre aftosa no piquete 2",
+      "id": "uuid-v7",
       "status": "CONCLUIDA",
       "data_execucao": "2026-06-20",
       "retiro_id": "retiro-1",
@@ -4141,7 +4141,7 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
   ```json
   {
     "mensagem": "Evidência salva com sucesso",
-    "evidencia_id": "uuid-v4-evidencia"
+    "evidencia_id": "uuid-v7-evidencia"
   }
   ```
 - **Resposta (400 Bad Request)**:

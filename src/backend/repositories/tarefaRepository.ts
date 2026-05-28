@@ -1,9 +1,9 @@
 import db from '../config/database';
-import { v4 as uuidv4 } from 'uuid';
+import { v7 as uuidv7 } from 'uuid';
 
 class TarefaRepository {
   criar(tarefa) {
-    const id = uuidv4();
+    const id = uuidv7();
     const stmt = db.prepare(`
       INSERT INTO tarefas (id, titulo, descricao, status, data_execucao, retiro_id, capataz_id, gerente_id, sincronizada)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -46,7 +46,7 @@ class TarefaRepository {
   }
 
   salvarEvidencia(tarefa_id, tipo, arquivo_base64, geolocalizacao) {
-    const id = uuidv4();
+    const id = uuidv7();
     const stmt = db.prepare(`
       INSERT INTO evidencias (id, tarefa_id, tipo, arquivo_base64, geolocalizacao, sincronizada)
       VALUES (?, ?, ?, ?, ?, 1)

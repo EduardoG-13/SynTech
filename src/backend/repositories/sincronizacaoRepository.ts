@@ -1,12 +1,12 @@
 import db from '../config/database';
-import { v4 as uuidv4 } from 'uuid';
+import { v7 as uuidv7 } from 'uuid';
 
 class SincronizacaoRepository {
   /**
    * Registra uma entrada na tabela de sincronizações.
    */
   registrar(entidade_tipo: string, entidade_id: string, status_envio: string) {
-    const id = uuidv4();
+    const id = uuidv7();
     const stmt = db.prepare(`
       INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas, ultima_tentativa)
       VALUES (?, ?, ?, ?, 1, datetime('now'))
@@ -19,7 +19,7 @@ class SincronizacaoRepository {
    * Insere uma tarefa recebida via sincronização em lote.
    */
   inserirTarefa(tarefa: any) {
-    const id = tarefa.id || uuidv4();
+    const id = tarefa.id || uuidv7();
     const stmt = db.prepare(`
       INSERT OR REPLACE INTO tarefas (id, titulo, descricao, status, data_execucao, retiro_id, capataz_id, gerente_id, criada_em, concluida_em, sincronizada)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
@@ -43,7 +43,7 @@ class SincronizacaoRepository {
    * Insere um alerta recebido via sincronização em lote.
    */
   inserirAlerta(alerta: any) {
-    const id = alerta.id || uuidv4();
+    const id = alerta.id || uuidv7();
     const stmt = db.prepare(`
       INSERT OR REPLACE INTO alertas (id, tipo, descricao, status, capataz_id, retiro_id, latitude, longitude, criado_em, sincronizado)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
@@ -66,7 +66,7 @@ class SincronizacaoRepository {
    * Insere uma movimentação genérica recebida via sincronização em lote.
    */
   inserirMovimentacao(mov: any) {
-    const id = mov.id || uuidv4();
+    const id = mov.id || uuidv7();
     const stmt = db.prepare(`
       INSERT OR REPLACE INTO movimentacoes (id, capataz_id, retiro_id, data, categoria, quantidade, sincronizado, validado, coordenador_id, criado_em)
       VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?, ?)
@@ -89,7 +89,7 @@ class SincronizacaoRepository {
    * Insere uma evidência recebida via sincronização em lote.
    */
   inserirEvidencia(ev: any) {
-    const id = ev.id || uuidv4();
+    const id = ev.id || uuidv7();
     const stmt = db.prepare(`
       INSERT OR REPLACE INTO evidencias (id, tarefa_id, alerta_id, movimentacao_id, tipo, arquivo_base64, url_arquivo, geolocalizacao, duracao_segundos, conteudo, tamanho_bytes, criada_em, sincronizada)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)

@@ -1,9 +1,9 @@
 import db from '../config/database';
-import { v4 as uuidv4 } from 'uuid';
+import { v7 as uuidv7 } from 'uuid';
 
 class AlertaRepository {
   criar(alerta) {
-    const id = uuidv4();
+    const id = uuidv7();
     const stmt = db.prepare(`
       INSERT INTO alertas (id, tipo, descricao, status, capataz_id, retiro_id, latitude, longitude, sincronizado)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)

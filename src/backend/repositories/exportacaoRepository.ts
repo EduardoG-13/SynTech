@@ -1,5 +1,5 @@
 import db from '../config/database';
-import { v4 as uuidv4 } from 'uuid';
+import { v7 as uuidv7 } from 'uuid';
 
 class ExportacaoRepository {
   /**
@@ -62,7 +62,7 @@ class ExportacaoRepository {
    * Registra a exportação na tabela de exportações para auditoria.
    */
   registrarExportacao(coordenador_id: string, formato: string, filtro_retiro?: string, filtro_data_inicio?: string, filtro_data_fim?: string) {
-    const id = uuidv4();
+    const id = uuidv7();
     const stmt = db.prepare(`
       INSERT INTO exportacoes (id, coordenador_id, formato, filtro_retiro, filtro_data_inicio, filtro_data_fim)
       VALUES (?, ?, ?, ?, ?, ?)
