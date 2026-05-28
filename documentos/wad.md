@@ -2462,14 +2462,9 @@ _(esta subseção é opcional, caso não existam ícones e imagens, apague esta 
 
 _posicione aqui imagens e textos contendo exemplos padronizados de ícones e imagens, com seus respectivos atributos de aplicação, utilizadas na solução_
 
-A iconografia da solução utiliza a biblioteca **Phosphor Icons**, escolhida por seu
-traço generoso e alta legibilidade em telas mobile e web sob luz solar direta. Os
-ícones são aplicados exclusivamente nos estilos **Bold** e **Fill**, que apresentam
-melhor desempenho em condições de alta iluminância, onde traços finos tendem a
-desaparecer [27].
+A iconografia da solução utiliza a biblioteca **Phosphor Icons**, escolhida por seu traço generoso e alta legibilidade em telas mobile e web sob luz solar direta. Os ícones são aplicados exclusivamente nos estilos **Bold** e **Fill**, que apresentam melhor desempenho em condições de alta iluminância, onde traços finos tendem a desaparecer [27].
 
-De acordo com Nielsen [22], os ícones podem ser classificados em três categorias
-segundo seu grau de correspondência com o conceito que representam:
+De acordo com Nielsen [22], os ícones podem ser classificados em três categorias segundo seu grau de correspondência com o conceito que representam:
 
 - **Semelhança** — representam visualmente o objeto ao qual se referem (ex.: folha para natureza, gota para água);
 - **Referência** — estabelecem uma analogia com o conceito representado (ex.: engrenagem para configurações);
@@ -2482,13 +2477,13 @@ Todo ícone funcional da interface é acompanhado de rótulo textual, nunca util
 ### Atributos de aplicação
 
 | Imagem | Ícone | Tamanho | Uso |
-|---|---|---|---|---|
-| <img src="./assets/icone-home.png" width="40"/> | Home | Bold | 24px | Navegação principal |
-| <img src="./assets/icone-alerta.png" width="40"/> | Warning | Fill | 24px | Alertas e erros |
-| <img src="./assets/icone-check.png" width="40"/> | Check Circle | Fill | 24px | Confirmações e sucesso |
-| <img src="./assets/icone-config.png" width="40"/> | Gear | Bold | 24px | Configurações |
-| <img src="./assets/icone-usuario.png" width="40"/> | User | Bold | 24px | Perfil e autenticação |
-| <img src="./assets/icone-mapa.png" width="40"/> | Map Pin | Fill | 24px | Localização e área |
+|---|---|---|---|
+| <img src="./assets/icones/casa.png" width="40"/> | Home | 24px | Navegação principal |
+| <img src="./assets/icone-alerta.png" width="40"/> | Warning | 24px | Alertas e erros |
+| <img src="./assets/icone-check.png" width="40"/> | Check Circle | 24px | Confirmações e sucesso |
+| <img src="./assets/icone-config.png" width="40"/> | Gear | 24px | Configurações |
+| <img src="./assets/icone-usuario.png" width="40"/> | User | 24px | Perfil e autenticação |
+| <img src="./assets/icone-mapa.png" width="40"/> | Map Pin | 24px | Localização e área |
 | <img src="./assets/icone-relatorio.png" width="40"/> | Chart Bar | Bold | 24px | Relatórios e dados |
 
 > Tamanho mínimo adotado: **24px**. Nenhum ícone funcional da interface
