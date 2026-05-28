@@ -2408,7 +2408,7 @@ Um guia de estilo (style guide) é um documento de referência que centraliza to
 | <img src="./assets/cores/off-white-quente.png" width="40"/> | Off-white Quente | `#F5F0E8` | Fundo principal — base de todas as telas (evita reflexo do branco puro) |
 | <img src="./assets/cores/quase-preto.png" width="40"/> | Quase Preto | `#1B1B1B` | Texto primário — corpo, títulos, labels funcionais |
 | <img src="./assets/cores/ambar-escuro.png" width="40"/> | Âmbar Escuro | `#A64B00` | Ação e alerta — botões de ação secundária, avisos, notificações |
-| <img src="./assets/vermelho-escuro.png" width="40"/> | Vermelho Escuro | `#D32F2F` | Erro — mensagens de falha, campos inválidos, ações destrutivas |
+| <img src="./assets/cores/vermelho-escuro.png" width="40"/> | Vermelho Escuro | `#D32F2F` | Erro — mensagens de falha, campos inválidos, ações destrutivas |
 
 ### Justificativa Técnica: Contraste Outdoor (Nível AAA)
 
@@ -2423,16 +2423,9 @@ Em condições de exposição solar direta, que pode ultrapassar 100.000 lux [26
 
 _Apresente aqui a tipografia da solução, com famílias de fontes e suas respectivas funções_
 
-A escolha tipográfica em interfaces digitais vai além da estética. Fontes sem serifa
-de traço uniforme apresentam melhor desempenho em telas de baixa resolução e em
-condições adversas de luminosidade, como a exposição solar direta enfrentada pelos
-usuários deste projeto [28]. Além disso, o tamanho e o peso das fontes impactam
-diretamente a acessibilidade da interface: textos com peso insuficiente ou tamanho
-reduzido comprometem a leitura em ambientes de alta iluminância [25][27].
+A escolha tipográfica em interfaces digitais vai além da estética. Fontes sem serifa de traço uniforme apresentam melhor desempenho em telas de baixa resolução e em condições adversas de luminosidade, como a exposição solar direta enfrentada pelos usuários deste projeto [28]. Além disso, o tamanho e o peso das fontes impactam diretamente a acessibilidade da interface: textos com peso insuficiente ou tamanho reduzido comprometem a leitura em ambientes de alta iluminância [25][27].
 
-A tipografia da solução utiliza duas famílias de fontes complementares, ambas
-disponíveis gratuitamente via Google Fonts, selecionadas para garantir legibilidade
-em telas mobile e web, inclusive sob luz solar direta.
+A tipografia da solução utiliza duas famílias de fontes complementares, ambas disponíveis gratuitamente via Google Fonts, selecionadas para garantir legibilidade em telas mobile e web, inclusive sob luz solar direta.
 
 A **Inter** foi projetada especificamente para interfaces digitais, com alto desempenho em tamanhos reduzidos e em condições adversas de luminosidade, por isso fizemos essa escolha [28].
 
