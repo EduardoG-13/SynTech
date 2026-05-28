@@ -2484,6 +2484,7 @@ Todo ícone funcional da interface é acompanhado de rótulo textual, nunca util
 | <img src="./assets/icones/ferramenta.png" width="40"/> | Tool | 24px | Acessar infraestrutura |
 | <img src="./assets/icones/microfone.png" width="40"/> | Microphone | 24px | Localização e área |
 | <img src="./assets/icones/camera.png" width="40"/> | Camera | 24px e 84px | Adicionar fotos |
+| <img src="./assets/icones/rebanho.png" width="40"/> | Cow | 24px | Movimentação de rebanhos |
 
 > Tamanho mínimo adotado: **24px**. Nenhum ícone funcional da interface
 > utiliza tamanho inferior a esse valor, garantindo identificação visual
