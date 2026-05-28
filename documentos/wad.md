@@ -2972,7 +2972,7 @@ A tela de tarefas é a interface principal do Capataz. Projetada para exibir ape
 - **CR3 (US02):** As tarefas são exibidas de forma organizada e de fácil entendimento.
 
 <center>
-  <p><strong>Figura X</strong> — Protótipo de Alta Fidelidade: Tela de Tarefas do Capataz (Mobile e Desktop)</p>
+  <p><strong>Figura 18</strong> — Protótipo de Alta Fidelidade: Tela de Tarefas do Capataz (Mobile e Desktop)</p>
   <img src="./assets/mockup_tela_tarefas_capataz.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -2996,7 +2996,7 @@ A tela de detalhe exibe todas as informações necessárias para que o Capataz e
 - **CR3 (US02):** O botão "Iniciar Tarefa" registra localmente o início da execução, mesmo offline.
 
 <center>
-  <p><strong>Figura X</strong> — Protótipo de Alta Fidelidade: Tela de Detalhe da Tarefa do Capataz (Mobile e Desktop)</p>
+  <p><strong>Figura 19</strong> — Protótipo de Alta Fidelidade: Tela de Detalhe da Tarefa do Capataz (Mobile e Desktop)</p>
   <img src="./assets/alta-fidelidade-capataz-detalhe-tarefa.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3021,7 +3021,7 @@ A tela de conclusão de tarefa centraliza todas as ações necessárias para o C
 - **CR1 (US05):** O Capataz grava e anexa um áudio curto explicando detalhes da execução sem precisar digitar.
 
 <center>
-  <p><strong>Figura X</strong> — Protótipo de Alta Fidelidade: Tela de Concluir Tarefa do Capataz (Mobile e Desktop)</p>
+  <p><strong>Figura 20</strong> — Protótipo de Alta Fidelidade: Tela de Concluir Tarefa do Capataz (Mobile e Desktop)</p>
   <img src="./assets/alta-fidelidade-capataz-concluir-tarefa.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3046,7 +3046,7 @@ O painel de infraestrutura oferece uma visão consolidada dos chamados de manute
 - **CR1 (US07):** O Gerente visualiza o status consolidado de todos os chamados de infraestrutura por categoria e status.
 
 <center>
-  <p><strong>Figura X</strong> — Protótipo de Alta Fidelidade: Painel de Infraestrutura (Mobile e Desktop)</p>
+  <p><strong>Figura 21</strong> — Protótipo de Alta Fidelidade: Painel de Infraestrutura (Mobile e Desktop)</p>
   <img src="./assets/alta-fidelidade-infraestrutura.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3070,7 +3070,7 @@ A tela de criação de nova Ordem de Serviço centraliza todos os campos necess�
 - **CR3 (US01):** O Gerente pode anexar áudio e foto à O.S. para complementar as instruções enviadas ao Capataz.
 
 <center>
-  <p><strong>Figura X</strong> — Protótipo de Alta Fidelidade: Tela de Nova Ordem de Serviço do Gerente (Mobile e Desktop)</p>
+  <p><strong>Figura 22</strong> — Protótipo de Alta Fidelidade: Tela de Nova Ordem de Serviço do Gerente (Mobile e Desktop)</p>
   <img src="./assets/alta-fidelidade-gerente-nova-os.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3095,8 +3095,8 @@ A tela de registro de resolução é acessada pelo técnico de infraestrutura ap
 - **CR3 (US06):** O botão "Salvar Resolução" encerra o chamado e atualiza seu status no painel de infraestrutura.
 
 <center>
-  <p><strong>Figura X</strong> — Protótipo de Alta Fidelidade: Tela de Registrar Resolução de Chamado (Mobile e Desktop)</p>
-  <img src="./assets/alta-fidelidade-infraestrutura-registrar-resolucao.png" width="800"/>
+  <p><strong>Figura 23</strong> — Protótipo de Alta Fidelidade: Tela de Registrar Resolução de Chamado (Mobile e Desktop)</p>
+  <img src="./assets/alta-fidelidade-infraestrutura-registrar-solucao.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3120,7 +3120,7 @@ O dashboard é a tela inicial do Gerente e do Coordenador, oferecendo uma visão
 - **CR3 (US07):** O Gerente pode filtrar os indicadores por retiro e por período diretamente no painel.
 
 <center>
-  <p><strong>Figura X</strong> — Protótipo de Alta Fidelidade: Dashboard do Gerente e Coordenador (Mobile e Desktop)</p>
+  <p><strong>Figura 24</strong> — Protótipo de Alta Fidelidade: Dashboard do Gerente e Coordenador (Mobile e Desktop)</p>
   <img src="./assets/alta-fidelidade-gerente-coordenador-dashboard.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3146,7 +3146,7 @@ A tela de boletas é a interface principal do Coordenador para acesso e exporta�
 - **CR2 (US12):** Cada boleta exibe informações suficientes para identificação do registro antes do download.
 
 <center>
-  <p><strong>Figura X</strong> — Protótipo de Alta Fidelidade: Tela de Lista de Boletas do Coordenador (Mobile e Desktop)</p>
+  <p><strong>Figura 25</strong> — Protótipo de Alta Fidelidade: Tela de Lista de Boletas do Coordenador (Mobile e Desktop)</p>
   <img src="./assets/alta-fidelidade-coordenador-boletas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
