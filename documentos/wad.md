@@ -2060,59 +2060,53 @@ classDiagram
     %% ─────────────────────────────────────────
     namespace Repository {
         class UsuarioRepository {
-            +findById(id) UsuarioModel
-            +findByPerfil(perfil) List~UsuarioModel~
-            +findByRetiro(retiroId) List~UsuarioModel~
-            +save(dados) UsuarioModel
+            +buscarPorId(id) UsuarioModel
         }
         class TarefaRepository {
-            +inserirTarefa(dados) TarefaModel
-            +findByCapatazEData(capatazId, data) List~TarefaModel~
-            +findByRetiro(retiroId) List~TarefaModel~
-            +updateStatus(id, status) void
-            +deleteById(id) void
+            +criar(dados) TarefaModel
+            +buscarPorId(id) TarefaModel
+            +buscarTarefasHoje(capatazId, data) List~TarefaModel~
+            +concluir(id, capatazId, dataConclusao) TarefaModel
+            +salvarEvidencia(tarefaId, tipo, arquivoBase64, geolocalizacao) UUID
         }
-        class EvidenciaRepository {
-            +inserirEvidencia(dados) EvidenciaModel
-            +findByTarefa(tarefaId) List~EvidenciaModel~
-            +marcarSincronizada(id) void
+        class AlertaRepository {
+            +criar(dados) AlertaModel
+            +buscarPorId(id) AlertaModel
         }
-        class EventoZootecnicoRepository {
-            +inserirEvento(dados) EventoZootecnicoModel
-            +findByRetiro(retiroId) List~EventoZootecnicoModel~
-            +findPendentesValidacao() List~EventoZootecnicoModel~
-            +marcarValidado(id, coordenadorId) void
-        }
-        class AlertaInfraestruturaRepository {
-            +inserirAlerta(dados) AlertaInfraestruturaModel
-            +findByRetiro(retiroId) List~AlertaInfraestruturaModel~
-            +updateStatus(id, status) void
+        class EventoRepository {
+            +criarNascimento(dados) MovimentacaoModel
+            +criarObito(dados) MovimentacaoModel
+            +listarTodos(filtros) List~MovimentacaoModel~
+            +buscarMovimentacaoPorId(id) MovimentacaoModel
         }
         class SincronizacaoRepository {
-            +inserirRegistro(dados) SincronizacaoModel
-            +findPendentes() List~SincronizacaoModel~
-            +updateStatusEnvio(id, status) void
-            +incrementarTentativa(id) void
+            +registrar(entidadeTipo, entidadeId, statusEnvio) UUID
+            +inserirTarefa(dados) UUID
+            +inserirAlerta(dados) UUID
+            +inserirMovimentacao(dados) UUID
+            +inserirEvidencia(dados) UUID
         }
         class ExportacaoRepository {
-            +registrarExportacao(dados) ExportacaoModel
-            +findByCoordenador(coordenadorId) List~ExportacaoModel~
+            +consultarMovimentacoesConsolidadas(filtros) List~Object~
+            +registrarExportacao(coordenadorId, formato, filtros) UUID
         }
-        class RetiroRepository {
-            +findAll() List~RetiroModel~
-            +findById(id) RetiroModel
-            +findByCoordenador(coordenadorId) List~RetiroModel~
+        class PainelRepository {
+            +obterMetricasTarefas(gerenteId) List~Object~
+            +obterTarefasPorRetiro(gerenteId) List~Object~
+            +obterAlertasAbertos() List~AlertaModel~
+            +obterConcluidasHoje(gerenteId) Object
         }
     }
 
     UsuarioRepository "1" --o "0..*" UsuarioModel
     TarefaRepository "1" --o "0..*" TarefaModel
-    EvidenciaRepository "1" --o "0..*" EvidenciaModel
-    EventoZootecnicoRepository "1" --o "0..*" EventoZootecnicoModel
-    AlertaInfraestruturaRepository "1" --o "0..*" AlertaInfraestruturaModel
+    TarefaRepository "1" --o "0..*" EvidenciaModel
+    AlertaRepository "1" --o "0..*" AlertaModel
+    EventoRepository "1" --o "0..*" MovimentacaoModel
     SincronizacaoRepository "1" --o "0..*" SincronizacaoModel
     ExportacaoRepository "1" --o "0..*" ExportacaoModel
-    RetiroRepository "1" --o "0..*" RetiroModel
+    PainelRepository "1" --o "0..*" TarefaModel
+    PainelRepository "1" --o "0..*" AlertaModel
 
     %% ─────────────────────────────────────────
     %% CAMADA: SERVICE
