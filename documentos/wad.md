@@ -2488,11 +2488,11 @@ Todo ícone funcional da interface é acompanhado de rótulo textual, nunca util
 | <img src="./assets/icones/salvar.png" width="40"/> | Floppy Disk | 24px | Salvar informações |
 | <img src="./assets/icones/play.png" width="40"/> | Play | 24px | Iniciar tarefas |
 | <img src="./assets/icones/baixar.png" width="40"/> | Download Simple | 24px | Baixar dados |
-| <img src="./assets/icones/tarefas.png" width="40"/> | Paper Clip | 24px | Anexar foto |
+| <img src="./assets/icones/tarefas.png" width="40"/> | Paper Clip | 24px | Tarefas |
 | <img src="./assets/icones/tempo.png" width="40"/> | Clock Counter Clockwise | 24px | Histórico do chamado |
 | <img src="./assets/icones/quase.png" width="40"/> | Circle Notch | 35px | Em andamento |
 | <img src="./assets/icones/notas.png" width="40"/> | Note | 35px | Chamado em aberto |
-
+| <img src="./assets/icones/clipe.png" width="40"/> | Paper Clip | 35px | Anexar foto |
 
 
 > Tamanho mínimo adotado: **24px**. Nenhum ícone funcional da interface
