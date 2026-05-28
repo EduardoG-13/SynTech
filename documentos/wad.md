@@ -2151,54 +2151,37 @@ classDiagram
     %% CAMADA: CONTROLLER
     %% ─────────────────────────────────────────
     namespace Controller {
-        class AuthController {
-            +POST /auth/login()
-            +POST /auth/usuarios()
-        }
         class TarefaController {
             +POST /tarefas()
-            +GET /tarefas()
-            +GET /tarefas/:id()
-            +PUT /tarefas/:id()
-            +DELETE /tarefas/:id()
+            +GET /tarefas/hoje()
             +PATCH /tarefas/:id/concluir()
-        }
-        class EvidenciaController {
             +POST /tarefas/:id/evidencias()
-            +GET /tarefas/:id/evidencias()
         }
-        class EventoZootecnicoController {
-            +POST /eventos/nascimentos()
-            +POST /eventos/obitos()
-            +GET /eventos()
-            +PATCH /eventos/:id/validar()
+        class AlertaController {
+            +POST /chamados()
         }
-        class AlertaInfraestruturaController {
-            +POST /alertas()
-            +GET /alertas()
-            +PATCH /alertas/:id/status()
+        class EventoController {
+            +POST /eventos-zootecnicos/nascimentos()
+            +POST /eventos-zootecnicos/obitos()
+            +GET /eventos-zootecnicos()
         }
         class SincronizacaoController {
-            +POST /sync()
-            +GET /sync/pendentes()
+            +POST /sincronizacao/lote()
         }
         class ExportacaoController {
-            +GET /exportar()
+            +GET /exportacao/csv()
         }
-        class RetiroController {
-            +GET /retiros()
-            +GET /retiros/:id()
+        class PainelController {
+            +GET /painel-gerencial()
         }
     }
 
-    AuthController ..> AuthService : delega
     TarefaController ..> TarefaService : delega
-    EvidenciaController ..> EvidenciaService : delega
-    EventoZootecnicoController ..> EventoZootecnicoService : delega
-    AlertaInfraestruturaController ..> AlertaInfraestruturaService : delega
+    AlertaController ..> AlertaService : delega
+    EventoController ..> EventoService : delega
     SincronizacaoController ..> SincronizacaoService : delega
     ExportacaoController ..> ExportacaoService : delega
-    RetiroController ..> RetiroService : delega
+    PainelController ..> PainelService : delega
 ```
 
 <center>
