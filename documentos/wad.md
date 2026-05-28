@@ -2430,8 +2430,8 @@ A tipografia da solução utiliza duas famílias de fontes complementares, ambas
 A **Inter** foi projetada especificamente para interfaces digitais, com alto desempenho em tamanhos reduzidos e em condições adversas de luminosidade, por isso fizemos essa escolha [28].
 
 <center>
-  <p><strong>Figura 18</strong> — Fonte Inter e suas opções</p>
-  <img src="./assets/fonte-inter.png" width="800"/>
+  <p><strong>Figura 18</strong> — Fonte Inter e suas variações</p>
+  <img src="./assets/interFont.png" width="800"/>
   <p>Fonte: Font Squirrel.</p>
 </center>
  
@@ -2470,6 +2470,7 @@ De acordo com Nielsen [22], os ícones podem ser classificados em três categori
 - **Referência** — estabelecem uma analogia com o conceito representado (ex.: engrenagem para configurações);
 - **Arbitrários** — têm significado definido apenas por convenção (ex.: triângulo de alerta).
 
+
 A biblioteca foi selecionada priorizando ícones de semelhança, categoria que apresenta melhor usabilidade e menor dependência cultural [22]. Ícones arbitrários foram adotados apenas quando já amplamente convencionados — como o símbolo de alerta — evitando ambiguidade para o usuário.
 
 Todo ícone funcional da interface é acompanhado de rótulo textual, nunca utilizadode forma isolada em ações críticas. Essa decisão reforça a acessibilidade e reduzerros de interpretação, especialmente em contextos de uso ao ar livre onde a atenção do usuário pode estar dividida [28].
@@ -2495,9 +2496,7 @@ Todo ícone funcional da interface é acompanhado de rótulo textual, nunca util
 | <img src="./assets/icones/clipe.png" width="40"/> | Paper Clip | 32px | Anexar foto |
 | <img src="./assets/icones/boleta.png" width="40"/> | Note Pencil | 32px | Boletas |
 
-> Tamanho mínimo adotado: **24px**. Nenhum ícone funcional da interface
-> utiliza tamanho inferior a esse valor, garantindo identificação visual
-> mesmo em dispositivos móveis sob luz solar direta [25][27].
+> Tamanho mínimo adotado: **24px**. Nenhum ícone funcional da interface utiliza tamanho inferior a esse valor, garantindo identificação visual mesmo em dispositivos móveis sob luz solar direta [25][27].
 
 ## 3.5 Protótipo de alta fidelidade (sprint 3)
 
