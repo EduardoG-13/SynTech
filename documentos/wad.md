@@ -2933,6 +2933,7 @@ Todo ícone funcional da interface é acompanhado de rótulo textual, nunca util
 | <img src="./assets/icones/notas.png" width="40"/> | Note | 35px | Chamado em aberto |
 | <img src="./assets/icones/clipe.png" width="40"/> | Paper Clip | 32px | Anexar foto |
 | <img src="./assets/icones/boleta.png" width="40"/> | Note Pencil | 32px | Boletas |
+| <img src="./assets/icones/label.png" width="40"/> | Label | 32px | Classificação |
 
 > Tamanho mínimo adotado: **24px**. Nenhum ícone funcional da interface utiliza tamanho inferior a esse valor, garantindo identificação visual mesmo em dispositivos móveis sob luz solar direta [25][27].
 
