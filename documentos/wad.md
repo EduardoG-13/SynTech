@@ -2480,7 +2480,7 @@ Todo ícone funcional da interface é acompanhado de rótulo textual, nunca util
 |---|---|---|---|
 | <img src="./assets/icones/casa.png" width="40"/> | Home | 24px | Navegação principal |
 | <img src="./assets/icone-alerta.png" width="40"/> | Warning | 24px | Alertas e erros |
-| <img src="./assets/icone-check.png" width="40"/> | Check Circle | 24px | Confirmações e sucesso |
+| <img src="./assets/icones/concluido.png" width="40"/> | Check Circle | 24px | Confirmações e sucesso |
 | <img src="./assets/icones/engrenagem.png" width="40"/> | Gear | 24px | Configurações |
 | <img src="./assets/icones/ferramenta.png" width="40"/> | Tool | 24px | Acessar infraestrutura |
 | <img src="./assets/icones/microfone.png" width="40"/> | Microphone | 24px | Localização e área |
