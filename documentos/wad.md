@@ -2112,60 +2112,40 @@ classDiagram
     %% CAMADA: SERVICE
     %% ─────────────────────────────────────────
     namespace Service {
-        class AuthService {
-            +login(nome, senha) String
-            +validarToken(token) UsuarioModel
-            +criarUsuario(dados) UsuarioModel
-        }
         class TarefaService {
             +criarTarefa(dados) TarefaModel
-            +listarTarefasCapataz(capatazId, data) List~TarefaModel~
-            +listarTarefasRetiro(retiroId) List~TarefaModel~
-            +concluirTarefa(id, capatazId) void
-            +editarTarefa(id, dados) TarefaModel
-            +deletarTarefa(id) void
+            +buscarTarefasHoje(capatazId) List~TarefaModel~
+            +concluirTarefa(tarefaId, capatazId) TarefaModel
+            +anexarEvidencia(tarefaId, capatazId, dados) Object
         }
-        class EvidenciaService {
-            +adicionarEvidencia(tarefaId, dados) EvidenciaModel
-            +listarEvidencias(tarefaId) List~EvidenciaModel~
+        class AlertaService {
+            +criarAlerta(dados) AlertaModel
         }
-        class EventoZootecnicoService {
-            +registrarNascimento(dados) RegistroNascimentoModel
-            +registrarObito(dados) RegistroObitoModel
-            +listarEventosPorRetiro(retiroId) List~EventoZootecnicoModel~
-            +validarEvento(id, coordenadorId) void
-        }
-        class AlertaInfraestruturaService {
-            +abrirAlerta(dados) AlertaInfraestruturaModel
-            +listarAlertas(retiroId) List~AlertaInfraestruturaModel~
-            +atualizarStatusAlerta(id, status) void
+        class EventoService {
+            +registrarNascimento(dados) MovimentacaoModel
+            +registrarObito(dados) MovimentacaoModel
+            +listarEventos(filtros) Object
         }
         class SincronizacaoService {
-            +enfileirarSincronizacao(entidadeTipo, entidadeId) void
-            +processarFila() void
-            +reenviarFalhos() void
+            +processarLote(itens) Object
         }
         class ExportacaoService {
-            +gerarRelatorio(coordenadorId, filtros) Exportacao
+            +exportarCsv(coordenadorId, filtros) Object
         }
-        class RetiroService {
-            +listarRetiros() List~RetiroModel~
-            +buscarRetiro(id) RetiroModel
+        class PainelService {
+            +obterPainel(gerenteId) Object
         }
     }
 
-    AuthService ..> UsuarioRepository : usa
     TarefaService ..> TarefaRepository : usa
-    TarefaService ..> UsuarioRepository : verifica vínculo (RN01)
-    TarefaService ..> RetiroRepository : valida retiro
-    EvidenciaService ..> EvidenciaRepository : usa
-    EvidenciaService ..> TarefaRepository : verifica tarefa
-    EventoZootecnicoService ..> EventoZootecnicoRepository : usa
-    AlertaInfraestruturaService ..> AlertaInfraestruturaRepository : usa
+    TarefaService ..> UsuarioRepository : verifica capataz (RN01)
+    AlertaService ..> AlertaRepository : usa
+    EventoService ..> EventoRepository : usa
     SincronizacaoService ..> SincronizacaoRepository : usa
-    ExportacaoService ..> EventoZootecnicoRepository : consulta dados
-    ExportacaoService ..> ExportacaoRepository : registra exportação
-    RetiroService ..> RetiroRepository : usa
+    ExportacaoService ..> ExportacaoRepository : usa
+    ExportacaoService ..> UsuarioRepository : valida coordenador
+    PainelService ..> PainelRepository : usa
+    PainelService ..> UsuarioRepository : valida gerente
 
     %% ─────────────────────────────────────────
     %% CAMADA: CONTROLLER
