@@ -2481,7 +2481,7 @@ Todo ícone funcional da interface é acompanhado de rótulo textual, nunca util
 | <img src="./assets/icones/casa.png" width="40"/> | Home | 24px | Navegação principal |
 | <img src="./assets/icone-alerta.png" width="40"/> | Warning | 24px | Alertas e erros |
 | <img src="./assets/icone-check.png" width="40"/> | Check Circle | 24px | Confirmações e sucesso |
-| <img src="./assets/icone-config.png" width="40"/> | Gear | 24px | Configurações |
+| <img src="./assets/icones/engrenagem.png" width="40"/> | Gear | 24px | Configurações |
 | <img src="./assets/icone-usuario.png" width="40"/> | User | 24px | Perfil e autenticação |
 | <img src="./assets/icone-mapa.png" width="40"/> | Map Pin | 24px | Localização e área |
 | <img src="./assets/icone-relatorio.png" width="40"/> | Chart Bar | Bold | 24px | Relatórios e dados |
