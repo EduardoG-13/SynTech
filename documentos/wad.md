@@ -2479,7 +2479,7 @@ Todo ícone funcional da interface é acompanhado de rótulo textual, nunca util
 | Imagem | Ícone | Tamanho | Uso |
 |---|---|---|---|
 | <img src="./assets/icones/casa.png" width="40"/> | Home | 24px | Navegação principal |
-| <img src="./assets/icones/concluido.png" width="40"/> | Check Circle | 24px | Confirmações e sucesso |
+| <img src="./assets/icones/concluido.png" width="40"/> | Check Circle | 35px | Confirmações e sucesso |
 | <img src="./assets/icones/engrenagem.png" width="40"/> | Gear | 24px | Configurações |
 | <img src="./assets/icones/ferramenta.png" width="40"/> | Tool | 24px | Acessar infraestrutura |
 | <img src="./assets/icones/microfone.png" width="40"/> | Microphone | 24px | Localização e área |
@@ -2490,7 +2490,8 @@ Todo ícone funcional da interface é acompanhado de rótulo textual, nunca util
 | <img src="./assets/icones/baixar.png" width="40"/> | Download Simple | 24px | Baixar dados |
 | <img src="./assets/icones/tarefas.png" width="40"/> | Paper Clip | 24px | Anexar foto |
 | <img src="./assets/icones/tempo.png" width="40"/> | Clock Counter Clockwise | 24px | Histórico do chamado |
-| <img src="./assets/icones/quase.png" width="40"/> | Circle Notch | 24px | Em andamento |
+| <img src="./assets/icones/quase.png" width="40"/> | Circle Notch | 35px | Em andamento |
+| <img src="./assets/icones/notas.png" width="40"/> | Note | 35px | Chamado em aberto |
 
 
 
