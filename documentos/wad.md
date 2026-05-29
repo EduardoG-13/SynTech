@@ -3130,7 +3130,11 @@ O protótipo de alta fidelidade foi desenvolvido no Figma com base nas personas,
 
 As telas seguem as diretrizes de contraste nível AAA (WCAG 1.4.6, razão mínima de 7:1), tipografia Inter com tamanhos mínimos de 14px e elementos de interação dimensionados para uso tátil em dispositivos móveis (altura mínima de 56px nos botões de ação principal). A paleta aplicada segue integralmente a definida na seção 3.4.1 — Verde Profundo (`#1A4D2E`) como cor primária e Off-white Quente (`#F5F0E8`) como fundo. O layout foi estruturado com base em um sistema de grid de 12 colunas com margens de 20px nas versões mobile e 48px nas versões desktop, garantindo alinhamento consistente entre todos os elementos.
 
-O protótipo navegável completo está disponível em: [Figma — Alta Fidelidade BRPec](https://www.figma.com/design/hsrRfUs4i1Veye6B88vDvy/Alta-fidelidade-BrPec)
+O protótipo navegável completo está disponível em: [Figma - Alta Fidelidade BRPec](https://www.figma.com/design/hsrRfUs4i1Veye6B88vDvy/Alta-fidelidade-BrPec)
+
+### Alinhamento com os RNFs
+
+O guia de estilos e os protótipos demonstram alinhamento com os principais requisitos FURPS+ endereçáveis por interface. Em usabilidade, todos os botões de ação principal respeitam altura mínima de 56–64px, acima do limiar de 44px exigido, e o contraste de 7:1 (WCAG AAA) garante legibilidade sob luz solar direta, complementado pela tipografia Inter a partir de 14px e ícones Bold/Fill com mínimo de 24px — decisões que tornam a interface adequada para operação em campo. Em confiabilidade, as telas do Capataz documentam explicitamente o comportamento offline nos critérios de aceite, evidenciando a estratégia offline-first no nível da interface. Em portabilidade, todas as oito telas foram prototipadas em versões mobile e desktop com sistema de grid de 12 colunas e margens adaptativas, cobrindo a faixa de 5" a 12" requerida. Em compatibilidade, a tela de Boletas apresenta o acionamento de exportação CSV diretamente na listagem, com detalhes de codificação delegados ao backend. Os requisitos de desempenho (latência p95 < 200ms), suportabilidade (MTTR de bugs) e capacidade (sincronização em lote de 500 eventos) são métricas de arquitetura e infraestrutura, não representáveis nem verificáveis por meio de protótipos de interface.
 
 ---
 
