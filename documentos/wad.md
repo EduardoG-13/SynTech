@@ -1164,12 +1164,12 @@ A matriz a seguir consolida a rastreabilidade entre Requisitos Funcionais (RF, s
 | RF002 | RN02, RN05       | `/tarefas/:id/concluir`          | PATCH         | Routes → Controller → Service → Repository                          | Alterar o status da tarefa para concluída (com timestamp)        |
 | RF005 | RN13, RN15       | `/tarefas/:id/evidencias`        | POST          | Routes → Controller → Service → Repository (evidência Base64)       | Anexar evidência de texto ou arquivo (Base64) a uma tarefa       |
 | RF006 | RN19, RN21, RN26 | `/chamados`                      | POST          | Routes → Controller → Service → Repository (`alertaRepository`)     | Criar chamado/alerta de infraestrutura com geolocalização        |
-| RF014 | RN29, RN31       | `/eventos-zootecnicos`           | GET           | Routes → Controller → Service → Repository (`eventoRepository`)     | Listar todos os eventos zootécnicos registrados                  |
+| RF014 | —                | `/eventos-zootecnicos`           | GET           | Routes → Controller → Service → Repository (`eventoRepository`)     | Listar todos os eventos zootécnicos registrados                  |
 | RF008 | RN27             | `/eventos-zootecnicos/nascimentos` | POST        | Routes → Controller → Service → Repository                          | Registrar nascimento de animal (transação tabela detalhe)        |
 | RF009 | RN27, RN28, RF013| `/eventos-zootecnicos/obitos`    | POST          | Routes → Controller (+ validação) → Service → Repository            | Registrar óbito de animal com causa da morte                     |
 | RF007 | RN10, RN11       | `/painel-gerencial`              | GET           | Routes → Controller → Service (agregação) → Repository              | Obter métricas consolidadas de tarefas e eventos para o painel   |
 | RF010 | RF011, RF012     | `/sincronizacao/lote`            | POST          | Routes → Controller → Service (drena fila) → Repository             | Processar fila de sincronização em lote enviada pelo PWA         |
-| RF015 | RN31, RN32       | `/exportacao/csv`                | GET           | Routes → Controller → Service (gerador CSV) → Repository            | Gerar e exportar arquivo CSV com dados operacionais consolidados |
+| RF015 | —                | `/exportacao/csv`                | GET           | Routes → Controller → Service (gerador CSV) → Repository            | Gerar e exportar arquivo CSV com dados operacionais consolidados |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1348,7 +1348,7 @@ A solução é composta por **cinco camadas lógicas** no backend, implementadas
 
 **4. Repository (Camada de Acesso a Dados)**
 - **Responsabilidade:** encapsular todo o acesso ao banco de dados — consultas SQL, inserts, updates, deletes e chamadas ao cliente Supabase. Cada Repository corresponde, em geral, a uma entidade (`tarefasRepository`, `usuariosRepository`, etc.). **Não** contém regras de negócio: opera sobre dados.
-- **Localização:** `g03/src/backend/repositories/` (pasta criada, implementação prevista para as sprints 3 e 4). O cliente Supabase compartilhado fica em [g03/src/lib/supabaseClient.js](g03/src/lib/supabaseClient.js) e o pool `pg` é configurado em `g03/src/backend/config/database.js`.
+- **Localização:** `src/backend/repositories/` (implementado nesta sprint: `tarefaRepository.ts`, `alertaRepository.ts`, `eventoRepository.ts`, etc.). A conexão com o banco local é gerenciada em `src/backend/config/database.ts`.
 - **Quem chama / chama quem:** chamado pelos Services, chama o driver do banco (`pg` ou `@supabase/supabase-js`).
 
 **5. Model (Camada de Entidades de Domínio)**
@@ -1410,7 +1410,7 @@ A arquitetura descrita acima é a **arquitetura-alvo** do projeto. O estado da i
 | Repositories | Pasta criada, implementação prevista para a sprint 3                                  |
 | Models       | Pasta criada, implementação prevista para a sprint 3                                  |
 
-A configuração do banco (`config/database.js`) e o cliente Supabase compartilhado ([src/lib/supabaseClient.js](g03/src/lib/supabaseClient.js)) já estão preparados para suportar a camada Repository quando ela for desenvolvida.
+A configuração do banco (`src/backend/config/database.ts`) já está preparada e em uso pela camada Repository implementada nesta sprint.
 
 ### 3.2.2. Diagrama de Casos de Uso (sprint 1)
 
@@ -1434,7 +1434,7 @@ UC01 — Planejar tarefas (RF001)
 | Pós-condições | A tarefa é registrada no sistema e fica disponível para distribuição |
 
 <center>
-  <p><strong>Quadro 11</strong> — Caso de Uso UC01</p>
+  <p><strong>Quadro 13</strong> — Caso de Uso UC01</p>
 </center>
 
 <center>
@@ -1451,7 +1451,7 @@ UC02 — Distribuir tarefas por retiro (RF002)
 | Pós-condições | A tarefa é atribuída e visível para execução pelos Capatazes |
 
 <center>
-  <p><strong>Quadro 12</strong> — Caso de Uso UC02</p>
+  <p><strong>Quadro 14</strong> — Caso de Uso UC02</p>
 </center>
 
 <center>
@@ -1468,7 +1468,7 @@ UC03 — Visualizar tarefas do dia (RF003)
 | Pós-condições | As tarefas são exibidas para execução |
 
 <center>
-  <p><strong>Quadro 13</strong> — Caso de Uso UC03</p>
+  <p><strong>Quadro 15</strong> — Caso de Uso UC03</p>
 </center>
 
 <center>
@@ -1485,7 +1485,7 @@ UC04 — Registrar execução de tarefa (RF004)
 | Pós-condições | A tarefa é registrada como concluída e atualizada no sistema |
 
 <center>
-  <p><strong>Quadro 14</strong> — Caso de Uso UC04</p>
+  <p><strong>Quadro 16</strong> — Caso de Uso UC04</p>
 </center>
 
 <center>
@@ -1502,7 +1502,7 @@ UC05 — Anexar evidência (RF005)
 | Pós-condições | A evidência é armazenada e vinculada à tarefa |
 
 <center>
-  <p><strong>Quadro 15</strong> — Caso de Uso UC05</p>
+  <p><strong>Quadro 17</strong> — Caso de Uso UC05</p>
 </center>
 
 <center>
@@ -1519,7 +1519,7 @@ UC06 — Registrar movimentação (RF006)
 | Pós-condições | A movimentação é armazenada para posterior validação |
 
 <center>
-  <p><strong>Quadro 16</strong> — Caso de Uso UC06</p>
+  <p><strong>Quadro 18</strong> — Caso de Uso UC06</p>
 </center>
 
 <center>
@@ -1536,7 +1536,7 @@ UC07 — Validar movimentações (RF007)
 | Pós-condições | As movimentações são confirmadas e consideradas válidas |
 
 <center>
-  <p><strong>Quadro 17</strong> — Caso de Uso UC07</p>
+  <p><strong>Quadro 19</strong> — Caso de Uso UC07</p>
 </center>
 
 <center>
@@ -1553,7 +1553,7 @@ UC08 — Consultar dados consolidados (RF008)
 | Pós-condições | As informações são exibidas para análise |
 
 <center>
-  <p><strong>Quadro 18</strong> — Caso de Uso UC08</p>
+  <p><strong>Quadro 20</strong> — Caso de Uso UC08</p>
 </center>
 
 <center>
@@ -1570,7 +1570,7 @@ UC09 — Exportar relatórios (RF009)
 | Pós-condições | O relatório é gerado e disponibilizado para download |
 
 <center>
-  <p><strong>Quadro 19</strong> — Caso de Uso UC09</p>
+  <p><strong>Quadro 21</strong> — Caso de Uso UC09</p>
 </center>
 
 <center>
@@ -1950,6 +1950,7 @@ classDiagram
             +String nome
             +String senha
             +Enum perfil
+            +UUID retiro_id
             +DateTime criadoEm
         }
         class TarefaModel {
@@ -1966,27 +1967,21 @@ classDiagram
             +Boolean sincronizada
         }
         class EvidenciaModel {
-            <<abstract>>
             +UUID id
             +UUID tarefa_id
+            +UUID alerta_id
+            +UUID movimentacao_id
             +Enum tipo
+            +String arquivoBase64
+            +String urlArquivo
+            +String geolocalizacao
+            +Integer duracaoSegundos
+            +String conteudo
+            +Integer tamanhoBytes
             +DateTime criadaEm
             +Boolean sincronizada
         }
-        class FotoModel {
-            +String urlArquivo
-            +Integer tamanhoBytes
-            +String geolocalizacao
-        }
-        class AudioModel {
-            +String urlArquivo
-            +Integer duracaoSegundos
-        }
-        class TextoComplementarModel {
-            +String conteudo
-        }
-        class EventoZootecnicoModel {
-            <<abstract>>
+        class MovimentacaoModel {
             +UUID id
             +UUID capataz_id
             +UUID retiro_id
@@ -1998,14 +1993,22 @@ classDiagram
             +UUID coordenador_id
             +DateTime criadoEm
         }
-        class RegistroNascimentoModel {
+        class NascimentoModel {
         }
-        class RegistroObitoModel {
+        class ObitoModel {
             +String identificacaoAnimal
             +String causaMorte
             +UUID foto_id
         }
-        class AlertaInfraestruturaModel {
+        class TransferenciaModel {
+            +UUID retiroOrigemId
+            +UUID retiroDestinoId
+        }
+        class CompravendaModel {
+            +Enum tipoNegocio
+            +Decimal valorFinanceiro
+        }
+        class AlertaModel {
             +UUID id
             +Enum tipo
             +String descricao
@@ -2017,6 +2020,7 @@ classDiagram
             +DateTime criadoEm
             +Boolean sincronizado
             +UUID foto_id
+            +UUID tecnico_id
         }
         class SincronizacaoModel {
             +UUID id
@@ -2045,182 +2049,138 @@ classDiagram
         }
     }
 
-    EvidenciaModel <|-- FotoModel
-    EvidenciaModel <|-- AudioModel
-    EvidenciaModel <|-- TextoComplementarModel
-    EventoZootecnicoModel <|-- RegistroNascimentoModel
-    EventoZootecnicoModel <|-- RegistroObitoModel
+    MovimentacaoModel <|-- NascimentoModel
+    MovimentacaoModel <|-- ObitoModel
+    MovimentacaoModel <|-- TransferenciaModel
+    MovimentacaoModel <|-- CompravendaModel
 
     %% ─────────────────────────────────────────
     %% CAMADA: REPOSITORY
     %% ─────────────────────────────────────────
     namespace Repository {
         class UsuarioRepository {
-            +findById(id) UsuarioModel
-            +findByPerfil(perfil) List~UsuarioModel~
-            +findByRetiro(retiroId) List~UsuarioModel~
-            +save(dados) UsuarioModel
+            +buscarPorId(id) UsuarioModel
         }
         class TarefaRepository {
-            +inserirTarefa(dados) TarefaModel
-            +findByCapatazEData(capatazId, data) List~TarefaModel~
-            +findByRetiro(retiroId) List~TarefaModel~
-            +updateStatus(id, status) void
-            +deleteById(id) void
+            +criar(dados) TarefaModel
+            +buscarPorId(id) TarefaModel
+            +buscarTarefasHoje(capatazId, data) List~TarefaModel~
+            +concluir(id, capatazId, dataConclusao) TarefaModel
+            +salvarEvidencia(tarefaId, tipo, arquivoBase64, geolocalizacao) UUID
         }
-        class EvidenciaRepository {
-            +inserirEvidencia(dados) EvidenciaModel
-            +findByTarefa(tarefaId) List~EvidenciaModel~
-            +marcarSincronizada(id) void
+        class AlertaRepository {
+            +criar(dados) AlertaModel
+            +buscarPorId(id) AlertaModel
         }
-        class EventoZootecnicoRepository {
-            +inserirEvento(dados) EventoZootecnicoModel
-            +findByRetiro(retiroId) List~EventoZootecnicoModel~
-            +findPendentesValidacao() List~EventoZootecnicoModel~
-            +marcarValidado(id, coordenadorId) void
-        }
-        class AlertaInfraestruturaRepository {
-            +inserirAlerta(dados) AlertaInfraestruturaModel
-            +findByRetiro(retiroId) List~AlertaInfraestruturaModel~
-            +updateStatus(id, status) void
+        class EventoRepository {
+            +criarNascimento(dados) MovimentacaoModel
+            +criarObito(dados) MovimentacaoModel
+            +listarTodos(filtros) List~MovimentacaoModel~
+            +buscarMovimentacaoPorId(id) MovimentacaoModel
         }
         class SincronizacaoRepository {
-            +inserirRegistro(dados) SincronizacaoModel
-            +findPendentes() List~SincronizacaoModel~
-            +updateStatusEnvio(id, status) void
-            +incrementarTentativa(id) void
+            +registrar(entidadeTipo, entidadeId, statusEnvio) UUID
+            +inserirTarefa(dados) UUID
+            +inserirAlerta(dados) UUID
+            +inserirMovimentacao(dados) UUID
+            +inserirEvidencia(dados) UUID
         }
         class ExportacaoRepository {
-            +registrarExportacao(dados) ExportacaoModel
-            +findByCoordenador(coordenadorId) List~ExportacaoModel~
+            +consultarMovimentacoesConsolidadas(filtros) List~Object~
+            +registrarExportacao(coordenadorId, formato, filtros) UUID
         }
-        class RetiroRepository {
-            +findAll() List~RetiroModel~
-            +findById(id) RetiroModel
-            +findByCoordenador(coordenadorId) List~RetiroModel~
+        class PainelRepository {
+            +obterMetricasTarefas(gerenteId) List~Object~
+            +obterTarefasPorRetiro(gerenteId) List~Object~
+            +obterAlertasAbertos() List~AlertaModel~
+            +obterConcluidasHoje(gerenteId) Object
         }
     }
 
     UsuarioRepository "1" --o "0..*" UsuarioModel
     TarefaRepository "1" --o "0..*" TarefaModel
-    EvidenciaRepository "1" --o "0..*" EvidenciaModel
-    EventoZootecnicoRepository "1" --o "0..*" EventoZootecnicoModel
-    AlertaInfraestruturaRepository "1" --o "0..*" AlertaInfraestruturaModel
+    TarefaRepository "1" --o "0..*" EvidenciaModel
+    AlertaRepository "1" --o "0..*" AlertaModel
+    EventoRepository "1" --o "0..*" MovimentacaoModel
     SincronizacaoRepository "1" --o "0..*" SincronizacaoModel
     ExportacaoRepository "1" --o "0..*" ExportacaoModel
-    RetiroRepository "1" --o "0..*" RetiroModel
+    PainelRepository "1" --o "0..*" TarefaModel
+    PainelRepository "1" --o "0..*" AlertaModel
 
     %% ─────────────────────────────────────────
     %% CAMADA: SERVICE
     %% ─────────────────────────────────────────
     namespace Service {
-        class AuthService {
-            +login(nome, senha) String
-            +validarToken(token) UsuarioModel
-            +criarUsuario(dados) UsuarioModel
-        }
         class TarefaService {
             +criarTarefa(dados) TarefaModel
-            +listarTarefasCapataz(capatazId, data) List~TarefaModel~
-            +listarTarefasRetiro(retiroId) List~TarefaModel~
-            +concluirTarefa(id, capatazId) void
-            +editarTarefa(id, dados) TarefaModel
-            +deletarTarefa(id) void
+            +buscarTarefasHoje(capatazId) List~TarefaModel~
+            +concluirTarefa(tarefaId, capatazId) TarefaModel
+            +anexarEvidencia(tarefaId, capatazId, dados) Object
         }
-        class EvidenciaService {
-            +adicionarEvidencia(tarefaId, dados) EvidenciaModel
-            +listarEvidencias(tarefaId) List~EvidenciaModel~
+        class AlertaService {
+            +criarAlerta(dados) AlertaModel
         }
-        class EventoZootecnicoService {
-            +registrarNascimento(dados) RegistroNascimentoModel
-            +registrarObito(dados) RegistroObitoModel
-            +listarEventosPorRetiro(retiroId) List~EventoZootecnicoModel~
-            +validarEvento(id, coordenadorId) void
-        }
-        class AlertaInfraestruturaService {
-            +abrirAlerta(dados) AlertaInfraestruturaModel
-            +listarAlertas(retiroId) List~AlertaInfraestruturaModel~
-            +atualizarStatusAlerta(id, status) void
+        class EventoService {
+            +registrarNascimento(dados) MovimentacaoModel
+            +registrarObito(dados) MovimentacaoModel
+            +listarEventos(filtros) Object
         }
         class SincronizacaoService {
-            +enfileirarSincronizacao(entidadeTipo, entidadeId) void
-            +processarFila() void
-            +reenviarFalhos() void
+            +processarLote(itens) Object
         }
         class ExportacaoService {
-            +gerarRelatorio(coordenadorId, filtros) Exportacao
+            +exportarCsv(coordenadorId, filtros) Object
         }
-        class RetiroService {
-            +listarRetiros() List~RetiroModel~
-            +buscarRetiro(id) RetiroModel
+        class PainelService {
+            +obterPainel(gerenteId) Object
         }
     }
 
-    AuthService ..> UsuarioRepository : usa
     TarefaService ..> TarefaRepository : usa
-    TarefaService ..> UsuarioRepository : verifica vínculo (RN01)
-    TarefaService ..> RetiroRepository : valida retiro
-    EvidenciaService ..> EvidenciaRepository : usa
-    EvidenciaService ..> TarefaRepository : verifica tarefa
-    EventoZootecnicoService ..> EventoZootecnicoRepository : usa
-    AlertaInfraestruturaService ..> AlertaInfraestruturaRepository : usa
+    TarefaService ..> UsuarioRepository : verifica capataz (RN01)
+    AlertaService ..> AlertaRepository : usa
+    EventoService ..> EventoRepository : usa
     SincronizacaoService ..> SincronizacaoRepository : usa
-    ExportacaoService ..> EventoZootecnicoRepository : consulta dados
-    ExportacaoService ..> ExportacaoRepository : registra exportação
-    RetiroService ..> RetiroRepository : usa
+    ExportacaoService ..> ExportacaoRepository : usa
+    ExportacaoService ..> UsuarioRepository : valida coordenador
+    PainelService ..> PainelRepository : usa
+    PainelService ..> UsuarioRepository : valida gerente
 
     %% ─────────────────────────────────────────
     %% CAMADA: CONTROLLER
     %% ─────────────────────────────────────────
     namespace Controller {
-        class AuthController {
-            +POST /auth/login()
-            +POST /auth/usuarios()
-        }
         class TarefaController {
             +POST /tarefas()
-            +GET /tarefas()
-            +GET /tarefas/:id()
-            +PUT /tarefas/:id()
-            +DELETE /tarefas/:id()
+            +GET /tarefas/hoje()
             +PATCH /tarefas/:id/concluir()
-        }
-        class EvidenciaController {
             +POST /tarefas/:id/evidencias()
-            +GET /tarefas/:id/evidencias()
         }
-        class EventoZootecnicoController {
-            +POST /eventos/nascimentos()
-            +POST /eventos/obitos()
-            +GET /eventos()
-            +PATCH /eventos/:id/validar()
+        class AlertaController {
+            +POST /chamados()
         }
-        class AlertaInfraestruturaController {
-            +POST /alertas()
-            +GET /alertas()
-            +PATCH /alertas/:id/status()
+        class EventoController {
+            +POST /eventos-zootecnicos/nascimentos()
+            +POST /eventos-zootecnicos/obitos()
+            +GET /eventos-zootecnicos()
         }
         class SincronizacaoController {
-            +POST /sync()
-            +GET /sync/pendentes()
+            +POST /sincronizacao/lote()
         }
         class ExportacaoController {
-            +GET /exportar()
+            +GET /exportacao/csv()
         }
-        class RetiroController {
-            +GET /retiros()
-            +GET /retiros/:id()
+        class PainelController {
+            +GET /painel-gerencial()
         }
     }
 
-    AuthController ..> AuthService : delega
     TarefaController ..> TarefaService : delega
-    EvidenciaController ..> EvidenciaService : delega
-    EventoZootecnicoController ..> EventoZootecnicoService : delega
-    AlertaInfraestruturaController ..> AlertaInfraestruturaService : delega
+    AlertaController ..> AlertaService : delega
+    EventoController ..> EventoService : delega
     SincronizacaoController ..> SincronizacaoService : delega
     ExportacaoController ..> ExportacaoService : delega
-    RetiroController ..> RetiroService : delega
+    PainelController ..> PainelService : delega
 ```
 
 <center>
@@ -2701,26 +2661,24 @@ _Diagrama UML de deployment mostrando nós físicos, artefatos e canais de comun
 
 O Sistema BrPec aplica padrões de projeto motivados por **três restrições estruturais** documentadas neste WAD: (i) a **conectividade satelital intermitente** via Starlink, que impõe arquitetura offline-first (seções 1 e 3.1.3); (ii) os **quatro perfis distintos de usuário** — Gerente, Coordenador, Capataz e Técnico — com regras de operação diferentes (seção 2.2); e (iii) a possibilidade de **evolução da camada de persistência**, hoje implementada com `better-sqlite3` para o cache local e `@supabase/supabase-js` para o servidor central (seção 3.2.1). Cada padrão a seguir é apresentado com categoria GoF [29], localização no repositório, necessidade de negócio que atende e princípios SOLID materializados [30].
 
-A tabela a seguir consolida os seis padrões adotados, indicando para cada um a categoria GoF, a pasta/arquivo correspondente no repositório, a necessidade de negócio atendida e os princípios SOLID materializados. Os padrões com status "previsto" estão planejados para sprints posteriores e serão implementados conforme as funcionalidades correspondentes forem desenvolvidas.
+A tabela a seguir consolida os quatro padrões adotados nesta sprint, indicando para cada um a categoria GoF, a pasta/arquivo correspondente no repositório, a necessidade de negócio atendida e os princípios SOLID materializados. O padrão com status "previsto" está planejado para sprint posterior e será implementado conforme as funcionalidades correspondentes forem desenvolvidas.
 
 <center>
-  <p><strong>Quadro 20</strong> — Padrões de projeto aplicados ao Sistema BrPec</p>
+  <p><strong>Quadro 22</strong> — Padrões de projeto aplicados ao Sistema BrPec</p>
 </center>
 
-| # | Padrão              | Categoria        | Localização no repositório                                  | Necessidade que atende                                  | SOLID    |
-|---|---------------------|------------------|-------------------------------------------------------------|---------------------------------------------------------|----------|
-| 1 | Repository          | Estrutural       | `src/repositories/` (ex.: `movimentacaoRepository.ts`)      | Isolar a troca de driver/ORM da camada de persistência  | S, D     |
-| 2 | Outbox (Sync Queue) | Arquitetural [31] | Tabela `sync_queue` (Migration 011) + `src/services/syncNotifier.ts` | Offline-first: 0% de perda de dados em falha de rede    | S, O     |
-| 3 | DTO                 | Estrutural       | `src/dtos/` (previsto na sprint 3)                          | Desacoplar schema do banco da API pública               | S, I     |
-| 4 | Singleton           | Criacional       | `src/lib/supabaseClient.js`                                 | Reuso de uma única instância do cliente Supabase        | D        |
-| 5 | Middleware Chain    | Comportamental   | `src/middlewares/` (previsto na sprint 3)                   | Pipeline plugável de cross-cutting concerns             | S, O     |
-| 6 | Strategy            | Comportamental   | `src/middlewares/permissions/` (previsto na sprint 5)       | Regras de autorização distintas por perfil de usuário   | O, L     |
+| # | Padrão              | Categoria         | Localização no repositório                                                                        | Necessidade que atende                                  | SOLID |
+|---|---------------------|-------------------|---------------------------------------------------------------------------------------------------|---------------------------------------------------------|-------|
+| 1 | Repository          | Estrutural        | `src/backend/repositories/` (ex.: `tarefaRepository.ts`)                                         | Isolar a troca de driver/ORM da camada de persistência  | S, D  |
+| 2 | Outbox (Sync Queue) | Arquitetural [31] | Tabela `sincronizacoes` (migration.sql) + `src/backend/services/sincronizacaoService.ts`          | Offline-first: 0% de perda de dados em falha de rede   | S, O  |
+| 3 | Singleton           | Criacional        | `src/backend/config/database.ts`                                                                  | Reuso de uma única instância do cliente de banco local  | D     |
+| 4 | Strategy            | Comportamental    | `src/backend/middlewares/permissions/` (previsto para a sprint 5)                                 | Regras de autorização distintas por perfil de usuário   | O, L  |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-Os padrões 1, 2 e 4 já possuem implementação parcial no repositório, validando a arquitetura proposta. Os padrões 3, 5 e 6 estão planejados para as próximas sprints, conforme o cronograma de implementação dos endpoints (sprint 3), das validações de payload (sprint 3) e do controle de autorização (sprint 5). O detalhamento de cada padrão, com sua justificativa de negócio e princípios SOLID associados, é apresentado nas subseções seguintes.
+Os padrões 1, 2 e 3 já possuem implementação no repositório, validando a arquitetura proposta. O padrão 4 está planejado para a sprint 5, conforme o cronograma de implementação do controle de autorização. O detalhamento de cada padrão, com sua justificativa de negócio e princípios SOLID associados, é apresentado nas subseções seguintes.
 
 #### 1. Repository Pattern *(estrutural)*
 
@@ -2734,15 +2692,15 @@ Os padrões 1, 2 e 4 já possuem implementação parcial no repositório, valida
 
 #### 2. Outbox / Sync Queue *(arquitetural)*
 
-**Localização:** tabela `sync_queue` (Migration 011, seção 3.6.3) + serviço já implementado em `src/services/syncNotifier.ts`.
+**Localização:** tabela `sincronizacoes` (migration.sql, seção 3.6.3) + serviço já implementado em `src/backend/services/sincronizacaoService.ts`.
 
-**Necessidade que atende:** é o coração da arquitetura offline-first do BrPec e atende diretamente ao RNF de **integridade da sincronização** ("0% de perda de dados em falhas de conexão", seção 3.1.3, eixo CONF). Quando o capataz conclui uma tarefa sem internet (US03), a operação é gravada no banco local SQLite e enfileirada na `sync_queue`. Ao restabelecer comunicação com a Starlink, o `syncNotifier` drena a fila e replica as operações no servidor central via Supabase, com idempotência garantida pelo UUID gerado client-side (seção 3.6.3 — Nota Técnica). É a aplicação direta do **Transactional Outbox** [31], padrão consagrado em sistemas distribuídos para garantir entrega eventual sem perda de dados.
+**Necessidade que atende:** é o coração da arquitetura offline-first do BrPec e atende diretamente ao RNF de **integridade da sincronização** ("0% de perda de dados em falhas de conexão", seção 3.1.3, eixo CONF). Quando o capataz conclui uma tarefa sem internet (US03), a operação é gravada no banco local SQLite e enfileirada na tabela `sincronizacoes`. Ao restabelecer comunicação com a Starlink, o `sincronizacaoService` drena a fila e replica as operações no servidor central via Supabase, com idempotência garantida pelo UUID gerado client-side (seção 3.6.3 — Nota Técnica). É a aplicação direta do **Transactional Outbox** [31], padrão consagrado em sistemas distribuídos para garantir entrega eventual sem perda de dados.
 
 **Princípios SOLID:** **S** — a fila tem uma única responsabilidade (garantir entrega eventual); **O** — novos tipos de operação (`INSERT`, `UPDATE`, `DELETE`, futuramente `MERGE`) podem ser adicionados sem alterar o processador.
 
-#### 3. DTO (Data Transfer Object) *(estrutural)*
+#### 3. DTO (Data Transfer Object) *(estrutural — não implementado na sprint 3)*
 
-**Localização planejada:** `src/dtos/` (ex.: `CriarTarefaDTO.ts`, `TarefaResponseDTO.ts`), a implementar ao longo da sprint 3 conforme os endpoints são desenvolvidos.
+**Localização planejada:** `src/backend/dtos/` (ex.: `CriarTarefaDTO.ts`, `TarefaResponseDTO.ts`), a implementar em sprints futuras conforme os endpoints forem evoluídos.
 
 **Necessidade que atende:** existe uma diferença real entre o que o cliente envia, o que o banco persiste e o que a API devolve. Para a US01, o cliente envia `{titulo, retiro_id, prazo}`; o banco persiste `{id, titulo, retiro_id, autor_id, criado_em, sincronizado_em, deletado_em}` (Migration 003); e a resposta da API expõe `{id, titulo, retiro: {id, nome}, prazo, status}`, sem campos internos como `autor_id`. DTOs evitam que detalhes do schema vazem na API pública e protegem o backend de payloads mal formados, validando entrada na fronteira Controller → Service. O padrão segue a recomendação de Evans [33] de isolar o modelo de domínio da camada de apresentação.
 
@@ -2799,23 +2757,23 @@ Linha persistida em `tarefas` (Migration 003) — o que o banco efetivamente gua
 
 Note que o response **omite** campos internos como `criado_em`, `sincronizado_em` e `deletado_em` (relevantes só para o backend) e simplifica a estrutura para o consumidor da API. Esse é exatamente o papel do DTO: nenhum dos três representa "a tarefa" sozinho — cada um é a forma apropriada da entidade para sua fronteira específica. Exemplos completos de request/response dos demais endpoints encontram-se na seção 3.1.4.
 
-#### 4. Singleton *(criacional)*
+#### 3. Singleton *(criacional)*
 
-**Localização:** `src/lib/supabaseClient.js` — uma única instância do `createClient(SUPABASE_URL, SUPABASE_ANON_KEY)` reutilizada em todo o backend.
+**Localização:** `src/backend/config/database.ts` — uma única instância do cliente de banco de dados (SQLite via `better-sqlite3`) reutilizada em todo o backend.
 
-**Necessidade que atende:** evita inicializações redundantes do cliente Supabase a cada requisição, economizando alocação de pool de conexões e leitura repetida de variáveis de ambiente. Vale registrar a crítica de Fowler [32] e da comunidade DDD ao uso indiscriminado do padrão (acoplamento global, dificuldade de teste); aqui o uso é justificado por se tratar de um cliente de infraestrutura sem estado de negócio, e a injeção do cliente nos repositories preserva a testabilidade.
+**Necessidade que atende:** evita inicializações redundantes do banco SQLite a cada requisição, garantindo que a mesma conexão e cache em memória do `better-sqlite3` sejam compartilhados por todos os repositories. Vale registrar a crítica de Fowler [32] e da comunidade DDD ao uso indiscriminado do padrão (acoplamento global, dificuldade de teste); aqui o uso é justificado por se tratar de um cliente de infraestrutura sem estado de negócio, e a injeção do cliente nos repositories preserva a testabilidade.
 
 **Princípios SOLID:** **D** — toda a aplicação depende da mesma abstração de cliente, injetada nos repositories.
 
-#### 5. Middleware Chain (Chain of Responsibility) *(comportamental)*
+#### Middleware Chain (Chain of Responsibility) *(comportamental — planejado para as sprints 4-5)*
 
-**Localização planejada:** `src/middlewares/` (autenticação, autorização, validação de payload, tratamento de erros), a implementar ao longo das sprints 3 a 5 conforme os requisitos da seção 3.8 são desenvolvidos.
+**Localização planejada:** `src/backend/middlewares/` (autenticação, autorização, validação de payload, tratamento de erros), a implementar ao longo das sprints 4 a 5 conforme os requisitos da seção 3.8 forem desenvolvidos.
 
 **Necessidade que atende:** cada requisição ao backend precisa passar por uma sequência de verificações antes de chegar ao Controller — autenticar o usuário (seção 3.8.1), autorizar a operação (seção 3.8.3), validar o payload contra o DTO esperado e, ao final, tratar exceções de forma uniforme (seção 3.8.4). O Middleware Chain do Express materializa esse pipeline de forma plugável: cada novo cross-cutting concern (logging, métricas, rate-limiting) entra como um novo middleware sem alterar os existentes — instância concreta do padrão Chain of Responsibility [29].
 
 **Princípios SOLID:** **S** — cada middleware tem uma responsabilidade isolada; **O** — novos middlewares são plugados na cadeia sem modificar os anteriores.
 
-#### 6. Strategy *(comportamental — previsto para a sprint 5)*
+#### 4. Strategy *(comportamental — previsto para a sprint 5)*
 
 **Localização planejada:** `src/middlewares/permissions/` (ex.: `GerenteStrategy.ts`, `CoordenadorStrategy.ts`, `CapatazStrategy.ts`, `TecnicoStrategy.ts`), invocadas pelo middleware de autorização da seção 3.8.3.
 
@@ -3336,6 +3294,39 @@ A tela de boletas é a interface principal do Coordenador para acesso e exporta�
 - **Sidebar na versão desktop** com navegação entre Início, Tarefas e Boletas, com o item ativo destacado em verde mais escuro, garantindo orientação espacial clara dentro do sistema.
 - **Avatar com foto real** do usuário logado no canto superior direito, mantendo consistência com o dashboard do Gerente e reforçando a identidade do Coordenador na interface.
 - **Configurações** acessíveis pelo ícone de engrenagem no rodapé da sidebar na versão desktop, mantendo a opção disponível sem ocupar espaço na área principal de conteúdo.
+
+### 3.5.9. Mapeamento de Requisitos Funcionais às Telas do Protótipo
+
+A tabela abaixo relaciona cada Requisito Funcional prioritário à tela do protótipo de alta fidelidade em que ele é representado visualmente, garantindo rastreabilidade completa entre os requisitos definidos na seção 3.1.1 e as interfaces desenvolvidas.
+
+<center>
+  <p><strong>Tabela X</strong> — Rastreabilidade RF → Tela → Fluxo</p>
+</center>
+
+| RF | Descrição resumida | Tela do protótipo | Seção | User Story |
+|---|---|---|---|---|
+| RF001 | O Gerente cria tarefas com título, retiro, capataz e data | 3.5.5 — Nova Ordem de Serviço | Formulário de criação com campos de equipe, operação, retiro, responsável, prazo e prioridade | US01 |
+| RF002 | O Capataz visualiza tarefas do dia mesmo offline | 3.5.1 — Lista de Tarefas | Lista de tarefas com status, filtros e badge colorido por situação | US02 |
+| RF003 | O sistema armazena tarefas localmente para acesso offline | 3.5.1 — Lista de Tarefas | Indicador visual de modo offline e listagem a partir do armazenamento local | US02 |
+| RF004 | O sistema exibe mensagem quando não há tarefas offline | 3.5.1 — Lista de Tarefas | Estado vazio da lista com mensagem simples ao Capataz | US02 |
+| RF005 | O Capataz anexa foto e áudio como evidência da tarefa | 3.5.3 — Concluir Tarefa | Área de foto com ícone de câmera e card de registro de áudio com botão de microfone | US04 / US05 |
+| RF006 | O Capataz registra alertas de infraestrutura com geolocalização | 3.5.4 — Painel de Infraestrutura | Cards de chamados abertos, em andamento e fechados com botão Nova O.S. | US06 |
+| RF007 | O Gerente visualiza painel consolidado de tarefas e alertas | 3.5.7 — Dashboard | Gráficos de chamados por retiro, evolução de demandas, tarefas por status e alertas em aberto | US07 |
+| RF008 | O Capataz registra nascimentos de animais offline | 3.5.8 — Boletas | Lista de boletas com registros de movimentação zootécnica disponíveis para download | US08 |
+| RF009 | O Capataz registra óbitos de animais offline | 3.5.8 — Boletas | Lista de boletas com registros de movimentação zootécnica disponíveis para download | US09 |
+| RF010 | O sistema sincroniza automaticamente ao reconectar | 3.5.1 — Lista de Tarefas / 3.5.3 — Concluir Tarefa | Indicador de modo offline e confirmação visual após sincronização | US02 / US03 |
+| RF012 | Registros com falha são mantidos e reenviados automaticamente | 3.5.3 — Concluir Tarefa | Fluxo de salvamento local com retry automático representado pelo botão "Salvar" | US03 |
+| RF013 | O Capataz registra óbito com foto obrigatória da carcaça | 3.5.3 — Concluir Tarefa | Área de foto obrigatória para registro de evidência na conclusão | US04 |
+| RF014 | O Coordenador visualiza movimentações reportadas pelos capatazes | 3.5.8 — Boletas | Lista consolidada de boletas por retiro com informações de cada movimentação | US11 |
+| RF015 | O Coordenador exporta movimentações em Excel/CSV | 3.5.8 — Boletas | Ícone de download posicionado à direita de cada boleta para exportação individual | US12 |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+**Validação de cobertura:**
+
+Todos os RFs prioritários definidos na seção 3.1.1 possuem representação visual em ao menos uma tela do protótipo. As telas 3.5.2 (Detalhe da Tarefa) e 3.5.6 (Registrar Resolução) complementam o fluxo de execução e encerramento de chamados, respectivamente, cobrindo os critérios de aceite das US02, US03 e US06 que não se esgotam em uma única tela.
 
 ## 3.6. Modelagem do banco de dados (sprints 2 e 4)
 
@@ -4465,19 +4456,29 @@ _Descreva as estratégias aplicadas no tratamento de falhas de rede: timeout, re
 
 ## 3.9. Matriz de Rastreabilidade (RTM) (sprints 3 a 5)
 
-_A RTM consolida a rastreabilidade completa do sistema. Um elo quebrado invalida toda a cadeia - mantenha-a atualizada a cada sprint. A partir da sprint 3 não deve haver lacunas nos fluxos centrais._
+A RTM rastreia cada User Story do BrPec da persona até a evidência de teste, atravessando Requisito Funcional (RF), Regra de Negócio (RN), endpoint, tela e caso de teste automatizado. Esta versão consolida os fluxos centrais já implementados e testados na sprint 3 — sem lacunas: cada linha possui endpoint funcional em `src/backend/`, tela correspondente e teste automatizado com evidência de execução.
 
 <center>
-  <p><strong>Tabela 9</strong> — Matriz de Rastreabilidade (RTM)</p>
+  <p><strong>Tabela 20</strong> — Matriz de Rastreabilidade (RTM)</p>
 </center>
 
-| Persona | RF    | RN   | Endpoint    | Tela     | Teste | Evidência                          |
-| ------- | ----- | ---- | ----------- | -------- | ----- | ---------------------------------- |
-| ...     | RF001 | RN01 | `/usuarios` | Cadastro | CT02  | print, log, relatório de cobertura |
+| Persona | US | RF | RN | Endpoint | Tela | Teste |
+| ------- | ---- | ----- | ---------------- | ---------------------------------------- | --------------------- | ------------ |
+| João (Gerente) | US01 | RF001 | RN01 | `POST /tarefas` | Nova O.S. | C1-C4 |
+| Gabriel (Capataz) | US02 | RF002, RF003 | RN02, RN05 | `GET /tarefas/hoje` | Lista de Tarefas | H1-H3 |
+| Gabriel (Capataz) | US03 | RF002 | RN02 | `PATCH /tarefas/:id/concluir` | Concluir Tarefa | K1-K3 |
+| Gabriel (Capataz) | US04 | RF005 | RN13, RN15 | `POST /tarefas/:id/evidencias` | Concluir Tarefa | E1-E3 |
+| Gabriel (Capataz) | US05 | RF005 | RN13 | `POST /tarefas/:id/evidencias` | Concluir Tarefa | E1-E3 |
+| Gabriel (Capataz) | US06 | RF006 | RN19, RN21, RN26 | `POST /chamados` | Painel Infraestrutura | A1-A2 |
+| Gabriel (Capataz) | US08 | RF008 | RN27 | `POST /eventos-zootecnicos/nascimentos` | Registrar Nascimento | E1-E2 |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+**Legenda dos testes:** os códigos da coluna Teste referenciam casos automatizados em `src/backend/tests/`: **C1-C4** (criar tarefa — `uc01-planejar-tarefas.test.ts`), **H1-H3** (buscar tarefas do dia), **K1-K3** (concluir tarefa), **E1-E3** (anexar evidência), **A1-A2** (criar chamado) e **E1-E2** (registrar nascimento — `outros-endpoints.test.ts`). A evidência de execução (saída do Jest com todos os testes passando) está registrada em `documentos/assets/jest.png`.
+
+**Cadeia de rastreabilidade:** cada fluxo central da sprint 3 está completo da ponta a ponta — Persona → User Story → RF (seção 3.1.1) → RN (seção 3.1.2) → Endpoint (seção 3.1.4) → Tela (seção 3.3) → Teste automatizado com evidência. As User Stories cujos endpoints serão testados em sprints futuras (US07, US09-US12) serão incorporadas à matriz conforme os respectivos testes forem implementados, preservando a integridade da cadeia.
 
 # <a name="c4"></a>4. Desenvolvimento da Aplicação Web
 
