@@ -2943,7 +2943,7 @@ O quadro a seguir consolida a relação entre personas, User Stories priorizadas
 
 ## 3.4. Guia de estilos (sprint 3)
 
-Um guia de estilo (style guide) é um documento de referência que centraliza todas as decisões visuais de um produto digital, como cores, tipografia, ícones, espaçamentos, componentes e outros. Isso, garantindo consistência em todo o sistema. É tanto um instrumento de comunicação entre designers e desenvolvedores quanto um repositório vivo de decisões de design [22][23].
+Um guia de estilo (style guide) é um documento de referência que centraliza todas as decisões visuais de um produto digital, como cores, tipografia, ícones, espaçamentos, componentes e outros, garantindo consistência em todo o sistema. É tanto um instrumento de comunicação entre designers e desenvolvedores quanto um repositório vivo de decisões de design [22][23].
 
 <center>
   <p><strong>Figura 18</strong> — Guia de Estilos Completo</p>
@@ -2979,7 +2979,6 @@ Por fim, as cores semânticas comunicam estados do sistema de forma imediata. O 
 
 #### Justificativa Técnica: Contraste Outdoor (Nível AAA)
 
-Justificativa Técnica: Contraste Outdoor (Nível AAA)
 A adoção do contraste mínimo de 7:1 para interfaces operadas em ambientes externos sob luz solar direta fundamenta-se na convergência entre engenharia de fatores humanos e acessibilidade, conforme o critério de sucesso 1.4.6 da WCAG (Nível AAA) [24].
 
 Em condições de exposição solar direta, que pode ultrapassar 100.000 lux [26], a luz incidente nas camadas do display desencadeia o fenômeno conhecido como veiling glare: reflexões que adicionam luminância ao fundo e ao texto, "lavando" as cores e reduzindo drasticamente o contraste percebido. Para compensar essa perda física e garantir legibilidade em campo, a interface precisa partir de uma razão de contraste nativa substancialmente elevada [25]. Nesse contexto, a iluminação extrema impõe ao usuário uma deficiência visual situacional temporária, equiparável, em termos perceptivos, à perda severa de sensibilidade ao contraste [27].
@@ -2992,7 +2991,7 @@ A escolha tipográfica em interfaces digitais vai além da estética. Fontes sem
 
 A tipografia da solução utiliza duas famílias de fontes complementares, ambas disponíveis gratuitamente via Google Fonts, selecionadas para garantir legibilidade em telas mobile e web, inclusive sob luz solar direta.
 
-A **Inter** foi projetada especificamente para interfaces digitais, com alto desempenho em tamanhos reduzidos e em condições adversas de luminosidade, por isso fizemos essa escolha [28].
+A **Inter** foi projetada especificamente para interfaces digitais, com alto desempenho em tamanhos reduzidos e em condições adversas de luminosidade, sendo, por isso, a fonte selecionada [28].
 
 <center>
   <p><strong>Figura 18</strong> — Fonte Inter e suas variações</p>
@@ -3034,7 +3033,7 @@ De acordo com Nielsen [22], os ícones podem ser classificados em três categori
 
 A biblioteca foi selecionada priorizando ícones de semelhança, categoria que apresenta melhor usabilidade e menor dependência cultural [22]. Ícones arbitrários foram adotados apenas quando já amplamente convencionados — como o símbolo de alerta — evitando ambiguidade para o usuário.
 
-Todo ícone funcional da interface é acompanhado de rótulo textual, nunca utilizadode forma isolada em ações críticas. Essa decisão reforça a acessibilidade e reduzerros de interpretação, especialmente em contextos de uso ao ar livre onde a atenção do usuário pode estar dividida [28].
+Todo ícone funcional da interface é acompanhado de rótulo textual, nunca utilizado de forma isolada em ações críticas. Essa decisão reforça a acessibilidade e reduz erros de interpretação, especialmente em contextos de uso ao ar livre onde a atenção do usuário pode estar dividida [28].
 
 **Atributos de aplicação**
 
@@ -3064,7 +3063,7 @@ Todo ícone funcional da interface é acompanhado de rótulo textual, nunca util
 
 #### Imagens
 
-No guia de estilo, a seção de imagens define quais assets visuais estáticos fazem parte da identidade do produto e como devem ser aplicados. Diferente dos ícones, que são elementos funcionais da interface, como os da biblioteca Phosphor Icons, as imagens são representações visuais da marca em si [35].
+No guia de estilo, a seção de imagens define quais assets visuais estáticos fazem parte da identidade do produto e como devem ser aplicados. Diferentemente dos ícones, que são elementos funcionais da interface, como os da biblioteca Phosphor Icons, as imagens são representações visuais da marca em si [35].
 
 No caso desta solução, o único asset de imagem utilizado é o **logotipo da SynTech**, a plataforma web do projeto. Ele deve ser tratado como elemento protegido da identidade visual: sua proporção não deve ser alterada e sua aplicação se limita ao cabeçalho da plataforma, garantindo reconhecimento consistente da marca ao longo de toda a experiência do usuário.
 
