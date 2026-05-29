@@ -2254,30 +2254,42 @@ Fluxo que representa a criação de uma tarefa pelo Gerente, percorrendo as cama
 sequenceDiagram
     autonumber
     actor G as Gerente
-    participant CTR as Controller
-    participant SRV as Service
-    participant REP as Repository
+    participant CTR as TarefaController
+    participant SRV as TarefaService
+    participant USR as UsuarioRepository
+    participant REP as TarefaRepository
     participant DB as SQLite
 
-    G->>CTR: POST /tarefas {titulo, descricao, retiro_id, capataz_id, data_execucao}
+    G->>CTR: POST /tarefas {titulo, descricao, retiro_id, capataz_id, gerente_id, data_execucao}
     CTR->>CTR: Valida campos obrigatórios
 
     alt Campos obrigatórios ausentes
         CTR-->>G: 400 Bad Request {erro: "campos obrigatórios não preenchidos"}
     else Dados válidos
         CTR->>SRV: criarTarefa(dados)
-        SRV->>SRV: Verifica se Capataz pertence ao retiro (RN01)
+        SRV->>USR: buscarPorId(capataz_id)
+        USR->>DB: SELECT * FROM usuarios WHERE id = ?
+        DB-->>USR: usuario
 
-        alt Capataz não pertence ao retiro (RN01)
-            SRV-->>CTR: throw CapatazRetiroInvalidoError
-            CTR-->>G: 422 Unprocessable Entity {erro: "Capataz não pertence ao retiro"}
-        else Validação aprovada
-            SRV->>REP: inserirTarefa(dados)
-            REP->>DB: INSERT INTO tarefas (...) VALUES (...)
-            DB-->>REP: id = 7
-            REP-->>SRV: {id: 7}
-            SRV-->>CTR: {id: 7, status: "pendente"}
-            CTR-->>G: 201 Created {id: 7, mensagem: "Tarefa criada com sucesso"}
+        alt Usuário não encontrado ou perfil não é Capataz
+            SRV-->>CTR: throw Error
+            CTR-->>G: 500 Internal Server Error {erro: "Usuário informado não é um Capataz válido"}
+        else Capataz encontrado
+            SRV->>SRV: Verifica se capataz.retiro_id === retiro_id (RN01)
+
+            alt Capataz não pertence ao retiro (RN01)
+                SRV-->>CTR: throw Error
+                CTR-->>G: 422 Unprocessable Entity {erro: "RN01: Capataz não pertence ao retiro informado"}
+            else Validação aprovada
+                SRV->>REP: criar(dados)
+                REP->>DB: INSERT INTO tarefas (...) VALUES (...)
+                DB-->>REP: ok
+                REP->>DB: SELECT * FROM tarefas WHERE id = ?
+                DB-->>REP: tarefa
+                REP-->>SRV: tarefa
+                SRV-->>CTR: tarefa
+                CTR-->>G: 201 Created {id, mensagem: "Tarefa criada com sucesso", tarefa}
+            end
         end
     end
 ```
