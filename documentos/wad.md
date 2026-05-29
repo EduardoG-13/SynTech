@@ -429,9 +429,6 @@ Conseguir manter sua família e garantir educação para seus filhos. Além diss
 
 #### Familiaridade com Tecnologia [4]
 
-<center>
-  <p><strong>Tabela 1</strong> — Familiaridade com Tecnologia (João Pereira)</p>
-</center>
 
 | Aspecto                 | Nível / Situação                                                                      |
 | ----------------------- | ------------------------------------------------------------------------------------- |
@@ -441,6 +438,7 @@ Conseguir manter sua família e garantir educação para seus filhos. Além diss
 | Sistemas web            | Basic (DigComp) - acessa portais e e-mail, sem uso de plataformas integradas          |
 
 <center>
+  <p><strong>Tabela 1</strong> — Familiaridade com tecnologia </p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -524,9 +522,6 @@ Crescer profissionalmente dentro do agronegócio e ser reconhecido pela precisã
 
 #### Familiaridade com Tecnologia [4]:
 
-<center>
-  <p><strong>Tabela 2</strong> — Familiaridade com Tecnologia (Marcos Cesar Filho)</p>
-</center>
 
 | Aspecto                 | Nível / Situação                                                               |
 | ----------------------- | ------------------------------------------------------------------------------ |
@@ -536,6 +531,7 @@ Crescer profissionalmente dentro do agronegócio e ser reconhecido pela precisã
 | Sistemas web            | Basic (DigComp) - acessa e-mail e portais simples, sem dashboards ou sistemas  |
 
 <center>
+  <p><strong>Tabela 2</strong> — Familiaridade com tecnologia</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -624,9 +620,6 @@ Garantir o sustento da família e proporcionar uma boa vida para os filhos. Quer
 
 #### Familiaridade com Tecnologia [4]:
 
-<center>
-  <p><strong>Tabela 3</strong> — Familiaridade com Tecnologia (Gabriel Galdino)</p>
-</center>
 
 | Aspecto                  | Nível / Situação                                                                      |
 | ------------------------ | ------------------------------------------------------------------------------------- |
@@ -636,6 +629,7 @@ Garantir o sustento da família e proporcionar uma boa vida para os filhos. Quer
 | Sistemas web ou digitais | Abaixo do Basic - boletas são físicas e comunicação é verbal                          |
 
 <center>
+  <p><strong>Tabela 3</strong> — Familiaridade com tecnologia</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -672,9 +666,6 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 
 User Stories são descrições concisas de uma funcionalidade do sistema sob a perspectiva do usuário final. Diferente de requisitos técnicos tradicionais, elas focam no valor de negócio e na necessidade do usuário, servindo como ponto de partida para a implementação técnica. [12]
 
-<center>
-  <p><strong>Quadro 1</strong> — User Story 01</p>
-</center>
 
 | Campo                    | Descrição                                                                                                                                                                                |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -685,6 +676,7 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | **Critério de Aceite 2** | CR2: Dado que a tarefa foi criada, quando o sistema sincronizar, então ela deve ficar disponível para os Capatazes responsáveis pelo retiro                                              |
 
 <center>
+  <p><strong>Tabela 4</strong> — User Story 01</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -702,9 +694,7 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 
 **Testável:** Possível validar criação e vínculo com retiro
 
-<center>
-  <p><strong> Quadro 2 </strong> — User Story 02</p>
-</center>
+
 
 | Campo                    | Descrição                                                                                                                                                  |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -716,6 +706,7 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | **Critério de Aceite 3** | CR3: Dado que Gabriel acessa as tarefas, quando exibidas, então devem estar organizadas de forma simples e de fácil entendimento                           |
 
 <center>
+  <p><strong>Tabela 5</strong> — User Story 02</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -735,10 +726,6 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 
 ---
 
-<center>
-  <p><strong>Quadro 3</strong> — User Story 03</p>
-</center>
-
 | Campo                    | Descrição                                                                                                                                           |
 | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Identificação**        | US03                                                                                                                                                |
@@ -749,6 +736,7 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | **Critério de Aceite 3** | CR3: Dado que Gabriel interage com a tarefa, quando marcar como concluída, então a ação deve ser simples, com botão visível e de fácil entendimento |
 
 <center>
+  <p><strong>Tabela 6</strong> — User Story 03</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -768,9 +756,6 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 
 ---
 
-<center>
-  <p><strong>Quadro 4</strong> — User Story 04</p>
-</center>
 
 | Campo                    | Descrição                                                                                                                                          |
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -782,6 +767,7 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | **Critério de Aceite 3** | CR3: Dado que Gabriel utiliza a funcionalidade, quando anexar a foto, então o processo deve ser simples e intuitivo                                |
 
 <center>
+  <p><strong>Tabela 7</strong> — User Story 04</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -801,10 +787,6 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 
 ---
 
-<center>
-  <p><strong>Quadro 5</strong> — User Story 05</p>
-</center>
-
 | Campo                    | Descrição                                                                                                                                    |
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Identificação**        | US05                                                                                                                                         |
@@ -815,6 +797,7 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | **Critério de Aceite 3** | CR3: Dado que o áudio foi anexado, quando o supervisor acessar a tarefa, então deve conseguir reproduzir o áudio                             |
 
 <center>
+  <p><strong>Tabela 8</strong> — User Story 05</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -834,9 +817,6 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 
 ---
 
-<center>
-  <p><strong>Quadro 6</strong> — User Story 06</p>
-</center>
 
 | Campo                    | Descrição                                                                                                                              |
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
@@ -849,14 +829,12 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | **Critério de Aceite 4** | CR4: Dado que o alerta foi criado, quando o supervisor acessar o sistema, então deve visualizar o novo chamado                         |
 
 <center>
+  <p><strong>Tabela 9</strong> — User Story 06</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 ---
 
-<center>
-  <p><strong>Quadro 7</strong> — User Story 07</p>
-</center>
 
 | Campo                    | Descrição                                                                                                                                                                                                                                                  |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -868,14 +846,12 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | **Critério de Aceite 3** | CR3: Dado que um usuário com perfil diferente de Gerente tenta acessar o painel de acompanhamento, quando a requisição é feita, então o sistema nega o acesso e redireciona para a interface correspondente ao seu perfil                                  |
 
 <center>
+  <p><strong>Tabela 10</strong> — User Story 07</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 ---
 
-<center>
-  <p><strong>Quadro 8</strong> — User Story 08</p>
-</center>
 
 | Campo                    | Descrição                                                                                                                                                                                                                                                                                                 |
 | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -888,14 +864,12 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | **Critérios INVEST**     | Não se aplica (US08 é de prioridade secundária).                                                                                                                                                                                                                                                          |
 
 <center>
+  <p><strong>Tabela 11</strong> — User Story 08</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 ---
 
-<center>
-  <p><strong>Quadro 9</strong> — User Story 09</p>
-</center>
 
 | Campo                     | Descrição                                                                                                                                                                                                                                                                                                                                       |
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -907,11 +881,13 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | **Critério de Aceite 3:** | Dado que o registro foi persistido localmente, quando a conectividade com a rede de satélite for restabelecida nos horários de cobertura, então a sincronização com o servidor central deve ser executada de forma assíncrona, e o status do relatório deve ser alterado para "Sincronizado".                                                   |
 | **Critérios INVEST**      | Não se aplica (US09 é de prioridade secundária).                                                                                                                                                                                                                                                                                                |
 
+<center>
+  <p><strong>Tabela 12</strong> — User Story 09</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 ---
 
-<center>
-  <p><strong>Quadro 10</strong> — User Story 10</p>
-</center>
 
 | Campo                    | Descrição                                                                                                                                                                                                      |
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -924,14 +900,12 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | **Critérios INVEST**     | Não se aplica (US10 é de prioridade secundária).                                                                                                                                                               |
 
 <center>
+  <p><strong>Tabela 13</strong> — User Story 10</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 ---
 
-<center>
-  <p><strong>Quadro 11</strong> — User Story 11</p>
-</center>
 
 | Campo                    | Descrição                                                                                                                                                                                                                                                                                                                    |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -943,6 +917,7 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | **Critério de Aceite 3** | CR3: Dado que Marcos seleciona uma movimentação específica, quando acessar os detalhes, então o sistema deve exibir todas as informações do registro, incluindo evidências fotográficas anexadas pelo Capataz, quando aplicável                                                                                               |
 
 <center>
+  <p><strong>Tabela 14</strong> — User Story 11</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -962,9 +937,6 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 
 ---
 
-<center>
-  <p><strong>Quadro 12</strong> — User Story 12</p>
-</center>
 
 | Campo                    | Descrição                                                                                                                                                                                                                                                                                                               |
 | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -976,6 +948,7 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 | **Critério de Aceite 3** | CR3: Dado que Marcos deseja exportar dados de um período específico, quando aplicar filtros de data e retiro antes da exportação, então o arquivo gerado deve conter exclusivamente os registros correspondentes ao período e retiro selecionados                                                                        |
 
 <center>
+  <p><strong>Tabela 15</strong> — User Story 12</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1013,9 +986,6 @@ O sistema a ser desenvolvido abrange a modernização do fluxo de informações 
 
 Os Requisitos Funcionais (RF) determinam a competência computacional e os serviços intrínsecos que devem compor a governança operacional do sistema modelado. A especificação formal destas asserções delineia a delimitação funcional entre dados, entrada, transformação interativa e respostas previstas frente aos perfis autorizados de acesso.
 
-<center>
-  <p><strong>Tabela 4</strong> — Requisitos Funcionais</p>
-</center>
 
 | ID    | Descrição                                                                                                                                                                                                                                                             | Prioridade | Status    |
 | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------- |
@@ -1036,6 +1006,7 @@ Os Requisitos Funcionais (RF) determinam a competência computacional e os servi
 | RF015 | O sistema deve permitir que o Coordenador exporte os dados consolidados das movimentações zootécnicas e do status operacional em arquivos formatados como planilha eletrônica (Excel/CSV)                                                                             | Alta       | Planejado |
 
 <center>
+  <p><strong>Tabela 16</strong> — Requisitos Funcionais</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1043,9 +1014,6 @@ Os Requisitos Funcionais (RF) determinam a competência computacional e os servi
 
 As Regras de Negócio (RN) balizam as lógicas limitantes, condições contingenciais e políticas mandatórias herdadas das rotinas produtivas e normativas da instituição parceira. A formalização axiomática das regras impõe que a instrumentação sistêmica, embora escalável em seu código subjacente, reproduza em escopo fechado a exatidão empírica da governança operacional do manejo bovino atual.
 
-<center>
-  <p><strong>Tabela 5</strong> — Regras de Negócio</p>
-</center>
 
 | ID   | Descrição                                                                                                                                                                  | RF associado        |
 | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
@@ -1079,6 +1047,7 @@ As Regras de Negócio (RN) balizam as lógicas limitantes, condições contingen
 | RN28 | A exportação de relatórios pelo Coordenador deve refletir estritamente os dados que já foram submetidos a validação estrutural no banco de dados central                   | RF015               |
 
 <center>
+  <p><strong>Tabela 17</strong> — Regras de Negócio</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1088,9 +1057,6 @@ Os Requisitos Não Funcionais (RNF) definem os critérios de qualidade da aplica
 
 No contexto do nosso projeto para a BrPec, esses requisitos são fundamentais, pois o sistema será operado no campo, muitas vezes sem internet, sob forte incidência solar e por usuários (como o Capataz) que necessitam de agilidade. Para garantir a qualidade da solução, nossos requisitos foram estruturados de acordo com os 8 eixos da norma ISO/IEC 25010, detalhados na tabela e explicados a seguir.
 
-<center>
-  <p><strong>Tabela 6</strong> — Requisitos Não Funcionais</p>
-</center>
 
 | Eixo                                     | Requisito                       | Métrica / Critério                                                                              | Como atendido                                                                                                                  |
 | ---------------------------------------- | ------------------------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
@@ -1104,6 +1070,7 @@ No contexto do nosso projeto para a BrPec, esses requisitos são fundamentais, p
 | ORG — Organizacionais (Compatibilidade)  | Conformidade de Exportação      | Os arquivos gerados devem ser validados pelo esquema RFC 4180 (CSV) para leitura em Excel/BI.   | Biblioteca de exportação de dados configurada para padrão Windows-1252 (comum no agronegócio para evitar erros de acentuação). |
 
 <center>
+  <p><strong>Tabela 18</strong> — Requisitos Não Funcionais</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1151,11 +1118,6 @@ No contexto do nosso projeto para a BrPec, esses requisitos são fundamentais, p
 
 ### 3.1.4. Matriz RF → RN → Endpoint (sprints 3 a 5)
 
-_Matriz de cobertura mostrando quais RN e endpoints implementam cada RF._
-
-<center>
-  <p><strong>Tabela 7</strong> — Matriz RF → RN → Endpoint</p>
-</center>
 
 | RF    | RN associada(s)  | Endpoint / consulta              | Metodo        | Operacao esperada                                                |
 | ----- | ---------------- | -------------------------------- | ------------- | ---------------------------------------------------------------- |
@@ -1168,6 +1130,7 @@ _Matriz de cobertura mostrando quais RN e endpoints implementam cada RF._
 | RF008 | RN27             | /eventos-zootecnicos/nascimentos | POST          | Registrar nascimento de bezerros                                 |
 
 <center>
+  <p><strong>Tabela 19</strong> — Matriz de cobertura</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1180,12 +1143,11 @@ O Sistema BrPec adota o padrão **Arquitetura em Camadas (Layered Architecture)*
 A solução é composta por **cinco camadas lógicas** no backend, implementadas em Node.js + Express.js, com persistência em PostgreSQL gerenciado pelo Supabase:
 
 <center>
-  <p><strong>Figura X</strong> — Diagrama de Arquitetura em Camadas do Sistema BrPec</p>
+  <p><strong>Figura 8</strong> — Diagrama de Arquitetura em Camadas do Sistema BrPec</p>
   <img src="./assets/diagramaArquitetura.png" width="800" alt="Diagrama da arquitetura em camadas Controller-Service-Repository do BrPec"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-<!-- TODO sprint 3/4: gerar PNG em g03/documentos/assets/diagramaArquitetura.png -->
 
 #### Camadas e suas responsabilidades
 
@@ -1233,6 +1195,11 @@ Cada camada conhece apenas a imediatamente inferior — uma Route não chama um 
 | Repository  | `src/backend/repositories/`   | Acesso a dados (SQL / Supabase client)            | Driver do banco | `repositories/tarefasRepository.js` (planejado)          |
 | Model       | `src/backend/models/`         | Representar entidade de domínio                   | —               | `models/Tarefa.js` (planejado)                           |
 
+<center>
+  <p><strong>Tabela 20</strong> — Arquitetura</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 #### Exemplo de fluxo end-to-end — US01 "Criar Tarefa"
 
 Para ilustrar como uma requisição atravessa as camadas, considere a **US01** (seção 2.3): "Como Gerente geral, posso criar tarefas e atribuí-las a um retiro específico". O fluxo previsto para a requisição `POST /tarefas` é:
@@ -1269,6 +1236,11 @@ A arquitetura descrita acima é a **arquitetura-alvo** do projeto. O estado da i
 | Repositories | ⏳ Pasta criada, implementação prevista para a sprint 3                                  |
 | Models       | ⏳ Pasta criada, implementação prevista para a sprint 3                                  |
 
+<center>
+  <p><strong>Tabela 21</strong> — Status de implementação da arquitetura</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 A configuração do banco (`config/database.js`) e o cliente Supabase compartilhado ([src/lib/supabaseClient.js](g03/src/lib/supabaseClient.js)) já estão preparados para suportar a camada Repository quando ela for desenvolvida.
 
 ### 3.2.2. Diagrama de Casos de Uso (sprint 1)
@@ -1278,7 +1250,7 @@ Os casos de uso do Sistema BrPec foram definidos com o objetivo de representar, 
 Cada caso de uso está associado a um requisito funcional (RF), garantindo rastreabilidade entre as necessidades identificadas e as funcionalidades implementadas. A seguir, são detalhados os principais casos de uso do sistema.
 
 <center>
-  <p><strong>Figura 8</strong> — Diagrama de Caso de Uso aplicado à BrPec Agropecuária</p>
+  <p><strong>Figura 9</strong> — Diagrama de Caso de Uso aplicado à BrPec Agropecuária</p>
   <img src="../assets/diagramaDeUso.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -1293,12 +1265,11 @@ UC01 — Planejar tarefas (RF001)
 | Pós-condições | A tarefa é registrada no sistema e fica disponível para distribuição |
 
 <center>
-  <p><strong>Quadro 11</strong> — Caso de Uso UC01</p>
-</center>
-
-<center>
+  <p><strong>Tabela 22</strong> — Caso de uso UC01</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+---
 
 UC02 — Distribuir tarefas por retiro (RF002)
 | Campo | Descrição |
@@ -1310,12 +1281,11 @@ UC02 — Distribuir tarefas por retiro (RF002)
 | Pós-condições | A tarefa é atribuída e visível para execução pelos Capatazes |
 
 <center>
-  <p><strong>Quadro 12</strong> — Caso de Uso UC02</p>
-</center>
-
-<center>
+  <p><strong>Tabela 23</strong> — Caso de uso UC02</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+---
 
 UC03 — Visualizar tarefas do dia (RF003)
 | Campo | Descrição |
@@ -1327,12 +1297,11 @@ UC03 — Visualizar tarefas do dia (RF003)
 | Pós-condições | As tarefas são exibidas para execução |
 
 <center>
-  <p><strong>Quadro 13</strong> — Caso de Uso UC03</p>
-</center>
-
-<center>
+  <p><strong>Tabela 24</strong> — Caso de uso UC03</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+---
 
 UC04 — Registrar execução de tarefa (RF004)
 | Campo | Descrição |
@@ -1344,12 +1313,11 @@ UC04 — Registrar execução de tarefa (RF004)
 | Pós-condições | A tarefa é registrada como concluída e atualizada no sistema |
 
 <center>
-  <p><strong>Quadro 14</strong> — Caso de Uso UC04</p>
-</center>
-
-<center>
+  <p><strong>Tabela 25</strong> — Caso de uso UC04</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+---
 
 UC05 — Anexar evidência (RF005)
 | Campo | Descrição |
@@ -1361,12 +1329,11 @@ UC05 — Anexar evidência (RF005)
 | Pós-condições | A evidência é armazenada e vinculada à tarefa |
 
 <center>
-  <p><strong>Quadro 15</strong> — Caso de Uso UC05</p>
-</center>
-
-<center>
+  <p><strong>Tabela 26</strong> — Caso de uso UC05</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+---
 
 UC06 — Registrar movimentação (RF006)
 | Campo | Descrição |
@@ -1378,12 +1345,11 @@ UC06 — Registrar movimentação (RF006)
 | Pós-condições | A movimentação é armazenada para posterior validação |
 
 <center>
-  <p><strong>Quadro 16</strong> — Caso de Uso UC06</p>
-</center>
-
-<center>
+  <p><strong>Tabela 27</strong> — Caso de uso UC06</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+---
 
 UC07 — Validar movimentações (RF007)
 | Campo | Descrição |
@@ -1395,12 +1361,11 @@ UC07 — Validar movimentações (RF007)
 | Pós-condições | As movimentações são confirmadas e consideradas válidas |
 
 <center>
-  <p><strong>Quadro 17</strong> — Caso de Uso UC07</p>
-</center>
-
-<center>
+  <p><strong>Tabela 28</strong> — Caso de uso UC07</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+---
 
 UC08 — Consultar dados consolidados (RF008)
 | Campo | Descrição |
@@ -1412,12 +1377,11 @@ UC08 — Consultar dados consolidados (RF008)
 | Pós-condições | As informações são exibidas para análise |
 
 <center>
-  <p><strong>Quadro 18</strong> — Caso de Uso UC08</p>
-</center>
-
-<center>
+  <p><strong>Tabela 29</strong> — Caso de uso UC08</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+---
 
 UC09 — Exportar relatórios (RF009)
 | Campo | Descrição |
@@ -1429,12 +1393,10 @@ UC09 — Exportar relatórios (RF009)
 | Pós-condições | O relatório é gerado e disponibilizado para download |
 
 <center>
-  <p><strong>Quadro 19</strong> — Caso de Uso UC09</p>
-</center>
-
-<center>
+  <p><strong>Tabela 30</strong> — Caso de uso UC09</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
 
 ### 3.2.3. Diagrama de Classes do Dominio (sprint 2) 
 
@@ -1474,8 +1436,8 @@ entre as decisões de modelagem e os demais artefatos de engenharia de requisito
 projeto.
 
 <center>
-  <p><strong>Figura 9</strong> — Diagrama de Classes do Domínio do Sistema BrPec</p>
-  <img src="./assets/DiagramaClasses.jpeg" width="800"/>
+  <p><strong>Figura 10</strong> — Diagrama de Classes do Domínio do Sistema BrPec</p>
+  <img src="./assets/diagramaClasses.jpeg" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1524,9 +1486,6 @@ em que o diagrama é produzido.
 
 A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`, que centraliza os atributos de identificação e autenticação comuns a todos os perfis. As subclasses concretas herdam esses atributos e estendem o comportamento de acordo com as responsabilidades de cada ator, conforme modelado nos casos de uso UC01 a UC09.
 
-<center>
-  <p><strong>Tabela 8</strong> — Atributos da Classe <em>Usuario</em> (superclasse abstrata)</p>
-</center>
 
 | Atributo | Tipo     | Obrigatório | Descrição                                                               |
 | -------- | -------- | ----------- | ----------------------------------------------------------------------- |
@@ -1537,12 +1496,11 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
 | criadoEm | DateTime | Sim         | Timestamp de criação do registro, gerado pelo sistema                   |
 
 <center>
+  <p><strong>Tabela 31</strong> — Atributos da classe Usuario</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-<center>
-  <p><strong>Tabela 9</strong> — Atributos e Métodos da Classe <em>Gerente</em></p>
-</center>
+---
 
 | Elemento             | Tipo/Retorno | Descrição                                                           |
 | -------------------- | ------------ | ------------------------------------------------------------------- |
@@ -1554,12 +1512,11 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
 | visualizarAlertas()  | void         | Acessa os alertas de infraestrutura abertos pelos Capatazes (RF006) |
 
 <center>
+  <p><strong>Tabela 32</strong> — Métodos da classe Gerente</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-<center>
-  <p><strong>Tabela 10</strong> — Atributos e Métodos da Classe <em>Coordenador</em></p>
-</center>
+---
 
 | Elemento                  | Tipo/Retorno             | Descrição                                                                          |
 | ------------------------- | ------------------------ | ---------------------------------------------------------------------------------- |
@@ -1569,12 +1526,11 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
 | exportarRelatorio()       | Exportacao               | Gera e disponibiliza arquivo CSV/XLSX com os dados consolidados (RF015)            |
 
 <center>
+  <p><strong>Tabela 33</strong> — Métodos da classe Coordenador</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-<center>
-  <p><strong>Tabela 11</strong> — Atributos e Métodos da Classe <em>Capataz</em></p>
-</center>
+---
 
 | Elemento                    | Tipo/Retorno         | Descrição                                                                               |
 | --------------------------- | -------------------- | --------------------------------------------------------------------------------------- |
@@ -1586,6 +1542,7 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
 | registrarEventoZootecnico() | EventoZootecnico     | Preenche e persiste localmente um evento de nascimento ou óbito (RF008, RF009)          |
 
 <center>
+  <p><strong>Tabela 34</strong> — Métodos da classe Capataz</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1593,9 +1550,6 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
 
 Essa camada concentra as entidades que sustentam o fluxo principal de trabalho do sistema: o planejamento e a distribuição de tarefas pelo Gerente, a execução e o reporte pelo Capataz e a supervisão pelo Coordenador.
 
-<center>
-  <p><strong>Tabela 12</strong> — Atributos da Classe <em>Retiro</em></p>
-</center>
 
 | Atributo       | Tipo     | Obrigatório | Descrição                                                    |
 | -------------- | -------- | ----------- | ------------------------------------------------------------ |
@@ -1606,12 +1560,12 @@ Essa camada concentra as entidades que sustentam o fluxo principal de trabalho d
 | criadoEm       | DateTime | Sim         | Timestamp de cadastro do retiro no sistema                   |
 
 <center>
+  <p><strong>Tabela 35</strong> — Atributos da classe Retiro</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-<center>
-  <p><strong>Tabela 13</strong> — Atributos da Classe <em>Tarefa</em></p>
-</center>
+---
+
 
 | Atributo     | Tipo     | Obrigatório | Descrição                                                                         |
 | ------------ | -------- | ----------- | --------------------------------------------------------------------------------- |
@@ -1628,14 +1582,12 @@ Essa camada concentra as entidades que sustentam o fluxo principal de trabalho d
 | sincronizada | Boolean  | Sim         | Indica se o registro já foi transmitido ao servidor central (RF010)               |
 
 <center>
+  <p><strong>Tabela 36</strong> — Atributos da classe Tarefa</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 A classe `Evidencia` é modelada como abstrata por reunir o comportamento comum às três formas de comprovação da execução de tarefas previstas no sistema — foto, áudio e texto —, sem que nenhuma instância de `Evidencia` pura faça sentido no domínio. Cada subclasse concreta especializa os atributos de acordo com o meio de registro.
 
-<center>
-  <p><strong>Tabela 14</strong> — Atributos da Classe Abstrata <em>Evidencia</em> e Subclasses</p>
-</center>
 
 | Classe                | Atributo        | Tipo     | Obrigatório | Descrição                                                         |
 | --------------------- | --------------- | -------- | ----------- | ----------------------------------------------------------------- |
@@ -1652,12 +1604,11 @@ A classe `Evidencia` é modelada como abstrata por reunir o comportamento comum 
 | **TextoComplementar** | conteudo        | String   | Sim         | Conteúdo textual inserido pelo Capataz como complemento da tarefa |
 
 <center>
+  <p><strong>Tabela 37</strong> — Atributos da classe Evidencia</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-<center>
-  <p><strong>Tabela 15</strong> — Atributos da Classe <em>AlertaInfraestrutura</em></p>
-</center>
+---
 
 | Atributo     | Tipo     | Obrigatório | Descrição                                                                     |
 | ------------ | -------- | ----------- | ----------------------------------------------------------------------------- |
@@ -1674,16 +1625,16 @@ A classe `Evidencia` é modelada como abstrata por reunir o comportamento comum 
 | foto_id      | UUID     | Não         | Chave estrangeira opcional para uma Foto associada ao chamado                 |
 
 <center>
+  <p><strong>Tabela 38</strong> — Atributos da classe AlertaInfraestrutura</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+---
 
 **Camada Zootécnica e de Controle**
 
 Essa camada concentra os registros de eventos do rebanho e as entidades de suporte à operação offline e à geração de relatórios. A classe `EventoZootecnico` é modelada como abstrata pelo mesmo princípio aplicado a `Evidencia`: nascimentos e óbitos compartilham atributos estruturais comuns, mas possuem campos obrigatórios e regras de validação distintos, justificando a especialização em subclasses concretas.
 
-<center>
-  <p><strong>Tabela 16</strong> — Atributos da Classe Abstrata <em>EventoZootecnico</em> e Subclasses</p>
-</center>
 
 | Classe                 | Atributo                     | Tipo     | Obrigatório | Descrição                                                                                |
 | ---------------------- | ---------------------------- | -------- | ----------- | ---------------------------------------------------------------------------------------- |
@@ -1703,12 +1654,12 @@ Essa camada concentra os registros de eventos do rebanho e as entidades de supor
 | **RegistroObito**      | foto_id                      | UUID     | Sim         | Chave estrangeira para a Foto obrigatória da carcaça, exigida para auditoria (US09, CR2) |
 
 <center>
+  <p><strong>Tabela 39</strong> — Atributos da classe EventoZootecnico</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-<center>
-  <p><strong>Tabela 17</strong> — Atributos da Classe <em>Sincronizacao</em></p>
-</center>
+--- 
+
 
 | Atributo        | Tipo     | Obrigatório | Descrição                                                                           |
 | --------------- | -------- | ----------- | ----------------------------------------------------------------------------------- |
@@ -1721,12 +1672,11 @@ Essa camada concentra os registros de eventos do rebanho e as entidades de supor
 | criadaEm        | DateTime | Sim         | Timestamp de criação do registro de controle, gerado no momento do salvamento local |
 
 <center>
+  <p><strong>Tabela 40</strong> — Atributos da classe Sincronizacao</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-<center>
-  <p><strong>Tabela 18</strong> — Atributos da Classe <em>Exportacao</em></p>
-</center>
+---
 
 | Atributo         | Tipo     | Obrigatório | Descrição                                                                     |
 | ---------------- | -------- | ----------- | ----------------------------------------------------------------------------- |
@@ -1739,6 +1689,7 @@ Essa camada concentra os registros de eventos do rebanho e as entidades de supor
 | geradaEm         | DateTime | Sim         | Timestamp de geração do arquivo, registrado automaticamente pelo sistema      |
 
 <center>
+  <p><strong>Tabela 41</strong> — Atributos da classe Exportacao</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1746,9 +1697,6 @@ Essa camada concentra os registros de eventos do rebanho e as entidades de supor
 
 A Tabela 19 consolida todos os relacionamentos modelados no diagrama, com seus tipos UML formais e as multiplicidades em cada extremidade, garantindo a rastreabilidade com os requisitos e regras de negócio que os originaram.
 
-<center>
-  <p><strong>Tabela 19</strong> — Síntese dos Relacionamentos do Diagrama de Classes</p>
-</center>
 
 | Classe Origem        | Tipo UML            | Classe Destino       | Multiplicidade | Rastreabilidade    |
 | -------------------- | ------------------- | -------------------- | -------------- | ------------------ |
@@ -1780,6 +1728,7 @@ A Tabela 19 consolida todos os relacionamentos modelados no diagrama, com seus t
 | Sincronizacao        | Dependência (- - →) | EventoZootecnico     | 1 para 1       | RF010, RF012       |
 
 <center>
+  <p><strong>Tabela 42</strong> — Síntese de Relacionamentos</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1881,6 +1830,11 @@ sequenceDiagram
 | Alternativo 1 | Campo obrigatório ausente → Controller retorna 400 sem acionar o Service        |
 | Alternativo 2 | Capataz não pertence ao retiro → Service lança erro → Controller retorna 422    |
 
+<center>
+  <p><strong>Tabela 43</strong> — Fluxos Cobertos</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 **Rastreabilidade:**
 
 | Elemento  | Referência                                                                                       |
@@ -1890,6 +1844,11 @@ sequenceDiagram
 | RN01      | Uma tarefa só pode ser atribuída a um Capataz vinculado ao retiro selecionado                    |
 | RNF — SEG | Todas as rotas do Gerente retornam 403 para perfis não autorizados                               |
 | RNF — DES | Endpoint responde em p95 < 200ms com até 200 registros no banco                                  |
+
+<center>
+  <p><strong>Tabela 44</strong> — Rastreabilidade (RF001, RN01, RNF-SEG, RNF-DES)</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 #### DS02 — Consultar Tarefas Offline (US02)
 
@@ -1967,6 +1926,11 @@ sequenceDiagram
 | Alternativo 2 | Capataz online → tarefas buscadas do servidor, armazenamento local atualizado e lista exibida       |
 | Alternativo 3 | Perfil não autorizado → acesso negado com 403                                                        |
 
+<center>
+  <p><strong>Tabela 45</strong> — Fluxos Cobertos</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 **Rastreabilidade:**
 
 | Elemento     | Referência                                                                                              |
@@ -1982,6 +1946,11 @@ sequenceDiagram
 | RN12         | As telas do Capataz devem usar linguagem simples, botões visíveis e poucos passos de interação          |
 | RNF — CONF   | 0% de perda de dados em falhas de conexão; estratégia offline-first                                     |
 | RNF — DES    | Latência p95 < 200ms para salvar e ler registros no banco de dados local                                |
+
+<center>
+  <p><strong>Tabela 46</strong> — Mapa de Rastreabilidade</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ---
 
@@ -2081,6 +2050,11 @@ sequenceDiagram
 | Alternativo 2 | Tarefa não encontrada ou não pertence ao Capataz → Service lança erro → 404                                  |
 | Alternativo 3 | Falha na sincronização com o servidor → tentativa registrada e reenvio automático na próxima conexão (RF012) |
 
+<center>
+  <p><strong>Tabela 47</strong> — Fluxos Cobertos</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 **Rastreabilidade:**
 
 | Elemento     | Referência                                                                                              |
@@ -2096,6 +2070,11 @@ sequenceDiagram
 | RN12         | As telas do Capataz devem usar linguagem simples, botões visíveis e poucos passos de interação          |
 | RNF — SEG    | 100% dos registros devem conter metadados de autoria (ID do Capataz) e timestamp não editável           |
 | RNF — CONF   | 0% de perda de dados em falhas de conexão; estratégia offline-first com reenvio automático              |
+
+<center>
+  <p><strong>Tabela 48</strong> — Mapa de Rastreabilidade (RF003, RF010, RF011, RF012, RN05, RN08, RN09, RN12, RNF-SEG, RNF-CONF)</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ---
 
@@ -2216,6 +2195,11 @@ sequenceDiagram
 | Alternativo 3 | Falha na sincronização → tentativa registrada e reenvio automático na próxima conexão (RF012)                      |
 | Alternativo 4 | Arquivo acima do limite → SyncService divide em chunks e transmite sequencialmente ao servidor (RNF — CAP)         |
 
+<center>
+  <p><strong>Tabela 49</strong> — Fluxos cobertos</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 **Rastreabilidade:**
 
 | Elemento     | Referência                                                                                                   |
@@ -2233,10 +2217,20 @@ sequenceDiagram
 | RNF — CONF   | 0% de perda de dados em falhas de conexão; imagem mantida localmente até confirmação do servidor             |
 | RNF — CAP    | Suporte a sincronização em lote de até 500 eventos; chunking para arquivos grandes em conexões instáveis     |
 
+<center>
+  <p><strong>Tabela 50</strong> — Mapa de Rastreabilidade</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ### 3.2.5. Diagrama de Atividades ou Estados (sprint 3)
 
-_Ao menos um fluxo relevante em UML ou BPMN. Use a notação da ferramenta escolhida de forma consistente (sem misturar convenções)._
+O diagrama de atividades abaixo representa o fluxo de execução de tarefas no sistema BrPec, contemplando o funcionamento offline-first da aplicação. O processo inicia com a criação da tarefa pelo gerente, passando pela disponibilização ao capataz, execução da atividade em campo e sincronização dos dados com o sistema central. O fluxo foi modelado utilizando UML, mantendo consistência de notação ao longo de toda a representação.
+
+<center>
+  <p><strong>Figura 11</strong> — Diagrama de Estados do Sistema BrPec</p>
+  <img src="./assets/diagramaDeEstados.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ### 3.2.6. Diagrama de Implantação (sprints 4 e 5)
 
@@ -2276,7 +2270,7 @@ Esta tela é o ponto de entrada do Capataz no aplicativo. Na parte central é po
 Em relação à navegação e detalhes, o botão "Todos" permite que, ao clicar, o usuário expanda a visualização para uma gestão completa do histórico de atividades, enquanto o botão "Rebanhos" provê acesso às informações do rebanho e dados zootécnicos. Ao selecionar uma tarefa específica no detalhamento de tarefas, o sistema exibe uma tela com as especificações detalhadas e orientações para a execução. 
 
 <center>
-  <p><strong>Figura 10</strong> — Wireframe da tela de lista de tarefas do Capataz (US02)</p>
+  <p><strong>Figura 12</strong> — Wireframe da tela de lista de tarefas do Capataz (US02)</p>
   <img src="./assets/wireframeCapatazTarefas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -2289,7 +2283,7 @@ Para assegurar a execução precisa da ordem de serviço, a tela centraliza todo
 Quanto às ações do usuário, um botão de "Iniciar Tarefa" permite o controle de fluxo para registrar o exato momento em que a atividade começa, mesmo offline, gerando dados de produtividade, enquanto um botão de retorno estrategicamente posicionado permite a navegação para voltar à tela inicial de tarefas de forma rápida.
 
 <center>
-<p><strong>Figura 11</strong> — Wireframe da tela de detalhes sobre a tarefa do Capataz (US02)</p>
+<p><strong>Figura 13</strong> — Wireframe da tela de detalhes sobre a tarefa do Capataz (US02)</p>
  <img src="./assets/wireframeCapatazConcluirTarefaTablet.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -2302,7 +2296,7 @@ Para a confirmação de atividade e evitar erros operacionais, a tela exibe o t�
 Por fim, para o encerramento, o botão "Salvar" consolida as informações, e depois o de "Concluir", que só aparecerá após salvas as informações, altera o status da tarefa no sistema e prepara os dados para a sincronização com o banco de dados central.
 
 <center>
-  <p><strong>Figura 12</strong> — Wireframe da tela de concluir tarefa do Capataz (US04) e (US05) </p>
+  <p><strong>Figura 14</strong> — Wireframe da tela de concluir tarefa do Capataz (US04) e (US05) </p>
   <img src="./assets/wireframeCapatazAnexarFotos.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -2319,7 +2313,7 @@ Para facilitar a organização, a categorização de chamados agrupa as demandas
 Ao selecionar uma categoria, o sistema permite o monitoramento de status e detalha o fluxo de trabalho através de indicadores específicos, como pendentes/abertos para visualização da quantidade de novos chamados, em andamento para acompanhamento dos serviços iniciados e o histórico semanal como relatório de chamados concluídos nos últimos sete dias. Como ação rápida, dentro de cada seção, existe a funcionalidade de criar uma nova Ordem de Serviço (O.S.) específica para aquele setor, garantindo que o registro seja feito no local do problema.
 
 <center>
-  <p><strong>Figura 13</strong> — Wireframe do painel de infraestrutura (US06) e (US07)</p>
+  <p><strong>Figura 15</strong> — Wireframe do painel de infraestrutura (US06) e (US07)</p>
   <img src="./assets/wireframeInfraestrutura.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -2331,7 +2325,7 @@ A Figura 14 ilustra a interface de Abertura de Nova Ordem de Serviço (O.S.), ac
 Para garantir o direcionamento correto da demanda, os campos e parâmetros de cadastro oferecem preenchimento para o tipo de chamado, realizando a classificação da O.S. entre as três categorias principais da fazenda, que são Hidráulica, Cerca ou Elétrica, para a definição de prioridade, com a atribuição do nível de urgência do reparo (ex: Alta, Média, Baixa) para auxiliar na organização da fila de trabalho do Capataz, para o prazo ideal, definindo uma data limite esperada para a conclusão do serviço, e para o detalhamento técnico, que consiste em um campo descritivo para que o gestor insira todas as informações, orientações e especificações necessárias, garantindo clareza para a equipe de execução em campo.
 
 <center>
-  <p><strong>Figura 14</strong> — Wireframe da tela de criação de nova O.S. pelo Gerente (US06) e (US07)</p>
+  <p><strong>Figura 16</strong> — Wireframe da tela de criação de nova O.S. pelo Gerente (US06) e (US07)</p>
   <img src="./assets/wireframeGerenteNovaOs.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -2346,7 +2340,7 @@ O formulário de registro de solução permite documentar o fechamento da tarefa
 Além disso, uma funcionalidade crítica desta tela é a linha do tempo (histórico do chamado), que permite a visualização do ciclo de vida da tarefa apresentando todas as fases até a entrega final, como a abertura, com o registro de quando o chamado foi criado e por quem, o andamento, indicando o horário em que a tarefa foi iniciada e o tempo de resposta, e a conclusão, marcando o momento exato da resolução e permitindo o cálculo da eficiência operacional. Essas informações poderão ser vistas pelos Gerentes e Capatazes também, atendendo ao (US06) e ao (US07).
 
 <center>
-  <p><strong>Figura 15</strong> — Wireframe da tela de registrar resolução- infraestrutura</p>
+  <p><strong>Figura 17</strong> — Wireframe da tela de registrar resolução- infraestrutura</p>
   <img src="./assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -2363,7 +2357,7 @@ Os indicadores do painel central oferecem uma visão macro e em tempo real das o
 No menu de navegação lateral (desktop), posicionado no canto esquerdo da interface, destacam-se abas estruturadas para navegação direta nas seguintes verticais: retiros, para detalhamento de estoque de rebanho e infraestrutura local; ordens, para a gestão e distribuição de novas Ordens de Serviço; e alertas, consistindo em um painel dedicado à triagem de ocorrências críticas, atendendo a (US07).
 
 <center>
-  <p><strong>Figura 16</strong> — Wireframe da tela de dashboard do Gerente e Coordenador (US07)</p>
+  <p><strong>Figura 18</strong> — Wireframe da tela de dashboard do Gerente e Coordenador (US07)</p>
   <img src="./assets/wireframeGerenteCoordenadorDashboard.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -2393,7 +2387,7 @@ Para facilitar a gestão dos registros, a interface disponibiliza filtros por re
 Além disso, o Coordenador dispõe de um botão de exportação posicionado de forma destacada na interface, permitindo gerar e baixar um arquivo em formato Excel/CSV contendo os registros filtrados (US12). A exportação respeita a estrutura de colunas padronizada e compatível com os templates legados utilizados pela coordenação da BrPec, contemplando: data, retiro, tipo de evento, categoria animal, quantidade e Capataz responsável.
 
 <center>
-  <p><strong>Figura 17</strong> — Wireframe da tela de lista de movimentações do Coordenador (US11)</p>
+  <p><strong>Figura 19</strong> — Wireframe da tela de lista de movimentações do Coordenador (US11)</p>
   <img src="./assets/wireframeListaDeBoletos.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -2408,6 +2402,11 @@ O quadro a seguir consolida a relação entre personas, User Stories priorizadas
 | Gabriel Galdino — Capataz | US02, US03, US04, US05, US06 | Visualizar tarefas offline, concluir atividades e registrar evidências com baixa digitação | Lista de tarefas; Detalhe da tarefa; Concluir tarefa; Infraestrutura; Nova O.S. | Mobile |
 | Marcos Cesar Filho — Coordenador | US11, US12 | Visualizar movimentações, validar registros e exportar dados consolidados | Dashboard; Tela de movimentações; Exportação de dados | Desktop |
 | Técnico de Infraestrutura | US06, US07 | Visualizar chamados e registrar resolução de problemas | Painel de infraestrutura; Detalhe do chamado; Registrar resolução | Mobile/Desktop |
+
+<center>
+  <p><strong>Tabela 51</strong> — Wireframes</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 
 ## 3.4. Guia de estilos (sprint 3)
@@ -2429,6 +2428,11 @@ _Descreva aqui orientações gerais para o leitor sobre como utilizar os compone
 | <img src="./assets/ambar-escuro.png" width="40"/> | Âmbar Escuro | `#A64B00` | Ação e alerta — botões de ação secundária, avisos, notificações |
 | <img src="./assets/vermelho-escuro.png" width="40"/> | Vermelho Escuro | `#D32F2F` | Erro — mensagens de falha, campos inválidos, ações destrutivas |
 
+<center>
+  <p><strong>Tabela 52</strong> — Paleta de Cores</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 ### Justificativa Técnica: Contraste Outdoor (Nível AAA)
 
 Justificativa Técnica: Contraste Outdoor (Nível AAA)
@@ -2439,8 +2443,6 @@ Em condições de exposição solar direta, que pode ultrapassar 100.000 lux [26
 É exatamente esse cenário que o critério 1.4.6 da WCAG visa cobrir ao exigir a proporção de 7:1. Além do impacto direto na legibilidade, relações inferiores a esse limiar aumentam o tempo de fixação ocular, elevam a taxa de erro na leitura de dados críticos e aceleram a fadiga visual pelo esforço contínuo de acomodação. O patamar de 7:1 é, portanto, o requisito técnico mínimo para preservar a usabilidade em condições adversas de luminosidade.
 
 ### 3.4.2 Tipografia
-
-_Apresente aqui a tipografia da solução, com famílias de fontes e suas respectivas funções_
 
 A escolha tipográfica em interfaces digitais vai além da estética. Fontes sem serifa
 de traço uniforme apresentam melhor desempenho em telas de baixa resolução e em
@@ -2457,6 +2459,11 @@ em telas mobile e web, inclusive sob luz solar direta.
 |---|---|---|---|
 | <img src="./assets/fonte-nunito-sans.png" width="40"/> | Nunito Sans | Títulos, botões e elementos de destaque | 600 (SemiBold), 700 (Bold) |
 | <img src="./assets/fonte-inter.png" width="40"/> | Inter | Corpo de texto, labels e tabelas | 400 (Regular), 500 (Medium) |
+
+<center>
+  <p><strong>Tabela 53</strong> — Tipografia da solução</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 A **Nunito Sans** foi escolhida por sua compatibilidade visual com a identidade da
 marca Syntech. Suas formas arredondadas e traços suaves refletem a personalidade
@@ -2484,6 +2491,11 @@ a partir de 16px no corpo do texto [27].
 > Tamanho mínimo adotado: **12px**. Nenhum texto funcional da interface
 > utiliza tamanho inferior a esse valor, garantindo legibilidade mesmo em
 > dispositivos móveis sob luz solar direta [24][25].
+
+<center>
+  <p><strong>Tabela 54</strong> — Escala Tipográfica</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ### 3.4.3 Iconografia e imagens
 
@@ -2534,6 +2546,11 @@ do usuário pode estar dividida [28].
 > utiliza tamanho inferior a esse valor, garantindo identificação visual
 > mesmo em dispositivos móveis sob luz solar direta [25][27].
 
+<center>
+  <p><strong>Tabela 55</strong> — Ícones e atributos</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 ## 3.5 Protótipo de alta fidelidade (sprint 3)
 
 ## 3.5. Protótipo de Alta Fidelidade (sprint 3)
@@ -2557,7 +2574,7 @@ A tela de tarefas é a interface principal do Capataz. Projetada para exibir ape
 - **CR3 (US02):** As tarefas são exibidas de forma organizada e de fácil entendimento.
 
 <center>
-  <p><strong>Figura X</strong> — Protótipo de Alta Fidelidade: Tela de Tarefas do Capataz (Mobile e Desktop)</p>
+  <p><strong>Figura 20</strong> — Protótipo de Alta Fidelidade: Tela de Tarefas do Capataz (Mobile e Desktop)</p>
   <img src="./assets/mockup_tela_tarefas_capataz.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -2606,7 +2623,7 @@ Este diagrama registra a estrutura de dados concebida na sprint 2, com a Boleta 
 A seção 3.6.1 apresenta a versão conceitual consolidada após a evolução deste DER: a Boleta deixa de ser uma entidade isolada e passa a ser materializada pelos registros de Movimentação, Tarefa, Alerta e Evidência. Essa decisão separou melhor as responsabilidades de cada entidade e eliminou atributos que não são pertinentes a todos os tipos de evento.
 
 <center>
-  <p><strong>Figura 18</strong> — DER conceitual da sprint 2 — BRPec Agropecuária</p>
+  <p><strong>Figura 21</strong> — DER conceitual da sprint 2 — BRPec Agropecuária</p>
 </center>
 
 <img src="./assets/modelo-er-brpec.png" width="800"/>
@@ -2642,7 +2659,7 @@ A evolução conceitual está apresentada nas seções 3.6.1 e 3.6.2. Nesta seç
 | `sync_queue`     | `id`           | —                                                          | Fila técnica de sincronização offline-online    |
 
 <center>
-  <p><strong>Figura 19</strong> — Modelo Relacional</p>
+  <p><strong>Tabela 56</strong> — Modelo Relacional</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3011,6 +3028,11 @@ A consulta retorna apenas as tarefas em que a tarefa está pendente e o respons�
 | V | F | F     |
 | V | V | V     |
 
+<center>
+  <p><strong>Tabela 57</strong> — Tabela-Verdade</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 ### Descrição Técnica
 
 A consulta realiza a integração entre as tabelas tarefas, usuarios e retiros, permitindo identificar quais atividades ainda permanecem pendentes dentro da operação da fazenda. Além disso, possibilita visualizar o responsável pela execução de cada tarefa e sua localização operacional.
@@ -3021,6 +3043,11 @@ A consulta realiza a integração entre as tabelas tarefas, usuarios e retiros, 
 | `tarefas`  | Armazena as tarefas cadastradas no sistema |
 | `usuarios` | Contém os responsáveis pelas tarefas       |
 | `retiros`  | Representa os retiros da fazenda           |
+
+<center>
+  <p><strong>Tabela 58</strong> — Tabelas Relacionadas</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 #### 3.6.4.2 Matriz de Rastreabilidade entre Regras de Negócio e Modelo Físico
 Com o objetivo de garantir rastreabilidade entre as regras de negócio definidas anteriormente e os artefatos de modelagem do banco de dados, a matriz a seguir relaciona cada RN às respectivas entidades do domínio, tabelas físicas e mecanismos de implementação utilizados no modelo relacional. Essa associação contribui para o sincronismo entre requisitos, modelagem conceitual e implementação física do sistema.
@@ -3039,6 +3066,10 @@ Com o objetivo de garantir rastreabilidade entre as regras de negócio definidas
 | RN27 — Nascimento deve registrar data, retiro, categoria e quantidade | Movimentacao / Nascimento | `movimentacoes`, `nascimentos` | `tipo = 'nascimento'`, `categoria`, `data_movimentacao`, `quantidade` |
 | RN28 — Exportação deve refletir dados validados | Movimentacao / Exportacao | `movimentacoes`, `sync_queue` | Uso de registros sincronizados e validados antes da exportação |
 
+<center>
+  <p><strong>Tabela 59</strong> — Matriz de Rastreabilidade</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ### 3.6.4.3 Consulta de Número de Nascimentos Registrados
 
@@ -3075,6 +3106,10 @@ A consulta contabiliza apenas as movimentações classificadas como nascimento.
 | F | F         |
 | V | V         |
 
+<center>
+  <p><strong>Tabela 60</strong> — Leitura Lógica</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ### Descrição Técnica
 A consulta relaciona os registros de nascimento às movimentações do sistema e aos respectivos retiros da propriedade rural. Seu principal objetivo é fornecer indicadores produtivos relacionados ao crescimento do rebanho.
@@ -3086,6 +3121,10 @@ A consulta relaciona os registros de nascimento às movimentações do sistema e
 | `movimentacoes` | Controla eventos relacionados ao rebanho |
 | `retiros`       | Identifica o local associado ao registro |
 
+<center>
+  <p><strong>Tabela 61</strong> — Tabelas Relacionadas</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center> 
 
 ### 3.6.4.4 Consulta de Registros Offline Não Sincronizados
 
@@ -3126,6 +3165,11 @@ A consulta retorna registros que precisam de atenção da rotina de sincronizaç
 | V | F | V     |
 | V | V | V     |
 
+<center>
+  <p><strong>Tabela 62</strong> — Leitura Lógica</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
 ### Descrição Técnica
 A consulta utiliza a tabela sync_queue, responsável pelo gerenciamento das operações executadas localmente em modo offline. Sua função é monitorar registros pendentes de sincronização ou operações que falharam devido à ausência de conectividade.
 
@@ -3133,6 +3177,11 @@ A consulta utiliza a tabela sync_queue, responsável pelo gerenciamento das oper
 | Tabela       | Função                                                       |
 | ------------ | ------------------------------------------------------------ |
 | `sync_queue` | Controla a fila de registros locais aguardando sincronização |
+
+<center>
+  <p><strong>Tabela 63</strong> — Tabelas Relacionadas</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 ---
 ### 3.6.4.5 Consulta de Atualização de Tentativas de Sincronização
@@ -3177,6 +3226,11 @@ A atualização só ocorre quando o registro está em processamento e ainda não
 | V | F | F     |
 | V | V | V     |
 
+<center>
+  <p><strong>Tabela 64</strong> — Tabela-Verdade</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center> 
+
 ### Considerações da Seção
 
 As consultas SQL apresentadas demonstram operações relevantes implementadas no backend do sistema BrPec, contemplando funcionalidades críticas relacionadas à gestão operacional da fazenda.
@@ -3212,15 +3266,13 @@ _Descreva as estratégias aplicadas no tratamento de falhas de rede: timeout, re
 
 _A RTM consolida a rastreabilidade completa do sistema. Um elo quebrado invalida toda a cadeia - mantenha-a atualizada a cada sprint. A partir da sprint 3 não deve haver lacunas nos fluxos centrais._
 
-<center>
-  <p><strong>Tabela 9</strong> — Matriz de Rastreabilidade (RTM)</p>
-</center>
 
 | Persona | RF    | RN   | Endpoint    | Tela     | Teste | Evidência                          |
 | ------- | ----- | ---- | ----------- | -------- | ----- | ---------------------------------- |
 | ...     | RF001 | RN01 | `/usuarios` | Cadastro | CT02  | print, log, relatório de cobertura |
 
 <center>
+  <p><strong>Tabela 65</strong> — Matriz de Rastreabilidade (RTM)</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
