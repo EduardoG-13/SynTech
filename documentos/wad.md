@@ -1185,7 +1185,7 @@ A matriz a seguir consolida a rastreabilidade entre Requisitos Funcionais (RF, s
 
 **Estado de implementação ao fim da sprint 3:**
 
-- **Implementados e testados** (cards #191, #192, #203, #211): `/health`, `POST /tarefas`, `GET /tarefas/hoje`, `PATCH /tarefas/:id/concluir`, `POST /tarefas/:id/evidencias`, `POST /chamados`, `GET /eventos-zootecnicos`, `POST /eventos-zootecnicos/nascimentos`, `POST /eventos-zootecnicos/obitos`, `GET /painel-gerencial`, `POST /sincronizacao/lote`, `GET /exportacao/csv`
+- **Implementados e testados** (cards #191, #192, #203, #211): `/health`, `POST /tarefas`, `GET /tarefas/hoje`, `PATCH /tarefas/:id/concluir`, `POST /tarefas/:id/evidencias`, `POST /chamados`, `GET /eventos-zootecnicos`, `POST /eventos-zootecnicos/nascimentos`, `POST /eventos-zootecnicos/obitos`.
 - **Comportamentos client-side** previstos para a sprint 4: RF004 (mensagem offline sem tarefas), RF011 (feedback de sincronização), RF013 (validação client-side de óbito)
 
 **Rastreabilidade complementar:** os Requisitos Funcionais e Regras de Negócio referenciados nesta matriz estão detalhados nas seções 3.1.1 (RFs) e 3.1.2 (RNs). A arquitetura em camadas mencionada na coluna "Camada principal (CSR)" é descrita na seção 3.2.1, e os padrões de projeto que sustentam essa arquitetura (Repository, Outbox, DTO, etc.) constam na seção 3.2.7. A documentação completa de cada endpoint, com payloads de exemplo, body de requisição/resposta e códigos HTTP esperados, é apresentada na seção 3.7 (WebAPI e endpoints).
