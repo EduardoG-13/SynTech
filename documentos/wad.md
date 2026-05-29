@@ -2327,54 +2327,25 @@ Fluxo que representa a consulta das tarefas do dia pelo Capataz em ambiente sem 
 sequenceDiagram
     autonumber
     actor C as Capataz
-    participant PWA as Cliente (PWA)
-    participant CTR as Controller
-    participant SRV as Service
-    participant REP as Repository
-    participant LS as Armazenamento Local (IndexedDB)
+    participant CTR as TarefaController
+    participant SRV as TarefaService
+    participant REP as TarefaRepository
+    participant DB as SQLite
 
-    note over C,LS: Dispositivo sem conexão com a internet
+    C->>CTR: GET /tarefas/hoje?capataz_id={id}
+    CTR->>CTR: Valida presença de capataz_id
 
-    C->>PWA: Acessa tela "Minhas Tarefas"
-    PWA->>CTR: GET /tarefas/hoje {capataz_id}
-    CTR->>CTR: Verifica perfil do usuário (RN05)
-
-    alt Perfil não autorizado
-        CTR-->>PWA: 403 Forbidden {erro: "acesso negado"}
-        PWA-->>C: Exibe mensagem de acesso negado
-    else Perfil autorizado (Capataz)
+    alt capataz_id ausente
+        CTR-->>C: 400 Bad Request {erro: "capataz_id obrigatório"}
+    else capataz_id presente
         CTR->>SRV: buscarTarefasHoje(capataz_id)
-        SRV->>SRV: Verifica conectividade com servidor
-
-        alt Sem conexão com servidor (modo offline)
-            SRV->>REP: buscarTarefasLocais(capataz_id, data_hoje)
-            REP->>LS: SELECT * FROM tarefas WHERE capataz_id = ? AND data_execucao = ? AND sincronizada = true
-            
-            alt Tarefas sincronizadas encontradas (RN06, RN07)
-                LS-->>REP: [{id, titulo, descricao, status, data_execucao}]
-                REP-->>SRV: List<Tarefa>
-                SRV->>SRV: Filtra apenas tarefas do retiro do Capataz (RN05)
-                SRV-->>CTR: List<Tarefa> ordenada
-                CTR-->>PWA: 200 OK {tarefas: [...], modo: "offline"}
-                PWA-->>C: Exibe lista de tarefas do dia (RN12)
-            else Nenhuma tarefa sincronizada (RF004, RN04)
-                LS-->>REP: []
-                REP-->>SRV: []
-                SRV-->>CTR: []
-                CTR-->>PWA: 200 OK {tarefas: [], modo: "offline"}
-                PWA-->>C: Exibe mensagem "Nenhuma tarefa disponível. Sincronize quando houver conexão."
-            end
-
-        else Com conexão disponível
-            SRV->>REP: buscarTarefasServidor(capataz_id, data_hoje)
-            REP-->>SRV: List<Tarefa> atualizada
-            SRV->>REP: atualizarArmazenamentoLocal(tarefas)
-            REP->>LS: INSERT OR REPLACE INTO tarefas (...) (sincronizada = true)
-            LS-->>REP: ok
-            SRV-->>CTR: List<Tarefa>
-            CTR-->>PWA: 200 OK {tarefas: [...], modo: "online"}
-            PWA-->>C: Exibe lista de tarefas do dia atualizada
-        end
+        SRV->>SRV: Calcula data de hoje (ISO)
+        SRV->>REP: buscarTarefasHoje(capataz_id, hoje)
+        REP->>DB: SELECT * FROM tarefas WHERE capataz_id = ? AND date(data_execucao) = date(?)
+        DB-->>REP: [{id, titulo, status, data_execucao, ...}]
+        REP-->>SRV: List~Tarefa~
+        SRV-->>CTR: List~Tarefa~
+        CTR-->>C: 200 OK {tarefas: [...], modo: "online"}
     end
 ```
 
