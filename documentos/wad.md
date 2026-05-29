@@ -3084,9 +3084,35 @@ No caso desta solução, o único asset de imagem utilizado é o **logotipo da S
 
 ## 3.5 Protótipo de alta fidelidade (sprint 3)
 
-O protótipo de alta fidelidade foi desenvolvido no Figma com base nas personas, User Stories priorizadas e no Guia de Estilos definido na seção 3.4. As decisões visuais priorizaram a acessibilidade operacional dos usuários de campo — em especial os Capatazes, que apresentam baixo letramento digital e utilizam o sistema em ambientes externos com alta incidência solar.
+O protótipo de alta fidelidade foi desenvolvido no Figma com base nas personas, User
+Stories priorizadas e no Guia de Estilos definido na seção 3.4. As decisões visuais
+priorizaram a acessibilidade operacional dos usuários de campo, em especial os Capatazes,
+que apresentam baixo letramento digital e utilizam o sistema em ambientes externos com
+alta incidência solar.
 
-As telas seguem as diretrizes de contraste nível AAA (WCAG 1.4.6, razão mínima de 7:1), tipografia Inter com tamanhos mínimos de 14px e elementos de interação dimensionados para uso tátil em dispositivos móveis (altura mínima de 56px nos botões de ação principal). A paleta aplicada segue integralmente a definida na seção 3.4.1 — Verde Profundo (`#1A4D2E`) como cor primária e Off-white Quente (`#F5F0E8`) como fundo. O layout foi estruturado com base em um sistema de grid de 12 colunas com margens de 20px nas versões mobile e 48px nas versões desktop, garantindo alinhamento consistente entre todos os elementos.
+As telas seguem as diretrizes de contraste nível AAA (WCAG 1.4.6, razão mínima de 7:1),
+tipografia Inter com tamanhos mínimos de 14px e elementos de interação dimensionados para
+uso tátil em dispositivos móveis (altura mínima de 56px nos botões de ação principal). A
+paleta aplicada segue integralmente a definida na seção 3.4.1, com Verde Profundo
+(`#1A4D2E`) como cor primária e Off-white Quente (`#F5F0E8`) como fundo.
+
+**Sistema de Grid:** O layout foi estruturado com base em um sistema de grid de 12
+colunas. Na versão mobile (390px), são utilizadas margens laterais de 20px e colunas de
+29px com gutter de 8px. Na versão desktop (1280px), as margens são de 48px com colunas
+de 72px e gutter de 16px. Todos os elementos de interface, incluindo cards, botões e
+campos de formulário, estão alinhados à grade, garantindo consistência visual entre telas
+e entre as versões mobile e desktop.
+
+**Fluxo de interação:** O protótipo cobre quatro fluxos principais de navegação, um por
+perfil de usuário. O fluxo do Capataz percorre as telas na seguinte sequência: Lista de
+Tarefas (3.5.1) → Detalhe da Tarefa (3.5.2) → Concluir Tarefa (3.5.3). O fluxo da
+Equipe de Infraestrutura percorre: Painel de Infraestrutura (3.5.4) → Registrar
+Resolução (3.5.6). O fluxo do Gerente percorre: Dashboard (3.5.7) → Nova Ordem de
+Serviço (3.5.5). O fluxo do Coordenador percorre: Dashboard (3.5.7) → Boletas (3.5.8).
+O encadeamento entre as telas é garantido por elementos de navegação consistentes: seta
+de voltar no cabeçalho das telas de detalhe, sidebar fixa nas versões desktop e botões
+de ação primária sempre posicionados na base da tela, criando um padrão de navegação
+previsível para todos os perfis de usuário.
 
 O protótipo navegável completo está disponível em: [Figma — Alta Fidelidade BRPec](https://www.figma.com/design/hsrRfUs4i1Veye6B88vDvy/Alta-fidelidade-BrPec)
 
@@ -3168,13 +3194,20 @@ A tela de conclusão de tarefa centraliza todas as ações necessárias para o C
 
 ### 3.5.4. Painel - Infraestrutura (US06 / US07)
 
-O painel de infraestrutura oferece uma visão consolidada dos chamados de manutenção da fazenda, organizados por categoria e status. A estrutura kanban na versão desktop e a lista de contadores na versão mobile permitem que tanto o Capataz quanto o Gerente identifiquem rapidamente o volume de demandas abertas, em andamento e encerradas, sem precisar navegar por múltiplas telas.
+O painel de infraestrutura oferece à equipe técnica uma visão consolidada dos chamados de
+manutenção da fazenda, organizados por categoria e status. A estrutura kanban na versão
+desktop e a lista de contadores na versão mobile permitem identificar rapidamente o volume
+de demandas abertas, em andamento e encerradas, sem necessidade de navegar por múltiplas
+telas.
 
 **Critérios de aceite cobertos:**
 
-- **CR1 (US06):** O Capataz consegue visualizar os chamados de infraestrutura abertos e criar uma nova O.S. diretamente pelo painel.
-- **CR2 (US06):** Os chamados são organizados por categoria (Hidráulica, Cerca, Elétrica), facilitando a triagem por tipo de problema.
-- **CR1 (US07):** O Gerente visualiza o status consolidado de todos os chamados de infraestrutura por categoria e status.
+- **CR1 (US06):** A equipe de infraestrutura visualiza os chamados abertos por categoria
+(Hidráulica, Cerca, Elétrica) e cria uma nova O.S. diretamente pelo painel.
+- **CR2 (US06):** Os chamados são organizados por status (Abertos, Em andamento,
+Fechados), permitindo triagem imediata por prioridade de atendimento.
+- **CR3 (US06):** O botão "+ Nova O.S." está sempre visível e acessível, permitindo
+abertura rápida de um novo chamado diretamente do painel.
 
 <center>
   <p><strong>Figura 21</strong> — Protótipo de Alta Fidelidade: Painel de Infraestrutura (Mobile e Desktop)</p>
@@ -3306,7 +3339,7 @@ A tabela abaixo relaciona cada Requisito Funcional prioritário à tela do prot�
 | RF003 | O sistema armazena tarefas localmente para acesso offline | 3.5.1 — Lista de Tarefas | Indicador visual de modo offline e listagem a partir do armazenamento local | US02 |
 | RF004 | O sistema exibe mensagem quando não há tarefas offline | 3.5.1 — Lista de Tarefas | Estado vazio da lista com mensagem simples ao Capataz | US02 |
 | RF005 | O Capataz anexa foto e áudio como evidência da tarefa | 3.5.3 — Concluir Tarefa | Área de foto com ícone de câmera e card de registro de áudio com botão de microfone | US04 / US05 |
-| RF006 | O Capataz registra alertas de infraestrutura com geolocalização | 3.5.4 — Painel de Infraestrutura | Cards de chamados abertos, em andamento e fechados com botão Nova O.S. | US06 |
+| RF006 | O sistema registra alertas de infraestrutura por categoria e status | 3.5.4 — Painel de Infraestrutura | Cards de chamados abertos, em andamento e fechados com botão Nova O.S., acessados pela equipe técnica | US06 |
 | RF007 | O Gerente visualiza painel consolidado de tarefas e alertas | 3.5.7 — Dashboard | Gráficos de chamados por retiro, evolução de demandas, tarefas por status e alertas em aberto | US07 |
 | RF008 | O Capataz registra nascimentos de animais offline | 3.5.8 — Boletas | Lista de boletas com registros de movimentação zootécnica disponíveis para download | US08 |
 | RF009 | O Capataz registra óbitos de animais offline | 3.5.8 — Boletas | Lista de boletas com registros de movimentação zootécnica disponíveis para download | US09 |
