@@ -1945,70 +1945,43 @@ classDiagram
     %% CAMADA: MODEL
     %% ─────────────────────────────────────────
     namespace Model {
-        class UsuarioModel {
+        class Usuario {
             +UUID id
             +String nome
             +String senha
             +Enum perfil
             +UUID retiro_id
-            +DateTime criadoEm
+            +DateTime criado_em
         }
-        class TarefaModel {
+        class Tarefa {
             +UUID id
             +String titulo
             +String descricao
             +Enum status
-            +Date dataExecucao
+            +Date data_execucao
             +UUID retiro_id
             +UUID capataz_id
             +UUID gerente_id
-            +DateTime criadaEm
-            +DateTime concluidaEm
+            +DateTime criada_em
+            +DateTime concluida_em
             +Boolean sincronizada
         }
-        class EvidenciaModel {
+        class Evidencia {
             +UUID id
             +UUID tarefa_id
             +UUID alerta_id
             +UUID movimentacao_id
             +Enum tipo
-            +String arquivoBase64
-            +String urlArquivo
+            +String arquivo_base64
+            +String url_arquivo
             +String geolocalizacao
-            +Integer duracaoSegundos
+            +Integer duracao_segundos
             +String conteudo
-            +Integer tamanhoBytes
-            +DateTime criadaEm
+            +Integer tamanho_bytes
+            +DateTime criada_em
             +Boolean sincronizada
         }
-        class MovimentacaoModel {
-            +UUID id
-            +UUID capataz_id
-            +UUID retiro_id
-            +Date data
-            +String categoria
-            +Integer quantidade
-            +Boolean sincronizado
-            +Boolean validado
-            +UUID coordenador_id
-            +DateTime criadoEm
-        }
-        class NascimentoModel {
-        }
-        class ObitoModel {
-            +String identificacaoAnimal
-            +String causaMorte
-            +UUID foto_id
-        }
-        class TransferenciaModel {
-            +UUID retiroOrigemId
-            +UUID retiroDestinoId
-        }
-        class CompravendaModel {
-            +Enum tipoNegocio
-            +Decimal valorFinanceiro
-        }
-        class AlertaModel {
+        class Alerta {
             +UUID id
             +Enum tipo
             +String descricao
@@ -2017,170 +1990,208 @@ classDiagram
             +UUID retiro_id
             +Decimal latitude
             +Decimal longitude
-            +DateTime criadoEm
+            +DateTime criado_em
             +Boolean sincronizado
             +UUID foto_id
             +UUID tecnico_id
         }
-        class SincronizacaoModel {
+        class MovimentacaoBase {
             +UUID id
-            +String entidadeTipo
-            +UUID entidadeId
-            +Enum statusEnvio
-            +Integer tentativas
-            +DateTime ultimaTentativa
-            +DateTime criadaEm
-        }
-        class ExportacaoModel {
-            +UUID id
+            +UUID capataz_id
+            +UUID retiro_id
+            +Date data
+            +Enum categoria
+            +Integer quantidade
+            +Boolean sincronizado
+            +Boolean validado
             +UUID coordenador_id
-            +Enum formato
-            +UUID filtroRetiro
-            +Date filtroDataInicio
-            +Date filtroDataFim
-            +DateTime geradaEm
+            +DateTime criado_em
         }
-        class RetiroModel {
+        class Nascimento {
+        }
+        class Obito {
+            +String identificacao_animal
+            +String causa_morte
+            +UUID foto_id
+        }
+        class Transferencia {
+            +UUID retiro_origem_id
+            +UUID retiro_destino_id
+        }
+        class Compravenda {
+            +Enum tipo_negocio
+            +Decimal valor_financeiro
+        }
+        class Sincronizacao {
+            +UUID id
+            +String entidade_tipo
+            +UUID entidade_id
+            +Enum status_envio
+            +Integer tentativas
+            +DateTime ultima_tentativa
+            +DateTime criada_em
+        }
+        class Retiro {
             +UUID id
             +String nome
             +String localizacao
             +UUID coordenador_id
-            +DateTime criadoEm
+            +DateTime criado_em
+        }
+        class Exportacao {
+            +UUID id
+            +UUID coordenador_id
+            +Enum formato
+            +UUID filtro_retiro
+            +Date filtro_data_inicio
+            +Date filtro_data_fim
+            +DateTime gerada_em
         }
     }
 
-    MovimentacaoModel <|-- NascimentoModel
-    MovimentacaoModel <|-- ObitoModel
-    MovimentacaoModel <|-- TransferenciaModel
-    MovimentacaoModel <|-- CompravendaModel
+    MovimentacaoBase <|-- Nascimento
+    MovimentacaoBase <|-- Obito
+    MovimentacaoBase <|-- Transferencia
+    MovimentacaoBase <|-- Compravenda
 
     %% ─────────────────────────────────────────
     %% CAMADA: REPOSITORY
     %% ─────────────────────────────────────────
     namespace Repository {
         class UsuarioRepository {
-            +buscarPorId(id) UsuarioModel
+            +buscarPorId(id) Usuario
         }
         class TarefaRepository {
-            +criar(dados) TarefaModel
-            +buscarPorId(id) TarefaModel
-            +buscarTarefasHoje(capatazId, data) List~TarefaModel~
-            +concluir(id, capatazId, dataConclusao) TarefaModel
-            +salvarEvidencia(tarefaId, tipo, arquivoBase64, geolocalizacao) UUID
+            +criar(dados) Tarefa
+            +buscarPorId(id) Tarefa
+            +buscarTarefasHoje(capataz_id, data) Tarefa[]
+            +concluir(id, capataz_id, data_conclusao) Tarefa
+            +salvarEvidencia(tarefa_id, tipo, arquivo_base64, geolocalizacao) UUID
         }
         class AlertaRepository {
-            +criar(dados) AlertaModel
-            +buscarPorId(id) AlertaModel
+            +criar(alerta) Alerta
+            +buscarPorId(id) Alerta
         }
         class EventoRepository {
-            +criarNascimento(dados) MovimentacaoModel
-            +criarObito(dados) MovimentacaoModel
-            +listarTodos(filtros) List~MovimentacaoModel~
-            +buscarMovimentacaoPorId(id) MovimentacaoModel
-        }
-        class SincronizacaoRepository {
-            +registrar(entidadeTipo, entidadeId, statusEnvio) UUID
-            +inserirTarefa(dados) UUID
-            +inserirAlerta(dados) UUID
-            +inserirMovimentacao(dados) UUID
-            +inserirEvidencia(dados) UUID
+            +criarNascimento(evento) MovimentacaoBase
+            +criarObito(evento) Object
+            +listarTodos(filtros) Object
+            +buscarMovimentacaoPorId(id) MovimentacaoBase
         }
         class ExportacaoRepository {
-            +consultarMovimentacoesConsolidadas(filtros) List~Object~
-            +registrarExportacao(coordenadorId, formato, filtros) UUID
+            +consultarMovimentacoesConsolidadas(filtros) Array
+            +registrarExportacao(coordenador_id, formato, filtro_retiro, filtro_data_inicio, filtro_data_fim) UUID
+        }
+        class HealthRepository {
+            +verificarConexao() Object
         }
         class PainelRepository {
-            +obterMetricasTarefas(gerenteId) List~Object~
-            +obterTarefasPorRetiro(gerenteId) List~Object~
-            +obterAlertasAbertos() List~AlertaModel~
-            +obterConcluidasHoje(gerenteId) Object
+            +obterMetricasTarefas(gerente_id) Array
+            +obterTarefasPorRetiro(gerente_id) Array
+            +obterAlertasAbertos() Alerta[]
+            +obterConcluidasHoje(gerente_id) Object
+        }
+        class SincronizacaoRepository {
+            +registrar(entidade_tipo, entidade_id, status_envio) UUID
+            +inserirTarefa(tarefa) UUID
+            +inserirAlerta(alerta) UUID
+            +inserirMovimentacao(mov) UUID
+            +inserirEvidencia(ev) UUID
         }
     }
 
-    UsuarioRepository "1" --o "0..*" UsuarioModel
-    TarefaRepository "1" --o "0..*" TarefaModel
-    TarefaRepository "1" --o "0..*" EvidenciaModel
-    AlertaRepository "1" --o "0..*" AlertaModel
-    EventoRepository "1" --o "0..*" MovimentacaoModel
-    SincronizacaoRepository "1" --o "0..*" SincronizacaoModel
-    ExportacaoRepository "1" --o "0..*" ExportacaoModel
-    PainelRepository "1" --o "0..*" TarefaModel
-    PainelRepository "1" --o "0..*" AlertaModel
+    UsuarioRepository "1" --o "0..*" Usuario
+    TarefaRepository "1" --o "0..*" Tarefa
+    TarefaRepository "1" --o "0..*" Evidencia
+    AlertaRepository "1" --o "0..*" Alerta
+    EventoRepository "1" --o "0..*" MovimentacaoBase
+    SincronizacaoRepository "1" --o "0..*" Sincronizacao
+    ExportacaoRepository "1" --o "0..*" Exportacao
+    PainelRepository "1" --o "0..*" Tarefa
+    PainelRepository "1" --o "0..*" Alerta
 
     %% ─────────────────────────────────────────
     %% CAMADA: SERVICE
     %% ─────────────────────────────────────────
     namespace Service {
-        class TarefaService {
-            +criarTarefa(dados) TarefaModel
-            +buscarTarefasHoje(capatazId) List~TarefaModel~
-            +concluirTarefa(tarefaId, capatazId) TarefaModel
-            +anexarEvidencia(tarefaId, capatazId, dados) Object
-        }
         class AlertaService {
-            +criarAlerta(dados) AlertaModel
+            +criarAlerta(dados) Alerta
         }
         class EventoService {
-            +registrarNascimento(dados) MovimentacaoModel
-            +registrarObito(dados) MovimentacaoModel
+            +registrarNascimento(dados) MovimentacaoBase
+            +registrarObito(dados) Object
             +listarEventos(filtros) Object
+        }
+        class ExportacaoService {
+            +exportarCsv(coordenador_id, filtros) Object
+        }
+        class HealthService {
+            +verificarSaude() Object
+        }
+        class PainelService {
+            +obterPainel(gerente_id) Object
         }
         class SincronizacaoService {
             +processarLote(itens) Object
         }
-        class ExportacaoService {
-            +exportarCsv(coordenadorId, filtros) Object
-        }
-        class PainelService {
-            +obterPainel(gerenteId) Object
+        class TarefaService {
+            +criarTarefa(dados) Tarefa
+            +buscarTarefasHoje(capataz_id) Tarefa[]
+            +concluirTarefa(tarefa_id, capataz_id) Tarefa
+            +anexarEvidencia(tarefa_id, capataz_id, dados) Object
         }
     }
 
-    TarefaService ..> TarefaRepository : usa
-    TarefaService ..> UsuarioRepository : verifica capataz (RN01)
     AlertaService ..> AlertaRepository : usa
     EventoService ..> EventoRepository : usa
-    SincronizacaoService ..> SincronizacaoRepository : usa
     ExportacaoService ..> ExportacaoRepository : usa
-    ExportacaoService ..> UsuarioRepository : valida coordenador
+    ExportacaoService ..> UsuarioRepository : valida perfil (Coordenador)
+    HealthService ..> HealthRepository : usa
     PainelService ..> PainelRepository : usa
-    PainelService ..> UsuarioRepository : valida gerente
+    PainelService ..> UsuarioRepository : valida perfil (Gerente)
+    SincronizacaoService ..> SincronizacaoRepository : usa
+    TarefaService ..> TarefaRepository : usa
+    TarefaService ..> UsuarioRepository : valida vínculo (RN01)
 
     %% ─────────────────────────────────────────
     %% CAMADA: CONTROLLER
     %% ─────────────────────────────────────────
     namespace Controller {
+        class AlertaController {
+            +POST /chamados()
+        }
+        class EventoController {
+            +GET /eventos-zootecnicos()
+            +POST /eventos-zootecnicos/nascimentos()
+            +POST /eventos-zootecnicos/obitos()
+        }
+        class ExportacaoController {
+            +GET /exportacao/csv()
+        }
+        class HealthController {
+            +GET /health()
+        }
+        class PainelController {
+            +GET /painel-gerencial()
+        }
+        class SincronizacaoController {
+            +POST /sincronizacao/lote()
+        }
         class TarefaController {
             +POST /tarefas()
             +GET /tarefas/hoje()
             +PATCH /tarefas/:id/concluir()
             +POST /tarefas/:id/evidencias()
         }
-        class AlertaController {
-            +POST /chamados()
-        }
-        class EventoController {
-            +POST /eventos-zootecnicos/nascimentos()
-            +POST /eventos-zootecnicos/obitos()
-            +GET /eventos-zootecnicos()
-        }
-        class SincronizacaoController {
-            +POST /sincronizacao/lote()
-        }
-        class ExportacaoController {
-            +GET /exportacao/csv()
-        }
-        class PainelController {
-            +GET /painel-gerencial()
-        }
     }
 
-    TarefaController ..> TarefaService : delega
     AlertaController ..> AlertaService : delega
     EventoController ..> EventoService : delega
-    SincronizacaoController ..> SincronizacaoService : delega
     ExportacaoController ..> ExportacaoService : delega
+    HealthController ..> HealthService : delega
     PainelController ..> PainelService : delega
+    SincronizacaoController ..> SincronizacaoService : delega
+    TarefaController ..> TarefaService : delega
 ```
 
 <center>
@@ -2188,13 +2199,13 @@ classDiagram
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-O diagrama organiza o backend em quatro camadas horizontais bem delimitadas. A camada **Controller** expõe oito grupos de endpoints REST, cada um responsável por um módulo funcional do sistema: autenticação, tarefas, evidências, eventos zootécnicos, alertas de infraestrutura, sincronização, exportação e retiros. Nenhum Controller acessa repositórios ou modelos diretamente — toda lógica é delegada ao Service correspondente via dependência de uso (`..>`), conforme o princípio de responsabilidade única [15].
+O diagrama organiza o backend em quatro camadas horizontais bem delimitadas. A camada **Controller** expõe sete grupos de endpoints REST, cada um responsável por um módulo funcional do sistema: tarefas, alertas de infraestrutura, eventos zootécnicos, sincronização em lote, exportação, painel gerencial e health check. Nenhum Controller acessa repositórios ou modelos diretamente — toda lógica é delegada ao Service correspondente via dependência de uso (`..>`), conforme o princípio de responsabilidade única [15].
 
-A camada **Service** concentra as regras de negócio críticas do sistema. O `TarefaService`, por exemplo, é o único ponto onde a RN01 é aplicada (verificação de que o Capataz pertence ao retiro antes de inserir a tarefa), cruzando dados de `UsuarioRepository` e `RetiroRepository` antes de acionar o `TarefaRepository`. O `SincronizacaoService` implementa o padrão *Outbox* descrito na seção 3.2.4, enfileirando registros com status `PENDENTE` e reprocessando falhas automaticamente. O `ExportacaoService` consulta os repositórios de eventos e registra o metadado da exportação, sem expor dados brutos ao Controller.
+A camada **Service** concentra as regras de negócio críticas do sistema. O `TarefaService`, por exemplo, é o único ponto onde a RN01 é aplicada (verificação de que o Capataz pertence ao retiro antes de inserir a tarefa), consultando o `UsuarioRepository` antes de acionar o `TarefaRepository`. O `SincronizacaoService` implementa o processamento de lote descrito na seção 3.2.4, recebendo um array de itens e delegando cada tipo ao método correspondente no `SincronizacaoRepository`; o controle de transação (`BEGIN TRANSACTION`, `COMMIT`, `ROLLBACK`) é realizado diretamente pelo Service via acesso ao objeto `db` do SQLite, garantindo atomicidade por item do lote em caso de falha. O `ExportacaoService` valida o perfil do coordenador via `UsuarioRepository`, consulta as movimentações consolidadas via `ExportacaoRepository` e registra o metadado da exportação, sem expor dados brutos ao Controller.
 
-A camada **Repository** abstrai completamente a tecnologia de persistência (SQLite via `better-sqlite3`), expondo métodos nomeados por intenção de negócio (`findByCapatazEData`, `findPendentesValidacao`, `marcarValidado`) em vez de queries SQL abertas. Cada Repository é proprietário de um conjunto de Models — representado por agregação (`--o`) no diagrama —, garantindo que o acesso a cada tabela ocorra por um único ponto de entrada.
+A camada **Repository** abstrai completamente a tecnologia de persistência (SQLite via `node:sqlite`), expondo métodos nomeados por intenção de negócio (`buscarTarefasHoje`, `criarNascimento`, `criarObito`, `consultarMovimentacoesConsolidadas`) em vez de queries SQL abertas. Cada Repository é proprietário de um conjunto de Models — representado por agregação (`--o`) no diagrama —, garantindo que o acesso a cada tabela ocorra por um único ponto de entrada.
 
-A camada **Model** corresponde às entidades persistidas no banco de dados SQLite, diretamente alinhadas ao Diagrama de Classes do Domínio (seção 3.2.3). A hierarquia de herança é mantida (`EvidenciaModel` → `FotoModel`, `AudioModel`, `TextoComplementarModel`; `EventoZootecnicoModel` → `RegistroNascimentoModel`, `RegistroObitoModel`), refletindo a especialização dos tipos de registro conforme os requisitos funcionais RF004, RF005, RF008 e RF009.
+A camada **Model** corresponde às interfaces TypeScript das entidades persistidas no banco de dados SQLite, diretamente alinhadas ao Diagrama de Classes do Domínio (seção 3.2.3). A hierarquia de herança de `MovimentacaoBase` para os subtipos `Nascimento`, `Obito`, `Transferencia` e `Compravenda` reflete a especialização dos eventos zootécnicos conforme os requisitos funcionais RF004, RF005, RF008 e RF009. A interface `Evidencia` unifica em uma única estrutura os tipos `FOTO`, `AUDIO`, `VIDEO`, `DOCUMENTO` e `TEXTO`, discriminados pelo campo `tipo`.
 
 A separação em camadas garante que alterações na tecnologia de persistência (ex.: migração de SQLite para PostgreSQL) impactem apenas os Repositories, sem afetar Services ou Controllers — critério alinhado ao requisito não funcional de Suportabilidade (RNF — SUP), que limita o MTTR a 8 horas para defeitos críticos.
 
@@ -2221,7 +2232,7 @@ Os diagramas de sequência apresentados nesta seção referenciam, de forma reco
 
 O SQLite é um sistema de gerenciamento de banco de dados relacional (*RDBMS*) autocontido (*self-contained*), sem servidor (*serverless*) e de configuração zero (*zero-configuration*) [21]. Diferentemente de sistemas cliente-servidor convencionais — como PostgreSQL ou MySQL —, o SQLite opera como uma biblioteca vinculada diretamente ao processo da aplicação, lendo e gravando o banco de dados como um arquivo único no disco, sem a necessidade de um processo daemon separado [21]. Essa característica o torna particularmente adequado ao contexto da BrPec, em que a infraestrutura de servidor deve ser leve e de fácil implantação, dado que os nós de processamento central operam em ambientes com recursos computacionais limitados.
 
-No escopo da arquitetura do sistema, o SQLite é empregado como banco de dados central do servidor Node.js, persistindo todas as entidades modeladas no Diagrama de Classes (seção 3.2.3): `Usuario`, `Tarefa`, `Evidencia`, `EventoZootecnico`, `AlertaInfraestrutura`, `Sincronizacao` e `Exportacao`. Os diagramas de sequência DS01 (Criar Tarefa) e os fluxos de sincronização dos diagramas DS03 e DS04 representam a interação do Repository com esse banco central por meio de instruções SQL padrão (`INSERT`, `SELECT`, `UPDATE`), garantindo a compatibilidade com o modelo relacional definido nas tabelas de atributos da seção 3.2.3. A escolha pelo SQLite no servidor está alinhada ao requisito não funcional de Desempenho (RNF — DES), que exige latência p95 inferior a 200 ms para operações de leitura e escrita, e ao requisito de Suportabilidade (RNF — SUP), dado que o SQLite dispensa a administração de processos, usuários e permissões de banco de dados, reduzindo a complexidade operacional de manutenção.
+No escopo da arquitetura do sistema, o SQLite é empregado como banco de dados central do servidor Node.js, persistindo todas as entidades modeladas no Diagrama de Classes (seção 3.2.3): `Usuario`, `Tarefa`, `Evidencia`, `MovimentacaoBase` (nascimentos, óbitos, transferências e compravendas), `Alerta`, `Sincronizacao`, `Retiro` e os registros de exportação. Os diagramas de sequência DS01 (Criar Tarefa) e os fluxos de sincronização dos diagramas DS03 e DS04 representam a interação do Repository com esse banco central por meio de instruções SQL padrão (`INSERT`, `SELECT`, `UPDATE`), garantindo a compatibilidade com o modelo relacional definido nas tabelas de atributos da seção 3.2.3. A escolha pelo SQLite no servidor está alinhada ao requisito não funcional de Desempenho (RNF — DES), que exige latência p95 inferior a 200 ms para operações de leitura e escrita, e ao requisito de Suportabilidade (RNF — SUP), dado que o SQLite dispensa a administração de processos, usuários e permissões de banco de dados, reduzindo a complexidade operacional de manutenção.
 
 A escolha pelo SQLite no servidor fundamenta-se em três critérios: (i) suporte nativo a transações ACID garante integridade mesmo em interrupções abruptas (RNF — CONF); (ii) consultas SQL relacionais permitem filtrar tarefas por `capataz_id`, `retiro_id` e `data_execucao` sem carregar conjuntos completos em memória; (iii) ausência de processo daemon reduz a complexidade operacional de manutenção (RNF — SUP).
 
@@ -2253,30 +2264,34 @@ Fluxo que representa a criação de uma tarefa pelo Gerente, percorrendo as cama
 sequenceDiagram
     autonumber
     actor G as Gerente
-    participant CTR as Controller
-    participant SRV as Service
-    participant REP as Repository
+    participant CTR as TarefaController
+    participant SRV as TarefaService
+    participant UREP as UsuarioRepository
+    participant TREP as TarefaRepository
     participant DB as SQLite
 
-    G->>CTR: POST /tarefas {titulo, descricao, retiro_id, capataz_id, data_execucao}
+    G->>CTR: POST /tarefas {titulo, descricao, retiro_id, capataz_id, data_execucao, gerente_id}
     CTR->>CTR: Valida campos obrigatórios
 
     alt Campos obrigatórios ausentes
         CTR-->>G: 400 Bad Request {erro: "campos obrigatórios não preenchidos"}
     else Dados válidos
         CTR->>SRV: criarTarefa(dados)
-        SRV->>SRV: Verifica se Capataz pertence ao retiro (RN01)
+        SRV->>UREP: buscarPorId(capataz_id)
+        UREP->>DB: SELECT * FROM usuarios WHERE id = ?
+        DB-->>UREP: Usuario
+        UREP-->>SRV: {id, perfil, retiro_id}
 
         alt Capataz não pertence ao retiro (RN01)
-            SRV-->>CTR: throw CapatazRetiroInvalidoError
+            SRV-->>CTR: throw Error("RN01: Capataz não pertence ao retiro")
             CTR-->>G: 422 Unprocessable Entity {erro: "Capataz não pertence ao retiro"}
         else Validação aprovada
-            SRV->>REP: inserirTarefa(dados)
-            REP->>DB: INSERT INTO tarefas (...) VALUES (...)
-            DB-->>REP: id = 7
-            REP-->>SRV: {id: 7}
-            SRV-->>CTR: {id: 7, status: "pendente"}
-            CTR-->>G: 201 Created {id: 7, mensagem: "Tarefa criada com sucesso"}
+            SRV->>TREP: criar(dados)
+            TREP->>DB: INSERT INTO tarefas (...) VALUES (...)
+            DB-->>TREP: rowid
+            TREP-->>SRV: Tarefa {id: "uuid-v7", status: "PENDENTE", ...}
+            SRV-->>CTR: Tarefa
+            CTR-->>G: 201 Created {id, mensagem: "Tarefa criada com sucesso", tarefa}
         end
     end
 ```
@@ -2284,9 +2299,10 @@ sequenceDiagram
 **Descrição das camadas:**
 
 - **Controller (`TarefaController`):** recebe a requisição HTTP do Gerente, valida a presença dos campos obrigatórios e delega a lógica de negócio ao Service. Não acessa o banco diretamente.
-- **Service (`TarefaService`):** aplica as regras de negócio do domínio — em especial a RN01, que impede a atribuição de uma tarefa a um Capataz que não pertence ao retiro informado. Orquestra a chamada ao Repository.
-- **Repository (`TarefaRepository`):** responsável exclusivamente pelo acesso ao banco de dados. Executa o `INSERT` e retorna o `id` gerado.
-- **Banco (`SQLite`):** persiste o registro com `status = "pendente"` e retorna o identificador da nova linha.
+- **Service (`TarefaService`):** consulta o `UsuarioRepository` para obter os dados do Capataz e aplica a RN01 — impede atribuição a Capataz que não pertence ao retiro informado. Em caso de aprovação, delega a inserção ao `TarefaRepository`.
+- **UsuarioRepository:** executa `SELECT` na tabela `usuarios` e retorna a entidade com `perfil` e `retiro_id` para validação da RN01.
+- **TarefaRepository (`TarefaRepository`):** gera UUID v7, executa o `INSERT INTO tarefas` com `status = 'PENDENTE'` e `sincronizada = 1`, e retorna a tarefa criada.
+- **Banco (`SQLite`):** persiste o registro e retorna o `rowid` da nova linha.
 
 **Fluxos cobertos:**
 
@@ -2320,58 +2336,43 @@ sequenceDiagram
     participant REP as Repository
     participant LS as Armazenamento Local (IndexedDB)
 
-    note over C,LS: Dispositivo sem conexão com a internet
+    note over C,LS: Dispositivo sem conexão — tarefas foram sincronizadas previamente via GET /tarefas/hoje
 
     C->>PWA: Acessa tela "Minhas Tarefas"
-    PWA->>CTR: GET /tarefas/hoje {capataz_id}
-    CTR->>CTR: Verifica perfil do usuário (RN05)
+    PWA->>PWA: Detecta ausência de conexão (offline)
 
-    alt Perfil não autorizado
-        CTR-->>PWA: 403 Forbidden {erro: "acesso negado"}
-        PWA-->>C: Exibe mensagem de acesso negado
-    else Perfil autorizado (Capataz)
-        CTR->>SRV: buscarTarefasHoje(capataz_id)
-        SRV->>SRV: Verifica conectividade com servidor
-
-        alt Sem conexão com servidor (modo offline)
-            SRV->>REP: buscarTarefasLocais(capataz_id, data_hoje)
-            REP->>LS: SELECT * FROM tarefas WHERE capataz_id = ? AND data_execucao = ? AND sincronizada = true
-            
-            alt Tarefas sincronizadas encontradas (RN06, RN07)
-                LS-->>REP: [{id, titulo, descricao, status, data_execucao}]
-                REP-->>SRV: List<Tarefa>
-                SRV->>SRV: Filtra apenas tarefas do retiro do Capataz (RN05)
-                SRV-->>CTR: List<Tarefa> ordenada
-                CTR-->>PWA: 200 OK {tarefas: [...], modo: "offline"}
-                PWA-->>C: Exibe lista de tarefas do dia (RN12)
-            else Nenhuma tarefa sincronizada (RF004, RN04)
-                LS-->>REP: []
-                REP-->>SRV: []
-                SRV-->>CTR: []
-                CTR-->>PWA: 200 OK {tarefas: [], modo: "offline"}
-                PWA-->>C: Exibe mensagem "Nenhuma tarefa disponível. Sincronize quando houver conexão."
-            end
-
-        else Com conexão disponível
-            SRV->>REP: buscarTarefasServidor(capataz_id, data_hoje)
-            REP-->>SRV: List<Tarefa> atualizada
-            SRV->>REP: atualizarArmazenamentoLocal(tarefas)
-            REP->>LS: INSERT OR REPLACE INTO tarefas (...) (sincronizada = true)
-            LS-->>REP: ok
-            SRV-->>CTR: List<Tarefa>
-            CTR-->>PWA: 200 OK {tarefas: [...], modo: "online"}
-            PWA-->>C: Exibe lista de tarefas do dia atualizada
+    alt Modo offline — busca no IndexedDB local
+        PWA->>LS: SELECT * FROM tarefas WHERE capataz_id = ? AND data_execucao = ? AND sincronizada = true
+        
+        alt Tarefas sincronizadas encontradas (RN06, RN07)
+            LS-->>PWA: [{id, titulo, descricao, status, data_execucao}]
+            PWA-->>C: Exibe lista de tarefas do dia com indicador "offline" (RN12)
+        else Nenhuma tarefa sincronizada (RF004)
+            LS-->>PWA: []
+            PWA-->>C: Exibe mensagem "Nenhuma tarefa disponível. Sincronize quando houver conexão."
         end
+
+    else Modo online — chama o servidor
+        PWA->>CTR: GET /tarefas/hoje {capataz_id}
+        CTR->>SRV: buscarTarefasHoje(capataz_id)
+        SRV->>REP: buscarTarefasHoje(capataz_id, data_hoje)
+        REP->>LS: SELECT * FROM tarefas WHERE capataz_id = ? AND date(data_execucao) = date(?)
+        LS-->>REP: [{id, titulo, status, data_execucao, ...}]
+        REP-->>SRV: Tarefa[]
+        SRV-->>CTR: Tarefa[]
+        CTR-->>PWA: 200 OK {tarefas: [...], modo: "online"}
+        PWA->>LS: INSERT OR REPLACE INTO tarefas (...) (sincronizada = true)
+        PWA-->>C: Exibe lista de tarefas do dia atualizada
     end
 ```
 
 **Descrição das camadas:**
 
-- **Cliente PWA (`Cliente`):** interface do dispositivo do Capataz no campo. Detecta o estado de conectividade e apresenta a lista de tarefas com indicação visual do modo de operação (online ou offline).
-- **Controller (`TarefaController`):** recebe a requisição de listagem, valida o perfil do usuário e delega ao Service. Não acessa o armazenamento local diretamente.
-- **Service (`TarefaService`):** verifica a disponibilidade de conexão e decide a estratégia de busca — servidor remoto (online) ou armazenamento local (offline). Aplica a regra RN05, garantindo que apenas tarefas do retiro do Capataz sejam retornadas.
-- **Repository (`TarefaRepository`):** abstrai tanto o acesso ao banco remoto quanto ao armazenamento local (IndexedDB/SQLite local), expondo a mesma interface ao Service independentemente da origem dos dados.
-- **Armazenamento Local (`IndexedDB`):** persiste localmente as tarefas previamente sincronizadas. Só contém tarefas com `sincronizada = true`, garantindo que dados incompletos nunca sejam exibidos ao Capataz (RN06).
+- **Cliente PWA (`Cliente`):** interface do dispositivo do Capataz no campo. Detecta o estado de conectividade: se offline, lê diretamente do IndexedDB local; se online, chama o servidor e atualiza o cache local.
+- **Controller (`TarefaController`):** presente apenas no fluxo online — recebe `GET /tarefas/hoje`, repassa `capataz_id` ao Service e retorna a lista. Não aplica lógica de conectividade.
+- **Service (`TarefaService`):** delega diretamente ao `TarefaRepository.buscarTarefasHoje(capataz_id, data_hoje)`. A decisão offline/online é responsabilidade do cliente PWA, não do backend.
+- **Repository (`TarefaRepository`):** executa `SELECT * FROM tarefas WHERE capataz_id = ? AND date(data_execucao) = date(?)` no SQLite do servidor e retorna o array de tarefas.
+- **Armazenamento Local (`IndexedDB`):** no fluxo offline, é a fonte primária de dados. No fluxo online, é atualizado pelo PWA com as tarefas retornadas pelo servidor (`sincronizada = true`).
 
 **Fluxos cobertos:**
 
@@ -2427,29 +2428,20 @@ sequenceDiagram
         PWA-->>C: Exibe alerta de erro
     else Dados válidos
         CTR->>SRV: concluirTarefa(tarefa_id, capataz_id)
-        SRV->>REP: buscarTarefaLocal(tarefa_id)
-        REP->>LS: SELECT * FROM tarefas WHERE id = ? AND capataz_id = ?
+        SRV->>REP: concluir(tarefa_id, capataz_id, data_conclusao)
+        REP->>LS: UPDATE tarefas SET status = 'CONCLUIDA', concluida_em = ?, sincronizada = 1 WHERE id = ? AND capataz_id = ?
         
         alt Tarefa não encontrada ou não pertence ao Capataz (RN05)
-            LS-->>REP: null
-            REP-->>SRV: null
-            SRV-->>CTR: throw TarefaNaoEncontradaError
+            LS-->>REP: 0 rows affected
+            REP-->>SRV: false
+            SRV-->>CTR: throw Error("tarefa não encontrada")
             CTR-->>PWA: 404 Not Found {erro: "tarefa não encontrada"}
             PWA-->>C: Exibe mensagem de erro
-        else Tarefa encontrada
-            LS-->>REP: {id, titulo, status: "pendente", sincronizada: true}
-            REP-->>SRV: Tarefa
-
-            SRV->>SRV: Atualiza status para "concluida" e registra timestamp (RNF — SEG)
-            SRV->>REP: salvarConclusaoLocal(tarefa_id, concluidaEm, capataz_id)
-            REP->>LS: UPDATE tarefas SET status = "concluida", concluida_em = ?, sincronizada = false WHERE id = ?
-            LS-->>REP: ok
-            REP-->>SRV: ok
-            SRV->>REP: registrarSincronizacaoPendente(tarefa_id, "Tarefa")
-            REP->>LS: INSERT INTO sincronizacoes (entidade_tipo, entidade_id, status_envio, tentativas) VALUES ("Tarefa", ?, "PENDENTE", 0)
-            LS-->>REP: ok
-            SRV-->>CTR: {status: "concluida", sincronizado: false}
-            CTR-->>PWA: 200 OK {mensagem: "Tarefa concluída. Será sincronizada quando houver conexão.", sincronizado: false}
+        else Tarefa concluída com sucesso
+            LS-->>REP: 1 row affected
+            REP-->>SRV: Tarefa {id, status: "CONCLUIDA", concluida_em, sincronizada: true}
+            SRV-->>CTR: Tarefa
+            CTR-->>PWA: 200 OK {mensagem: "Tarefa concluída com sucesso", tarefa}
             PWA-->>C: Exibe confirmação visual com indicador de pendente (RN08, RN12)
 
             note over SYNC,API: Quando conexão for restabelecida (RF010)
@@ -2480,10 +2472,10 @@ sequenceDiagram
 **Descrição das camadas:**
 
 - **Cliente PWA (`Cliente`):** captura a ação do Capataz, dispara a requisição de conclusão e exibe confirmações visuais simples e de alto contraste, adequadas ao uso em campo (RN12). Escuta eventos de sincronização emitidos pelo SyncService para atualizar o indicador de status.
-- **Controller (`TarefaController`):** valida a presença dos identificadores obrigatórios e delega ao Service. Não acessa o armazenamento local diretamente.
-- **Service (`TarefaService`):** aplica as regras de negócio — verifica se a tarefa pertence ao Capataz (RN05), atualiza o status e injeta o timestamp de conclusão (RNF — SEG). Orquestra o registro de sincronização pendente.
-- **Repository (`TarefaRepository`):** persiste a conclusão localmente com `sincronizada = false` e insere o registro de controle na tabela `sincronizacoes` (RF012).
-- **Armazenamento Local (`IndexedDB`):** mantém o estado da tarefa e o registro de pendência de sincronização até que o envio seja confirmado pelo servidor.
+- **Controller (`TarefaController`):** valida a presença dos identificadores obrigatórios e delega ao Service. Não acessa o banco diretamente.
+- **Service (`TarefaService`):** delega ao `TarefaRepository.concluir(tarefa_id, capataz_id, data_conclusao)`. A RN05 é garantida pela cláusula `WHERE capataz_id = ?` no SQL — se nenhuma linha for afetada, lança erro 404.
+- **Repository (`TarefaRepository`):** executa `UPDATE tarefas SET status = 'CONCLUIDA', concluida_em = ?, sincronizada = 1 WHERE id = ? AND capataz_id = ?` no SQLite do servidor. Retorna `false` se nenhuma linha for afetada.
+- **Armazenamento Local (`SQLite / IndexedDB`):** no backend, é o SQLite do servidor. No cliente offline, é o IndexedDB — o SyncService transmite a conclusão ao servidor quando a conexão for restabelecida.
 - **SyncService (`SyncService`):** processo em segundo plano (background sync via Service Worker) responsável por detectar a reconexão, consultar registros pendentes e transmiti-los ao servidor remoto. Atualiza o status para `ENVIADO` em caso de sucesso ou incrementa o contador de tentativas em caso de falha (RF012).
 - **Servidor Remoto (`API`):** recebe a atualização de status da tarefa e confirma a persistência no banco de dados central, tornando a informação visível ao Gerente no painel de acompanhamento (RF007).
 
@@ -2542,32 +2534,26 @@ sequenceDiagram
         CTR-->>PWA: 400 Bad Request {erro: "campos obrigatórios não preenchidos"}
         PWA-->>C: Exibe alerta de erro
     else Dados válidos
-        CTR->>SRV: anexarFoto(tarefa_id, arquivo_base64, capataz_id)
-        SRV->>REP: buscarTarefaLocal(tarefa_id)
-        REP->>LS: SELECT * FROM tarefas WHERE id = ? AND capataz_id = ?
+        CTR->>SRV: anexarEvidencia(tarefa_id, capataz_id, dados)
+        SRV->>REP: buscarPorId(tarefa_id)
+        REP->>LS: SELECT * FROM tarefas WHERE id = ?
 
-        alt Tarefa não encontrada ou não pertence ao Capataz (RN05)git 
-            LS-->>REP: null
-            REP-->>SRV: null
-            SRV-->>CTR: throw TarefaNaoEncontradaError
+        alt Tarefa não encontrada ou não pertence ao Capataz (RN05)
+            LS-->>REP: undefined
+            REP-->>SRV: undefined
+            SRV-->>CTR: throw Error("tarefa não encontrada ou não pertence ao capataz")
             CTR-->>PWA: 404 Not Found {erro: "tarefa não encontrada"}
             PWA-->>C: Exibe mensagem de erro
         else Tarefa encontrada
-            LS-->>REP: {id, status, capataz_id}
+            LS-->>REP: {id, status, capataz_id, retiro_id}
             REP-->>SRV: Tarefa
 
-            SRV->>SRV: Captura geolocalização do dispositivo (GPS)
-            SRV->>SRV: Gera evidencia_id e registra timestamp (RNF — SEG)
-            SRV->>REP: salvarFotoLocal(evidencia_id, tarefa_id, arquivo_base64, geolocalizacao, capataz_id)
-            REP->>LS: INSERT INTO evidencias (id, tarefa_id, tipo, arquivo_base64, geolocalizacao, criada_em, sincronizada) VALUES (?, ?, "FOTO", ?, ?, ?, false)
-            LS-->>REP: ok
+            SRV->>REP: salvarEvidencia(tarefa_id, tipo, arquivo_base64, geolocalizacao)
+            REP->>LS: INSERT INTO evidencias (id, tarefa_id, tipo, arquivo_base64, geolocalizacao, sincronizada) VALUES (uuid_v7, ?, ?, ?, ?, 1)
+            LS-->>REP: evidencia_id (UUID v7)
             REP-->>SRV: {evidencia_id}
-
-            SRV->>REP: registrarSincronizacaoPendente(evidencia_id, "Evidencia")
-            REP->>LS: INSERT INTO sincronizacoes (entidade_tipo, entidade_id, status_envio, tentativas) VALUES ("Evidencia", ?, "PENDENTE", 0)
-            LS-->>REP: ok
-            SRV-->>CTR: {evidencia_id, sincronizado: false}
-            CTR-->>PWA: 201 Created {mensagem: "Foto salva. Será enviada quando houver conexão.", sincronizado: false}
+            SRV-->>CTR: {evidencia_id}
+            CTR-->>PWA: 201 Created {mensagem: "Evidência anexada com sucesso", evidencia_id}
             PWA-->>C: Exibe confirmação visual com thumbnail da foto e indicador de pendente (RN11, RN12)
 
             note over SYNC,API: Quando conexão for restabelecida (RF010)
@@ -2614,10 +2600,10 @@ sequenceDiagram
 **Descrição das camadas:**
 
 - **Cliente PWA (`Cliente`):** aciona a câmera nativa do dispositivo, exibe um thumbnail da imagem capturada e apresenta indicador visual de status de envio (pendente/sincronizado) com linguagem simples e botões de alto contraste (RN12). Escuta eventos de sincronização emitidos pelo SyncService.
-- **Controller (`TarefaController`):** valida a presença dos campos obrigatórios (identificador da tarefa, tipo de evidência e arquivo) e delega ao Service. Não acessa o armazenamento local diretamente.
-- **Service (`TarefaService`):** captura a geolocalização do dispositivo no momento do anexo, injeta metadados de autoria e timestamp (RNF — SEG), e orquestra o armazenamento local da imagem em formato base64 e o registro de sincronização pendente.
-- **Repository (`TarefaRepository`):** persiste a evidência no armazenamento local com `sincronizada = false` e a imagem codificada em base64, mantendo o vínculo com a tarefa correspondente (RN10). Insere o registro de controle na tabela `sincronizacoes`.
-- **Armazenamento Local (`IndexedDB`):** armazena a imagem em base64 até que a sincronização com o servidor seja concluída com sucesso, prevenindo qualquer perda de evidência durante períodos offline (RN11, RNF — CONF).
+- **Controller (`TarefaController`):** valida a presença dos campos obrigatórios (identificador da tarefa, tipo de evidência e arquivo base64) e delega ao Service via `anexarEvidencia(tarefa_id, capataz_id, dados)`. Não acessa o banco diretamente.
+- **Service (`TarefaService`):** verifica se a tarefa existe chamando `TarefaRepository.buscarPorId(tarefa_id)` e, em caso positivo, delega a inserção via `TarefaRepository.salvarEvidencia(tarefa_id, tipo, arquivo_base64, geolocalizacao)`.
+- **Repository (`TarefaRepository`):** gera UUID v7 para a evidência, executa `INSERT INTO evidencias` com `sincronizada = 1` e retorna o `evidencia_id`. Mantém o vínculo com a tarefa pelo campo `tarefa_id` (RN10).
+- **Armazenamento Local (`SQLite / IndexedDB`):** no backend, é o SQLite do servidor, onde a evidência fica disponível imediatamente com `sincronizada = 1`. No fluxo offline do cliente PWA, é o IndexedDB — o SyncService transmite a evidência via `POST /tarefas/{id}/evidencias` ao reconectar.
 - **SyncService (`SyncService`):** detecta a reconexão via Service Worker e transmite as evidências pendentes ao servidor. Implementa chunking para arquivos de imagem que excedam o limite de transmissão segura em conexões instáveis (RNF — CAP), garantindo a integridade do envio em lote.
 - **Servidor Remoto (`API`):** recebe a evidência, persiste o arquivo e retorna a URL definitiva do arquivo armazenado, que é então atualizada no registro local. A evidência fica disponível para consulta pelo Gerente e Coordenador (RF014, UC05).
 
