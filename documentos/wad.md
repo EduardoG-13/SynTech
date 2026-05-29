@@ -4478,7 +4478,245 @@ A RTM rastreia cada User Story do BrPec da persona até a evidência de teste, a
 
 ## 4.1. Primeira versão da aplicação web (sprint 3)
 
-_Descreva e ilustre aqui o desenvolvimento da primeira versão do sistema web. Utilize prints de tela para ilustrar. Indique obrigatoriamente: (a) o que foi implementado, (b) o que não foi concluído, (c) dificuldades técnicas enfrentadas e próximos passos._
+A primeira versão da aplicação web SyncTech foi desenvolvida ao longo da sprint 3, materializando a arquitetura em camadas descrita na seção 3.2.1 e os protótipos de alta fidelidade documentados na seção 3.5. O sistema é composto por dois módulos principais: o **frontend estático** (`synctech-app/`), que implementa todas as telas navegáveis do protótipo usando HTML, CSS e JavaScript puro, e o **backend REST** (`src/backend/`), que expõe a WebAPI documentada na seção 3.7 utilizando Node.js, Express e SQLite.
+
+### (a) O que foi implementado
+
+#### Frontend — Interface Navegável Completa
+
+O frontend foi implementado como uma Single Page Application (SPA) leve, sem dependências de frameworks, composta por três arquivos principais: `index.html`, `css/styles.css` e `js/app.js`. A aplicação renderiza dinamicamente 16 telas navegáveis que cobrem todos os fluxos operacionais previstos nas User Stories priorizadas:
+
+**Fluxo do Capataz (US02 → US03 → US04 → US05):**
+
+- **Tela de seleção de perfil** — ponto de entrada do sistema, onde o usuário seleciona seu perfil (Capataz, Infraestrutura, Coordenador ou Gerente) por meio de botões com ícones representativos, seguindo o princípio de redução de digitação definido na persona do Capataz.
+
+<center>
+  <p><strong>Figura 25a</strong> — Primeira versão: Tela de Seleção de Perfil (Real)</p>
+  <img src="./assets/prints-v1/01-login-perfil.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de seleção de retiro** — exibida após o Capataz selecionar seu perfil, apresenta a lista dos 15 retiros reais da BrPec (Acurizal, Aroeira, Baia Bonita, Bodoquena 1, Bodoquena 2, Boqueirão, Caieira, CMB, Confinamento, Cristo, Morada Nova, Morro Azul, Puga, São Miguel e Vista Alegre) com busca por nome, permitindo navegação rápida mesmo em dispositivos com tela reduzida.
+
+<center>
+  <p><strong>Figura 25b</strong> — Primeira versão: Tela de Seleção de Retiro (Real)</p>
+  <img src="./assets/prints-v1/02-login-retiro.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de lista de tarefas (US02)** — exibe as tarefas do dia com cards contendo barra lateral colorida por status (âmbar para "Em andamento", verde para "Pendente"), filtros por tipo ("Todos" / "Rebanhos") e botão "Nova O.S." para criação rápida.
+
+<center>
+  <p><strong>Figura 26</strong> — Primeira versão: Tela de Lista de Tarefas do Capataz (Real)</p>
+  <img src="./assets/prints-v1/03-lista-tarefas.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de detalhe da tarefa (US02)** — apresenta título, badge de status, descrição textual, player de áudio para instruções gravadas pelo Gerente e placeholder para foto de referência, com botão "Iniciar Tarefa" em largura total.
+
+<center>
+  <p><strong>Figura 27</strong> — Primeira versão: Tela de Detalhe da Tarefa do Capataz (Real)</p>
+  <img src="./assets/prints-v1/04-detalhe-tarefa.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de concluir tarefa (US03/US04/US05)** — formulário de conclusão com campos para foto da conclusão, observações em texto e registro de áudio, com botões "Tirar Foto" e "Salvar" na base.
+
+<center>
+  <p><strong>Figura 28</strong> — Primeira versão: Tela de Concluir Tarefa do Capataz (Real)</p>
+  <img src="./assets/prints-v1/05-concluir-tarefa.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+**Fluxo de Movimentação do Rebanho (US08/US09):**
+
+- **Tela de nova boleta** — formulário completo de movimentação de animais com seleção de tipo de operação (Movimentação, Nascimento, Morte), seleção de retiros de origem e destino, contagem categorizada de animais por sexo e faixa etária (7 categorias de machos e 5 de fêmeas, conforme planilha real da BrPec) com steppers para incremento/decremento, total geral calculado automaticamente e campo de observações.
+
+<center>
+  <p><strong>Figura 28a</strong> — Primeira versão: Tela de Nova Boleta de Movimentação (Real)</p>
+  <img src="./assets/prints-v1/06-nova-boleta.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de registrar nascimento** — formulário simplificado para registro de nascimentos com data automática, seleção de retiro, categoria (Bezerro/Bezerra), stepper de quantidade e campo de foto opcional.
+
+<center>
+  <p><strong>Figura 28b</strong> — Primeira versão: Tela de Registrar Nascimento (Real)</p>
+  <img src="./assets/prints-v1/07-registrar-nascimento.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de registrar óbito (RF013)** — formulário com campos obrigatórios sinalizados visualmente (asterisco vermelho e borda vermelha): data, retiro, identificação do animal, categoria, causa da morte (14 causas cadastradas: Acidente, Atolado, Cobra, Deficiência nutricional, etc.), quantidade e foto obrigatória.
+
+<center>
+  <p><strong>Figura 28c</strong> — Primeira versão: Tela de Registrar Óbito (Real)</p>
+  <img src="./assets/prints-v1/08-registrar-obito.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+**Fluxo de Infraestrutura (US06/US07):**
+
+- **Painel de infraestrutura** — interface de gestão de chamados com filtros por categoria (Hidráulica, Cerca, Elétrica), cards de contadores por status (Abertos: 12, Em andamento: 5, Fechados: 28) e botão "+ Nova O.S.".
+
+<center>
+  <p><strong>Figura 29</strong> — Primeira versão: Painel de Infraestrutura (Real)</p>
+  <img src="./assets/prints-v1/10-painel-infraestrutura.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de resolver chamado** — formulário de registro de resolução com card de identificação do chamado, campo de descrição com contador de caracteres (0/500), área de anexo de foto com especificação de formatos aceitos, botão "Salvar Resolução" e histórico do chamado em timeline com três etapas (Aberto → Em andamento → Resolvido) incluindo datas e descrições.
+
+<center>
+  <p><strong>Figura 30</strong> — Primeira versão: Tela de Registrar Resolução de Chamado (Real)</p>
+  <img src="./assets/prints-v1/11-resolver-chamado.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+**Fluxo do Gerente (US01/US07):**
+
+- **Dashboard** — painel consolidado com filtros de retiro e data, gráfico de barras "Chamados por retiro", card "Evolução das demandas" com indicador percentual (75%), gráfico de rosca "Tarefas por status" com legenda colorida, e cards numéricos para "Alertas em aberto" e "Prioridades".
+
+<center>
+  <p><strong>Figura 31</strong> — Primeira versão: Dashboard do Gerente e Coordenador (Real)</p>
+  <img src="./assets/prints-v1/12-dashboard-gerente.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de nova O.S. (US01)** — formulário completo de criação de Ordem de Serviço com seletor de equipe (Capataz/Infra), campos de seleção de operação, título, retiro de origem, destino opcional, responsável, descrição, prazo, indicadores de prioridade (alta/média/baixa) com dots coloridos, e cards de áudio e foto para complementar instruções.
+
+<center>
+  <p><strong>Figura 32</strong> — Primeira versão: Tela de Nova Ordem de Serviço do Gerente (Real)</p>
+  <img src="./assets/prints-v1/13-nova-os.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+**Fluxo do Coordenador (US11/US12):**
+
+- **Tela de boletas** — lista de boletas com sub-navegação (Painel/Boletas), cards com título e metadados (data, capataz, quantidade de animais) e botão de download individual.
+
+<center>
+  <p><strong>Figura 33</strong> — Primeira versão: Tela de Lista de Boletas do Coordenador (Real)</p>
+  <img src="./assets/prints-v1/14-boletas-lista.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de exportação (US12)** — formulário de exportação com seleção de período (De/Até), checkboxes para tipos de dados (Movimentações, Nascimentos, Óbitos, Tarefas), seleção de formato (CSV/Excel) e botão "Exportar".
+
+<center>
+  <p><strong>Figura 33a</strong> — Primeira versão: Tela de Exportação de Dados (Real)</p>
+  <img src="./assets/prints-v1/15-exportar-dados.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de evolução de rebanho** — formulário para registro de reclassificação de animais com seleção de retiro, tipo de classificação (Desmama/Evolução/Classificação), cards de "DE (origem)" e "PARA (nova categoria)" com seletores de categoria e faixa etária, stepper de quantidade e observações.
+
+<center>
+  <p><strong>Figura 33b</strong> — Primeira versão: Tela de Evolução de Rebanho (Real)</p>
+  <img src="./assets/prints-v1/09-boleta-evolucao.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+**Elementos transversais:**
+
+- **Sidebar desktop** — navegação lateral adaptada por perfil, com ícones e labels de navegação, exibida automaticamente após login.
+- **Bottom navigation mobile** — barra inferior com ícones para Início, Tarefas, Rebanhos e Configurações.
+- **Tela de sucesso** — feedback visual de confirmação com ícone de check, mensagem "Salvo com sucesso!" e badge offline "1 registro na fila", simulando o comportamento esperado do modo offline-first.
+
+<center>
+  <p><strong>Figura 33c</strong> — Primeira versão: Tela de Confirmação de Sucesso / Modo Offline (Real)</p>
+  <img src="./assets/prints-v1/16-tela-sucesso.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+#### Backend — Arquitetura em Camadas Completa
+
+O backend foi implementado em TypeScript com Node.js e Express, seguindo rigorosamente a arquitetura em camadas Controller–Service–Repository documentada na seção 3.2.4. A estrutura de pastas é:
+
+```
+src/backend/
+├── config/          # Configuração do banco (database.ts, initDb.ts)
+├── controllers/     # 7 controllers implementados
+├── services/        # 7 services implementados
+├── repositories/    # 8 repositories implementados
+├── models/          # 7 models implementados
+├── routes/          # 7 arquivos de rotas + index.ts
+├── database/        # migration.sql com DDL completo
+├── tests/           # 2 suítes de testes automatizados
+└── __tests__/       # Testes de endpoints
+```
+
+**Estado atual de cada camada:**
+
+<center>
+  <p><strong>Tabela 20</strong> — Estado da implementação das camadas arquiteturais (sprint 3)</p>
+</center>
+
+| Camada | Arquivos implementados | Status |
+| --- | --- | --- |
+| Routes | `index.ts`, `tarefaRoutes.ts`, `alertaRoutes.ts`, `eventoRoutes.ts`, `exportacaoRoutes.ts`, `painelRoutes.ts`, `sincronizacaoRoutes.ts` | ✅ Implementada |
+| Controllers | `tarefaController.ts`, `alertaController.ts`, `eventoController.ts`, `exportacaoController.ts`, `healthController.ts`, `painelController.ts`, `sincronizacaoController.ts` | ✅ Implementada |
+| Services | `tarefaService.ts`, `alertaService.ts`, `eventoService.ts`, `exportacaoService.ts`, `healthService.ts`, `painelService.ts`, `sincronizacaoService.ts` | ✅ Implementada |
+| Repositories | `tarefaRepository.ts`, `alertaRepository.ts`, `eventoRepository.ts`, `exportacaoRepository.ts`, `healthRepository.ts`, `painelRepository.ts`, `sincronizacaoRepository.ts`, `usuarioRepository.ts` | ✅ Implementada |
+| Models | `Tarefa.ts`, `Alerta.ts`, `Movimentacao.ts`, `Evidencia.ts`, `Retiro.ts`, `Sincronizacao.ts`, `Usuario.ts` | ✅ Implementada |
+| Database | `migration.sql` com DDL completo (11 tabelas) | ✅ Implementada |
+| Testes | `uc01-planejar-tarefas.test.ts` (14 casos), `outros-endpoints.test.ts` (5 casos) | ✅ 19/19 passando |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+Os endpoints implementados e testados cobrem os fluxos críticos da sprint 3:
+- `GET /api/health` — monitoramento do servidor e banco
+- `POST /api/tarefas` — criação de tarefas (UC01/RF001) com validação de RN01
+- `GET /api/tarefas/hoje` — busca de tarefas do dia por capataz (RF002/RN02/RN05)
+- `PATCH /api/tarefas/:id/concluir` — conclusão de tarefa pelo capataz
+- `POST /api/tarefas/:id/evidencias` — anexar evidências (foto/áudio/texto)
+- `POST /api/chamados` — criar alertas de infraestrutura com GPS (RF006)
+- `POST /api/eventos-zootecnicos/nascimentos` — registrar nascimento (RF008)
+- `GET /api/exportacao/csv` — exportação de dados em CSV (RF015)
+- `POST /api/sync/lote` — sincronização em lote
+
+#### Testes Automatizados
+
+A suíte de testes automatizados utiliza Jest 29 + ts-jest + Supertest sobre banco SQLite em memória. Todos os 19 casos de teste foram executados e aprovados com sucesso, validando contratos HTTP, regras de negócio (RN01, RN05) e persistência no banco local. A evidência de execução está registrada em `documentos/assets/jest.png`.
+
+<center>
+  <p><strong>Figura 34</strong> — Resultado da execução dos testes automatizados (19/19 passando)</p>
+  <img src="./assets/jest.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+### (b) O que não foi concluído
+
+1. **Integração frontend ↔ backend:** O frontend opera com dados estáticos (mock data hardcoded em `js/app.js`) e ainda não consome a API REST do backend. Os dados dos retiros, tarefas e categorias estão duplicados entre o frontend e o backend. A integração será priorizada na sprint 4.
+
+2. **Funcionalidade offline-first (Service Workers):** Embora a tela de sucesso simule o comportamento offline ("1 registro na fila"), os Service Workers e o armazenamento local (IndexedDB/SQLite no cliente) ainda não foram implementados. O fluxo de sincronização existe apenas no backend (`sincronizacaoService.ts` e `sync_queue`).
+
+3. **Autenticação e autorização:** O sistema opera sem autenticação. A identificação do usuário é feita por passagem explícita de IDs nas requisições, conforme decisão documentada na seção 3.7. A implementação de sessão e controle de acesso por perfil está planejada para a sprint 5.
+
+4. **Upload real de mídias:** Os campos de foto e áudio exibem placeholders visuais, mas não capturam nem armazenam arquivos reais. A integração com câmera e microfone do dispositivo será implementada nas sprints seguintes.
+
+5. **Gráficos dinâmicos no dashboard:** Os gráficos de barras e rosca no dashboard são renderizados com CSS estático, sem biblioteca de charts e sem dados reais do banco.
+
+### (c) Dificuldades técnicas enfrentadas
+
+1. **Compatibilidade do SQLite com Node.js nativo:** A utilização do módulo `node:sqlite` nativo exigiu atenção à versão do Node.js (≥ 22.5) e ao modo de execução síncrona para testes em memória. A equipe optou por banco em memória (`:memory:`) nos testes para garantir isolamento completo entre suítes.
+
+2. **Design responsivo mobile-first:** A implementação do CSS responsivo demandou ajustes extensivos para garantir que todos os elementos de interação (botões ≥ 56px, ícones ≥ 24px) mantivessem usabilidade em telas de 5" a 12", conforme o requisito não funcional REST (seção 3.1.3). O contraste AAA (7:1) sob luz solar foi validado manualmente para todas as combinações de cor da paleta.
+
+3. **Navegação SPA sem framework:** A decisão de implementar o roteamento via JavaScript puro (função `go()` com renderização dinâmica de HTML) simplificou a dependência de ferramentas, mas exigiu cuidado extra com a gestão de estado global e a reconstrução do DOM a cada navegação.
+
+4. **Validação de regras de negócio nos testes:** A implementação do teste de RN01 (capataz deve pertencer ao retiro da tarefa) exigiu seed cuidadoso de dados de teste, com inserção controlada de retiros e usuários no `beforeEach` para garantir determinismo nos cenários de sucesso e falha.
+
+### Próximos passos (sprint 4)
+
+- Integrar frontend com backend via chamadas `fetch()` à API REST
+- Implementar Service Workers para funcionamento offline-first
+- Conectar formulários de boleta ao endpoint `POST /api/eventos-zootecnicos`
+- Substituir dados mock por dados reais do banco via API
+- Implementar captura de foto via câmera do dispositivo
+- Adicionar biblioteca de gráficos ao dashboard (Chart.js ou similar)
+- Expandir suíte de testes para cobrir US09 (óbito) e US12 (exportação)
 
 ## 4.2. Segunda versão da aplicação web (sprint 4)
 
