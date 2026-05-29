@@ -72,8 +72,7 @@ Diante desse contexto, foi proposta a construção de uma aplicação web capaz 
 o gerenciamento de tarefas e o registro das movimentações do rebanho, contemplando
 nascimentos, mortes, compras, vendas e transferências entre retiros, com funcionamento
 offline obrigatório. A solução permite que os dados sejam coletados diretamente no campo,
-por meio de celulares fornecidos pela própria BrPec, e sincronizados automaticamente quando
-houver conexão com a internet.
+por meio de celulares fornecidos pela própria BrPec, e sincronizados automaticamente quando houver conexão com a internet.
 
 Como principal criação de valor, o sistema promove a padronização dos registros, elimina
 a necessidade de redigitação manual, reduz erros operacionais e melhora a rastreabilidade
@@ -3000,24 +2999,35 @@ O quadro a seguir consolida a relação entre personas, User Stories priorizadas
 
 ## 3.4. Guia de estilos (sprint 3)
 
-Um guia de estilo (style guide) é um documento de referência que centraliza todas as decisões visuais de um produto digital, como cores, tipografia, ícones, espaçamentos, componentes e outros. Isso, garantindo consistência em todo o sistema. É tanto um instrumento de comunicação entre designers e desenvolvedores quanto um repositório vivo de decisões de design [1][2].
-
-_Descreva aqui orientações gerais para o leitor sobre como utilizar os componentes do guia de estilos de sua solução_
+Um guia de estilo (style guide) é um documento de referência que centraliza todas as decisões visuais de um produto digital, como cores, tipografia, ícones, espaçamentos, componentes e outros. Isso, garantindo consistência em todo o sistema. É tanto um instrumento de comunicação entre designers e desenvolvedores quanto um repositório vivo de decisões de design [22][23].
 
 ### 3.4.1 Cores
 
-## Paleta de Cores — Campo Verde
+#### Definição
+
+Uma **paleta de cores** é o conjunto definido e limitado de cores que uma marca, produto ou projeto pode utilizar. Ela integra o **guia de estilo** (*style guide*) com o objetivo de garantir consistência visual em todos os materiais: interfaces, documentos, redes sociais, entre outros [34].
+
+> Sem uma paleta definida, cada membro da equipe escolhe cores de forma independente, gerando inconsistência visual. A paleta funciona como a "lei cromática" do projeto.
+
+#### Paleta de Cores - Campo Verde
 
 | Imagem | Cor | Hex | Função |
 |---|---|---|---|
-| <img src="./assets/verde-profundo.png" width="40"/> | Verde Profundo | `#1A4D2E` | Cor primária — botões principais, cabeçalhos, elementos de destaque |
-| <img src="./assets/verde-medio.png" width="40"/> | Verde Médio | `#2E7D52` | Cor secundária — hover states, ícones ativos, badges de status |
-| <img src="./assets/off-white-quente.png" width="40"/> | Off-white Quente | `#F5F0E8` | Fundo principal — base de todas as telas (evita reflexo do branco puro) |
-| <img src="./assets/quase-preto.png" width="40"/> | Quase Preto | `#1B1B1B` | Texto primário — corpo, títulos, labels funcionais |
-| <img src="./assets/ambar-escuro.png" width="40"/> | Âmbar Escuro | `#A64B00` | Ação e alerta — botões de ação secundária, avisos, notificações |
-| <img src="./assets/vermelho-escuro.png" width="40"/> | Vermelho Escuro | `#D32F2F` | Erro — mensagens de falha, campos inválidos, ações destrutivas |
+| <img src="./assets/cores/verde-profundo.png" width="40"/> | Verde Profundo | `#1A4D2E` | Cor primária - botões principais, cabeçalhos, elementos de destaque |
+| <img src="./assets/cores/verde-medio.png" width="40"/> | Verde Médio | `#2E7D52` | Cor secundária - hover states, ícones ativos, badges de status |
+| <img src="./assets/cores/off-white-quente.png" width="40"/> | Off-white Quente | `#F5F0E8` | Fundo principal - base de todas as telas (evita reflexo do branco puro) |
+| <img src="./assets/cores/quase-preto.png" width="40"/> | Quase Preto | `#1B1B1B` | Texto primário - corpo, títulos, labels funcionais |
+| <img src="./assets/cores/ambar-escuro.png" width="40"/> | Âmbar Escuro | `#A64B00` | Ação e alerta - botões de ação secundária, avisos, notificações |
+| <img src="./assets/cores/vermelho-escuro.png" width="40"/> | Vermelho Escuro | `#D32F2F` | Erro - mensagens de falha, campos inválidos, ações destrutivas |
+| <img src="./assets/cores/white.png" width="40"/> | Branco | `#FFFFFF` | Fundos Secundários - fundo de cards, mensagens e caixas |
 
-### Justificativa Técnica: Contraste Outdoor (Nível AAA)
+A paleta é composta por sete cores com funções bem delimitadas. O **Verde Profundo** (`#1A4D2E`) é a cor primária. Ele aparece nos botões principais, cabeçalhos e em qualquer elemento que precise de destaque imediato, ancorando a identidade visual do produto. O **Verde Médio** (`#2E7D52`) atua como cor secundária, reservada para estados de interação como hover, ícones ativos e badges de status, criando uma progressão tonal natural a partir da primária.
+
+As cores neutras são o **Off-white Quente** (`#F5F0E8`) e o **Quase Preto** (`#1B1B1B`). O off-white é a base de todas as telas. O tom levemente amarelado evita o reflexo agressivo do branco puro, tornando a leitura mais confortável. O quase preto é aplicado em textos de corpo, títulos e labels funcionais, oferecendo contraste adequado sem o peso visual do preto absoluto. O **Branco** (`#FFFFFF`) é aplicado exclusivamente no fundo de cards, mensagens e caixas, criando separação visual em relação ao off-white da tela base.
+
+Por fim, as cores semânticas comunicam estados do sistema de forma imediata. O **Âmbar Escuro** (`#A64B00`) sinaliza ações que exigem atenção, como botões de ação secundária, avisos e notificações. O **Vermelho Escuro** (`#D32F2F`) é reservado exclusivamente para erros: mensagens de falha, campos inválidos e ações destrutivas como exclusão de dados.
+
+#### Justificativa Técnica: Contraste Outdoor (Nível AAA)
 
 Justificativa Técnica: Contraste Outdoor (Nível AAA)
 A adoção do contraste mínimo de 7:1 para interfaces operadas em ambientes externos sob luz solar direta fundamenta-se na convergência entre engenharia de fatores humanos e acessibilidade, conforme o critério de sucesso 1.4.6 da WCAG (Nível AAA) [24].
@@ -3028,103 +3038,93 @@ Em condições de exposição solar direta, que pode ultrapassar 100.000 lux [26
 
 ### 3.4.2 Tipografia
 
-_Apresente aqui a tipografia da solução, com famílias de fontes e suas respectivas funções_
+A escolha tipográfica em interfaces digitais vai além da estética. Fontes sem serifa de traço uniforme apresentam melhor desempenho em telas de baixa resolução e em condições adversas de luminosidade, como a exposição solar direta enfrentada pelos usuários deste projeto [28]. Além disso, o tamanho e o peso das fontes impactam diretamente a acessibilidade da interface: textos com peso insuficiente ou tamanho reduzido comprometem a leitura em ambientes de alta iluminância [25][27].
 
-A escolha tipográfica em interfaces digitais vai além da estética. Fontes sem serifa
-de traço uniforme apresentam melhor desempenho em telas de baixa resolução e em
-condições adversas de luminosidade, como a exposição solar direta enfrentada pelos
-usuários deste projeto [28]. Além disso, o tamanho e o peso das fontes impactam
-diretamente a acessibilidade da interface: textos com peso insuficiente ou tamanho
-reduzido comprometem a leitura em ambientes de alta iluminância [25][27].
+A tipografia da solução utiliza duas famílias de fontes complementares, ambas disponíveis gratuitamente via Google Fonts, selecionadas para garantir legibilidade em telas mobile e web, inclusive sob luz solar direta.
 
-A tipografia da solução utiliza duas famílias de fontes complementares, ambas
-disponíveis gratuitamente via Google Fonts, selecionadas para garantir legibilidade
-em telas mobile e web, inclusive sob luz solar direta.
+A **Inter** foi projetada especificamente para interfaces digitais, com alto desempenho em tamanhos reduzidos e em condições adversas de luminosidade, por isso fizemos essa escolha [28].
 
-| Imagem | Família | Uso | Pesos utilizados |
-|---|---|---|---|
-| <img src="./assets/fonte-nunito-sans.png" width="40"/> | Nunito Sans | Títulos, botões e elementos de destaque | 600 (SemiBold), 700 (Bold) |
-| <img src="./assets/fonte-inter.png" width="40"/> | Inter | Corpo de texto, labels e tabelas | 400 (Regular), 500 (Medium) |
+<center>
+  <p><strong>Figura 18</strong> — Fonte Inter e suas variações</p>
+  <img src="./assets/interFont.png" width="800"/>
+  <p>Fonte: Font Squirrel.</p>
+</center>
+ 
 
-A **Nunito Sans** foi escolhida por sua compatibilidade visual com a identidade da
-marca Syntech. Suas formas arredondadas e traços suaves refletem a personalidade
-da logo. A **Inter**, por sua vez, foi projetada especificamente para interfaces
-digitais, com alto desempenho em tamanhos reduzidos e em condições adversas de
-luminosidade [28].
+| Uso | Pesos utilizados |
+|---|---|
+| Títulos, botões e elementos de destaque | 600 (SemiBold), 700 (Bold) |
+| Corpo de texto, labels e tabelas | 400 (Regular), 500 (Medium) |
 
 ### Escala tipográfica
 
-A escala tipográfica foi definida com base nos critérios de contraste e legibilidade
-das diretrizes WCAG 2.1, que recomendam tamanhos e pesos mínimos para garantir
-acessibilidade em diferentes contextos de uso [24]. Para ambientes externos com alta
-incidência de luz, recomenda-se priorizar pesos a partir de 500 (Medium) e tamanhos
-a partir de 16px no corpo do texto [27].
+A escala tipográfica foi definida com base nos critérios de contraste e legibilidade das diretrizes WCAG 2.1, que recomendam tamanhos e pesos mínimos para garantir acessibilidade em diferentes contextos de uso [24]. Para ambientes externos com alta incidência de luz, recomenda-se priorizar pesos a partir de 500 (Medium) e tamanhos a partir de 16px no corpo do texto [27].
 
 | Nível | Família | Peso | Tamanho | Uso |
 |---|---|---|---|---|
-| Título H1 | Nunito Sans | 700 | 32px | Títulos de página |
-| Título H2 | Nunito Sans | 600 | 24px | Títulos de seção |
-| Título H3 | Nunito Sans | 600 | 20px | Subtítulos e cards |
+| Título H1 | Inter | 700 | 32px | Títulos de página |
+| Título H2 | Inter | 600 | 24px | Títulos de seção |
+| Título H3 | Inter | 600 | 20px | Subtítulos e cards |
 | Corpo | Inter | 400 | 16px | Texto principal |
 | Label | Inter | 500 | 14px | Labels de formulário e tabelas |
 | Caption | Inter | 400 | 12px | Textos auxiliares e rodapés |
 
-> Tamanho mínimo adotado: **12px**. Nenhum texto funcional da interface
-> utiliza tamanho inferior a esse valor, garantindo legibilidade mesmo em
-> dispositivos móveis sob luz solar direta [24][25].
+> Tamanho mínimo adotado: **12px**. Nenhum texto funcional da interface utiliza tamanho inferior a esse valor, garantindo legibilidade mesmo em dispositivos móveis sob luz solar direta [24][25].
 
 ### 3.4.3 Iconografia e imagens
+#### Iconografia
+A iconografia da solução utiliza a biblioteca **Phosphor Icons**, escolhida por seu traço generoso e alta legibilidade em telas mobile e web sob luz solar direta. Os ícones são aplicados exclusivamente nos estilos **Bold** e **Fill**, que apresentam melhor desempenho em condições de alta iluminância, onde traços finos tendem a desaparecer [27].
 
-_(esta subseção é opcional, caso não existam ícones e imagens, apague esta subseção)_
+De acordo com Nielsen [22], os ícones podem ser classificados em três categorias segundo seu grau de correspondência com o conceito que representam:
 
-_posicione aqui imagens e textos contendo exemplos padronizados de ícones e imagens, com seus respectivos atributos de aplicação, utilizadas na solução_
+- **Semelhança** — representam visualmente o objeto ao qual se referem (ex.: folha para natureza, gota para água);
+- **Referência** — estabelecem uma analogia com o conceito representado (ex.: engrenagem para configurações);
+- **Arbitrários** — têm significado definido apenas por convenção (ex.: triângulo de alerta).
 
-A iconografia da solução utiliza a biblioteca **Phosphor Icons**, escolhida por seu
-traço generoso e alta legibilidade em telas mobile e web sob luz solar direta. Os
-ícones são aplicados exclusivamente nos estilos **Bold** e **Fill**, que apresentam
-melhor desempenho em condições de alta iluminância, onde traços finos tendem a
-desaparecer [27].
 
-De acordo com Nielsen [22], os ícones podem ser classificados em três categorias
-segundo seu grau de correspondência com o conceito que representam:
+A biblioteca foi selecionada priorizando ícones de semelhança, categoria que apresenta melhor usabilidade e menor dependência cultural [22]. Ícones arbitrários foram adotados apenas quando já amplamente convencionados — como o símbolo de alerta — evitando ambiguidade para o usuário.
 
-- **Semelhança** — representam visualmente o objeto ao qual se referem
-(ex.: folha para natureza, gota para água);
-- **Referência** — estabelecem uma analogia com o conceito representado
-(ex.: engrenagem para configurações);
-- **Arbitrários** — têm significado definido apenas por convenção
-(ex.: triângulo de alerta).
+Todo ícone funcional da interface é acompanhado de rótulo textual, nunca utilizadode forma isolada em ações críticas. Essa decisão reforça a acessibilidade e reduzerros de interpretação, especialmente em contextos de uso ao ar livre onde a atenção do usuário pode estar dividida [28].
 
-A biblioteca foi selecionada priorizando ícones de semelhança, categoria que
-apresenta melhor usabilidade e menor dependência cultural [22]. Ícones arbitrários
-foram adotados apenas quando já amplamente convencionados — como o símbolo de
-alerta — evitando ambiguidade para o usuário.
+**Atributos de aplicação**
 
-Todo ícone funcional da interface é acompanhado de rótulo textual, nunca utilizado
-de forma isolada em ações críticas. Essa decisão reforça a acessibilidade e reduz
-erros de interpretação, especialmente em contextos de uso ao ar livre onde a atenção
-do usuário pode estar dividida [28].
+| Imagem | Ícone | Tamanho | Uso |
+|---|---|---|---|
+| <img src="./assets/icones/casa.png" width="40"/> | Home | 24px | Navegação principal |
+| <img src="./assets/icones/concluido.png" width="40"/> | Check Circle | 35px | Confirmações e sucesso |
+| <img src="./assets/icones/engrenagem.png" width="40"/> | Gear | 24px | Configurações |
+| <img src="./assets/icones/ferramenta.png" width="40"/> | Tool | 24px | Acessar infraestrutura |
+| <img src="./assets/icones/microfone.png" width="40"/> | Microphone | 24px | Localização e área |
+| <img src="./assets/icones/camera.png" width="40"/> | Camera | 24px e 84px | Adicionar fotos |
+| <img src="./assets/icones/rebanho.png" width="40"/> | Cow | 24px | Movimentação de rebanhos |
+| <img src="./assets/icones/salvar.png" width="40"/> | Floppy Disk | 24px | Salvar informações |
+| <img src="./assets/icones/play.png" width="40"/> | Play | 24px | Iniciar tarefas |
+| <img src="./assets/icones/baixar.png" width="40"/> | Download Simple | 24px | Baixar dados |
+| <img src="./assets/icones/tarefas.png" width="40"/> | Paper Clip | 24px | Tarefas |
+| <img src="./assets/icones/tempo.png" width="40"/> | Clock Counter Clockwise | 24px | Histórico do chamado |
+| <img src="./assets/icones/quase.png" width="40"/> | Circle Notch | 35px | Em andamento |
+| <img src="./assets/icones/notas.png" width="40"/> | Note | 35px | Chamado em aberto |
+| <img src="./assets/icones/clipe.png" width="40"/> | Paper Clip | 32px | Anexar foto |
+| <img src="./assets/icones/boleta.png" width="40"/> | Note Pencil | 32px | Boletas |
+| <img src="./assets/icones/label.png" width="40"/> | Label | 32px | Classificação |
 
-### Atributos de aplicação
+> Tamanho mínimo adotado: **24px**. Nenhum ícone funcional da interface utiliza tamanho inferior a esse valor, garantindo identificação visual mesmo em dispositivos móveis sob luz solar direta [25][27].
 
-| Imagem | Ícone | Estilo | Tamanho | Uso |
-|---|---|---|---|---|
-| <img src="./assets/icone-home.png" width="40"/> | Home | Bold | 24px | Navegação principal |
-| <img src="./assets/icone-alerta.png" width="40"/> | Warning | Fill | 24px | Alertas e erros |
-| <img src="./assets/icone-check.png" width="40"/> | Check Circle | Fill | 24px | Confirmações e sucesso |
-| <img src="./assets/icone-configs.png" width="40"/> | Gear | Bold | 24px | Configurações |
-| <img src="./assets/icone-usuario.png" width="40"/> | User | Bold | 24px | Perfil e autenticação |
-| <img src="./assets/icone-mapa.png" width="40"/> | Map Pin | Fill | 24px | Localização e área |
-| <img src="./assets/icone-calendario.png" width="40"/> | Calendar | Bold | 24px | Datas e agendamentos |
-| <img src="./assets/icone-relatorio.png" width="40"/> | Chart Bar | Bold | 24px | Relatórios e dados |
+---
 
-> Tamanho mínimo adotado: **24px**. Nenhum ícone funcional da interface
-> utiliza tamanho inferior a esse valor, garantindo identificação visual
-> mesmo em dispositivos móveis sob luz solar direta [25][27].
+#### Imagens
+
+No guia de estilo, a seção de imagens define quais assets visuais estáticos fazem parte da identidade do produto e como devem ser aplicados. Diferente dos ícones, que são elementos funcionais da interface, como os da biblioteca Phosphor Icons, as imagens são representações visuais da marca em si [35].
+
+No caso desta solução, o único asset de imagem utilizado é o **logotipo da SynTech**, a plataforma web do projeto. Ele deve ser tratado como elemento protegido da identidade visual: sua proporção não deve ser alterada e sua aplicação se limita ao cabeçalho da plataforma, garantindo reconhecimento consistente da marca ao longo de toda a experiência do usuário.
+
+<center>
+  <p><strong>Figura 19</strong> - Logotipo Syntech</p>
+  <img src="./assets/syntech.png" width="800"/>
+  <p>Fonte: Próprios Autores.</p>
+</center>
 
 ## 3.5 Protótipo de alta fidelidade (sprint 3)
-
-## 3.5. Protótipo de Alta Fidelidade (sprint 3)
 
 O protótipo de alta fidelidade foi desenvolvido no Figma com base nas personas, User Stories priorizadas e no Guia de Estilos definido na seção 3.4. As decisões visuais priorizaram a acessibilidade operacional dos usuários de campo — em especial os Capatazes, que apresentam baixo letramento digital e utilizam o sistema em ambientes externos com alta incidência solar.
 
@@ -4680,15 +4680,19 @@ Industries and Competitors. New York: Free Press, 2008. ISBN 978-0-7432-7275-4.
 
 [28] BABICH, Nick. Principles of Typography in UI Design. UX Planet, 2016. Disponível em: https://uxplanet.org/principles-of-typography-in-ui-design-bc28f1f9666d. Acesso em: 19 maio 2026.
 
-[29] GAMMA, Erich; HELM, Richard; JOHNSON, Ralph; VLISSIDES, John. *Design Patterns: Elements of Reusable Object-Oriented Software*. Boston: Addison-Wesley, 1994. ISBN 978-0-201-63361-0.
+[29] GAMMA, Erich; HELM, Richard; JOHNSON, Ralph; VLISSIDES, John. Design Patterns: Elements of Reusable Object-Oriented Software. Boston: Addison-Wesley, 1994. ISBN 978-0-201-63361-0.
 
-[30] MARTIN, Robert C. *Clean Architecture: A Craftsman's Guide to Software Structure and Design*. Boston: Prentice Hall, 2017. ISBN 978-0-134-49416-6.
+[30] MARTIN, Robert C. Clean Architecture: A Craftsman's Guide to Software Structure and Design. Boston: Prentice Hall, 2017. ISBN 978-0-134-49416-6.
 
-[31] HOHPE, Gregor; WOOLF, Bobby. *Enterprise Integration Patterns: Designing, Building, and Deploying Messaging Solutions*. Boston: Addison-Wesley, 2003. ISBN 978-0-321-20068-6.
+[31] HOHPE, Gregor; WOOLF, Bobby. Enterprise Integration Patterns: Designing, Building, and Deploying Messaging Solutions. Boston: Addison-Wesley, 2003. ISBN 978-0-321-20068-6.
 
-[32] FOWLER, Martin. *Patterns of Enterprise Application Architecture*. Boston: Addison-Wesley, 2002. ISBN 978-0-321-12742-6.
+[32] FOWLER, Martin. Patterns of Enterprise Application Architecture. Boston: Addison-Wesley, 2002. ISBN 978-0-321-12742-6.
 
-[33] EVANS, Eric. *Domain-Driven Design: Tackling Complexity in the Heart of Software*. Boston: Addison-Wesley, 2003. ISBN 978-0-321-12521-7.
+[33] EVANS, Eric. Domain-Driven Design: Tackling Complexity in the Heart of Software. Boston: Addison-Wesley, 2003. ISBN 978-0-321-12521-7.
+
+[34] UX QUEST. Guia completo sobre paleta de cores para design de interface e UX. UX Quest, 2026. Disponível em: https://www.uxquest.com.br/blog/paleta-de-cores. Acesso em: 28 maio 2026.
+
+[35] SUA IMPRENSA. Guia de estilo da marca: o que é, como fazer e elementos essenciais. Sua Imprensa, 2025. Disponível em: https://suaimprensa.com.br/blog/guia-de-estilo-da-marca/. Acesso em: 28 maio 2026.
 
 # <a name="c9"></a>Anexos
 
