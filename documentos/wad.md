@@ -3041,7 +3041,7 @@ Todo ícone funcional da interface é acompanhado de rótulo textual, nunca util
 | <img src="./assets/icones/concluido.png" width="40"/> | Check Circle | 35px | Confirmações e sucesso |
 | <img src="./assets/icones/engrenagem.png" width="40"/> | Gear | 24px | Configurações |
 | <img src="./assets/icones/ferramenta.png" width="40"/> | Tool | 24px | Acessar infraestrutura |
-| <img src="./assets/icones/microfone.png" width="40"/> | Microphone | 24px | Localização e área |
+| <img src="./assets/icones/microfone.png" width="40"/> | Microphone | 24px | Gravar áudios |
 | <img src="./assets/icones/camera.png" width="40"/> | Camera | 24px e 84px | Adicionar fotos |
 | <img src="./assets/icones/rebanho.png" width="40"/> | Cow | 24px | Movimentação de rebanhos |
 | <img src="./assets/icones/salvar.png" width="40"/> | Floppy Disk | 24px | Salvar informações |
@@ -3051,7 +3051,7 @@ Todo ícone funcional da interface é acompanhado de rótulo textual, nunca util
 | <img src="./assets/icones/tempo.png" width="40"/> | Clock Counter Clockwise | 24px | Histórico do chamado |
 | <img src="./assets/icones/quase.png" width="40"/> | Circle Notch | 35px | Em andamento |
 | <img src="./assets/icones/notas.png" width="40"/> | Note | 35px | Chamado em aberto |
-| <img src="./assets/icones/clipe.png" width="40"/> | Paper Clip | 32px | Anexar foto |
+| <img src="./assets/icones/clipe.png" width="40"/> | Paperclip | 32px | Anexar foto |
 | <img src="./assets/icones/boleta.png" width="40"/> | Note Pencil | 32px | Boletas |
 | <img src="./assets/icones/label.png" width="40"/> | Label | 32px | Classificação |
 
@@ -3067,7 +3067,7 @@ No caso desta solução, o único asset de imagem utilizado é o **logotipo da S
 
 <center>
   <p><strong>Figura 20</strong> - Logotipo SynTech</p>
-  <img src="./assets/syntech.png" width="800"/>
+  <img src="./assets/syntech.png" width="300"/>
   <p>Fonte: Próprios autores.</p>
 </center>
 
