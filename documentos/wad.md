@@ -3053,7 +3053,8 @@ Todo ícone funcional da interface é acompanhado de rótulo textual, nunca util
 | <img src="./assets/icones/notas.png" width="40"/> | Note | 35px | Chamado em aberto |
 | <img src="./assets/icones/clipe.png" width="40"/> | Paperclip | 32px | Anexar foto |
 | <img src="./assets/icones/boleta.png" width="40"/> | Note Pencil | 32px | Boletas |
-| <img src="./assets/icones/pessoa.png" width="40"/> | Users Three | 32px | Gerente |
+| <img src="./assets/icones/pessoa.png" width="40"/> | Users Three | 32px | Identificação gerente |
+| <img src="./assets/icones/tag.png" width="40"/> | Tag | 32px | Classificação da evolução |
 
 > Tamanho mínimo adotado: **24px**. Nenhum ícone funcional da interface utiliza tamanho inferior a esse valor, garantindo identificação visual mesmo em dispositivos móveis sob luz solar direta [25][27].
 
