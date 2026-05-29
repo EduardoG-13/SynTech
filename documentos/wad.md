@@ -3114,7 +3114,7 @@ de voltar no cabeçalho das telas de detalhe, sidebar fixa nas versões desktop 
 de ação primária sempre posicionados na base da tela, criando um padrão de navegação
 previsível para todos os perfis de usuário.
 
-O protótipo navegável completo está disponível em: [Figma — Alta Fidelidade BRPec](https://www.figma.com/design/hsrRfUs4i1Veye6B88vDvy/Alta-fidelidade-BrPec)
+O protótipo navegável completo está disponível em: [Figma — Alta Fidelidade BRPec](https://www.figma.com/design/CnhVA41sJORDmEQ1DLbxfY/SynTech?node-id=0-1&p=f&t=MfPDxOuXEn461uAv-0)
 
 ---
 
