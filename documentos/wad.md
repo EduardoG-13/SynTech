@@ -3166,7 +3166,7 @@ A tela de conclusão de tarefa centraliza todas as ações necessárias para o C
 - **Botões "Tirar Foto" e "Salvar"** posicionados lado a lado na base da tela, com alturas de 56px e diferenciação visual clara: "Tirar Foto" com borda verde e fundo off-white, "Salvar" preenchido em verde profundo.
 - **Sidebar na versão desktop** com navegação entre Início, Tarefas, Movimentação e Configurações, garantindo que o usuário possa navegar para outras seções sem perder o contexto da tarefa em andamento.
 
-### 3.5.4. Painel de Infraestrutura — Capataz e Gerente (US06 / US07)
+### 3.5.4. Painel - Infraestrutura (US06 / US07)
 
 O painel de infraestrutura oferece uma visão consolidada dos chamados de manutenção da fazenda, organizados por categoria e status. A estrutura kanban na versão desktop e a lista de contadores na versão mobile permitem que tanto o Capataz quanto o Gerente identifiquem rapidamente o volume de demandas abertas, em andamento e encerradas, sem precisar navegar por múltiplas telas.
 
@@ -3178,7 +3178,7 @@ O painel de infraestrutura oferece uma visão consolidada dos chamados de manute
 
 <center>
   <p><strong>Figura 21</strong> — Protótipo de Alta Fidelidade: Painel de Infraestrutura (Mobile e Desktop)</p>
-  <img src="./assets/alta-fidelidade-infraestrutura.png" width="800"/>
+  <img src="./assets/mockups/alta-fidelidade-infraestrutura-painel.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3202,7 +3202,7 @@ A tela de criação de nova Ordem de Serviço centraliza todos os campos necess�
 
 <center>
   <p><strong>Figura 22</strong> — Protótipo de Alta Fidelidade: Tela de Nova Ordem de Serviço do Gerente (Mobile e Desktop)</p>
-  <img src="./assets/alta-fidelidade-gerente-nova-os.png" width="800"/>
+  <img src="./assets/mockups/alta-fidelidade-gerente-nova-os.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3227,7 +3227,7 @@ A tela de registro de resolução é acessada pelo técnico de infraestrutura ap
 
 <center>
   <p><strong>Figura 23</strong> — Protótipo de Alta Fidelidade: Tela de Registrar Resolução de Chamado (Mobile e Desktop)</p>
-  <img src="./assets/alta-fidelidade-infraestrutura-registrar-solucao.png" width="800"/>
+  <img src="./assets/mockups/alta-fidelidade-infraestrutura-resolver-chamado.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3252,7 +3252,7 @@ O dashboard é a tela inicial do Gerente e do Coordenador, oferecendo uma visão
 
 <center>
   <p><strong>Figura 24</strong> — Protótipo de Alta Fidelidade: Dashboard do Gerente e Coordenador (Mobile e Desktop)</p>
-  <img src="./assets/alta-fidelidade-gerente-coordenador-dashboard.png" width="800"/>
+  <img src="./assets/mockups/alta-fidelidade-gerente-coordenador-painel.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3278,7 +3278,7 @@ A tela de boletas é a interface principal do Coordenador para acesso e exporta�
 
 <center>
   <p><strong>Figura 25</strong> — Protótipo de Alta Fidelidade: Tela de Lista de Boletas do Coordenador (Mobile e Desktop)</p>
-  <img src="./assets/alta-fidelidade-coordenador-boletas.png" width="800"/>
+  <img src="./assets/mockups/alta-fidelidade-coordenador-boletas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
