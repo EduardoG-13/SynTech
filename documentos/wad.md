@@ -1164,12 +1164,12 @@ A matriz a seguir consolida a rastreabilidade entre Requisitos Funcionais (RF, s
 | RF002 | RN02, RN05       | `/tarefas/:id/concluir`          | PATCH         | Routes → Controller → Service → Repository                          | Alterar o status da tarefa para concluída (com timestamp)        |
 | RF005 | RN13, RN15       | `/tarefas/:id/evidencias`        | POST          | Routes → Controller → Service → Repository (evidência Base64)       | Anexar evidência de texto ou arquivo (Base64) a uma tarefa       |
 | RF006 | RN19, RN21, RN26 | `/chamados`                      | POST          | Routes → Controller → Service → Repository (`alertaRepository`)     | Criar chamado/alerta de infraestrutura com geolocalização        |
-| RF014 | RN29, RN31       | `/eventos-zootecnicos`           | GET           | Routes → Controller → Service → Repository (`eventoRepository`)     | Listar todos os eventos zootécnicos registrados                  |
+| RF014 | —                | `/eventos-zootecnicos`           | GET           | Routes → Controller → Service → Repository (`eventoRepository`)     | Listar todos os eventos zootécnicos registrados                  |
 | RF008 | RN27             | `/eventos-zootecnicos/nascimentos` | POST        | Routes → Controller → Service → Repository                          | Registrar nascimento de animal (transação tabela detalhe)        |
 | RF009 | RN27, RN28, RF013| `/eventos-zootecnicos/obitos`    | POST          | Routes → Controller (+ validação) → Service → Repository            | Registrar óbito de animal com causa da morte                     |
 | RF007 | RN10, RN11       | `/painel-gerencial`              | GET           | Routes → Controller → Service (agregação) → Repository              | Obter métricas consolidadas de tarefas e eventos para o painel   |
 | RF010 | RF011, RF012     | `/sincronizacao/lote`            | POST          | Routes → Controller → Service (drena fila) → Repository             | Processar fila de sincronização em lote enviada pelo PWA         |
-| RF015 | RN31, RN32       | `/exportacao/csv`                | GET           | Routes → Controller → Service (gerador CSV) → Repository            | Gerar e exportar arquivo CSV com dados operacionais consolidados |
+| RF015 | —                | `/exportacao/csv`                | GET           | Routes → Controller → Service (gerador CSV) → Repository            | Gerar e exportar arquivo CSV com dados operacionais consolidados |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -1348,7 +1348,7 @@ A solução é composta por **cinco camadas lógicas** no backend, implementadas
 
 **4. Repository (Camada de Acesso a Dados)**
 - **Responsabilidade:** encapsular todo o acesso ao banco de dados — consultas SQL, inserts, updates, deletes e chamadas ao cliente Supabase. Cada Repository corresponde, em geral, a uma entidade (`tarefasRepository`, `usuariosRepository`, etc.). **Não** contém regras de negócio: opera sobre dados.
-- **Localização:** `g03/src/backend/repositories/` (pasta criada, implementação prevista para as sprints 3 e 4). O cliente Supabase compartilhado fica em [g03/src/lib/supabaseClient.js](g03/src/lib/supabaseClient.js) e o pool `pg` é configurado em `g03/src/backend/config/database.js`.
+- **Localização:** `src/backend/repositories/` (implementado nesta sprint: `tarefaRepository.ts`, `alertaRepository.ts`, `eventoRepository.ts`, etc.). A conexão com o banco local é gerenciada em `src/backend/config/database.ts`.
 - **Quem chama / chama quem:** chamado pelos Services, chama o driver do banco (`pg` ou `@supabase/supabase-js`).
 
 **5. Model (Camada de Entidades de Domínio)**
@@ -1410,7 +1410,7 @@ A arquitetura descrita acima é a **arquitetura-alvo** do projeto. O estado da i
 | Repositories | Pasta criada, implementação prevista para a sprint 3                                  |
 | Models       | Pasta criada, implementação prevista para a sprint 3                                  |
 
-A configuração do banco (`config/database.js`) e o cliente Supabase compartilhado ([src/lib/supabaseClient.js](g03/src/lib/supabaseClient.js)) já estão preparados para suportar a camada Repository quando ela for desenvolvida.
+A configuração do banco (`src/backend/config/database.ts`) já está preparada e em uso pela camada Repository implementada nesta sprint.
 
 ### 3.2.2. Diagrama de Casos de Uso (sprint 1)
 
@@ -1434,7 +1434,7 @@ UC01 — Planejar tarefas (RF001)
 | Pós-condições | A tarefa é registrada no sistema e fica disponível para distribuição |
 
 <center>
-  <p><strong>Quadro 11</strong> — Caso de Uso UC01</p>
+  <p><strong>Quadro 13</strong> — Caso de Uso UC01</p>
 </center>
 
 <center>
@@ -1451,7 +1451,7 @@ UC02 — Distribuir tarefas por retiro (RF002)
 | Pós-condições | A tarefa é atribuída e visível para execução pelos Capatazes |
 
 <center>
-  <p><strong>Quadro 12</strong> — Caso de Uso UC02</p>
+  <p><strong>Quadro 14</strong> — Caso de Uso UC02</p>
 </center>
 
 <center>
@@ -1468,7 +1468,7 @@ UC03 — Visualizar tarefas do dia (RF003)
 | Pós-condições | As tarefas são exibidas para execução |
 
 <center>
-  <p><strong>Quadro 13</strong> — Caso de Uso UC03</p>
+  <p><strong>Quadro 15</strong> — Caso de Uso UC03</p>
 </center>
 
 <center>
@@ -1485,7 +1485,7 @@ UC04 — Registrar execução de tarefa (RF004)
 | Pós-condições | A tarefa é registrada como concluída e atualizada no sistema |
 
 <center>
-  <p><strong>Quadro 14</strong> — Caso de Uso UC04</p>
+  <p><strong>Quadro 16</strong> — Caso de Uso UC04</p>
 </center>
 
 <center>
@@ -1502,7 +1502,7 @@ UC05 — Anexar evidência (RF005)
 | Pós-condições | A evidência é armazenada e vinculada à tarefa |
 
 <center>
-  <p><strong>Quadro 15</strong> — Caso de Uso UC05</p>
+  <p><strong>Quadro 17</strong> — Caso de Uso UC05</p>
 </center>
 
 <center>
@@ -1519,7 +1519,7 @@ UC06 — Registrar movimentação (RF006)
 | Pós-condições | A movimentação é armazenada para posterior validação |
 
 <center>
-  <p><strong>Quadro 16</strong> — Caso de Uso UC06</p>
+  <p><strong>Quadro 18</strong> — Caso de Uso UC06</p>
 </center>
 
 <center>
@@ -1536,7 +1536,7 @@ UC07 — Validar movimentações (RF007)
 | Pós-condições | As movimentações são confirmadas e consideradas válidas |
 
 <center>
-  <p><strong>Quadro 17</strong> — Caso de Uso UC07</p>
+  <p><strong>Quadro 19</strong> — Caso de Uso UC07</p>
 </center>
 
 <center>
@@ -1553,7 +1553,7 @@ UC08 — Consultar dados consolidados (RF008)
 | Pós-condições | As informações são exibidas para análise |
 
 <center>
-  <p><strong>Quadro 18</strong> — Caso de Uso UC08</p>
+  <p><strong>Quadro 20</strong> — Caso de Uso UC08</p>
 </center>
 
 <center>
@@ -1570,7 +1570,7 @@ UC09 — Exportar relatórios (RF009)
 | Pós-condições | O relatório é gerado e disponibilizado para download |
 
 <center>
-  <p><strong>Quadro 19</strong> — Caso de Uso UC09</p>
+  <p><strong>Quadro 21</strong> — Caso de Uso UC09</p>
 </center>
 
 <center>
@@ -2701,26 +2701,24 @@ _Diagrama UML de deployment mostrando nós físicos, artefatos e canais de comun
 
 O Sistema BrPec aplica padrões de projeto motivados por **três restrições estruturais** documentadas neste WAD: (i) a **conectividade satelital intermitente** via Starlink, que impõe arquitetura offline-first (seções 1 e 3.1.3); (ii) os **quatro perfis distintos de usuário** — Gerente, Coordenador, Capataz e Técnico — com regras de operação diferentes (seção 2.2); e (iii) a possibilidade de **evolução da camada de persistência**, hoje implementada com `better-sqlite3` para o cache local e `@supabase/supabase-js` para o servidor central (seção 3.2.1). Cada padrão a seguir é apresentado com categoria GoF [29], localização no repositório, necessidade de negócio que atende e princípios SOLID materializados [30].
 
-A tabela a seguir consolida os seis padrões adotados, indicando para cada um a categoria GoF, a pasta/arquivo correspondente no repositório, a necessidade de negócio atendida e os princípios SOLID materializados. Os padrões com status "previsto" estão planejados para sprints posteriores e serão implementados conforme as funcionalidades correspondentes forem desenvolvidas.
+A tabela a seguir consolida os quatro padrões adotados nesta sprint, indicando para cada um a categoria GoF, a pasta/arquivo correspondente no repositório, a necessidade de negócio atendida e os princípios SOLID materializados. O padrão com status "previsto" está planejado para sprint posterior e será implementado conforme as funcionalidades correspondentes forem desenvolvidas.
 
 <center>
-  <p><strong>Quadro 20</strong> — Padrões de projeto aplicados ao Sistema BrPec</p>
+  <p><strong>Quadro 22</strong> — Padrões de projeto aplicados ao Sistema BrPec</p>
 </center>
 
-| # | Padrão              | Categoria        | Localização no repositório                                  | Necessidade que atende                                  | SOLID    |
-|---|---------------------|------------------|-------------------------------------------------------------|---------------------------------------------------------|----------|
-| 1 | Repository          | Estrutural       | `src/repositories/` (ex.: `movimentacaoRepository.ts`)      | Isolar a troca de driver/ORM da camada de persistência  | S, D     |
-| 2 | Outbox (Sync Queue) | Arquitetural [31] | Tabela `sync_queue` (Migration 011) + `src/services/syncNotifier.ts` | Offline-first: 0% de perda de dados em falha de rede    | S, O     |
-| 3 | DTO                 | Estrutural       | `src/dtos/` (previsto na sprint 3)                          | Desacoplar schema do banco da API pública               | S, I     |
-| 4 | Singleton           | Criacional       | `src/lib/supabaseClient.js`                                 | Reuso de uma única instância do cliente Supabase        | D        |
-| 5 | Middleware Chain    | Comportamental   | `src/middlewares/` (previsto na sprint 3)                   | Pipeline plugável de cross-cutting concerns             | S, O     |
-| 6 | Strategy            | Comportamental   | `src/middlewares/permissions/` (previsto na sprint 5)       | Regras de autorização distintas por perfil de usuário   | O, L     |
+| # | Padrão              | Categoria         | Localização no repositório                                                                        | Necessidade que atende                                  | SOLID |
+|---|---------------------|-------------------|---------------------------------------------------------------------------------------------------|---------------------------------------------------------|-------|
+| 1 | Repository          | Estrutural        | `src/backend/repositories/` (ex.: `tarefaRepository.ts`)                                         | Isolar a troca de driver/ORM da camada de persistência  | S, D  |
+| 2 | Outbox (Sync Queue) | Arquitetural [31] | Tabela `sincronizacoes` (migration.sql) + `src/backend/services/sincronizacaoService.ts`          | Offline-first: 0% de perda de dados em falha de rede   | S, O  |
+| 3 | Singleton           | Criacional        | `src/backend/config/database.ts`                                                                  | Reuso de uma única instância do cliente de banco local  | D     |
+| 4 | Strategy            | Comportamental    | `src/backend/middlewares/permissions/` (previsto para a sprint 5)                                 | Regras de autorização distintas por perfil de usuário   | O, L  |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-Os padrões 1, 2 e 4 já possuem implementação parcial no repositório, validando a arquitetura proposta. Os padrões 3, 5 e 6 estão planejados para as próximas sprints, conforme o cronograma de implementação dos endpoints (sprint 3), das validações de payload (sprint 3) e do controle de autorização (sprint 5). O detalhamento de cada padrão, com sua justificativa de negócio e princípios SOLID associados, é apresentado nas subseções seguintes.
+Os padrões 1, 2 e 3 já possuem implementação no repositório, validando a arquitetura proposta. O padrão 4 está planejado para a sprint 5, conforme o cronograma de implementação do controle de autorização. O detalhamento de cada padrão, com sua justificativa de negócio e princípios SOLID associados, é apresentado nas subseções seguintes.
 
 #### 1. Repository Pattern *(estrutural)*
 
@@ -2734,15 +2732,15 @@ Os padrões 1, 2 e 4 já possuem implementação parcial no repositório, valida
 
 #### 2. Outbox / Sync Queue *(arquitetural)*
 
-**Localização:** tabela `sync_queue` (Migration 011, seção 3.6.3) + serviço já implementado em `src/services/syncNotifier.ts`.
+**Localização:** tabela `sincronizacoes` (migration.sql, seção 3.6.3) + serviço já implementado em `src/backend/services/sincronizacaoService.ts`.
 
-**Necessidade que atende:** é o coração da arquitetura offline-first do BrPec e atende diretamente ao RNF de **integridade da sincronização** ("0% de perda de dados em falhas de conexão", seção 3.1.3, eixo CONF). Quando o capataz conclui uma tarefa sem internet (US03), a operação é gravada no banco local SQLite e enfileirada na `sync_queue`. Ao restabelecer comunicação com a Starlink, o `syncNotifier` drena a fila e replica as operações no servidor central via Supabase, com idempotência garantida pelo UUID gerado client-side (seção 3.6.3 — Nota Técnica). É a aplicação direta do **Transactional Outbox** [31], padrão consagrado em sistemas distribuídos para garantir entrega eventual sem perda de dados.
+**Necessidade que atende:** é o coração da arquitetura offline-first do BrPec e atende diretamente ao RNF de **integridade da sincronização** ("0% de perda de dados em falhas de conexão", seção 3.1.3, eixo CONF). Quando o capataz conclui uma tarefa sem internet (US03), a operação é gravada no banco local SQLite e enfileirada na tabela `sincronizacoes`. Ao restabelecer comunicação com a Starlink, o `sincronizacaoService` drena a fila e replica as operações no servidor central via Supabase, com idempotência garantida pelo UUID gerado client-side (seção 3.6.3 — Nota Técnica). É a aplicação direta do **Transactional Outbox** [31], padrão consagrado em sistemas distribuídos para garantir entrega eventual sem perda de dados.
 
 **Princípios SOLID:** **S** — a fila tem uma única responsabilidade (garantir entrega eventual); **O** — novos tipos de operação (`INSERT`, `UPDATE`, `DELETE`, futuramente `MERGE`) podem ser adicionados sem alterar o processador.
 
-#### 3. DTO (Data Transfer Object) *(estrutural)*
+#### 3. DTO (Data Transfer Object) *(estrutural — não implementado na sprint 3)*
 
-**Localização planejada:** `src/dtos/` (ex.: `CriarTarefaDTO.ts`, `TarefaResponseDTO.ts`), a implementar ao longo da sprint 3 conforme os endpoints são desenvolvidos.
+**Localização planejada:** `src/backend/dtos/` (ex.: `CriarTarefaDTO.ts`, `TarefaResponseDTO.ts`), a implementar em sprints futuras conforme os endpoints forem evoluídos.
 
 **Necessidade que atende:** existe uma diferença real entre o que o cliente envia, o que o banco persiste e o que a API devolve. Para a US01, o cliente envia `{titulo, retiro_id, prazo}`; o banco persiste `{id, titulo, retiro_id, autor_id, criado_em, sincronizado_em, deletado_em}` (Migration 003); e a resposta da API expõe `{id, titulo, retiro: {id, nome}, prazo, status}`, sem campos internos como `autor_id`. DTOs evitam que detalhes do schema vazem na API pública e protegem o backend de payloads mal formados, validando entrada na fronteira Controller → Service. O padrão segue a recomendação de Evans [33] de isolar o modelo de domínio da camada de apresentação.
 
@@ -2799,23 +2797,23 @@ Linha persistida em `tarefas` (Migration 003) — o que o banco efetivamente gua
 
 Note que o response **omite** campos internos como `criado_em`, `sincronizado_em` e `deletado_em` (relevantes só para o backend) e simplifica a estrutura para o consumidor da API. Esse é exatamente o papel do DTO: nenhum dos três representa "a tarefa" sozinho — cada um é a forma apropriada da entidade para sua fronteira específica. Exemplos completos de request/response dos demais endpoints encontram-se na seção 3.1.4.
 
-#### 4. Singleton *(criacional)*
+#### 3. Singleton *(criacional)*
 
-**Localização:** `src/lib/supabaseClient.js` — uma única instância do `createClient(SUPABASE_URL, SUPABASE_ANON_KEY)` reutilizada em todo o backend.
+**Localização:** `src/backend/config/database.ts` — uma única instância do cliente de banco de dados (SQLite via `better-sqlite3`) reutilizada em todo o backend.
 
-**Necessidade que atende:** evita inicializações redundantes do cliente Supabase a cada requisição, economizando alocação de pool de conexões e leitura repetida de variáveis de ambiente. Vale registrar a crítica de Fowler [32] e da comunidade DDD ao uso indiscriminado do padrão (acoplamento global, dificuldade de teste); aqui o uso é justificado por se tratar de um cliente de infraestrutura sem estado de negócio, e a injeção do cliente nos repositories preserva a testabilidade.
+**Necessidade que atende:** evita inicializações redundantes do banco SQLite a cada requisição, garantindo que a mesma conexão e cache em memória do `better-sqlite3` sejam compartilhados por todos os repositories. Vale registrar a crítica de Fowler [32] e da comunidade DDD ao uso indiscriminado do padrão (acoplamento global, dificuldade de teste); aqui o uso é justificado por se tratar de um cliente de infraestrutura sem estado de negócio, e a injeção do cliente nos repositories preserva a testabilidade.
 
 **Princípios SOLID:** **D** — toda a aplicação depende da mesma abstração de cliente, injetada nos repositories.
 
-#### 5. Middleware Chain (Chain of Responsibility) *(comportamental)*
+#### Middleware Chain (Chain of Responsibility) *(comportamental — planejado para as sprints 4-5)*
 
-**Localização planejada:** `src/middlewares/` (autenticação, autorização, validação de payload, tratamento de erros), a implementar ao longo das sprints 3 a 5 conforme os requisitos da seção 3.8 são desenvolvidos.
+**Localização planejada:** `src/backend/middlewares/` (autenticação, autorização, validação de payload, tratamento de erros), a implementar ao longo das sprints 4 a 5 conforme os requisitos da seção 3.8 forem desenvolvidos.
 
 **Necessidade que atende:** cada requisição ao backend precisa passar por uma sequência de verificações antes de chegar ao Controller — autenticar o usuário (seção 3.8.1), autorizar a operação (seção 3.8.3), validar o payload contra o DTO esperado e, ao final, tratar exceções de forma uniforme (seção 3.8.4). O Middleware Chain do Express materializa esse pipeline de forma plugável: cada novo cross-cutting concern (logging, métricas, rate-limiting) entra como um novo middleware sem alterar os existentes — instância concreta do padrão Chain of Responsibility [29].
 
 **Princípios SOLID:** **S** — cada middleware tem uma responsabilidade isolada; **O** — novos middlewares são plugados na cadeia sem modificar os anteriores.
 
-#### 6. Strategy *(comportamental — previsto para a sprint 5)*
+#### 4. Strategy *(comportamental — previsto para a sprint 5)*
 
 **Localização planejada:** `src/middlewares/permissions/` (ex.: `GerenteStrategy.ts`, `CoordenadorStrategy.ts`, `CapatazStrategy.ts`, `TecnicoStrategy.ts`), invocadas pelo middleware de autorização da seção 3.8.3.
 
@@ -4464,7 +4462,7 @@ _Descreva as estratégias aplicadas no tratamento de falhas de rede: timeout, re
 A RTM rastreia cada User Story do BrPec da persona até a evidência de teste, atravessando Requisito Funcional (RF), Regra de Negócio (RN), endpoint, tela e caso de teste automatizado. Esta versão consolida os fluxos centrais já implementados e testados na sprint 3 — sem lacunas: cada linha possui endpoint funcional em `src/backend/`, tela correspondente e teste automatizado com evidência de execução.
 
 <center>
-  <p><strong>Tabela 9</strong> — Matriz de Rastreabilidade (RTM)</p>
+  <p><strong>Tabela 20</strong> — Matriz de Rastreabilidade (RTM)</p>
 </center>
 
 | Persona | US | RF | RN | Endpoint | Tela | Teste |
