@@ -2946,7 +2946,17 @@ O quadro a seguir consolida a relação entre personas, User Stories priorizadas
 
 ## 3.4. Guia de estilos (sprint 3)
 
-Um guia de estilo (style guide) é um documento de referência que centraliza todas as decisões visuais de um produto digital, como cores, tipografia, ícones, espaçamentos, componentes e outros. Isso, garantindo consistência em todo o sistema. É tanto um instrumento de comunicação entre designers e desenvolvedores quanto um repositório vivo de decisões de design [22][23].
+Um guia de estilo (style guide) é um documento de referência que centraliza todas as decisões visuais de um produto digital, como cores, tipografia, ícones, espaçamentos, componentes e outros, garantindo consistência em todo o sistema. É tanto um instrumento de comunicação entre designers e desenvolvedores quanto um repositório vivo de decisões de design [22][23].
+
+O Guia de Estilos navegável completo está disponível em: [Figma - SynTech](https://www.figma.com/design/CnhVA41sJORDmEQ1DLbxfY/SynTech?node-id=198-939)
+
+<center>
+  <p><strong>Figura 18</strong> - Guia de Estilos Completo</p>
+  <img src="./assets/guiaDeEstilos.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+A Figura 18 apresenta o guia de estilos completo da plataforma SynTech, consolidando em uma única visualização as decisões visuais do produto: paleta de cores, escala tipográfica, biblioteca de ícones e componentes de interface. O documento serve como referência central para garantir consistência entre design e desenvolvimento ao longo de todo o projeto.
 
 ### 3.4.1 Cores
 
@@ -2991,7 +3001,13 @@ Em condições de exposição solar direta, que pode ultrapassar 100.000 lux [26
 
 A escolha tipográfica em interfaces digitais vai além da estética. Fontes sem serifa de traço uniforme apresentam melhor desempenho em telas de baixa resolução e em condições adversas de luminosidade, como a exposição solar direta enfrentada pelos usuários deste projeto [28]. Além disso, o tamanho e o peso das fontes impactam diretamente a acessibilidade da interface: textos com peso insuficiente ou tamanho reduzido comprometem a leitura em ambientes de alta iluminância [25][27].
 
-A tipografia da solução utiliza a **Inter**, projetada especificamente para interfaces digitais, com alto desempenho em tamanhos reduzidos e em condições adversas de luminosidade [28].
+A tipografia da solução utiliza a família **Inter**, disponível gratuitamente via Google Fonts, projetada especificamente para interfaces digitais e com alto desempenho em tamanhos reduzidos e em condições adversas de luminosidade [28].
+
+<center>
+  <p><strong>Figura 19</strong> - Fonte Inter e suas variações</p>
+  <img src="./assets/interFont.png" width="800"/>
+  <p>Fonte: Font Squirrel.</p>
+</center>
 
 | Uso | Pesos utilizados |
 |---|---|
@@ -3003,7 +3019,7 @@ A tipografia da solução utiliza a **Inter**, projetada especificamente para in
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-### Escala tipográfica
+#### Escala tipográfica
 
 A escala tipográfica foi definida com base nos critérios de contraste e legibilidade das diretrizes WCAG 2.1, que recomendam tamanhos e pesos mínimos para garantir acessibilidade em diferentes contextos de uso [24]. Para ambientes externos com alta incidência de luz, recomenda-se priorizar pesos a partir de 500 (Medium) e tamanhos a partir de 16px no corpo do texto [27].
 
@@ -3036,7 +3052,7 @@ De acordo com Nielsen [22], os ícones podem ser classificados em três categori
 
 A biblioteca foi selecionada priorizando ícones de semelhança, categoria que apresenta melhor usabilidade e menor dependência cultural [22]. Ícones arbitrários foram adotados apenas quando já amplamente convencionados — como o símbolo de alerta — evitando ambiguidade para o usuário.
 
-Todo ícone funcional da interface é acompanhado de rótulo textual, nunca utilizadode forma isolada em ações críticas. Essa decisão reforça a acessibilidade e reduzerros de interpretação, especialmente em contextos de uso ao ar livre onde a atenção do usuário pode estar dividida [28].
+Todo ícone funcional da interface é acompanhado de rótulo textual, nunca utilizado de forma isolada em ações críticas. Essa decisão reforça a acessibilidade e reduz erros de interpretação, especialmente em contextos de uso ao ar livre onde a atenção do usuário pode estar dividida [28].
 
 **Atributos de aplicação**
 
@@ -3046,7 +3062,7 @@ Todo ícone funcional da interface é acompanhado de rótulo textual, nunca util
 | <img src="./assets/icones/concluido.png" width="40"/> | Check Circle | 35px | Confirmações e sucesso |
 | <img src="./assets/icones/engrenagem.png" width="40"/> | Gear | 24px | Configurações |
 | <img src="./assets/icones/ferramenta.png" width="40"/> | Tool | 24px | Acessar infraestrutura |
-| <img src="./assets/icones/microfone.png" width="40"/> | Microphone | 24px | Localização e área |
+| <img src="./assets/icones/microfone.png" width="40"/> | Microphone | 24px | Gravar áudios |
 | <img src="./assets/icones/camera.png" width="40"/> | Camera | 24px e 84px | Adicionar fotos |
 | <img src="./assets/icones/rebanho.png" width="40"/> | Cow | 24px | Movimentação de rebanhos |
 | <img src="./assets/icones/salvar.png" width="40"/> | Floppy Disk | 24px | Salvar informações |
@@ -3056,9 +3072,10 @@ Todo ícone funcional da interface é acompanhado de rótulo textual, nunca util
 | <img src="./assets/icones/tempo.png" width="40"/> | Clock Counter Clockwise | 24px | Histórico do chamado |
 | <img src="./assets/icones/quase.png" width="40"/> | Circle Notch | 35px | Em andamento |
 | <img src="./assets/icones/notas.png" width="40"/> | Note | 35px | Chamado em aberto |
-| <img src="./assets/icones/clipe.png" width="40"/> | Paper Clip | 32px | Anexar foto |
+| <img src="./assets/icones/clipe.png" width="40"/> | Paperclip | 32px | Anexar foto |
 | <img src="./assets/icones/boleta.png" width="40"/> | Note Pencil | 32px | Boletas |
-| <img src="./assets/icones/label.png" width="40"/> | Label | 32px | Classificação |
+| <img src="./assets/icones/pessoa.png" width="40"/> | Users Three | 32px | Identificação gerente |
+| <img src="./assets/icones/tag.png" width="40"/> | Tag | 32px | Classificação da evolução |
 
 > Tamanho mínimo adotado: **24px**. Nenhum ícone funcional da interface utiliza tamanho inferior a esse valor, garantindo identificação visual mesmo em dispositivos móveis sob luz solar direta [25][27].
 
@@ -3066,14 +3083,14 @@ Todo ícone funcional da interface é acompanhado de rótulo textual, nunca util
 
 #### Imagens
 
-No guia de estilo, a seção de imagens define quais assets visuais estáticos fazem parte da identidade do produto e como devem ser aplicados. Diferente dos ícones, que são elementos funcionais da interface, como os da biblioteca Phosphor Icons, as imagens são representações visuais da marca em si [35].
+No guia de estilo, a seção de imagens define quais assets visuais estáticos fazem parte da identidade do produto e como devem ser aplicados. Diferentemente dos ícones, que são elementos funcionais da interface, como os da biblioteca Phosphor Icons, as imagens são representações visuais da marca em si [35].
 
 No caso desta solução, o único asset de imagem utilizado é o **logotipo da SynTech**, a plataforma web do projeto. Ele deve ser tratado como elemento protegido da identidade visual: sua proporção não deve ser alterada e sua aplicação se limita ao cabeçalho da plataforma, garantindo reconhecimento consistente da marca ao longo de toda a experiência do usuário.
 
 <center>
-  <p><strong>Figura 19</strong> - Logotipo Syntech</p>
-  <img src="./assets/syntech.png" width="800"/>
-  <p>Fonte: Próprios Autores.</p>
+  <p><strong>Figura 20</strong> - Logotipo SynTech</p>
+  <img src="./assets/syntech.png" width="300"/>
+  <p>Fonte: Próprios autores.</p>
 </center>
 
 <center>
@@ -3087,7 +3104,11 @@ O protótipo de alta fidelidade foi desenvolvido no Figma com base nas personas,
 
 As telas seguem as diretrizes de contraste nível AAA (WCAG 1.4.6, razão mínima de 7:1), tipografia Inter com tamanhos mínimos de 14px e elementos de interação dimensionados para uso tátil em dispositivos móveis (altura mínima de 56px nos botões de ação principal). A paleta aplicada segue integralmente a definida na seção 3.4.1 — Verde Profundo (`#1A4D2E`) como cor primária e Off-white Quente (`#F5F0E8`) como fundo. O layout foi estruturado com base em um sistema de grid de 12 colunas com margens de 20px nas versões mobile e 48px nas versões desktop, garantindo alinhamento consistente entre todos os elementos.
 
-O protótipo navegável completo está disponível em: [Figma — Alta Fidelidade BRPec](https://www.figma.com/design/CnhVA41sJORDmEQ1DLbxfY/SynTech?node-id=0-1&p=f&t=DEUlW5hURHSp6ujr-0)
+O protótipo navegável completo está disponível em: [Figma - Alta Fidelidade BRPec](https://www.figma.com/design/hsrRfUs4i1Veye6B88vDvy/Alta-fidelidade-BrPec)
+
+### Alinhamento com os RNFs
+
+O guia de estilos e os protótipos demonstram alinhamento com os principais requisitos FURPS+ endereçáveis por interface. Em usabilidade, todos os botões de ação principal respeitam altura mínima de 56–64px, acima do limiar de 44px exigido, e o contraste de 7:1 (WCAG AAA) garante legibilidade sob luz solar direta, complementado pela tipografia Inter a partir de 14px e ícones Bold/Fill com mínimo de 24px — decisões que tornam a interface adequada para operação em campo. Em confiabilidade, as telas do Capataz documentam explicitamente o comportamento offline nos critérios de aceite, evidenciando a estratégia offline-first no nível da interface. Em portabilidade, todas as oito telas foram prototipadas em versões mobile e desktop com sistema de grid de 12 colunas e margens adaptativas, cobrindo a faixa de 5" a 12" requerida. Em compatibilidade, a tela de Boletas apresenta o acionamento de exportação CSV diretamente na listagem, com detalhes de codificação delegados ao backend. Os requisitos de desempenho (latência p95 < 200ms), suportabilidade (MTTR de bugs) e capacidade (sincronização em lote de 500 eventos) são métricas de arquitetura e infraestrutura, não representáveis nem verificáveis por meio de protótipos de interface.
 
 ---
 
@@ -4515,7 +4536,245 @@ A RTM rastreia cada User Story do BrPec da persona até a evidência de teste, a
 
 ## 4.1. Primeira versão da aplicação web (sprint 3)
 
-_Descreva e ilustre aqui o desenvolvimento da primeira versão do sistema web. Utilize prints de tela para ilustrar. Indique obrigatoriamente: (a) o que foi implementado, (b) o que não foi concluído, (c) dificuldades técnicas enfrentadas e próximos passos._
+A primeira versão da aplicação web SyncTech foi desenvolvida ao longo da sprint 3, materializando a arquitetura em camadas descrita na seção 3.2.1 e os protótipos de alta fidelidade documentados na seção 3.5. O sistema é composto por dois módulos principais: o **frontend estático** (`synctech-app/`), que implementa todas as telas navegáveis do protótipo usando HTML, CSS e JavaScript puro, e o **backend REST** (`src/backend/`), que expõe a WebAPI documentada na seção 3.7 utilizando Node.js, Express e SQLite.
+
+### (a) O que foi implementado
+
+#### Frontend — Interface Navegável Completa
+
+O frontend foi implementado como uma Single Page Application (SPA) leve, sem dependências de frameworks, composta por três arquivos principais: `index.html`, `css/styles.css` e `js/app.js`. A aplicação renderiza dinamicamente 16 telas navegáveis que cobrem todos os fluxos operacionais previstos nas User Stories priorizadas:
+
+**Fluxo do Capataz (US02 → US03 → US04 → US05):**
+
+- **Tela de seleção de perfil** — ponto de entrada do sistema, onde o usuário seleciona seu perfil (Capataz, Infraestrutura, Coordenador ou Gerente) por meio de botões com ícones representativos, seguindo o princípio de redução de digitação definido na persona do Capataz.
+
+<center>
+  <p><strong>Figura 25a</strong> — Primeira versão: Tela de Seleção de Perfil (Real)</p>
+  <img src="./assets/prints-v1/01-login-perfil.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de seleção de retiro** — exibida após o Capataz selecionar seu perfil, apresenta a lista dos 15 retiros reais da BrPec (Acurizal, Aroeira, Baia Bonita, Bodoquena 1, Bodoquena 2, Boqueirão, Caieira, CMB, Confinamento, Cristo, Morada Nova, Morro Azul, Puga, São Miguel e Vista Alegre) com busca por nome, permitindo navegação rápida mesmo em dispositivos com tela reduzida.
+
+<center>
+  <p><strong>Figura 25b</strong> — Primeira versão: Tela de Seleção de Retiro (Real)</p>
+  <img src="./assets/prints-v1/02-login-retiro.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de lista de tarefas (US02)** — exibe as tarefas do dia com cards contendo barra lateral colorida por status (âmbar para "Em andamento", verde para "Pendente"), filtros por tipo ("Todos" / "Rebanhos") e botão "Nova O.S." para criação rápida.
+
+<center>
+  <p><strong>Figura 26</strong> — Primeira versão: Tela de Lista de Tarefas do Capataz (Real)</p>
+  <img src="./assets/prints-v1/03-lista-tarefas.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de detalhe da tarefa (US02)** — apresenta título, badge de status, descrição textual, player de áudio para instruções gravadas pelo Gerente e placeholder para foto de referência, com botão "Iniciar Tarefa" em largura total.
+
+<center>
+  <p><strong>Figura 27</strong> — Primeira versão: Tela de Detalhe da Tarefa do Capataz (Real)</p>
+  <img src="./assets/prints-v1/04-detalhe-tarefa.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de concluir tarefa (US03/US04/US05)** — formulário de conclusão com campos para foto da conclusão, observações em texto e registro de áudio, com botões "Tirar Foto" e "Salvar" na base.
+
+<center>
+  <p><strong>Figura 28</strong> — Primeira versão: Tela de Concluir Tarefa do Capataz (Real)</p>
+  <img src="./assets/prints-v1/05-concluir-tarefa.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+**Fluxo de Movimentação do Rebanho (US08/US09):**
+
+- **Tela de nova boleta** — formulário completo de movimentação de animais com seleção de tipo de operação (Movimentação, Nascimento, Morte), seleção de retiros de origem e destino, contagem categorizada de animais por sexo e faixa etária (7 categorias de machos e 5 de fêmeas, conforme planilha real da BrPec) com steppers para incremento/decremento, total geral calculado automaticamente e campo de observações.
+
+<center>
+  <p><strong>Figura 28a</strong> — Primeira versão: Tela de Nova Boleta de Movimentação (Real)</p>
+  <img src="./assets/prints-v1/06-nova-boleta.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de registrar nascimento** — formulário simplificado para registro de nascimentos com data automática, seleção de retiro, categoria (Bezerro/Bezerra), stepper de quantidade e campo de foto opcional.
+
+<center>
+  <p><strong>Figura 28b</strong> — Primeira versão: Tela de Registrar Nascimento (Real)</p>
+  <img src="./assets/prints-v1/07-registrar-nascimento.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de registrar óbito (RF013)** — formulário com campos obrigatórios sinalizados visualmente (asterisco vermelho e borda vermelha): data, retiro, identificação do animal, categoria, causa da morte (14 causas cadastradas: Acidente, Atolado, Cobra, Deficiência nutricional, etc.), quantidade e foto obrigatória.
+
+<center>
+  <p><strong>Figura 28c</strong> — Primeira versão: Tela de Registrar Óbito (Real)</p>
+  <img src="./assets/prints-v1/08-registrar-obito.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+**Fluxo de Infraestrutura (US06/US07):**
+
+- **Painel de infraestrutura** — interface de gestão de chamados com filtros por categoria (Hidráulica, Cerca, Elétrica), cards de contadores por status (Abertos: 12, Em andamento: 5, Fechados: 28) e botão "+ Nova O.S.".
+
+<center>
+  <p><strong>Figura 29</strong> — Primeira versão: Painel de Infraestrutura (Real)</p>
+  <img src="./assets/prints-v1/10-painel-infraestrutura.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de resolver chamado** — formulário de registro de resolução com card de identificação do chamado, campo de descrição com contador de caracteres (0/500), área de anexo de foto com especificação de formatos aceitos, botão "Salvar Resolução" e histórico do chamado em timeline com três etapas (Aberto → Em andamento → Resolvido) incluindo datas e descrições.
+
+<center>
+  <p><strong>Figura 30</strong> — Primeira versão: Tela de Registrar Resolução de Chamado (Real)</p>
+  <img src="./assets/prints-v1/11-resolver-chamado.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+**Fluxo do Gerente (US01/US07):**
+
+- **Dashboard** — painel consolidado com filtros de retiro e data, gráfico de barras "Chamados por retiro", card "Evolução das demandas" com indicador percentual (75%), gráfico de rosca "Tarefas por status" com legenda colorida, e cards numéricos para "Alertas em aberto" e "Prioridades".
+
+<center>
+  <p><strong>Figura 31</strong> — Primeira versão: Dashboard do Gerente e Coordenador (Real)</p>
+  <img src="./assets/prints-v1/12-dashboard-gerente.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de nova O.S. (US01)** — formulário completo de criação de Ordem de Serviço com seletor de equipe (Capataz/Infra), campos de seleção de operação, título, retiro de origem, destino opcional, responsável, descrição, prazo, indicadores de prioridade (alta/média/baixa) com dots coloridos, e cards de áudio e foto para complementar instruções.
+
+<center>
+  <p><strong>Figura 32</strong> — Primeira versão: Tela de Nova Ordem de Serviço do Gerente (Real)</p>
+  <img src="./assets/prints-v1/13-nova-os.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+**Fluxo do Coordenador (US11/US12):**
+
+- **Tela de boletas** — lista de boletas com sub-navegação (Painel/Boletas), cards com título e metadados (data, capataz, quantidade de animais) e botão de download individual.
+
+<center>
+  <p><strong>Figura 33</strong> — Primeira versão: Tela de Lista de Boletas do Coordenador (Real)</p>
+  <img src="./assets/prints-v1/14-boletas-lista.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de exportação (US12)** — formulário de exportação com seleção de período (De/Até), checkboxes para tipos de dados (Movimentações, Nascimentos, Óbitos, Tarefas), seleção de formato (CSV/Excel) e botão "Exportar".
+
+<center>
+  <p><strong>Figura 33a</strong> — Primeira versão: Tela de Exportação de Dados (Real)</p>
+  <img src="./assets/prints-v1/15-exportar-dados.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de evolução de rebanho** — formulário para registro de reclassificação de animais com seleção de retiro, tipo de classificação (Desmama/Evolução/Classificação), cards de "DE (origem)" e "PARA (nova categoria)" com seletores de categoria e faixa etária, stepper de quantidade e observações.
+
+<center>
+  <p><strong>Figura 33b</strong> — Primeira versão: Tela de Evolução de Rebanho (Real)</p>
+  <img src="./assets/prints-v1/09-boleta-evolucao.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+**Elementos transversais:**
+
+- **Sidebar desktop** — navegação lateral adaptada por perfil, com ícones e labels de navegação, exibida automaticamente após login.
+- **Bottom navigation mobile** — barra inferior com ícones para Início, Tarefas, Rebanhos e Configurações.
+- **Tela de sucesso** — feedback visual de confirmação com ícone de check, mensagem "Salvo com sucesso!" e badge offline "1 registro na fila", simulando o comportamento esperado do modo offline-first.
+
+<center>
+  <p><strong>Figura 33c</strong> — Primeira versão: Tela de Confirmação de Sucesso / Modo Offline (Real)</p>
+  <img src="./assets/prints-v1/16-tela-sucesso.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+#### Backend — Arquitetura em Camadas Completa
+
+O backend foi implementado em TypeScript com Node.js e Express, seguindo rigorosamente a arquitetura em camadas Controller–Service–Repository documentada na seção 3.2.4. A estrutura de pastas é:
+
+```
+src/backend/
+├── config/          # Configuração do banco (database.ts, initDb.ts)
+├── controllers/     # 7 controllers implementados
+├── services/        # 7 services implementados
+├── repositories/    # 8 repositories implementados
+├── models/          # 7 models implementados
+├── routes/          # 7 arquivos de rotas + index.ts
+├── database/        # migration.sql com DDL completo
+├── tests/           # 2 suítes de testes automatizados
+└── __tests__/       # Testes de endpoints
+```
+
+**Estado atual de cada camada:**
+
+<center>
+  <p><strong>Tabela 20</strong> — Estado da implementação das camadas arquiteturais (sprint 3)</p>
+</center>
+
+| Camada | Arquivos implementados | Status |
+| --- | --- | --- |
+| Routes | `index.ts`, `tarefaRoutes.ts`, `alertaRoutes.ts`, `eventoRoutes.ts`, `exportacaoRoutes.ts`, `painelRoutes.ts`, `sincronizacaoRoutes.ts` | ✅ Implementada |
+| Controllers | `tarefaController.ts`, `alertaController.ts`, `eventoController.ts`, `exportacaoController.ts`, `healthController.ts`, `painelController.ts`, `sincronizacaoController.ts` | ✅ Implementada |
+| Services | `tarefaService.ts`, `alertaService.ts`, `eventoService.ts`, `exportacaoService.ts`, `healthService.ts`, `painelService.ts`, `sincronizacaoService.ts` | ✅ Implementada |
+| Repositories | `tarefaRepository.ts`, `alertaRepository.ts`, `eventoRepository.ts`, `exportacaoRepository.ts`, `healthRepository.ts`, `painelRepository.ts`, `sincronizacaoRepository.ts`, `usuarioRepository.ts` | ✅ Implementada |
+| Models | `Tarefa.ts`, `Alerta.ts`, `Movimentacao.ts`, `Evidencia.ts`, `Retiro.ts`, `Sincronizacao.ts`, `Usuario.ts` | ✅ Implementada |
+| Database | `migration.sql` com DDL completo (11 tabelas) | ✅ Implementada |
+| Testes | `uc01-planejar-tarefas.test.ts` (14 casos), `outros-endpoints.test.ts` (5 casos) | ✅ 19/19 passando |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+Os endpoints implementados e testados cobrem os fluxos críticos da sprint 3:
+- `GET /api/health` — monitoramento do servidor e banco
+- `POST /api/tarefas` — criação de tarefas (UC01/RF001) com validação de RN01
+- `GET /api/tarefas/hoje` — busca de tarefas do dia por capataz (RF002/RN02/RN05)
+- `PATCH /api/tarefas/:id/concluir` — conclusão de tarefa pelo capataz
+- `POST /api/tarefas/:id/evidencias` — anexar evidências (foto/áudio/texto)
+- `POST /api/chamados` — criar alertas de infraestrutura com GPS (RF006)
+- `POST /api/eventos-zootecnicos/nascimentos` — registrar nascimento (RF008)
+- `GET /api/exportacao/csv` — exportação de dados em CSV (RF015)
+- `POST /api/sync/lote` — sincronização em lote
+
+#### Testes Automatizados
+
+A suíte de testes automatizados utiliza Jest 29 + ts-jest + Supertest sobre banco SQLite em memória. Todos os 19 casos de teste foram executados e aprovados com sucesso, validando contratos HTTP, regras de negócio (RN01, RN05) e persistência no banco local. A evidência de execução está registrada em `documentos/assets/jest.png`.
+
+<center>
+  <p><strong>Figura 34</strong> — Resultado da execução dos testes automatizados (19/19 passando)</p>
+  <img src="./assets/jest.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+### (b) O que não foi concluído
+
+1. **Integração frontend ↔ backend:** O frontend opera com dados estáticos (mock data hardcoded em `js/app.js`) e ainda não consome a API REST do backend. Os dados dos retiros, tarefas e categorias estão duplicados entre o frontend e o backend. A integração será priorizada na sprint 4.
+
+2. **Funcionalidade offline-first (Service Workers):** Embora a tela de sucesso simule o comportamento offline ("1 registro na fila"), os Service Workers e o armazenamento local (IndexedDB/SQLite no cliente) ainda não foram implementados. O fluxo de sincronização existe apenas no backend (`sincronizacaoService.ts` e `sync_queue`).
+
+3. **Autenticação e autorização:** O sistema opera sem autenticação. A identificação do usuário é feita por passagem explícita de IDs nas requisições, conforme decisão documentada na seção 3.7. A implementação de sessão e controle de acesso por perfil está planejada para a sprint 5.
+
+4. **Upload real de mídias:** Os campos de foto e áudio exibem placeholders visuais, mas não capturam nem armazenam arquivos reais. A integração com câmera e microfone do dispositivo será implementada nas sprints seguintes.
+
+5. **Gráficos dinâmicos no dashboard:** Os gráficos de barras e rosca no dashboard são renderizados com CSS estático, sem biblioteca de charts e sem dados reais do banco.
+
+### (c) Dificuldades técnicas enfrentadas
+
+1. **Compatibilidade do SQLite com Node.js nativo:** A utilização do módulo `node:sqlite` nativo exigiu atenção à versão do Node.js (≥ 22.5) e ao modo de execução síncrona para testes em memória. A equipe optou por banco em memória (`:memory:`) nos testes para garantir isolamento completo entre suítes.
+
+2. **Design responsivo mobile-first:** A implementação do CSS responsivo demandou ajustes extensivos para garantir que todos os elementos de interação (botões ≥ 56px, ícones ≥ 24px) mantivessem usabilidade em telas de 5" a 12", conforme o requisito não funcional REST (seção 3.1.3). O contraste AAA (7:1) sob luz solar foi validado manualmente para todas as combinações de cor da paleta.
+
+3. **Navegação SPA sem framework:** A decisão de implementar o roteamento via JavaScript puro (função `go()` com renderização dinâmica de HTML) simplificou a dependência de ferramentas, mas exigiu cuidado extra com a gestão de estado global e a reconstrução do DOM a cada navegação.
+
+4. **Validação de regras de negócio nos testes:** A implementação do teste de RN01 (capataz deve pertencer ao retiro da tarefa) exigiu seed cuidadoso de dados de teste, com inserção controlada de retiros e usuários no `beforeEach` para garantir determinismo nos cenários de sucesso e falha.
+
+### Próximos passos (sprint 4)
+
+- Integrar frontend com backend via chamadas `fetch()` à API REST
+- Implementar Service Workers para funcionamento offline-first
+- Conectar formulários de boleta ao endpoint `POST /api/eventos-zootecnicos`
+- Substituir dados mock por dados reais do banco via API
+- Implementar captura de foto via câmera do dispositivo
+- Adicionar biblioteca de gráficos ao dashboard (Chart.js ou similar)
+- Expandir suíte de testes para cobrir US09 (óbito) e US12 (exportação)
 
 ## 4.2. Segunda versão da aplicação web (sprint 4)
 
