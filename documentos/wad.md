@@ -3146,7 +3146,7 @@ A tela de tarefas é a interface principal do Capataz. Projetada para exibir ape
 
 <center>
   <p><strong>Figura 18</strong> — Protótipo de Alta Fidelidade: Tela de Tarefas do Capataz (Mobile e Desktop)</p>
-  <img src="./assets/mockup_tela_tarefas_capataz.png" width="800"/>
+  <img src="./assets/mockups/mockupTarefas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
