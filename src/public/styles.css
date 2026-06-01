@@ -231,6 +231,7 @@ th {
 }
 
 @media (max-width: 880px) {
+
   .topbar,
   .layout {
     display: block;
@@ -247,5 +248,268 @@ th {
 
   .field-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+
+/* Layout Geral Baseado no synctech-app */
+#device {
+  display: flex;
+  flex-direction: column;
+  /* Padrão de coluna para telas sem sidebar (Login) */
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Quando logado no Desktop, muda para linha */
+#device.logged {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  /* Sidebar com 280px e o resto para o app */
+}
+
+/* Sidebar Vertical */
+#sidebar {
+  background-color: #0f172a;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 1.5rem;
+  border-right: 3px solid #2ecc71;
+}
+
+.side-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#side-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
+  /* Faz o menu crescer e empurrar o config para a base */
+}
+
+#side-nav button,
+.side-config {
+  background: none;
+  border: none;
+  color: #cbd5e1;
+  text-align: left;
+  padding: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 6px;
+  width: 100%;
+}
+
+#side-nav button:hover,
+#side-nav button.active {
+  background-color: #1e293b;
+  color: #2ecc71;
+}
+
+/* Área Principal */
+#app {
+  height: 100vh;
+  overflow-y: auto;
+  /* Permite scroll no conteúdo da tela */
+  padding: 2rem;
+  background-color: #f8fafc;
+}
+
+
+/* Unified icon size for sidebar and bottom nav */
+#side-nav .active img,
+#side-config-btn img,
+.bottom-nav img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  margin-bottom: 0.5rem;
+}
+
+#side-config-btn img {
+  width: 48px;
+  /* tamanho desejado da imagem */
+  height: 48px;
+  /* garante proporção quadrada */
+  object-fit: contain;
+  /* não distorce a imagem */
+  margin-bottom: 0.5rem;
+  /* espaço entre ícone e o label */
+} 
+.bottom-nav  img {
+  width: 48px;
+  /* tamanho desejado da imagem */
+  height: 48px;
+  /* garante proporção quadrada */
+  object-fit: contain;
+  /* não distorce a imagem */
+  margin-bottom: 0.5rem;
+  /* espaço entre ícone e o label */
+} 
+
+
+
+/* -------------------------------------------------
+   1. Centralizar o texto da sub‑frase
+   ------------------------------------------------- */
+.header-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* <‑‑ centraliza tudo dentro do header */
+  text-align: center;
+  /* garante centralização das linhas de texto */
+  gap: 0.5rem;
+  /* espaço entre h1 e .sub */
+  margin-top: 5rem;
+}
+
+/* Ajusta a frase “Quem é você?” (tamanho e cor opcional) */
+.header-bar .sub {
+  font-size: 1.2rem;
+  /* aumenta levemente */
+  color: #00132b;
+  /* cor suave, pode mudar como quiser */
+}
+
+/* -------------------------------------------------
+   2. Botões de seleção – deixar tudo em coluna
+   ------------------------------------------------- */
+.perfil-btn {
+  display: flex;
+  flex-direction: column;
+  /* ícone em cima, texto embaixo */
+  align-items: center;
+  /* centraliza ícone + texto */
+  justify-content: center;
+  padding: 1rem;
+  width: 400px;
+  /* tamanho fixo (ajuste se quiser maior) */
+  height: 100px;
+
+  background: #122040;
+  /* cor de fundo (pode mudar) */
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+/* -------------------------------------------------
+   3. Tamanho e centralização da imagem dentro do botão
+   ------------------------------------------------- */
+.perfil-btn .ic img {
+  width: 48px;
+  /* tamanho desejado da imagem */
+  height: 48px;
+  /* garante proporção quadrada */
+  object-fit: contain;
+  /* não distorce a imagem */
+  margin-bottom: 0.5rem;
+  /* espaço entre ícone e o label */
+}
+
+/* -------------------------------------------------
+   4. Texto do label (opcional – cor e fonte)
+   ------------------------------------------------- */
+.perfil-btn .lbl {
+  font-size: 0.95rem;
+  color: #fff;
+  /* contraste com o fundo escuro */
+  font-weight: 600;
+}
+
+/* -------------------------------------------------
+   5. Layout da área de botões (centralizar tudo)
+   ------------------------------------------------- */
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+#lista-retiros {
+  margin-top: 2rem;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 2rem;                     /* espaço entre os cards */
+  max-width: 1200px;             /* limite máximo para telas largas */
+  margin-left: auto;
+  margin-right: auto;            /* centraliza automaticamente */
+  padding: 0 1rem;               /* “respiro” nas bordas */
+}
+
+/* Imagem da carta – ocupa a parte superior */
+.card-retiro-card .pin img {
+  background-color: #122040;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  margin-top: 0.5rem;
+  width: 100%;
+  height: 250px;                /* fixa a altura da imagem */
+  object-fit: cover;
+}
+
+/* Área de texto (info + seta) – fica abaixo da imagem */
+.card-retiro-card .info,
+.card-retiro-card .arrow {
+  color: #fff;
+  padding: 0.8rem 1rem;
+}
+
+/* Se houver um título dentro da .info, aumente a hierarquia */
+.card-retiro-card .info {
+  background-color: #00132b;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  padding-top: -100px;
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+
+
+@media (max-width: 480px) {
+  /* Reduz a margem superior da header */
+  .header-bar {
+    margin-top: 2rem;
+  }
+
+  /* Botões de login ficam mais finos */
+  .perfil-btn {
+    max-width: 280px;
+    height: 90px;
+  }
+
+  .perfil-btn .ic img {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* Cards de retiros ficam menores */
+  .card-retiro-card {
+    width: 200px;
+    height: 260px;
+    margin-top: -60px;
+  }
+
+  .card-retiro-card .pin img {
+    height: 130px;
   }
 }
