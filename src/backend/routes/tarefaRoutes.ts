@@ -2,11 +2,10 @@ import express from 'express';
 const router = express.Router();
 import tarefaController from '../controllers/tarefaController';
 
-router.post('/', tarefaController.criarTarefa);
-router.get('/hoje', tarefaController.buscarTarefasHoje);
-router.patch('/:id/concluir', tarefaController.concluirTarefa);
-router.post('/:id/evidencias', tarefaController.anexarEvidencia);
-// Opcional: router.get('/sincronizar', ...) se for tratar de forma apartada
+router.post('/', (req, res, next) => tarefaController.criarTarefa(req, res, next));
+router.get('/hoje', (req, res, next) => tarefaController.buscarTarefasHoje(req, res, next));
+router.patch('/:id/concluir', (req, res, next) => tarefaController.concluirTarefa(req, res, next));
+router.post('/:id/evidencias', (req, res, next) => tarefaController.anexarEvidencia(req, res, next));
 
 export default router;
 
