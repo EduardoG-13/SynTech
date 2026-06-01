@@ -25,6 +25,15 @@ function inicializarBanco() {
     const sql = fs.readFileSync(migrationPath, 'utf-8');
     db.exec(sql);
 
+    // Tabela de controle de historico de migrations (US09 / RF011 / BR11)
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS schema_migrations (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        migration_name TEXT UNIQUE NOT NULL,
+        executed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
     console.log('[initDb] Banco de dados inicializado com sucesso');
   } catch (err) {
     console.error('[initDb] ERRO ao inicializar banco:', err.message);
