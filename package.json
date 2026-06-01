@@ -10,6 +10,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "pg": "^8.21.0",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
@@ -19,6 +20,7 @@
     "@types/express": "^5.0.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.9.1",
+    "@types/pg": "^8.20.0",
     "@types/supertest": "^7.2.0",
     "@types/uuid": "^10.0.0",
     "husky": "^9.1.7",
