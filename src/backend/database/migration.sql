@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS tarefas (
     id TEXT PRIMARY KEY,
     titulo TEXT NOT NULL,
     descricao TEXT,
-    status TEXT NOT NULL,
+    status TEXT NOT NULL CHECK(status IN ('PENDENTE', 'EM_ANDAMENTO', 'CONCLUIDA')),
     data_execucao DATE NOT NULL,
     retiro_id TEXT NOT NULL,
     capataz_id TEXT NOT NULL,
