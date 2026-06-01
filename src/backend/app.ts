@@ -23,20 +23,17 @@ app.use('/public', express.static(path.join(__dirname, '../public')));
 import routes from './routes/index';
 app.use('/api', routes);
 
-<<<<<<< HEAD
+// --------------- View Routes ---------------
+import viewRoutes from './routes/viewRoutes';
+app.use('/', viewRoutes);
+
 // --------------- Erros ---------------
 // Error handler global
 app.use((erro, req, res, next) => {
   console.error(erro);
   res.status(500).json({ erro: 'Erro interno do servidor' });
 });
-export default app;
-=======
-// --------------- View Routes ---------------
-import viewRoutes from './routes/viewRoutes';
-app.use('/', viewRoutes);
 
 export default app;
 
 
->>>>>>> 45edc12153f9d9d2666bbd5ec28e37ee59eee583
