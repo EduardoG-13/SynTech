@@ -34,7 +34,7 @@ class ExportacaoRepository {
       LEFT JOIN obitos o ON o.movimentacao_id = m.id
       LEFT JOIN transferencias t ON t.movimentacao_id = m.id
       LEFT JOIN compravendas cv ON cv.movimentacao_id = m.id
-      WHERE 1=1
+      WHERE m.validado = 1
     `;
 
     const params: any[] = [];

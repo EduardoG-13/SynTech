@@ -2,6 +2,11 @@ import exportacaoRepository from '../repositories/exportacaoRepository';
 import usuarioRepository from '../repositories/usuarioRepository';
 
 class ExportacaoService {
+  private escaparCampoCsv(valor: unknown): string {
+    const texto = String(valor ?? '');
+    return `"${texto.replace(/"/g, '""')}"`;
+  }
+
   /**
    * Gera o conteúdo CSV das movimentações consolidadas.
    * Valida que o solicitante é um Coordenador.
@@ -27,19 +32,19 @@ class ExportacaoService {
     // Consultar movimentações
     const registros = exportacaoRepository.consultarMovimentacoesConsolidadas(filtros) as any[];
 
-    // Gerar CSV (UTF-8 BOM + delimitador ;)
+    // Gerar CSV compatível com Excel (UTF-8 BOM + delimitador regional ;)
     const BOM = '\uFEFF';
     const cabecalho = 'data;retiro;tipo_evento;categoria;quantidade;capataz_responsavel;criado_em';
     const linhas = registros.map((r: any) => {
       return [
-        r.data || '',
-        (r.retiro || '').replace(/;/g, ','),
-        r.tipo_evento || '',
-        r.categoria || '',
-        r.quantidade ?? '',
-        (r.capataz_responsavel || '').replace(/;/g, ','),
-        r.criado_em || ''
-      ].join(';');
+        r.data,
+        r.retiro,
+        r.tipo_evento,
+        r.categoria,
+        r.quantidade,
+        r.capataz_responsavel,
+        r.criado_em
+      ].map((campo) => this.escaparCampoCsv(campo)).join(';');
     });
 
     const csv = BOM + cabecalho + '\n' + linhas.join('\n');

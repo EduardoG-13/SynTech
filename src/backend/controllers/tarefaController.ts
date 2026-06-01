@@ -23,13 +23,12 @@ class TarefaController {
       if (erro.message.includes('RN01')) {
         return res.status(422).json({ erro: erro.message });
       }
-      next(erro); //
+      next(erro);
     }
   }
 
   async buscarTarefasHoje(req, res, next) {
     try {
-      // Usando query params ou body para o ID do capataz (normalmente viria do token JWT na vida real)
       const capataz_id = req.query.capataz_id || req.body.capataz_id;
 
       if (!capataz_id) {
@@ -39,7 +38,7 @@ class TarefaController {
       const tarefas = await tarefaService.buscarTarefasHoje(capataz_id);
       return res.status(200).json({ tarefas, modo: 'online' });
     } catch (erro) {
-      next(erro); // Passa o erro para o middleware de tratamento de erros
+      next(erro);
     }
   }
 
@@ -58,7 +57,7 @@ class TarefaController {
       if (erro.message.includes('não encontrada')) {
         return res.status(404).json({ erro: erro.message });
       }
-      next(erro); // Passa o erro para o middleware de tratamento de erros
+      next(erro);
     }
   }
 
@@ -88,5 +87,3 @@ class TarefaController {
 }
 
 export default new TarefaController();
-
-
