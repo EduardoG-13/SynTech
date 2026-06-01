@@ -1,0 +1,59 @@
+<aside id="sidebar">
+  <div class="side-logo">
+    <span class="logo-icon">🌱</span>
+    <span>SyncTech</span>
+  </div>
+
+  <nav id="side-nav">
+    <% if (perfil === 'Infraestrutura') { %>
+      <!-- Menu da Infraestrutura -->
+      <button class="active" onclick="window.location.href='/tarefas?perfil=Infraestrutura'">
+        <span><img src="../../public/Icons/home.ico" alt="Home" /></span> Início
+      </button>
+      <button onclick="window.location.href='/chamados?perfil=Infraestrutura'">
+        <span>⚠️</span> Chamados
+      </button>
+      
+    <% } else if (perfil === 'Gerente') { %>
+      <!-- Menu do Gerente -->
+      <button class="active" onclick="window.location.href='/tarefas?perfil=Gerente'">
+        <span im><img src="../../public/Icons/home.ico" alt="Home" /></span> Início
+      </button>
+      <button onclick="window.location.href='/nova-os?perfil=Gerente'">
+        <span>📋</span> Ordens
+      </button>
+      <button onclick="window.location.href='/alertas?perfil=Gerente'">
+        <span>⚠️</span> Alertas
+      </button>
+
+    <% } else if (perfil === 'Coordenador') { %>
+      <!-- Menu do Coordenador -->
+      <button class="active" onclick="window.location.href='/tarefas?perfil=Coordenador'">
+        <span><img src="../../public/Icons/home.ico" alt="Home" /></span> Início
+      </button>
+      <button onclick="window.location.href='/tarefas-dashboard?perfil=Coordenador'">
+        <span>📋</span> Tarefas
+      </button>
+      <button onclick="window.location.href='/boletas?perfil=Coordenador'">
+        <span>🐂</span> Boletas
+      </button>
+
+    <% } else { %>
+      <!-- Menu padrão (Capataz) -->
+      <button class="active" onclick="window.location.href='/tarefas?perfil=Capataz&retiro=<%= retiro %>'">
+        <span><img src="../../public/Icons/home.ico" alt="Home" /></span> Início
+      </button>
+      <button onclick="window.location.href='/tarefas?perfil=Capataz&retiro=<%= retiro %>'">
+        <span>📋</span> Tarefas
+      </button>
+      <button onclick="window.location.href='/boleta?perfil=Capataz&retiro=<%= retiro %>'">
+        <span>🐂</span> Movimentação
+      </button>
+    <% } %>
+  </nav>
+
+  <!-- Botão de Configurações que funciona como logout enviando de volta ao login -->
+  <button class="side-config" id="side-config-btn" onclick="window.location.href='/'">
+    <span><img src="../../public/Icons/configuracao.ico" alt="Configurações" /></span> Configurações
+  </button>
+</aside>

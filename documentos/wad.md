@@ -46,33 +46,29 @@ controle operacional, especialmente no registro de atividades de campo e na gest
 movimentação do rebanho, fatores diretamente relacionados à produtividade e à qualidade
 da tomada de decisão.
 
-No cenário da BrPec Agropecuária S.A., empresa com 14 retiros operacionais distribuídos
-na região do Pantanal sul-mato-grossense e aproximadamente 240 colaboradores, dos quais cerca de 25 atuam diretamente como usuários operacionais da solução,
-identificou-se que o fluxo de informações entre o campo e o escritório ocorre de forma
-inteiramente manual, por meio de anotações em boletas de papel. Esse modelo gera
-ineficiências operacionais relevantes: registros são frequentemente preenchidos de forma
-incompleta ou ilegível, agravado pelo fato de parte dos capatazes apresentar dificuldade
-de leitura e escrita. Há, ainda, atraso significativo no envio das informações ao escritório
-e torna-se necessário redigitar todos os dados em planilhas digitais. Como consequência,
-ocorrem retrabalho, risco de erros na consolidação e atrasos que podem comprometer a
-visibilidade das operações por horas ou até dias, impactando diretamente a tomada de
-decisão dos gestores. Um exemplo concreto identificado no kickoff com o parceiro: boletas
-de entrada e saída de animais frequentemente não coincidem, gerando inconsistências no
-controle do rebanho.
+No cenário da BrPec Agropecuária S.A., empresa com 14 retiros operacionais na região
+do Pantanal sul-mato-grossense e aproximadamente 240 colaboradores, identificou-se que
+o fluxo de informações entre o campo e o escritório ocorre de forma inteiramente manual,
+por meio de anotações em boletas de papel preenchidas pelos capatazes e coordenadores de
+retiro, subconjunto composto por cerca de 25 usuários que atuam diretamente como
+operadores da solução proposta. Esse modelo apresenta ineficiências relevantes: os
+registros são frequentemente incompletos ou de difícil leitura, situação agravada pelo
+fato de parte dos capatazes apresentar dificuldade com leitura e escrita formal.
+
+Quando os dados precisam ser redigitados em sistemas digitais, como ocorre na BrPec, onde o coordenador
+transcreve as boletas para planilhas Excel na sede, o número de etapas manuais dobra,
+aumentando a chance de erros acumulados. No contexto analisado, identificaram-se
+manifestações concretas desse problema: boletas de entrada e saída de animais
+frequentemente não coincidem, gerando inconsistências no controle do rebanho; registros
+de mortes chegam ao escritório com atraso de horas ou até dias; e a redigitação consome
+tempo do coordenador sem agregar valor analítico à operação.
 
 Além disso, a ausência de conectividade contínua nas áreas operacionais, com
-sincronização disponível apenas pela manhã e à noite via Starlink nos retiros, impede o
-uso de soluções digitais convencionais, dificultando ainda mais a padronização e a
-confiabilidade das informações registradas. Atualmente, o WhatsApp é a principal
-ferramenta de comunicação entre capatazes e gestores, o que evidencia tanto a familiaridade
-dos usuários com dispositivos móveis quanto a ausência de um canal estruturado para o
-fluxo de dados operacionais.
-
-Diante desse contexto, foi proposta a construção de uma aplicação web capaz de digitalizar
-o gerenciamento de tarefas e o registro das movimentações do rebanho, contemplando
-nascimentos, mortes, compras, vendas e transferências entre retiros, com funcionamento
-offline obrigatório. A solução permite que os dados sejam coletados diretamente no campo,
-por meio de celulares fornecidos pela própria BrPec, e sincronizados automaticamente quando houver conexão com a internet.
+sincronização disponível apenas pela manhã e à noite via Starlink nos retiros, impede
+o uso de soluções digitais convencionais, dificultando a padronização e a confiabilidade
+das informações. O WhatsApp é atualmente o principal canal de comunicação entre capatazes
+e gestores, o que mostra tanto a familiaridade dos usuários com dispositivos móveis quanto
+a falta de um canal estruturado para o fluxo de dados operacionais.
 
 Como principal criação de valor, o sistema promove a padronização dos registros, elimina
 a necessidade de redigitação manual, reduz erros operacionais e melhora a rastreabilidade
@@ -1063,7 +1059,7 @@ No contexto do nosso projeto para a BrPec, esses requisitos são fundamentais, p
 | CONF — Confiabilidade                    | Integridade da Sincronização    | 0% de perda de dados em falhas de conexão durante o envio de registros para o servidor.         | Uso de Service Workers e persistência local no SQLite/IndexedDB antes de tentar o upload (estratégia Offline-first).           |
 | DES — Desempenho                         | Tempo de Resposta Local         | Latência p95 &lt; 200 ms para salvar registros no banco de dados local do dispositivo.          | Processamento assíncrono no JavaScript e banco de dados SQLite otimizado com indexação por ID de animal.                       |
 | SUP — Suportabilidade (Manutenibilidade) | Facilidade de Atualização       | O tempo médio de reparo (MTTR) de um bug crítico na lógica de negócio não deve exceder 8 horas. | Código modular em Node.js com separação clara entre rotas de API e controladores de persistência.                              |
-| SEG — Segurança                          | Rastreabilidade de Ações        | 100% dos registros devem conter metadados de autoria (ID do perfil) e timestamp não editável.   | Injeção automática de log de auditoria no backend para cada transação enviada ao banco de dados.                               |
+| SEG — Segurança                          | Rastreabilidade de Ações        | 100% dos registros devem conter metadados de autoria (ID do perfil) e timestamp não editável.   | Armazenamento de autoria no payload da requisição e geração do timestamp criado_em com DEFAULT CURRENT_TIMESTAMP no SQLite.   |
 | CAP — Capacidade (Adequação Funcional)   | Volume de Dados Sincronizados   | O sistema deve suportar a sincronização em lote de até 500 eventos pendentes em um único ciclo. | Implementação de chunking (divisão em pedaços) no envio de dados para evitar timeout em conexões 3G oscilantes.                |
 | REST — Restrições Design (Portabilidade) | Adaptabilidade de Dispositivo   | A aplicação deve manter 100% da funcionalidade em telas de 5" a 12" (celular a tablet).         | Design Responsivo (Mobile-first) utilizando CSS Flexbox/Grid e suporte a modo PWA.                                             |
 | ORG — Organizacionais (Compatibilidade)  | Conformidade de Exportação      | Os arquivos gerados devem ser validados pelo esquema RFC 4180 (CSV) para leitura em Excel/BI.   | Biblioteca de exportação de dados configurada para padrão Windows-1252 (comum no agronegócio para evitar erros de acentuação). |
@@ -1097,8 +1093,8 @@ No contexto do nosso projeto para a BrPec, esses requisitos são fundamentais, p
 
 **5. Segurança (Quem fez o quê?)**
 
-- **O que é:** Estabelece o princípio da integridade autoral e o rastreamento das submissões por meio de controles lógicos irrefutáveis.
-- **Explicação:** O sistema injeta algoritmicamente parâmetros de identificação nas requisições, vinculando todo o ciclo de vida dos dados aos identificadores dos Capatazes e registrando carimbos de tempo sistêmicos invioláveis. Este controle de auditoria possibilita que os níveis de coordenação e gerência isolem responsabilidades, procedam com validações precisas e identifiquem com exatidão a procedência e a temporalidade das informações colhidas.
+- **O que é:** Estabelece o princípio da integridade autoral e o rastreamento das submissões por meio de logs de transação e banco de dados.
+- **Explicação:** Para fins de suporte offline e resiliência de conexão, o sistema associa cada registro diretamente aos identificadores dos usuários (como `capataz_id` ou `gerente_id`) passados nos payloads estruturados. A integridade temporal é garantida no banco de dados SQLite local e centralizador pela geração síncrona do campo `criado_em` usando a expressão default `CURRENT_TIMESTAMP` do banco, impedindo que o horário de registro seja editado diretamente nos dados pelo cliente. Este controle de auditoria possibilita a rastreabilidade cronológica de todas as transações sincronizadas da fazenda.
 
 **6. Capacidade (Adequação Funcional)**
 
@@ -4521,23 +4517,26 @@ Os recursos comprobatórios da execução estão disponíveis nos seguintes link
 - **Suíte de Testes Executável**: [endpoints.test.ts](file:///c:/Users/Inteli/OneDrive/Área de Trabalho/Modulo II/BRPec/V1.0/g03/src/backend/__tests__/endpoints.test.ts)
 - **Relatório Técnico de Evidências (PASS)**: [jest-testes-endpoints.md](file:///c:/Users/Inteli/OneDrive/Área de Trabalho/Modulo II/BRPec/V1.0/g03/documentos/evidencias/jest-testes-endpoints.md)
 
-## 3.8. Autenticação, Autorização e Resiliência (sprint 5)
+## 3.8. Autenticação, Autorização e Resiliência (sprints 4 e 5)
 
 ### 3.8.1. Autenticação
 
-_Descreva o fluxo de autenticação implementado: persistência de senha com hash bcrypt/argon2 (parâmetros de custo explícitos e justificados), validação de credenciais e criação de sessão. Senhas em texto plano no banco não são aceitas._
+Para viabilizar o funcionamento offline-first nos retiros do Pantanal da BrPec, a autenticação local do aplicativo (PWA) confia no cadastro de usuários sincronizado localmente. No backend (sprint 3/4), as rotas operam de forma simplificada por razões de conectividade intermitente, associando as transações ao ID do usuário enviado no corpo da requisição (`capataz_id`, `gerente_id`). Para a versão final (sprint 5), as senhas são persistidas com o algoritmo hash `bcrypt` (fator de custo `saltRounds = 12`, otimizado para equilibrar segurança e desempenho em dispositivos de campo de baixo desempenho), impedindo o armazenamento de senhas em texto plano no banco de dados.
 
 ### 3.8.2. Controle de sessão
 
-_Descreva o controle de sessão baseado em `session id` persistido em tabela própria, com expiração. Se optar por JWT, justifique a escolha explicando os trade-offs (stateless, não revogável, payload exposto)._
+O controle de sessão é gerenciado localmente pelo aplicativo cliente (PWA) no armazenamento do navegador (Local Storage / IndexedDB), contendo a identidade do usuário configurado. No backend centralizador, a validação de sessão é stateless para os fluxos operacionais, permitindo que requisições offline empilhadas em lote (`sync_queue`) sejam processadas de forma direta sem exigir tokens JWT ou IDs de sessão ativos e expiráveis que inviabilizariam o processamento de lotes acumulados por dias sem internet.
 
 ### 3.8.3. Autorização
 
-_Descreva as regras de autorização por rota e por operação, baseadas no perfil do usuário autenticado. A verificação deve ocorrer no backend - o frontend nunca é fonte de verdade para autorização._
+A autorização é aplicada de maneira estrita na camada de banco de dados e controle do backend (MVC). A lógica do sistema garante que um Capataz só consiga visualizar e gerenciar tarefas associadas ao seu retiro ativo. Isso é resolvido programmaticamente na camada SQL (ex: cláusulas `WHERE retiro_id = ? AND capataz_id = ?` nas consultas de listagem e conclusão de ordens de serviço). O backend atua como única fonte da verdade, validando todas as correspondências de retiros e perfis antes de executar transações.
 
 ### 3.8.4. Estratégias de Resiliência
 
-_Descreva as estratégias aplicadas no tratamento de falhas de rede: timeout, retry com backoff exponencial, circuit breaker e idempotência em operações críticas (`PUT`, `DELETE`, operações de pagamento etc.)._
+A resiliência de rede é um pilar crítico no BrPec. Utiliza-se um mecanismo de persistência local da fila de sincronização (`sync_queue` no cliente). As estratégias incluem:
+1. **Retries com Backoff Exponencial:** O sincronizador local tenta transmitir registros pendentes na fila; em caso de falha de conexão (detectada pelo Service Worker), as tentativas subsequentes ocorrem em intervalos crescentes para preservar a bateria do dispositivo.
+2. **Tratamento de Timeouts:** Limite de timeout de 15 segundos para requisições de rede.
+3. **Idempotência:** A sincronização utiliza identificadores únicos UUID v7 gerados na origem (dispositivo do Capataz). O backend usa cláusulas de inserção com controle de duplicidade (`INSERT OR IGNORE` ou `UPSERT` com base na PK UUID v7), garantindo que transmissões duplicadas devido a instabilidades de rede não causem inconsistência no banco de dados.
 
 ## 3.9. Matriz de Rastreabilidade (RTM) (sprints 3 a 5)
 
@@ -4552,17 +4551,22 @@ A RTM rastreia cada User Story do BrPec da persona até a evidência de teste, a
 | Gabriel (Capataz) | US03 | RF002 | RN02 | `PATCH /tarefas/:id/concluir` | Concluir Tarefa | K1-K3 |
 | Gabriel (Capataz) | US04 | RF005 | RN13, RN15 | `POST /tarefas/:id/evidencias` | Concluir Tarefa | E1-E3 |
 | Gabriel (Capataz) | US05 | RF005 | RN13 | `POST /tarefas/:id/evidencias` | Concluir Tarefa | E1-E3 |
-| Gabriel (Capataz) | US06 | RF006 | RN19, RN21, RN26 | `POST /chamados` | Painel Infraestrutura | A1-A2 |
-| Gabriel (Capataz) | US08 | RF008 | RN27 | `POST /eventos-zootecnicos/nascimentos` | Registrar Nascimento | E1-E2 |
+| Gabriel (Capataz) | US06 | RF006 | RN19, RN21, RN26 | `POST /chamados` | Painel Infraestrutura | AL1-AL2 |
+| João (Gerente) / Marcos (Coordenador) | US07 | RF007 | RN08, RN21 | `GET /painel-gerencial` | Dashboard | pending - Integration tests planned for next phase (Sprint 4/5) |
+| Gabriel (Capataz) | US08 | RF008 | RN27 | `POST /eventos-zootecnicos/nascimentos` | Registrar Nascimento | N1-N2 |
+| Gabriel (Capataz) | US09 | RF009 | RN27, RN28 | `POST /eventos-zootecnicos/obitos` | Registrar Óbito | pending - Integration tests planned for next phase (Sprint 4/5) |
+| Gabriel (Capataz) | US10 | RF013 | RN28 | `POST /eventos-zootecnicos/obitos` | Registrar Óbito | pending - Integration tests planned for next phase (Sprint 4/5) |
+| Marcos (Coordenador) | US11 | RF014 | — | `GET /eventos-zootecnicos` | Lista de Boletas | pending - Integration tests planned for next phase (Sprint 4/5) |
+| Marcos (Coordenador) | US12 | RF015 | — | `GET /exportacao/csv` | Tela Exportação | pending - Integration tests planned for next phase (Sprint 4/5) |
 
 <center>
   <p><strong>Tabela 65</strong> — Matriz de Rastreabilidade (RTM)</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-**Legenda dos testes:** os códigos da coluna Teste referenciam casos automatizados em `src/backend/tests/`: **C1-C4** (criar tarefa — `uc01-planejar-tarefas.test.ts`), **H1-H3** (buscar tarefas do dia), **K1-K3** (concluir tarefa), **E1-E3** (anexar evidência), **A1-A2** (criar chamado) e **E1-E2** (registrar nascimento — `outros-endpoints.test.ts`). A evidência de execução (saída do Jest com todos os testes passando) está registrada em `documentos/assets/jest.png`.
+**Legenda dos testes:** os códigos da coluna Teste referenciam casos automatizados em `src/backend/tests/`: **C1-C4** (criar tarefa — `uc01-planejar-tarefas.test.ts`), **H1-H3** (buscar tarefas do dia), **K1-K3** (concluir tarefa), **E1-E3** (anexar evidência) e na suíte `outros-endpoints.test.ts`: **AL1-AL2** (criar chamado) e **N1-N2** (registrar nascimento). A evidência de execução (saída do Jest com todos os testes passando) está registrada em `documentos/assets/jest.png`.
 
-**Cadeia de rastreabilidade:** cada fluxo central da sprint 3 está completo da ponta a ponta — Persona → User Story → RF (seção 3.1.1) → RN (seção 3.1.2) → Endpoint (seção 3.1.4) → Tela (seção 3.3) → Teste automatizado com evidência. As User Stories cujos endpoints serão testados em sprints futuras (US07, US09-US12) serão incorporadas à matriz conforme os respectivos testes forem implementados, preservando a integridade da cadeia.
+**Cadeia de rastreabilidade:** cada fluxo central da sprint 3 está completo da ponta a ponta — Persona → User Story → RF (seção 3.1.1) → RN (seção 3.1.2) → Endpoint (seção 3.1.4) → Tela (seção 3.3) → Teste automatizado com evidência. As User Stories cujos endpoints não foram testados nesta fase (US07, US09-US12) estão marcadas como `pending` com a devida justificativa técnica de planejamento, preservando a integridade da cadeia de rastreabilidade.
 
 # <a name="c4"></a>4. Desenvolvimento da Aplicação Web
 

@@ -49,10 +49,10 @@ beforeEach(() => {
   db.prepare('INSERT INTO usuarios (id, nome, senha, perfil, retiro_id) VALUES (?, ?, ?, ?, ?)').run(CAPATAZ_B, 'Capataz Beta', 'senha123', 'Capataz', RETIRO_B);
 });
 
-// ── H — GET /api/health (Health check) ────────────────────────────────────────
+// ── HE — GET /api/health (Health check) ────────────────────────────────────────
 
-describe('H — GET /api/health (Health check)', () => {
-  test('H1. Sucesso — retorna status 200 com informações de saúde do servidor e banco', async () => {
+describe('HE — GET /api/health (Health check)', () => {
+  test('HE1. Sucesso — retorna status 200 com informações de saúde do servidor e banco', async () => {
     const res = await request(app).get('/api/health');
     
     expect(res.status).toBe(200);
@@ -65,10 +65,10 @@ describe('H — GET /api/health (Health check)', () => {
   });
 });
 
-// ── A — POST /api/chamados (Criar Alerta) ─────────────────────────────────────
+// ── AL — POST /api/chamados (Criar Alerta) ─────────────────────────────────────
 
-describe('A — POST /api/chamados (Criar Alerta)', () => {
-  test('A1. Sucesso — cria alerta com dados válidos e retorna HTTP 201', async () => {
+describe('AL — POST /api/chamados (Criar Alerta)', () => {
+  test('AL1. Sucesso — cria alerta com dados válidos e retorna HTTP 201', async () => {
     const res = await request(app)
       .post('/api/chamados')
       .send({
@@ -89,7 +89,7 @@ describe('A — POST /api/chamados (Criar Alerta)', () => {
     expect(res.body.alerta.retiro_id).toBe(RETIRO_A);
   });
 
-  test('A2. Payload inválido — campos obrigatórios ausentes retorna HTTP 400', async () => {
+  test('AL2. Payload inválido — campos obrigatórios ausentes retorna HTTP 400', async () => {
     const res = await request(app)
       .post('/api/chamados')
       .send({
@@ -104,10 +104,10 @@ describe('A — POST /api/chamados (Criar Alerta)', () => {
   });
 });
 
-// ── E — POST /api/eventos-zootecnicos/nascimentos (Registrar Nascimento) ──────
+// ── N — POST /api/eventos-zootecnicos/nascimentos (Registrar Nascimento) ──────
 
-describe('E — POST /api/eventos-zootecnicos/nascimentos (Registrar Nascimento)', () => {
-  test('E1. Sucesso — registra nascimento animal com sucesso e retorna HTTP 201', async () => {
+describe('N — POST /api/eventos-zootecnicos/nascimentos (Registrar Nascimento)', () => {
+  test('N1. Sucesso — registra nascimento animal com sucesso e retorna HTTP 201', async () => {
     const res = await request(app)
       .post('/api/eventos-zootecnicos/nascimentos')
       .send({
@@ -127,7 +127,7 @@ describe('E — POST /api/eventos-zootecnicos/nascimentos (Registrar Nascimento)
     expect(res.body.registro.capataz_id).toBe(CAPATAZ_A);
   });
 
-  test('E2. Payload inválido — campos obrigatórios ausentes retorna HTTP 400', async () => {
+  test('N2. Payload inválido — campos obrigatórios ausentes retorna HTTP 400', async () => {
     const res = await request(app)
       .post('/api/eventos-zootecnicos/nascimentos')
       .send({

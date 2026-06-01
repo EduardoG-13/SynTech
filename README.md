@@ -160,16 +160,22 @@ Os seguintes arquivos e pastas estao no `.gitignore` e nao devem ser versionados
 
 ## 🗃 Histórico de lançamentos
 
-* 0.5.0 - XX/XX/2024
-    * 
-* 0.4.0 - XX/XX/2024
-    * 
-* 0.3.0 - XX/XX/2024
-    * 
-* 0.2.0 - XX/XX/2024
-    * 
-* 0.1.0 - XX/XX/2024
-    *
+* **0.5.0 - 01/06/2026**
+    * Configuração do motor de templates EJS e rotas de visualização (`/`, `/dashboard`, `/tasks`).
+    * Criação da tabela `schema_migrations` no script de inicialização do banco SQLite (`initDb.ts`).
+    * Finalização das seções de Autenticação, Autorização e Resiliência no WAD.
+* **0.4.0 - 18/05/2026**
+    * Implementação do mecanismo offline-first (IndexedDB no cliente e fila de sincronização `sync_queue` no SQLite).
+    * Criação do endpoint de sincronização em lote (`POST /api/sincronizacao/lote`).
+* **0.3.0 - 04/05/2026**
+    * Desenvolvimento da primeira versão da WebAPI REST (Node.js, Express, TypeScript e SQLite).
+    * Criação dos endpoints para CRUD de tarefas, chamados de infraestrutura e eventos de nascimento.
+    * Implementação da suite de testes de integração com Jest e Supertest.
+* **0.2.0 - 20/04/2026**
+    * Elaboração dos protótipos de alta fidelidade e definição da paleta de cores de alto contraste para o campo.
+    * Modelagem de banco de dados (DER/MR) e escrita dos scripts de migração DDL.
+* **0.1.0 - 06/04/2026**
+    * Definição de escopo, análise SWOT, matriz de riscos do projeto e especificação inicial das User Stories.
 
 ## 📋 Licença/License
 ```
