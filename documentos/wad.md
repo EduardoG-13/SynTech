@@ -46,33 +46,29 @@ controle operacional, especialmente no registro de atividades de campo e na gest
 movimentação do rebanho, fatores diretamente relacionados à produtividade e à qualidade
 da tomada de decisão.
 
-No cenário da BrPec Agropecuária S.A., empresa com 14 retiros operacionais distribuídos
-na região do Pantanal sul-mato-grossense e aproximadamente 240 colaboradores, dos quais cerca de 25 atuam diretamente como usuários operacionais da solução,
-identificou-se que o fluxo de informações entre o campo e o escritório ocorre de forma
-inteiramente manual, por meio de anotações em boletas de papel. Esse modelo gera
-ineficiências operacionais relevantes: registros são frequentemente preenchidos de forma
-incompleta ou ilegível, agravado pelo fato de parte dos capatazes apresentar dificuldade
-de leitura e escrita. Há, ainda, atraso significativo no envio das informações ao escritório
-e torna-se necessário redigitar todos os dados em planilhas digitais. Como consequência,
-ocorrem retrabalho, risco de erros na consolidação e atrasos que podem comprometer a
-visibilidade das operações por horas ou até dias, impactando diretamente a tomada de
-decisão dos gestores. Um exemplo concreto identificado no kickoff com o parceiro: boletas
-de entrada e saída de animais frequentemente não coincidem, gerando inconsistências no
-controle do rebanho.
+No cenário da BrPec Agropecuária S.A., empresa com 14 retiros operacionais na região
+do Pantanal sul-mato-grossense e aproximadamente 240 colaboradores, identificou-se que
+o fluxo de informações entre o campo e o escritório ocorre de forma inteiramente manual,
+por meio de anotações em boletas de papel preenchidas pelos capatazes e coordenadores de
+retiro, subconjunto composto por cerca de 25 usuários que atuam diretamente como
+operadores da solução proposta. Esse modelo apresenta ineficiências relevantes: os
+registros são frequentemente incompletos ou de difícil leitura, situação agravada pelo
+fato de parte dos capatazes apresentar dificuldade com leitura e escrita formal.
+
+Quando os dados precisam ser redigitados em sistemas digitais, como ocorre na BrPec, onde o coordenador
+transcreve as boletas para planilhas Excel na sede, o número de etapas manuais dobra,
+aumentando a chance de erros acumulados. No contexto analisado, identificaram-se
+manifestações concretas desse problema: boletas de entrada e saída de animais
+frequentemente não coincidem, gerando inconsistências no controle do rebanho; registros
+de mortes chegam ao escritório com atraso de horas ou até dias; e a redigitação consome
+tempo do coordenador sem agregar valor analítico à operação.
 
 Além disso, a ausência de conectividade contínua nas áreas operacionais, com
-sincronização disponível apenas pela manhã e à noite via Starlink nos retiros, impede o
-uso de soluções digitais convencionais, dificultando ainda mais a padronização e a
-confiabilidade das informações registradas. Atualmente, o WhatsApp é a principal
-ferramenta de comunicação entre capatazes e gestores, o que evidencia tanto a familiaridade
-dos usuários com dispositivos móveis quanto a ausência de um canal estruturado para o
-fluxo de dados operacionais.
-
-Diante desse contexto, foi proposta a construção de uma aplicação web capaz de digitalizar
-o gerenciamento de tarefas e o registro das movimentações do rebanho, contemplando
-nascimentos, mortes, compras, vendas e transferências entre retiros, com funcionamento
-offline obrigatório. A solução permite que os dados sejam coletados diretamente no campo,
-por meio de celulares fornecidos pela própria BrPec, e sincronizados automaticamente quando houver conexão com a internet.
+sincronização disponível apenas pela manhã e à noite via Starlink nos retiros, impede
+o uso de soluções digitais convencionais, dificultando a padronização e a confiabilidade
+das informações. O WhatsApp é atualmente o principal canal de comunicação entre capatazes
+e gestores, o que mostra tanto a familiaridade dos usuários com dispositivos móveis quanto
+a falta de um canal estruturado para o fluxo de dados operacionais.
 
 Como principal criação de valor, o sistema promove a padronização dos registros, elimina
 a necessidade de redigitação manual, reduz erros operacionais e melhora a rastreabilidade
