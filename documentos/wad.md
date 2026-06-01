@@ -46,19 +46,14 @@ controle operacional, especialmente no registro de atividades de campo e na gest
 movimentação do rebanho, fatores diretamente relacionados à produtividade e à qualidade
 da tomada de decisão.
 
-No cenário da BrPec Agropecuária S.A., empresa com 14 retiros operacionais distribuídos
-na região do Pantanal sul-mato-grossense e aproximadamente 240 colaboradores, dos quais cerca de 25 atuam diretamente como usuários operacionais da solução,
-identificou-se que o fluxo de informações entre o campo e o escritório ocorre de forma
-inteiramente manual, por meio de anotações em boletas de papel. Esse modelo gera
-ineficiências operacionais relevantes: registros são frequentemente preenchidos de forma
-incompleta ou ilegível, agravado pelo fato de parte dos capatazes apresentar dificuldade
-de leitura e escrita. Há, ainda, atraso significativo no envio das informações ao escritório
-e torna-se necessário redigitar todos os dados em planilhas digitais. Como consequência,
-ocorrem retrabalho, risco de erros na consolidação e atrasos que podem comprometer a
-visibilidade das operações por horas ou até dias, impactando diretamente a tomada de
-decisão dos gestores. Um exemplo concreto identificado no kickoff com o parceiro: boletas
-de entrada e saída de animais frequentemente não coincidem, gerando inconsistências no
-controle do rebanho.
+No cenário da BrPec Agropecuária S.A., empresa com 14 retiros operacionais na região
+do Pantanal sul-mato-grossense e aproximadamente 240 colaboradores, identificou-se que
+o fluxo de informações entre o campo e o escritório ocorre de forma inteiramente manual,
+por meio de anotações em boletas de papel preenchidas pelos capatazes e coordenadores de
+retiro — subconjunto composto por cerca de 25 usuários que atuam diretamente como
+operadores da solução proposta. Esse modelo apresenta ineficiências relevantes: os
+registros são frequentemente incompletos ou de difícil leitura, situação agravada pelo
+fato de parte dos capatazes apresentar dificuldade com leitura e escrita formal.
 
 Além disso, a ausência de conectividade contínua nas áreas operacionais, com
 sincronização disponível apenas pela manhã e à noite via Starlink nos retiros, impede o
