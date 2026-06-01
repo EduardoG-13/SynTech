@@ -9,11 +9,10 @@ const app = express();
 app.set('view engine', 'ejs');
 // Aponta para a pasta "views" subindo um nível a partir de "src/backend" (../views)
 app.set('views', path.join(__dirname, '../views'));
-
-// === 2. MIDDLEWARES GLOBAIS ===
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/public', express.static(path.join(__dirname, '../public')));
 
 // === 3. SERVIR ARQUIVOS ESTÁTICOS (styles, js, imagens) ===
 // Permite que o navegador acesse os arquivos de "src/public" sob o caminho "/public/..."
@@ -43,5 +42,9 @@ app.get('/tarefas', (req, res) => {
 // === 5. ROTAS DA API (BACKEND) ===
 import routes from './routes/index';
 app.use('/api', routes);
+
+// --------------- View Routes ---------------
+import viewRoutes from './routes/viewRoutes';
+app.use('/', viewRoutes);
 
 export default app;
