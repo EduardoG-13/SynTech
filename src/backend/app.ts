@@ -1,5 +1,5 @@
 /**
- * app.js - Configuração do Express (middlewares e rotas).
+ * app.ts - Configuração do Express (middlewares e rotas).
  * Separado do server.js para facilitar testes futuros.
  */
 
@@ -17,6 +17,10 @@ app.use(express.urlencoded({ extended: true }));
 import routes from './routes/index';
 app.use('/api', routes);
 
+// --------------- Erros ---------------
+// Error handler global
+app.use((erro, req, res, next) => {
+  console.error(erro);
+  res.status(500).json({ erro: 'Erro interno do servidor' });
+});
 export default app;
-
-
