@@ -4972,6 +4972,22 @@ com receita de US$ 18,03 bilhões (+40,1%), consolidando o país como maior
 exportador mundial de carne bovina (ABIEC, 2026). Para 2026, a ABIEC projeta
 crescimento adicional de 12% nas exportações totais (ABIEC, 2025).
 
+| Ano  | Volume exportado (milhões de ton.) | Receita (US$ bilhões) | Variação receita |
+|------|------------------------------------|-----------------------|-----------------|
+| 2023 | 2,29                               | 10,54                 | —               |
+| 2024 | 2,87                               | 12,83                 | +21,7%          |
+| 2025 | 3,50                               | 18,03                 | +40,1%          |
+| 2026 | ~3,92 (proj.)                      | ~20,5 (proj.)         | ~+12%           |
+
+Fontes: MAPA (2024); ABIEC (2026).
+
+Além do crescimento em volume, o setor enfrenta uma pressão crescente por
+rastreabilidade. O Regulamento Europeu Antidesmatamento (EUDR) exige que produtos
+bovinos exportados à União Europeia comprovem origem livre de desmatamento,
+prazo previsto para o segundo semestre de 2026 (EUDR, 2023). No plano doméstico,
+o Plano Nacional de Identificação de Bovinos (PNIB) estabelece como meta a
+rastreabilidade individual de todo o rebanho nacional até 2032 (MAPA, 2024).
+
 
 
 _c) Tendências de Mercado (até 300 palavras)_
