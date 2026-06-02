@@ -3,6 +3,15 @@ import usuarioRepository from '../repositories/usuarioRepository';
 
 class TarefaService {
   async criarTarefa(dados: any): Promise<any> {
+    const hojeStr = new Date().toISOString().split('T')[0];
+    if (dados.data_execucao < hojeStr) {
+      throw new Error('A data de agendamento não pode ser retroativa.');
+    }
+
+    if (typeof dados.descricao === 'string' && dados.descricao.trim() === '') {
+      throw new Error('A descrição não pode estar em branco.');
+    }
+
     const capataz = usuarioRepository.buscarPorId(dados.capataz_id);
 
     if (!capataz || capataz.perfil !== 'Capataz') {
