@@ -4902,6 +4902,14 @@ capatazes, que depois são redigitadas manualmente em planilhas na sede. Esse pr
 gera inconsistências nos registros, atrasos de horas ou dias no repasse de informações
 críticas, como mortes de animais, e retrabalho constante para a equipe de coordenação.
 
+A aplicação web desenvolvida digitaliza o registro das movimentações do rebanho,
+nascimentos, mortes, compras, vendas e transferências entre retiros, com funcionamento
+offline obrigatório, resolvendo diretamente a limitação de conectividade dos retiros,
+onde o acesso à internet ocorre apenas em janelas via Starlink. Os dados são coletados
+no campo por dispositivos móveis fornecidos pela própria BrPec e sincronizados
+automaticamente quando a conexão está disponível.
+
+
 
 
 ## 6.2 Análise de Mercado
