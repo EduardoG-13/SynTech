@@ -4895,6 +4895,14 @@ de cabeças e receita de exportação de US$ 18,03 bilhões em 2025. Apesar dess
 a gestão operacional de grande parte das fazendas ainda depende de registros manuais em
 papel, um gargalo que compromete a qualidade das informações e a velocidade das decisões.
 
+É nesse contexto que se insere a solução desenvolvida para a BrPec Agropecuária S.A.,
+empresa com 14 retiros operacionais no Pantanal sul-mato-grossense. O fluxo de informações
+entre o campo e o escritório ocorre hoje por meio de boletas físicas preenchidas pelos
+capatazes, que depois são redigitadas manualmente em planilhas na sede. Esse processo
+gera inconsistências nos registros, atrasos de horas ou dias no repasse de informações
+críticas, como mortes de animais, e retrabalho constante para a equipe de coordenação.
+
+
 
 ## 6.2 Análise de Mercado
 
