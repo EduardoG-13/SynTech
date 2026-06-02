@@ -4920,6 +4920,7 @@ rapidamente em direção à digitalização.
 ## 6.2 Análise de Mercado
 
 _a) Visão Geral do Setor_
+
 O Brasil ocupa posição de destaque na pecuária bovina mundial. Em 2024, o rebanho 
 nacional atingiu 238,2 milhões de cabeças, segundo a Pesquisa da Pecuária Municipal 
 do IBGE — segundo maior da série histórica, superando em 12% a própria população 
@@ -4942,8 +4943,18 @@ e comprovação de origem para acesso a mercados externos. Esse cenário reforç
 necessidade de digitalização das operações de campo, tornando soluções como a 
 desenvolvida para a BrPec diretamente alinhadas às demandas do setor.
 
-_b) Tamanho e Crescimento do Mercado (até 250 palavras)_
-_Apresente dados quantitativos sobre o tamanho atual e projeções de crescimento do mercado. Utilize fontes confiáveis._
+_b) Tamanho e Crescimento do Mercado_
+
+O rebanho bovino brasileiro encerrou 2024 com 238,2 milhões de cabeças, segundo a
+Pesquisa da Pecuária Municipal do IBGE — o segundo maior da série histórica iniciada
+em 1974 (IBGE, 2025). O volume de abate acompanhou essa escala: foram 39,27 milhões
+de cabeças abatidas em 2024, alta de 15,2% em relação ao ano anterior, com produção
+de 10,2 milhões de toneladas de carne em equivalente carcaça (IBGE, 2025; MAPA, 2024).
+Em 2025, o crescimento continuou: somente no primeiro trimestre foram abatidas
+9,87 milhões de cabeças, recorde histórico para o período, com alta de 5,5% sobre
+igual trimestre de 2024 (CNA, 2025).
+
+
 
 _c) Tendências de Mercado (até 300 palavras)_
 _Identifique e analise tendências relevantes (tecnológicas, comportamentais e mercadológicas) que influenciam o setor. Utilize fontes confiáveis._
