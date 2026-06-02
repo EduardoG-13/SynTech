@@ -4949,10 +4949,10 @@ O rebanho bovino brasileiro encerrou 2024 com 238,2 milhões de cabeças, segund
 Pesquisa da Pecuária Municipal do IBGE — o segundo maior da série histórica iniciada
 em 1974 (IBGE, 2025). O volume de abate acompanhou essa escala: foram 39,27 milhões
 de cabeças abatidas em 2024, alta de 15,2% em relação ao ano anterior, com produção
-de 10,2 milhões de toneladas de carne em equivalente carcaça (IBGE, 2025; MAPA, 2024).
+de 10,2 milhões de toneladas de carne em equivalente carcaça [39] [43].
 Em 2025, o crescimento continuou: somente no primeiro trimestre foram abatidas
 9,87 milhões de cabeças, recorde histórico para o período, com alta de 5,5% sobre
-igual trimestre de 2024 (CNA, 2025).
+igual trimestre de 2024 [40].
 
 A tabela abaixo resume a evolução do abate nos últimos anos:
 
@@ -4963,14 +4963,14 @@ A tabela abaixo resume a evolução do abate nos últimos anos:
 | 2024 | 39,27                     | +15,2%         |
 | 2025 (projeção) | ~42,5            | +8,2%          |
 
-Fontes: IBGE (2025); Canal Rural (2026).
+[39].
 
 No plano das exportações, o Brasil embarcou 2,87 milhões de toneladas em 2024
 (+25,5% vs. 2023), gerando US$ 12,83 bilhões em receita (MAPA, 2024). Em 2025,
 esses números foram superados: 3,50 milhões de toneladas exportadas (+20,9%),
 com receita de US$ 18,03 bilhões (+40,1%), consolidando o país como maior
 exportador mundial de carne bovina (ABIEC, 2026). Para 2026, a ABIEC projeta
-crescimento adicional de 12% nas exportações totais (ABIEC, 2025).
+crescimento adicional de 12% nas exportações totais [41].
 
 | Ano  | Volume exportado (milhões de ton.) | Receita (US$ bilhões) | Variação receita |
 |------|------------------------------------|-----------------------|-----------------|
@@ -4979,14 +4979,19 @@ crescimento adicional de 12% nas exportações totais (ABIEC, 2025).
 | 2025 | 3,50                               | 18,03                 | +40,1%          |
 | 2026 | ~3,92 (proj.)                      | ~20,5 (proj.)         | ~+12%           |
 
-Fontes: MAPA (2024); ABIEC (2026).
+[41] [43]
 
 Além do crescimento em volume, o setor enfrenta uma pressão crescente por
 rastreabilidade. O Regulamento Europeu Antidesmatamento (EUDR) exige que produtos
 bovinos exportados à União Europeia comprovem origem livre de desmatamento,
 prazo previsto para o segundo semestre de 2026 (EUDR, 2023). No plano doméstico,
 o Plano Nacional de Identificação de Bovinos (PNIB) estabelece como meta a
-rastreabilidade individual de todo o rebanho nacional até 2032 (MAPA, 2024).
+rastreabilidade individual de todo o rebanho nacional até 2032 [43].
+
+Esse cenário abre mercado direto para soluções de gestão digital de campo: fazendas
+que registram movimentações de rebanho de forma estruturada e rastreável passam a
+ter vantagem competitiva concreta no acesso a mercados premium — exatamente o
+problema que a solução desenvolvida para a BrPec endereça.
 
 
 
@@ -5123,6 +5128,25 @@ Acesso em: jun. 2026.
 [38] ABIEC. Brasil bate recorde nas exportações de carne bovina em 2025. São Paulo: 
 ABIEC, 2026. Disponível em: https://abiec.com.br/brasil-bate-recorde-nas-exportacoes-de-carne-bovina-em-2025/. 
 Acesso em: jun. 2026.
+
+[39] IBGE. Estatísticas da Produção Pecuária — Resultados do 4º trimestre de 2024.
+Rio de Janeiro: IBGE, 2025. Disponível em: https://agenciadenoticias.ibge.gov.br/agencia-noticias/2012-agencia-de-noticias/noticias/42899-abate-de-bovinos-atinge-recorde-em-2024.
+Acesso em: jun. 2026.
+
+[40] CONFEDERAÇÃO DA AGRICULTURA E PECUÁRIA DO BRASIL. Pesquisa Trimestral do
+Abate, Leite e Ovos — 1º trimestre de 2025. Brasília: CNA, 2025. Disponível em:
+https://www.cnabrasil.org.br. Acesso em: jun. 2026.
+
+[41] ABIEC. Brasil bate recorde nas exportações de carne bovina em 2025. São Paulo:
+ABIEC, 2026. Disponível em: https://abiec.com.br. Acesso em: jun. 2026.
+
+[42] UNIÃO EUROPEIA. Regulamento (UE) 2023/1115 — Regulamento Europeu
+Antidesmatamento (EUDR). Bruxelas: Parlamento Europeu e Conselho da UE, 2023.
+Disponível em: https://eur-lex.europa.eu. Acesso em: jun. 2026.
+
+[43] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. Plano Nacional de Identificação de
+Bovinos e Búfalos (PNIB). Brasília: MAPA, 2024. Disponível em:
+https://www.gov.br/agricultura. Acesso em: jun. 2026.
 
 # <a name="c9"></a>Anexos
 
