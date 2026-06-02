@@ -4900,18 +4900,24 @@ _a) Visão Geral do Setor_
 O Brasil ocupa posição de destaque na pecuária bovina mundial. Em 2024, o rebanho 
 nacional atingiu 238,2 milhões de cabeças, segundo a Pesquisa da Pecuária Municipal 
 do IBGE — segundo maior da série histórica, superando em 12% a própria população 
-brasileira (IBGE, 2025). No mesmo ano, o abate chegou ao recorde de 39,7 milhões de 
+brasileira [36]. No mesmo ano, o abate chegou ao recorde de 39,7 milhões de 
 cabeças, com produção de 10,2 milhões de toneladas em equivalente carcaça, conforme 
-dados do Ministério da Agricultura e Pecuária (MAPA, 2024). 
+dados do Ministério da Agricultura e Pecuária [37]. 
 
 No plano das exportações, o setor registrou em 2024 o envio de 2,87 milhões de 
 toneladas de carne bovina, crescimento de 25,5% em relação ao ano anterior, gerando 
-receita de US$ 12,83 bilhões (MAPA, 2024). Em 2025, os resultados superaram esses 
+receita de US$ 12,83 bilhões [37]. Em 2025, os resultados superaram esses 
 números: foram exportadas 3,50 milhões de toneladas, alta de 20,9%, com receita de 
 US$ 18,03 bilhões — o maior desempenho já registrado na série histórica, segundo a 
-Associação Brasileira das Indústrias Exportadoras de Carnes (ABIEC, 2026). Com isso, 
+Associação Brasileira das Indústrias Exportadoras de Carnes [38]. Com isso, 
 o Brasil consolidou-se em 2025 como o maior produtor mundial de carne bovina, 
-ultrapassando os Estados Unidos pela primeira vez (IBGE, 2026).
+ultrapassando os Estados Unidos pela primeira vez [36].
+
+Do ponto de vista regulatório, o regulamento antidesmatamento da União Europeia, 
+previsto para entrar em vigor a partir de 2026, aumenta as exigências de rastreabilidade 
+e comprovação de origem para acesso a mercados externos. Esse cenário reforça a 
+necessidade de digitalização das operações de campo, tornando soluções como a 
+desenvolvida para a BrPec diretamente alinhadas às demandas do setor.
 
 _b) Tamanho e Crescimento do Mercado (até 250 palavras)_
 _Apresente dados quantitativos sobre o tamanho atual e projeções de crescimento do mercado. Utilize fontes confiáveis._
@@ -5037,6 +5043,18 @@ Industries and Competitors. New York: Free Press, 2008. ISBN 978-0-7432-7275-4.
 [34] UX QUEST. Guia completo sobre paleta de cores para design de interface e UX. UX Quest, 2026. Disponível em: https://www.uxquest.com.br/blog/paleta-de-cores. Acesso em: 28 maio 2026.
 
 [35] SUA IMPRENSA. Guia de estilo da marca: o que é, como fazer e elementos essenciais. Sua Imprensa, 2025. Disponível em: https://suaimprensa.com.br/blog/guia-de-estilo-da-marca/. Acesso em: 28 maio 2026.
+
+[36] IBGE. Pesquisa da Pecuária Municipal 2024. Rio de Janeiro: IBGE, 2025. 
+Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/9107-producao-da-pecuaria-municipal.html. 
+Acesso em: jun. 2026.
+
+[37] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. Produção e exportações de carne bovina 
+2024. Brasília: MAPA/SCRI, 2024. Disponível em: https://www.gov.br/agricultura. 
+Acesso em: jun. 2026.
+
+[38] ABIEC. Brasil bate recorde nas exportações de carne bovina em 2025. São Paulo: 
+ABIEC, 2026. Disponível em: https://abiec.com.br/brasil-bate-recorde-nas-exportacoes-de-carne-bovina-em-2025/. 
+Acesso em: jun. 2026.
 
 # <a name="c9"></a>Anexos
 
