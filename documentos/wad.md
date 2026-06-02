@@ -4954,6 +4954,24 @@ Em 2025, o crescimento continuou: somente no primeiro trimestre foram abatidas
 9,87 milhões de cabeças, recorde histórico para o período, com alta de 5,5% sobre
 igual trimestre de 2024 (CNA, 2025).
 
+A tabela abaixo resume a evolução do abate nos últimos anos:
+
+| Ano  | Cabeças abatidas (milhões) | Variação anual |
+|------|---------------------------|----------------|
+| 2022 | ~27,6                     | —              |
+| 2023 | ~34,1                     | +23,5%         |
+| 2024 | 39,27                     | +15,2%         |
+| 2025 (projeção) | ~42,5            | +8,2%          |
+
+Fontes: IBGE (2025); Canal Rural (2026).
+
+No plano das exportações, o Brasil embarcou 2,87 milhões de toneladas em 2024
+(+25,5% vs. 2023), gerando US$ 12,83 bilhões em receita (MAPA, 2024). Em 2025,
+esses números foram superados: 3,50 milhões de toneladas exportadas (+20,9%),
+com receita de US$ 18,03 bilhões (+40,1%), consolidando o país como maior
+exportador mundial de carne bovina (ABIEC, 2026). Para 2026, a ABIEC projeta
+crescimento adicional de 12% nas exportações totais (ABIEC, 2025).
+
 
 
 _c) Tendências de Mercado (até 300 palavras)_
