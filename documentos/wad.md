@@ -4890,9 +4890,11 @@ _Posicione aqui o relatório dos testes SUS realizados._
 
 ## 6.1 Resumo Executivo
 
-_Preencher com até 300 palavras, sem necessidade de fonte_
+O Brasil é o maior exportador mundial de carne bovina, com um rebanho de 238,2 milhões
+de cabeças e receita de exportação de US$ 18,03 bilhões em 2025. Apesar dessa escala,
+a gestão operacional de grande parte das fazendas ainda depende de registros manuais em
+papel, um gargalo que compromete a qualidade das informações e a velocidade das decisões.
 
-_Apresente de forma clara e objetiva os principais destaques do projeto: oportunidades de mercado, diferenciais competitivos da aplicação web e os objetivos estratégicos pretendidos._
 
 ## 6.2 Análise de Mercado
 
