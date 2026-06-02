@@ -18,4 +18,5 @@ describe('Front-end offline IndexedDB setup', () => {
     expect(response.text).toContain('indexedDB.open(DB_NAME, DB_VERSION)');
     expect(response.text).toContain("db.createObjectStore(SYNC_QUEUE_STORE, { keyPath: 'id', autoIncrement: true })");
   });
+
 });
