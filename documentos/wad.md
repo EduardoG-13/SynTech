@@ -4909,6 +4909,11 @@ onde o acesso à internet ocorre apenas em janelas via Starlink. Os dados são c
 no campo por dispositivos móveis fornecidos pela própria BrPec e sincronizados
 automaticamente quando a conexão está disponível.
 
+O objetivo estratégico do projeto é reduzir erros operacionais, aumentar a velocidade
+de atualização das informações e dar aos gestores uma visão confiável e atualizada das
+operações de campo, tornando a BrPec mais competitiva em um setor que avança
+rapidamente em direção à digitalização.
+
 
 
 
