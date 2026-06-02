@@ -1,41 +1,62 @@
 import db from '../config/database';
+import supabasePool from '../config/supabasePool';
 import { v7 as uuidv7 } from 'uuid';
 
 class EventoRepository {
-  criarNascimento(evento) {
-    const mov_id = uuidv7();
-    const nas_id = uuidv7();
-    
-    // Inicia transação
-    db.exec('BEGIN TRANSACTION');
-    try {
-      const stmtMov = db.prepare(`
-        INSERT INTO movimentacoes (id, capataz_id, retiro_id, data, categoria, quantidade, sincronizado)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-      `);
-      stmtMov.run(
+  async criarNascimento(evento: any): Promise<any> {
+  const mov_id = uuidv7();
+  const nas_id = uuidv7();
+
+  const client = await supabasePool.connect();
+
+  try {
+    await client.query('BEGIN');
+
+    await client.query(
+      `
+      INSERT INTO movimentacoes (
+        id,
+        capataz_id,
+        retiro_id,
+        data,
+        categoria,
+        quantidade,
+        sincronizado
+      )
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      `,
+      [
         mov_id,
         evento.capataz_id,
         evento.retiro_id,
         evento.data,
         evento.categoria,
         evento.quantidade,
-        1 // online server
-      );
+        1
+      ]
+    );
 
-      const stmtNas = db.prepare(`
-        INSERT INTO nascimentos (id, movimentacao_id)
-        VALUES (?, ?)
-      `);
-      stmtNas.run(nas_id, mov_id);
+    await client.query(
+      `
+      INSERT INTO nascimentos (
+        id,
+        movimentacao_id
+      )
+      VALUES ($1, $2)
+      `,
+      [nas_id, mov_id]
+    );
 
-      db.exec('COMMIT');
-      return this.buscarMovimentacaoPorId(mov_id);
-    } catch (err) {
-      db.exec('ROLLBACK');
-      throw err;
-    }
+    await client.query('COMMIT');
+
+    return await this.buscarMovimentacaoPorId(mov_id);
+  } catch (err) {
+    await client.query('ROLLBACK');
+    throw err;
+  } finally {
+    client.release();
   }
+}
 
   /**
    * Registra um óbito animal com transação atômica.
@@ -205,9 +226,13 @@ class EventoRepository {
     };
   }
 
-  buscarMovimentacaoPorId(id) {
-    const stmt = db.prepare('SELECT * FROM movimentacoes WHERE id = ?');
-    return stmt.get(id);
+  async buscarMovimentacaoPorId(id: string): Promise<any | null> {
+  const result = await supabasePool.query(
+    'SELECT * FROM movimentacoes WHERE id = $1',
+    [id]
+  );
+
+  return result.rows[0] || null;
   }
 }
 
