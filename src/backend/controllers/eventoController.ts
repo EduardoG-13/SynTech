@@ -1,15 +1,17 @@
 import eventoService from '../services/eventoService';
 
 class EventoController {
-  registrarNascimento(req, res) {
+  async registrarNascimento(req, res) {
     try {
       const { data, retiro_id, categoria, quantidade, capataz_id } = req.body;
 
       if (!data || !retiro_id || !categoria || !quantidade || !capataz_id) {
-        return res.status(400).json({ erro: 'Campos obrigatórios não preenchidos: data, retiro_id, categoria, quantidade, capataz_id' });
+        return res.status(400).json({
+          erro: 'Campos obrigatórios não preenchidos: data, retiro_id, categoria, quantidade, capataz_id'
+        });
       }
 
-      const nascimento = eventoService.registrarNascimento({
+      const nascimento = await eventoService.registrarNascimento({
         data,
         retiro_id,
         categoria,
@@ -17,19 +19,20 @@ class EventoController {
         capataz_id
       });
 
-      return res.status(201).json({ id: nascimento.id, mensagem: 'Registro de nascimento criado com sucesso', registro: nascimento });
-    } catch (erro) {
-      return res.status(500).json({ erro: 'Erro ao criar registro', detalhe: erro.message });
+      return res.status(201).json({
+        id: nascimento.id,
+        mensagem: 'Registro de nascimento criado com sucesso',
+        registro: nascimento
+      });
+    } catch (erro: any) {
+      return res.status(500).json({
+        erro: 'Erro ao criar registro',
+        detalhe: erro.message
+      });
     }
   }
 
-  /**
-   * POST /api/eventos-zootecnicos/obitos
-   * Registra um óbito animal com foto obrigatória.
-   *
-   * RF009, RF013: Campos obrigatórios validados na camada controller e service.
-   */
-  registrarObito(req, res) {
+  async registrarObito(req, res) {
     try {
       const {
         capataz_id,
@@ -43,8 +46,8 @@ class EventoController {
         geolocalizacao
       } = req.body;
 
-      // Validação de campos obrigatórios na camada controller (RF013)
       const camposFaltantes: string[] = [];
+
       if (!capataz_id) camposFaltantes.push('capataz_id');
       if (!retiro_id) camposFaltantes.push('retiro_id');
       if (!data) camposFaltantes.push('data');
@@ -61,7 +64,7 @@ class EventoController {
         });
       }
 
-      const obito = eventoService.registrarObito({
+      const obito = await eventoService.registrarObito({
         capataz_id,
         retiro_id,
         data,
@@ -77,21 +80,19 @@ class EventoController {
         mensagem: 'Registro de óbito criado com sucesso',
         registro: obito
       });
-    } catch (erro) {
+    } catch (erro: any) {
       if (erro.message.includes('RF013')) {
         return res.status(422).json({ erro: erro.message });
       }
-      return res.status(500).json({ erro: 'Erro ao registrar óbito', detalhe: erro.message });
+
+      return res.status(500).json({
+        erro: 'Erro ao registrar óbito',
+        detalhe: erro.message
+      });
     }
   }
 
-  /**
-   * GET /api/eventos-zootecnicos
-   * Lista todos os eventos zootécnicos com paginação e filtros.
-   *
-   * RF014, US11: Consulta histórica completa para o Coordenador.
-   */
-  listarEventos(req, res) {
+  async listarEventos(req, res) {
     try {
       const {
         retiro_id,
@@ -103,7 +104,7 @@ class EventoController {
         limite
       } = req.query;
 
-      const resultado = eventoService.listarEventos({
+      const resultado = await eventoService.listarEventos({
         retiro_id: retiro_id as string | undefined,
         categoria: categoria as string | undefined,
         data_inicio: data_inicio as string | undefined,
@@ -114,13 +115,13 @@ class EventoController {
       });
 
       return res.status(200).json(resultado);
-    } catch (erro) {
-      return res.status(500).json({ erro: 'Erro ao listar eventos zootécnicos', detalhe: erro.message });
+    } catch (erro: any) {
+      return res.status(500).json({
+        erro: 'Erro ao listar eventos zootécnicos',
+        detalhe: erro.message
+      });
     }
   }
 }
 
 export default new EventoController();
-
-
-

@@ -2,9 +2,24 @@ import tarefaRepository from '../repositories/tarefaRepository';
 import usuarioRepository from '../repositories/usuarioRepository';
 
 class TarefaService {
+<<<<<<< HEAD
   async criarTarefa(dados) {
     // RN01: O capataz deve estar vinculado ao retiro informado
     const capataz = await usuarioRepository.buscarPorId(dados.capataz_id);
+=======
+  async criarTarefa(dados: any): Promise<any> {
+    const hojeStr = new Date().toISOString().split('T')[0];
+    if (dados.data_execucao < hojeStr) {
+      throw new Error('A data de agendamento não pode ser retroativa.');
+    }
+
+    if (typeof dados.descricao === 'string' && dados.descricao.trim() === '') {
+      throw new Error('A descrição não pode estar em branco.');
+    }
+
+    const capataz = usuarioRepository.buscarPorId(dados.capataz_id);
+
+>>>>>>> 67ff2bf6344f01120443464d6bd85e4fe789bb1d
     if (!capataz || capataz.perfil !== 'Capataz') {
       throw new Error('Usuário informado não é um Capataz válido.');
     }
