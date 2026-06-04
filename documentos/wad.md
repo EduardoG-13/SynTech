@@ -70,11 +70,18 @@ das informações. O WhatsApp é atualmente o principal canal de comunicação e
 e gestores, o que mostra tanto a familiaridade dos usuários com dispositivos móveis quanto
 a falta de um canal estruturado para o fluxo de dados operacionais.
 
+Diante desse contexto, foi proposta a construção de uma aplicação web progressiva (PWA)
+capaz de digitalizar o gerenciamento de tarefas e o registro das movimentações do rebanho,
+contemplando nascimentos, mortes, compras, vendas e transferências entre retiros, com
+funcionamento offline obrigatório. A solução permite que os dados sejam coletados
+diretamente no campo, por meio de dispositivos móveis fornecidos pela própria BrPec, e
+sincronizados automaticamente nas janelas de conectividade disponíveis.
+
 Como principal criação de valor, o sistema promove a padronização dos registros, elimina
-a necessidade de redigitação manual, reduz erros operacionais e melhora a rastreabilidade
-das informações. Dessa forma, possibilita maior agilidade na atualização dos dados, aumenta
-a transparência das operações e apoia a tomada de decisão dos gestores, alinhando-se
-às necessidades reais da BrPec e ao seu contexto operacional.
+a etapa de redigitação manual, reduz erros operacionais e amplia a rastreabilidade das
+informações. Com isso, torna-se possível atualizar os dados com mais agilidade, aumentar
+a transparência das operações e dar suporte à tomada de decisão dos gestores, atendendo
+às necessidades reais da BrPec e ao seu contexto operacional. 
 
 # <a name="c2"></a>2. Visão Geral da Aplicação Web (sprint 1)
 
@@ -4891,17 +4898,110 @@ _Posicione aqui o relatório dos testes SUS realizados._
 
 ## 6.1 Resumo Executivo
 
-_Preencher com até 300 palavras, sem necessidade de fonte_
+O Brasil é o maior exportador mundial de carne bovina, com um rebanho de 238,2 milhões
+de cabeças e receita de exportação de US$ 18,03 bilhões em 2025. Apesar dessa escala,
+a gestão operacional de grande parte das fazendas ainda depende de registros manuais em
+papel, um gargalo que compromete a qualidade das informações e a velocidade das decisões.
 
-_Apresente de forma clara e objetiva os principais destaques do projeto: oportunidades de mercado, diferenciais competitivos da aplicação web e os objetivos estratégicos pretendidos._
+É nesse contexto que se insere a solução desenvolvida para a BrPec Agropecuária S.A.,
+empresa com 14 retiros operacionais no Pantanal sul-mato-grossense. O fluxo de informações
+entre o campo e o escritório ocorre hoje por meio de boletas físicas preenchidas pelos
+capatazes, que depois são redigitadas manualmente em planilhas na sede. Esse processo
+gera inconsistências nos registros, atrasos de horas ou dias no repasse de informações
+críticas, como mortes de animais, e retrabalho constante para a equipe de coordenação.
+
+A aplicação web desenvolvida digitaliza o registro das movimentações do rebanho,
+nascimentos, mortes, compras, vendas e transferências entre retiros, com funcionamento
+offline obrigatório, resolvendo diretamente a limitação de conectividade dos retiros,
+onde o acesso à internet ocorre apenas em janelas via Starlink. Os dados são coletados
+no campo por dispositivos móveis fornecidos pela própria BrPec e sincronizados
+automaticamente quando a conexão está disponível.
+
+O objetivo estratégico do projeto é reduzir erros operacionais, aumentar a velocidade
+de atualização das informações e dar aos gestores uma visão confiável e atualizada das
+operações de campo, tornando a BrPec mais competitiva em um setor que avança
+rapidamente em direção à digitalização.
+
+
+
 
 ## 6.2 Análise de Mercado
 
-_a) Visão Geral do Setor (até 250 palavras)_
-_Contextualize o setor no qual a aplicação está inserida, considerando aspectos econômicos, tecnológicos e regulatórios. Utilize fontes confiáveis._
+_a) Visão Geral do Setor_
 
-_b) Tamanho e Crescimento do Mercado (até 250 palavras)_
-_Apresente dados quantitativos sobre o tamanho atual e projeções de crescimento do mercado. Utilize fontes confiáveis._
+O Brasil ocupa posição de destaque na pecuária bovina mundial. Em 2024, o rebanho 
+nacional atingiu 238,2 milhões de cabeças, segundo a Pesquisa da Pecuária Municipal 
+do IBGE — segundo maior da série histórica, superando em 12% a própria população 
+brasileira [36]. No mesmo ano, o abate chegou ao recorde de 39,7 milhões de 
+cabeças, com produção de 10,2 milhões de toneladas em equivalente carcaça, conforme 
+dados do Ministério da Agricultura e Pecuária [37]. 
+
+No plano das exportações, o setor registrou em 2024 o envio de 2,87 milhões de 
+toneladas de carne bovina, crescimento de 25,5% em relação ao ano anterior, gerando 
+receita de US$ 12,83 bilhões [37]. Em 2025, os resultados superaram esses 
+números: foram exportadas 3,50 milhões de toneladas, alta de 20,9%, com receita de 
+US$ 18,03 bilhões — o maior desempenho já registrado na série histórica, segundo a 
+Associação Brasileira das Indústrias Exportadoras de Carnes [38]. Com isso, 
+o Brasil consolidou-se em 2025 como o maior produtor mundial de carne bovina, 
+ultrapassando os Estados Unidos pela primeira vez [36].
+
+Do ponto de vista regulatório, o regulamento antidesmatamento da União Europeia, 
+previsto para entrar em vigor a partir de 2026, aumenta as exigências de rastreabilidade 
+e comprovação de origem para acesso a mercados externos. Esse cenário reforça a 
+necessidade de digitalização das operações de campo, tornando soluções como a 
+desenvolvida para a BrPec diretamente alinhadas às demandas do setor.
+
+_b) Tamanho e Crescimento do Mercado_
+
+O rebanho bovino brasileiro encerrou 2024 com 238,2 milhões de cabeças, segundo a
+Pesquisa da Pecuária Municipal do IBGE — o segundo maior da série histórica iniciada
+em 1974 (IBGE, 2025). O volume de abate acompanhou essa escala: foram 39,27 milhões
+de cabeças abatidas em 2024, alta de 15,2% em relação ao ano anterior, com produção
+de 10,2 milhões de toneladas de carne em equivalente carcaça [39] [43].
+Em 2025, o crescimento continuou: somente no primeiro trimestre foram abatidas
+9,87 milhões de cabeças, recorde histórico para o período, com alta de 5,5% sobre
+igual trimestre de 2024 [40].
+
+A tabela abaixo resume a evolução do abate nos últimos anos:
+
+| Ano  | Cabeças abatidas (milhões) | Variação anual |
+|------|---------------------------|----------------|
+| 2022 | ~27,6                     | —              |
+| 2023 | ~34,1                     | +23,5%         |
+| 2024 | 39,27                     | +15,2%         |
+| 2025 (projeção) | ~42,5            | +8,2%          |
+
+[39].
+
+No plano das exportações, o Brasil embarcou 2,87 milhões de toneladas em 2024
+(+25,5% vs. 2023), gerando US$ 12,83 bilhões em receita (MAPA, 2024). Em 2025,
+esses números foram superados: 3,50 milhões de toneladas exportadas (+20,9%),
+com receita de US$ 18,03 bilhões (+40,1%), consolidando o país como maior
+exportador mundial de carne bovina (ABIEC, 2026). Para 2026, a ABIEC projeta
+crescimento adicional de 12% nas exportações totais [41].
+
+| Ano  | Volume exportado (milhões de ton.) | Receita (US$ bilhões) | Variação receita |
+|------|------------------------------------|-----------------------|-----------------|
+| 2023 | 2,29                               | 10,54                 | —               |
+| 2024 | 2,87                               | 12,83                 | +21,7%          |
+| 2025 | 3,50                               | 18,03                 | +40,1%          |
+| 2026 | ~3,92 (proj.)                      | ~20,5 (proj.)         | ~+12%           |
+
+[41] [43]
+
+Além do crescimento em volume, o setor enfrenta uma pressão crescente por
+rastreabilidade. O Regulamento Europeu Antidesmatamento (EUDR) exige que produtos
+bovinos exportados à União Europeia comprovem origem livre de desmatamento,
+prazo previsto para o segundo semestre de 2026 (EUDR, 2023). No plano doméstico,
+o Plano Nacional de Identificação de Bovinos (PNIB) estabelece como meta a
+rastreabilidade individual de todo o rebanho nacional até 2032 [43].
+
+Esse cenário abre mercado direto para soluções de gestão digital de campo: fazendas
+que registram movimentações de rebanho de forma estruturada e rastreável passam a
+ter vantagem competitiva concreta no acesso a mercados premium — exatamente o
+problema que a solução desenvolvida para a BrPec endereça.
+
+
 
 _c) Tendências de Mercado (até 300 palavras)_
 _Identifique e analise tendências relevantes (tecnológicas, comportamentais e mercadológicas) que influenciam o setor. Utilize fontes confiáveis._
@@ -5024,6 +5124,37 @@ Industries and Competitors. New York: Free Press, 2008. ISBN 978-0-7432-7275-4.
 [34] UX QUEST. Guia completo sobre paleta de cores para design de interface e UX. UX Quest, 2026. Disponível em: https://www.uxquest.com.br/blog/paleta-de-cores. Acesso em: 28 maio 2026.
 
 [35] SUA IMPRENSA. Guia de estilo da marca: o que é, como fazer e elementos essenciais. Sua Imprensa, 2025. Disponível em: https://suaimprensa.com.br/blog/guia-de-estilo-da-marca/. Acesso em: 28 maio 2026.
+
+[36] IBGE. Pesquisa da Pecuária Municipal 2024. Rio de Janeiro: IBGE, 2025. 
+Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/9107-producao-da-pecuaria-municipal.html. 
+Acesso em: jun. 2026.
+
+[37] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. Produção e exportações de carne bovina 
+2024. Brasília: MAPA/SCRI, 2024. Disponível em: https://www.gov.br/agricultura. 
+Acesso em: jun. 2026.
+
+[38] ABIEC. Brasil bate recorde nas exportações de carne bovina em 2025. São Paulo: 
+ABIEC, 2026. Disponível em: https://abiec.com.br/brasil-bate-recorde-nas-exportacoes-de-carne-bovina-em-2025/. 
+Acesso em: jun. 2026.
+
+[39] IBGE. Estatísticas da Produção Pecuária — Resultados do 4º trimestre de 2024.
+Rio de Janeiro: IBGE, 2025. Disponível em: https://agenciadenoticias.ibge.gov.br/agencia-noticias/2012-agencia-de-noticias/noticias/42899-abate-de-bovinos-atinge-recorde-em-2024.
+Acesso em: jun. 2026.
+
+[40] CONFEDERAÇÃO DA AGRICULTURA E PECUÁRIA DO BRASIL. Pesquisa Trimestral do
+Abate, Leite e Ovos — 1º trimestre de 2025. Brasília: CNA, 2025. Disponível em:
+https://www.cnabrasil.org.br. Acesso em: jun. 2026.
+
+[41] ABIEC. Brasil bate recorde nas exportações de carne bovina em 2025. São Paulo:
+ABIEC, 2026. Disponível em: https://abiec.com.br. Acesso em: jun. 2026.
+
+[42] UNIÃO EUROPEIA. Regulamento (UE) 2023/1115 — Regulamento Europeu
+Antidesmatamento (EUDR). Bruxelas: Parlamento Europeu e Conselho da UE, 2023.
+Disponível em: https://eur-lex.europa.eu. Acesso em: jun. 2026.
+
+[43] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. Plano Nacional de Identificação de
+Bovinos e Búfalos (PNIB). Brasília: MAPA, 2024. Disponível em:
+https://www.gov.br/agricultura. Acesso em: jun. 2026.
 
 # <a name="c9"></a>Anexos
 
