@@ -2,7 +2,7 @@
 -- Criação das tabelas do banco de dados SQLite para o backend BrPec
 
 CREATE TABLE IF NOT EXISTS retiros (
-    id TEXT PRIMARY KEY,
+    id TEXT PRIMARY KEY NOT NULL,
     nome TEXT NOT NULL,
     localizacao TEXT NOT NULL,
     coordenador_id TEXT NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS retiros (
 );
 
 CREATE TABLE IF NOT EXISTS usuarios (
-    id TEXT PRIMARY KEY,
+    id TEXT PRIMARY KEY NOT NULL,
     nome TEXT NOT NULL,
     senha TEXT NOT NULL,
     perfil TEXT NOT NULL CHECK(perfil IN ('Gerente', 'Coordenador', 'Capataz', 'Tecnico')),
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
 );
 
 CREATE TABLE IF NOT EXISTS tarefas (
-    id TEXT PRIMARY KEY,
+    id TEXT PRIMARY KEY NOT NULL,
     titulo TEXT NOT NULL,
     descricao TEXT,
     status TEXT NOT NULL CHECK(status IN ('PENDENTE', 'EM_ANDAMENTO', 'CONCLUIDA')),
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS tarefas (
 );
 
 CREATE TABLE IF NOT EXISTS evidencias (
-    id TEXT PRIMARY KEY,
+    id TEXT PRIMARY KEY NOT NULL,
     tarefa_id TEXT,
     alerta_id TEXT,
     movimentacao_id TEXT,
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS evidencias (
 );
 
 CREATE TABLE IF NOT EXISTS alertas (
-    id TEXT PRIMARY KEY,
+    id TEXT PRIMARY KEY NOT NULL,
     tipo TEXT NOT NULL,
     descricao TEXT,
     status TEXT NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS alertas (
 );
 
 CREATE TABLE IF NOT EXISTS movimentacoes (
-    id TEXT PRIMARY KEY,
+    id TEXT PRIMARY KEY NOT NULL,
     capataz_id TEXT NOT NULL,
     retiro_id TEXT NOT NULL,
     data DATE NOT NULL,
@@ -88,13 +88,13 @@ CREATE TABLE IF NOT EXISTS movimentacoes (
 );
 
 CREATE TABLE IF NOT EXISTS nascimentos (
-    id TEXT PRIMARY KEY,
+    id TEXT PRIMARY KEY NOT NULL,
     movimentacao_id TEXT NOT NULL,
     FOREIGN KEY (movimentacao_id) REFERENCES movimentacoes(id)
 );
 
 CREATE TABLE IF NOT EXISTS obitos (
-    id TEXT PRIMARY KEY,
+    id TEXT PRIMARY KEY NOT NULL,
     movimentacao_id TEXT NOT NULL,
     identificacao_animal TEXT NOT NULL,
     causa_morte TEXT NOT NULL,
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS obitos (
 );
 
 CREATE TABLE IF NOT EXISTS transferencias (
-    id TEXT PRIMARY KEY,
+    id TEXT PRIMARY KEY NOT NULL,
     movimentacao_id TEXT NOT NULL,
     retiro_origem_id TEXT NOT NULL,
     retiro_destino_id TEXT NOT NULL,
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS transferencias (
 );
 
 CREATE TABLE IF NOT EXISTS compravendas (
-    id TEXT PRIMARY KEY,
+    id TEXT PRIMARY KEY NOT NULL,
     movimentacao_id TEXT NOT NULL,
     tipo_negocio TEXT NOT NULL,
     valor_financeiro REAL NOT NULL,
@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS compravendas (
 );
 
 CREATE TABLE IF NOT EXISTS sincronizacoes (
-    id TEXT PRIMARY KEY,
+    id TEXT PRIMARY KEY NOT NULL,
     entidade_tipo TEXT NOT NULL,
     entidade_id TEXT NOT NULL,
     status_envio TEXT NOT NULL,
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS sincronizacoes (
 );
 
 CREATE TABLE IF NOT EXISTS exportacoes (
-    id TEXT PRIMARY KEY,
+    id TEXT PRIMARY KEY NOT NULL,
     coordenador_id TEXT NOT NULL,
     formato TEXT NOT NULL,
     filtro_retiro TEXT,
