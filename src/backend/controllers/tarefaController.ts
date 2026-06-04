@@ -1,7 +1,7 @@
 import tarefaService from '../services/tarefaService';
 
 class TarefaController {
-  async criarTarefa(req, res) {
+  async criarTarefa(req, res, next) {
     try {
       const { titulo, descricao, retiro_id, capataz_id, data_execucao, gerente_id } = req.body;
 
@@ -18,24 +18,16 @@ class TarefaController {
         gerente_id
       });
 
-      return res.status(201).json({
-        id: tarefa.id,
-        mensagem: 'Tarefa criada com sucesso',
-        tarefa
-      });
-    } catch (erro: any) {
+      return res.status(201).json({ id: tarefa.id, mensagem: 'Tarefa criada com sucesso', tarefa });
+    } catch (erro) {
       if (erro.message.includes('RN01')) {
         return res.status(422).json({ erro: erro.message });
       }
-
-      return res.status(500).json({
-        erro: 'Erro interno do servidor',
-        detalhe: erro.message
-      });
+      next(erro);
     }
   }
 
-  async buscarTarefasHoje(req, res) {
+  async buscarTarefasHoje(req, res, next) {
     try {
       const capataz_id = req.query.capataz_id || req.body.capataz_id;
 
@@ -44,17 +36,13 @@ class TarefaController {
       }
 
       const tarefas = await tarefaService.buscarTarefasHoje(capataz_id);
-
-      return res.status(200).json({
-        tarefas,
-        modo: 'online'
-      });
-    } catch (erro: any) {
-      return res.status(500).json({ erro: 'Erro ao buscar tarefas' });
+      return res.status(200).json({ tarefas, modo: 'online' });
+    } catch (erro) {
+      next(erro);
     }
   }
 
-  async concluirTarefa(req, res) {
+  async concluirTarefa(req, res, next) {
     try {
       const { id } = req.params;
       const { capataz_id } = req.body;
@@ -64,21 +52,16 @@ class TarefaController {
       }
 
       const tarefaAtualizada = await tarefaService.concluirTarefa(id, capataz_id);
-
-      return res.status(200).json({
-        mensagem: 'Tarefa concluída com sucesso',
-        tarefa: tarefaAtualizada
-      });
-    } catch (erro: any) {
+      return res.status(200).json({ mensagem: 'Tarefa concluída com sucesso', tarefa: tarefaAtualizada });
+    } catch (erro) {
       if (erro.message.includes('não encontrada')) {
         return res.status(404).json({ erro: erro.message });
       }
-
-      return res.status(500).json({ erro: erro.message });
+      next(erro);
     }
   }
 
-  async anexarEvidencia(req, res) {
+  async anexarEvidencia(req, res, next) {
     try {
       const { id } = req.params;
       const { tipo, arquivo_base64, capataz_id, geolocalizacao } = req.body;
@@ -93,16 +76,12 @@ class TarefaController {
         geolocalizacao
       });
 
-      return res.status(201).json({
-        mensagem: 'Evidência salva com sucesso',
-        evidencia_id: result.evidencia_id
-      });
-    } catch (erro: any) {
+      return res.status(201).json({ mensagem: 'Evidência salva com sucesso', evidencia_id: result.evidencia_id });
+    } catch (erro) {
       if (erro.message.includes('RN05')) {
         return res.status(404).json({ erro: erro.message });
       }
-
-      return res.status(500).json({ erro: erro.message });
+      next(erro);
     }
   }
 }

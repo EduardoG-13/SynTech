@@ -7,16 +7,10 @@
     "noImplicitAny": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "types": ["node"],
+    "types": ["node", "jest"],
     "skipLibCheck": true,
     "outDir": "dist"
   },
   "include": ["src/backend/**/*.ts"],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "src/backend/__tests__/**",
-    "src/backend/tests/**",
-    "src/backend/jest.setup.env.ts"
-  ]
-}
+  "exclude": ["node_modules", "dist"]
+} 

@@ -1,0 +1,66 @@
+<%- include('partials/header') %>
+
+<!-- Adicionamos a classe "logged" para indicar que há um usuário ativo -->
+<div id="device" class="logged">
+  
+  <!-- Inclusão da Sidebar Vertical Dinâmica -->
+  <%- include('partials/sidebar') %>
+
+  <!-- Área Principal de Conteúdo -->
+  <div id="app">
+    
+    <!-- Barra superior interna da página com avatar -->
+    <div class="header-bar">
+      <div class="user-avatar">👤</div>
+      <h1>Tarefas</h1>
+      <div class="sub"><%= retiro %> (<%= perfil %>)</div>
+    </div>
+
+    <div class="content">
+      <!-- Filtros conforme mockup -->
+      <div class="filter-pills">
+        <span class="pill active">Todos</span>
+        <span class="pill">Rebanhos</span>
+      </div>
+
+      <!-- Lista estrutural das Tarefas -->
+      <div class="tarefas-lista">
+        
+        <!-- Exemplo de Card 1 -->
+        <div class="card tarefa-card">
+          <div class="bar-lateral andamento"></div>
+          <div class="body">
+            <span class="titulo">Consertar Cerca</span>
+            <span class="badge andamento">Em andamento</span>
+            <span class="arrow">›</span>
+          </div>
+        </div>
+
+        <!-- Exemplo de Card 2 -->
+        <div class="card tarefa-card">
+          <div class="bar-lateral pendente"></div>
+          <div class="body">
+            <span class="titulo">Movimentação dos rebanhos</span>
+            <span class="badge pendente">Pendente</span>
+            <span class="arrow">›</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Botão para disparar ações -->
+      <button class="btn" style="margin-top:16px">Nova O.S</button>
+    </div>
+
+    <!-- Navegação inferior visível no mobile -->
+    <div class="bottom-nav">
+      <button class="active"><span><img src="../../public/Icons/home.ico" alt="Home" /></span> Início</button>
+      <button><span>📋</span> Tarefas</button>
+      <button><span>🐂</span> Rebanhos</button>
+      <button onclick="window.location.href='/'"><span><img src="../../public/Icons/configuracao.ico" alt="Home" /></span> Config</button>
+    </div>
+
+  </div>
+</div>
+
+<%- include('partials/footer') %>

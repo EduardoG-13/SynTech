@@ -21,7 +21,17 @@
       "**/tests/**/*.test.ts"
     ],
     "transform": {
-      "^.+\\.ts$": ["ts-jest", { "tsconfig": { "types": ["jest", "node"] } }]
+      "^.+\\.ts$": [
+        "ts-jest",
+        {
+          "tsconfig": {
+            "types": [
+              "jest",
+              "node"
+            ]
+          }
+        }
+      ]
     },
     "moduleFileExtensions": [
       "ts",
@@ -32,11 +42,13 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
+    "ejs": "^6.0.1",
     "express": "^4.21.2",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
+    "@types/ejs": "^3.1.5",
     "@types/express": "^5.0.6",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.19.19",

@@ -15,6 +15,7 @@ const GERENTE_ID = 'gerente-test-001';
 const CAPATAZ_ID = 'capataz-test-001';
 const CAPATAZ_SEM_RETIRO_ID = 'capataz-test-sem-retiro';
 const TAREFA_ID = 'tarefa-test-001';
+const DATA_FUTURA = new Date(Date.now() + 86400000).toISOString().split('T')[0];
 
 beforeAll(() => {
   // Cria tabelas via migration.sql
@@ -68,7 +69,7 @@ describe('POST /api/tarefas', () => {
         descricao: 'Inspeção perimetral completa',
         retiro_id: RETIRO_ID,
         capataz_id: CAPATAZ_ID,
-        data_execucao: '2026-05-26',
+        data_execucao: DATA_FUTURA,
         gerente_id: GERENTE_ID,
       });
 
@@ -94,7 +95,7 @@ describe('POST /api/tarefas', () => {
         titulo: 'Tarefa inválida',
         retiro_id: RETIRO_ID,
         capataz_id: CAPATAZ_SEM_RETIRO_ID,
-        data_execucao: '2026-05-26',
+        data_execucao: DATA_FUTURA,
         gerente_id: GERENTE_ID,
       });
 

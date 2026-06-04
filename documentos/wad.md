@@ -46,39 +46,42 @@ controle operacional, especialmente no registro de atividades de campo e na gest
 movimentação do rebanho, fatores diretamente relacionados à produtividade e à qualidade
 da tomada de decisão.
 
-No cenário da BrPec Agropecuária S.A., empresa com 14 retiros operacionais distribuídos
-na região do Pantanal sul-mato-grossense e aproximadamente 240 colaboradores, dos quais cerca de 25 atuam diretamente como usuários operacionais da solução,
-identificou-se que o fluxo de informações entre o campo e o escritório ocorre de forma
-inteiramente manual, por meio de anotações em boletas de papel. Esse modelo gera
-ineficiências operacionais relevantes: registros são frequentemente preenchidos de forma
-incompleta ou ilegível, agravado pelo fato de parte dos capatazes apresentar dificuldade
-de leitura e escrita. Há, ainda, atraso significativo no envio das informações ao escritório
-e torna-se necessário redigitar todos os dados em planilhas digitais. Como consequência,
-ocorrem retrabalho, risco de erros na consolidação e atrasos que podem comprometer a
-visibilidade das operações por horas ou até dias, impactando diretamente a tomada de
-decisão dos gestores. Um exemplo concreto identificado no kickoff com o parceiro: boletas
-de entrada e saída de animais frequentemente não coincidem, gerando inconsistências no
-controle do rebanho.
+No cenário da BrPec Agropecuária S.A., empresa com 14 retiros operacionais na região
+do Pantanal sul-mato-grossense e aproximadamente 240 colaboradores, identificou-se que
+o fluxo de informações entre o campo e o escritório ocorre de forma inteiramente manual,
+por meio de anotações em boletas de papel preenchidas pelos capatazes e coordenadores de
+retiro, subconjunto composto por cerca de 25 usuários que atuam diretamente como
+operadores da solução proposta. Esse modelo apresenta ineficiências relevantes: os
+registros são frequentemente incompletos ou de difícil leitura, situação agravada pelo
+fato de parte dos capatazes apresentar dificuldade com leitura e escrita formal.
+
+Quando os dados precisam ser redigitados em sistemas digitais, como ocorre na BrPec, onde o coordenador
+transcreve as boletas para planilhas Excel na sede, o número de etapas manuais dobra,
+aumentando a chance de erros acumulados. No contexto analisado, identificaram-se
+manifestações concretas desse problema: boletas de entrada e saída de animais
+frequentemente não coincidem, gerando inconsistências no controle do rebanho; registros
+de mortes chegam ao escritório com atraso de horas ou até dias; e a redigitação consome
+tempo do coordenador sem agregar valor analítico à operação.
 
 Além disso, a ausência de conectividade contínua nas áreas operacionais, com
-sincronização disponível apenas pela manhã e à noite via Starlink nos retiros, impede o
-uso de soluções digitais convencionais, dificultando ainda mais a padronização e a
-confiabilidade das informações registradas. Atualmente, o WhatsApp é a principal
-ferramenta de comunicação entre capatazes e gestores, o que evidencia tanto a familiaridade
-dos usuários com dispositivos móveis quanto a ausência de um canal estruturado para o
-fluxo de dados operacionais.
+sincronização disponível apenas pela manhã e à noite via Starlink nos retiros, impede
+o uso de soluções digitais convencionais, dificultando a padronização e a confiabilidade
+das informações. O WhatsApp é atualmente o principal canal de comunicação entre capatazes
+e gestores, o que mostra tanto a familiaridade dos usuários com dispositivos móveis quanto
+a falta de um canal estruturado para o fluxo de dados operacionais.
 
-Diante desse contexto, foi proposta a construção de uma aplicação web capaz de digitalizar
-o gerenciamento de tarefas e o registro das movimentações do rebanho, contemplando
-nascimentos, mortes, compras, vendas e transferências entre retiros, com funcionamento
-offline obrigatório. A solução permite que os dados sejam coletados diretamente no campo,
-por meio de celulares fornecidos pela própria BrPec, e sincronizados automaticamente quando houver conexão com a internet.
+Diante desse contexto, foi proposta a construção de uma aplicação web progressiva (PWA)
+capaz de digitalizar o gerenciamento de tarefas e o registro das movimentações do rebanho,
+contemplando nascimentos, mortes, compras, vendas e transferências entre retiros, com
+funcionamento offline obrigatório. A solução permite que os dados sejam coletados
+diretamente no campo, por meio de dispositivos móveis fornecidos pela própria BrPec, e
+sincronizados automaticamente nas janelas de conectividade disponíveis.
 
 Como principal criação de valor, o sistema promove a padronização dos registros, elimina
-a necessidade de redigitação manual, reduz erros operacionais e melhora a rastreabilidade
-das informações. Dessa forma, possibilita maior agilidade na atualização dos dados, aumenta
-a transparência das operações e apoia a tomada de decisão dos gestores, alinhando-se
-às necessidades reais da BrPec e ao seu contexto operacional.
+a etapa de redigitação manual, reduz erros operacionais e amplia a rastreabilidade das
+informações. Com isso, torna-se possível atualizar os dados com mais agilidade, aumentar
+a transparência das operações e dar suporte à tomada de decisão dos gestores, atendendo
+às necessidades reais da BrPec e ao seu contexto operacional. 
 
 # <a name="c2"></a>2. Visão Geral da Aplicação Web (sprint 1)
 
@@ -994,15 +997,15 @@ Os Requisitos Funcionais (RF) determinam a competência computacional e os servi
 | RF004 | O sistema deve exibir mensagem simples quando não houver tarefas disponíveis offline                                                                                                                                                                                  | Média      | Planejado |
 | RF005 | O sistema deve permitir que o Capataz grave um áudio curto e o anexe a uma tarefa                                                                                                                                                                                     | Média      | Planejado |
 | RF006 | O sistema deve permitir que o Capataz crie alertas de infraestrutura (ticket), informando: tipo de problema, retirada e localização                                                                                                                                   | Média      | Planejado |
-| RF007 | O sistema deve exibir ao Gerente um painel com o status de todas as tarefas (pendente, em andamento, concluída) e alertas em aberto, agrupados por retiro.                                                                                                            | Média      | Planejado |
+| RF007 | O sistema deve exibir ao Gerente um painel com o status de todas as tarefas (pendente, em andamento, concluída) e alertas em aberto, agrupados por retiro.                                                                                                            | Média      | Em desenvolvimento |
 | RF008 | O sistema deve permitir que o Capataz registre o nascimento de bezerros de forma offline, informando: data, retiro, categoria e quantidade                                                                                                                            | Média      | Planejado |
 | RF009 | O sistema deve permitir que o Capataz preencha e confirme o formulário de registro de morte de animal mesmo sem conexão com a internet, salvando os dados localmente no dispositivo                                                                                   | Alta       | Planejado |
-| RF010 | O sistema deve detectar automaticamente o restabelecimento da conexão com a rede e iniciar a transmissão dos registros locais pendentes para o servidor remoto, sem exigir nenhuma ação manual do Capataz                                                             | Alta       | Planejado |
+| RF010 | O sistema deve detectar automaticamente o restabelecimento da conexão com a rede e iniciar a transmissão dos registros locais pendentes para o servidor remoto, sem exigir nenhuma ação manual do Capataz                                                             | Alta       | Em desenvolvimento |
 | RF011 | O sistema deve notificar o Capataz com uma mensagem de confirmação após a sincronização bem-sucedida dos dados com o servidor ("Registro sincronizado com sucesso")                                                                                                   | Média      | Planejado |
 | RF012 | O sistema deve manter os registros com falha de envio salvos localmente e tentar reenvio automático a cada nova conexão disponível, até que a sincronização seja concluída com sucesso                                                                                | Alta       | Planejado |
 | RF013 | O sistema deve validar o preenchimento dos campos obrigatórios do formulário de óbito (identificação do animal, categoria, causa da morte e data) antes de permitir o salvamento local, bloqueando o registro incompleto e sinalizando visualmente os campos faltante | Alta       | Planejado |
-| RF014 | Após a sincronização, o sistema deve disponibilizar automaticamente o registro de óbito no painel do Coordenador, vinculado ao retiro do Capataz que realizou o lançamento                                                                                            | Média      | Planejado |
-| RF015 | O sistema deve permitir que o Coordenador exporte os dados consolidados das movimentações zootécnicas e do status operacional em arquivos formatados como planilha eletrônica (Excel/CSV)                                                                             | Alta       | Planejado |
+| RF014 | Após a sincronização, o sistema deve disponibilizar automaticamente o registro de óbito no painel do Coordenador, vinculado ao retiro do Capataz que realizou o lançamento                                                                                            | Média      | Em desenvolvimento |
+| RF015 | O sistema deve permitir que o Coordenador exporte os dados consolidados das movimentações zootécnicas e do status operacional em arquivos formatados como planilha eletrônica (Excel/CSV)                                                                             | Alta       | Em desenvolvimento |
 
 <center>
   <p><strong>Tabela 16</strong> — Requisitos Funcionais</p>
@@ -1063,7 +1066,7 @@ No contexto do nosso projeto para a BrPec, esses requisitos são fundamentais, p
 | CONF — Confiabilidade                    | Integridade da Sincronização    | 0% de perda de dados em falhas de conexão durante o envio de registros para o servidor.         | Uso de Service Workers e persistência local no SQLite/IndexedDB antes de tentar o upload (estratégia Offline-first).           |
 | DES — Desempenho                         | Tempo de Resposta Local         | Latência p95 &lt; 200 ms para salvar registros no banco de dados local do dispositivo.          | Processamento assíncrono no JavaScript e banco de dados SQLite otimizado com indexação por ID de animal.                       |
 | SUP — Suportabilidade (Manutenibilidade) | Facilidade de Atualização       | O tempo médio de reparo (MTTR) de um bug crítico na lógica de negócio não deve exceder 8 horas. | Código modular em Node.js com separação clara entre rotas de API e controladores de persistência.                              |
-| SEG — Segurança                          | Rastreabilidade de Ações        | 100% dos registros devem conter metadados de autoria (ID do perfil) e timestamp não editável.   | Injeção automática de log de auditoria no backend para cada transação enviada ao banco de dados.                               |
+| SEG — Segurança                          | Rastreabilidade de Ações        | 100% dos registros devem conter metadados de autoria (ID do perfil) e timestamp não editável.   | Armazenamento de autoria no payload da requisição e geração do timestamp criado_em com DEFAULT CURRENT_TIMESTAMP no SQLite.   |
 | CAP — Capacidade (Adequação Funcional)   | Volume de Dados Sincronizados   | O sistema deve suportar a sincronização em lote de até 500 eventos pendentes em um único ciclo. | Implementação de chunking (divisão em pedaços) no envio de dados para evitar timeout em conexões 3G oscilantes.                |
 | REST — Restrições Design (Portabilidade) | Adaptabilidade de Dispositivo   | A aplicação deve manter 100% da funcionalidade em telas de 5" a 12" (celular a tablet).         | Design Responsivo (Mobile-first) utilizando CSS Flexbox/Grid e suporte a modo PWA.                                             |
 | ORG — Organizacionais (Compatibilidade)  | Conformidade de Exportação      | Os arquivos gerados devem ser validados pelo esquema RFC 4180 (CSV) para leitura em Excel/BI.   | Biblioteca de exportação de dados configurada para padrão Windows-1252 (comum no agronegócio para evitar erros de acentuação). |
@@ -1097,8 +1100,8 @@ No contexto do nosso projeto para a BrPec, esses requisitos são fundamentais, p
 
 **5. Segurança (Quem fez o quê?)**
 
-- **O que é:** Estabelece o princípio da integridade autoral e o rastreamento das submissões por meio de controles lógicos irrefutáveis.
-- **Explicação:** O sistema injeta algoritmicamente parâmetros de identificação nas requisições, vinculando todo o ciclo de vida dos dados aos identificadores dos Capatazes e registrando carimbos de tempo sistêmicos invioláveis. Este controle de auditoria possibilita que os níveis de coordenação e gerência isolem responsabilidades, procedam com validações precisas e identifiquem com exatidão a procedência e a temporalidade das informações colhidas.
+- **O que é:** Estabelece o princípio da integridade autoral e o rastreamento das submissões por meio de logs de transação e banco de dados.
+- **Explicação:** Para fins de suporte offline e resiliência de conexão, o sistema associa cada registro diretamente aos identificadores dos usuários (como `capataz_id` ou `gerente_id`) passados nos payloads estruturados. A integridade temporal é garantida no banco de dados SQLite local e centralizador pela geração síncrona do campo `criado_em` usando a expressão default `CURRENT_TIMESTAMP` do banco, impedindo que o horário de registro seja editado diretamente nos dados pelo cliente. Este controle de auditoria possibilita a rastreabilidade cronológica de todas as transações sincronizadas da fazenda.
 
 **6. Capacidade (Adequação Funcional)**
 
@@ -1133,8 +1136,8 @@ A matriz a seguir consolida a rastreabilidade entre Requisitos Funcionais (RF, s
 | RF006 | RN19, RN21, RN26 | `/chamados`                      | POST          | Routes → Controller → Service → Repository (`alertaRepository`)     | Criar chamado/alerta de infraestrutura com geolocalização        |
 | RF014 | —                | `/eventos-zootecnicos`           | GET           | Routes → Controller → Service → Repository (`eventoRepository`)     | Listar todos os eventos zootécnicos registrados                  |
 | RF008 | RN27             | `/eventos-zootecnicos/nascimentos` | POST        | Routes → Controller → Service → Repository                          | Registrar nascimento de animal (transação tabela detalhe)        |
-| RF009 | RN27, RN28, RF013| `/eventos-zootecnicos/obitos`    | POST          | Routes → Controller (+ validação) → Service → Repository            | Registrar óbito de animal com causa da morte                     |
-| RF007 | RN10, RN11       | `/painel-gerencial`              | GET           | Routes → Controller → Service (agregação) → Repository              | Obter métricas consolidadas de tarefas e eventos para o painel   |
+| RF009 | RN27, RN28 | `/eventos-zootecnicos/obitos`    | POST          | Routes → Controller (+ validação) → Service → Repository            | Registrar óbito de animal com causa da morte                     |
+| RF007 | RN08, RN21       | `/painel-gerencial`              | GET           | Routes → Controller → Service (agregação) → Repository              | Obter métricas consolidadas de tarefas e eventos para o painel   |
 | RF010 | RF011, RF012     | `/sincronizacao/lote`            | POST          | Routes → Controller → Service (drena fila) → Repository             | Processar fila de sincronização em lote enviada pelo PWA         |
 | RF015 | —                | `/exportacao/csv`                | GET           | Routes → Controller → Service (gerador CSV) → Repository            | Gerar e exportar arquivo CSV com dados operacionais consolidados |
 
@@ -1152,7 +1155,10 @@ A matriz a seguir consolida a rastreabilidade entre Requisitos Funcionais (RF, s
 
 **Estado de implementação ao fim da sprint 3:**
 
-- **Implementados e testados** (cards #191, #192, #203, #211): `/health`, `POST /tarefas`, `GET /tarefas/hoje`, `PATCH /tarefas/:id/concluir`, `POST /tarefas/:id/evidencias`, `POST /chamados`, `GET /eventos-zootecnicos`, `POST /eventos-zootecnicos/nascimentos`, `POST /eventos-zootecnicos/obitos`, `GET /painel-gerencial`, `POST /sincronizacao/lote`, `GET /exportacao/csv`
+- **Implementados e testados** (cards #191, #192, #203, #211): `/health`, `POST /tarefas`, `GET /tarefas/hoje`, `PATCH /tarefas/:id/concluir`, `POST /tarefas/:id/evidencias`, `POST /chamados`, `POST /eventos-zootecnicos/nascimentos`, `POST /eventos-zootecnicos/obitos`.
+
+- **Pendentes de implementação (sprint 4/5):** `GET /eventos-zootecnicos`, `GET /painel-gerencial`, `POST /sincronizacao/lote`, `GET /exportacao/csv`
+
 - **Comportamentos client-side** previstos para a sprint 4: RF004 (mensagem offline sem tarefas), RF011 (feedback de sincronização), RF013 (validação client-side de óbito)
 
 **Rastreabilidade complementar:** os Requisitos Funcionais e Regras de Negócio referenciados nesta matriz estão detalhados nas seções 3.1.1 (RFs) e 3.1.2 (RNs). A arquitetura em camadas mencionada na coluna "Camada principal (CSR)" é descrita na seção 3.2.1, e os padrões de projeto que sustentam essa arquitetura (Repository, Outbox, DTO, etc.) constam na seção 3.2.7. A documentação completa de cada endpoint, com payloads de exemplo, body de requisição/resposta e códigos HTTP esperados, é apresentada na seção 3.7 (WebAPI e endpoints).
@@ -3100,15 +3106,37 @@ No caso desta solução, o único asset de imagem utilizado é o **logotipo da S
 
 ## 3.5 Protótipo de alta fidelidade (sprint 3)
 
-O protótipo de alta fidelidade foi desenvolvido no Figma com base nas personas, User Stories priorizadas e no Guia de Estilos definido na seção 3.4. As decisões visuais priorizaram a acessibilidade operacional dos usuários de campo — em especial os Capatazes, que apresentam baixo letramento digital e utilizam o sistema em ambientes externos com alta incidência solar.
+O protótipo de alta fidelidade foi desenvolvido no Figma com base nas personas, User
+Stories priorizadas e no Guia de Estilos definido na seção 3.4. As decisões visuais
+priorizaram a acessibilidade operacional dos usuários de campo, em especial os Capatazes,
+que apresentam baixo letramento digital e utilizam o sistema em ambientes externos com
+alta incidência solar.
 
-As telas seguem as diretrizes de contraste nível AAA (WCAG 1.4.6, razão mínima de 7:1), tipografia Inter com tamanhos mínimos de 14px e elementos de interação dimensionados para uso tátil em dispositivos móveis (altura mínima de 56px nos botões de ação principal). A paleta aplicada segue integralmente a definida na seção 3.4.1 — Verde Profundo (`#1A4D2E`) como cor primária e Off-white Quente (`#F5F0E8`) como fundo. O layout foi estruturado com base em um sistema de grid de 12 colunas com margens de 20px nas versões mobile e 48px nas versões desktop, garantindo alinhamento consistente entre todos os elementos.
+As telas seguem as diretrizes de contraste nível AAA (WCAG 1.4.6, razão mínima de 7:1),
+tipografia Inter com tamanhos mínimos de 14px e elementos de interação dimensionados para
+uso tátil em dispositivos móveis (altura mínima de 56px nos botões de ação principal). A
+paleta aplicada segue integralmente a definida na seção 3.4.1, com Verde Profundo
+(`#1A4D2E`) como cor primária e Off-white Quente (`#F5F0E8`) como fundo.
 
-O protótipo navegável completo está disponível em: [Figma - Alta Fidelidade BRPec](https://www.figma.com/design/hsrRfUs4i1Veye6B88vDvy/Alta-fidelidade-BrPec)
+**Sistema de Grid:** O layout foi estruturado com base em um sistema de grid de 12
+colunas. Na versão mobile (390px), são utilizadas margens laterais de 20px e colunas de
+29px com gutter de 8px. Na versão desktop (1280px), as margens são de 48px com colunas
+de 72px e gutter de 16px. Todos os elementos de interface, incluindo cards, botões e
+campos de formulário, estão alinhados à grade, garantindo consistência visual entre telas
+e entre as versões mobile e desktop.
 
-### Alinhamento com os RNFs
+**Fluxo de interação:** O protótipo cobre quatro fluxos principais de navegação, um por
+perfil de usuário. O fluxo do Capataz percorre as telas na seguinte sequência: Lista de
+Tarefas (3.5.1) → Detalhe da Tarefa (3.5.2) → Concluir Tarefa (3.5.3). O fluxo da
+Equipe de Infraestrutura percorre: Painel de Infraestrutura (3.5.4) → Registrar
+Resolução (3.5.6). O fluxo do Gerente percorre: Dashboard (3.5.7) → Nova Ordem de
+Serviço (3.5.5). O fluxo do Coordenador percorre: Dashboard (3.5.7) → Boletas (3.5.8).
+O encadeamento entre as telas é garantido por elementos de navegação consistentes: seta
+de voltar no cabeçalho das telas de detalhe, sidebar fixa nas versões desktop e botões
+de ação primária sempre posicionados na base da tela, criando um padrão de navegação
+previsível para todos os perfis de usuário.
 
-O guia de estilos e os protótipos demonstram alinhamento com os principais requisitos FURPS+ endereçáveis por interface. Em usabilidade, todos os botões de ação principal respeitam altura mínima de 56–64px, acima do limiar de 44px exigido, e o contraste de 7:1 (WCAG AAA) garante legibilidade sob luz solar direta, complementado pela tipografia Inter a partir de 14px e ícones Bold/Fill com mínimo de 24px — decisões que tornam a interface adequada para operação em campo. Em confiabilidade, as telas do Capataz documentam explicitamente o comportamento offline nos critérios de aceite, evidenciando a estratégia offline-first no nível da interface. Em portabilidade, todas as oito telas foram prototipadas em versões mobile e desktop com sistema de grid de 12 colunas e margens adaptativas, cobrindo a faixa de 5" a 12" requerida. Em compatibilidade, a tela de Boletas apresenta o acionamento de exportação CSV diretamente na listagem, com detalhes de codificação delegados ao backend. Os requisitos de desempenho (latência p95 < 200ms), suportabilidade (MTTR de bugs) e capacidade (sincronização em lote de 500 eventos) são métricas de arquitetura e infraestrutura, não representáveis nem verificáveis por meio de protótipos de interface.
+O protótipo navegável completo está disponível em: [Figma — Alta Fidelidade BRPec](https://www.figma.com/design/CnhVA41sJORDmEQ1DLbxfY/SynTech?node-id=0-1&p=f&t=6lUcQJwa1x9U38DA-0)
 
 ---
 
@@ -3186,19 +3214,26 @@ A tela de conclusão de tarefa centraliza todas as ações necessárias para o C
 - **Botões "Tirar Foto" e "Salvar"** posicionados lado a lado na base da tela, com alturas de 56px e diferenciação visual clara: "Tirar Foto" com borda verde e fundo off-white, "Salvar" preenchido em verde profundo.
 - **Sidebar na versão desktop** com navegação entre Início, Tarefas, Movimentação e Configurações, garantindo que o usuário possa navegar para outras seções sem perder o contexto da tarefa em andamento.
 
-### 3.5.4. Painel de Infraestrutura — Capataz e Gerente (US06 / US07)
+### 3.5.4. Painel - Infraestrutura (US06 / US07)
 
-O painel de infraestrutura oferece uma visão consolidada dos chamados de manutenção da fazenda, organizados por categoria e status. A estrutura kanban na versão desktop e a lista de contadores na versão mobile permitem que tanto o Capataz quanto o Gerente identifiquem rapidamente o volume de demandas abertas, em andamento e encerradas, sem precisar navegar por múltiplas telas.
+O painel de infraestrutura oferece à equipe técnica uma visão consolidada dos chamados de
+manutenção da fazenda, organizados por categoria e status. A estrutura kanban na versão
+desktop e a lista de contadores na versão mobile permitem identificar rapidamente o volume
+de demandas abertas, em andamento e encerradas, sem necessidade de navegar por múltiplas
+telas.
 
 **Critérios de aceite cobertos:**
 
-- **CR1 (US06):** O Capataz consegue visualizar os chamados de infraestrutura abertos e criar uma nova O.S. diretamente pelo painel.
-- **CR2 (US06):** Os chamados são organizados por categoria (Hidráulica, Cerca, Elétrica), facilitando a triagem por tipo de problema.
-- **CR1 (US07):** O Gerente visualiza o status consolidado de todos os chamados de infraestrutura por categoria e status.
+- **CR1 (US06):** A equipe de infraestrutura visualiza os chamados abertos por categoria
+(Hidráulica, Cerca, Elétrica) e cria uma nova O.S. diretamente pelo painel.
+- **CR2 (US06):** Os chamados são organizados por status (Abertos, Em andamento,
+Fechados), permitindo triagem imediata por prioridade de atendimento.
+- **CR3 (US06):** O botão "+ Nova O.S." está sempre visível e acessível, permitindo
+abertura rápida de um novo chamado diretamente do painel.
 
 <center>
   <p><strong>Figura 21</strong> — Protótipo de Alta Fidelidade: Painel de Infraestrutura (Mobile e Desktop)</p>
-  <img src="./assets/alta-fidelidade-infraestrutura.png" width="800"/>
+  <img src="./assets/mockups/alta-fidelidade-infraestrutura-painel.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3222,7 +3257,7 @@ A tela de criação de nova Ordem de Serviço centraliza todos os campos necess�
 
 <center>
   <p><strong>Figura 22</strong> — Protótipo de Alta Fidelidade: Tela de Nova Ordem de Serviço do Gerente (Mobile e Desktop)</p>
-  <img src="./assets/alta-fidelidade-gerente-nova-os.png" width="800"/>
+  <img src="./assets/mockups/alta-fidelidade-gerente-nova-os.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3247,7 +3282,7 @@ A tela de registro de resolução é acessada pelo técnico de infraestrutura ap
 
 <center>
   <p><strong>Figura 23</strong> — Protótipo de Alta Fidelidade: Tela de Registrar Resolução de Chamado (Mobile e Desktop)</p>
-  <img src="./assets/alta-fidelidade-infraestrutura-registrar-solucao.png" width="800"/>
+  <img src="./assets/mockups/alta-fidelidade-infraestrutura-resolver-chamado.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3272,7 +3307,7 @@ O dashboard é a tela inicial do Gerente e do Coordenador, oferecendo uma visão
 
 <center>
   <p><strong>Figura 24</strong> — Protótipo de Alta Fidelidade: Dashboard do Gerente e Coordenador (Mobile e Desktop)</p>
-  <img src="./assets/alta-fidelidade-gerente-coordenador-dashboard.png" width="800"/>
+  <img src="./assets/mockups/alta-fidelidade-gerente-coordenador-painel.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3298,7 +3333,7 @@ A tela de boletas é a interface principal do Coordenador para acesso e exporta�
 
 <center>
   <p><strong>Figura 25</strong> — Protótipo de Alta Fidelidade: Tela de Lista de Boletas do Coordenador (Mobile e Desktop)</p>
-  <img src="./assets/alta-fidelidade-coordenador-boletas.png" width="800"/>
+  <img src="./assets/mockups/alta-fidelidade-coordenador-boletas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3326,7 +3361,7 @@ A tabela abaixo relaciona cada Requisito Funcional prioritário à tela do prot�
 | RF003 | O sistema armazena tarefas localmente para acesso offline | 3.5.1 — Lista de Tarefas | Indicador visual de modo offline e listagem a partir do armazenamento local | US02 |
 | RF004 | O sistema exibe mensagem quando não há tarefas offline | 3.5.1 — Lista de Tarefas | Estado vazio da lista com mensagem simples ao Capataz | US02 |
 | RF005 | O Capataz anexa foto e áudio como evidência da tarefa | 3.5.3 — Concluir Tarefa | Área de foto com ícone de câmera e card de registro de áudio com botão de microfone | US04 / US05 |
-| RF006 | O Capataz registra alertas de infraestrutura com geolocalização | 3.5.4 — Painel de Infraestrutura | Cards de chamados abertos, em andamento e fechados com botão Nova O.S. | US06 |
+| RF006 | O sistema registra alertas de infraestrutura por categoria e status | 3.5.4 — Painel de Infraestrutura | Cards de chamados abertos, em andamento e fechados com botão Nova O.S., acessados pela equipe técnica | US06 |
 | RF007 | O Gerente visualiza painel consolidado de tarefas e alertas | 3.5.7 — Dashboard | Gráficos de chamados por retiro, evolução de demandas, tarefas por status e alertas em aberto | US07 |
 | RF008 | O Capataz registra nascimentos de animais offline | 3.5.8 — Boletas | Lista de boletas com registros de movimentação zootécnica disponíveis para download | US08 |
 | RF009 | O Capataz registra óbitos de animais offline | 3.5.8 — Boletas | Lista de boletas com registros de movimentação zootécnica disponíveis para download | US09 |
@@ -4489,23 +4524,26 @@ Os recursos comprobatórios da execução estão disponíveis nos seguintes link
 - **Suíte de Testes Executável**: [endpoints.test.ts](file:///c:/Users/Inteli/OneDrive/Área de Trabalho/Modulo II/BRPec/V1.0/g03/src/backend/__tests__/endpoints.test.ts)
 - **Relatório Técnico de Evidências (PASS)**: [jest-testes-endpoints.md](file:///c:/Users/Inteli/OneDrive/Área de Trabalho/Modulo II/BRPec/V1.0/g03/documentos/evidencias/jest-testes-endpoints.md)
 
-## 3.8. Autenticação, Autorização e Resiliência (sprint 5)
+## 3.8. Autenticação, Autorização e Resiliência (sprints 4 e 5)
 
 ### 3.8.1. Autenticação
 
-_Descreva o fluxo de autenticação implementado: persistência de senha com hash bcrypt/argon2 (parâmetros de custo explícitos e justificados), validação de credenciais e criação de sessão. Senhas em texto plano no banco não são aceitas._
+Para viabilizar o funcionamento offline-first nos retiros do Pantanal da BrPec, a autenticação local do aplicativo (PWA) confia no cadastro de usuários sincronizado localmente. No backend (sprint 3/4), as rotas operam de forma simplificada por razões de conectividade intermitente, associando as transações ao ID do usuário enviado no corpo da requisição (`capataz_id`, `gerente_id`). Para a versão final (sprint 5), as senhas são persistidas com o algoritmo hash `bcrypt` (fator de custo `saltRounds = 12`, otimizado para equilibrar segurança e desempenho em dispositivos de campo de baixo desempenho), impedindo o armazenamento de senhas em texto plano no banco de dados.
 
 ### 3.8.2. Controle de sessão
 
-_Descreva o controle de sessão baseado em `session id` persistido em tabela própria, com expiração. Se optar por JWT, justifique a escolha explicando os trade-offs (stateless, não revogável, payload exposto)._
+O controle de sessão é gerenciado localmente pelo aplicativo cliente (PWA) no armazenamento do navegador (Local Storage / IndexedDB), contendo a identidade do usuário configurado. No backend centralizador, a validação de sessão é stateless para os fluxos operacionais, permitindo que requisições offline empilhadas em lote (`sync_queue`) sejam processadas de forma direta sem exigir tokens JWT ou IDs de sessão ativos e expiráveis que inviabilizariam o processamento de lotes acumulados por dias sem internet.
 
 ### 3.8.3. Autorização
 
-_Descreva as regras de autorização por rota e por operação, baseadas no perfil do usuário autenticado. A verificação deve ocorrer no backend - o frontend nunca é fonte de verdade para autorização._
+A autorização é aplicada de maneira estrita na camada de banco de dados e controle do backend (MVC). A lógica do sistema garante que um Capataz só consiga visualizar e gerenciar tarefas associadas ao seu retiro ativo. Isso é resolvido programmaticamente na camada SQL (ex: cláusulas `WHERE retiro_id = ? AND capataz_id = ?` nas consultas de listagem e conclusão de ordens de serviço). O backend atua como única fonte da verdade, validando todas as correspondências de retiros e perfis antes de executar transações.
 
 ### 3.8.4. Estratégias de Resiliência
 
-_Descreva as estratégias aplicadas no tratamento de falhas de rede: timeout, retry com backoff exponencial, circuit breaker e idempotência em operações críticas (`PUT`, `DELETE`, operações de pagamento etc.)._
+A resiliência de rede é um pilar crítico no BrPec. Utiliza-se um mecanismo de persistência local da fila de sincronização (`sync_queue` no cliente). As estratégias incluem:
+1. **Retries com Backoff Exponencial:** O sincronizador local tenta transmitir registros pendentes na fila; em caso de falha de conexão (detectada pelo Service Worker), as tentativas subsequentes ocorrem em intervalos crescentes para preservar a bateria do dispositivo.
+2. **Tratamento de Timeouts:** Limite de timeout de 15 segundos para requisições de rede.
+3. **Idempotência:** A sincronização utiliza identificadores únicos UUID v7 gerados na origem (dispositivo do Capataz). O backend usa cláusulas de inserção com controle de duplicidade (`INSERT OR IGNORE` ou `UPSERT` com base na PK UUID v7), garantindo que transmissões duplicadas devido a instabilidades de rede não causem inconsistência no banco de dados.
 
 ## 3.9. Matriz de Rastreabilidade (RTM) (sprints 3 a 5)
 
@@ -4520,17 +4558,22 @@ A RTM rastreia cada User Story do BrPec da persona até a evidência de teste, a
 | Gabriel (Capataz) | US03 | RF002 | RN02 | `PATCH /tarefas/:id/concluir` | Concluir Tarefa | K1-K3 |
 | Gabriel (Capataz) | US04 | RF005 | RN13, RN15 | `POST /tarefas/:id/evidencias` | Concluir Tarefa | E1-E3 |
 | Gabriel (Capataz) | US05 | RF005 | RN13 | `POST /tarefas/:id/evidencias` | Concluir Tarefa | E1-E3 |
-| Gabriel (Capataz) | US06 | RF006 | RN19, RN21, RN26 | `POST /chamados` | Painel Infraestrutura | A1-A2 |
-| Gabriel (Capataz) | US08 | RF008 | RN27 | `POST /eventos-zootecnicos/nascimentos` | Registrar Nascimento | E1-E2 |
+| Gabriel (Capataz) | US06 | RF006 | RN19, RN21, RN26 | `POST /chamados` | Painel Infraestrutura | AL1-AL2 |
+| João (Gerente) / Marcos (Coordenador) | US07 | RF007 | RN08, RN21 | `GET /painel-gerencial` | Dashboard | pending - Integration tests planned for next phase (Sprint 4/5) |
+| Gabriel (Capataz) | US08 | RF008 | RN27 | `POST /eventos-zootecnicos/nascimentos` | Registrar Nascimento | N1-N2 |
+| Gabriel (Capataz) | US09 | RF009 | RN27, RN28 | `POST /eventos-zootecnicos/obitos` | Registrar Óbito | pending - Integration tests planned for next phase (Sprint 4/5) |
+| Gabriel (Capataz) | US10 | RF013 | RN28 | `POST /eventos-zootecnicos/obitos` | Registrar Óbito | pending - Integration tests planned for next phase (Sprint 4/5) |
+| Marcos (Coordenador) | US11 | RF014 | — | `GET /eventos-zootecnicos` | Lista de Boletas | pending - Integration tests planned for next phase (Sprint 4/5) |
+| Marcos (Coordenador) | US12 | RF015 | — | `GET /exportacao/csv` | Tela Exportação | pending - Integration tests planned for next phase (Sprint 4/5) |
 
 <center>
   <p><strong>Tabela 65</strong> — Matriz de Rastreabilidade (RTM)</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-**Legenda dos testes:** os códigos da coluna Teste referenciam casos automatizados em `src/backend/tests/`: **C1-C4** (criar tarefa — `uc01-planejar-tarefas.test.ts`), **H1-H3** (buscar tarefas do dia), **K1-K3** (concluir tarefa), **E1-E3** (anexar evidência), **A1-A2** (criar chamado) e **E1-E2** (registrar nascimento — `outros-endpoints.test.ts`). A evidência de execução (saída do Jest com todos os testes passando) está registrada em `documentos/assets/jest.png`.
+**Legenda dos testes:** os códigos da coluna Teste referenciam casos automatizados em `src/backend/tests/`: **C1-C4** (criar tarefa — `uc01-planejar-tarefas.test.ts`), **H1-H3** (buscar tarefas do dia), **K1-K3** (concluir tarefa), **E1-E3** (anexar evidência) e na suíte `outros-endpoints.test.ts`: **AL1-AL2** (criar chamado) e **N1-N2** (registrar nascimento). A evidência de execução (saída do Jest com todos os testes passando) está registrada em `documentos/assets/jest.png`.
 
-**Cadeia de rastreabilidade:** cada fluxo central da sprint 3 está completo da ponta a ponta — Persona → User Story → RF (seção 3.1.1) → RN (seção 3.1.2) → Endpoint (seção 3.1.4) → Tela (seção 3.3) → Teste automatizado com evidência. As User Stories cujos endpoints serão testados em sprints futuras (US07, US09-US12) serão incorporadas à matriz conforme os respectivos testes forem implementados, preservando a integridade da cadeia.
+**Cadeia de rastreabilidade:** cada fluxo central da sprint 3 está completo da ponta a ponta — Persona → User Story → RF (seção 3.1.1) → RN (seção 3.1.2) → Endpoint (seção 3.1.4) → Tela (seção 3.3) → Teste automatizado com evidência. As User Stories cujos endpoints não foram testados nesta fase (US07, US09-US12) estão marcadas como `pending` com a devida justificativa técnica de planejamento, preservando a integridade da cadeia de rastreabilidade.
 
 # <a name="c4"></a>4. Desenvolvimento da Aplicação Web
 
@@ -4855,17 +4898,110 @@ _Posicione aqui o relatório dos testes SUS realizados._
 
 ## 6.1 Resumo Executivo
 
-_Preencher com até 300 palavras, sem necessidade de fonte_
+O Brasil é o maior exportador mundial de carne bovina, com um rebanho de 238,2 milhões
+de cabeças e receita de exportação de US$ 18,03 bilhões em 2025. Apesar dessa escala,
+a gestão operacional de grande parte das fazendas ainda depende de registros manuais em
+papel, um gargalo que compromete a qualidade das informações e a velocidade das decisões.
 
-_Apresente de forma clara e objetiva os principais destaques do projeto: oportunidades de mercado, diferenciais competitivos da aplicação web e os objetivos estratégicos pretendidos._
+É nesse contexto que se insere a solução desenvolvida para a BrPec Agropecuária S.A.,
+empresa com 14 retiros operacionais no Pantanal sul-mato-grossense. O fluxo de informações
+entre o campo e o escritório ocorre hoje por meio de boletas físicas preenchidas pelos
+capatazes, que depois são redigitadas manualmente em planilhas na sede. Esse processo
+gera inconsistências nos registros, atrasos de horas ou dias no repasse de informações
+críticas, como mortes de animais, e retrabalho constante para a equipe de coordenação.
+
+A aplicação web desenvolvida digitaliza o registro das movimentações do rebanho,
+nascimentos, mortes, compras, vendas e transferências entre retiros, com funcionamento
+offline obrigatório, resolvendo diretamente a limitação de conectividade dos retiros,
+onde o acesso à internet ocorre apenas em janelas via Starlink. Os dados são coletados
+no campo por dispositivos móveis fornecidos pela própria BrPec e sincronizados
+automaticamente quando a conexão está disponível.
+
+O objetivo estratégico do projeto é reduzir erros operacionais, aumentar a velocidade
+de atualização das informações e dar aos gestores uma visão confiável e atualizada das
+operações de campo, tornando a BrPec mais competitiva em um setor que avança
+rapidamente em direção à digitalização.
+
+
+
 
 ## 6.2 Análise de Mercado
 
-_a) Visão Geral do Setor (até 250 palavras)_
-_Contextualize o setor no qual a aplicação está inserida, considerando aspectos econômicos, tecnológicos e regulatórios. Utilize fontes confiáveis._
+_a) Visão Geral do Setor_
 
-_b) Tamanho e Crescimento do Mercado (até 250 palavras)_
-_Apresente dados quantitativos sobre o tamanho atual e projeções de crescimento do mercado. Utilize fontes confiáveis._
+O Brasil ocupa posição de destaque na pecuária bovina mundial. Em 2024, o rebanho 
+nacional atingiu 238,2 milhões de cabeças, segundo a Pesquisa da Pecuária Municipal 
+do IBGE — segundo maior da série histórica, superando em 12% a própria população 
+brasileira [36]. No mesmo ano, o abate chegou ao recorde de 39,7 milhões de 
+cabeças, com produção de 10,2 milhões de toneladas em equivalente carcaça, conforme 
+dados do Ministério da Agricultura e Pecuária [37]. 
+
+No plano das exportações, o setor registrou em 2024 o envio de 2,87 milhões de 
+toneladas de carne bovina, crescimento de 25,5% em relação ao ano anterior, gerando 
+receita de US$ 12,83 bilhões [37]. Em 2025, os resultados superaram esses 
+números: foram exportadas 3,50 milhões de toneladas, alta de 20,9%, com receita de 
+US$ 18,03 bilhões — o maior desempenho já registrado na série histórica, segundo a 
+Associação Brasileira das Indústrias Exportadoras de Carnes [38]. Com isso, 
+o Brasil consolidou-se em 2025 como o maior produtor mundial de carne bovina, 
+ultrapassando os Estados Unidos pela primeira vez [36].
+
+Do ponto de vista regulatório, o regulamento antidesmatamento da União Europeia, 
+previsto para entrar em vigor a partir de 2026, aumenta as exigências de rastreabilidade 
+e comprovação de origem para acesso a mercados externos. Esse cenário reforça a 
+necessidade de digitalização das operações de campo, tornando soluções como a 
+desenvolvida para a BrPec diretamente alinhadas às demandas do setor.
+
+_b) Tamanho e Crescimento do Mercado_
+
+O rebanho bovino brasileiro encerrou 2024 com 238,2 milhões de cabeças, segundo a
+Pesquisa da Pecuária Municipal do IBGE — o segundo maior da série histórica iniciada
+em 1974 (IBGE, 2025). O volume de abate acompanhou essa escala: foram 39,27 milhões
+de cabeças abatidas em 2024, alta de 15,2% em relação ao ano anterior, com produção
+de 10,2 milhões de toneladas de carne em equivalente carcaça [39] [43].
+Em 2025, o crescimento continuou: somente no primeiro trimestre foram abatidas
+9,87 milhões de cabeças, recorde histórico para o período, com alta de 5,5% sobre
+igual trimestre de 2024 [40].
+
+A tabela abaixo resume a evolução do abate nos últimos anos:
+
+| Ano  | Cabeças abatidas (milhões) | Variação anual |
+|------|---------------------------|----------------|
+| 2022 | ~27,6                     | —              |
+| 2023 | ~34,1                     | +23,5%         |
+| 2024 | 39,27                     | +15,2%         |
+| 2025 (projeção) | ~42,5            | +8,2%          |
+
+[39].
+
+No plano das exportações, o Brasil embarcou 2,87 milhões de toneladas em 2024
+(+25,5% vs. 2023), gerando US$ 12,83 bilhões em receita (MAPA, 2024). Em 2025,
+esses números foram superados: 3,50 milhões de toneladas exportadas (+20,9%),
+com receita de US$ 18,03 bilhões (+40,1%), consolidando o país como maior
+exportador mundial de carne bovina (ABIEC, 2026). Para 2026, a ABIEC projeta
+crescimento adicional de 12% nas exportações totais [41].
+
+| Ano  | Volume exportado (milhões de ton.) | Receita (US$ bilhões) | Variação receita |
+|------|------------------------------------|-----------------------|-----------------|
+| 2023 | 2,29                               | 10,54                 | —               |
+| 2024 | 2,87                               | 12,83                 | +21,7%          |
+| 2025 | 3,50                               | 18,03                 | +40,1%          |
+| 2026 | ~3,92 (proj.)                      | ~20,5 (proj.)         | ~+12%           |
+
+[41] [43]
+
+Além do crescimento em volume, o setor enfrenta uma pressão crescente por
+rastreabilidade. O Regulamento Europeu Antidesmatamento (EUDR) exige que produtos
+bovinos exportados à União Europeia comprovem origem livre de desmatamento,
+prazo previsto para o segundo semestre de 2026 (EUDR, 2023). No plano doméstico,
+o Plano Nacional de Identificação de Bovinos (PNIB) estabelece como meta a
+rastreabilidade individual de todo o rebanho nacional até 2032 [43].
+
+Esse cenário abre mercado direto para soluções de gestão digital de campo: fazendas
+que registram movimentações de rebanho de forma estruturada e rastreável passam a
+ter vantagem competitiva concreta no acesso a mercados premium — exatamente o
+problema que a solução desenvolvida para a BrPec endereça.
+
+
 
 _c) Tendências de Mercado (até 300 palavras)_
 _Identifique e analise tendências relevantes (tecnológicas, comportamentais e mercadológicas) que influenciam o setor. Utilize fontes confiáveis._
@@ -4988,6 +5124,37 @@ Industries and Competitors. New York: Free Press, 2008. ISBN 978-0-7432-7275-4.
 [34] UX QUEST. Guia completo sobre paleta de cores para design de interface e UX. UX Quest, 2026. Disponível em: https://www.uxquest.com.br/blog/paleta-de-cores. Acesso em: 28 maio 2026.
 
 [35] SUA IMPRENSA. Guia de estilo da marca: o que é, como fazer e elementos essenciais. Sua Imprensa, 2025. Disponível em: https://suaimprensa.com.br/blog/guia-de-estilo-da-marca/. Acesso em: 28 maio 2026.
+
+[36] IBGE. Pesquisa da Pecuária Municipal 2024. Rio de Janeiro: IBGE, 2025. 
+Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/9107-producao-da-pecuaria-municipal.html. 
+Acesso em: jun. 2026.
+
+[37] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. Produção e exportações de carne bovina 
+2024. Brasília: MAPA/SCRI, 2024. Disponível em: https://www.gov.br/agricultura. 
+Acesso em: jun. 2026.
+
+[38] ABIEC. Brasil bate recorde nas exportações de carne bovina em 2025. São Paulo: 
+ABIEC, 2026. Disponível em: https://abiec.com.br/brasil-bate-recorde-nas-exportacoes-de-carne-bovina-em-2025/. 
+Acesso em: jun. 2026.
+
+[39] IBGE. Estatísticas da Produção Pecuária — Resultados do 4º trimestre de 2024.
+Rio de Janeiro: IBGE, 2025. Disponível em: https://agenciadenoticias.ibge.gov.br/agencia-noticias/2012-agencia-de-noticias/noticias/42899-abate-de-bovinos-atinge-recorde-em-2024.
+Acesso em: jun. 2026.
+
+[40] CONFEDERAÇÃO DA AGRICULTURA E PECUÁRIA DO BRASIL. Pesquisa Trimestral do
+Abate, Leite e Ovos — 1º trimestre de 2025. Brasília: CNA, 2025. Disponível em:
+https://www.cnabrasil.org.br. Acesso em: jun. 2026.
+
+[41] ABIEC. Brasil bate recorde nas exportações de carne bovina em 2025. São Paulo:
+ABIEC, 2026. Disponível em: https://abiec.com.br. Acesso em: jun. 2026.
+
+[42] UNIÃO EUROPEIA. Regulamento (UE) 2023/1115 — Regulamento Europeu
+Antidesmatamento (EUDR). Bruxelas: Parlamento Europeu e Conselho da UE, 2023.
+Disponível em: https://eur-lex.europa.eu. Acesso em: jun. 2026.
+
+[43] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. Plano Nacional de Identificação de
+Bovinos e Búfalos (PNIB). Brasília: MAPA, 2024. Disponível em:
+https://www.gov.br/agricultura. Acesso em: jun. 2026.
 
 # <a name="c9"></a>Anexos
 

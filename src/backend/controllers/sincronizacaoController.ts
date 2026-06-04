@@ -7,7 +7,7 @@ class SincronizacaoController {
    *
    * Body: { itens: [{ entidade_tipo: 'tarefa'|'alerta'|'movimentacao'|'evidencia', dados: {...} }, ...] }
    */
-  processarLote(req, res) {
+  async processarLote(req, res) {
     try {
       const { itens } = req.body;
 
@@ -27,14 +27,14 @@ class SincronizacaoController {
         });
       }
 
-      const resultado = sincronizacaoService.processarLote(itens);
+      const resultado = await sincronizacaoService.processarLote(itens);
 
       return res.status(200).json({
         mensagem: 'Lote de sincronização processado',
         ...resultado
       });
     } catch (erro) {
-      return res.status(500).json({ erro: 'Erro ao processar lote de sincronização', detalhe: erro.message });
+      return res.status(500).json({ erro: 'Erro ao processar lote de sincronização', detalhe: (erro as Error).message });
     }
   }
 }

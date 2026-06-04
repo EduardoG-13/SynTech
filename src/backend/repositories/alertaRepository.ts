@@ -1,20 +1,20 @@
-import supabasePool from '../config/supabasePool';
+import db from '../config/database';
 import { v7 as uuidv7 } from 'uuid';
 
 class AlertaRepository {
   async criar(alerta: any): Promise<any> {
     const id = uuidv7();
 
-    const result = await supabasePool.query(
-      `
-      INSERT INTO alertas (
-        id, tipo, descricao, status, capataz_id,
-        retiro_id, latitude, longitude, sincronizado
-      )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-      RETURNING *
-      `,
-      [
+    db.exec('BEGIN TRANSACTION');
+    try {
+      const stmtInsert = db.prepare(`
+        INSERT INTO alertas (
+          id, tipo, descricao, status, capataz_id,
+          retiro_id, latitude, longitude, sincronizado
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0)
+      `);
+      stmtInsert.run(
         id,
         alerta.tipo,
         alerta.descricao || null,
@@ -22,56 +22,53 @@ class AlertaRepository {
         alerta.capataz_id,
         alerta.retiro_id,
         alerta.latitude,
-        alerta.longitude,
-        1
-      ]
-    );
+        alerta.longitude
+      );
 
-    return result.rows[0];
+      // Register outbox synchronization entry
+      const stmtSync = db.prepare(`
+        INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas, ultima_tentativa)
+        VALUES (?, 'alerta', ?, 'PENDENTE', 0, null)
+      `);
+      stmtSync.run(uuidv7(), id);
+
+      db.exec('COMMIT');
+      return this.buscarPorId(id);
+    } catch (err) {
+      db.exec('ROLLBACK');
+      throw err;
+    }
   }
 
   async buscarPorId(id: string): Promise<any | null> {
-    const result = await supabasePool.query(
-      'SELECT * FROM alertas WHERE id = $1',
-      [id]
-    );
-
-    return result.rows[0] || null;
+    const stmt = db.prepare('SELECT * FROM alertas WHERE id = ?');
+    const row = stmt.get(id);
+    return row || null;
   }
 
   async buscarUsuarioPorId(id: string): Promise<any | null> {
-    const result = await supabasePool.query(
-      'SELECT id, perfil FROM usuarios WHERE id = $1',
-      [id]
-    );
-
-    return result.rows[0] || null;
+    const stmt = db.prepare('SELECT id, perfil FROM usuarios WHERE id = ?');
+    const row = stmt.get(id);
+    return row || null;
   }
 
   async listar(status?: string): Promise<any[]> {
     if (status) {
-      const result = await supabasePool.query(
-        `
+      const stmt = db.prepare(`
         SELECT *
         FROM alertas
-        WHERE status = $1
+        WHERE status = ?
         ORDER BY criado_em DESC
-        `,
-        [status]
-      );
-
-      return result.rows;
+      `);
+      return stmt.all(status) as any[];
     }
 
-    const result = await supabasePool.query(
-      `
+    const stmt = db.prepare(`
       SELECT *
       FROM alertas
       ORDER BY criado_em DESC
-      `
-    );
-
-    return result.rows;
+    `);
+    return stmt.all() as any[];
   }
 
   async resolver(
@@ -82,43 +79,51 @@ class AlertaRepository {
   ): Promise<any | null> {
     const evidenciaId = uuidv7();
 
-    const client = await supabasePool.connect();
-
+    db.exec('BEGIN TRANSACTION');
     try {
-      await client.query('BEGIN');
-
-      await client.query(
-        `
+      // 1. Insert evidence FOTO
+      const stmtEvidencia = db.prepare(`
         INSERT INTO evidencias (
           id, alerta_id, tipo, arquivo_base64, sincronizada
         )
-        VALUES ($1, $2, 'FOTO', $3, 1)
-        `,
-        [evidenciaId, id, foto_base64]
-      );
+        VALUES (?, ?, 'FOTO', ?, 0)
+      `);
+      stmtEvidencia.run(evidenciaId, id, foto_base64);
 
-      const result = await client.query(
-        `
+      // 2. Update alerta (using fields defined in migration.sql)
+      const stmtAlerta = db.prepare(`
         UPDATE alertas
         SET status = 'RESOLVIDO',
-            tecnico_id = $1,
-            foto_id = $2,
-            solucao_resolucao = $3,
-            resolvido_em = CURRENT_TIMESTAMP
-        WHERE id = $4
-        RETURNING *
-        `,
-        [tecnico_id, evidenciaId, solucao, id]
-      );
+            tecnico_id = ?,
+            foto_id = ?,
+            sincronizado = 0
+        WHERE id = ?
+      `);
+      const info = stmtAlerta.run(tecnico_id, evidenciaId, id);
 
-      await client.query('COMMIT');
+      if ((info as any).changes === 0) {
+        db.exec('ROLLBACK');
+        return null;
+      }
 
-      return result.rows[0] || null;
+      // 3. Register outbox sync entries for both evidence and alert update
+      const stmtSyncEv = db.prepare(`
+        INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas, ultima_tentativa)
+        VALUES (?, 'evidencia', ?, 'PENDENTE', 0, null)
+      `);
+      stmtSyncEv.run(uuidv7(), evidenciaId);
+
+      const stmtSyncAl = db.prepare(`
+        INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas, ultima_tentativa)
+        VALUES (?, 'alerta', ?, 'PENDENTE', 0, null)
+      `);
+      stmtSyncAl.run(uuidv7(), id);
+
+      db.exec('COMMIT');
+      return this.buscarPorId(id);
     } catch (erro) {
-      await client.query('ROLLBACK');
+      db.exec('ROLLBACK');
       throw erro;
-    } finally {
-      client.release();
     }
   }
 }
