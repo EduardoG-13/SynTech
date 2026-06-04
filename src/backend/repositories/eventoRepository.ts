@@ -1,62 +1,49 @@
 import db from '../config/database';
-import supabasePool from '../config/supabasePool';
 import { v7 as uuidv7 } from 'uuid';
 
 class EventoRepository {
   async criarNascimento(evento: any): Promise<any> {
-  const mov_id = uuidv7();
-  const nas_id = uuidv7();
+    const mov_id = uuidv7();
+    const nas_id = uuidv7();
 
-  const client = await supabasePool.connect();
-
-  try {
-    await client.query('BEGIN');
-
-    await client.query(
-      `
-      INSERT INTO movimentacoes (
-        id,
-        capataz_id,
-        retiro_id,
-        data,
-        categoria,
-        quantidade,
-        sincronizado
-      )
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
-      `,
-      [
+    db.exec('BEGIN TRANSACTION');
+    try {
+      const stmtMov = db.prepare(`
+        INSERT INTO movimentacoes (
+          id, capataz_id, retiro_id, data, categoria, quantidade, sincronizado
+        )
+        VALUES (?, ?, ?, ?, ?, ?, 0)
+      `);
+      stmtMov.run(
         mov_id,
         evento.capataz_id,
         evento.retiro_id,
         evento.data,
         evento.categoria,
-        evento.quantidade,
-        1
-      ]
-    );
+        evento.quantidade
+      );
 
-    await client.query(
-      `
-      INSERT INTO nascimentos (
-        id,
-        movimentacao_id
-      )
-      VALUES ($1, $2)
-      `,
-      [nas_id, mov_id]
-    );
+      const stmtNas = db.prepare(`
+        INSERT INTO nascimentos (id, movimentacao_id)
+        VALUES (?, ?)
+      `);
+      stmtNas.run(nas_id, mov_id);
 
-    await client.query('COMMIT');
+      // Register outbox sync entry for the movimentacao
+      const stmtSync = db.prepare(`
+        INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas, ultima_tentativa)
+        VALUES (?, 'movimentacao', ?, 'PENDENTE', 0, null)
+      `);
+      stmtSync.run(uuidv7(), mov_id);
 
-    return await this.buscarMovimentacaoPorId(mov_id);
-  } catch (err) {
-    await client.query('ROLLBACK');
-    throw err;
-  } finally {
-    client.release();
+      db.exec('COMMIT');
+
+      return this.buscarMovimentacaoPorId(mov_id);
+    } catch (err) {
+      db.exec('ROLLBACK');
+      throw err;
+    }
   }
-}
 
   /**
    * Registra um óbito animal com transação atômica.
@@ -85,14 +72,14 @@ class EventoRepository {
       // 1. Inserir movimentação base
       const stmtMov = db.prepare(`
         INSERT INTO movimentacoes (id, capataz_id, retiro_id, data, categoria, quantidade, sincronizado)
-        VALUES (?, ?, ?, ?, ?, ?, 1)
+        VALUES (?, ?, ?, ?, ?, ?, 0)
       `);
       stmtMov.run(mov_id, evento.capataz_id, evento.retiro_id, evento.data, evento.categoria, evento.quantidade);
 
       // 2. Inserir evidência (foto obrigatória)
       const stmtFoto = db.prepare(`
         INSERT INTO evidencias (id, movimentacao_id, tipo, arquivo_base64, geolocalizacao, sincronizada)
-        VALUES (?, ?, 'FOTO', ?, ?, 1)
+        VALUES (?, ?, 'FOTO', ?, ?, 0)
       `);
       stmtFoto.run(foto_id, mov_id, evento.foto_base64, evento.geolocalizacao || null);
 
@@ -102,6 +89,13 @@ class EventoRepository {
         VALUES (?, ?, ?, ?, ?)
       `);
       stmtObito.run(obito_id, mov_id, evento.identificacao_animal, evento.causa_morte, foto_id);
+
+      // Register outbox sync entry for the movimentacao
+      const stmtSync = db.prepare(`
+        INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas, ultima_tentativa)
+        VALUES (?, 'movimentacao', ?, 'PENDENTE', 0, null)
+      `);
+      stmtSync.run(uuidv7(), mov_id);
 
       db.exec('COMMIT');
 
@@ -227,15 +221,10 @@ class EventoRepository {
   }
 
   async buscarMovimentacaoPorId(id: string): Promise<any | null> {
-  const result = await supabasePool.query(
-    'SELECT * FROM movimentacoes WHERE id = $1',
-    [id]
-  );
-
-  return result.rows[0] || null;
+    const stmt = db.prepare('SELECT * FROM movimentacoes WHERE id = ?');
+    const row = stmt.get(id);
+    return row || null;
   }
 }
 
 export default new EventoRepository();
-
-

@@ -87,6 +87,11 @@ describe('AL — POST /api/chamados (Criar Alerta)', () => {
     expect(res.body.alerta.status).toBe('ABERTO');
     expect(res.body.alerta.capataz_id).toBe(CAPATAZ_A);
     expect(res.body.alerta.retiro_id).toBe(RETIRO_A);
+
+    // Assert outbox queue registration (US09 / RF011)
+    const syncItem = db.prepare('SELECT * FROM sincronizacoes WHERE entidade_tipo = ? AND entidade_id = ?').get('alerta', res.body.id) as Record<string, unknown>;
+    expect(syncItem).toBeDefined();
+    expect(syncItem['status_envio']).toBe('PENDENTE');
   });
 
   test('AL2. Payload inválido — campos obrigatórios ausentes retorna HTTP 400', async () => {
@@ -125,6 +130,11 @@ describe('N — POST /api/eventos-zootecnicos/nascimentos (Registrar Nascimento)
     expect(res.body.registro.quantidade).toBe(3);
     expect(res.body.registro.retiro_id).toBe(RETIRO_A);
     expect(res.body.registro.capataz_id).toBe(CAPATAZ_A);
+
+    // Assert outbox queue registration (US09 / RF011)
+    const syncItem = db.prepare('SELECT * FROM sincronizacoes WHERE entidade_tipo = ? AND entidade_id = ?').get('movimentacao', res.body.id) as Record<string, unknown>;
+    expect(syncItem).toBeDefined();
+    expect(syncItem['status_envio']).toBe('PENDENTE');
   });
 
   test('N2. Payload inválido — campos obrigatórios ausentes retorna HTTP 400', async () => {

@@ -58,8 +58,8 @@ class SincronizacaoService {
             throw new Error(`Tipo de entidade desconhecido: ${item.entidade_tipo}`);
         }
 
-        // Registrar na tabela de sincronizações
-        sincronizacaoRepository.registrar(item.entidade_tipo, entidade_id, 'SINCRONIZADO');
+        // Registrar na tabela de sincronizações como PENDENTE para sincronizar com Supabase
+        sincronizacaoRepository.registrar(item.entidade_tipo, entidade_id, 'PENDENTE');
         db.exec('COMMIT');
 
         resultados.push({ entidade_tipo: item.entidade_tipo, entidade_id, status: 'SINCRONIZADO' });
