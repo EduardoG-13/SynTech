@@ -17,7 +17,3 @@
 </head>
 
 <body>
-
-</body>
-
-</html>

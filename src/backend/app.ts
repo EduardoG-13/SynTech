@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import { Request, Response, NextFunction } from 'express';
-import { RETIROS } from './config/retiros';
 import routes from './routes/index';
 import viewRoutes from './routes/viewRoutes';
 
@@ -18,21 +17,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/public', express.static(path.join(projectRoot, 'src/public')));
-
-// Rotas de views (EJS)
-app.get('/', (_req, res) => {
-  res.render('login');
-});
-
-app.get('/selecionar-retiro', (_req, res) => {
-  res.render('selecionar-retiro', { retiros: RETIROS });
-});
-
-app.get('/tarefas', (req, res) => {
-  const perfil = req.query.perfil || 'Capataz';
-  const retiro = req.query.retiro || 'Geral';
-  res.render('tarefas', { perfil, retiro });
-});
 
 // Rotas da API
 app.use('/api', routes);
