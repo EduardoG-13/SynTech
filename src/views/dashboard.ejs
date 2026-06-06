@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/public/styles.css" />
+    <link rel="stylesheet" href="/public/css/dashboard.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">US10 → RF012 → RN12</p>
+        <h1>Painel Gerencial</h1>
+      </div>
+      <a href="/" class="health-link">Início</a>
+    </header>
+
+    <main class="db-layout">
+      <section class="panel db-filters" aria-label="Filtros do painel">
+        <div class="db-filters__inner">
+          <label>
+            Retiro
+            <select id="filter-retiro">
+              <option value="">Todos os retiros</option>
+            </select>
+          </label>
+          <label>
+            Período
+            <input type="date" id="filter-data" />
+          </label>
+        </div>
+      </section>
+
+      <div class="db-stats">
+        <div class="db-stat-card panel">
+          <p class="db-stat-card__label">Alertas em aberto</p>
+          <p class="db-stat-card__value" id="stat-alertas">—</p>
+        </div>
+        <div class="db-stat-card panel">
+          <p class="db-stat-card__label">Prioridades</p>
+          <p class="db-stat-card__value" id="stat-prioridades">—</p>
+        </div>
+        <div class="db-stat-card panel">
+          <p class="db-stat-card__label">Evolução das demandas</p>
+          <p class="db-stat-card__value" id="stat-evolucao">—%</p>
+        </div>
+      </div>
+
+      <div class="db-charts">
+        <section class="panel db-chart-card" aria-labelledby="chart-chamados-title">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Comparativo por unidade</p>
+              <h2 id="chart-chamados-title">Chamados por retiro</h2>
+            </div>
+          </div>
+          <div class="db-chart-wrap">
+            <canvas id="chart-chamados"></canvas>
+          </div>
+        </section>
+
+        <section class="panel db-chart-card" aria-labelledby="chart-status-title">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Pipeline operacional</p>
+              <h2 id="chart-status-title">Tarefas por status</h2>
+            </div>
+          </div>
+          <div class="db-chart-wrap db-chart-wrap--donut">
+            <canvas id="chart-status"></canvas>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script src="/public/app.js"></script>
+    <script src="/public/js/dashboard.js"></script>
+  </body>
+</html>
