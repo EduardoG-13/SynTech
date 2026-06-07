@@ -27,6 +27,14 @@ describe('Front-end Offline Operations - Validação Completa', () => {
     expect(response.text).toContain('fazerRequisicaoComOffline');
   });
 
+  it('serve o script sync.js para sincronização em lote', async () => {
+    const response = await request(app).get('/public/js/sync.js');
+
+    expect(response.status).toBe(200);
+    expect(response.text).toContain('export async function processarFilaSincronizacao');
+    expect(response.text).toContain('/api/sincronizacao/lote');
+  });
+
   it('inclui os scripts nos templates EJS', async () => {
     const responseNovaOS = await request(app).get('/nova-os?perfil=Capataz&retiro=retiro-1');
     expect(responseNovaOS.text).toContain('nova-os-handler.js');
@@ -94,10 +102,10 @@ describe('Requisições Offline - Integração', () => {
 });
 
 describe('Sincronização de Fila - Preparação Backend', () => {
-  it('endpoint POST /api/sincronizacao/fila existe para processar fila', async () => {
+  it('endpoint POST /api/sincronizacao/lote existe para processar fila', async () => {
     // Validar que o backend está preparado para receber sincronizações
     const response = await request(app)
-      .post('/api/sincronizacao/fila')
+      .post('/api/sincronizacao/lote')
       .send({
         itens: [],
       });

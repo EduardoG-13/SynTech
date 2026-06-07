@@ -3,6 +3,8 @@
  * Monitora a conectividade e salva requisições falhas na fila sync_queue
  */
 
+import { processarFilaSincronizacao } from '/public/js/sync.js';
+
 let isOnline = navigator.onLine;
 
 // Atualizar status quando mudar conectividade
@@ -94,56 +96,18 @@ export async function sincronizarFilaPendente() {
   }
 
   try {
-    console.log('[Sincronização] Buscando registros pendentes...');
-    const fila = await window.brpecIndexedDb.listarFila();
+    console.log('[Sincronização] Iniciando sincronização em lote');
+    const resultado = await processarFilaSincronizacao();
 
-    if (!fila || fila.length === 0) {
-      console.log('[Sincronização] Nenhum registro pendente');
-      return;
+    if (resultado.sucesso) {
+      console.log(
+        `[Sincronização] Lote concluído - processados=${resultado.processados || 0}, sucessos=${resultado.sucessos || 0}, erros=${resultado.erros || 0}`
+      );
+    } else {
+      console.warn('[Sincronização] Sincronização em lote não foi concluída', resultado.mensagem);
     }
-
-    console.log(`[Sincronização] Encontrados ${fila.length} registros para sincronizar`);
-
-    let sucessos = 0;
-    let erros = 0;
-
-    for (const registro of fila) {
-      try {
-        const { url, metodo, dados } = registro.dados;
-
-        console.log(`[Sincronização] Sincronizando registro ${registro.id}...`);
-
-        const response = await fetch(url, {
-          method: metodo,
-          headers: { 'Content-Type': 'application/json' },
-          body: dados ? JSON.stringify(dados) : null,
-        });
-
-        if (response.ok) {
-          // Remover da fila ao sincronizar com sucesso
-          await window.brpecIndexedDb.removerFila(registro.id);
-          sucessos++;
-          console.log(`[Sincronização] Registro ${registro.id} sincronizado com sucesso`);
-        } else {
-          erros++;
-          console.error(`[Sincronização] Erro ao sincronizar ${registro.id}: ${response.status}`);
-
-          // Atualizar tentativas
-          registro.dados.tentativas = (registro.dados.tentativas || 0) + 1;
-          registro.dados.ultimaTentativa = new Date().toISOString();
-          await window.brpecIndexedDb.atualizarFila(registro);
-        }
-      } catch (erro) {
-        erros++;
-        console.error(`[Sincronização] Erro ao processar registro ${registro.id}:`, erro);
-      }
-    }
-
-    console.log(
-      `[Sincronização] Concluída - ${sucessos} sucessos, ${erros} erros`
-    );
   } catch (erro) {
-    console.error('[Sincronização] Erro ao sincronizar:', erro);
+    console.error('[Sincronização] Erro ao sincronizar fila pendente:', erro);
   }
 }
 
@@ -204,4 +168,5 @@ window.offlineInterceptor = {
   sincronizarFilaPendente,
   estaOnline,
   forcarSincronizacao,
+  processarFilaSincronizacao,
 };
