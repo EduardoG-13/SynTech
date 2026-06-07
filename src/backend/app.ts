@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import { Request, Response, NextFunction } from 'express';
-import { RETIROS } from './config/retiros';
 import routes from './routes/index';
 import viewRoutes from './routes/viewRoutes';
 
