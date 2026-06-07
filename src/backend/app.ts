@@ -65,6 +65,11 @@ app.get('/tarefas', (req, res) => {
 // Rotas de autenticação
 app.use('/api/auth', authRoutes);
 
+// Service Worker servido na raiz para escopo global do PWA
+app.get('/sw.js', (_req: Request, res: Response) => {
+  res.sendFile(path.join(projectRoot, 'src/public/sw.js'));
+});
+
 // Rotas da API
 app.use('/api', routes);
 
