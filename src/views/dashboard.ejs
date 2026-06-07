@@ -1,81 +1,84 @@
-<!doctype html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title><%= title %></title>
-    <link rel="stylesheet" href="/public/styles.css" />
-    <link rel="stylesheet" href="/public/css/dashboard.css" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  </head>
-  <body>
-    <header class="topbar">
-      <div>
-        <p class="eyebrow">US10 → RF012 → RN12</p>
-        <h1>Painel Gerencial</h1>
-      </div>
-      <a href="/" class="health-link">Início</a>
-    </header>
+<%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/dashboard.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <main class="db-layout">
-      <section class="panel db-filters" aria-label="Filtros do painel">
-        <div class="db-filters__inner">
-          <label>
-            Retiro
-            <select id="filter-retiro">
-              <option value="">Todos os retiros</option>
-            </select>
-          </label>
-          <label>
-            Período
-            <input type="date" id="filter-data" />
-          </label>
-        </div>
-      </section>
+<div id="device" class="logged">
+  <%- include('partials/sidebar') %>
 
-      <div class="db-stats">
-        <div class="db-stat-card panel">
-          <p class="db-stat-card__label">Alertas em aberto</p>
-          <p class="db-stat-card__value" id="stat-alertas">—</p>
-        </div>
-        <div class="db-stat-card panel">
-          <p class="db-stat-card__label">Prioridades</p>
-          <p class="db-stat-card__value" id="stat-prioridades">—</p>
-        </div>
-        <div class="db-stat-card panel">
-          <p class="db-stat-card__label">Evolução das demandas</p>
-          <p class="db-stat-card__value" id="stat-evolucao">—%</p>
+  <div id="app">
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar">👤</div>
+      <h1>Dashboard</h1>
+      <div class="sub"><%= perfil %></div>
+    </div>
+
+    <main class="layout" style="padding: 0;">
+
+      <div class="card" style="margin-bottom: 1rem; padding: 1rem;">
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <select id="filter-retiro" style="flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;">
+            <option value="">Todos os retiros</option>
+          </select>
+          <input type="date" id="filter-data" style="flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;" />
+    <main class="layout" style="padding: 0;">
+
+      <div class="card" style="margin-bottom: 1rem; padding: 1rem;">
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <select id="filter-retiro" style="flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;">
+            <option value="">Todos os retiros</option>
+          </select>
+          <input type="date" id="filter-data" style="flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;" />
         </div>
       </div>
-
-      <div class="db-charts">
-        <section class="panel db-chart-card" aria-labelledby="chart-chamados-title">
-          <div class="section-title">
-            <div>
-              <p class="eyebrow">Comparativo por unidade</p>
-              <h2 id="chart-chamados-title">Chamados por retiro</h2>
-            </div>
-          </div>
-          <div class="db-chart-wrap">
-            <canvas id="chart-chamados"></canvas>
-          </div>
-        </section>
-
-        <section class="panel db-chart-card" aria-labelledby="chart-status-title">
-          <div class="section-title">
-            <div>
-              <p class="eyebrow">Pipeline operacional</p>
-              <h2 id="chart-status-title">Tarefas por status</h2>
-            </div>
-          </div>
-          <div class="db-chart-wrap db-chart-wrap--donut">
-            <canvas id="chart-status"></canvas>
-          </div>
-        </section>
       </div>
+
+      <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+        <div class="card" style="flex: 1; text-align: center; padding: 1rem; min-width: 100px;">
+          <span style="font-size: 2rem; font-weight: 700; color: #1A4D2E;" id="stat-alertas">—</span>
+          <p style="font-size: 0.8rem; color: #8A8A7C;">Alertas em aberto</p>
+        </div>
+        <div class="card" style="flex: 1; text-align: center; padding: 1rem; min-width: 100px;">
+          <span style="font-size: 2rem; font-weight: 700; color: #1A4D2E;" id="stat-prioridades">—</span>
+          <p style="font-size: 0.8rem; color: #8A8A7C;">Prioridades</p>
+        </div>
+        <div class="card" style="flex: 1; text-align: center; padding: 1rem; min-width: 100px;">
+          <span style="font-size: 2rem; font-weight: 700; color: #1A4D2E;" id="stat-evolucao">—%</span>
+          <p style="font-size: 0.8rem; color: #8A8A7C;">Evolução</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 1rem; padding: 1rem;">
+        <h3>Chamados por retiro</h3>
+        <div style="position: relative; height: 250px;">
+          <canvas id="chart-chamados"></canvas>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 1rem; padding: 1rem;">
+        <h3>Tarefas por status</h3>
+        <div style="position: relative; height: 250px;">
+          <canvas id="chart-status"></canvas>
+        </div>
+      <div class="card" style="margin-bottom: 1rem; padding: 1rem;">
+        <h3>Chamados por retiro</h3>
+        <div style="position: relative; height: 250px;">
+          <canvas id="chart-chamados"></canvas>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 1rem; padding: 1rem;">
+        <h3>Tarefas por status</h3>
+        <div style="position: relative; height: 250px;">
+          <canvas id="chart-status"></canvas>
+        </div>
+      </div>
+
+
     </main>
 
-    <script src="/public/app.js"></script>
-    <script src="/public/js/dashboard.js"></script>
-  </body>
-</html>
+    <%- include('partials/bottom-nav') %>
+  </div>
+</div>
+
+<script src="/public/js/dashboard.js"></script>
+<%- include('partials/footer') %>

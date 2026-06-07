@@ -1,0 +1,86 @@
+<%- include('partials/header') %>
+
+<div id="device" class="logged">
+  <%- include('partials/sidebar') %>
+
+  <div id="app">
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar">👤</div>
+      <h1>Boletas</h1>
+      <div class="sub"><%= retiro %> (<%= perfil %>)</div>
+    </div>
+
+    <main class="layout" style="padding: 0;">
+
+      <div class="filter-pills">
+        <span class="pill" onclick="window.location.href='/tarefas?perfil=<%= perfil %>'">Painel</span>
+        <span class="pill active">Boletas</span>
+      </div>
+
+      <div class="boletas-filtros" style="margin-bottom: 1rem;">
+        <div class="card" style="padding: 1rem;">
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <select id="filtro-retiro" style="flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;">
+              <option value="">Todos os retiros</option>
+            </select>
+            <select id="filtro-tipo" style="flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;">
+              <option value="">Todos os tipos</option>
+              <option value="nascimento">Nascimento</option>
+              <option value="obito">Óbito</option>
+              <option value="transferencia">Transferência</option>
+              <option value="compravenda">Compra/Venda</option>
+            </select>
+            <input type="date" id="filtro-data-inicio" style="flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;" placeholder="Data início" />
+            <input type="date" id="filtro-data-fim" style="flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;" placeholder="Data fim" />
+          </div>
+        </div>
+      </div>
+
+      <div class="boletas-resumo" style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+        <div class="card" style="flex: 1; text-align: center; padding: 0.75rem; min-width: 80px;">
+          <span style="font-size: 1.5rem; font-weight: 700; color: var(--verde-profundo, #1A4D2E);" id="total-nascimentos">0</span>
+          <p style="font-size: 0.75rem; color: #8A8A7C;">Nascimentos</p>
+        </div>
+        <div class="card" style="flex: 1; text-align: center; padding: 0.75rem; min-width: 80px;">
+          <span style="font-size: 1.5rem; font-weight: 700; color: var(--verde-profundo, #1A4D2E);" id="total-obitos">0</span>
+          <p style="font-size: 0.75rem; color: #8A8A7C;">Óbitos</p>
+        </div>
+        <div class="card" style="flex: 1; text-align: center; padding: 0.75rem; min-width: 80px;">
+          <span style="font-size: 1.5rem; font-weight: 700; color: var(--verde-profundo, #1A4D2E);" id="total-transferencias">0</span>
+          <p style="font-size: 0.75rem; color: #8A8A7C;">Transferências</p>
+        </div>
+        <div class="card" style="flex: 1; text-align: center; padding: 0.75rem; min-width: 80px;">
+          <span style="font-size: 1.5rem; font-weight: 700; color: var(--verde-profundo, #1A4D2E);" id="total-compravendas">0</span>
+          <p style="font-size: 0.75rem; color: #8A8A7C;">Compra/Venda</p>
+        </div>
+      </div>
+
+      <div class="boletas-lista" id="boletas-lista">
+
+        <div class="card boleta-card" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+          <div>
+            <span class="boleta-titulo">Nascimento - Retiro Acurizal</span>
+            <span class="boleta-sub" style="display: block; font-size: 0.8rem; color: #8A8A7C;">02/06/2026 - Capataz Rogério</span>
+          </div>
+          <button class="btn-icon" title="Baixar boleta">⬇️</button>
+        </div>
+
+        <div class="card boleta-card" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+          <div>
+            <span class="boleta-titulo">Óbito - Retiro Aroeira</span>
+            <span class="boleta-sub" style="display: block; font-size: 0.8rem; color: #8A8A7C;">01/06/2026 - Capataz Lucas</span>
+          </div>
+          <button class="btn-icon" title="Baixar boleta">⬇️</button>
+        </div>
+
+      </div>
+
+      <button class="btn btn-primario" id="btn-exportar" style="width: 100%; margin-top: 1rem;">
+        ⬇️ Exportar CSV/Excel
+      </button>
+
+    </main>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
