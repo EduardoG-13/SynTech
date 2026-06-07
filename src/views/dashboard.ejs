@@ -1,4 +1,6 @@
 <%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/dashboard.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div id="device" class="logged">
   <%- include('partials/sidebar') %>
@@ -6,8 +8,8 @@
   <div id="app">
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
       <div class="user-avatar">👤</div>
-      <h1>Painel Gerencial</h1>
-      <div class="sub"><%= retiro %> (<%= perfil %>)</div>
+      <h1>Dashboard</h1>
+      <div class="sub"><%= perfil %></div>
     </div>
 
     <main class="layout" style="padding: 0;">
@@ -18,21 +20,30 @@
             <option value="">Todos os retiros</option>
           </select>
           <input type="date" id="filter-data" style="flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;" />
+    <main class="layout" style="padding: 0;">
+
+      <div class="card" style="margin-bottom: 1rem; padding: 1rem;">
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <select id="filter-retiro" style="flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;">
+            <option value="">Todos os retiros</option>
+          </select>
+          <input type="date" id="filter-data" style="flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;" />
         </div>
+      </div>
       </div>
 
       <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
         <div class="card" style="flex: 1; text-align: center; padding: 1rem; min-width: 100px;">
-          <span style="font-size: 2rem; font-weight: 700; color: var(--verde-profundo, #1A4D2E);" id="stat-alertas">—</span>
+          <span style="font-size: 2rem; font-weight: 700; color: #1A4D2E;" id="stat-alertas">—</span>
           <p style="font-size: 0.8rem; color: #8A8A7C;">Alertas em aberto</p>
         </div>
         <div class="card" style="flex: 1; text-align: center; padding: 1rem; min-width: 100px;">
-          <span style="font-size: 2rem; font-weight: 700; color: var(--verde-profundo, #1A4D2E);" id="stat-prioridades">—</span>
+          <span style="font-size: 2rem; font-weight: 700; color: #1A4D2E;" id="stat-prioridades">—</span>
           <p style="font-size: 0.8rem; color: #8A8A7C;">Prioridades</p>
         </div>
         <div class="card" style="flex: 1; text-align: center; padding: 1rem; min-width: 100px;">
-          <span style="font-size: 2rem; font-weight: 700; color: var(--verde-profundo, #1A4D2E);" id="stat-evolucao">—%</span>
-          <p style="font-size: 0.8rem; color: #8A8A7C;">Evolução das demandas</p>
+          <span style="font-size: 2rem; font-weight: 700; color: #1A4D2E;" id="stat-evolucao">—%</span>
+          <p style="font-size: 0.8rem; color: #8A8A7C;">Evolução</p>
         </div>
       </div>
 
@@ -48,20 +59,26 @@
         <div style="position: relative; height: 250px;">
           <canvas id="chart-status"></canvas>
         </div>
+      <div class="card" style="margin-bottom: 1rem; padding: 1rem;">
+        <h3>Chamados por retiro</h3>
+        <div style="position: relative; height: 250px;">
+          <canvas id="chart-chamados"></canvas>
+        </div>
       </div>
+
+      <div class="card" style="margin-bottom: 1rem; padding: 1rem;">
+        <h3>Tarefas por status</h3>
+        <div style="position: relative; height: 250px;">
+          <canvas id="chart-status"></canvas>
+        </div>
+      </div>
+
 
     </main>
 
-    <div class="bottom-nav">
-      <button class="active"><span><img src="../../public/Icons/home.ico" alt="Home" /></span> Início</button>
-      <button><span>📋</span> Tarefas</button>
-      <button><span>🐂</span> Boletas</button>
-      <button onclick="window.location.href='/'"><span><img src="../../public/Icons/configuracao.ico" alt="Config" /></span> Config</button>
-    </div>
-
+    <%- include('partials/bottom-nav') %>
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="/public/js/dashboard.js"></script>
 <%- include('partials/footer') %>
