@@ -1,0 +1,431 @@
+/* =========================================================
+   login.css — Estilos das telas de Login e Seleção de Retiro
+   US01 / RF004 / RN04
+   ========================================================= */
+
+/* --- Tela de Login (Seleção de Perfil) --- */
+
+.login-page {
+  background: linear-gradient(180deg, #F5F0E8 0%, #e8e3d9 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-page .header-bar {
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+.login-page .header-bar h1 {
+  font-family: 'Inter', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1A4D2E;
+}
+
+.login-page .header-bar .sub {
+  font-size: 1.1rem;
+  color: #5c6b5d;
+  font-weight: 500;
+}
+
+/* Container dos botões de perfil */
+.perfil-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  max-width: 480px;
+  width: 100%;
+  padding: 0 1.5rem;
+}
+
+/* Botão de perfil */
+.perfil-btn-link {
+  text-decoration: none;
+}
+
+.perfil-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 140px;
+  padding: 1.5rem 1rem;
+  background: #1A4D2E;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(26, 77, 46, 0.2);
+}
+
+.perfil-btn:hover {
+  background: #2E7D52;
+  border-color: #1A4D2E;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(26, 77, 46, 0.3);
+}
+
+.perfil-btn:active {
+  transform: translateY(0);
+}
+
+.perfil-btn .ic img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain; 
+  
+}
+
+.perfil-btn .lbl {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Botão infra centralizado em largura total (3º item no grid 2x2) */
+.infra-full {
+  grid-column: 1 / -1;
+  max-width: 240px;
+  margin: 0 auto;
+}
+
+/* --- Formulário de Login (Gerente / Coordenador) --- */
+
+.login-form {
+  width: 100%;
+  max-width: 400px;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.login-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.login-form label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1B1B1B;
+}
+
+.login-form input {
+  padding: 0.85rem 1rem;
+  border: 2px solid #d7dfd3;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  transition: border-color 0.2s;
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: #1A4D2E;
+}
+
+.senha-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.senha-wrapper input {
+  flex: 1;
+  padding-right: 3rem;
+}
+
+.btn-olho {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.25rem;
+  padding: 0;
+  min-height: auto;
+  color: #5c6b5d;
+}
+
+.btn-olho:hover {
+  background: none;
+}
+
+.btn-login {
+  background: #1A4D2E;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 0.5rem;
+}
+
+.btn-login:hover {
+  background: #2E7D52;
+}
+
+.login-erro {
+  text-align: center;
+  color: #D32F2F;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: #fce8e8;
+  padding: 0.75rem;
+  border-radius: 8px;
+}
+
+/* --- Tela de Seleção de Retiro --- */
+
+.retiro-page {
+  background: linear-gradient(180deg, #F5F0E8 0%, #e8e3d9 100%);
+  min-height: 100vh;
+  padding-bottom: 2rem;
+}
+
+.retiro-page .header-bar {
+  margin-top: 0;
+  padding: 2rem 1.5rem 1rem;
+}
+
+.retiro-page .header-bar h1 {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1A4D2E;
+}
+
+/* Botão voltar */
+.back-btn {
+  background: none;
+  border: none;
+  color: #1A4D2E;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 0.5rem;
+  min-height: auto;
+}
+
+.back-btn:hover {
+  background: none;
+  color: #2E7D52;
+}
+
+/* Campo de busca */
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #fff;
+  border: 2px solid #d7dfd3;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  max-width: 600px;
+  margin: 0 auto 1.5rem;
+  transition: border-color 0.2s;
+}
+
+.search-box:focus-within {
+  border-color: #1A4D2E;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  background: transparent;
+  min-height: auto;
+  padding: 0;
+  flex: 1;
+}
+
+.search-box span {
+  font-size: 1.25rem;
+}
+
+/* Grid de cards de retiro */
+#lista-retiros {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Card de retiro */
+.card-retiro-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #fff;
+  border: 2px solid #d7dfd3;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.card-retiro-card:hover {
+  border-color: #1A4D2E;
+  background: #f0f7f2;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(26, 77, 46, 0.12);
+}
+
+.card-retiro-card .pin img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  background: none;
+  border-radius: 0;
+  margin: 0;
+}
+
+.card-retiro-card .info {
+  flex: 1;
+  background: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+.card-retiro-card .info .nome {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1B1B1B;
+}
+
+.card-retiro-card .info .cap {
+  font-size: 0.85rem;
+  color: #5c6b5d;
+  margin-top: 0.2rem;
+}
+
+.card-retiro-card .arrow {
+  font-size: 1.5rem;
+  color: #1A4D2E;
+  font-weight: 700;
+  padding: 0;
+  background: none;
+}
+
+/* --- Responsivo Mobile --- */
+
+@media (max-width: 768px) {
+  .login-page {
+    padding: 1.5rem 1rem;
+    justify-content: flex-start;
+    padding-top: 3rem;
+  }
+
+  .perfil-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 100%;
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+
+  .perfil-btn {
+    min-height: 120px;
+    padding: 1.25rem 0.75rem;
+    border-radius: 14px;
+  }
+
+  .perfil-btn .ic img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .perfil-btn .lbl {
+    font-size: 0.9rem;
+  }
+
+  .login-page .header-bar h1 {
+    font-size: 2rem;
+  }
+
+  .login-page .header-bar .sub {
+    font-size: 1rem;
+  }
+
+  /* Retiros */
+  .retiro-page {
+    padding-bottom: 1.5rem;
+  }
+
+  #lista-retiros {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+    gap: 0.75rem;
+  }
+
+  .card-retiro-card {
+    padding: 1rem;
+    border-radius: 10px;
+    min-height: 64px;
+  }
+
+  .card-retiro-card .pin img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .card-retiro-card .info .nome {
+    font-size: 0.95rem;
+  }
+
+  .card-retiro-card .info .cap {
+    font-size: 0.8rem;
+  }
+
+  .search-box {
+    margin: 0 1rem 1rem;
+    max-width: 100%;
+  }
+
+  /* Login form */
+  .login-form {
+    padding: 0 1rem;
+    max-width: 100%;
+  }
+
+  .infra-full {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  .perfil-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .perfil-btn {
+    min-height: 80px;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+  }
+
+  .perfil-btn .ic img {
+    width: 32px;
+    height: 32px;
+  }
+}

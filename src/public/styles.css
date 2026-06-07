@@ -268,6 +268,46 @@ th {
   /* Sidebar com 280px e o resto para o app */
 }
 
+/* Botão Hamburger */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1001;
+  background: #0f172a;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+  min-height: auto;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 3px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+}
+
+.sidebar-overlay.open {
+  display: block;
+}
+
 /* Sidebar Vertical */
 #sidebar {
   background-color: #0f172a;
@@ -277,6 +317,8 @@ th {
   height: 100vh;
   padding: 1.5rem;
   border-right: 3px solid #2ecc71;
+  position: sticky;
+  top: 0;
 }
 
 .side-logo {
@@ -328,35 +370,18 @@ th {
 }
 
 
-/* Unified icon size for sidebar and bottom nav */
-#side-nav .active img,
-#side-config-btn img,
-.bottom-nav img {
-  width: 48px;
-  height: 48px;
+/* Ícones da sidebar e bottom nav */
+#side-nav img,
+.side-config img {
+  width: 24px;
+  height: 24px;
   object-fit: contain;
-  margin-bottom: 0.5rem;
 }
 
-#side-config-btn img {
-  width: 48px;
-  /* tamanho desejado da imagem */
-  height: 48px;
-  /* garante proporção quadrada */
+.bottom-nav img {
+  width: 24px;
+  height: 24px;
   object-fit: contain;
-  /* não distorce a imagem */
-  margin-bottom: 0.5rem;
-  /* espaço entre ícone e o label */
-} 
-.bottom-nav  img {
-  width: 48px;
-  /* tamanho desejado da imagem */
-  height: 48px;
-  /* garante proporção quadrada */
-  object-fit: contain;
-  /* não distorce a imagem */
-  margin-bottom: 0.5rem;
-  /* espaço entre ícone e o label */
 } 
 
 
@@ -454,44 +479,71 @@ th {
   padding: 0 1rem;               /* “respiro” nas bordas */
 }
 
-/* Imagem da carta – ocupa a parte superior */
-.card-retiro-card .pin img {
-  background-color: #122040;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  margin-top: 0.5rem;
-  width: 100%;
-  height: 250px;                /* fixa a altura da imagem */
-  object-fit: cover;
-}
-
-/* Área de texto (info + seta) – fica abaixo da imagem */
-.card-retiro-card .info,
-.card-retiro-card .arrow {
-  color: #fff;
-  padding: 0.8rem 1rem;
-}
-
-/* Se houver um título dentro da .info, aumente a hierarquia */
-.card-retiro-card .info {
-  background-color: #00132b;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  padding-top: -100px;
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 600;
-}
+/* Estilos de card-retiro-card movidos para css/login.css */
 
 
 
-@media (max-width: 480px) {
-  /* Reduz a margem superior da header */
-  .header-bar {
-    margin-top: 2rem;
+/* Mobile: sidebar escondida, hamburger visível */
+@media (max-width: 768px) {
+  #device.logged {
+    display: flex;
+    flex-direction: column;
   }
 
-  /* Botões de login ficam mais finos */
+  .hamburger {
+    display: flex;
+  }
+
+  #sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100vh;
+    z-index: 1000;
+    transition: left 0.3s ease;
+  }
+
+  #sidebar.open {
+    left: 0;
+  }
+
+  #app {
+    height: auto;
+    min-height: 100vh;
+    padding: 1rem;
+    padding-top: 4rem;
+  }
+
+  .header-bar {
+    margin-top: 0;
+  }
+
+  .bottom-nav {
+    display: flex;
+  }
+}
+
+/* Desktop: sidebar fixa, hamburger escondido */
+@media (min-width: 769px) {
+  .hamburger {
+    display: none !important;
+  }
+
+  .sidebar-overlay {
+    display: none !important;
+  }
+
+  .bottom-nav {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-bar {
+    margin-top: 0;
+  }
+
   .perfil-btn {
     max-width: 280px;
     height: 90px;
@@ -500,16 +552,5 @@ th {
   .perfil-btn .ic img {
     width: 32px;
     height: 32px;
-  }
-
-  /* Cards de retiros ficam menores */
-  .card-retiro-card {
-    width: 200px;
-    height: 260px;
-    margin-top: -60px;
-  }
-
-  .card-retiro-card .pin img {
-    height: 130px;
   }
 }

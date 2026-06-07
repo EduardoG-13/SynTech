@@ -1,3 +1,9 @@
+<!-- Botão hamburger (só aparece no mobile) -->
+<button id="btn-hamburger" class="hamburger" onclick="toggleSidebar()">
+  <span></span><span></span><span></span>
+</button>
+<div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
 <aside id="sidebar">
   <div class="side-logo">
     <span class="logo-icon">🌱</span>
@@ -13,7 +19,7 @@
       <button onclick="window.location.href='/chamados?perfil=Infraestrutura'">
         <span><img src="/public/Icons/alerta.ico" alt="Chamados" /></span> Chamados
       </button>
-      
+
     <% } else if (perfil === 'Gerente') { %>
       <!-- Menu do Gerente -->
       <button class="active" onclick="window.location.href='/tarefas?perfil=Gerente'">
@@ -56,4 +62,18 @@
   <button class="side-config" id="side-config-btn" onclick="window.location.href='/'">
     <span><img src="/public/Icons/configuracao.ico" alt="Configurações" /></span> Configurações
   </button>
+
+  <script>
+    function fazerLogout() {
+      localStorage.removeItem('brpec_sessao');
+      fetch('/api/auth/logout', { method: 'POST' }).finally(function() {
+        window.location.href = '/';
+      });
+    }
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+      document.getElementById('sidebar-overlay').classList.toggle('open');
+    }
+  </script>
 </aside>
