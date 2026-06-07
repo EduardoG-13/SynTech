@@ -49,8 +49,8 @@ beforeEach(() => {
     DELETE FROM obitos;
     DELETE FROM nascimentos;
     DELETE FROM movimentacoes;
-    DELETE FROM evidencias;
     DELETE FROM alertas;
+    DELETE FROM evidencias;
     DELETE FROM tarefas;
     DELETE FROM usuarios;
     DELETE FROM retiros;
