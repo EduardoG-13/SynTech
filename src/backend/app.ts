@@ -6,6 +6,7 @@ import { Request, Response, NextFunction } from 'express';
 import routes from './routes/index';
 import viewRoutes from './routes/viewRoutes';
 import authRoutes from './routes/authRoutes';
+import db from './config/database';
 
 const app = express();
 const projectRoot = process.cwd();
@@ -32,7 +33,8 @@ app.get('/', (_req, res) => {
 });
 
 app.get('/selecionar-retiro', (_req, res) => {
-  res.render('selecionar-retiro', { retiros: RETIROS });
+  const retiros = db.prepare('SELECT id, nome FROM retiros ORDER BY nome').all();
+  res.render('selecionar-retiro', { retiros });
 });
 
 app.get('/login-auth', (req, res) => {

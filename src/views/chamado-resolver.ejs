@@ -22,9 +22,11 @@
         </div>
       </div>
 
-      <div class="card" style="margin-bottom: 1rem;">
-        <h3>Descrição da Solução</h3>
-        <textarea id="descricao-solucao" rows="5" maxlength="500" placeholder="Descreva detalhadamente o que foi realizado para resolver o problema..." style="width: 100%; border: 1px solid #ccc; border-radius: 8px; padding: 0.75rem; font-family: inherit; resize: vertical;"></textarea>
+      <form id="form-resolver-chamado">
+
+        <div class="card" style="margin-bottom: 1rem;">
+          <h3>Descrição da Solução</h3>
+          <textarea id="descricao-solucao" rows="5" maxlength="500" placeholder="Descreva detalhadamente o que foi realizado para resolver o problema..." style="width: 100%; border: 1px solid #ccc; border-radius: 8px; padding: 0.75rem; font-family: inherit; resize: vertical;"></textarea>
         <div style="text-align: right; font-size: 0.75rem; color: #8A8A7C;">
           <span id="char-count">0</span>/500
         </div>
@@ -51,6 +53,10 @@
       <button class="btn btn-primario" id="btn-salvar-resolucao" style="width: 100%; margin-top: 1rem;">
         ✅ Salvar Resolução
       </button>
+
+      <input type="hidden" id="chamado-id" />
+
+      </form>
 
       <div class="card" style="margin-top: 2rem;">
         <h3>Histórico do Chamado</h3>
@@ -88,3 +94,5 @@
 </div>
 
 <%- include('partials/footer') %>
+
+<script src="/public/js/chamado-resolver-handler.js"></script>
