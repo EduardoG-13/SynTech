@@ -5048,6 +5048,15 @@ sistemas concorrentes pressupõem familiaridade com ambientes digitais, a aplica
 projetada para capatazes com baixa escolaridade digital, com fluxos simples, poucos
 passos por tarefa e linguagem visual direta.
 
+O segundo diferencial é o **offline nativo via SQLite**. Os dados são gravados
+localmente no dispositivo durante o trabalho de campo e sincronizados automaticamente
+com o servidor — via fila de sincronização (sync_queue) — nas janelas de conectividade
+disponíveis. Não há dependência de conexão contínua em nenhuma etapa do registro.
+
+O terceiro diferencial é a **aderência ao modelo de retiros**. A arquitetura da solução
+foi construída sobre o fluxo real da BrPec: registro de nascimentos, mortes, compras,
+vendas e transferências entre retiros, com rastreabilidade por unidade operacional.
+Nenhum concorrente oferece essa estrutura de forma nativa.
 
 
 ## 6.4 Público-Alvo
