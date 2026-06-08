@@ -1,16 +1,17 @@
 import eventoService from '../services/eventoService';
 
 class EventoController {
-  async registrarNascimento(req, res) {
+  async registrarNascimento(req, res, next): Promise<void> {
+    const { data, retiro_id, categoria, quantidade, capataz_id } = req.body;
+
+    if (!data || !retiro_id || !categoria || !quantidade || !capataz_id) {
+      res.status(400).json({
+        erro: 'Campos obrigatórios não preenchidos: data, retiro_id, categoria, quantidade, capataz_id'
+      });
+      return;
+    }
+
     try {
-      const { data, retiro_id, categoria, quantidade, capataz_id } = req.body;
-
-      if (!data || !retiro_id || !categoria || !quantidade || !capataz_id) {
-        return res.status(400).json({
-          erro: 'Campos obrigatórios não preenchidos: data, retiro_id, categoria, quantidade, capataz_id'
-        });
-      }
-
       const nascimento = await eventoService.registrarNascimento({
         data,
         retiro_id,
@@ -19,51 +20,49 @@ class EventoController {
         capataz_id
       });
 
-      return res.status(201).json({
+      res.status(201).json({
         id: nascimento.id,
         mensagem: 'Registro de nascimento criado com sucesso',
         registro: nascimento
       });
-    } catch (erro: any) {
-      return res.status(500).json({
-        erro: 'Erro ao criar registro',
-        detalhe: erro.message
-      });
+    } catch (erro) {
+      next(erro);
     }
   }
 
-  async registrarObito(req, res) {
+  async registrarObito(req, res, next): Promise<void> {
+    const {
+      capataz_id,
+      retiro_id,
+      data,
+      categoria,
+      quantidade,
+      identificacao_animal,
+      causa_morte,
+      foto_base64,
+      geolocalizacao
+    } = req.body;
+
+    const camposFaltantes: string[] = [];
+
+    if (!capataz_id) camposFaltantes.push('capataz_id');
+    if (!retiro_id) camposFaltantes.push('retiro_id');
+    if (!data) camposFaltantes.push('data');
+    if (!categoria) camposFaltantes.push('categoria');
+    if (!quantidade) camposFaltantes.push('quantidade');
+    if (!identificacao_animal) camposFaltantes.push('identificacao_animal');
+    if (!causa_morte) camposFaltantes.push('causa_morte');
+    if (!foto_base64) camposFaltantes.push('foto_base64');
+
+    if (camposFaltantes.length > 0) {
+      res.status(400).json({
+        erro: 'Campos obrigatórios não preenchidos',
+        campos_faltantes: camposFaltantes
+      });
+      return;
+    }
+
     try {
-      const {
-        capataz_id,
-        retiro_id,
-        data,
-        categoria,
-        quantidade,
-        identificacao_animal,
-        causa_morte,
-        foto_base64,
-        geolocalizacao
-      } = req.body;
-
-      const camposFaltantes: string[] = [];
-
-      if (!capataz_id) camposFaltantes.push('capataz_id');
-      if (!retiro_id) camposFaltantes.push('retiro_id');
-      if (!data) camposFaltantes.push('data');
-      if (!categoria) camposFaltantes.push('categoria');
-      if (!quantidade) camposFaltantes.push('quantidade');
-      if (!identificacao_animal) camposFaltantes.push('identificacao_animal');
-      if (!causa_morte) camposFaltantes.push('causa_morte');
-      if (!foto_base64) camposFaltantes.push('foto_base64');
-
-      if (camposFaltantes.length > 0) {
-        return res.status(400).json({
-          erro: 'Campos obrigatórios não preenchidos',
-          campos_faltantes: camposFaltantes
-        });
-      }
-
       const obito = await eventoService.registrarObito({
         capataz_id,
         retiro_id,
@@ -76,23 +75,21 @@ class EventoController {
         geolocalizacao
       });
 
-      return res.status(201).json({
+      res.status(201).json({
         mensagem: 'Registro de óbito criado com sucesso',
         registro: obito
       });
     } catch (erro: any) {
       if (erro.message.includes('RF013')) {
-        return res.status(422).json({ erro: erro.message });
+        res.status(422).json({ erro: erro.message });
+        return;
       }
 
-      return res.status(500).json({
-        erro: 'Erro ao registrar óbito',
-        detalhe: erro.message
-      });
+      next(erro);
     }
   }
 
-  async listarEventos(req, res) {
+  async listarEventos(req, res, next): Promise<void> {
     try {
       const {
         retiro_id,
@@ -114,12 +111,9 @@ class EventoController {
         limite: limite ? parseInt(limite as string, 10) : undefined
       });
 
-      return res.status(200).json(resultado);
-    } catch (erro: any) {
-      return res.status(500).json({
-        erro: 'Erro ao listar eventos zootécnicos',
-        detalhe: erro.message
-      });
+      res.status(200).json(resultado);
+    } catch (erro) {
+      next(erro);
     }
   }
 }

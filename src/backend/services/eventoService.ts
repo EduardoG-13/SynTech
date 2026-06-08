@@ -2,9 +2,9 @@ import eventoRepository from '../repositories/eventoRepository';
 import { MovimentacaoBase } from '../models/Movimentacao';
 
 class EventoService {
-  registrarNascimento(dados: Partial<MovimentacaoBase>) {
+  async registrarNascimento(dados: Partial<MovimentacaoBase>) {
     // RN27 e outras regras de domínio
-    return eventoRepository.criarNascimento(dados);
+    return await eventoRepository.criarNascimento(dados);
   }
 
   /**
@@ -14,7 +14,7 @@ class EventoService {
    * RF013: Validação de campos obrigatórios (identificação, categoria, causa, data)
    * RN28: Foto obrigatória para auditoria sanitária
    */
-  registrarObito(dados: {
+  async registrarObito(dados: {
     capataz_id: string;
     retiro_id: string;
     data: string;
@@ -42,7 +42,7 @@ class EventoService {
       throw new Error('RF013: Campo obrigatório ausente: categoria');
     }
 
-    return eventoRepository.criarObito(dados);
+    return await eventoRepository.criarObito(dados);
   }
 
   /**
@@ -51,7 +51,7 @@ class EventoService {
    * RF014: Disponibilizar registros no painel do Coordenador
    * US11: Coordenador visualiza movimentações por retiro e tipo
    */
-  listarEventos(filtros: {
+  async listarEventos(filtros: {
     retiro_id?: string;
     categoria?: string;
     data_inicio?: string;
@@ -60,11 +60,8 @@ class EventoService {
     pagina?: number;
     limite?: number;
   }) {
-    return eventoRepository.listarTodos(filtros);
+    return await eventoRepository.listarTodos(filtros);
   }
 }
 
 export default new EventoService();
-
-
-
