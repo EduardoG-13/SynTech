@@ -23,7 +23,7 @@ class SincronizacaoService {
    * RF011: Notificação de sucesso
    * RF012: Reenvio automático em caso de falha
    */
-  processarLote(itens: ItemSincronizacao[]): { processados: number; sucessos: number; erros: number; resultados: ResultadoItem[] } {
+  async processarLote(itens: ItemSincronizacao[]): Promise<{ processados: number; sucessos: number; erros: number; resultados: ResultadoItem[] }> {
     const resultados: ResultadoItem[] = [];
     let sucessos = 0;
     let erros = 0;
@@ -36,30 +36,29 @@ class SincronizacaoService {
         switch (item.entidade_tipo) {
           case 'tarefa':
             this.validarCamposTarefa(item.dados);
-            entidade_id = sincronizacaoRepository.inserirTarefa(item.dados);
+            entidade_id = await sincronizacaoRepository.inserirTarefa(item.dados);
             break;
 
           case 'alerta':
             this.validarCamposAlerta(item.dados);
-            entidade_id = sincronizacaoRepository.inserirAlerta(item.dados);
+            entidade_id = await sincronizacaoRepository.inserirAlerta(item.dados);
             break;
 
           case 'movimentacao':
             this.validarCamposMovimentacao(item.dados);
-            entidade_id = sincronizacaoRepository.inserirMovimentacao(item.dados);
+            entidade_id = await sincronizacaoRepository.inserirMovimentacao(item.dados);
             break;
 
           case 'evidencia':
             this.validarCamposEvidencia(item.dados);
-            entidade_id = sincronizacaoRepository.inserirEvidencia(item.dados);
+            entidade_id = await sincronizacaoRepository.inserirEvidencia(item.dados);
             break;
 
           default:
             throw new Error(`Tipo de entidade desconhecido: ${item.entidade_tipo}`);
         }
 
-        // Registrar na tabela de sincronizações como PENDENTE para sincronizar com Supabase
-        sincronizacaoRepository.registrar(item.entidade_tipo, entidade_id, 'PENDENTE');
+        await sincronizacaoRepository.registrar(item.entidade_tipo, entidade_id, 'PENDENTE');
         db.exec('COMMIT');
 
         resultados.push({ entidade_tipo: item.entidade_tipo, entidade_id, status: 'SINCRONIZADO' });
@@ -70,7 +69,7 @@ class SincronizacaoService {
         const mensagemErro = (err as Error).message;
         if (entidade_id) {
           try {
-            sincronizacaoRepository.registrar(item.entidade_tipo, entidade_id || 'desconhecido', 'ERRO');
+            await sincronizacaoRepository.registrar(item.entidade_tipo, entidade_id || 'desconhecido', 'ERRO');
           } catch (_) { /* registro de erro silencioso */ }
         }
 
