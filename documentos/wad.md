@@ -5017,7 +5017,18 @@ _Identifique e analise tendências relevantes (tecnológicas, comportamentais e 
 ## 6.3 Análise da Concorrência
 
 _a) Principais Concorrentes (até 250 palavras)_
-_Liste os concorrentes diretos e indiretos, destacando suas principais características e posicionamento no mercado._
+
+O mercado de software para gestão pecuária no Brasil conta com soluções voltadas
+principalmente para fazendas com infraestrutura tecnológica já estabelecida.
+
+**iRancho** é um sistema ERP focado em pecuária de corte com aplicativo de campo
+offline, integração com balanças e brincos eletrônicos e, desde 2026, um ecossistema
+de IA por voz para registro sem digitação. Os planos são cobrados por faixa de rebanho, o que eleva o custo para operações de grande escala (iRancho, 2024).
+
+**JetBov** é um aplicativo de gestão de pasto com coleta offline de dados zootécnicos
+e sincronização automática ao reconectar. Focado em indicadores de ganho de peso,
+reprodução e controle de piquetes, seu perfil de usuário pressupõe familiaridade com
+ambientes digitais (JetBov, 2024).
 
 _b) Vantagens Competitivas da Aplicação Web (até 250 palavras)_
 _Descreva os diferenciais da sua aplicação em relação aos concorrentes, sem necessidade de citação de fontes._
