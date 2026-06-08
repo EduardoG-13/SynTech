@@ -4887,9 +4887,21 @@ _Posicione aqui o relatório dos testes SUS realizados._
 
 ## 6.1 Resumo Executivo
 
-_Preencher com até 300 palavras, sem necessidade de fonte_
+O Brasil é o maior exportador mundial de carne bovina, com receita de exportação de
+US$ 18,03 bilhões em 2025 (ABIEC, 2026) e crescente pressão por rastreabilidade de
+origem nos principais mercados internacionais. Apesar dessa escala, a gestão operacional
+de grande parte das fazendas ainda depende de registros manuais em papel um gargalo
+que compromete a qualidade das informações e a velocidade das decisões.
 
-_Apresente de forma clara e objetiva os principais destaques do projeto: oportunidades de mercado, diferenciais competitivos da aplicação web e os objetivos estratégicos pretendidos._
+É nesse contexto que se insere a solução desenvolvida para a BrPec Agropecuária S.A.,
+empresa com 14 retiros operacionais no Pantanal sul-mato-grossense. A região concentra
+64,5% do bioma pantaneiro no Mato Grosso do Sul (MAPA, 2023), onde propriedades são
+extensas e retiros estão geograficamente dispersos, sem acesso a telecomunicações
+convencionais. O fluxo de informações entre o campo e o escritório ocorre por meio de
+boletas físicas preenchidas pelos capatazes, redigitadas manualmente em planilhas na
+sede. Esse processo gera inconsistências nos registros, atrasos de horas ou dias no
+repasse de informações críticas — como mortes de animais — e retrabalho constante para
+a equipe de coordenação.
 
 ## 6.2 Análise de Mercado
 
