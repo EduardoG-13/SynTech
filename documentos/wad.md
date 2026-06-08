@@ -4888,14 +4888,14 @@ _Posicione aqui o relatório dos testes SUS realizados._
 ## 6.1 Resumo Executivo
 
 O Brasil é o maior exportador mundial de carne bovina, com receita de exportação de
-US$ 18,03 bilhões em 2025 (ABIEC, 2026) e crescente pressão por rastreabilidade de
+US$ 18,03 bilhões em 2025 [36] e crescente pressão por rastreabilidade de
 origem nos principais mercados internacionais. Apesar dessa escala, a gestão operacional
 de grande parte das fazendas ainda depende de registros manuais em papel um gargalo
 que compromete a qualidade das informações e a velocidade das decisões.
 
 É nesse contexto que se insere a solução desenvolvida para a BrPec Agropecuária S.A.,
 empresa com 14 retiros operacionais no Pantanal sul-mato-grossense. A região concentra
-64,5% do bioma pantaneiro no Mato Grosso do Sul (MAPA, 2023), onde propriedades são
+64,5% do bioma pantaneiro no Mato Grosso do Sul [37], onde propriedades são
 extensas e retiros estão geograficamente dispersos, sem acesso a telecomunicações
 convencionais. O fluxo de informações entre o campo e o escritório ocorre por meio de
 boletas físicas preenchidas pelos capatazes, redigitadas manualmente em planilhas na
@@ -4910,6 +4910,16 @@ no dispositivo, desvinculando o registro de dados da disponibilidade de rede. Os
 são sincronizados automaticamente com o servidor durante as janelas de conectividade
 via Starlink, eliminando a dependência de conexão contínua como pré-requisito
 operacional.
+
+Os principais diferenciais competitivos da solução são: interface adaptada ao perfil
+de baixa escolaridade digital dos capatazes, operação offline nativa via SQLite,
+eliminação da etapa de redigitação e rastreabilidade completa das movimentações em
+tempo real.
+
+O objetivo estratégico do projeto é reduzir erros operacionais, aumentar a velocidade
+de atualização das informações e dar aos gestores uma visão confiável e atualizada das
+operações de campo — tornando a BrPec mais competitiva em um setor que avança
+rapidamente em direção à digitalização e à rastreabilidade compulsória [38].
 
 
 ## 6.2 Análise de Mercado
@@ -5041,6 +5051,15 @@ Industries and Competitors. New York: Free Press, 2008. ISBN 978-0-7432-7275-4.
 [34] UX QUEST. Guia completo sobre paleta de cores para design de interface e UX. UX Quest, 2026. Disponível em: https://www.uxquest.com.br/blog/paleta-de-cores. Acesso em: 28 maio 2026.
 
 [35] SUA IMPRENSA. Guia de estilo da marca: o que é, como fazer e elementos essenciais. Sua Imprensa, 2025. Disponível em: https://suaimprensa.com.br/blog/guia-de-estilo-da-marca/. Acesso em: 28 maio 2026.
+
+[36] ABIEC (2026) — exportações de carne bovina 2025:
+https://abiec.com.br/brasil-bate-recorde-nas-exportacoes-de-carne-bovina-em-2025/
+
+[37] MAPA (2023) — Pantanal, 64,5% no MS e 67,3% de pastagens:
+https://www.gov.br/agricultura/pt-br/assuntos/noticias/mapa-fortalece-agropecuaria-pantaneira
+
+[38] EUDR (2023) — Regulamento Europeu Antidesmatamento, texto oficial:
+https://eur-lex.europa.eu/legal-content/PT/TXT/?uri=CELEX%3A32023R1115
 
 # <a name="c9"></a>Anexos
 
