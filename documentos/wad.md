@@ -5039,7 +5039,16 @@ de retiros geograficamente dispersos, com usuários de baixa escolaridade digita
 conectividade dependente de janelas fixas de Starlink. 
 
 _b) Vantagens Competitivas da Aplicação Web (até 250 palavras)_
-_Descreva os diferenciais da sua aplicação em relação aos concorrentes, sem necessidade de citação de fontes._
+
+A solução desenvolvida para a BrPec se diferencia dos concorrentes por um conjunto de
+características construídas especificamente para o contexto operacional da empresa.
+
+O primeiro diferencial é a **interface adaptada ao perfil dos usuários**. Enquanto os
+sistemas concorrentes pressupõem familiaridade com ambientes digitais, a aplicação foi
+projetada para capatazes com baixa escolaridade digital, com fluxos simples, poucos
+passos por tarefa e linguagem visual direta.
+
+
 
 ## 6.4 Público-Alvo
 
