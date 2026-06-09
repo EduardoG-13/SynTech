@@ -35,5 +35,3 @@ class AlertaService {
 }
 
 export default new AlertaService();
-
-

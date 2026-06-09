@@ -1,8 +1,11 @@
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './config/swagger.json';
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import session from 'express-session';
 import { Request, Response, NextFunction } from 'express';
+import db from './config/database';
 import routes from './routes/index';
 import viewRoutes from './routes/viewRoutes';
 import authRoutes from './routes/authRoutes';
@@ -26,6 +29,10 @@ app.use(session({
   saveUninitialized: false,
   cookie: { maxAge: 365 * 24 * 60 * 60 * 1000 }
 }));
+
+// Rota para documentação da API
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 // Rotas de views (EJS)
 app.get('/', (_req, res) => {

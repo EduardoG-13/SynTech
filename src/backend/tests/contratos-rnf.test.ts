@@ -1,4 +1,36 @@
 import request from 'supertest';
+
+// Mock the supabasePool before importing app
+jest.mock('../config/supabasePool', () => {
+  const mockPool = {
+    query: jest.fn().mockResolvedValue({ rowCount: 1, rows: [] }),
+    connect: jest.fn().mockResolvedValue({
+      query: jest.fn().mockResolvedValue({ rowCount: 1, rows: [] }),
+      release: jest.fn(),
+    }),
+  };
+  return {
+    __esModule: true,
+    default: mockPool,
+  };
+});
+
+jest.mock('../config/supabasePool', () => {
+  const mockClient = {
+    query: jest.fn().mockResolvedValue({ rows: [], rowCount: 1 }),
+    release: jest.fn()
+  };
+
+  return {
+    __esModule: true,
+    default: {
+      query: jest.fn().mockResolvedValue({ rows: [], rowCount: 1 }),
+      connect: jest.fn().mockResolvedValue(mockClient),
+      end: jest.fn().mockResolvedValue(undefined)
+    }
+  };
+});
+
 import app from '../app';
 import { inicializarBanco } from '../config/initDb';
 import db from '../config/database';
@@ -7,6 +39,7 @@ const RETIRO_ID = 'retiro-rnf';
 const GERENTE_ID = 'gerente-rnf';
 const COORDENADOR_ID = 'coordenador-rnf';
 const CAPATAZ_ID = 'capataz-rnf';
+const TECNICO_ID = 'tecnico-rnf';
 
 beforeAll(() => {
   inicializarBanco();
@@ -21,8 +54,8 @@ beforeEach(() => {
     DELETE FROM obitos;
     DELETE FROM nascimentos;
     DELETE FROM movimentacoes;
-    DELETE FROM evidencias;
     DELETE FROM alertas;
+    DELETE FROM evidencias;
     DELETE FROM tarefas;
     DELETE FROM usuarios;
     DELETE FROM retiros;
@@ -54,6 +87,13 @@ beforeEach(() => {
     'senha',
     'Capataz',
     RETIRO_ID
+  );
+  db.prepare('INSERT INTO usuarios (id, nome, senha, perfil, retiro_id) VALUES (?, ?, ?, ?, ?)').run(
+    TECNICO_ID,
+    'Tecnico Infra RNF',
+    'senha',
+    'Tecnico',
+    null
   );
 });
 
@@ -161,5 +201,63 @@ describe('RNF02 - desempenho da listagem principal', () => {
     expect(res.status).toBe(200);
     expect(res.body.tarefas).toHaveLength(1000);
     expect(duracaoMs).toBeLessThanOrEqual(2000);
+  });
+});
+
+describe('Persona Tecnico de Infraestrutura - ciclo de resolucao de chamados', () => {
+  async function criarChamado() {
+    return request(app)
+      .post('/api/chamados')
+      .send({
+        tipo: 'HIDRAULICA',
+        descricao: 'Vazamento no bebedouro',
+        capataz_id: CAPATAZ_ID,
+        retiro_id: RETIRO_ID,
+        latitude: -20.1,
+        longitude: -56.2
+      });
+  }
+
+  test('lista chamados para o painel da equipe de infraestrutura', async () => {
+    await criarChamado();
+
+    const res = await request(app).get('/api/chamados?status=ABERTO');
+
+    expect(res.status).toBe(200);
+    expect(res.body.chamados).toHaveLength(1);
+    expect(res.body.chamados[0].status).toBe('ABERTO');
+  });
+
+  test('tecnico resolve chamado com descricao e foto de evidencia', async () => {
+    const criacao = await criarChamado();
+
+    const res = await request(app)
+      .patch(`/api/chamados/${criacao.body.id}/resolver`)
+      .send({
+        tecnico_id: TECNICO_ID,
+        solucao: 'Conexao hidraulica substituida',
+        foto_base64: 'data:image/png;base64,abc'
+      });
+
+    expect(res.status).toBe(200);
+    expect(res.body.mensagem).toBe('Chamado resolvido com sucesso');
+    expect(res.body.chamado.status).toBe('RESOLVIDO');
+    expect(res.body.chamado.tecnico_id).toBe(TECNICO_ID);
+    expect(res.body.chamado.foto_id).toBeTruthy();
+    expect(db.prepare('SELECT COUNT(*) AS total FROM evidencias WHERE alerta_id = ?').get(criacao.body.id)).toEqual({ total: 1 });
+  });
+
+  test('impede resolucao por usuario que nao seja tecnico', async () => {
+    const criacao = await criarChamado();
+
+    const res = await request(app)
+      .patch(`/api/chamados/${criacao.body.id}/resolver`)
+      .send({
+        tecnico_id: CAPATAZ_ID,
+        solucao: 'Tentativa indevida',
+        foto_base64: 'data:image/png;base64,abc'
+      });
+
+    expect(res.status).toBe(403);
   });
 });
