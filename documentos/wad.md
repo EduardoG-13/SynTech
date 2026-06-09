@@ -5023,16 +5023,16 @@ principalmente para fazendas com infraestrutura tecnológica já estabelecida.
 
 **iRancho** é um sistema ERP focado em pecuária de corte com aplicativo de campo
 offline, integração com balanças e brincos eletrônicos e, desde 2026, um ecossistema
-de IA por voz para registro sem digitação. Os planos são cobrados por faixa de rebanho, o que eleva o custo para operações de grande escala (iRancho, 2024).
+de IA por voz para registro sem digitação. Os planos são cobrados por faixa de rebanho, o que eleva o custo para operações de grande escala [45].
 
 **JetBov** é um aplicativo de gestão de pasto com coleta offline de dados zootécnicos
 e sincronização automática ao reconectar. Focado em indicadores de ganho de peso,
 reprodução e controle de piquetes, seu perfil de usuário pressupõe familiaridade com
-ambientes digitais (JetBov, 2024).
+ambientes digitais [46].
 
 **Aegro** é uma plataforma de gestão rural ampla, com suporte a múltiplas culturas e
 pecuária, funcionalidade offline e integração contábil. Posicionado para produtores com
-gestão financeira complexa, apresenta curva de aprendizado mais longa (Aegro, 2024).
+gestão financeira complexa, apresenta curva de aprendizado mais longa [47].
 
 Nenhuma das soluções comerciais identificadas foi projetada para o modelo operacional
 de retiros geograficamente dispersos, com usuários de baixa escolaridade digital e
@@ -5210,6 +5210,12 @@ https://www.gov.br/agricultura. Acesso em: jun. 2026.
 [44] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. MAPA fortalece agropecuária pantaneira.
 Brasília: MAPA, 2023. Disponível em: https://www.gov.br/agricultura/pt-br/assuntos/noticias/mapa-fortalece-agropecuaria-pantaneira.
 Acesso em: jun. 2026.
+
+[45] iRancho: https://www.irancho.com.br/perguntas-frequentes/ 
+
+[46] JetBov: https://play.google.com/store/apps/details?id=com.ionicframework.jetbovapp459755
+
+[47] Embrapa Gado de Corte: https://www.embrapa.br/en/gado-de-corte/tecnologias/gestao-da-pecuaria 
 
 # <a name="c9"></a>Anexos
 
