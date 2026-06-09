@@ -5118,7 +5118,18 @@ concorrentes que penaliza operações de grande rebanho como a da BrPec.
 ## 6.4 Público-Alvo
 
 _a) Segmentação de Mercado (até 250 palavras)_
-Descreva os principais segmentos de mercado a serem atendidos pela aplicação. Utilize bases de dados e fontes confiáveis.\*
+
+O mercado-alvo da solução é composto por fazendas de pecuária de corte localizadas
+em regiões de baixa conectividade, com operações distribuídas em múltiplas unidades
+de campo — modelo denominado "retiros" no contexto pantaneiro. Esse segmento
+concentra características específicas que o diferenciam do mercado geral de
+agronegócio digital. 
+
+Do ponto de vista geográfico, o Pantanal sul-mato-grossense abriga aproximadamente
+3.500 propriedades rurais distribuídas em nove municípios, com rebanho estimado em
+3,6 milhões de cabeças bovinas (FAMASUL, 2023). A região representa 20% do rebanho
+total do estado de Mato Grosso do Sul e tem na pecuária extensiva sua principal
+atividade econômica há mais de 200 anos (MAPA, 2023).
 
 _b) Perfil do Público-Alvo (até 250 palavras)_
 _Caracterize o público-alvo com dados demográficos, psicográficos e comportamentais, incluindo necessidades específicas. Utilize fontes obrigatórias._
