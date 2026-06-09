@@ -5146,7 +5146,32 @@ dependência de infraestrutura de rede.
 
 
 _b) Perfil do Público-Alvo (até 250 palavras)_
-_Caracterize o público-alvo com dados demográficos, psicográficos e comportamentais, incluindo necessidades específicas. Utilize fontes obrigatórias._
+
+O público-alvo da solução é composto por três perfis de usuários internos da BrPec,
+com características e contextos de uso distintos.
+
+**Capataz de retiro** — principal usuário operacional. Perfil masculino, faixa etária
+entre 35 e 55 anos, residente no retiro durante a semana de trabalho. Opera em campo,
+sem acesso contínuo à internet, em condições adversas de luminosidade e mobilidade.
+Responsável pelo registro diário de nascimentos, mortes, entradas, saídas e
+transferências do rebanho. O nível de escolaridade reflete o padrão da força de
+trabalho rural brasileira: 21% dos trabalhadores rurais são analfabetos e 43% possuem
+apenas ensino fundamental incompleto (IBGE, 2017). Apenas 26,5% da população rural
+maior de 18 anos possui ensino fundamental completo (IPEA, 2013). O WhatsApp é o
+principal canal de comunicação utilizado, indicando familiaridade com smartphones,
+mas não com interfaces de software estruturadas.
+
+**Coordenador do retiro** - usuário intermediário, com maior escolaridade e
+familiaridade digital. Consolida informações dos retiros sob sua supervisão e gera
+relatórios para a sede. Utiliza a aplicação tanto no campo quanto na sede.
+
+**Gerente geral** — usuário estratégico, acessa a aplicação pela sede com
+conectividade estável. Não realiza registros operacionais; acompanha o painel
+consolidado e toma decisões com base nos dados sincronizados.
+
+O baixo letramento digital do capataz justifica as decisões de interface adotadas:
+fluxos simples, linguagem visual direta, botões grandes e suporte a registros por
+áudio, reduzindo a dependência de digitação como meio primário de entrada de dados.
 
 ## 6.5 Posicionamento
 
