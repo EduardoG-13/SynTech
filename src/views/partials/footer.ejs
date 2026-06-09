@@ -10,7 +10,29 @@
  </footer>
 
  <!-- Script JS para Sincronização com o Banco de Dados local -->
+ <script type="module">
+   import { fazerRequisicaoComOffline, sincronizarFilaPendente } from '/public/js/offline-interceptor.js';
+   
+   // Expor globalmente para uso em templates inline
+   window.fazerRequisicaoComOffline = fazerRequisicaoComOffline;
+   window.sincronizarFilaPendente = sincronizarFilaPendente;
+ </script>
  <script src="/public/app.js"></script>
+
+ <!-- Registro do Service Worker (PWA) -->
+ <script>
+   if ('serviceWorker' in navigator) {
+     window.addEventListener('load', function () {
+       navigator.serviceWorker.register('/sw.js')
+         .then(function (reg) {
+           console.log('[SW] Service Worker registrado com sucesso. Escopo:', reg.scope);
+         })
+         .catch(function (err) {
+           console.error('[SW] Falha ao registrar Service Worker:', err);
+         });
+     });
+   }
+ </script>
 
 </body>
 </html>

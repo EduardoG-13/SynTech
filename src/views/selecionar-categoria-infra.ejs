@@ -1,0 +1,35 @@
+<%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/login.css" />
+
+<div id="device" class="login-page">
+  <div class="header-bar">
+    <button class="back-btn" onclick="window.location.href='/'">← Voltar</button>
+    <h1>Infraestrutura</h1>
+    <div class="sub">Selecione sua área de atuação</div>
+  </div>
+
+  <div class="perfil-grid">
+    <a href="/infraestrutura?perfil=Infraestrutura&categoria=hidraulica" class="perfil-btn-link">
+      <button class="perfil-btn">
+        <span class="ic"><img src="/public/Icons/hidraulica.ico" alt="Hidráulica" /></span>
+        <span class="lbl">Hidráulica</span>
+      </button>
+    </a>
+
+    <a href="/infraestrutura?perfil=Infraestrutura&categoria=eletrica" class="perfil-btn-link">
+      <button class="perfil-btn">
+        <span class="ic"><img src="/public/Icons/eletrica.ico" alt="Elétrica" /></span>
+        <span class="lbl">Elétrica</span>
+      </button>
+    </a>
+
+    <a href="/infraestrutura?perfil=Infraestrutura&categoria=cerca" class="perfil-btn-link infra-full">
+      <button class="perfil-btn">
+        <span class="ic"><img src="/public/Icons/cerca.ico" alt="Cerca" /></span>
+        <span class="lbl">Cerca</span>
+      </button>
+    </a>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

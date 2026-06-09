@@ -1,0 +1,71 @@
+<%- include('partials/header') %>
+
+<div id="device" class="logged">
+  <%- include('partials/sidebar') %>
+
+  <div id="app">
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar">👤</div>
+      <h1>Infraestrutura</h1>
+      <div class="sub"><%= retiro %> (<%= perfil %>)</div>
+    </div>
+
+    <main class="layout" style="padding: 0;">
+
+      <div class="filter-pills">
+        <span class="pill active" data-categoria="hidraulica">Hidráulica</span>
+        <span class="pill" data-categoria="cerca">Cerca</span>
+        <span class="pill" data-categoria="eletrica">Elétrica</span>
+      </div>
+
+      <div class="chamados-resumo" id="chamados-resumo">
+
+        <div class="card chamado-status-card">
+          <div class="chamado-status-icon aberto">📋</div>
+          <div class="chamado-status-info">
+            <span class="chamado-status-label">Abertos</span>
+            <span class="chamado-status-sub">Total de chamados</span>
+          </div>
+          <span class="chamado-status-count" id="count-abertos">0</span>
+        </div>
+
+        <div class="card chamado-status-card">
+          <div class="chamado-status-icon andamento">🔧</div>
+          <div class="chamado-status-info">
+            <span class="chamado-status-label">Em andamento</span>
+            <span class="chamado-status-sub">Total de chamados</span>
+          </div>
+          <span class="chamado-status-count" id="count-andamento">0</span>
+        </div>
+
+        <div class="card chamado-status-card">
+          <div class="chamado-status-icon fechado">✅</div>
+          <div class="chamado-status-info">
+            <span class="chamado-status-label">Fechados</span>
+            <span class="chamado-status-sub">Histórico semanal</span>
+          </div>
+          <span class="chamado-status-count" id="count-fechados">0</span>
+        </div>
+
+      </div>
+
+      <div class="chamados-lista" id="chamados-lista">
+        <!-- Chamados serão carregados dinamicamente -->
+      </div>
+
+      <button class="btn btn-primario" id="btn-nova-os-infra" style="width: 100%; margin-top: 1rem;">
+        + Nova O.S.
+      </button>
+
+    </main>
+
+    <div class="bottom-nav">
+      <button class="active"><span><img src="../../public/Icons/home.ico" alt="Home" /></span> Início</button>
+      <button><span>⚠️</span> Chamados</button>
+      <button onclick="window.location.href='/'"><span><img src="../../public/Icons/configuracao.ico" alt="Config" /></span> Config</button>
+    </div>
+
+  </div>
+</div>
+
+<%- include('partials/footer') %>

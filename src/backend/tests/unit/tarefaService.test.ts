@@ -47,6 +47,67 @@ const mockCapataz = {
 };
 
 describe('TarefaService', () => {
+  describe('concluirTarefa', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+      mockTarefaRepo.buscarPorId.mockResolvedValue(tarefaFixture());
+      mockTarefaRepo.concluir.mockResolvedValue({
+        ...tarefaFixture(),
+        status: 'CONCLUIDA' as const,
+        concluida_em: new Date().toISOString(),
+      });
+    });
+
+    it('deve concluir a tarefa e retornar o registro atualizado quando os dados são válidos', async () => {
+      // Arrange
+      const tarefaConcluida = {
+        ...tarefaFixture(),
+        status: 'CONCLUIDA' as const,
+        concluida_em: new Date().toISOString(),
+      };
+      mockTarefaRepo.concluir.mockResolvedValue(tarefaConcluida);
+
+      // Act
+      const resultado = await tarefaService.concluirTarefa(
+        'mock-tarefa-id-0001',
+        'mock-capataz-id-0001'
+      );
+
+      // Assert
+      expect(mockTarefaRepo.concluir).toHaveBeenCalledTimes(1);
+      expect(resultado.status).toBe('CONCLUIDA');
+    });
+
+    it('deve lançar erro e não atualizar quando a tarefa já está concluída', async () => {
+      // Arrange — repositório retorna tarefa com status CONCLUIDA
+      mockTarefaRepo.buscarPorId.mockResolvedValue({
+        ...tarefaFixture(),
+        status: 'CONCLUIDA' as const,
+        concluida_em: '2026-06-01T10:00:00.000Z',
+      });
+
+      // Act & Assert
+      await expect(
+        tarefaService.concluirTarefa('mock-tarefa-id-0001', 'mock-capataz-id-0001')
+      ).rejects.toThrow('concluída');
+      expect(mockTarefaRepo.concluir).not.toHaveBeenCalled();
+    });
+
+    it('deve lançar erro quando a tarefa não pertence ao capataz', async () => {
+      // Arrange — tarefa atribuída a outro capataz (pertence a outro retiro)
+      mockTarefaRepo.buscarPorId.mockResolvedValue({
+        ...tarefaFixture(),
+        capataz_id: 'mock-capataz-id-0002',
+      });
+
+      // Act & Assert
+      await expect(
+        tarefaService.concluirTarefa('mock-tarefa-id-0001', 'mock-capataz-id-0001')
+      ).rejects.toThrow('capataz');
+      expect(mockTarefaRepo.concluir).not.toHaveBeenCalled();
+    });
+  });
+
   describe('criarTarefa', () => {
     const dadosBase = {
       titulo: 'Inspeção de cerca',

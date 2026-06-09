@@ -1,0 +1,58 @@
+<%- include('partials/header') %>
+
+<div id="device" class="logged">
+  <%- include('partials/sidebar') %>
+
+  <div id="app">
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar">👤</div>
+      <h1>Detalhe da Tarefa</h1>
+      <div class="sub"><%= retiro %> (<%= perfil %>)</div>
+    </div>
+
+    <main class="layout" style="padding: 0;">
+
+      <button class="btn-voltar" onclick="window.history.back()">← Voltar</button>
+
+      <div class="badge-status andamento">Em andamento</div>
+
+      <div class="card" style="margin-bottom: 1rem;">
+        <h2 class="card-titulo" id="tarefa-titulo">Carregando...</h2>
+        <p class="card-descricao" id="tarefa-descricao"></p>
+      </div>
+
+      <div class="card" style="margin-bottom: 1rem;">
+        <h3>Prazo</h3>
+        <p id="tarefa-prazo">—</p>
+      </div>
+
+      <div class="card" style="margin-bottom: 1rem;">
+        <h3>Prioridade</h3>
+        <p id="tarefa-prioridade">—</p>
+      </div>
+
+      <div class="card" style="margin-bottom: 1rem;">
+        <h3>Áudio de Instrução</h3>
+        <div class="audio-player">
+          <audio id="audio-instrucao" controls style="width: 100%;"></audio>
+          <p class="audio-placeholder" id="audio-vazio">Nenhum áudio anexado.</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 1rem;">
+        <h3>Foto de Referência</h3>
+        <div class="foto-referencia">
+          <img id="foto-referencia-img" src="" alt="Foto de referência" style="display: none; max-width: 100%; border-radius: 8px;" />
+          <p class="foto-placeholder" id="foto-vazio">Nenhuma foto anexada.</p>
+        </div>
+      </div>
+
+      <button class="btn btn-primario" id="btn-iniciar-tarefa" style="width: 100%; margin-top: 1rem;">
+        ▶ Iniciar Tarefa
+      </button>
+
+    </main>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

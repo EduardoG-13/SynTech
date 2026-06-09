@@ -1,8 +1,8 @@
 import sincronizacaoRepository from '../repositories/sincronizacaoRepository';
-import db from '../config/database';
 
 interface ItemSincronizacao {
-  entidade_tipo: 'tarefa' | 'alerta' | 'movimentacao' | 'evidencia';
+  entidade_tipo?: string;
+  tipo?: string;
   dados: any;
 }
 
@@ -23,59 +23,62 @@ class SincronizacaoService {
    * RF011: Notificação de sucesso
    * RF012: Reenvio automático em caso de falha
    */
-  processarLote(itens: ItemSincronizacao[]): { processados: number; sucessos: number; erros: number; resultados: ResultadoItem[] } {
+  async processarLote(itens: ItemSincronizacao[]): Promise<{ processados: number; sucessos: number; erros: number; resultados: ResultadoItem[] }> {
     const resultados: ResultadoItem[] = [];
     let sucessos = 0;
     let erros = 0;
 
     for (const item of itens) {
       let entidade_id: string | null = null;
-      try {
-        db.exec('BEGIN TRANSACTION');
+      const tipoOriginal = item.entidade_tipo || item.tipo || '';
+      const tipoNormalizado = tipoOriginal.toLowerCase();
 
-        switch (item.entidade_tipo) {
+      try {
+        switch (tipoNormalizado) {
           case 'tarefa':
             this.validarCamposTarefa(item.dados);
-            entidade_id = sincronizacaoRepository.inserirTarefa(item.dados);
+            entidade_id = await sincronizacaoRepository.inserirTarefa(item.dados);
             break;
 
           case 'alerta':
             this.validarCamposAlerta(item.dados);
-            entidade_id = sincronizacaoRepository.inserirAlerta(item.dados);
+            entidade_id = await sincronizacaoRepository.inserirAlerta(item.dados);
             break;
 
           case 'movimentacao':
             this.validarCamposMovimentacao(item.dados);
-            entidade_id = sincronizacaoRepository.inserirMovimentacao(item.dados);
+            entidade_id = await sincronizacaoRepository.inserirMovimentacao(item.dados);
             break;
 
           case 'evidencia':
             this.validarCamposEvidencia(item.dados);
-            entidade_id = sincronizacaoRepository.inserirEvidencia(item.dados);
+            entidade_id = await sincronizacaoRepository.inserirEvidencia(item.dados);
             break;
 
           default:
-            throw new Error(`Tipo de entidade desconhecido: ${item.entidade_tipo}`);
+            throw new Error(`Tipo de entidade desconhecido: ${tipoOriginal}`);
         }
 
-        // Registrar na tabela de sincronizações como PENDENTE para sincronizar com Supabase
-        sincronizacaoRepository.registrar(item.entidade_tipo, entidade_id, 'PENDENTE');
-        db.exec('COMMIT');
+        // Registrar na tabela de sincronizações como SINCRONIZADO
+        await sincronizacaoRepository.registrar(tipoNormalizado, entidade_id, 'SINCRONIZADO');
 
-        resultados.push({ entidade_tipo: item.entidade_tipo, entidade_id, status: 'SINCRONIZADO' });
+        resultados.push({
+          entidade_tipo: tipoOriginal,
+          entidade_id,
+          status: 'SINCRONIZADO'
+        });
         sucessos++;
       } catch (err) {
-        try { db.exec('ROLLBACK'); } catch (_) { /* rollback silencioso */ }
-
         const mensagemErro = (err as Error).message;
+        
         if (entidade_id) {
           try {
-            sincronizacaoRepository.registrar(item.entidade_tipo, entidade_id || 'desconhecido', 'ERRO');
+            await sincronizacaoRepository.registrar(tipoNormalizado, entidade_id, 'ERRO');
           } catch (_) { /* registro de erro silencioso */ }
         }
 
         resultados.push({
-          entidade_tipo: item.entidade_tipo,
+          entidade_tipo: tipoOriginal,
           entidade_id: item.dados?.id || null,
           status: 'ERRO',
           erro: mensagemErro

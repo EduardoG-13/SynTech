@@ -1,3 +1,9 @@
+<!-- Botão hamburger (só aparece no mobile) -->
+<button id="btn-hamburger" class="hamburger" onclick="toggleSidebar()">
+  <span></span><span></span><span></span>
+</button>
+<div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
 <aside id="sidebar">
   <div class="side-logo">
     <span class="logo-icon">🌱</span>
@@ -8,52 +14,66 @@
     <% if (perfil === 'Infraestrutura') { %>
       <!-- Menu da Infraestrutura -->
       <button class="active" onclick="window.location.href='/tarefas?perfil=Infraestrutura'">
-        <span><img src="../../public/Icons/home.ico" alt="Home" /></span> Início
+        <span><img src="/public/Icons/home.ico" alt="Home" /></span> Início
       </button>
       <button onclick="window.location.href='/chamados?perfil=Infraestrutura'">
-        <span>⚠️</span> Chamados
+        <span><img src="/public/Icons/alerta.ico" alt="Chamados" /></span> Chamados
       </button>
-      
+
     <% } else if (perfil === 'Gerente') { %>
       <!-- Menu do Gerente -->
       <button class="active" onclick="window.location.href='/tarefas?perfil=Gerente'">
-        <span im><img src="../../public/Icons/home.ico" alt="Home" /></span> Início
+        <span><img src="/public/Icons/home.ico" alt="Home" /></span> Início
       </button>
       <button onclick="window.location.href='/nova-os?perfil=Gerente'">
-        <span>📋</span> Ordens
+        <span><img src="/public/Icons/tarefas.ico" alt="Ordens" /></span> Ordens
       </button>
       <button onclick="window.location.href='/alertas?perfil=Gerente'">
-        <span>⚠️</span> Alertas
+        <span><img src="/public/Icons/alerta.ico" alt="Alertas" /></span> Alertas
       </button>
 
     <% } else if (perfil === 'Coordenador') { %>
       <!-- Menu do Coordenador -->
       <button class="active" onclick="window.location.href='/tarefas?perfil=Coordenador'">
-        <span><img src="../../public/Icons/home.ico" alt="Home" /></span> Início
+        <span><img src="/public/Icons/home.ico" alt="Home" /></span> Início
       </button>
       <button onclick="window.location.href='/tarefas-dashboard?perfil=Coordenador'">
-        <span>📋</span> Tarefas
+        <span><img src="/public/Icons/tarefas.ico" alt="Tarefas" /></span> Tarefas
       </button>
       <button onclick="window.location.href='/boletas?perfil=Coordenador'">
-        <span>🐂</span> Boletas
+        <span><img src="/public/Icons/movimentacao.ico" alt="Boletas" /></span> Boletas
       </button>
 
     <% } else { %>
       <!-- Menu padrão (Capataz) -->
       <button class="active" onclick="window.location.href='/tarefas?perfil=Capataz&retiro=<%= retiro %>'">
-        <span><img src="../../public/Icons/home.ico" alt="Home" /></span> Início
+        <span><img src="/public/Icons/home.ico" alt="Home" /></span> Início
       </button>
       <button onclick="window.location.href='/tarefas?perfil=Capataz&retiro=<%= retiro %>'">
-        <span>📋</span> Tarefas
+        <span><img src="/public/Icons/tarefas.ico" alt="Tarefas" /></span> Tarefas
       </button>
       <button onclick="window.location.href='/boleta?perfil=Capataz&retiro=<%= retiro %>'">
-        <span>🐂</span> Movimentação
+        <span><img src="/public/Icons/movimentacao.ico" alt="Movimentação" /></span> Movimentação
       </button>
     <% } %>
   </nav>
 
   <!-- Botão de Configurações que funciona como logout enviando de volta ao login -->
   <button class="side-config" id="side-config-btn" onclick="window.location.href='/'">
-    <span><img src="../../public/Icons/configuracao.ico" alt="Configurações" /></span> Configurações
+    <span><img src="/public/Icons/configuracao.ico" alt="Configurações" /></span> Configurações
   </button>
+
+  <script>
+    function fazerLogout() {
+      localStorage.removeItem('brpec_sessao');
+      fetch('/api/auth/logout', { method: 'POST' }).finally(function() {
+        window.location.href = '/';
+      });
+    }
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+      document.getElementById('sidebar-overlay').classList.toggle('open');
+    }
+  </script>
 </aside>

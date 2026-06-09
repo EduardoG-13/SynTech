@@ -1,0 +1,113 @@
+<%- include('partials/header') %>
+
+<div id="device" class="logged">
+  <%- include('partials/sidebar') %>
+
+  <div id="app">
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar">👤</div>
+      <h1>Nova Ordem de Serviço</h1>
+      <div class="sub"><%= retiro %> (<%= perfil %>)</div>
+    </div>
+
+    <main class="layout" style="padding: 0;">
+
+      <button class="btn-voltar" onclick="window.history.back()">← Voltar</button>
+
+      <form id="form-nova-os">
+
+        <div class="card" style="margin-bottom: 1rem;">
+          <h3>Equipe</h3>
+          <div class="filter-pills">
+            <span class="pill active" data-equipe="Capataz">Capataz</span>
+            <span class="pill" data-equipe="Infraestrutura">Infraestrutura</span>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 1rem;">
+          <label for="os-operacao"><h3>Operação</h3></label>
+          <select id="os-operacao" style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 8px;">
+            <option value="">Selecione a operação</option>
+            <option value="movimentacao">Movimentação de Rebanho</option>
+            <option value="obito">Registro de Óbito</option>
+            <option value="nascimento">Registro de Nascimento</option>
+            <option value="vacinacao">Vacinação</option>
+            <option value="manutencao">Manutenção</option>
+          </select>
+        </div>
+
+        <div class="card" style="margin-bottom: 1rem;">
+          <label for="os-retiro"><h3>Retiro de Origem</h3></label>
+          <select id="os-retiro" style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 8px;">
+            <option value="">Selecione o retiro</option>
+          </select>
+        </div>
+
+        <div class="card" style="margin-bottom: 1rem;">
+          <label for="os-responsavel"><h3>Responsável</h3></label>
+          <select id="os-responsavel" style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 8px;">
+            <option value="">Selecione o responsável</option>
+          </select>
+        </div>
+
+        <div class="card" style="margin-bottom: 1rem;">
+          <h3>Prioridade</h3>
+          <div class="prioridade-selector">
+            <label class="prioridade-option">
+              <input type="radio" name="prioridade" value="alta" />
+              <span class="prioridade-dot alta"></span> Alta
+            </label>
+            <label class="prioridade-option">
+              <input type="radio" name="prioridade" value="media" checked />
+              <span class="prioridade-dot media"></span> Média
+            </label>
+            <label class="prioridade-option">
+              <input type="radio" name="prioridade" value="baixa" />
+              <span class="prioridade-dot baixa"></span> Baixa
+            </label>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 1rem;">
+          <label for="os-prazo"><h3>Prazo</h3></label>
+          <input type="date" id="os-prazo" style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 8px;" />
+        </div>
+
+        <div class="card" style="margin-bottom: 1rem;">
+          <label for="os-descricao"><h3>Descrição</h3></label>
+          <textarea id="os-descricao" rows="4" placeholder="Detalhe as especificações da tarefa..." style="width: 100%; border: 1px solid #ccc; border-radius: 8px; padding: 0.75rem; font-family: inherit; resize: vertical;"></textarea>
+        </div>
+
+        <div class="card" style="margin-bottom: 1rem;">
+          <h3>Anexos</h3>
+          <div style="display: flex; gap: 1rem;">
+            <div class="upload-mini">
+              <label for="os-audio" style="cursor: pointer; text-align: center;">
+                <span style="font-size: 2rem;">🎙️</span>
+                <p>Áudio</p>
+              </label>
+              <input type="file" id="os-audio" accept="audio/*" style="display: none;" />
+            </div>
+            <div class="upload-mini">
+              <label for="os-foto" style="cursor: pointer; text-align: center;">
+                <span style="font-size: 2rem;">📷</span>
+                <p>Foto</p>
+              </label>
+              <input type="file" id="os-foto" accept="image/*" style="display: none;" />
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primario" style="width: 100%; margin-top: 1rem;">
+          Enviar Ordem de Serviço
+        </button>
+
+      </form>
+
+    </main>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
+
+<script src="/public/js/nova-os-handler.js"></script>
