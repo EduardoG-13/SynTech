@@ -70,6 +70,13 @@ export class ViewRoutes {
       res.render('nova-os', { perfil, retiro });
     });
 
+    // Novo Chamado de Infraestrutura (US03 / US06)
+    this.router.get('/novo-chamado', (req: Request, res: Response) => {
+      const perfil = req.query.perfil || 'Capataz';
+      const retiro = req.query.retiro || 'Geral';
+      res.render('novo-chamado', { perfil, retiro });
+    });
+
     // Painel de Infraestrutura (US06/US07)
     this.router.get('/infraestrutura', (req: Request, res: Response) => {
       const perfil = req.query.perfil || 'Infraestrutura';
