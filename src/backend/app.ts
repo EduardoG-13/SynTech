@@ -9,7 +9,6 @@ import db from './config/database';
 import routes from './routes/index';
 import viewRoutes from './routes/viewRoutes';
 import authRoutes from './routes/authRoutes';
-import db from './config/database';
 
 const app = express();
 const projectRoot = process.cwd();
