@@ -28,7 +28,20 @@ class TarefaService {
     return await tarefaRepository.buscarTarefasHoje(capataz_id, hoje);
   }
 
-  async concluirTarefa(tarefa_id, capataz_id) {
+  async concluirTarefa(
+    tarefa_id: string,
+    capataz_id: string
+  ): Promise<any> {
+    const tarefaAtual = await tarefaRepository.buscarPorId(tarefa_id);
+
+    if (!tarefaAtual || tarefaAtual.capataz_id !== capataz_id) {
+      throw new Error('Tarefa não encontrada ou não pertence ao capataz.');
+    }
+
+    if (tarefaAtual.status === 'CONCLUIDA') {
+      throw new Error('Tarefa já está concluída.');
+    }
+
     const data_conclusao = new Date().toISOString();
     const tarefa = await tarefaRepository.concluir(tarefa_id, capataz_id, data_conclusao);
     if (!tarefa) {

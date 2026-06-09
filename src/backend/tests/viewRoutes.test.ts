@@ -11,6 +11,11 @@
 
 import request from 'supertest';
 import app from '../app';
+import { inicializarBanco } from '../config/initDb';
+
+beforeAll(() => {
+  inicializarBanco();
+});
 
 describe('View Routes — EJS Template Rendering', () => {
   // ─────────────────────────────────────────────────────────
@@ -35,7 +40,7 @@ describe('View Routes — EJS Template Rendering', () => {
 
       expect(res.status).toBe(200);
       expect(res.headers['content-type']).toMatch(/text\/html/);
-      expect(res.text).toContain('Painel Gerencial');
+      expect(res.text).toContain('Dashboard');
     });
   });
 

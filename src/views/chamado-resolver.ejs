@@ -1,0 +1,98 @@
+<%- include('partials/header') %>
+
+<div id="device" class="logged">
+  <%- include('partials/sidebar') %>
+
+  <div id="app">
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar">👤</div>
+      <h1>Registrar Resolução</h1>
+      <div class="sub"><%= retiro %> (<%= perfil %>)</div>
+    </div>
+
+    <main class="layout" style="padding: 0;">
+
+      <button class="btn-voltar" onclick="window.history.back()">← Voltar</button>
+
+      <div class="card" style="margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem;">
+        <div class="chamado-status-icon andamento">🔧</div>
+        <div>
+          <h2 id="chamado-titulo">Carregando...</h2>
+          <span class="badge andamento" id="chamado-categoria">—</span>
+        </div>
+      </div>
+
+      <form id="form-resolver-chamado">
+
+        <div class="card" style="margin-bottom: 1rem;">
+          <h3>Descrição da Solução</h3>
+          <textarea id="descricao-solucao" rows="5" maxlength="500" placeholder="Descreva detalhadamente o que foi realizado para resolver o problema..." style="width: 100%; border: 1px solid #ccc; border-radius: 8px; padding: 0.75rem; font-family: inherit; resize: vertical;"></textarea>
+        <div style="text-align: right; font-size: 0.75rem; color: #8A8A7C;">
+          <span id="char-count">0</span>/500
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 1rem;">
+        <h3>Data e Hora da Conclusão</h3>
+        <input type="datetime-local" id="data-conclusao" style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 8px;" />
+      </div>
+
+      <div class="card" style="margin-bottom: 1rem;">
+        <h3>Foto da Resolução</h3>
+        <div class="upload-area" id="area-foto-resolucao">
+          <label for="input-foto-resolucao" class="upload-label">
+            <span class="upload-icon">📷</span>
+            <span>Arraste ou selecione uma imagem</span>
+            <span style="font-size: 0.75rem; color: #8A8A7C;">JPG, PNG - máx. 10MB</span>
+          </label>
+          <input type="file" id="input-foto-resolucao" accept="image/jpeg,image/png" style="display: none;" />
+          <img id="preview-foto-resolucao" src="" alt="Preview" style="display: none; max-width: 100%; border-radius: 8px; margin-top: 0.5rem;" />
+        </div>
+      </div>
+
+      <button class="btn btn-primario" id="btn-salvar-resolucao" style="width: 100%; margin-top: 1rem;">
+        ✅ Salvar Resolução
+      </button>
+
+      <input type="hidden" id="chamado-id" />
+
+      </form>
+
+      <div class="card" style="margin-top: 2rem;">
+        <h3>Histórico do Chamado</h3>
+        <div class="timeline" id="timeline-chamado">
+          <!-- Timeline será preenchida dinamicamente -->
+          <div class="timeline-item">
+            <div class="timeline-dot aberto"></div>
+            <div class="timeline-content">
+              <strong>Aberto</strong>
+              <p class="timeline-data">—</p>
+              <p class="timeline-desc">Chamado registrado</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot andamento"></div>
+            <div class="timeline-content">
+              <strong>Em andamento</strong>
+              <p class="timeline-data">—</p>
+              <p class="timeline-desc">Técnico iniciou atendimento</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot resolvido"></div>
+            <div class="timeline-content">
+              <strong>Resolvido</strong>
+              <p class="timeline-data">—</p>
+              <p class="timeline-desc">Aguardando registro de resolução</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
+
+<script src="/public/js/chamado-resolver-handler.js"></script>
