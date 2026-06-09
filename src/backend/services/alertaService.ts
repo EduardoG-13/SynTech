@@ -3,6 +3,15 @@ import { Alerta } from '../models/Alerta';
 
 class AlertaService {
   async criarAlerta(dados: Partial<Alerta>) {
+    if (!dados.descricao || dados.descricao.trim().length <= 10) {
+      throw new Error('RN06: descrição deve ter mais de 10 caracteres');
+    }
+
+    if (dados.latitude === undefined || dados.latitude === null ||
+        dados.longitude === undefined || dados.longitude === null) {
+      throw new Error('RN06: coordenadas GPS são obrigatórias');
+    }
+
     return await alertaRepository.criar(dados);
   }
 
