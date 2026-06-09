@@ -10,6 +10,13 @@
  </footer>
 
  <!-- Script JS para Sincronização com o Banco de Dados local -->
+ <script type="module">
+   import { fazerRequisicaoComOffline, sincronizarFilaPendente } from '/public/js/offline-interceptor.js';
+   
+   // Expor globalmente para uso em templates inline
+   window.fazerRequisicaoComOffline = fazerRequisicaoComOffline;
+   window.sincronizarFilaPendente = sincronizarFilaPendente;
+ </script>
  <script src="/public/app.js"></script>
 
  <!-- Registro do Service Worker (PWA) -->
