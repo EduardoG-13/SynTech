@@ -3,6 +3,7 @@ import cors from 'cors';
 import path from 'path';
 import session from 'express-session';
 import { Request, Response, NextFunction } from 'express';
+import { RETIROS } from './config/retiros';
 import routes from './routes/index';
 import viewRoutes from './routes/viewRoutes';
 import authRoutes from './routes/authRoutes';
@@ -60,6 +61,12 @@ app.get('/tarefas', (req, res) => {
   const perfil = req.query.perfil || 'Capataz';
   const retiro = req.query.retiro || 'Geral';
   res.render('tarefas', { perfil, retiro });
+});
+
+app.get('/nova-os', (req, res) => {
+  const perfil = req.query.perfil || 'Capataz';
+  const retiro = req.query.retiro || 'Geral';
+  res.render('nova-os', { perfil, retiro });
 });
 
 // Rotas de autenticação

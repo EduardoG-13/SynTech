@@ -46,8 +46,11 @@
         var dados = JSON.parse(sessao);
         if (dados.perfil === 'Capataz' && dados.retiro) {
           window.location.href = '/tarefas?perfil=Capataz&retiro=' + encodeURIComponent(dados.retiro);
+        } else if (dados.perfil === 'Infraestrutura') {
+          window.location.href = '/infraestrutura?perfil=Infraestrutura';
         } else if (dados.perfil) {
-          window.location.href = '/tarefas?perfil=' + encodeURIComponent(dados.perfil);
+          // Gerente e Coordenador
+          window.location.href = '/dashboard?perfil=' + encodeURIComponent(dados.perfil);
         }
       } catch(e) {}
     }

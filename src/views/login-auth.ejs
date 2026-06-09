@@ -54,7 +54,11 @@
           usuario: usuario,
           logadoEm: new Date().toISOString()
         }));
-        window.location.href = '/tarefas?perfil=' + encodeURIComponent(PERFIL);
+        // Cada perfil tem sua home dedicada
+        var rotaHome = '/dashboard'; // Gerente e Coordenador
+        if (PERFIL === 'Capataz') rotaHome = '/tarefas';
+        if (PERFIL === 'Infraestrutura') rotaHome = '/infraestrutura';
+        window.location.href = rotaHome + '?perfil=' + encodeURIComponent(PERFIL);
       } else {
         document.getElementById('login-erro').style.display = 'block';
       }
