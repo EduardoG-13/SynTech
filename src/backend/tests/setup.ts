@@ -24,3 +24,8 @@ beforeEach(() => {
 
   (global as any).testDb = db;
 });
+
+afterEach(() => {
+  db.close();
+  (global as any).testDb = undefined;
+});
