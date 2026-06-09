@@ -113,7 +113,7 @@ O Modelo das 5 Forças de Porter foi aplicado para analisar a estrutura competit
 </center>
 
 **Rivalidade entre concorrentes**
-Verifica-se que a rivalidade no setor pecuário é focada na eficiência operacional e na redução do custo por arroba. A BrPec compete com grupos capitalizados, como Bom Futuro (MT) e Rio Vermelho (PA). Como o mercado não diferencia o produto primário, conclui-se que a ausência de digitalização dos registros de campo posiciona a corporação em desvantagem competitiva. Logo, o sistema é a ferramenta necessária para gerar dados confiáveis e equiparar a eficiência da operação.
+A concorrência no setor pecuário é concentrada na redução do custo por arroba e no volume de abate. A BrPec disputa posição com grupos capitalizados como Bom Futuro (MT) e Rio Vermelho (PA), que ampliam sua vantagem competitiva por meio de ferramentas de gestão operacional. Em mercados de commodities sem diferenciação do produto primário, a eficiência na captura e no processamento de dados operacionais constitui fonte relevante de ganho de produtividade e comparabilidade de desempenho entre fazendas.
 
 **Ameaça de novos entrantes**
 Observa-se que as barreiras físicas de entrada são altas, representadas por 14 retiros e 130 casas rurais. Contudo, fundos agropecuários terceirizados ingressam no setor suportados por ferramentas de gestão digital consolidadas. Para não sofrer obsolescência tecnológica frente a esses novos agentes, a BrPec precisa implementar o sistema de forma imediata, criando uma barreira de maturidade organizacional e de processos que proteja a sua posição no mercado.
