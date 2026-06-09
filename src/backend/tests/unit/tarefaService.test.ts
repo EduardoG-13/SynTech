@@ -108,6 +108,112 @@ describe('TarefaService', () => {
     });
   });
 
+  describe('anexarEvidencia', () => {
+    const TAREFA_ID = 'mock-tarefa-id-0001';
+    const CAPATAZ_ID = 'mock-capataz-id-0001';
+    const BASE64_VALIDO = 'aGVsbG8='; // "hello" em base64
+
+    beforeEach(() => {
+      jest.clearAllMocks();
+      mockTarefaRepo.buscarPorId.mockResolvedValue(tarefaFixture());
+      mockTarefaRepo.salvarEvidencia.mockResolvedValue('mock-evidencia-id-0001');
+    });
+
+    it('deve salvar a evidência e retornar evidencia_id quando os dados são válidos', async () => {
+      // Arrange
+      const dados = { tipo: 'FOTO', arquivo_base64: BASE64_VALIDO, geolocalizacao: null };
+
+      // Act
+      const resultado = await tarefaService.anexarEvidencia(TAREFA_ID, CAPATAZ_ID, dados);
+
+      // Assert
+      expect(mockTarefaRepo.salvarEvidencia).toHaveBeenCalledTimes(1);
+      expect(resultado.evidencia_id).toBe('mock-evidencia-id-0001');
+    });
+
+    it('deve lançar erro e não salvar quando a tarefa não pertence ao capataz', async () => {
+      // Arrange — tarefa atribuída a outro capataz
+      mockTarefaRepo.buscarPorId.mockResolvedValue({
+        ...tarefaFixture(),
+        capataz_id: 'mock-capataz-id-0002',
+      });
+
+      // Act & Assert
+      await expect(
+        tarefaService.anexarEvidencia(TAREFA_ID, CAPATAZ_ID, { tipo: 'FOTO', arquivo_base64: BASE64_VALIDO })
+      ).rejects.toThrow('RN05');
+      expect(mockTarefaRepo.salvarEvidencia).not.toHaveBeenCalled();
+    });
+
+    it('deve lançar erro e não salvar quando arquivo_base64 excede 5 MB', async () => {
+      // Arrange — string que ultrapassa 6 990 507 caracteres (limite ~5 MB binário)
+      const base64GrandeValido = 'A'.repeat(6_990_508);
+      const dados = { tipo: 'FOTO', arquivo_base64: base64GrandeValido, geolocalizacao: null };
+
+      // Act & Assert
+      await expect(
+        tarefaService.anexarEvidencia(TAREFA_ID, CAPATAZ_ID, dados)
+      ).rejects.toThrow('tamanho máximo');
+      expect(mockTarefaRepo.salvarEvidencia).not.toHaveBeenCalled();
+    });
+
+    it('deve lançar erro e não salvar quando arquivo_base64 contém caracteres inválidos', async () => {
+      // Arrange — string com caracteres fora do alfabeto base64
+      const base64Invalido = 'não-é-base64!@#$%';
+      const dados = { tipo: 'FOTO', arquivo_base64: base64Invalido, geolocalizacao: null };
+
+      // Act & Assert
+      await expect(
+        tarefaService.anexarEvidencia(TAREFA_ID, CAPATAZ_ID, dados)
+      ).rejects.toThrow('caracteres inválidos');
+      expect(mockTarefaRepo.salvarEvidencia).not.toHaveBeenCalled();
+    });
+
+    it('deve aceitar e normalizar base64 com prefixo data URI do navegador', async () => {
+      // Arrange — formato enviado pelo browser: "data:image/png;base64,<dados>"
+      const dados = {
+        tipo: 'FOTO',
+        arquivo_base64: `data:image/png;base64,${BASE64_VALIDO}`,
+        geolocalizacao: null,
+      };
+
+      // Act
+      const resultado = await tarefaService.anexarEvidencia(TAREFA_ID, CAPATAZ_ID, dados);
+
+      // Assert — prefixo removido antes de persistir
+      expect(mockTarefaRepo.salvarEvidencia).toHaveBeenCalledWith(
+        TAREFA_ID,
+        'FOTO',
+        BASE64_VALIDO,
+        null
+      );
+      expect(resultado.evidencia_id).toBe('mock-evidencia-id-0001');
+    });
+
+    it('deve lançar erro quando arquivo_base64 é string vazia', async () => {
+      // Arrange
+      const dados = { tipo: 'FOTO', arquivo_base64: '', geolocalizacao: null };
+
+      // Act & Assert
+      await expect(
+        tarefaService.anexarEvidencia(TAREFA_ID, CAPATAZ_ID, dados)
+      ).rejects.toThrow('caracteres inválidos');
+      expect(mockTarefaRepo.salvarEvidencia).not.toHaveBeenCalled();
+    });
+
+    it('deve salvar evidência de texto sem arquivo_base64', async () => {
+      // Arrange — tipo TEXTO não exige arquivo_base64
+      const dados = { tipo: 'TEXTO', arquivo_base64: undefined, geolocalizacao: null };
+
+      // Act
+      const resultado = await tarefaService.anexarEvidencia(TAREFA_ID, CAPATAZ_ID, dados);
+
+      // Assert
+      expect(mockTarefaRepo.salvarEvidencia).toHaveBeenCalledTimes(1);
+      expect(resultado.evidencia_id).toBe('mock-evidencia-id-0001');
+    });
+  });
+
   describe('criarTarefa', () => {
     const dadosBase = {
       titulo: 'Inspeção de cerca',
