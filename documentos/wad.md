@@ -5233,16 +5233,82 @@ produtos de prateleira não conseguem superar.
 ## 6.6 Estratégia de Marketing
 
 _a) Produto/Serviço (até 200 palavras)_
-_Descreva as funcionalidades, benefícios e diferenciais da aplicação_
+
+A solução é uma aplicação web progressiva (PWA) voltada à digitalização do
+gerenciamento de campo em fazendas de pecuária de corte. É composta por dois
+módulos integrados: o aplicativo de campo, utilizado pelos capatazes para registro
+offline de movimentações do rebanho — nascimentos, mortes, compras, vendas e
+transferências entre retiros, e o painel administrativo, acessado por
+coordenadores e pelo gerente para acompanhamento consolidado das operações.
+
+O principal diferencial técnico é a arquitetura offline-first: o banco de dados
+local (SQLite) garante funcionamento pleno sem conexão, e os dados são
+sincronizados automaticamente com o servidor via fila estruturada (sync_queue)
+nas janelas de conectividade disponíveis. Não há perda de registros nem
+necessidade de intervenção manual do usuário no processo de sincronização.
+
+A interface foi projetada para usuários com baixo letramento digital, com fluxos
+de poucos passos, linguagem visual direta e suporte a registros por áudio. Por
+ser uma PWA, a instalação ocorre pelo navegador, sem necessidade de loja de
+aplicativos, simplificando a distribuição nos dispositivos da BrPec. O conjunto
+dessas características elimina a etapa de redigitação manual, reduz erros de
+registro na origem e amplia a rastreabilidade das movimentações do rebanho em
+tempo real.
 
 _b) Preço (até 200 palavras)_
-_Explique o modelo de precificação adotado e justifique com base nas análises anteriores._
+
+O modelo de precificação adotado é o SaaS (Software as a Service) com cobrança
+anual baseada no volume de cabeças ativas no rebanho. Esse modelo foi escolhido
+por três razões: alinha o custo da solução à escala real da operação do cliente,
+tornando a precificação proporcional e transparente; é familiar ao mercado
+agropecuário, que já opera com insumos e serviços cobrados por animal; e gera
+previsibilidade de receita para o fornecedor, viabilizando investimento contínuo
+em manutenção e evolução do produto.
+
+A estrutura de faixas sugerida segue o padrão praticado por softwares pecuários
+nacionais:
+
+| Faixa de rebanho ativo  | Valor anual estimado (R$)       |
+|-------------------------|---------------------------------|
+| Até 5.000 cabeças       | R$ 6.000 – R$ 9.000             |
+| 5.001 a 20.000 cabeças  | R$ 9.000 – R$ 18.000            |
+| Acima de 20.000 cabeças | Negociação direta (enterprise)  |
+
+A BrPec, com rebanho distribuído em 14 retiros, se enquadra na faixa enterprise,
+com contrato negociado com base no volume total de animais ativos e no número de
+usuários operacionais licenciados. Cobrar por cabeça ativa — e não por usuário ou
+por módulo — é o modelo mais transparente para o cliente rural, pois vincula
+diretamente o custo da ferramenta ao tamanho do negócio que ela suporta.
 
 _c) Praça (Distribuição) (até 200 palavras)_
-_Apresente os canais digitais utilizados para distribuir e entregar a aplicação ao público._
+
+A estratégia de distribuição é B2B direta, sem intermediários. O produto é
+comercializado por meio de contato direto com a empresa e, com foco em propriedades que compartilham o perfil operacional da BrPec: múltiplos retiros, rebanho extenso e conectividade limitada.
+
+A aplicação é disponibilizada via navegador, sem necessidade de instalação por loja
+de aplicativos, o que reduz barreiras de acesso em dispositivos com configurações
+restritas. A implementação é realizada de forma assistida: visita técnica à
+propriedade para configuração inicial, treinamento presencial dos capatazes e
+coordenadores e acompanhamento do primeiro ciclo completo de sincronização.
 
 _d) Promoção (até 200 palavras)_
-_Descreva as estratégias digitais planejadas, como SEO, redes sociais, marketing de conteúdo e campanhas pagas._
+
+A estratégia de promoção é concentrada em canais com alta densidade do
+público-alvo e adequados ao ciclo de vendas B2B de ticket elevado.
+
+O canal principal são as **feiras agropecuárias regionais**, como a Expogrande
+(Campo Grande/MS), a Fenapec e a Agrishow, onde produtores e gestores de fazendas
+tomam decisões de compra de tecnologia. A demonstração ao vivo em condições
+simuladas de campo, inclusive sem internet, é o argumento de venda mais eficaz
+para esse perfil de cliente.
+
+O canal complementar é o **marketing de conteúdo técnico** em portais
+especializados do agronegócio, como Canal Rural, com publicações que abordam os custos operacionais do controle manual de rebanho e os ganhos de rastreabilidade com a digitalização. Esse posicionamento constrói autoridade técnica
+e gera demanda qualificada.
+
+Como estratégia de relacionamento, o programa de indicação entre clientes ativos
+reduz o custo de aquisição e acelera a expansão para fazendas com perfil semelhante
+ao da BrPec, aproveitando a rede de confiança já estabelecida no setor.
 
 # <a name="c7"></a>7. Conclusões e trabalhos futuros (sprint 5)
 
