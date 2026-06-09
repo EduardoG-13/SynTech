@@ -1,0 +1,47 @@
+<div class="bottom-nav">
+  <% if (perfil === 'Capataz') { %>
+    <button onclick="window.location.href='/tarefas?perfil=Capataz&retiro=<%= retiro %>'">
+      <span><img src="/public/Icons/home.ico" alt="Início" /></span> Início
+    </button>
+    <button onclick="window.location.href='/tarefas?perfil=Capataz&retiro=<%= retiro %>'">
+      <span><img src="/public/Icons/tarefas.ico" alt="Tarefas" /></span> Tarefas
+    </button>
+    <button onclick="window.location.href='/boleta?perfil=Capataz&retiro=<%= retiro %>'">
+      <span><img src="/public/Icons/movimentacao.ico" alt="Movimentação" /></span> Rebanho
+    </button>
+    <button onclick="window.location.href='/infraestrutura?perfil=Capataz&retiro=<%= retiro %>'">
+      <span><img src="/public/Icons/infra.ico" alt="Infra" /></span> Infra
+    </button>
+
+  <% } else if (perfil === 'Gerente') { %>
+    <button onclick="window.location.href='/dashboard?perfil=Gerente'">
+      <span><img src="/public/Icons/home.ico" alt="Dashboard" /></span> Dashboard
+    </button>
+    <button onclick="window.location.href='/aprovacoes?perfil=Gerente'">
+      <span><img src="/public/Icons/tarefas.ico" alt="Aprovações" /></span> Aprovações
+    </button>
+    <button onclick="window.location.href='/infraestrutura?perfil=Gerente'">
+      <span><img src="/public/Icons/infra.ico" alt="Infra" /></span> Infra
+    </button>
+    <button onclick="window.location.href='/configuracoes?perfil=Gerente'">
+      <span><img src="/public/Icons/configuracao.ico" alt="Config" /></span> Config
+    </button>
+
+  <% } else if (perfil === 'Coordenador') { %>
+    <button onclick="window.location.href='/dashboard?perfil=Coordenador'">
+      <span><img src="/public/Icons/home.ico" alt="Dashboard" /></span> Dashboard
+    </button>
+    <button onclick="window.location.href='/boletas?perfil=Coordenador'">
+      <span><img src="/public/Icons/movimentacao.ico" alt="Boletas" /></span> Boletas
+    </button>
+
+  <% } else if (perfil === 'Infraestrutura') { %>
+    <button onclick="window.location.href='/infraestrutura?perfil=Infraestrutura'">
+      <span><img src="/public/Icons/home.ico" alt="Início" /></span> Início
+    </button>
+    <button onclick="window.location.href='/infraestrutura?perfil=Infraestrutura'">
+      <span><img src="/public/Icons/alerta.ico" alt="Chamados" /></span> Chamados
+    </button>
+
+  <% } %>
+</div>

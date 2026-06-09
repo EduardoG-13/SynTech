@@ -14,6 +14,15 @@ interface ResultadoItem {
 }
 
 class SincronizacaoService {
+  /**
+   * Processa um lote de entidades heterogêneas recebidas de clientes offline.
+   * Cada item é processado individualmente em transação isolada.
+   * Registra o resultado na tabela sincronizacoes.
+   *
+   * RF010: Sincronização automática ao reconectar
+   * RF011: Notificação de sucesso
+   * RF012: Reenvio automático em caso de falha
+   */
   async processarLote(itens: ItemSincronizacao[]): Promise<{ processados: number; sucessos: number; erros: number; resultados: ResultadoItem[] }> {
     const resultados: ResultadoItem[] = [];
     let sucessos = 0;

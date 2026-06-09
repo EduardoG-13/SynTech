@@ -2,12 +2,12 @@ import alertaRepository from '../repositories/alertaRepository';
 import { Alerta } from '../models/Alerta';
 
 class AlertaService {
-  criarAlerta(dados: Partial<Alerta>) {
-    return alertaRepository.criar(dados);
+  async criarAlerta(dados: Partial<Alerta>) {
+    return await alertaRepository.criar(dados);
   }
 
-  listarChamados(status?: string) {
-    return alertaRepository.listar(status);
+  async listarChamados(status?: string) {
+    return await alertaRepository.listar(status);
   }
 
   async resolverChamado(

@@ -1,10 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
+import session from 'express-session';
 import { Request, Response, NextFunction } from 'express';
-import { RETIROS } from './config/retiros';
 import routes from './routes/index';
 import viewRoutes from './routes/viewRoutes';
+import authRoutes from './routes/authRoutes';
+import db from './config/database';
 
 const app = express();
 const projectRoot = process.cwd();
@@ -18,6 +20,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/public', express.static(path.join(projectRoot, 'src/public')));
+app.use(session({
+  secret: 'brpec-syntech-2026',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 365 * 24 * 60 * 60 * 1000 }
+}));
 
 // Rotas de views (EJS)
 app.get('/', (_req, res) => {
@@ -25,13 +33,43 @@ app.get('/', (_req, res) => {
 });
 
 app.get('/selecionar-retiro', (_req, res) => {
-  res.render('selecionar-retiro', { retiros: RETIROS });
+  const retiros = db.prepare('SELECT id, nome FROM retiros ORDER BY nome').all();
+  res.render('selecionar-retiro', { retiros });
+});
+
+app.get('/login-auth', (req, res) => {
+  const perfil = req.query.perfil || 'Coordenador';
+  res.render('login-auth', { perfil });
+});
+
+app.get('/selecionar-categoria-infra', (_req, res) => {
+  res.render('selecionar-categoria-infra');
+});
+
+app.get('/dashboard', (req, res) => {
+  const perfil = req.query.perfil || 'Gerente';
+  const retiro = req.query.retiro || 'Geral';
+  res.render('dashboard', { perfil, retiro });
+});
+
+app.get('/configuracoes', (req, res) => {
+  const perfil = req.query.perfil || 'Gerente';
+  const retiro = req.query.retiro || 'Geral';
+  res.render('configuracoes', { perfil, retiro });
 });
 
 app.get('/tarefas', (req, res) => {
   const perfil = req.query.perfil || 'Capataz';
   const retiro = req.query.retiro || 'Geral';
   res.render('tarefas', { perfil, retiro });
+});
+
+// Rotas de autenticação
+app.use('/api/auth', authRoutes);
+
+// Service Worker servido na raiz para escopo global do PWA
+app.get('/sw.js', (_req: Request, res: Response) => {
+  res.sendFile(path.join(projectRoot, 'src/public/sw.js'));
 });
 
 // Rotas da API

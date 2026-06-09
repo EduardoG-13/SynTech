@@ -11,6 +11,8 @@
 
 import db from '../config/database';
 import { inicializarBanco } from '../config/initDb';
+import fs from 'fs';
+import path from 'path';
 
 beforeAll(() => {
   inicializarBanco();
@@ -95,6 +97,65 @@ describe('inicializarBanco — Schema Initialization', () => {
 
       expect(result).toBeDefined();
       expect(result!.name).toBe(tableName);
+    });
+  });
+
+  // ─────────────────────────────────────────────────────────
+  // Controle Transacional e Rollback em caso de erro
+  // ─────────────────────────────────────────────────────────
+  describe('controle transacional e rollback', () => {
+    const migrationsDir = path.resolve(__dirname, '..', 'database', 'migrations');
+
+    beforeAll(() => {
+      // Garante que o diretório de migrations existe para o teste
+      if (!fs.existsSync(migrationsDir)) {
+        fs.mkdirSync(migrationsDir, { recursive: true });
+      }
+    });
+
+    afterAll(() => {
+      // Limpa os arquivos de teste criados temporariamente
+      const testFiles = ['999_test_invalid_migration.sql'];
+      for (const file of testFiles) {
+        const filePath = path.join(migrationsDir, file);
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath);
+        }
+      }
+    });
+
+    it('deve reverter modificações (rollback) se a migration contiver SQL inválido', () => {
+      const invalidMigrationName = '999_test_invalid_migration.sql';
+      const invalidMigrationPath = path.join(migrationsDir, invalidMigrationName);
+
+      // Cria uma migration que cria uma tabela temporária e depois executa um comando inválido
+      const sqlContent = `
+        CREATE TABLE tabela_teste_rollback (
+          id INTEGER PRIMARY KEY
+        );
+        INSERT INTO tabela_teste_rollback (id) VALUES (1);
+        -- Comando inválido que causará erro
+        INSERT INTO tabela_inexistente (campo) VALUES ('erro');
+      `;
+
+      fs.writeFileSync(invalidMigrationPath, sqlContent, 'utf-8');
+
+      // Tentar inicializar o banco deve lançar o erro
+      expect(() => {
+        inicializarBanco();
+      }).toThrow();
+
+      // Verificar que a migration NÃO foi registrada no schema_migrations
+      const migrationRecord = db
+        .prepare("SELECT * FROM schema_migrations WHERE migration_name = ?")
+        .get(invalidMigrationName);
+      expect(migrationRecord).toBeUndefined();
+
+      // Verificar que a tabela criada na migration falha NÃO foi criada no banco (confirmando o rollback)
+      const tableRecord = db
+        .prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='tabela_teste_rollback'")
+        .get() as { name: string } | undefined;
+      expect(tableRecord).toBeUndefined();
     });
   });
 });
