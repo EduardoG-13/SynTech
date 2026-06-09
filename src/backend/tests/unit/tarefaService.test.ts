@@ -169,6 +169,27 @@ describe('TarefaService', () => {
       expect(mockTarefaRepo.salvarEvidencia).not.toHaveBeenCalled();
     });
 
+    it('deve aceitar e normalizar base64 com prefixo data URI do navegador', async () => {
+      // Arrange — formato enviado pelo browser: "data:image/png;base64,<dados>"
+      const dados = {
+        tipo: 'FOTO',
+        arquivo_base64: `data:image/png;base64,${BASE64_VALIDO}`,
+        geolocalizacao: null,
+      };
+
+      // Act
+      const resultado = await tarefaService.anexarEvidencia(TAREFA_ID, CAPATAZ_ID, dados);
+
+      // Assert — prefixo removido antes de persistir
+      expect(mockTarefaRepo.salvarEvidencia).toHaveBeenCalledWith(
+        TAREFA_ID,
+        'FOTO',
+        BASE64_VALIDO,
+        null
+      );
+      expect(resultado.evidencia_id).toBe('mock-evidencia-id-0001');
+    });
+
     it('deve lançar erro quando arquivo_base64 é string vazia', async () => {
       // Arrange
       const dados = { tipo: 'FOTO', arquivo_base64: '', geolocalizacao: null };

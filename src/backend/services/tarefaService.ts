@@ -57,14 +57,19 @@ class TarefaService {
     }
 
     if (dados.arquivo_base64 != null) {
+      // Remove prefixo data URI do navegador (ex: "data:image/png;base64,") antes de validar
+      const payload = dados.arquivo_base64.replace(/^data:[^;]+;base64,/, '');
+
       // RN05: estrutura deve ser base64 válido (apenas chars permitidos)
-      if (!/^[A-Za-z0-9+/]+=*$/.test(dados.arquivo_base64)) {
+      if (!/^[A-Za-z0-9+/]+=*$/.test(payload)) {
         throw new Error('RN05: arquivo_base64 contém caracteres inválidos.');
       }
       // RN05: tamanho máximo 5 MB em binário (~6,990,507 chars em base64)
-      if (dados.arquivo_base64.length > 6_990_507) {
+      if (payload.length > 6_990_507) {
         throw new Error('RN05: arquivo_base64 excede o tamanho máximo permitido (5 MB).');
       }
+
+      dados.arquivo_base64 = payload;
     }
 
     const evidencia_id = await tarefaRepository.salvarEvidencia(
