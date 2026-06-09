@@ -5176,7 +5176,17 @@ fluxos simples, linguagem visual direta, botões grandes e suporte a registros p
 ## 6.5 Posicionamento
 
 _a) Proposta de Valor Única (até 250 palavras)_
-_Defina de maneira clara o que torna a sua aplicação única e valiosa para o mercado._
+A BrPec opera hoje com um fluxo de informações inteiramente manual: capatazes
+registram movimentações do rebanho em boletas de papel, que são recolhidas e
+redigitadas em planilhas Excel na sede pelo coordenador. Esse processo gera atrasos
+de horas ou dias na atualização dos dados, inconsistências entre registros de entrada
+e saída de animais e retrabalho constante, tudo isso em uma operação distribuída em
+14 retiros sem conectividade contínua.
+
+A proposta de valor da solução desenvolvida é direta: eliminar o papel como meio de
+registro e a redigitação como etapa de processamento, substituindo ambos por um
+fluxo digital único, coletado no campo e sincronizado automaticamente com o servidor
+nas janelas de conectividade disponíveis.
 
 _b) Estratégia de Diferenciação (até 250 palavras)_
 _Explique como sua aplicação se destacará da concorrência, evidenciando a lógica por trás do posicionamento._
