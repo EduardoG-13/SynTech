@@ -1289,6 +1289,78 @@ Para a documentação completa de todos os endpoints (incluindo `GET /tarefas/ho
 
 ### 3.2.1. Diagrama de Arquitetura e Camadas (sprints 3 e 4)
 
+O Sistema BrPec é estruturado sob uma **arquitetura física de três camadas (3-Tier Architecture)**, projetada com base nos princípios do paradigma **Local-First / Offline-First** (KLEPPMANN et al., 2019) [1]. Essa decisão arquitetural é fundamental para mitigar a restrição de conectividade intermitente em ambientes rurais (pastos), garantindo que a operação de campo não dependa de conexões com a internet satelital (Starlink) para funcionar, ao mesmo tempo em que provê consistência eventual global.
+
+#### Arquitetura Física e Fluxo de Sincronização (3-Tier Sync)
+
+O diagrama a seguir detalha a topologia física da rede, os bancos de dados em cada nó e os mecanismos de conectividade do sistema:
+
+```mermaid
+graph TD
+  %% Camada 1: Pasto
+  subgraph Pasto ["Camada 1: Client (Pasto - Operação Offline)"]
+    direction TB
+    A["Dispositivo Móvel do Capataz (PWA)"] --> B[("Armazenamento Local: IndexedDB")]
+    style Pasto fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#01579b
+  end
+
+  %% Camada 2: Sede
+  subgraph Sede ["Camada 2: Server (Sede da Fazenda - Gateway Local)"]
+    direction TB
+    C["Servidor Local (Node.js / Express)"] --> D[("Cache Local: SQLite (brpec.sqlite)")]
+    style Sede fill:#efebe9,stroke:#5d4037,stroke-width:2px,color:#3e2723
+  end
+
+  %% Camada 3: Nuvem
+  subgraph Nuvem ["Camada 3: Nuvem (Central - Consolidação Global)"]
+    direction TB
+    E["Servidor Nuvem (Supabase API)"] --> F[("Banco Central: PostgreSQL (Supabase)")]
+    style Nuvem fill:#e8f5e9,stroke:#388e3c,stroke-width:2px,color:#1b5e20
+  end
+
+  %% Conexões e Fluxo de Dados
+  B -.->|"Sincronização via Wi-Fi Local (Sede)"| C
+  D -.->|"Sincronização Assíncrona via Satélite (Starlink)"| E
+```
+
+<center>
+  <p><strong>Figura 8.1</strong> — Arquitetura de Sincronização em 3 Camadas do BrPec</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+##### Detalhamento do Fluxo de Dados, Validação e Justificativas Técnicas:
+
+1. **Camada 1 (Client - Pasto):**
+   - **Contexto Operacional:** No pasto, a latência de rede é infinita e a largura de banda é zero. O Capataz interage com um Progressive Web App (PWA) instalado em seu celular.
+   - **Fluxo de Dados:** Apontamentos zootécnicos e alterações de tarefas são capturados em tempo real. O aplicativo PWA persiste esses registros localmente no **IndexedDB** do navegador.
+   - **Fundamentação Técnica:** O **IndexedDB** (especificação W3C API 3.0) [2] foi selecionado devido à sua capacidade de armazenamento transactional assíncrono de alta capacidade. Ao contrário de tecnologias mais simples como o `localStorage` (síncrono e limitado a 5MB de dados puramente textuais), o IndexedDB permite armazenar estruturas relacionais complexas e metadados de mídias de forma assíncrona, não bloqueando a thread principal da interface do usuário (UI).
+   - **Validação:** A validação nesta camada é estritamente client-side, focando em formatos sintáticos, preenchimento de campos obrigatórios e conformidade visual para evitar erros grosseiros de digitação em campo.
+
+2. **Camada 2 (Server - Sede da Fazenda / Gateway Local):**
+   - **Contexto Operacional:** Quando o Capataz retorna para a sede da fazenda ao fim do expediente, o dispositivo móvel se conecta à rede **Wi-Fi local** e inicia a transferência de dados.
+   - **Fluxo de Sincronização e Padrão Outbox:** O PWA drena os registros acumulados do IndexedDB para o servidor Express local da fazenda. O servidor processa esses dados e os persiste no banco **SQLite** local (`brpec.sqlite`). Para garantir a entrega garantida das movimentações à nuvem sem risco de perda em caso de falha física, aplica-se o padrão de microsserviços **Transactional Outbox** (RICHARDSON, 2018) [3]: os apontamentos zootécnicos e o registro da fila de envio na tabela `sincronizacoes` são salvos de forma atômica no SQLite dentro de uma única transação de banco.
+   - **Fundamentação Técnica:** O **SQLite** (HIPP, 2020) [4] foi adotado como cache relacional local por ser uma engine de banco relacional embutida e *zero-configuration*, eliminando o overhead operacional e o risco de falhas de manutenção inerentes a servidores tradicionais (como PostgreSQL ou MySQL) no ambiente hostil de servidores locais de fazendas. O uso do módulo nativo do Node.js (`node:sqlite`) fornece sub-milissegundos de latência com baixo consumo de memória, garantindo persistência robusta e durável em disco local.
+   - **Validação:** O servidor Express local atua como o principal portão de validação de regras de negócio pecuárias (ex.: verificação zootécnica de idade para nascimentos, checagem se o responsável pertence ao retiro da tarefa). A validação em nível de banco de dados é reforçada por chaves estrangeiras (`PRAGMA foreign_keys = ON;`) e constraints de check no SQLite.
+
+3. **Camada 3 (Nuvem - Central):**
+   - **Contexto Operacional:** A sede da fazenda possui um modem satelital **Starlink** com alta taxa de transferência, porém sujeito a quedas intermitentes por fatores climáticos e obstruções físicas.
+   - **Fluxo de Sincronização e Consistência Eventual:** Um agendador em segundo plano (`cloudSyncService.ts`) monitora a conectividade remota. Quando a conexão satelital é restabelecida, o serviço consome a fila de outbox (`sincronizacoes`) e faz o push dos dados acumulados para a API centralizada do **Supabase (PostgreSQL)** na nuvem. Ao receber uma confirmação de sucesso com status HTTP 200/201, o servidor local atualiza as linhas locais como sincronizadas.
+   - **Fundamentação Técnica:** O modelo de replicação opera sob **Consistência Eventual** (VOGELS, 2009) [5], permitindo que as fazendas continuem operando de forma autônoma e convergindo os estados estruturais com o banco centralizado sem a necessidade de conexões persistentes síncronas de duas fases (2PC), impraticáveis sob redes de satélite. O **PostgreSQL** hospedado no Supabase atua como o banco de dados mestre global, fornecendo capacidades ACID de alta concorrência para consolidação de múltiplos retiros da fazenda em tempo real.
+   - **Validação:** A camada de nuvem valida a consistência relacional global (ex.: unicidade global de UUIDs gerados de forma descentralizada) e restrições globais de negócios consolidados.
+
+---
+
+### Referências Arquiteturais da Seção:
+* [1] KLEPPMANN, Martin et al. **Local-first software: You own your data, in spite of the cloud**. In: Proceedings of the 2019 ACM SIGPLAN International Symposium on New Ideas, New Paradigms, and Reflections on Programming and Software (Onward!). 2019. p. 154-178.
+* [2] W3C. **Indexed Database API 3.0**. W3C Recommendation, 2024. Disponível em: <https://www.w3.org/TR/IndexedDB/>.
+* [3] RICHARDSON, Chris. **Microservices Patterns: With examples in Java**. Manning Publications, 2018.
+* [4] HIPP, Richard D. **SQLite Design Principles and Architecture**. SQLite Library, 2020.
+* [5] VOGELS, Werner. **Eventually Consistent**. ACM Queue, v. 6, n. 6, p. 14-19, 2009.
+
+---
+
+#### Arquitetura Lógica de Software (CSR)
+
 O Sistema BrPec adota o padrão **Arquitetura em Camadas (Layered Architecture)** no estilo **Controller-Service-Repository (CSR)**, organizando o backend em responsabilidades isoladas que se comunicam de forma unidirecional. A escolha desse padrão se justifica por quatro motivos centrais para o projeto: (i) **separação de responsabilidades**, isolando regras de negócio do transporte HTTP e do acesso a dados; (ii) **testabilidade**, já que cada camada pode ser testada de forma independente com mocks das camadas inferiores; (iii) **manutenibilidade**, permitindo evoluir uma camada sem propagar mudanças para as demais; e (iv) **baixo acoplamento com a infraestrutura escolhida** (Supabase + PostgreSQL), de modo que uma eventual troca do provedor de banco ou do framework HTTP impacte apenas a camada correspondente.
 
 A solução é composta por **cinco camadas lógicas** no backend, implementadas em Node.js + Express.js, com persistência em PostgreSQL gerenciado pelo Supabase:
