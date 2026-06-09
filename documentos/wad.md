@@ -5188,6 +5188,20 @@ registro e a redigitação como etapa de processamento, substituindo ambos por u
 fluxo digital único, coletado no campo e sincronizado automaticamente com o servidor
 nas janelas de conectividade disponíveis.
 
+Para o capataz, o valor está na simplicidade: uma interface projetada para baixo
+letramento digital, com poucos passos por tarefa e suporte a áudio, que não exige
+treinamento extenso nem familiaridade prévia com sistemas.
+
+Para o coordenador, o valor está na eliminação do retrabalho: os dados chegam
+estruturados, sem necessidade de transcrição manual, prontos para consolidação e
+análise.
+
+Para o gerente, o valor está na confiabilidade: em vez de aguardar o ciclo
+de recolhimento e redigitação das boletas, as informações do rebanho — nascimentos,
+mortes, transferências — passam a estar disponíveis no painel assim que o retiro
+sincroniza. A tomada de decisão deixa de depender de dados defasados e passa a
+refletir a realidade operacional do dia.
+
 _b) Estratégia de Diferenciação (até 250 palavras)_
 _Explique como sua aplicação se destacará da concorrência, evidenciando a lógica por trás do posicionamento._
 
