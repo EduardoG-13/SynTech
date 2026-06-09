@@ -5121,8 +5121,7 @@ _a) Segmentação de Mercado (até 250 palavras)_
 
 O mercado-alvo da solução é composto por fazendas de pecuária de corte localizadas
 em regiões de baixa conectividade, com operações distribuídas em múltiplas unidades
-de campo — modelo denominado "retiros" no contexto pantaneiro. Esse segmento
-concentra características específicas que o diferenciam do mercado geral de
+de campo, os retiros no contexto da Brpec. Esse segmento concentra características específicas que o diferenciam do mercado geral de
 agronegócio digital. 
 
 Do ponto de vista geográfico, o Pantanal sul-mato-grossense abriga aproximadamente
@@ -5130,6 +5129,21 @@ Do ponto de vista geográfico, o Pantanal sul-mato-grossense abriga aproximadame
 3,6 milhões de cabeças bovinas (FAMASUL, 2023). A região representa 20% do rebanho
 total do estado de Mato Grosso do Sul e tem na pecuária extensiva sua principal
 atividade econômica há mais de 200 anos (MAPA, 2023).
+
+Do ponto de vista tecnológico, o segmento é caracterizado por baixa adoção de
+ferramentas digitais de gestão. Segundo o Censo Agropecuário 2017 do IBGE, menos
+de 28% dos estabelecimentos rurais brasileiros possuem acesso à internet, e desses,
+apenas 46% contam com banda larga (IBGE, 2017). Esse cenário é ainda mais restritivo
+no Pantanal, onde a conectividade depende de tecnologias satelitais como o Starlink,
+disponíveis apenas no retiro.
+
+O segmento secundário é composto por coordenadores e gerentes de fazendas que
+necessitam de visibilidade consolidada das operações de campo em tempo real, sem
+depender de relatórios manuais ou planilhas desatualizadas. Ambos os segmentos
+compartilham a necessidade central de rastreabilidade operacional com baixa
+dependência de infraestrutura de rede.
+
+
 
 _b) Perfil do Público-Alvo (até 250 palavras)_
 _Caracterize o público-alvo com dados demográficos, psicográficos e comportamentais, incluindo necessidades específicas. Utilize fontes obrigatórias._
