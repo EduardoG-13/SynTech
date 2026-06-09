@@ -4898,31 +4898,39 @@ _Posicione aqui o relatório dos testes SUS realizados._
 
 ## 6.1 Resumo Executivo
 
-O Brasil é o maior exportador mundial de carne bovina, com um rebanho de 238,2 milhões
-de cabeças e receita de exportação de US$ 18,03 bilhões em 2025. Apesar dessa escala,
-a gestão operacional de grande parte das fazendas ainda depende de registros manuais em
-papel, um gargalo que compromete a qualidade das informações e a velocidade das decisões.
+O Brasil é o maior exportador mundial de carne bovina, com receita de exportação de
+US$ 18,03 bilhões em 2025 [38] e crescente pressão por rastreabilidade de
+origem nos principais mercados internacionais. Apesar dessa escala, a gestão operacional
+de grande parte das fazendas ainda depende de registros manuais em papel um gargalo
+que compromete a qualidade das informações e a velocidade das decisões.
 
 É nesse contexto que se insere a solução desenvolvida para a BrPec Agropecuária S.A.,
-empresa com 14 retiros operacionais no Pantanal sul-mato-grossense. O fluxo de informações
-entre o campo e o escritório ocorre hoje por meio de boletas físicas preenchidas pelos
-capatazes, que depois são redigitadas manualmente em planilhas na sede. Esse processo
-gera inconsistências nos registros, atrasos de horas ou dias no repasse de informações
-críticas, como mortes de animais, e retrabalho constante para a equipe de coordenação.
+empresa com 14 retiros operacionais no Pantanal sul-mato-grossense. A região concentra
+64,5% do bioma pantaneiro no Mato Grosso do Sul [44], onde propriedades são
+extensas e retiros estão geograficamente dispersos, sem acesso a telecomunicações
+convencionais. O fluxo de informações entre o campo e o escritório ocorre por meio de
+boletas físicas preenchidas pelos capatazes, redigitadas manualmente em planilhas na
+sede. Esse processo gera inconsistências nos registros, atrasos de horas ou dias no
+repasse de informações críticas — como mortes de animais — e retrabalho constante para
+a equipe de coordenação.
 
-A aplicação web desenvolvida digitaliza o registro das movimentações do rebanho,
-nascimentos, mortes, compras, vendas e transferências entre retiros, com funcionamento
-offline obrigatório, resolvendo diretamente a limitação de conectividade dos retiros,
-onde o acesso à internet ocorre apenas em janelas via Starlink. Os dados são coletados
-no campo por dispositivos móveis fornecidos pela própria BrPec e sincronizados
-automaticamente quando a conexão está disponível.
+A aplicação web progressiva (PWA) desenvolvida digitaliza o registro das movimentações
+do rebanho — nascimentos, mortes, compras, vendas e transferências entre retiros —,
+com funcionamento offline nativo. Para isso, adota SQLite como banco de dados local
+no dispositivo, desvinculando o registro de dados da disponibilidade de rede. Os dados
+são sincronizados automaticamente com o servidor durante as janelas de conectividade
+via Starlink, eliminando a dependência de conexão contínua como pré-requisito
+operacional.
+
+Os principais diferenciais competitivos da solução são: interface adaptada ao perfil
+de baixa escolaridade digital dos capatazes, operação offline nativa via SQLite,
+eliminação da etapa de redigitação e rastreabilidade completa das movimentações em
+tempo real.
 
 O objetivo estratégico do projeto é reduzir erros operacionais, aumentar a velocidade
 de atualização das informações e dar aos gestores uma visão confiável e atualizada das
-operações de campo, tornando a BrPec mais competitiva em um setor que avança
-rapidamente em direção à digitalização.
-
-
+operações de campo — tornando a BrPec mais competitiva em um setor que avança
+rapidamente em direção à digitalização e à rastreabilidade compulsória [42].
 
 
 ## 6.2 Análise de Mercado
@@ -5155,6 +5163,10 @@ Disponível em: https://eur-lex.europa.eu. Acesso em: jun. 2026.
 [43] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. Plano Nacional de Identificação de
 Bovinos e Búfalos (PNIB). Brasília: MAPA, 2024. Disponível em:
 https://www.gov.br/agricultura. Acesso em: jun. 2026.
+
+[44] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. MAPA fortalece agropecuária pantaneira.
+Brasília: MAPA, 2023. Disponível em: https://www.gov.br/agricultura/pt-br/assuntos/noticias/mapa-fortalece-agropecuaria-pantaneira.
+Acesso em: jun. 2026.
 
 # <a name="c9"></a>Anexos
 
