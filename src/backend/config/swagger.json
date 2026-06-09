@@ -11,12 +11,272 @@
     }
   ],
   "paths": {
-    "/api/docs": {
+    "/api/tarefas": {
       "get": {
-        "summary": "Swagger UI",
+        "summary": "Lista tarefas do capataz no dia atual",
+        "tags": ["Tarefas"],
+        "parameters": [
+          {
+            "name": "capataz_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do capataz responsável pelas tarefas"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Swagger carregado com sucesso"
+            "description": "Lista de tarefas retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tarefas": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Tarefa"
+                      }
+                    },
+                    "modo": {
+                      "type": "string",
+                      "example": "online"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "capataz_id obrigatório"
+          },
+          "500": {
+            "description": "Erro ao buscar tarefas"
+          }
+        }
+      }
+    },
+    "/api/tarefas/{id}/concluir": {
+      "patch": {
+        "summary": "Conclui uma tarefa específica",
+        "tags": ["Tarefas"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID da tarefa a ser concluída"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["capataz_id"],
+                "properties": {
+                  "capataz_id": {
+                    "type": "string",
+                    "example": "capataz-001"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tarefa concluída com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensagem": {
+                      "type": "string",
+                      "example": "Tarefa concluída com sucesso"
+                    },
+                    "tarefa": {
+                      "$ref": "#/components/schemas/Tarefa"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Campos obrigatórios não preenchidos"
+          },
+          "404": {
+            "description": "Tarefa não encontrada ou não pertence ao capataz"
+          },
+          "500": {
+            "description": "Erro interno"
+          }
+        }
+      }
+    },
+    "/api/alertas": {
+      "post": {
+        "summary": "Cria um chamado de infraestrutura",
+        "tags": ["Alertas"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarAlertaRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Alerta criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "mensagem": {
+                      "type": "string",
+                      "example": "Alerta criado com sucesso"
+                    },
+                    "alerta": {
+                      "$ref": "#/components/schemas/Alerta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Campos obrigatórios não preenchidos"
+          },
+          "500": {
+            "description": "Erro ao criar alerta"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Tarefa": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "titulo": {
+            "type": "string",
+            "example": "Verificar cerca do retiro"
+          },
+          "descricao": {
+            "type": "string",
+            "example": "Conferir cerca próxima ao pasto 3"
+          },
+          "status": {
+            "type": "string",
+            "example": "PENDENTE"
+          },
+          "data_execucao": {
+            "type": "string",
+            "format": "date"
+          },
+          "retiro_id": {
+            "type": "string"
+          },
+          "capataz_id": {
+            "type": "string"
+          },
+          "gerente_id": {
+            "type": "string"
+          },
+          "sincronizada": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "Alerta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "tipo": {
+            "type": "string",
+            "example": "CERCA_QUEBRADA"
+          },
+          "descricao": {
+            "type": "string",
+            "example": "Cerca rompida próxima ao retiro norte"
+          },
+          "status": {
+            "type": "string",
+            "example": "ABERTO"
+          },
+          "capataz_id": {
+            "type": "string"
+          },
+          "retiro_id": {
+            "type": "string"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double",
+            "example": -20.123456
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double",
+            "example": -56.123456
+          },
+          "sincronizado": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "CriarAlertaRequest": {
+        "type": "object",
+        "required": ["tipo", "capataz_id", "retiro_id", "latitude", "longitude"],
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "example": "CERCA_QUEBRADA"
+          },
+          "descricao": {
+            "type": "string",
+            "example": "Cerca quebrada próximo ao pasto 2"
+          },
+          "capataz_id": {
+            "type": "string",
+            "example": "capataz-001"
+          },
+          "retiro_id": {
+            "type": "string",
+            "example": "retiro-001"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double",
+            "example": -20.123456
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double",
+            "example": -56.123456
           }
         }
       }
