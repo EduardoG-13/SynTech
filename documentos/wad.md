@@ -1586,9 +1586,167 @@ e dos Casos de Uso (UC) definidos nas seções anteriores, garantindo rastreabil
 entre as decisões de modelagem e os demais artefatos de engenharia de requisitos do
 projeto.
 
+```mermaid
+%%{init: {'flowchart': {'curve': 'linear'}, 'class': {'curve': 'linear'}}}%%
+classDiagram
+  direction TB
+
+  class Usuario {
+    +String id
+    +String nome
+    +String senha
+    +String perfil
+    +String retiro_id
+    +String criado_em
+    +autenticar()
+  }
+
+  class Retiro {
+    +String id
+    +String nome
+    +String localizacao
+    +String coordenador_id
+    +String criado_em
+    +obterDadosConsolidados()
+  }
+
+  class MovimentacaoBase {
+    <<abstract>>
+    +String id
+    +String capataz_id
+    +String retiro_id
+    +String data
+    +String categoria
+    +Number quantidade
+    +Boolean/Number sincronizado
+    +Boolean/Number validado
+    +String coordenador_id
+    +String criado_em
+    +validarMovimentacao()
+  }
+
+  class Alerta {
+    +String id
+    +String tipo
+    +String descricao
+    +String status
+    +String capataz_id
+    +String retiro_id
+    +Float latitude
+    +Float longitude
+    +String criado_em
+    +Boolean/Number sincronizado
+    +String foto_id
+    +String tecnico_id
+    +registrarResolucao()
+  }
+
+  class Tarefa {
+    +String id
+    +String titulo
+    +String descricao
+    +String status
+    +String data_execucao
+    +String retiro_id
+    +String capataz_id
+    +String gerente_id
+    +String criada_em
+    +String concluida_em
+    +Boolean/Number sincronizada
+    +iniciar()
+    +concluir()
+  }
+
+  class Exportacao {
+    +String id
+    +String coordenador_id
+    +String formato
+    +String filtro_retiro
+    +String filtro_data_inicio
+    +String filtro_data_fim
+    +String gerada_em
+    +gerarRelatorio()
+  }
+
+  class Nascimento {
+    +String id
+    +String movimentacao_id
+    +registrarNascimento()
+  }
+
+  class Obito {
+    +String id
+    +String movimentacao_id
+    +String identificacao_animal
+    +String causa_morte
+    +String foto_id
+    +registrarObito()
+  }
+
+  class Transferencia {
+    +String id
+    +String movimentacao_id
+    +String retiro_origem_id
+    +String retiro_destino_id
+    +registrarTransferencia()
+  }
+
+  class Compravenda {
+    +String id
+    +String movimentacao_id
+    +String tipo_negocio
+    +Float valor_financeiro
+    +registrarCompravenda()
+  }
+
+  class Evidencia {
+    +String id
+    +String tarefa_id
+    +String alerta_id
+    +String movimentacao_id
+    +String tipo
+    +String arquivo_base64
+    +String url_arquivo
+    +String geolocalizacao
+    +Number duracao_segundos
+    +String conteudo
+    +Number tamanho_bytes
+    +String criada_em
+    +Boolean/Number sincronizada
+    +uploadEvidencia()
+  }
+
+  class Sincronizacao {
+    +String id
+    +String entidade_tipo
+    +String entidade_id
+    +String status_envio
+    +Number tentativas
+    +String ultima_tentativa
+    +String criada_em
+    +executarSync()
+  }
+
+  %% Relacionamentos Principais (Simplificados para evitar cruzamentos e poluição visual)
+  Retiro "1" --> "*" Usuario : abriga
+  Usuario "1" --> "*" MovimentacaoBase : insere
+  Usuario "1" --> "*" Alerta : gerencia
+  Usuario "1" --> "*" Tarefa : executa
+  Usuario "1" --> "*" Exportacao : solicita
+
+  Tarefa "1" --> "0..1" Evidencia : possui
+  Alerta "1" --> "0..1" Evidencia : contem
+  MovimentacaoBase "1" --> "0..*" Evidencia : anexa
+
+  %% Herança (Superclasse <|-- Subclasse)
+  MovimentacaoBase <|-- Nascimento : herança
+  MovimentacaoBase <|-- Obito : herança
+  MovimentacaoBase <|-- Transferencia : herança
+  MovimentacaoBase <|-- Compravenda : herança
+```
+
 <center>
-  <p><strong>Figura 10</strong> — Diagrama de Classes do Domínio do Sistema BrPec</p>
-  <img src="./assets/diagramaClasses.jpeg" width="800"/>
+  <p><strong>Figura 10</strong> — Diagrama de Classes do Domínio do Sistema BrPec (Mermaid UML)</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
