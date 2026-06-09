@@ -116,6 +116,18 @@ export const removerFila = (id) => executarNaFila('readwrite', (store) => store.
 
 export const limparFila = () => executarNaFila('readwrite', (store) => store.clear());
 
+// Remove vários registros em uma única transação (retorna o resultado de um getAll
+// apenas para obter um IDBRequest compatível com a API interna)
+export const removerVarios = (ids = []) =>
+  executarNaFila('readwrite', (store) => {
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return store.getAll();
+    }
+
+    ids.forEach((id) => store.delete(id));
+    return store.getAll();
+  });
+
 window.brpecIndexedDb = {
   abrirDb,
   salvarFila,
@@ -124,6 +136,7 @@ window.brpecIndexedDb = {
   buscarFilaPorId,
   atualizarFila,
   removerFila,
+  removerVarios,
   limparFila,
 };
 
