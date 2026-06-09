@@ -167,6 +167,63 @@
           }
         }
       }
+    },
+    "/api/eventos/nascimento": {
+      "post": {
+        "summary": "Registra um nascimento zootécnico",
+        "tags": ["Eventos Zootécnicos"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarNascimentoRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Registro de nascimento criado com sucesso"
+          },
+          "400": {
+            "description": "Campos obrigatórios não preenchidos"
+          },
+          "500": {
+            "description": "Erro ao criar registro"
+          }
+        }
+      }
+    },
+    "/api/eventos/obito": {
+      "post": {
+        "summary": "Registra um óbito animal com foto em Base64",
+        "tags": ["Eventos Zootécnicos"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarObitoRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Registro de óbito criado com sucesso"
+          },
+          "400": {
+            "description": "Campos obrigatórios não preenchidos"
+          },
+          "422": {
+            "description": "Validação de regra de negócio"
+          },
+          "500": {
+            "description": "Erro ao registrar óbito"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -277,6 +334,88 @@
             "type": "number",
             "format": "double",
             "example": -56.123456
+          }
+        }
+      },
+      "CriarNascimentoRequest": {
+        "type": "object",
+        "required": ["data", "retiro_id", "categoria", "quantidade", "capataz_id"],
+        "properties": {
+          "data": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-06-09"
+          },
+          "retiro_id": {
+            "type": "string",
+            "example": "retiro-001"
+          },
+          "categoria": {
+            "type": "string",
+            "example": "BEZERRO"
+          },
+          "quantidade": {
+            "type": "integer",
+            "example": 3
+          },
+          "capataz_id": {
+            "type": "string",
+            "example": "capataz-001"
+          }
+        }
+      },
+      "CriarObitoRequest": {
+        "type": "object",
+        "required": [
+          "capataz_id",
+          "retiro_id",
+          "data",
+          "categoria",
+          "quantidade",
+          "identificacao_animal",
+          "causa_morte",
+          "foto_base64"
+        ],
+        "properties": {
+          "capataz_id": {
+            "type": "string",
+            "example": "capataz-001"
+          },
+          "retiro_id": {
+            "type": "string",
+            "example": "retiro-001"
+          },
+          "data": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-06-09"
+          },
+          "categoria": {
+            "type": "string",
+            "example": "VACA"
+          },
+          "quantidade": {
+            "type": "integer",
+            "example": 1
+          },
+          "identificacao_animal": {
+            "type": "string",
+            "description": "Identificador do chip ou brinco do animal",
+            "example": "BRPEC-CHIP-000123"
+          },
+          "causa_morte": {
+            "type": "string",
+            "example": "Suspeita de picada de cobra"
+          },
+          "foto_base64": {
+            "type": "string",
+            "format": "byte",
+            "description": "Imagem da evidência do óbito codificada em Base64",
+            "example": "data:image/jpeg;base64,/9j/4AAQSk..."
+          },
+          "geolocalizacao": {
+            "type": "string",
+            "example": "-20.123456,-56.123456"
           }
         }
       }

@@ -53,7 +53,8 @@ async function enviarLote(itensPendentes) {
     body: JSON.stringify({ itens: itensParaEnviar }),
   });
 
-  if (!response.ok) {
+  // Exigir confirmação explícita (200 ou 201) antes de considerar os itens enviados
+  if (response.status !== 200 && response.status !== 201) {
     const errorText = await response.text();
     throw new Error(`Falha no envio do lote: ${response.status} ${errorText}`);
   }
@@ -64,12 +65,16 @@ async function enviarLote(itensPendentes) {
     throw new Error('Resposta inválida do servidor de sincronização em lote');
   }
 
+  // Coletar IDs sincronizados e atualizar os demais em lote
+  const idsParaRemover = [];
+  const updates = [];
+
   for (let index = 0; index < resultado.resultados.length; index += 1) {
     const resultadoItem = resultado.resultados[index];
     const registro = itensPendentes[index];
 
     if (resultadoItem.status === 'SINCRONIZADO') {
-      await window.brpecIndexedDb.removerFila(registro.id);
+      idsParaRemover.push(registro.id);
     } else {
       registro.status = 'FALHA';
       registro.dados = {
@@ -78,7 +83,27 @@ async function enviarLote(itensPendentes) {
         ultimaTentativa: new Date().toISOString(),
         erroServidor: resultadoItem.erro || resultadoItem.status,
       };
+      updates.push(registro);
+    }
+  }
+
+  // Remover em transação única os IDs confirmados pelo servidor
+  if (idsParaRemover.length > 0) {
+    try {
+      await window.brpecIndexedDb.removerVarios(idsParaRemover);
+    } catch (e) {
+      console.error('[Sincronizador] Falha ao remover registros sincronizados localmente:', e);
+      // Caso a remoção falhe, não interrompemos o fluxo — os itens podem ser removidos
+      // na próxima sincronização quando a transação funcionar corretamente.
+    }
+  }
+
+  // Atualizar registros com falha individualmente
+  for (const registro of updates) {
+    try {
       await window.brpecIndexedDb.atualizarFila(registro);
+    } catch (e) {
+      console.error('[Sincronizador] Falha ao atualizar registro com erro de sincronização:', e);
     }
   }
 
@@ -175,3 +200,36 @@ export async function processarFilaSincronizacao() {
 window.sincronizador = {
   processarFilaSincronizacao,
 };
+
+// Ao detectar que o navegador voltou a ficar online, tentar processar a fila
+// e notificar a UI para atualizar o status. Parte 2 (remoção em transação)
+// será implementada posteriormente.
+window.addEventListener('online', async () => {
+  console.log('[Sincronizador] Evento online detectado. Iniciando sincronização automática.');
+
+  try {
+    const resultado = await processarFilaSincronizacao();
+
+    if (resultado && resultado.sucesso) {
+      try {
+        // Dispara evento de aplicativo para que qualquer listener na UI atualize o status
+        window.dispatchEvent(new CustomEvent('brpec:sincronizacaoConcluida', { detail: resultado }));
+      } catch (e) {
+        // ignore
+      }
+
+      try {
+        // sinal simples para UI legada que não escuta o evento
+        localStorage.setItem('brpec_last_sync_status', 'Sincronizado');
+      } catch (e) {
+        // ignore
+      }
+
+      console.log('[Sincronizador] Sincronização automática concluída.');
+    } else {
+      console.warn('[Sincronizador] Sincronização automática não processou itens ou falhou.', resultado);
+    }
+  } catch (erro) {
+    console.error('[Sincronizador] Erro ao executar sincronização automática:', erro);
+  }
+});
