@@ -5031,7 +5031,7 @@ que compromete a qualidade das informações e a velocidade das decisões.
 
 É nesse contexto que se insere a solução desenvolvida para a BrPec Agropecuária S.A.,
 empresa com 14 retiros operacionais no Pantanal sul-mato-grossense. A região concentra
-64,5% do bioma pantaneiro no Mato Grosso do Sul [44], onde propriedades são
+64,5% do bioma pantaneiro no Mato Grosso do Sul [43], onde propriedades são
 extensas e retiros estão geograficamente dispersos, sem acesso a telecomunicações
 convencionais. O fluxo de informações entre o campo e o escritório ocorre por meio de
 boletas físicas preenchidas pelos capatazes, redigitadas manualmente em planilhas na
@@ -5055,7 +5055,7 @@ tempo real.
 O objetivo estratégico do projeto é reduzir erros operacionais, aumentar a velocidade
 de atualização das informações e dar aos gestores uma visão confiável e atualizada das
 operações de campo — tornando a BrPec mais competitiva em um setor que avança
-rapidamente em direção à digitalização e à rastreabilidade compulsória [42].
+rapidamente em direção à digitalização e à rastreabilidade compulsória [41].
 
 
 ## 6.2 Análise de Mercado
@@ -5090,12 +5090,12 @@ O rebanho bovino brasileiro encerrou 2024 com 238,2 milhões de cabeças, segund
 Pesquisa da Pecuária Municipal do IBGE — o segundo maior da série histórica iniciada
 em 1974 (IBGE, 2025). O volume de abate acompanhou essa escala: foram 39,27 milhões
 de cabeças abatidas em 2024, alta de 15,2% em relação ao ano anterior, com produção
-de 10,2 milhões de toneladas de carne em equivalente carcaça [39] [43].
+de 10,2 milhões de toneladas de carne em equivalente carcaça [39] [42].
 Em 2025, o crescimento continuou: somente no primeiro trimestre foram abatidas
 9,87 milhões de cabeças, recorde histórico para o período, com alta de 5,5% sobre
 igual trimestre de 2024 [40].
 
-A tabela abaixo resume a evolução do abate nos últimos anos:
+A tabela abaixo resume a evolução do abate nos últimos anos [39]:
 
 | Ano  | Cabeças abatidas (milhões) | Variação anual |
 |------|---------------------------|----------------|
@@ -5104,14 +5104,12 @@ A tabela abaixo resume a evolução do abate nos últimos anos:
 | 2024 | 39,27                     | +15,2%         |
 | 2025 (projeção) | ~42,5            | +8,2%          |
 
-[39].
-
 No plano das exportações, o Brasil embarcou 2,87 milhões de toneladas em 2024
 (+25,5% vs. 2023), gerando US$ 12,83 bilhões em receita (MAPA, 2024). Em 2025,
 esses números foram superados: 3,50 milhões de toneladas exportadas (+20,9%),
 com receita de US$ 18,03 bilhões (+40,1%), consolidando o país como maior
 exportador mundial de carne bovina (ABIEC, 2026). Para 2026, a ABIEC projeta
-crescimento adicional de 12% nas exportações totais [41].
+crescimento adicional de 12% nas exportações totais [38].
 
 | Ano  | Volume exportado (milhões de ton.) | Receita (US$ bilhões) | Variação receita |
 |------|------------------------------------|-----------------------|-----------------|
@@ -5120,14 +5118,13 @@ crescimento adicional de 12% nas exportações totais [41].
 | 2025 | 3,50                               | 18,03                 | +40,1%          |
 | 2026 | ~3,92 (proj.)                      | ~20,5 (proj.)         | ~+12%           |
 
-[41] [43]
 
 Além do crescimento em volume, o setor enfrenta uma pressão crescente por
 rastreabilidade. O Regulamento Europeu Antidesmatamento (EUDR) exige que produtos
 bovinos exportados à União Europeia comprovem origem livre de desmatamento,
 prazo previsto para o segundo semestre de 2026 (EUDR, 2023). No plano doméstico,
 o Plano Nacional de Identificação de Bovinos (PNIB) estabelece como meta a
-rastreabilidade individual de todo o rebanho nacional até 2032 [43].
+rastreabilidade individual de todo o rebanho nacional até 2032 [42].
 
 Esse cenário abre mercado direto para soluções de gestão digital de campo: fazendas
 que registram movimentações de rebanho de forma estruturada e rastreável passam a
@@ -5142,10 +5139,53 @@ _Identifique e analise tendências relevantes (tecnológicas, comportamentais e 
 ## 6.3 Análise da Concorrência
 
 _a) Principais Concorrentes (até 250 palavras)_
-_Liste os concorrentes diretos e indiretos, destacando suas principais características e posicionamento no mercado._
+
+O mercado de software para gestão pecuária no Brasil conta com soluções voltadas
+principalmente para fazendas com infraestrutura tecnológica já estabelecida.
+
+**iRancho** é um sistema ERP focado em pecuária de corte com aplicativo de campo
+offline, integração com balanças e brincos eletrônicos e, desde 2026, um ecossistema
+de IA por voz para registro sem digitação. Os planos são cobrados por faixa de rebanho, o que eleva o custo para operações de grande escala [44].
+
+**JetBov** é um aplicativo de gestão de pasto com coleta offline de dados zootécnicos
+e sincronização automática ao reconectar. Focado em indicadores de ganho de peso,
+reprodução e controle de piquetes, seu perfil de usuário pressupõe familiaridade com
+ambientes digitais [45].
+
+**Aegro** é uma plataforma de gestão rural ampla, com suporte a múltiplas culturas e
+pecuária, funcionalidade offline e integração contábil. Posicionado para produtores com
+gestão financeira complexa, apresenta curva de aprendizado mais longa [46].
+
+Nenhuma das soluções comerciais identificadas foi projetada para o modelo operacional
+de retiros geograficamente dispersos, com usuários de baixa escolaridade digital e
+conectividade dependente de janelas fixas de Starlink. 
 
 _b) Vantagens Competitivas da Aplicação Web (até 250 palavras)_
-_Descreva os diferenciais da sua aplicação em relação aos concorrentes, sem necessidade de citação de fontes._
+
+A solução desenvolvida para a BrPec se diferencia dos concorrentes por um conjunto de
+características construídas especificamente para o contexto operacional da empresa.
+
+O primeiro diferencial é a **interface adaptada ao perfil dos usuários**. Enquanto os
+sistemas concorrentes pressupõem familiaridade com ambientes digitais, a aplicação foi
+projetada para capatazes com baixa escolaridade digital, com fluxos simples, poucos
+passos por tarefa e linguagem visual direta.
+
+O segundo diferencial é o **offline nativo via SQLite**. Os dados são gravados
+localmente no dispositivo durante o trabalho de campo e sincronizados automaticamente
+com o servidor — via fila de sincronização (sync_queue) — nas janelas de conectividade
+disponíveis. Não há dependência de conexão contínua em nenhuma etapa do registro.
+
+O terceiro diferencial é a **aderência ao modelo de retiros**. A arquitetura da solução
+foi construída sobre o fluxo real da BrPec: registro de nascimentos, mortes, compras,
+vendas e transferências entre retiros, com rastreabilidade por unidade operacional.
+Nenhum concorrente oferece essa estrutura de forma nativa.
+
+O quarto diferencial é a **instalação via PWA**, sem necessidade de loja de aplicativos.
+A solução é instalada diretamente pelo navegador nos dispositivos fornecidos pela BrPec,
+eliminando barreiras de configuração e atualizações manuais.
+
+Por fim, a solução não cobra licença por animal — modelo de precificação dos
+concorrentes que penaliza operações de grande rebanho como a da BrPec.
 
 ## 6.4 Público-Alvo
 
@@ -5278,20 +5318,23 @@ Acesso em: jun. 2026.
 Abate, Leite e Ovos — 1º trimestre de 2025. Brasília: CNA, 2025. Disponível em:
 https://www.cnabrasil.org.br. Acesso em: jun. 2026.
 
-[41] ABIEC. Brasil bate recorde nas exportações de carne bovina em 2025. São Paulo:
-ABIEC, 2026. Disponível em: https://abiec.com.br. Acesso em: jun. 2026.
-
-[42] UNIÃO EUROPEIA. Regulamento (UE) 2023/1115 — Regulamento Europeu
+[41] UNIÃO EUROPEIA. Regulamento (UE) 2023/1115 — Regulamento Europeu
 Antidesmatamento (EUDR). Bruxelas: Parlamento Europeu e Conselho da UE, 2023.
 Disponível em: https://eur-lex.europa.eu. Acesso em: jun. 2026.
 
-[43] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. Plano Nacional de Identificação de
+[42] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. Plano Nacional de Identificação de
 Bovinos e Búfalos (PNIB). Brasília: MAPA, 2024. Disponível em:
 https://www.gov.br/agricultura. Acesso em: jun. 2026.
 
-[44] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. MAPA fortalece agropecuária pantaneira.
+[43] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. MAPA fortalece agropecuária pantaneira.
 Brasília: MAPA, 2023. Disponível em: https://www.gov.br/agricultura/pt-br/assuntos/noticias/mapa-fortalece-agropecuaria-pantaneira.
 Acesso em: jun. 2026.
+
+[44] iRancho: https://www.irancho.com.br/perguntas-frequentes/ 
+
+[45] JetBov: https://play.google.com/store/apps/details?id=com.ionicframework.jetbovapp459755
+
+[46] Embrapa Gado de Corte: https://www.embrapa.br/en/gado-de-corte/tecnologias/gestao-da-pecuaria 
 
 # <a name="c9"></a>Anexos
 
