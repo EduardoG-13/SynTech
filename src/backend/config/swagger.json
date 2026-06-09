@@ -1,0 +1,25 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "BRPec API",
+    "version": "1.0.0",
+    "description": "Documentação da API do sistema BRPec"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/api/docs": {
+      "get": {
+        "summary": "Swagger UI",
+        "responses": {
+          "200": {
+            "description": "Swagger carregado com sucesso"
+          }
+        }
+      }
+    }
+  }
+}
