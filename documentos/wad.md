@@ -1897,260 +1897,108 @@ Cada camada possui responsabilidade única e bem delimitada [15][16]:
 O diagrama a seguir utiliza a notação UML 2.5.1 [14], com dependências de uso (`..>`) entre Controller → Service e Service → Repository, e associações de composição entre Repository e os Models correspondentes. As classes de mesmo domínio funcional são agrupadas por módulo: **Autenticação**, **Tarefas**, **Eventos Zootécnicos**, **Alertas de Infraestrutura**, **Sincronização** e **Exportação**. 
 
 ```mermaid
-classDiagram
-    direction TB
+---
+config:
+  theme: neutral
+  flowchart:
+    nodeSpacing: 35
+    rankSpacing: 60
+---
+flowchart TD
+    %% CAMADA DE ROTAS
+    subgraph Routes["Camada de Rotas — HTTP Endpoints"]
+        direction LR
+        classDef route fill:#ecfeff,stroke:#22d3ee,color:#036672,font-family:sans-serif;
+        HealthRoutes["HealthRoutes<br/>GET /health"]:::route
+        TarefaRoutes["TarefaRoutes<br/>POST /tarefas<br/>GET /tarefas/hoje<br/>PATCH /tarefas/:id/concluir<br/>POST /tarefas/:id/evidencias"]:::route
+        AlertaRoutes["AlertaRoutes<br/>POST /chamados"]:::route
+        EventoRoutes["EventoRoutes<br/>GET /eventos-zootecnicos<br/>POST /eventos-zootecnicos/nascimentos<br/>POST /eventos-zootecnicos/obitos"]:::route
+        SincronizacaoRoutes["SincronizacaoRoutes<br/>POST /sincronizacao/lote"]:::route
+        ExportacaoRoutes["ExportacaoRoutes<br/>GET /exportacao/csv"]:::route
+        PainelRoutes["PainelRoutes<br/>GET /painel-gerencial"]:::route
+    end
 
-    %% ─────────────────────────────────────────
-    %% CAMADA: MODEL
-    %% ─────────────────────────────────────────
-    namespace Model {
-        class Usuario {
-            +UUID id
-            +String nome
-            +String senha
-            +Enum perfil
-            +UUID retiro_id
-            +DateTime criado_em
-        }
-        class Tarefa {
-            +UUID id
-            +String titulo
-            +String descricao
-            +Enum status
-            +Date data_execucao
-            +UUID retiro_id
-            +UUID capataz_id
-            +UUID gerente_id
-            +DateTime criada_em
-            +DateTime concluida_em
-            +Boolean sincronizada
-        }
-        class Evidencia {
-            +UUID id
-            +UUID tarefa_id
-            +UUID alerta_id
-            +UUID movimentacao_id
-            +Enum tipo
-            +String arquivo_base64
-            +String url_arquivo
-            +String geolocalizacao
-            +Integer duracao_segundos
-            +String conteudo
-            +Integer tamanho_bytes
-            +DateTime criada_em
-            +Boolean sincronizada
-        }
-        class Alerta {
-            +UUID id
-            +Enum tipo
-            +String descricao
-            +Enum status
-            +UUID capataz_id
-            +UUID retiro_id
-            +Decimal latitude
-            +Decimal longitude
-            +DateTime criado_em
-            +Boolean sincronizado
-            +UUID foto_id
-            +UUID tecnico_id
-        }
-        class MovimentacaoBase {
-            +UUID id
-            +UUID capataz_id
-            +UUID retiro_id
-            +Date data
-            +Enum categoria
-            +Integer quantidade
-            +Boolean sincronizado
-            +Boolean validado
-            +UUID coordenador_id
-            +DateTime criado_em
-        }
-        class Nascimento {
-        }
-        class Obito {
-            +String identificacao_animal
-            +String causa_morte
-            +UUID foto_id
-        }
-        class Transferencia {
-            +UUID retiro_origem_id
-            +UUID retiro_destino_id
-        }
-        class Compravenda {
-            +Enum tipo_negocio
-            +Decimal valor_financeiro
-        }
-        class Sincronizacao {
-            +UUID id
-            +String entidade_tipo
-            +UUID entidade_id
-            +Enum status_envio
-            +Integer tentativas
-            +DateTime ultima_tentativa
-            +DateTime criada_em
-        }
-        class Retiro {
-            +UUID id
-            +String nome
-            +String localizacao
-            +UUID coordenador_id
-            +DateTime criado_em
-        }
-        class Exportacao {
-            +UUID id
-            +UUID coordenador_id
-            +Enum formato
-            +UUID filtro_retiro
-            +Date filtro_data_inicio
-            +Date filtro_data_fim
-            +DateTime gerada_em
-        }
-    }
+    %% CAMADA DE CONTROLLERS
+    subgraph Controllers["Camada de Controllers — Apresentação"]
+        direction LR
+        classDef controller fill:#f5f3ff,stroke:#a78bfa,color:#5b21b6,font-family:sans-serif;
+        HealthController["HealthController<br/>+getHealth()"]:::controller
+        TarefaController["TarefaController<br/>+criarTarefa()<br/>+buscarTarefasHoje()<br/>+concluirTarefa()<br/>+anexarEvidencias()"]:::controller
+        AlertaController["AlertaController<br/>+criarAlerta()"]:::controller
+        EventoController["EventoController<br/>+registrarNascimento()<br/>+registrarObito()<br/>+listarEventos()"]:::controller
+        SincronizacaoController["SincronizacaoController<br/>+processarLote()"]:::controller
+        ExportacaoController["ExportacaoController<br/>+exportarCsv()"]:::controller
+        PainelController["PainelController<br/>+obterPainel()"]:::controller
+    end
 
-    MovimentacaoBase <|-- Nascimento
-    MovimentacaoBase <|-- Obito
-    MovimentacaoBase <|-- Transferencia
-    MovimentacaoBase <|-- Compravenda
+    %% CAMADA DE SERVICES
+    subgraph Services["Camada de Services — Regras de Negócio"]
+        direction LR
+        classDef service fill:#f0fdf4,stroke:#4ade80,color:#166534,font-family:sans-serif;
+        HealthService["HealthService<br/>+verificarSaude()"]:::service
+        TarefaService["TarefaService<br/>+criarTarefa()<br/>+buscarTarefasHoje()<br/>+concluirTarefa()<br/>+anexarEvidencia()"]:::service
+        AlertaService["AlertaService<br/>+criarAlerta()"]:::service
+        EventoService["EventoService<br/>+registrarNascimento()<br/>+registrarObito()<br/>+listarEventos()"]:::service
+        SincronizacaoService["SincronizacaoService<br/>+processarLote()"]:::service
+        ExportacaoService["ExportacaoService<br/>+exportarCsv()"]:::service
+        PainelService["PainelService<br/>+obterPainel()"]:::service
+    end
 
-    %% ─────────────────────────────────────────
-    %% CAMADA: REPOSITORY
-    %% ─────────────────────────────────────────
-    namespace Repository {
-        class UsuarioRepository {
-            +buscarPorId(id) Usuario
-        }
-        class TarefaRepository {
-            +criar(dados) Tarefa
-            +buscarPorId(id) Tarefa
-            +buscarTarefasHoje(capataz_id, data) Tarefa[]
-            +concluir(id, capataz_id, data_conclusao) Tarefa
-            +salvarEvidencia(tarefa_id, tipo, arquivo_base64, geolocalizacao) UUID
-        }
-        class AlertaRepository {
-            +criar(alerta) Alerta
-            +buscarPorId(id) Alerta
-        }
-        class EventoRepository {
-            +criarNascimento(evento) MovimentacaoBase
-            +criarObito(evento) Object
-            +listarTodos(filtros) Object
-            +buscarMovimentacaoPorId(id) MovimentacaoBase
-        }
-        class ExportacaoRepository {
-            +consultarMovimentacoesConsolidadas(filtros) Array
-            +registrarExportacao(coordenador_id, formato, filtro_retiro, filtro_data_inicio, filtro_data_fim) UUID
-        }
-        class HealthRepository {
-            +verificarConexao() Object
-        }
-        class PainelRepository {
-            +obterMetricasTarefas(gerente_id) Array
-            +obterTarefasPorRetiro(gerente_id) Array
-            +obterAlertasAbertos() Alerta[]
-            +obterConcluidasHoje(gerente_id) Object
-        }
-        class SincronizacaoRepository {
-            +registrar(entidade_tipo, entidade_id, status_envio) UUID
-            +inserirTarefa(tarefa) UUID
-            +inserirAlerta(alerta) UUID
-            +inserirMovimentacao(mov) UUID
-            +inserirEvidencia(ev) UUID
-        }
-    }
+    %% CAMADA DE REPOSITÓRIOS (INTERFACES)
+    subgraph Repositories["Camada de Repositories — Contratos e Interfaces"]
+        direction LR
+        classDef repository fill:#fefce8,stroke:#facc15,color:#854d0e,font-family:sans-serif;
+        IHealthRepository["«interface» IHealthRepository<br/>+verificarConexao()"]:::repository
+        ITarefaRepository["«interface» ITarefaRepository<br/>+criar()<br/>+buscarPorId()<br/>+buscarTarefasHoje()<br/>+concluir()<br/>+salvarEvidencia()"]:::repository
+        ITarefaPgRepository["«interface» ITarefaPgRepository<br/>+salvarOuAtualizar()"]:::repository
+        IAlertaRepository["«interface» IAlertaRepository<br/>+criar()<br/>+buscarPorId()"]:::repository
+        IEventoRepository["«interface» IEventoRepository<br/>+criarNascimento()<br/>+criarObito()<br/>+listarTodos()<br/>+buscarMovimentacaoPorId()"]:::repository
+        ISincronizacaoRepository["«interface» ISincronizacaoRepository<br/>+registrar()<br/>+inserirTarefa()<br/>+inserirAlerta()<br/>+inserirMovimentacao()<br/>+inserirEvidencia()"]:::repository
+        IExportacaoRepository["«interface» IExportacaoRepository<br/>+consultarMovimentacoesConsolidadas()<br/>+registrarExportacao()"]:::repository
+        IPainelRepository["«interface» IPainelRepository<br/>+obterMetricasTarefas()<br/>+obterTarefasPorRetiro()<br/>+obterAlertasAbertos()<br/>+obterConcluidasHoje()"]:::repository
+        IUsuarioRepository["«interface» IUsuarioRepository<br/>+buscarPorId()"]:::repository
+    end
 
-    UsuarioRepository "1" --o "0..*" Usuario
-    TarefaRepository "1" --o "0..*" Tarefa
-    TarefaRepository "1" --o "0..*" Evidencia
-    AlertaRepository "1" --o "0..*" Alerta
-    EventoRepository "1" --o "0..*" MovimentacaoBase
-    SincronizacaoRepository "1" --o "0..*" Sincronizacao
-    ExportacaoRepository "1" --o "0..*" Exportacao
-    PainelRepository "1" --o "0..*" Tarefa
-    PainelRepository "1" --o "0..*" Alerta
+    %% CAMADA DE IMPLEMENTAÇÕES
+    subgraph RepositoryImpls["Camada de Infraestrutura — Repositories Concretos"]
+        direction LR
+        classDef impl fill:#fff7ed,stroke:#fb923c,color:#7c2d12,font-family:sans-serif;
+        HealthRepository["HealthRepository<br/>(SQLite)"]:::impl
+        TarefaRepository["TarefaRepository<br/>(SQLite)"]:::impl
+        TarefaPgRepository["TarefaPgRepository<br/>(Supabase/Pg)"]:::impl
+        AlertaRepository["AlertaRepository<br/>(SQLite)"]:::impl
+        EventoRepository["EventoRepository<br/>(SQLite)"]:::impl
+        SincronizacaoRepository["SincronizacaoRepository<br/>(SQLite)"]:::impl
+        ExportacaoRepository["ExportacaoRepository<br/>(SQLite)"]:::impl
+        PainelRepository["PainelRepository<br/>(SQLite)"]:::impl
+        UsuarioRepository["UsuarioRepository<br/>(SQLite)"]:::impl
+    end
 
-    %% ─────────────────────────────────────────
-    %% CAMADA: SERVICE
-    %% ─────────────────────────────────────────
-    namespace Service {
-        class AlertaService {
-            +criarAlerta(dados) Alerta
-        }
-        class EventoService {
-            +registrarNascimento(dados) MovimentacaoBase
-            +registrarObito(dados) Object
-            +listarEventos(filtros) Object
-        }
-        class ExportacaoService {
-            +exportarCsv(coordenador_id, filtros) Object
-        }
-        class HealthService {
-            +verificarSaude() Object
-        }
-        class PainelService {
-            +obterPainel(gerente_id) Object
-        }
-        class SincronizacaoService {
-            +processarLote(itens) Object
-        }
-        class TarefaService {
-            +criarTarefa(dados) Tarefa
-            +buscarTarefasHoje(capataz_id) Tarefa[]
-            +concluirTarefa(tarefa_id, capataz_id) Tarefa
-            +anexarEvidencia(tarefa_id, capataz_id, dados) Object
-        }
-    }
+    %% CAMADA DE BANCOS DE DADOS
+    subgraph Databases["Bancos de Dados — Persistência"]
+        direction LR
+        classDef db fill:#fff1f2,stroke:#fb7185,color:#7f1d1d,font-family:sans-serif;
+        SQLiteDB[("SQLite Local DB<br/>(offline-first)")]:::db
+        PostgresDB[("Supabase Cloud DB<br/>(PostgreSQL)")]:::db
+    end
 
-    AlertaService ..> AlertaRepository : usa
-    EventoService ..> EventoRepository : usa
-    ExportacaoService ..> ExportacaoRepository : usa
-    ExportacaoService ..> UsuarioRepository : valida perfil (Coordenador)
-    HealthService ..> HealthRepository : usa
-    PainelService ..> PainelRepository : usa
-    PainelService ..> UsuarioRepository : valida perfil (Gerente)
-    SincronizacaoService ..> SincronizacaoRepository : usa
-    TarefaService ..> TarefaRepository : usa
-    TarefaService ..> UsuarioRepository : valida vínculo (RN01)
+    %% Layout horizontal interno (força alinhamento lado a lado)
+    HealthRoutes ~~~ TarefaRoutes ~~~ AlertaRoutes ~~~ EventoRoutes ~~~ SincronizacaoRoutes ~~~ ExportacaoRoutes ~~~ PainelRoutes
+    HealthController ~~~ TarefaController ~~~ AlertaController ~~~ EventoController ~~~ SincronizacaoController ~~~ ExportacaoController ~~~ PainelController
+    HealthService ~~~ TarefaService ~~~ AlertaService ~~~ EventoService ~~~ SincronizacaoService ~~~ ExportacaoService ~~~ PainelService
+    IHealthRepository ~~~ ITarefaRepository ~~~ ITarefaPgRepository ~~~ IAlertaRepository ~~~ IEventoRepository ~~~ ISincronizacaoRepository ~~~ IExportacaoRepository ~~~ IUsuarioRepository ~~~ IPainelRepository
+    HealthRepository ~~~ TarefaRepository ~~~ TarefaPgRepository ~~~ AlertaRepository ~~~ EventoRepository ~~~ SincronizacaoRepository ~~~ ExportacaoRepository ~~~ PainelRepository ~~~ UsuarioRepository
+    SQLiteDB ~~~ PostgresDB
 
-    %% ─────────────────────────────────────────
-    %% CAMADA: CONTROLLER
-    %% ─────────────────────────────────────────
-    namespace Controller {
-        class AlertaController {
-            +POST /chamados()
-        }
-        class EventoController {
-            +GET /eventos-zootecnicos()
-            +POST /eventos-zootecnicos/nascimentos()
-            +POST /eventos-zootecnicos/obitos()
-        }
-        class ExportacaoController {
-            +GET /exportacao/csv()
-        }
-        class HealthController {
-            +GET /health()
-        }
-        class PainelController {
-            +GET /painel-gerencial()
-        }
-        class SincronizacaoController {
-            +POST /sincronizacao/lote()
-        }
-        class TarefaController {
-            +POST /tarefas()
-            +GET /tarefas/hoje()
-            +PATCH /tarefas/:id/concluir()
-            +POST /tarefas/:id/evidencias()
-        }
-    }
-
-    AlertaController ..> AlertaService : delega
-    EventoController ..> EventoService : delega
-    ExportacaoController ..> ExportacaoService : delega
-    HealthController ..> HealthService : delega
-    PainelController ..> PainelService : delega
-    SincronizacaoController ..> SincronizacaoService : delega
-    TarefaController ..> TarefaService : delega
+    %% Conexões principais
+    Routes --> Controllers
+    Controllers --> Services
+    Services --> Repositories
+    Repositories -. implementação .-> RepositoryImpls
+    RepositoryImpls --> Databases
+    
+    %% Sincronização offline-first
+    SQLiteDB -.->|sincronização| PostgresDB
 ```
 
 <center>
