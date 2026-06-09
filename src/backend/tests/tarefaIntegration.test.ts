@@ -3,11 +3,12 @@ import app from '../app';
 import { inicializarBanco } from '../config/initDb';
 import db from '../config/database';
 
-const RETIRO_ID   = 'retiro-intg-001';
-const GERENTE_ID  = 'gerente-intg-001';
-const CAPATAZ_ID  = 'capataz-intg-001';
-const TAREFA_ID   = 'tarefa-intg-001';
-const DATA_HOJE   = new Date().toISOString().split('T')[0];
+const RETIRO_ID         = 'retiro-intg-001';
+const GERENTE_ID        = 'gerente-intg-001';
+const CAPATAZ_ID        = 'capataz-intg-001';
+const TAREFA_ID         = 'tarefa-intg-001';
+const TAREFA_CONCLUIR_ID = 'tarefa-intg-002';
+const DATA_HOJE         = new Date().toISOString().split('T')[0];
 
 beforeAll(() => {
   inicializarBanco();
@@ -25,6 +26,11 @@ beforeAll(() => {
     `INSERT INTO tarefas (id, titulo, descricao, status, data_execucao, retiro_id, capataz_id, gerente_id, sincronizada)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
   ).run(TAREFA_ID, 'Verificar bebedouros', 'Checar nível de água', 'PENDENTE', DATA_HOJE, RETIRO_ID, CAPATAZ_ID, GERENTE_ID, 0);
+
+  db.prepare(
+    `INSERT INTO tarefas (id, titulo, descricao, status, data_execucao, retiro_id, capataz_id, gerente_id, sincronizada)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+  ).run(TAREFA_CONCLUIR_ID, 'Alimentar gado', null, 'PENDENTE', DATA_HOJE, RETIRO_ID, CAPATAZ_ID, GERENTE_ID, 0);
 });
 
 // ─────────────────────────────────────────────────────────
@@ -67,6 +73,44 @@ describe('GET /api/tarefas/hoje', () => {
     const res = await request(app).get('/api/tarefas/hoje');
 
     expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('erro');
+  });
+});
+
+// ─────────────────────────────────────────────────────────
+// PATCH /api/tarefas/:id/concluir
+// ─────────────────────────────────────────────────────────
+describe('PATCH /api/tarefas/:id/concluir', () => {
+  it('200 — altera status para CONCLUIDA no banco', async () => {
+    const res = await request(app)
+      .patch(`/api/tarefas/${TAREFA_CONCLUIR_ID}/concluir`)
+      .send({ capataz_id: CAPATAZ_ID });
+
+    expect(res.status).toBe(200);
+    expect(res.body.mensagem).toBe('Tarefa concluída com sucesso');
+
+    const noDb = db.prepare('SELECT status, concluida_em FROM tarefas WHERE id = ?')
+      .get(TAREFA_CONCLUIR_ID) as { status: string; concluida_em: string };
+
+    expect(noDb.status).toBe('CONCLUIDA');
+    expect(noDb.concluida_em).not.toBeNull();
+  });
+
+  it('400 — capataz_id ausente no body', async () => {
+    const res = await request(app)
+      .patch(`/api/tarefas/${TAREFA_CONCLUIR_ID}/concluir`)
+      .send({});
+
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('erro');
+  });
+
+  it('404 — tarefa inexistente', async () => {
+    const res = await request(app)
+      .patch('/api/tarefas/id-que-nao-existe/concluir')
+      .send({ capataz_id: CAPATAZ_ID });
+
+    expect(res.status).toBe(404);
     expect(res.body).toHaveProperty('erro');
   });
 });
