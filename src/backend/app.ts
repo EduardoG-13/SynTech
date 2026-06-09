@@ -12,7 +12,9 @@ import viewRoutes from './routes/viewRoutes';
 import authRoutes from './routes/authRoutes';
 
 const app = express();
-const projectRoot = process.cwd();
+// Raiz do projeto (g03/) calculada a partir deste arquivo (src/backend/app.ts),
+// funciona independente de onde o servidor é executado (raiz ou src/backend)
+const projectRoot = path.resolve(__dirname, '../../');
 
 // View engine
 app.set('view engine', 'ejs');
@@ -65,10 +67,36 @@ app.get('/configuracoes', (req, res) => {
   res.render('configuracoes', { perfil, retiro });
 });
 
+app.get('/infraestrutura', (req, res) => {
+  const perfil = req.query.perfil || 'Infraestrutura';
+  const retiro = req.query.retiro || 'Geral';
+  res.render('infraestrutura', { perfil, retiro });
+});
+
 app.get('/tarefas', (req, res) => {
   const perfil = req.query.perfil || 'Capataz';
   const retiro = req.query.retiro || 'Geral';
   res.render('tarefas', { perfil, retiro });
+});
+
+app.get('/tarefa/:id', (req, res) => {
+  const perfil = req.query.perfil || 'Capataz';
+  const retiro = req.query.retiro || 'Geral';
+  res.render('detalhe-tarefa', { perfil, retiro, tarefaId: req.params.id });
+});
+
+// Histórico de registros (Capataz: boletas | Infra: chamados)
+app.get('/historico', (req, res) => {
+  const perfil = req.query.perfil || 'Capataz';
+  const retiro = req.query.retiro || 'Geral';
+  res.render('historico', { perfil, retiro });
+});
+
+// Detalhe de uma boleta (somente leitura) — Capataz e Coordenador
+app.get('/boleta/:id', (req, res) => {
+  const perfil = req.query.perfil || 'Capataz';
+  const retiro = req.query.retiro || 'Geral';
+  res.render('detalhe-boleta', { perfil, retiro, boletaId: req.params.id });
 });
 
 app.get('/nova-os', (req, res) => {

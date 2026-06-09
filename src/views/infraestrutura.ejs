@@ -5,7 +5,7 @@
 
   <div id="app">
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar">👤</div>
+      <div class="user-avatar"><%= perfil === 'Gerente' ? '🧑‍💼' : (perfil === 'Coordenador' ? '📋' : (perfil === 'Infraestrutura' ? '🔧' : '🤠')) %></div>
       <h1>Infraestrutura</h1>
       <div class="sub"><%= retiro %> (<%= perfil %>)</div>
     </div>
@@ -49,21 +49,48 @@
 
       </div>
 
-      <div class="chamados-lista" id="chamados-lista">
-        <!-- Chamados serão carregados dinamicamente -->
+      <div class="chamados-lista tarefas-lista" id="chamados-lista" style="margin-top: 1rem;">
+
+        <div class="card tarefa-card" onclick="window.location.href='/chamado/1/resolver?perfil=<%= perfil %>&retiro=<%= retiro %>'">
+          <div class="bar-lateral andamento"></div>
+          <div class="body">
+            <div class="info">
+              <span class="titulo">🚰 Vazamento no bebedouro</span>
+              <span class="descricao">Hidráulica — Pasto 4</span>
+              <div class="meta"><span class="retiro-tag">📅 09/06/2026</span></div>
+            </div>
+            <div class="status-area">
+              <span class="badge andamento">Em andamento</span>
+              <span class="arrow">›</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card tarefa-card" onclick="window.location.href='/chamado/2/resolver?perfil=<%= perfil %>&retiro=<%= retiro %>'">
+          <div class="bar-lateral pendente"></div>
+          <div class="body">
+            <div class="info">
+              <span class="titulo">⚡ Cerca elétrica sem carga</span>
+              <span class="descricao">Elétrica — divisa norte</span>
+              <div class="meta"><span class="retiro-tag">📅 08/06/2026</span></div>
+            </div>
+            <div class="status-area">
+              <span class="badge pendente">Aberto</span>
+              <span class="arrow">›</span>
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <button class="btn btn-primario" id="btn-nova-os-infra" style="width: 100%; margin-top: 1rem;" onclick="window.location.href='/novo-chamado'">
-        + Abrir Chamado de Infraestrutura
-      </button>
+      <% if (perfil !== 'Infraestrutura') { %>
+        <!-- Só Capataz e Gerente ABREM chamados. A Infra apenas recebe e executa. -->
+        <button class="btn btn-primario" id="btn-nova-os-infra" style="width: 100%; margin-top: 1rem;" onclick="window.location.href='/novo-chamado?perfil=<%= perfil %>&retiro=<%= retiro %>'">
+          ➕ Abrir Chamado de Infraestrutura
+        </button>
+      <% } %>
 
     </main>
-
-    <div class="bottom-nav">
-      <button class="active"><span><img src="../../public/Icons/home.ico" alt="Home" /></span> Início</button>
-      <button><span>⚠️</span> Chamados</button>
-      <button onclick="window.location.href='/'"><span><img src="../../public/Icons/configuracao.ico" alt="Config" /></span> Config</button>
-    </div>
 
   </div>
 </div>

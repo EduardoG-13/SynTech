@@ -1,0 +1,211 @@
+<%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/tarefas.css" />
+
+<div id="device" class="logged">
+
+  <%- include('partials/sidebar') %>
+
+  <div id="app">
+
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar">🤠</div>
+      <h1>Detalhe da Tarefa</h1>
+      <div class="sub"><%= retiro %> (<%= perfil %>)</div>
+    </div>
+
+    <main class="detalhe-main">
+
+      <button class="btn-voltar" onclick="window.history.back()">⬅️ Voltar</button>
+
+      <!-- Identificação da tarefa -->
+      <div class="card detalhe-cabecalho">
+        <h2 id="tarefa-titulo">Consertar Cerca</h2>
+        <span class="badge andamento" id="tarefa-status">Em andamento</span>
+      </div>
+
+      <!-- Descrição -->
+      <div class="card detalhe-bloco">
+        <h3>📝 Descrição</h3>
+        <p id="tarefa-descricao">Reparar a cerca quebrada no setor norte do pasto. Verificar mourões e esticadores.</p>
+        <div class="detalhe-meta">
+          <span class="prioridade alta">● Prioridade Alta</span>
+          <span class="retiro-tag">📍 <%= retiro %></span>
+        </div>
+      </div>
+
+      <!-- Player de áudio: instruções gravadas pelo Gerente -->
+      <div class="card detalhe-bloco">
+        <h3><img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" /> Áudio do Gerente</h3>
+        <p class="ajuda-detalhe">Instruções gravadas pela gerência. Toque para ouvir.</p>
+        <audio controls class="audio-instrucao">
+          <source src="" type="audio/webm" />
+          Seu navegador não suporta áudio.
+        </audio>
+        <p class="sem-audio" id="sem-audio">🔇 Nenhum áudio anexado a esta tarefa.</p>
+      </div>
+
+      <!-- ============ EXECUÇÃO / CONCLUSÃO ============ -->
+      <form id="form-conclusao">
+
+        <!-- Anexar foto (câmera) -->
+        <div class="card detalhe-bloco">
+          <h3><img class="label-ico" src="/public/Icons/tira_foto.ico" alt="" /> Foto da execução</h3>
+          <div class="upload-foto-detalhe">
+            <label for="foto-execucao" class="upload-label-detalhe">
+              <img class="upload-icon-img" src="/public/Icons/tira_foto.ico" alt="" />
+              <span id="foto-txt">Tirar foto agora</span>
+            </label>
+            <!-- accept="image/*" + capture aciona a câmera nativa do celular -->
+            <input type="file" id="foto-execucao" accept="image/*" capture="environment" />
+          </div>
+          <img id="foto-preview" class="foto-preview" alt="Pré-visualização" style="display:none;" />
+        </div>
+
+        <!-- Anotações (texto OU áudio) -->
+        <div class="card detalhe-bloco">
+          <h3>📝 Anotações</h3>
+          <textarea id="anotacoes" rows="3" placeholder="Escreva ou grave um áudio (opcional)"></textarea>
+
+          <div class="audio-rec">
+            <button type="button" class="btn-audio" id="btn-gravar-audio">
+              <img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" />
+              <span id="audio-btn-txt">Gravar áudio</span>
+            </button>
+            <audio id="audio-preview" controls style="display:none; width:100%; margin-top:0.5rem;"></audio>
+            <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;">🗑️ Apagar áudio</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-enviar-detalhe" id="btn-concluir">
+          <img class="btn-ico" src="/public/Icons/concluido.ico" alt="" /> Concluir Tarefa
+        </button>
+
+        <p class="form-msg" id="detalhe-msg" style="display:none;"></p>
+
+      </form>
+
+    </main>
+
+  </div>
+</div>
+
+<script>
+  var PERFIL = '<%= perfil %>';
+  var RETIRO = '<%= retiro %>';
+  var TAREFA_ID = '<%= typeof tarefaId !== "undefined" ? tarefaId : "" %>';
+
+  document.addEventListener('DOMContentLoaded', function() {
+    esconderAudioVazio();
+    configurarFotoPreview();
+    configurarAudio();
+  });
+
+  // Se não há src de áudio do gerente, esconde o player e mostra aviso
+  function esconderAudioVazio() {
+    var player = document.querySelector('.audio-instrucao');
+    var source = player ? player.querySelector('source') : null;
+    if (!source || !source.getAttribute('src')) {
+      if (player) player.style.display = 'none';
+      document.getElementById('sem-audio').style.display = 'block';
+    } else {
+      document.getElementById('sem-audio').style.display = 'none';
+    }
+  }
+
+  // Pré-visualização da foto tirada
+  function configurarFotoPreview() {
+    var input = document.getElementById('foto-execucao');
+    input.addEventListener('change', function() {
+      if (!input.files.length) return;
+      var file = input.files[0];
+      document.getElementById('foto-txt').textContent = '✅ ' + file.name;
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var img = document.getElementById('foto-preview');
+        img.src = e.target.result;
+        img.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ===== Gravação de áudio para anotações (capataz que não escreve) =====
+  var mediaRecorder = null, audioChunks = [], audioBase64 = '', gravando = false;
+
+  function configurarAudio() {
+    var btn = document.getElementById('btn-gravar-audio');
+    var btnRemover = document.getElementById('btn-remover-audio');
+    btn.addEventListener('click', function() {
+      if (!gravando) iniciarGravacao(); else pararGravacao();
+    });
+    btnRemover.addEventListener('click', function() {
+      audioBase64 = '';
+      var p = document.getElementById('audio-preview');
+      p.src = ''; p.style.display = 'none';
+      btnRemover.style.display = 'none';
+    });
+  }
+
+  function iniciarGravacao() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      mostrarMsg('🎙️ Seu navegador não permite gravar áudio.', 'erro'); return;
+    }
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+      mediaRecorder = new MediaRecorder(stream);
+      audioChunks = [];
+      mediaRecorder.ondataavailable = function(e) { audioChunks.push(e.data); };
+      mediaRecorder.onstop = function() {
+        var blob = new Blob(audioChunks, { type: 'audio/webm' });
+        var reader = new FileReader();
+        reader.onloadend = function() {
+          audioBase64 = reader.result;
+          var p = document.getElementById('audio-preview');
+          p.src = audioBase64; p.style.display = 'block';
+          document.getElementById('btn-remover-audio').style.display = 'inline-block';
+        };
+        reader.readAsDataURL(blob);
+        stream.getTracks().forEach(function(t) { t.stop(); });
+      };
+      mediaRecorder.start();
+      gravando = true;
+      document.getElementById('audio-btn-txt').textContent = '⏹️ Parar gravação';
+      document.getElementById('btn-gravar-audio').classList.add('gravando');
+    }).catch(function() { mostrarMsg('🎙️ Permissão de microfone negada.', 'erro'); });
+  }
+
+  function pararGravacao() {
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+    gravando = false;
+    document.getElementById('audio-btn-txt').textContent = 'Gravar novamente';
+    document.getElementById('btn-gravar-audio').classList.remove('gravando');
+  }
+
+  function mostrarMsg(texto, tipo) {
+    var el = document.getElementById('detalhe-msg');
+    el.textContent = texto;
+    el.className = 'form-msg ' + tipo;
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  document.getElementById('form-conclusao').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var foto = document.getElementById('foto-execucao');
+    if (!foto.files.length && !document.getElementById('anotacoes').value && !audioBase64) {
+      mostrarMsg('📷 Anexe ao menos uma foto, anotação ou áudio para concluir.', 'erro');
+      return;
+    }
+    var payload = {
+      tarefa_id: TAREFA_ID,
+      anotacoes: document.getElementById('anotacoes').value || '',
+      anotacoes_audio: audioBase64 || '',
+      tem_foto: foto.files.length > 0
+    };
+    // TODO: integração com POST real (/api/tarefas/:id/concluir) — cards #267/#268
+    console.log('Conclusão da tarefa:', payload);
+    mostrarMsg('✅ Tarefa concluída! (integração com API pendente)', 'sucesso');
+    setTimeout(function() { window.history.back(); }, 1800);
+  });
+</script>
+
+<%- include('partials/footer') %>

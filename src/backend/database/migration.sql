@@ -4,8 +4,10 @@
 CREATE TABLE IF NOT EXISTS retiros (
     id TEXT PRIMARY KEY NOT NULL,
     nome TEXT NOT NULL,
+    numero TEXT,
     localizacao TEXT NOT NULL,
-    coordenador_id TEXT NOT NULL,
+    coordenador_id TEXT,
+    capataz_id TEXT,
     criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 

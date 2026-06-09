@@ -1,5 +1,9 @@
 import db from './config/database';
 import bcrypt from 'bcryptjs';
+import { inicializarBanco } from './config/initDb';
+
+// Garante que as tabelas existem antes de inserir os dados
+inicializarBanco();
 
 const senhaHash = bcrypt.hashSync('123456', 10);
 
@@ -72,6 +76,8 @@ try {
   for (const c of capatazes) {
     db.prepare(`INSERT OR IGNORE INTO usuarios (id, nome, senha, perfil, retiro_id) VALUES (?, ?, ?, ?, ?)`)
       .run(c.id, c.nome, senhaHash, 'Capataz', c.retiro);
+    // Vincula o capataz ao retiro também pelo lado do retiro (retiros.capataz_id)
+    db.prepare(`UPDATE retiros SET capataz_id = ? WHERE id = ?`).run(c.id, c.retiro);
   }
 
   console.log('[seed] Seed concluído com sucesso!');

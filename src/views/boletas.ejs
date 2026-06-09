@@ -57,30 +57,112 @@
 
       <div class="boletas-lista" id="boletas-lista">
 
-        <div class="card boleta-card" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+        <div class="card boleta-card" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; cursor: pointer;" onclick="window.location.href='/boleta/1?perfil=<%= perfil %>'">
           <div>
-            <span class="boleta-titulo">Nascimento - Retiro Acurizal</span>
+            <span class="boleta-titulo">🐄 Nascimento - Retiro Acurizal</span>
             <span class="boleta-sub" style="display: block; font-size: 0.8rem; color: #8A8A7C;">02/06/2026 - Capataz Rogério</span>
           </div>
-          <button class="btn-icon" title="Baixar boleta">⬇️</button>
+          <span class="arrow" style="font-size: 1.5rem; color: #1A4D2E;">›</span>
         </div>
 
-        <div class="card boleta-card" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+        <div class="card boleta-card" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; cursor: pointer;" onclick="window.location.href='/boleta/2?perfil=<%= perfil %>'">
           <div>
-            <span class="boleta-titulo">Óbito - Retiro Aroeira</span>
+            <span class="boleta-titulo">⚰️ Óbito - Retiro Aroeira</span>
             <span class="boleta-sub" style="display: block; font-size: 0.8rem; color: #8A8A7C;">01/06/2026 - Capataz Lucas</span>
           </div>
-          <button class="btn-icon" title="Baixar boleta">⬇️</button>
+          <span class="arrow" style="font-size: 1.5rem; color: #1A4D2E;">›</span>
         </div>
 
       </div>
 
-      <button class="btn btn-primario" id="btn-exportar" style="width: 100%; margin-top: 1rem;">
-        ⬇️ Exportar CSV/Excel
-      </button>
+      <!-- Exportação: escolher tipos + intervalo e gerar planilha -->
+      <div class="card" style="margin-top: 1.5rem; padding: 1.25rem;">
+        <h3 style="color: #1A4D2E; margin-bottom: 0.75rem;">⬇️ Exportar planilha</h3>
+        <p style="font-size: 0.85rem; color: #5c6b5d; margin-bottom: 0.75rem;">Escolha o que incluir e o período.</p>
+
+        <div class="export-tipos" style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem;">
+          <label><input type="checkbox" class="exp-tipo" value="movimentacao" checked /> 🔄 Movimentações / Transferências</label>
+          <label><input type="checkbox" class="exp-tipo" value="nascimento" checked /> 🐄 Nascimentos</label>
+          <label><input type="checkbox" class="exp-tipo" value="obito" checked /> ⚰️ Óbitos / Mortes</label>
+          <label><input type="checkbox" class="exp-tipo" value="compravenda" checked /> 💰 Compras / Vendas</label>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+          <div style="flex: 1; min-width: 130px;">
+            <label style="font-size: 0.8rem; color: #5c6b5d;">📅 De</label>
+            <input type="date" id="exp-data-inicio" style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;" />
+          </div>
+          <div style="flex: 1; min-width: 130px;">
+            <label style="font-size: 0.8rem; color: #5c6b5d;">📅 Até</label>
+            <input type="date" id="exp-data-fim" style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;" />
+          </div>
+          <div style="flex: 1; min-width: 130px;">
+            <label style="font-size: 0.8rem; color: #5c6b5d;">📍 Retiro</label>
+            <select id="exp-retiro" style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;">
+              <option value="">Todos</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn btn-primario" id="btn-exportar" style="width: 100%;">
+          ⬇️ Gerar planilha (CSV/Excel)
+        </button>
+        <p id="export-msg" style="display:none; text-align:center; margin-top:0.75rem; font-weight:600;"></p>
+      </div>
 
     </main>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Popula retiros (filtro de exportação) com dados reais do banco
+    fetch('/api/dados/retiros')
+      .then(function(r) { return r.json(); })
+      .then(function(retiros) {
+        var sel = document.getElementById('exp-retiro');
+        retiros.forEach(function(r) {
+          sel.insertAdjacentHTML('beforeend', '<option value="' + r.id + '">' + r.nome + '</option>');
+        });
+      })
+      .catch(function() {});
+
+    document.getElementById('btn-exportar').addEventListener('click', exportar);
+  });
+
+  function exportar() {
+    var tipos = Array.prototype.slice.call(document.querySelectorAll('.exp-tipo:checked'))
+      .map(function(c) { return c.value; });
+
+    if (!tipos.length) {
+      msgExport('❌ Selecione ao menos um tipo para exportar.', '#D32F2F');
+      return;
+    }
+
+    var params = new URLSearchParams();
+    params.set('tipos', tipos.join(','));
+    var ini = document.getElementById('exp-data-inicio').value;
+    var fim = document.getElementById('exp-data-fim').value;
+    var retiro = document.getElementById('exp-retiro').value;
+    if (ini) params.set('data_inicio', ini);
+    if (fim) params.set('data_fim', fim);
+    if (retiro) params.set('retiro_id', retiro);
+
+    // Endpoint de exportação do backend (RF015). Abre o download.
+    var url = '/api/exportacao?' + params.toString();
+    msgExport('⏳ Gerando planilha...', '#A64B00');
+    window.location.href = url;
+    setTimeout(function() {
+      msgExport('✅ Se o download não iniciar, verifique o endpoint /api/exportacao.', '#2E7D52');
+    }, 1500);
+  }
+
+  function msgExport(texto, cor) {
+    var el = document.getElementById('export-msg');
+    el.textContent = texto;
+    el.style.color = cor;
+    el.style.display = 'block';
+  }
+</script>
 
 <%- include('partials/footer') %>

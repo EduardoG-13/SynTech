@@ -360,6 +360,35 @@ th {
   color: #2ecc71;
 }
 
+/* Rodapé da sidebar (Configurações + Sair) */
+.side-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-top: 1px solid #1e293b;
+  padding-top: 10px;
+}
+
+.side-logout {
+  background: none;
+  border: none;
+  color: #f3a3a3;
+  text-align: left;
+  padding: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.side-logout:hover {
+  background-color: #3b1e1e;
+  color: #ff6b6b;
+}
+
 /* Área Principal */
 #app {
   height: 100vh;
