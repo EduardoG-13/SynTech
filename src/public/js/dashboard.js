@@ -23,10 +23,12 @@
         labels: [],
         datasets: [
           {
-            label: 'Chamados',
+            label: 'Chamados abertos',
             data: [],
-            backgroundColor: primaryColor,
-            borderRadius: 4,
+            backgroundColor: '#1f5c3a',
+            hoverBackgroundColor: '#163f28',
+            borderRadius: 6,
+            borderSkipped: false,
           },
         ],
       },
@@ -114,13 +116,17 @@
       const evolucao = total > 0 ? Math.round((concluidas / total) * 100) : 0;
       document.getElementById('stat-evolucao').textContent = evolucao + '%';
 
-      // Gráfico de barras — total de chamados por retiro
-      const retiros = dados.tarefas_por_retiro || [];
-      chartChamados.data.labels = retiros.map(function (r) { return r.retiro_nome; });
-      chartChamados.data.datasets[0].data = retiros.map(function (r) {
-        const t = r.tarefas || {};
-        return (t.PENDENTE || 0) + (t.EM_ANDAMENTO || 0) + (t.CONCLUIDA || 0);
-      });
+      // Gráfico de barras — alertas abertos agrupados por retiro, ordem decrescente
+      const alertas = dados.alertas_abertos || [];
+      const contagemPorRetiro = alertas.reduce(function (acc, a) {
+        const nome = a.retiro_nome || 'Sem retiro';
+        acc[nome] = (acc[nome] || 0) + 1;
+        return acc;
+      }, {});
+      const retirosSorted = Object.entries(contagemPorRetiro)
+        .sort(function (a, b) { return b[1] - a[1]; });
+      chartChamados.data.labels = retirosSorted.map(function (r) { return r[0]; });
+      chartChamados.data.datasets[0].data = retirosSorted.map(function (r) { return r[1]; });
       chartChamados.update();
 
       // Gráfico de rosca — distribuição por status
