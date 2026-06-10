@@ -2739,6 +2739,19 @@ A tabela a seguir consolida os quatro padrões adotados nesta sprint, indicando 
 
 Os padrões 1, 2, 3 e 4 já possuem implementação no repositório, validando a arquitetura proposta. O padrão 5 está planejado para a sprint 5, conforme o cronograma de implementação do controle de autorização. O detalhamento de cada padrão, com sua justificativa de negócio e princípios SOLID associados, é apresentado nas subseções seguintes.
 
+#### 1. MVC (Model-View-Controller) *(arquitetural)*
+
+**Localização:**
+- *Models (Modelos):* Interfaces e esquemas TypeScript em [models](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/models/) (ex.: [Tarefa.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/models/Tarefa.ts), [Usuario.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/models/Usuario.ts)).
+- *Views (Apresentação):* Templates EJS em [views](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/views/) (ex.: [dashboard.ejs](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/views/dashboard.ejs), [tarefas.ejs](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/views/tarefas.ejs), [login.ejs](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/views/login.ejs), [selecionar-retiro.ejs](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/views/selecionar-retiro.ejs)), além de partials reutilizáveis em `views/partials/` (header, footer, sidebar).
+- *Controllers (Controladores):* Classes de controle em [controllers](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/controllers/) (ex.: [tarefaController.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/controllers/tarefaController.ts)).
+
+**Necessidade que atende:**
+Organiza o fluxo de interação dividindo o sistema em três componentes com responsabilidades distintas. Os modelos contêm a representação dos dados e suas restrições lógicas. As views renderizam páginas dinâmicas para a gerência na fazenda. Os controladores interceptam as rotas HTTP vindas de agregadores (como [index.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/routes/index.ts) e [viewRoutes.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/routes/viewRoutes.ts)), processando os dados através da chamada de serviços específicos e devolvendo a representação apropriada (View via `res.render` ou dados brutos via `res.json`). Isso isola a camada de interface da lógica estrutural interna e facilita a manutenibilidade.
+
+**Princípios SOLID:**
+- **S — Single Responsibility:** Isolação física e funcional entre a lógica de interface visual (View), o roteamento e respostas HTTP (Controller) e as regras/interfaces de dados (Model).
+
 #### 2. Repository Pattern *(estrutural)*
 
 **Localização:** na pasta [repositories](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/repositories/) (ex.: [tarefaRepository.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/repositories/tarefaRepository.ts), [usuarioRepository.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/repositories/usuarioRepository.ts), [alertaRepository.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/repositories/alertaRepository.ts)) e para a nuvem Postgres [tarefaPgRepository.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/repositories/pg/tarefaPgRepository.ts).
@@ -2759,7 +2772,7 @@ Os padrões 1, 2, 3 e 4 já possuem implementação no repositório, validando a
 
 **Princípios SOLID:** **S** — a fila tem uma única responsabilidade (garantir entrega eventual); **O** — novos tipos de operação (`INSERT`, `UPDATE`, `DELETE`, futuramente `MERGE`) podem ser adicionados sem alterar o processador.
 
-#### 3. DTO (Data Transfer Object) *(estrutural — não implementado na sprint 3)*
+#### DTO (Data Transfer Object) *(estrutural — não implementado na sprint 3)*
 
 **Localização planejada:** `src/backend/dtos/` (ex.: `CriarTarefaDTO.ts`, `TarefaResponseDTO.ts`), a implementar em sprints futuras conforme os endpoints forem evoluídos.
 
@@ -2827,7 +2840,7 @@ Note que o response **omite** campos internos como `criado_em`, `sincronizado_em
 **Princípios SOLID:**
 - **D — Dependency Inversion:** Os módulos dependem das instâncias injetadas ou importadas compartilhadas, mantendo o controle centralizado.
 
-#### Middleware Chain (Chain of Responsibility) *(comportamental — planejado para as sprints 4-5)*
+#### 5. Middleware Chain (Chain of Responsibility) *(comportamental — planejado para as sprints 4-5)*
 
 **Localização planejada:** `src/backend/middlewares/` (autenticação, autorização, validação de payload, tratamento de erros), a implementar ao longo das sprints 4 a 5 conforme os requisitos da seção 3.8 forem desenvolvidos.
 
@@ -2843,18 +2856,6 @@ Note que o response **omite** campos internos como `criado_em`, `sincronizado_em
 
 **Princípios SOLID:** **O** — adicionar um quinto perfil significa criar uma nova classe sem alterar o middleware; **L** — todas as strategies são intercambiáveis pela mesma interface (`podeExecutar(acao, recurso)`).
 
-#### 5. MVC (Model-View-Controller) *(arquitetural)*
-
-**Localização:**
-- *Models (Modelos):* Interfaces e esquemas TypeScript em [models](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/models/) (ex.: [Tarefa.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/models/Tarefa.ts), [Usuario.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/models/Usuario.ts)).
-- *Views (Apresentação):* Templates EJS em [views](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/views/) (ex.: [dashboard.ejs](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/views/dashboard.ejs), [tarefas.ejs](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/views/tarefas.ejs)).
-- *Controllers (Controladores):* Classes de controle em [controllers](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/controllers/) (ex.: [tarefaController.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/controllers/tarefaController.ts)).
-
-**Necessidade que atende:**
-Organiza o fluxo de interação dividindo o sistema em três componentes com responsabilidades distintas. Os modelos contêm a representação dos dados e suas restrições lógicas. As views renderizam páginas dinâmicas para a gerência na fazenda. Os controladores interceptam as rotas HTTP vindas de agregadores (como [index.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/routes/index.ts) e [viewRoutes.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/routes/viewRoutes.ts)), processando os dados através da chamada de serviços específicos e devolvendo a representação apropriada (View via `res.render` ou dados brutos via `res.json`). Isso isola a camada de interface da lógica estrutural interna e facilita a manutenibilidade.
-
-**Princípios SOLID:**
-- **S — Single Responsibility:** Isolação física e funcional entre a lógica de interface visual (View), o roteamento e respostas HTTP (Controller) e as regras/interfaces de dados (Model).
 
 #### Síntese SOLID
 
