@@ -483,6 +483,11 @@ th {
 
 
 
+/* Esconde bottom-nav sempre (usamos só sidebar + hamburger) */
+.bottom-nav {
+  display: none !important;
+}
+
 /* Mobile: sidebar escondida, hamburger visível */
 @media (max-width: 768px) {
   #device.logged {

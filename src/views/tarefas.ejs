@@ -1,56 +1,95 @@
 <%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/tarefas.css" />
 
-<!-- Adicionamos a classe "logged" para indicar que há um usuário ativo -->
 <div id="device" class="logged">
-  
-  <!-- Inclusão da Sidebar Vertical Dinâmica -->
+
   <%- include('partials/sidebar') %>
 
-  <!-- Área Principal de Conteúdo -->
   <div id="app">
-    
-    <!-- Barra superior interna da página com avatar -->
-    <div class="header-bar">
-      <div class="user-avatar">👤</div>
+
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar"><%= perfil === 'Gerente' ? '🧑‍💼' : (perfil === 'Coordenador' ? '📋' : (perfil === 'Infraestrutura' ? '🔧' : '🤠')) %></div>
       <h1>Tarefas</h1>
       <div class="sub"><%= retiro %> (<%= perfil %>)</div>
     </div>
 
-    <div class="content">
-      <!-- Filtros conforme mockup -->
-      <div class="filter-pills">
-        <span class="pill active">Todos</span>
-        <span class="pill">Rebanhos</span>
+    <main class="tarefas-main">
+
+      <!-- Filtros de status -->
+      <div class="filter-pills" id="filtros-tarefas">
+        <button class="pill active" data-filtro="todas">Todas</button>
+        <button class="pill" data-filtro="pendente">Pendentes</button>
+        <button class="pill" data-filtro="concluida">Concluídas</button>
       </div>
 
-      <!-- Lista estrutural das Tarefas -->
-      <div class="tarefas-lista">
-        
-        <!-- Exemplo de Card 1 -->
-        <div class="card tarefa-card">
+      <!-- Lista de Tarefas -->
+      <div class="tarefas-lista" id="tarefas-lista">
+
+        <div class="card tarefa-card" data-status="andamento" onclick="window.location.href='/tarefa/1?perfil=<%= perfil %>&retiro=<%= retiro %>'">
           <div class="bar-lateral andamento"></div>
           <div class="body">
-            <span class="titulo">Consertar Cerca</span>
-            <span class="badge andamento">Em andamento</span>
-            <span class="arrow">›</span>
+            <div class="info">
+              <span class="titulo">Consertar Cerca</span>
+              <span class="descricao">Reparar cerca quebrada no setor norte</span>
+              <div class="meta">
+                <span class="prioridade alta">● Alta</span>
+                <span class="retiro-tag">📍 <%= retiro %></span>
+              </div>
+            </div>
+            <div class="status-area">
+              <span class="badge andamento">Em andamento</span>
+              <span class="arrow">›</span>
+            </div>
           </div>
         </div>
 
-        <!-- Exemplo de Card 2 -->
-        <div class="card tarefa-card">
+        <div class="card tarefa-card" data-status="pendente" onclick="window.location.href='/tarefa/2?perfil=<%= perfil %>&retiro=<%= retiro %>'">
           <div class="bar-lateral pendente"></div>
           <div class="body">
-            <span class="titulo">Movimentação dos rebanhos</span>
-            <span class="badge pendente">Pendente</span>
-            <span class="arrow">›</span>
+            <div class="info">
+              <span class="titulo">Movimentação dos rebanhos</span>
+              <span class="descricao">Levar gado do pasto A para o pasto B</span>
+              <div class="meta">
+                <span class="prioridade media">● Média</span>
+                <span class="retiro-tag">📍 <%= retiro %></span>
+              </div>
+            </div>
+            <div class="status-area">
+              <span class="badge pendente">Pendente</span>
+              <span class="arrow">›</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card tarefa-card" data-status="concluida" onclick="window.location.href='/tarefa/3?perfil=<%= perfil %>&retiro=<%= retiro %>'">
+          <div class="bar-lateral concluida"></div>
+          <div class="body">
+            <div class="info">
+              <span class="titulo">Vacinação dos bezerros</span>
+              <span class="descricao">Aplicar vacina nos animais de 0-7 meses</span>
+              <div class="meta">
+                <span class="prioridade baixa">● Baixa</span>
+                <span class="retiro-tag">📍 <%= retiro %></span>
+              </div>
+            </div>
+            <div class="status-area">
+              <span class="badge concluida">Concluída</span>
+              <span class="arrow">›</span>
+            </div>
           </div>
         </div>
 
       </div>
 
-      <!-- Botão para disparar ações -->
-      <button class="btn" style="margin-top:16px">Nova O.S</button>
-    </div>
+      <div class="tarefas-vazio" id="tarefas-vazio" style="display: none;">
+        <p>Nenhuma tarefa encontrada para este filtro.</p>
+      </div>
+
+      <button class="btn btn-primario" style="width: 100%; margin-top: 1.5rem;" onclick="window.location.href='/nova-os?perfil=<%= perfil %>&retiro=<%= retiro %>'">
+        + Nova O.S.
+      </button>
+
+    </main>
 
     <!-- Navegação inferior visível no mobile -->
     <div class="bottom-nav">
@@ -62,5 +101,42 @@
 
   </div>
 </div>
+
+<script>
+  (function() {
+    const filtros = document.querySelectorAll('#filtros-tarefas .pill');
+    const tarefas = document.querySelectorAll('#tarefas-lista .tarefa-card');
+    const vazio = document.getElementById('tarefas-vazio');
+
+    filtros.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        filtros.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+
+        const filtro = btn.dataset.filtro;
+        let visiveis = 0;
+
+        tarefas.forEach(function(card) {
+          const status = card.dataset.status;
+          let mostrar = false;
+
+          if (filtro === 'todas') {
+            mostrar = true;
+          } else if (filtro === 'pendente') {
+            // Pendentes inclui "pendente" e "andamento" (tarefas não concluídas)
+            mostrar = status === 'pendente' || status === 'andamento';
+          } else if (filtro === 'concluida') {
+            mostrar = status === 'concluida';
+          }
+
+          card.style.display = mostrar ? '' : 'none';
+          if (mostrar) visiveis++;
+        });
+
+        vazio.style.display = visiveis === 0 ? 'block' : 'none';
+      });
+    });
+  })();
+</script>
 
 <%- include('partials/footer') %>

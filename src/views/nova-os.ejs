@@ -1,112 +1,422 @@
 <%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/nova-os.css" />
 
 <div id="device" class="logged">
   <%- include('partials/sidebar') %>
 
   <div id="app">
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar">👤</div>
-      <h1>Nova Ordem de Serviço</h1>
+      <div class="user-avatar"><%= perfil === 'Gerente' ? '🧑‍💼' : (perfil === 'Coordenador' ? '📋' : (perfil === 'Infraestrutura' ? '🔧' : '🤠')) %></div>
+      <h1>Nova Boleta</h1>
       <div class="sub"><%= retiro %> (<%= perfil %>)</div>
     </div>
 
-    <main class="layout" style="padding: 0;">
+    <main class="form-main">
 
-      <button class="btn-voltar" onclick="window.history.back()">← Voltar</button>
+      <button class="btn-voltar" onclick="window.history.back()">⬅️ Voltar</button>
 
       <form id="form-nova-os">
 
-        <div class="card" style="margin-bottom: 1rem;">
-          <h3>Equipe</h3>
-          <div class="filter-pills">
-            <span class="pill active" data-equipe="Capataz">Capataz</span>
-            <span class="pill" data-equipe="Infraestrutura">Infraestrutura</span>
+        <!-- 1. Operação (sempre visível) -->
+        <div class="card campo">
+          <label for="os-operacao">📋 O que você quer registrar?</label>
+          <select id="os-operacao" required>
+            <option value="">👉 Toque para escolher</option>
+          </select>
+        </div>
+
+        <!-- ===================== TRANSFERÊNCIA ===================== -->
+        <div class="card campo dinamico" data-op="transferencia">
+          <label>🧭 Direção da movimentação</label>
+          <div class="toggle-pills">
+            <button type="button" class="pill active" data-tipo="envio">📤 Estou enviando</button>
+            <button type="button" class="pill" data-tipo="recebimento">📥 Estou recebendo</button>
+          </div>
+          <p class="ajuda">⚠️ A boleta só é aprovada quando os dois retiros registram a mesma quantidade.</p>
+        </div>
+
+        <div class="card campo dinamico" data-op="transferencia">
+          <label for="os-retiro-origem"><img class="label-ico" src="/public/Icons/localizacao.ico" alt="" /> Retiro de origem (de onde sai)</label>
+          <select id="os-retiro-origem"></select>
+        </div>
+
+        <div class="card campo dinamico" data-op="transferencia">
+          <label for="os-retiro-destino"><img class="label-ico" src="/public/Icons/localizacao.ico" alt="" /> Retiro de destino (para onde vai)</label>
+          <select id="os-retiro-destino"></select>
+        </div>
+
+        <div class="card campo dinamico" data-op="transferencia">
+          <label>🚚 Tipo de transporte</label>
+          <div class="toggle-pills">
+            <button type="button" class="pill active" data-transporte="rodoviario">🚛 Caminhão</button>
+            <button type="button" class="pill" data-transporte="comitiva">🐎 Comitiva</button>
           </div>
         </div>
 
-        <div class="card" style="margin-bottom: 1rem;">
-          <label for="os-operacao"><h3>Operação</h3></label>
-          <select id="os-operacao" style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 8px;">
-            <option value="">Selecione a operação</option>
-            <option value="movimentacao">Movimentação de Rebanho</option>
-            <option value="obito">Registro de Óbito</option>
-            <option value="nascimento">Registro de Nascimento</option>
-            <option value="vacinacao">Vacinação</option>
-            <option value="manutencao">Manutenção</option>
-          </select>
-        </div>
-
-        <div class="card" style="margin-bottom: 1rem;">
-          <label for="os-retiro"><h3>Retiro de Origem</h3></label>
-          <select id="os-retiro" style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 8px;">
-            <option value="">Selecione o retiro</option>
-          </select>
-        </div>
-
-        <div class="card" style="margin-bottom: 1rem;">
-          <label for="os-responsavel"><h3>Responsável</h3></label>
-          <select id="os-responsavel" style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 8px;">
-            <option value="">Selecione o responsável</option>
-          </select>
-        </div>
-
-        <div class="card" style="margin-bottom: 1rem;">
-          <h3>Prioridade</h3>
-          <div class="prioridade-selector">
-            <label class="prioridade-option">
-              <input type="radio" name="prioridade" value="alta" />
-              <span class="prioridade-dot alta"></span> Alta
-            </label>
-            <label class="prioridade-option">
-              <input type="radio" name="prioridade" value="media" checked />
-              <span class="prioridade-dot media"></span> Média
-            </label>
-            <label class="prioridade-option">
-              <input type="radio" name="prioridade" value="baixa" />
-              <span class="prioridade-dot baixa"></span> Baixa
-            </label>
-          </div>
-        </div>
-
-        <div class="card" style="margin-bottom: 1rem;">
-          <label for="os-prazo"><h3>Prazo</h3></label>
-          <input type="date" id="os-prazo" style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 8px;" />
-        </div>
-
-        <div class="card" style="margin-bottom: 1rem;">
-          <label for="os-descricao"><h3>Descrição</h3></label>
-          <textarea id="os-descricao" rows="4" placeholder="Detalhe as especificações da tarefa..." style="width: 100%; border: 1px solid #ccc; border-radius: 8px; padding: 0.75rem; font-family: inherit; resize: vertical;"></textarea>
-        </div>
-
-        <div class="card" style="margin-bottom: 1rem;">
-          <h3>Anexos</h3>
-          <div style="display: flex; gap: 1rem;">
-            <div class="upload-mini">
-              <label for="os-audio" style="cursor: pointer; text-align: center;">
-                <span style="font-size: 2rem;">🎙️</span>
-                <p>Áudio</p>
-              </label>
-              <input type="file" id="os-audio" accept="audio/*" style="display: none;" />
+        <div class="card campo dinamico" data-op="transferencia" id="bloco-motorista">
+          <label for="os-motorista">👤 Motorista / Comissário</label>
+          <input type="text" id="os-motorista" placeholder="Nome de quem leva os animais" />
+          <div class="dois-campos">
+            <div>
+              <label for="os-rgcpf">🪪 RG ou CPF</label>
+              <input type="text" id="os-rgcpf" placeholder="Documento" />
             </div>
-            <div class="upload-mini">
-              <label for="os-foto" style="cursor: pointer; text-align: center;">
-                <span style="font-size: 2rem;">📷</span>
-                <p>Foto</p>
-              </label>
-              <input type="file" id="os-foto" accept="image/*" style="display: none;" />
+            <div>
+              <label for="os-placa">🔢 Placa</label>
+              <input type="text" id="os-placa" placeholder="Placa do caminhão" />
             </div>
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primario" style="width: 100%; margin-top: 1rem;">
-          Enviar Ordem de Serviço
+        <!-- ===================== RETIRO (demais operações) ===================== -->
+        <div class="card campo dinamico" data-op="nascimento obito compravenda evolucao manejo">
+          <label for="os-retiro"><img class="label-ico" src="/public/Icons/localizacao.ico" alt="" /> Retiro</label>
+          <select id="os-retiro"></select>
+        </div>
+
+        <!-- ===================== Nº DO PASTO + DATA ===================== -->
+        <div class="card campo dinamico" data-op="nascimento obito transferencia compravenda evolucao">
+          <div class="dois-campos">
+            <div>
+              <label for="os-pasto"><img class="label-ico" src="/public/Icons/localizacao.ico" alt="" /> Nº do pasto</label>
+              <input type="text" id="os-pasto" placeholder="Ex: Pasto 12" />
+            </div>
+            <div>
+              <label for="os-data">📅 Data</label>
+              <input type="date" id="os-data" />
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== CATEGORIAS + QUANTIDADES (repetível) ===================== -->
+        <div class="card campo dinamico" data-op="nascimento obito transferencia compravenda">
+          <label>🐂 Animais (categoria e quantidade)</label>
+          <div id="linhas-categoria"></div>
+          <button type="button" class="btn-add" id="btn-add-categoria">➕ Adicionar outra categoria</button>
+          <div class="total-linha">
+            <span>🧮 Total de animais:</span>
+            <strong id="total-animais">0</strong>
+          </div>
+        </div>
+
+        <!-- ===================== EVOLUÇÃO (origem → destino) ===================== -->
+        <div class="card campo dinamico" data-op="evolucao">
+          <label>📈 Reclassificação de categoria</label>
+          <p class="ajuda">Ex: bezerro que cresceu e virou garrote.</p>
+          <div id="linhas-evolucao"></div>
+          <button type="button" class="btn-add" id="btn-add-evolucao">➕ Adicionar outra evolução</button>
+        </div>
+
+        <!-- ===================== NASCIMENTO: raça ===================== -->
+        <div class="card campo dinamico" data-op="nascimento">
+          <label for="os-raca">🐮 Raça</label>
+          <input type="text" id="os-raca" placeholder="Ex: Nelore" />
+        </div>
+
+        <!-- ===================== ÓBITO: ID do animal + causa ===================== -->
+        <div class="card campo dinamico destaque-obito" data-op="obito">
+          <label for="os-brinco">🏷️ Identificação do animal (brinco / RG)</label>
+          <input type="text" id="os-brinco" placeholder="Ex: Brinco 4471" />
+        </div>
+
+        <div class="card campo dinamico destaque-obito" data-op="obito">
+          <label for="os-causa">💀 Causa da morte</label>
+          <select id="os-causa"></select>
+        </div>
+
+        <!-- ===================== COMPRA/VENDA ===================== -->
+        <div class="card campo dinamico" data-op="compravenda">
+          <label>💰 Tipo de negócio</label>
+          <div class="toggle-pills">
+            <button type="button" class="pill active" data-negocio="compra">🛒 Compra</button>
+            <button type="button" class="pill" data-negocio="venda">🤝 Venda</button>
+          </div>
+        </div>
+
+        <div class="card campo dinamico" data-op="compravenda">
+          <label for="os-valor">💵 Valor total (R$)</label>
+          <input type="number" id="os-valor" min="0" step="0.01" placeholder="0,00" />
+        </div>
+
+        <!-- ===================== MANEJO GERAL ===================== -->
+        <div class="card campo dinamico" data-op="manejo">
+          <label for="os-titulo">✏️ Título da tarefa</label>
+          <input type="text" id="os-titulo" placeholder="Ex: Vacinação dos bezerros" />
+        </div>
+
+        <!-- ===================== OBSERVAÇÕES (comum) ===================== -->
+        <div class="card campo dinamico" data-op="nascimento obito transferencia compravenda evolucao manejo">
+          <label for="os-observacoes">📝 Observações</label>
+          <textarea id="os-observacoes" rows="3" placeholder="Algo a mais? (opcional)"></textarea>
+        </div>
+
+        <!-- ===================== FOTO (óbito = obrigatória) ===================== -->
+        <div class="card campo dinamico destaque-obito" data-op="obito">
+          <label><img class="label-ico" src="/public/Icons/tira_foto.ico" alt="" /> Foto da carcaça <span class="obrigatorio">* obrigatória</span></label>
+          <div class="upload-foto">
+            <label for="os-foto" class="upload-label">
+              <img class="upload-icon-img" src="/public/Icons/tira_foto.ico" alt="" />
+              <span id="foto-label-txt">Tirar foto agora</span>
+            </label>
+            <input type="file" id="os-foto" accept="image/*" capture="environment" />
+          </div>
+        </div>
+
+        <button type="submit" class="btn-enviar" id="btn-enviar" disabled>
+          <img class="btn-ico" src="/public/Icons/concluido.ico" alt="" /> Registrar Boleta
         </button>
+
+        <p class="form-msg" id="form-msg" style="display:none;"></p>
 
       </form>
 
     </main>
   </div>
 </div>
+
+<script>
+  var RETIRO_LOGADO = '<%= retiro %>';
+  var PERFIL = '<%= perfil %>';
+  var TIPO_TRANSF = 'envio';
+  var TIPO_NEGOCIO = 'compra';
+  var TIPO_TRANSPORTE = 'rodoviario';
+  var CATEGORIAS = [];
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var hoje = new Date().toISOString().split('T')[0];
+    var inputData = document.getElementById('os-data');
+    if (inputData) inputData.value = hoje;
+
+    carregarDados();
+    configurarOperacao();
+    configurarToggles();
+    configurarFotoLabel();
+
+    document.getElementById('btn-add-categoria').addEventListener('click', function() { addLinhaCategoria(); });
+    document.getElementById('btn-add-evolucao').addEventListener('click', function() { addLinhaEvolucao(); });
+  });
+
+  function optsCategorias() {
+    return '<option value="">Categoria...</option>' +
+      CATEGORIAS.map(function(c) { return '<option value="' + c + '">' + c + '</option>'; }).join('');
+  }
+
+  // Adiciona uma linha de categoria + quantidade
+  function addLinhaCategoria() {
+    var div = document.createElement('div');
+    div.className = 'linha-cat';
+    div.innerHTML =
+      '<select class="cat-sel">' + optsCategorias() + '</select>' +
+      '<input type="number" class="cat-qtd" min="1" placeholder="Qtd" />' +
+      '<button type="button" class="btn-remover">🗑️</button>';
+    div.querySelector('.btn-remover').addEventListener('click', function() {
+      div.remove();
+      atualizarTotal();
+    });
+    div.querySelector('.cat-qtd').addEventListener('input', atualizarTotal);
+    document.getElementById('linhas-categoria').appendChild(div);
+  }
+
+  // Adiciona uma linha de evolução (origem → destino)
+  function addLinhaEvolucao() {
+    var div = document.createElement('div');
+    div.className = 'linha-evo';
+    div.innerHTML =
+      '<select class="evo-origem">' + optsCategorias() + '</select>' +
+      '<span class="seta-evo">➡️</span>' +
+      '<select class="evo-destino">' + optsCategorias() + '</select>' +
+      '<input type="number" class="evo-qtd" min="1" placeholder="Qtd" />' +
+      '<button type="button" class="btn-remover">🗑️</button>';
+    div.querySelector('.btn-remover').addEventListener('click', function() { div.remove(); });
+    document.getElementById('linhas-evolucao').appendChild(div);
+  }
+
+  function atualizarTotal() {
+    var total = 0;
+    document.querySelectorAll('#linhas-categoria .cat-qtd').forEach(function(inp) {
+      total += parseInt(inp.value) || 0;
+    });
+    document.getElementById('total-animais').textContent = total;
+  }
+
+  function carregarDados() {
+    fetch('/api/dados/form-nova-os')
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        var selOp = document.getElementById('os-operacao');
+        d.operacoes.forEach(function(o) {
+          selOp.insertAdjacentHTML('beforeend', '<option value="' + o.valor + '">' + o.label + '</option>');
+        });
+
+        var optsRetiro = d.retiros.map(function(r) {
+          return '<option value="' + r.id + '">' + r.nome + '</option>';
+        }).join('');
+        ['os-retiro', 'os-retiro-origem', 'os-retiro-destino'].forEach(function(id) {
+          var sel = document.getElementById(id);
+          if (sel) sel.innerHTML = '<option value="">Selecione o retiro</option>' + optsRetiro;
+        });
+
+        preselecionarRetiroLogado(d.retiros);
+
+        CATEGORIAS = d.categorias;
+
+        var selCausa = document.getElementById('os-causa');
+        selCausa.innerHTML = '<option value="">Selecione a causa</option>' +
+          d.tiposMorte.map(function(c) { return '<option value="' + c + '">' + c + '</option>'; }).join('');
+      })
+      .catch(function() {
+        mostrarMsg('❌ Erro ao carregar dados do servidor. Verifique a conexão.', 'erro');
+      });
+  }
+
+  function preselecionarRetiroLogado(retiros) {
+    var match = retiros.find(function(r) { return r.nome === RETIRO_LOGADO; });
+    if (!match) return;
+    ['os-retiro', 'os-retiro-origem'].forEach(function(id) {
+      var sel = document.getElementById(id);
+      if (sel) sel.value = match.id;
+    });
+  }
+
+  function configurarOperacao() {
+    var selOp = document.getElementById('os-operacao');
+    selOp.addEventListener('change', function() {
+      var op = selOp.value;
+      document.querySelectorAll('.campo.dinamico').forEach(function(el) {
+        var ops = el.getAttribute('data-op').split(' ');
+        el.style.display = ops.indexOf(op) >= 0 ? 'block' : 'none';
+      });
+      document.getElementById('btn-enviar').disabled = !op;
+
+      // Inicia com uma linha de categoria/evolução
+      if (['nascimento','obito','transferencia','compravenda'].indexOf(op) >= 0) {
+        var cont = document.getElementById('linhas-categoria');
+        if (!cont.children.length) addLinhaCategoria();
+      }
+      if (op === 'evolucao') {
+        var ce = document.getElementById('linhas-evolucao');
+        if (!ce.children.length) addLinhaEvolucao();
+      }
+    });
+  }
+
+  function configurarToggles() {
+    document.querySelectorAll('.toggle-pills').forEach(function(grupo) {
+      grupo.querySelectorAll('.pill').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          grupo.querySelectorAll('.pill').forEach(function(b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          if (btn.dataset.tipo) TIPO_TRANSF = btn.dataset.tipo;
+          if (btn.dataset.negocio) TIPO_NEGOCIO = btn.dataset.negocio;
+          if (btn.dataset.transporte) {
+            TIPO_TRANSPORTE = btn.dataset.transporte;
+            var bloco = document.getElementById('bloco-motorista');
+            if (bloco) bloco.style.display = (TIPO_TRANSPORTE === 'rodoviario') ? 'block' : 'none';
+          }
+        });
+      });
+    });
+  }
+
+  function configurarFotoLabel() {
+    var input = document.getElementById('os-foto');
+    if (!input) return;
+    input.addEventListener('change', function() {
+      var txt = document.getElementById('foto-label-txt');
+      if (input.files.length) txt.textContent = '✅ ' + input.files[0].name;
+    });
+  }
+
+  function coletarCategorias() {
+    var lista = [];
+    document.querySelectorAll('#linhas-categoria .linha-cat').forEach(function(linha) {
+      var cat = linha.querySelector('.cat-sel').value;
+      var qtd = linha.querySelector('.cat-qtd').value;
+      if (cat && qtd) lista.push({ categoria: cat, quantidade: parseInt(qtd) });
+    });
+    return lista;
+  }
+
+  function coletarEvolucoes() {
+    var lista = [];
+    document.querySelectorAll('#linhas-evolucao .linha-evo').forEach(function(linha) {
+      lista.push({
+        origem: linha.querySelector('.evo-origem').value,
+        destino: linha.querySelector('.evo-destino').value,
+        quantidade: parseInt(linha.querySelector('.evo-qtd').value) || 0
+      });
+    });
+    return lista;
+  }
+
+  function mostrarMsg(texto, tipo) {
+    var msg = document.getElementById('form-msg');
+    msg.textContent = texto;
+    msg.className = 'form-msg ' + tipo;
+    msg.style.display = 'block';
+    msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  document.getElementById('form-nova-os').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var op = document.getElementById('os-operacao').value;
+
+    if (op === 'obito') {
+      if (!document.getElementById('os-foto').files.length) {
+        mostrarMsg('📷 Para registrar óbito é obrigatório anexar a foto da carcaça.', 'erro');
+        return;
+      }
+      if (!document.getElementById('os-causa').value) {
+        mostrarMsg('💀 Informe a causa da morte.', 'erro');
+        return;
+      }
+    }
+
+    var payload = { operacao: op, perfil: PERFIL, data: (document.getElementById('os-data') || {}).value };
+
+    if (['nascimento','obito','transferencia','compravenda'].indexOf(op) >= 0) {
+      payload.animais = coletarCategorias();
+      if (!payload.animais.length) {
+        mostrarMsg('🐂 Adicione pelo menos uma categoria com quantidade.', 'erro');
+        return;
+      }
+    }
+
+    if (op === 'transferencia') {
+      payload.tipo = TIPO_TRANSF;
+      payload.transporte = TIPO_TRANSPORTE;
+      payload.retiro_origem = document.getElementById('os-retiro-origem').value;
+      payload.retiro_destino = document.getElementById('os-retiro-destino').value;
+      payload.motorista = document.getElementById('os-motorista').value;
+      payload.rgcpf = document.getElementById('os-rgcpf').value;
+      payload.placa = document.getElementById('os-placa').value;
+    } else if (op === 'compravenda') {
+      payload.tipo = TIPO_NEGOCIO;
+      payload.retiro = document.getElementById('os-retiro').value;
+      payload.valor = document.getElementById('os-valor').value;
+    } else if (op === 'nascimento') {
+      payload.retiro = document.getElementById('os-retiro').value;
+      payload.pasto = document.getElementById('os-pasto').value;
+      payload.raca = document.getElementById('os-raca').value;
+    } else if (op === 'obito') {
+      payload.retiro = document.getElementById('os-retiro').value;
+      payload.pasto = document.getElementById('os-pasto').value;
+      payload.brinco = document.getElementById('os-brinco').value;
+      payload.causa = document.getElementById('os-causa').value;
+    } else if (op === 'evolucao') {
+      payload.retiro = document.getElementById('os-retiro').value;
+      payload.evolucoes = coletarEvolucoes();
+    } else if (op === 'manejo') {
+      payload.retiro = document.getElementById('os-retiro').value;
+      payload.titulo = document.getElementById('os-titulo').value;
+    }
+    payload.observacoes = (document.getElementById('os-observacoes') || {}).value || '';
+
+    console.log('Payload da boleta:', payload);
+    mostrarMsg('✅ Boleta registrada! (salvamento local — integração com API pendente)', 'sucesso');
+    setTimeout(function() { window.history.back(); }, 1800);
+  });
+</script>
 
 <%- include('partials/footer') %>
 

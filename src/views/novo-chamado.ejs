@@ -1,0 +1,68 @@
+<%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/chamados.css" />
+
+<div id="device" class="logged">
+  <%- include('partials/sidebar') %>
+
+  <div id="app">
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar">👷</div>
+      <h1>Novo Chamado de Infraestrutura</h1>
+      <div class="sub"><%= retiro %> (<%= perfil %>)</div>
+    </div>
+
+    <main class="layout" style="padding: 0;">
+      <button class="btn btn-voltar" onclick="window.location.href='/infraestrutura'">← Voltar</button>
+
+      <form id="form-novo-chamado" class="chamado-form">
+        <section class="chamado-card">
+          <h2>Dados do Chamado</h2>
+          <p class="descricao-texto">Registre com clareza o tipo de problema, a localização GPS e as evidências visuais.</p>
+
+          <label for="tipo-ocorrencia">
+            Tipo de ocorrência
+            <select id="tipo-ocorrencia" name="tipo" required>
+              <option value="">Selecione o tipo de problema</option>
+              <option value="cerca">Cerca quebrada</option>
+              <option value="hidraulica">Hidráulica</option>
+              <option value="eletrica">Elétrica</option>
+              <option value="racoes">Rações / Bebedouro</option>
+              <option value="outro">Outro</option>
+            </select>
+          </label>
+
+          <label for="descricao">
+            Descrição detalhada
+            <textarea id="descricao" name="descricao" rows="5" placeholder="Descreva o problema com ao menos 10 caracteres" minlength="10" required></textarea>
+          </label>
+
+          <div class="gps-grid">
+            <label for="latitude">
+              Latitude
+              <input id="latitude" name="latitude" type="text" placeholder="-23.123456" required />
+            </label>
+
+            <label for="longitude">
+              Longitude
+              <input id="longitude" name="longitude" type="text" placeholder="-46.123456" required />
+            </label>
+          </div>
+
+          <div class="upload-block">
+            <span class="upload-label">Foto / evidência</span>
+            <label class="file-input-wrapper" for="foto">
+              <input id="foto" name="foto" type="file" accept="image/*" />
+              <span>Selecionar imagem</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primario">Registrar Chamado</button>
+        </section>
+      </form>
+    </main>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
+
+<script src="/public/js/novo-chamado-handler.js"></script>

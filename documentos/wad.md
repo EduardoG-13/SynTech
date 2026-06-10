@@ -5103,7 +5103,7 @@ Em 2025, o crescimento continuou: somente no primeiro trimestre foram abatidas
 9,87 milhões de cabeças, recorde histórico para o período, com alta de 5,5% sobre
 igual trimestre de 2024 [9].
 
-A tabela abaixo resume a evolução do abate nos últimos anos:
+A tabela abaixo resume a evolução do abate nos últimos anos [39]:
 
 | Ano  | Cabeças abatidas (milhões) | Variação anual |
 |------|---------------------------|----------------|
@@ -5150,26 +5150,168 @@ _Identifique e analise tendências relevantes (tecnológicas, comportamentais e 
 ## 6.3 Análise da Concorrência
 
 _a) Principais Concorrentes (até 250 palavras)_
-_Liste os concorrentes diretos e indiretos, destacando suas principais características e posicionamento no mercado._
+
+O mercado de software para gestão pecuária no Brasil conta com soluções voltadas
+principalmente para fazendas com infraestrutura tecnológica já estabelecida.
+
+**iRancho** é um sistema ERP focado em pecuária de corte com aplicativo de campo
+offline, integração com balanças e brincos eletrônicos e, desde 2026, um ecossistema
+de IA por voz para registro sem digitação. Os planos são cobrados por faixa de rebanho, o que eleva o custo para operações de grande escala [44].
+
+**JetBov** é um aplicativo de gestão de pasto com coleta offline de dados zootécnicos
+e sincronização automática ao reconectar. Focado em indicadores de ganho de peso,
+reprodução e controle de piquetes, seu perfil de usuário pressupõe familiaridade com
+ambientes digitais [45].
+
+**Aegro** é uma plataforma de gestão rural ampla, com suporte a múltiplas culturas e
+pecuária, funcionalidade offline e integração contábil. Posicionado para produtores com
+gestão financeira complexa, apresenta curva de aprendizado mais longa [46].
+
+Nenhuma das soluções comerciais identificadas foi projetada para o modelo operacional
+de retiros geograficamente dispersos, com usuários de baixa escolaridade digital e
+conectividade dependente de janelas fixas de Starlink. 
 
 _b) Vantagens Competitivas da Aplicação Web (até 250 palavras)_
-_Descreva os diferenciais da sua aplicação em relação aos concorrentes, sem necessidade de citação de fontes._
+
+A solução desenvolvida para a BrPec se diferencia dos concorrentes por um conjunto de
+características construídas especificamente para o contexto operacional da empresa.
+
+O primeiro diferencial é a **interface adaptada ao perfil dos usuários**. Enquanto os
+sistemas concorrentes pressupõem familiaridade com ambientes digitais, a aplicação foi
+projetada para capatazes com baixa escolaridade digital, com fluxos simples, poucos
+passos por tarefa e linguagem visual direta.
+
+O segundo diferencial é o **offline nativo via SQLite**. Os dados são gravados
+localmente no dispositivo durante o trabalho de campo e sincronizados automaticamente
+com o servidor — via fila de sincronização (sync_queue) — nas janelas de conectividade
+disponíveis. Não há dependência de conexão contínua em nenhuma etapa do registro.
+
+O terceiro diferencial é a **aderência ao modelo de retiros**. A arquitetura da solução
+foi construída sobre o fluxo real da BrPec: registro de nascimentos, mortes, compras,
+vendas e transferências entre retiros, com rastreabilidade por unidade operacional.
+Nenhum concorrente oferece essa estrutura de forma nativa.
+
+O quarto diferencial é a **instalação via PWA**, sem necessidade de loja de aplicativos.
+A solução é instalada diretamente pelo navegador nos dispositivos fornecidos pela BrPec,
+eliminando barreiras de configuração e atualizações manuais.
+
+Por fim, a solução não cobra licença por animal — modelo de precificação dos
+concorrentes que penaliza operações de grande rebanho como a da BrPec.
 
 ## 6.4 Público-Alvo
 
 _a) Segmentação de Mercado (até 250 palavras)_
-Descreva os principais segmentos de mercado a serem atendidos pela aplicação. Utilize bases de dados e fontes confiáveis.\*
+
+O mercado-alvo da solução é composto por fazendas de pecuária de corte localizadas
+em regiões de baixa conectividade, com operações distribuídas em múltiplas unidades
+de campo, os retiros no contexto da Brpec. Esse segmento concentra características específicas que o diferenciam do mercado geral de
+agronegócio digital. 
+
+Do ponto de vista geográfico, o Pantanal sul-mato-grossense abriga aproximadamente
+3.500 propriedades rurais distribuídas em nove municípios, com rebanho estimado em
+3,6 milhões de cabeças bovinas [47]. A região representa 20% do rebanho
+total do estado de Mato Grosso do Sul e tem na pecuária extensiva sua principal
+atividade econômica há mais de 200 anos [48].
+
+Do ponto de vista tecnológico, o segmento é caracterizado por baixa adoção de
+ferramentas digitais de gestão. Segundo o Censo Agropecuário 2017 do IBGE, menos
+de 28% dos estabelecimentos rurais brasileiros possuem acesso à internet, e desses,
+apenas 46% contam com banda larga [49]. Esse cenário é ainda mais restritivo
+no Pantanal, onde a conectividade depende de tecnologias satelitais como o Starlink,
+disponíveis apenas no retiro.
+
+O segmento secundário é composto por coordenadores e gerentes de fazendas que
+necessitam de visibilidade consolidada das operações de campo em tempo real, sem
+depender de relatórios manuais ou planilhas desatualizadas. Ambos os segmentos
+compartilham a necessidade central de rastreabilidade operacional com baixa
+dependência de infraestrutura de rede.
+
+
 
 _b) Perfil do Público-Alvo (até 250 palavras)_
-_Caracterize o público-alvo com dados demográficos, psicográficos e comportamentais, incluindo necessidades específicas. Utilize fontes obrigatórias._
+
+O público-alvo da solução é composto por três perfis de usuários internos da BrPec,
+com características e contextos de uso distintos.
+
+**Capataz de retiro** — principal usuário operacional. Perfil masculino, faixa etária
+entre 35 e 55 anos, residente no retiro durante a semana de trabalho. Opera em campo,
+sem acesso contínuo à internet, em condições adversas de luminosidade e mobilidade.
+Responsável pelo registro diário de nascimentos, mortes, entradas, saídas e
+transferências do rebanho. O nível de escolaridade reflete o padrão da força de
+trabalho rural brasileira: 21% dos trabalhadores rurais são analfabetos e 43% possuem
+apenas ensino fundamental incompleto [49]. Apenas 26,5% da população rural
+maior de 18 anos possui ensino fundamental completo [50]. O WhatsApp é o
+principal canal de comunicação utilizado, indicando familiaridade com smartphones,
+mas não com interfaces de software estruturadas.
+
+**Coordenador do retiro** - usuário intermediário, com maior escolaridade e
+familiaridade digital. Consolida informações dos retiros sob sua supervisão e gera
+relatórios para a sede. Utiliza a aplicação tanto no campo quanto na sede.
+
+**Gerente geral** — usuário estratégico, acessa a aplicação pela sede com
+conectividade estável. Não realiza registros operacionais; acompanha o painel
+consolidado e toma decisões com base nos dados sincronizados.
+
+O baixo letramento digital do capataz justifica as decisões de interface adotadas:
+fluxos simples, linguagem visual direta, botões grandes e suporte a registros por
+áudio, reduzindo a dependência de digitação como meio primário de entrada de dados.
 
 ## 6.5 Posicionamento
 
 _a) Proposta de Valor Única (até 250 palavras)_
-_Defina de maneira clara o que torna a sua aplicação única e valiosa para o mercado._
+A BrPec opera hoje com um fluxo de informações inteiramente manual: capatazes
+registram movimentações do rebanho em boletas de papel, que são recolhidas e
+redigitadas em planilhas Excel na sede pelo coordenador. Esse processo gera atrasos
+de horas ou dias na atualização dos dados, inconsistências entre registros de entrada
+e saída de animais e retrabalho constante, tudo isso em uma operação distribuída em
+14 retiros sem conectividade contínua.
+
+A proposta de valor da solução desenvolvida é direta: eliminar o papel como meio de
+registro e a redigitação como etapa de processamento, substituindo ambos por um
+fluxo digital único, coletado no campo e sincronizado automaticamente com o servidor
+nas janelas de conectividade disponíveis.
+
+Para o capataz, o valor está na simplicidade: uma interface projetada para baixo
+letramento digital, com poucos passos por tarefa e suporte a áudio, que não exige
+treinamento extenso nem familiaridade prévia com sistemas.
+
+Para o coordenador, o valor está na eliminação do retrabalho: os dados chegam
+estruturados, sem necessidade de transcrição manual, prontos para consolidação e
+análise.
+
+Para o gerente, o valor está na confiabilidade: em vez de aguardar o ciclo
+de recolhimento e redigitação das boletas, as informações do rebanho — nascimentos,
+mortes, transferências — passam a estar disponíveis no painel assim que o retiro
+sincroniza. A tomada de decisão deixa de depender de dados defasados e passa a
+refletir a realidade operacional do dia.
 
 _b) Estratégia de Diferenciação (até 250 palavras)_
-_Explique como sua aplicação se destacará da concorrência, evidenciando a lógica por trás do posicionamento._
+
+A estratégia de diferenciação da solução se apoia em três eixos que os concorrentes
+de mercado não endereçam de forma combinada.
+
+O primeiro eixo é a **aderência ao contexto operacional**. Sistemas como iRancho [44] e JetBov[45] oferecem funcionalidades offline, mas foram projetados para um perfil de
+usuário com maior familiaridade digital e para fazendas com infraestrutura mais
+consolidada. A solução da BrPec foi construída sobre o fluxo real da operação,
+os tipos de registro, a estrutura de retiros, o perfil dos capatazes, o que
+elimina a necessidade de adaptação do processo ao sistema. 
+
+O segundo eixo é a **simplicidade como requisito técnico**. A interface não é
+simplificada por limitação, mas por decisão de projeto: cada tela foi desenhada
+para o perfil de menor familiaridade digital, garantindo que o usuário mais
+limitado consiga operar sem auxílio. Isso aumenta a taxa de adoção e reduz erros
+de preenchimento na origem.
+
+O terceiro eixo é a **arquitetura offline-first com SQLite**. Diferentemente de
+soluções que degradam funcionalidades sem internet, a aplicação opera com
+capacidade plena sem conexão. Os dados são gravados localmente e sincronizados
+via fila estruturada (sync_queue) nas janelas de Starlink, sem perda de registros
+e sem intervenção manual do usuário.
+
+A combinação desses três eixos posiciona a solução não como uma alternativa
+genérica de gestão pecuária, mas como uma ferramenta construída especificamente
+para o problema da BrPec, o que representa uma barreira de replicação que
+produtos de prateleira não conseguem superar.
 
 ## 6.6 Estratégia de Marketing
 

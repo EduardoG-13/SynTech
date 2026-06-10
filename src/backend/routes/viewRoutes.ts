@@ -42,7 +42,8 @@ export class ViewRoutes {
     this.router.get('/dashboard', (req: Request, res: Response) => {
       const perfil = req.query.perfil || 'Gerente';
       const retiro = req.query.retiro || 'Geral';
-      res.render('dashboard', { title: 'BRPec | Dashboard', perfil, retiro });
+      const usuario_id = (req.session as any)?.usuario?.id ?? null;
+      res.render('dashboard', { title: 'BRPec | Dashboard', perfil, retiro, usuario_id });
     });
     // Listagem de tarefas (antigo / tasks placeholder para testes)
     this.router.get('/tasks', (_req: Request, res: Response) => {
@@ -68,6 +69,13 @@ export class ViewRoutes {
       const perfil = req.query.perfil || 'Gerente';
       const retiro = req.query.retiro || 'Geral';
       res.render('nova-os', { perfil, retiro });
+    });
+
+    // Novo Chamado de Infraestrutura (US03 / US06)
+    this.router.get('/novo-chamado', (req: Request, res: Response) => {
+      const perfil = req.query.perfil || 'Capataz';
+      const retiro = req.query.retiro || 'Geral';
+      res.render('novo-chamado', { perfil, retiro });
     });
 
     // Painel de Infraestrutura (US06/US07)

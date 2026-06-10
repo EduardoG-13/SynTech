@@ -122,6 +122,14 @@ describe('inicializarBanco — Schema Initialization', () => {
           fs.unlinkSync(filePath);
         }
       }
+      // Remove registros de migrations fictícias da tabela schema_migrations
+      for (const file of testFiles) {
+        try {
+          db.prepare('DELETE FROM schema_migrations WHERE migration_name = ?').run(file);
+        } catch (err) {
+          // Silenciosamente ignora se a tabela não existir
+        }
+      }
     });
 
     it('deve reverter modificações (rollback) se a migration contiver SQL inválido', () => {
@@ -183,6 +191,14 @@ describe('inicializarBanco — Schema Initialization', () => {
         const filePath = path.join(migrationsDir, file);
         if (fs.existsSync(filePath)) {
           fs.unlinkSync(filePath);
+        }
+      }
+      // Remove registros de migrations fictícias da tabela schema_migrations
+      for (const file of testFiles) {
+        try {
+          db.prepare('DELETE FROM schema_migrations WHERE migration_name = ?').run(file);
+        } catch (err) {
+          // Silenciosamente ignora se a tabela não existir
         }
       }
     });

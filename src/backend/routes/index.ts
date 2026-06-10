@@ -12,9 +12,13 @@ import eventoRoutes from './eventoRoutes';
 import painelRoutes from './painelRoutes';
 import sincronizacaoRoutes from './sincronizacaoRoutes';
 import exportacaoRoutes from './exportacaoRoutes';
+import dadosRoutes from './dadosRoutes';
 
 // Health-check
 router.get('/health', healthController.verificarSaude);
+
+// Dados de apoio para formulários (retiros, capatazes, categorias)
+router.use('/dados', dadosRoutes);
 
 // Tarefas
 router.use('/tarefas', tarefaRoutes);

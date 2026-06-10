@@ -1,0 +1,250 @@
+/* =========================================================
+   tarefas.css — Tela de Lista de Tarefas do Capataz
+   US04 / RF003 / RN03
+   ========================================================= */
+
+/* --- Container principal (single column, centralizado) --- */
+
+.tarefas-main {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* --- Filtros (pills) --- */
+
+.filter-pills {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filter-pills .pill {
+  background: #fff;
+  border: 2px solid #d7dfd3;
+  color: #1B1B1B;
+  border-radius: 999px;
+  padding: 0.5rem 1.25rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: auto;
+}
+
+.filter-pills .pill:hover {
+  border-color: #1A4D2E;
+}
+
+.filter-pills .pill.active {
+  background: #1A4D2E;
+  color: #fff;
+  border-color: #1A4D2E;
+}
+
+/* --- Lista de Tarefas --- */
+
+.tarefas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.tarefa-card {
+  display: flex;
+  background: #fff;
+  border: 1px solid #d7dfd3;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.tarefa-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(26, 77, 46, 0.1);
+  border-color: #1A4D2E;
+}
+
+/* Barra lateral colorida indicando status */
+.bar-lateral {
+  width: 6px;
+  flex-shrink: 0;
+}
+
+.bar-lateral.pendente {
+  background: #A64B00;
+}
+
+.bar-lateral.andamento {
+  background: #A64B00;
+}
+
+.bar-lateral.concluida {
+  background: #2E7D52;
+}
+
+/* Corpo do card */
+.tarefa-card .body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  flex: 1;
+  gap: 1rem;
+}
+
+.tarefa-card .info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.tarefa-card .titulo {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1B1B1B;
+}
+
+.tarefa-card .descricao {
+  font-size: 0.85rem;
+  color: #5c6b5d;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tarefa-card .meta {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  color: #5c6b5d;
+  margin-top: 0.25rem;
+}
+
+.tarefa-card .prioridade.alta { color: #D32F2F; font-weight: 600; }
+.tarefa-card .prioridade.media { color: #A64B00; font-weight: 600; }
+.tarefa-card .prioridade.baixa { color: #2E7D52; font-weight: 600; }
+
+.tarefa-card .status-area {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* Badges de status */
+.badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.badge.pendente,
+.badge.andamento {
+  background: #FFF4E5;
+  color: #A64B00;
+}
+
+.badge.concluida {
+  background: #E6F3EB;
+  color: #2E7D52;
+}
+
+.tarefa-card .arrow {
+  font-size: 1.5rem;
+  color: #1A4D2E;
+  font-weight: 700;
+}
+
+/* Estado vazio */
+.tarefas-vazio {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #8A8A7C;
+  background: #fff;
+  border: 1px dashed #d7dfd3;
+  border-radius: 12px;
+  margin-top: 1rem;
+}
+
+/* Botão Nova O.S. */
+.btn.btn-primario {
+  background: #1A4D2E;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  min-height: 56px;
+}
+
+.btn.btn-primario:hover {
+  background: #2E7D52;
+}
+
+/* --- Responsivo Mobile --- */
+
+@media (max-width: 768px) {
+  .filter-pills {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    margin-bottom: 1rem;
+    padding-bottom: 0.25rem;
+  }
+
+  .filter-pills .pill {
+    flex-shrink: 0;
+  }
+
+  .tarefa-card .body {
+    padding: 0.85rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .tarefa-card .titulo {
+    font-size: 0.95rem;
+  }
+
+  .tarefa-card .descricao {
+    font-size: 0.8rem;
+  }
+
+  .tarefa-card .meta {
+    font-size: 0.7rem;
+    gap: 0.5rem;
+  }
+
+  .badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.6rem;
+  }
+
+  .tarefa-card .arrow {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Esconde descrição em telas muito pequenas pra economizar espaço */
+  .tarefa-card .descricao {
+    display: none;
+  }
+}
