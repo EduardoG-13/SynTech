@@ -5248,10 +5248,59 @@ fluxos simples, linguagem visual direta, botões grandes e suporte a registros p
 ## 6.5 Posicionamento
 
 _a) Proposta de Valor Única (até 250 palavras)_
-_Defina de maneira clara o que torna a sua aplicação única e valiosa para o mercado._
+A BrPec opera hoje com um fluxo de informações inteiramente manual: capatazes
+registram movimentações do rebanho em boletas de papel, que são recolhidas e
+redigitadas em planilhas Excel na sede pelo coordenador. Esse processo gera atrasos
+de horas ou dias na atualização dos dados, inconsistências entre registros de entrada
+e saída de animais e retrabalho constante, tudo isso em uma operação distribuída em
+14 retiros sem conectividade contínua.
+
+A proposta de valor da solução desenvolvida é direta: eliminar o papel como meio de
+registro e a redigitação como etapa de processamento, substituindo ambos por um
+fluxo digital único, coletado no campo e sincronizado automaticamente com o servidor
+nas janelas de conectividade disponíveis.
+
+Para o capataz, o valor está na simplicidade: uma interface projetada para baixo
+letramento digital, com poucos passos por tarefa e suporte a áudio, que não exige
+treinamento extenso nem familiaridade prévia com sistemas.
+
+Para o coordenador, o valor está na eliminação do retrabalho: os dados chegam
+estruturados, sem necessidade de transcrição manual, prontos para consolidação e
+análise.
+
+Para o gerente, o valor está na confiabilidade: em vez de aguardar o ciclo
+de recolhimento e redigitação das boletas, as informações do rebanho — nascimentos,
+mortes, transferências — passam a estar disponíveis no painel assim que o retiro
+sincroniza. A tomada de decisão deixa de depender de dados defasados e passa a
+refletir a realidade operacional do dia.
 
 _b) Estratégia de Diferenciação (até 250 palavras)_
-_Explique como sua aplicação se destacará da concorrência, evidenciando a lógica por trás do posicionamento._
+
+A estratégia de diferenciação da solução se apoia em três eixos que os concorrentes
+de mercado não endereçam de forma combinada.
+
+O primeiro eixo é a **aderência ao contexto operacional**. Sistemas como iRancho [44] e JetBov[45] oferecem funcionalidades offline, mas foram projetados para um perfil de
+usuário com maior familiaridade digital e para fazendas com infraestrutura mais
+consolidada. A solução da BrPec foi construída sobre o fluxo real da operação,
+os tipos de registro, a estrutura de retiros, o perfil dos capatazes, o que
+elimina a necessidade de adaptação do processo ao sistema. 
+
+O segundo eixo é a **simplicidade como requisito técnico**. A interface não é
+simplificada por limitação, mas por decisão de projeto: cada tela foi desenhada
+para o perfil de menor familiaridade digital, garantindo que o usuário mais
+limitado consiga operar sem auxílio. Isso aumenta a taxa de adoção e reduz erros
+de preenchimento na origem.
+
+O terceiro eixo é a **arquitetura offline-first com SQLite**. Diferentemente de
+soluções que degradam funcionalidades sem internet, a aplicação opera com
+capacidade plena sem conexão. Os dados são gravados localmente e sincronizados
+via fila estruturada (sync_queue) nas janelas de Starlink, sem perda de registros
+e sem intervenção manual do usuário.
+
+A combinação desses três eixos posiciona a solução não como uma alternativa
+genérica de gestão pecuária, mas como uma ferramenta construída especificamente
+para o problema da BrPec, o que representa uma barreira de replicação que
+produtos de prateleira não conseguem superar.
 
 ## 6.6 Estratégia de Marketing
 
