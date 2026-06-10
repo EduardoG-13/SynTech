@@ -140,4 +140,53 @@ describe('POST /api/eventos-zootecnicos/nascimentos', () => {
     expect(res.body).toHaveProperty('erro');
   });
 });
+
+// ─────────────────────────────────────────────────────────
+// POST /api/eventos-zootecnicos/obitos
+// ─────────────────────────────────────────────────────────
+const FOTO_BASE64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+
+describe('POST /api/eventos-zootecnicos/obitos', () => {
+  it('201 — cria óbito com payload válido completo (RF009, RN07)', async () => {
+    const res = await request(app)
+      .post('/api/eventos-zootecnicos/obitos')
+      .send({
+        capataz_id:           CAPATAZ_ID,
+        retiro_id:            RETIRO_ID,
+        data:                 '2026-06-10',
+        categoria:            'BOVINO',
+        quantidade:           1,
+        identificacao_animal: 'BOV-001',
+        causa_morte:          'Doença respiratória',
+        foto_base64:          FOTO_BASE64,
+      });
+
+    expect(res.status).toBe(201);
+    expect(res.body).toHaveProperty('mensagem', 'Registro de óbito criado com sucesso');
+    expect(res.body).toHaveProperty('registro');
+  });
+
+  it('201 — registro retornado contém movimentacao_id e obito_id', async () => {
+    const res = await request(app)
+      .post('/api/eventos-zootecnicos/obitos')
+      .send({
+        capataz_id:           CAPATAZ_ID,
+        retiro_id:            RETIRO_ID,
+        data:                 '2026-06-10',
+        categoria:            'OVINO',
+        quantidade:           1,
+        identificacao_animal: 'OVI-042',
+        causa_morte:          'Intoxicação por planta',
+        foto_base64:          FOTO_BASE64,
+        geolocalizacao:       '-15.7801,-47.9292',
+      });
+
+    expect(res.status).toBe(201);
+    const registro = res.body.registro;
+    expect(registro).toHaveProperty('movimentacao_id');
+    expect(registro).toHaveProperty('obito_id');
+    expect(registro).toHaveProperty('foto_id');
+  });
+});
+
 export {};
