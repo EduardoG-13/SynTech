@@ -2,7 +2,7 @@ import alertaService from '../services/alertaService';
 
 class AlertaController {
   async criarAlerta(req, res, next) {
-    const { tipo, descricao, capataz_id, retiro_id, latitude, longitude } = req.body;
+    const { tipo, descricao, capataz_id, retiro_id, latitude, longitude, foto_base64 } = req.body;
 
     if (!tipo || !capataz_id || !retiro_id || latitude === undefined || longitude === undefined) {
       return res.status(400).json({
@@ -23,7 +23,8 @@ class AlertaController {
         capataz_id,
         retiro_id,
         latitude,
-        longitude
+        longitude,
+        foto_base64,
       });
 
       return res.status(201).json({

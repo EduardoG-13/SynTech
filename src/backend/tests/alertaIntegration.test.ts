@@ -65,6 +65,34 @@ describe('POST /api/chamados', () => {
     expect(alerta).toHaveProperty('longitude');
   });
 
+  it('201 — cria chamado com foto e gera evidência relacionada', async () => {
+    const payload = {
+      tipo:         'INFRAESTRUTURA',
+      descricao:    'Cerca quebrada com parte solta e necessidade de reparo',
+      capataz_id:   CAPATAZ_ID,
+      retiro_id:    RETIRO_ID,
+      latitude:     -15.7801,
+      longitude:    -47.9292,
+      foto_base64:  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hPwAHggJ/l69PsgAAAABJRU5ErkJggg==',
+    };
+
+    const res = await request(app)
+      .post('/api/chamados')
+      .send(payload);
+
+    expect(res.status).toBe(201);
+    expect(res.body).toHaveProperty('alerta');
+    const alerta = res.body.alerta;
+    expect(alerta).toHaveProperty('foto_id');
+    expect(alerta.foto_id).toBeTruthy();
+
+    const evidencia = db.prepare('SELECT * FROM evidencias WHERE id = ?').get(alerta.foto_id);
+    expect(evidencia).toBeDefined();
+    expect(evidencia.alerta_id).toBe(alerta.id);
+    expect(evidencia.tipo).toBe('FOTO');
+    expect(evidencia.arquivo_base64).toBe(payload.foto_base64);
+  });
+
   it('400 — payload vazio: sem tipo, descrição nem coordenadas (RN06)', async () => {
     const res = await request(app)
       .post('/api/chamados')
