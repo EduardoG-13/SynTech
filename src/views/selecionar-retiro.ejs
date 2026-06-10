@@ -1,7 +1,7 @@
 <%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/login.css" />
 
-
-<div id="device">
+<div id="device" class="retiro-page">
   <div class="header-bar">
     <button class="back-btn" onclick="window.location.href='/'">← Voltar</button>
     <h1>Olá, Capataz!</h1>
@@ -9,23 +9,26 @@
   </div>
 
   <div class="content">
-    <!-- Campo de Busca -->
     <div class="search-box">
       <span>🔍</span>
       <input id="searchRetiro" placeholder="Buscar retiro..." oninput="filtrarRetiros(this.value)" />
     </div>
 
-    <!-- Lista de Retiros (gerada pelo backend via EJS forEach a partir de config/retiros.ts) -->
     <div id="lista-retiros">
-      <% retiros.forEach(function(r) { %>
+      <% retiros.forEach(function(r) {
+           var nome = r.nome || '';
+           var capataz = r.capataz || '';
+      %>
         <div class="card-retiro-card"
-             data-nome="<%= r.nome.toLowerCase() %>"
-             data-cap="<%= r.capataz.toLowerCase() %>"
-             onclick="window.location.href='/tarefas?perfil=Capataz&retiro=<%= encodeURIComponent(r.nome) %>'">
-          <span class="pin"><img src="../public/Icons/localizacao.ico" alt="" /></span>
+             data-nome="<%= nome.toLowerCase() %>"
+             data-cap="<%= capataz.toLowerCase() %>"
+             onclick="selecionarRetiro('<%= r.id %>', '<%= nome %>')">
+          <span class="pin"><img src="/public/Icons/localizacao.ico" alt="" /></span>
           <div class="info">
-            <div class="nome"><%= r.nome %></div>
-            <div class="cap">Capataz: <%= r.capataz %></div>
+            <div class="nome"><%= nome %></div>
+            <% if (capataz) { %>
+              <div class="cap">Capataz: <%= capataz %></div>
+            <% } %>
           </div>
           <span class="arrow">›</span>
         </div>
@@ -39,11 +42,35 @@
 </div>
 
 <script>
-  // Busca client-side: filtra os cards renderizados pelo backend
+  function selecionarRetiro(retiroId, nome) {
+    // Cria a SESSÃO no servidor (cookie) — fonte da verdade para autenticação
+    fetch('/api/auth/login-capataz', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ retiro_id: retiroId })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.sucesso) {
+        // Cache local pra UX (auto-redirect na próxima abertura)
+        localStorage.setItem('brpec_sessao', JSON.stringify({
+          perfil: 'Capataz', retiro: nome, retiro_id: retiroId,
+          logadoEm: new Date().toISOString()
+        }));
+        window.location.href = '/tarefas';
+      } else {
+        alert(data.erro || 'Não foi possível entrar neste retiro.');
+      }
+    })
+    .catch(function() {
+      alert('Erro de conexão. Tente novamente.');
+    });
+  }
+
   function filtrarRetiros(q) {
     q = (q || '').toLowerCase().trim();
     var visiveis = 0;
-    document.querySelectorAll('#lista-retiros .retiro-card').forEach(function (c) {
+    document.querySelectorAll('#lista-retiros .card-retiro-card').forEach(function (c) {
       var ok = !q || c.dataset.nome.indexOf(q) >= 0 || c.dataset.cap.indexOf(q) >= 0;
       c.style.display = ok ? '' : 'none';
       if (ok) visiveis++;

@@ -76,3 +76,18 @@
     grid-template-columns: 1fr;
   }
 }
+
+.db-loader {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.85);
+  bottom: 0;
+  color: var(--muted, #5c6b5d);
+  display: flex;
+  font-size: 13px;
+  font-weight: 700;
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}

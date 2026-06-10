@@ -1,42 +1,69 @@
 <%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/login.css" />
 
-    <div id="device">
-        <!-- Topbar inicial de identificação -->
-        <div class="header-bar">
-            <h1>SyncTech</h1>
-            <div class="sub">Quem é você?</div>
-        </div>
+<div id="device" class="login-page">
+  <div class="header-bar">
+    <h1>SyncTech</h1>
+    <div class="sub">Selecione seu perfil para continuar</div>
+  </div>
 
-        <div class="content">
-            <!-- Botão Capataz -->
-            <a href="/selecionar-retiro" class="perfil-btn-link">
-                <button class="perfil-btn">
-                    <span class="ic"><img src="../public/Icons/capataz.ico" alt="Capataz" /></span>
-                    <span class="lbl">Capataz</span>
-                </button>
-            </a>
-            <!-- Botão Infraestrutura -->
-            <a href="/tarefas?perfil=Infraestrutura" class="perfil-btn-link">
-                <button class="perfil-btn">
-                    <span class="ic"><img src="../public/Icons/infra.ico" alt="Infraestrutura" /></span>
-                    <span class="lbl">Infraestrutura</span>
-                </button>
-            </a>
-            <!-- Botão Coordenador -->
-            <a href="/tarefas?perfil=Coordenador" class="perfil-btn-link">
-                <button class="perfil-btn">
-                    <span class="ic"><img src="../public/Icons/coordenador.ico" alt="Coordenador" /></span>
-                    <span class="lbl">Coordenador</span>
-                </button>
-            </a>
-            <!-- Botão Gerente -->
-            <a href="/tarefas?perfil=Gerente" class="perfil-btn-link">
-                <button class="perfil-btn">
-                    <span class="ic"><img src="../public/Icons/gerente.ico" alt="Gerente" /></span>
-                    <span class="lbl">Gerente</span>
-                </button>
-            </a>
-        </div>
-    </div>
+  <div class="perfil-grid">
+    <a href="/selecionar-retiro" class="perfil-btn-link">
+      <button class="perfil-btn">
+        <span class="ic"><img src="/public/Icons/capataz.ico" alt="Capataz" /></span>
+        <span class="lbl">Capataz</span>
+      </button>
+    </a>
 
-    <%- include('partials/footer') %>
+    <a href="/selecionar-categoria-infra" class="perfil-btn-link">
+      <button class="perfil-btn">
+        <span class="ic"><img src="/public/Icons/infra.ico" alt="Infraestrutura" /></span>
+        <span class="lbl">Infraestrutura</span>
+      </button>
+    </a>
+
+    <a href="/login-auth?perfil=Coordenador" class="perfil-btn-link">
+      <button class="perfil-btn">
+        <span class="ic"><img src="/public/Icons/coordenador.ico" alt="Coordenador" /></span>
+        <span class="lbl">Coordenador</span>
+      </button>
+    </a>
+
+    <a href="/login-auth?perfil=Gerente" class="perfil-btn-link">
+      <button class="perfil-btn">
+        <span class="ic"><img src="/public/Icons/gerente.ico" alt="Gerente" /></span>
+        <span class="lbl">Gerente</span>
+      </button>
+    </a>
+  </div>
+</div>
+
+<script>
+  // Auto-redirect SÓ se houver sessão VÁLIDA no servidor (cookie ativo).
+  // Antes redirecionava só pelo localStorage e quando o cookie expirava dava loop.
+  (function() {
+    fetch('/api/auth/me', { credentials: 'same-origin' })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (!data.usuario) {
+          // Sessão do servidor não existe — limpa o localStorage stale e fica na tela de login
+          localStorage.removeItem('brpec_sessao');
+          return;
+        }
+        var perfil = data.usuario.perfil;
+        if (perfil === 'Capataz') {
+          window.location.href = '/tarefas';
+        } else if (perfil === 'Infraestrutura') {
+          window.location.href = '/infraestrutura';
+        } else if (perfil === 'Gerente' || perfil === 'Coordenador') {
+          window.location.href = '/dashboard';
+        }
+      })
+      .catch(function() {
+        // Sem conexão — limpa cache de sessão local pra não criar loop
+        localStorage.removeItem('brpec_sessao');
+      });
+  })();
+</script>
+
+<%- include('partials/footer') %>

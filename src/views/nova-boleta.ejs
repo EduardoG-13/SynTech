@@ -1,0 +1,88 @@
+<%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/boletas.css" />
+
+<div id="device" class="logged">
+  <%- include('partials/sidebar') %>
+
+  <div id="app">
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar">🐄</div>
+      <h1>Nova Boleta Zootécnica</h1>
+      <div class="sub"><%= retiro %> (<%= perfil %>)</div>
+    </div>
+
+    <main class="form-main">
+      <button class="btn btn-voltar" onclick="window.location.href='/boletas?perfil=<%= perfil %>&retiro=<%= retiro %>'">⬅️ Voltar</button>
+
+      <form id="form-nova-boleta" class="boleta-form">
+        <section class="boleta-card">
+          <h2>Registro de Evento Zootécnico</h2>
+          <p class="descricao-texto">Preencha os dados básicos. Campos adicionais são exibidos apenas para mortes.</p>
+
+          <label for="tipo-boleta">
+            Tipo de boleta
+            <select id="tipo-boleta" name="tipo_boleta" required>
+              <option value="">Selecione o tipo de evento</option>
+              <option value="nascimento">Nascimento</option>
+              <option value="morte">Morte</option>
+            </select>
+          </label>
+
+          <label for="data-boleta">
+            Data do evento
+            <input id="data-boleta" name="data_boleta" type="date" required />
+          </label>
+
+          <label for="categoria-boleta">
+            Categoria do animal
+            <select id="categoria-boleta" name="categoria_boleta" required>
+              <option value="">Selecione a categoria</option>
+              <option value="boi">Boi</option>
+              <option value="vaca">Vaca</option>
+              <option value="novilho">Novilho</option>
+              <option value="novilha">Novilha</option>
+              <option value="bezerro">Bezerro</option>
+              <option value="bezerra">Bezerra</option>
+            </select>
+          </label>
+
+          <label for="chip-id">
+            Identificador do chip
+            <input id="chip-id" name="chip_id" type="text" placeholder="Ex: 985123001" />
+          </label>
+
+          <div id="quantidade-wrap">
+            <label for="quantidade-boleta">
+              Quantidade de animais
+              <input id="quantidade-boleta" name="quantidade_boleta" type="number" min="1" value="1" required />
+            </label>
+          </div>
+
+          <div id="morte-fields" class="morte-campos hidden">
+            <label for="causa-morte">
+              Causa da morte
+              <select id="causa-morte" name="causa_morte">
+                <option value="">Selecione a causa</option>
+                <option value="morte_natural">Morte natural</option>
+                <option value="acidente">Acidente</option>
+                <option value="doenca">Doença</option>
+                <option value="outro">Outro</option>
+              </select>
+            </label>
+
+            <label class="upload-label" for="foto-morte">
+              Anexo de foto
+              <input id="foto-morte" name="foto_morte" type="file" accept="image/*" />
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primario">Registrar Boleta</button>
+        </section>
+      </form>
+    </main>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
+
+<script src="/public/js/boletas.js"></script>

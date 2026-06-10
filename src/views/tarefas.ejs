@@ -1,66 +1,111 @@
 <%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/tarefas.css" />
 
-<!-- Adicionamos a classe "logged" para indicar que há um usuário ativo -->
 <div id="device" class="logged">
-  
-  <!-- Inclusão da Sidebar Vertical Dinâmica -->
+
   <%- include('partials/sidebar') %>
 
-  <!-- Área Principal de Conteúdo -->
   <div id="app">
-    
-    <!-- Barra superior interna da página com avatar -->
-    <div class="header-bar">
-      <div class="user-avatar">👤</div>
-      <h1>Tarefas</h1>
+
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar"><img src="/public/Icons/capataz.ico" alt="Capataz" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <h1>Histórico de Registros</h1>
       <div class="sub"><%= retiro %> (<%= perfil %>)</div>
     </div>
 
-    <div class="content">
-      <!-- Filtros conforme mockup -->
-      <div class="filter-pills">
-        <span class="pill active">Todos</span>
-        <span class="pill">Rebanhos</span>
+    <main class="tarefas-main">
+
+      <!-- Filtro por tipo de boleta (ajuda a achar registros) -->
+      <div class="filter-pills" id="filtros-tarefas">
+        <button class="pill active" data-filtro="todas">Todas</button>
+        <button class="pill" data-filtro="movimentacao"><img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Movimentação</button>
+        <button class="pill" data-filtro="nascimento"><img class="label-ico" src="/public/Icons/nascimento.ico" alt="" /> Nascimento</button>
+        <button class="pill" data-filtro="obito"><img class="label-ico" src="/public/Icons/obto.ico" alt="" /> Óbito</button>
       </div>
 
-      <!-- Lista estrutural das Tarefas -->
-      <div class="tarefas-lista">
-        
-        <!-- Exemplo de Card 1 -->
-        <div class="card tarefa-card">
-          <div class="bar-lateral andamento"></div>
-          <div class="body">
-            <span class="titulo">Consertar Cerca</span>
-            <span class="badge andamento">Em andamento</span>
-            <span class="arrow">›</span>
-          </div>
-        </div>
+      <!-- Lista de boletas criadas pelo capataz (lidas do localStorage) -->
+      <div class="tarefas-lista" id="tarefas-lista"></div>
 
-        <!-- Exemplo de Card 2 -->
-        <div class="card tarefa-card">
-          <div class="bar-lateral pendente"></div>
-          <div class="body">
-            <span class="titulo">Movimentação dos rebanhos</span>
-            <span class="badge pendente">Pendente</span>
-            <span class="arrow">›</span>
-          </div>
-        </div>
-
+      <div class="tarefas-vazio" id="tarefas-vazio" style="display: none;">
+        <p>Nenhuma boleta encontrada.</p>
       </div>
 
-      <!-- Botão para disparar ações -->
-      <button class="btn" style="margin-top:16px">Nova O.S</button>
-    </div>
+      <button class="btn btn-primario" style="width: 100%; margin-top: 1.5rem;" onclick="window.location.href='/nova-os?perfil=<%= perfil %>&retiro=<%= retiro %>'">
+        ➕ Nova Boleta
+      </button>
 
-    <!-- Navegação inferior visível no mobile -->
-    <div class="bottom-nav">
-      <button class="active"><span><img src="../../public/Icons/home.ico" alt="Home" /></span> Início</button>
-      <button><span>📋</span> Tarefas</button>
-      <button><span>🐂</span> Rebanhos</button>
-      <button onclick="window.location.href='/'"><span><img src="../../public/Icons/configuracao.ico" alt="Home" /></span> Config</button>
-    </div>
+    </main>
 
   </div>
 </div>
+
+<script>
+  (function() {
+    var ICONES = {
+      'movimentacao': 'movimentacao', 'transferencia': 'movimentacao',
+      'nascimento': 'nascimento', 'obito': 'obto',
+      'compravenda': 'movimentacao', 'evolucao': 'movimentacao', 'manejo': 'tarefas'
+    };
+    var ROTULOS = {
+      'movimentacao': 'Movimentação', 'transferencia': 'Transferência',
+      'nascimento': 'Nascimento', 'obito': 'Óbito',
+      'compravenda': 'Compra/Venda', 'evolucao': 'Evolução', 'manejo': 'Manejo'
+    };
+
+    var lista = [];
+    try { lista = JSON.parse(localStorage.getItem('brpec_registros') || '[]'); } catch(e){}
+
+    var cont = document.getElementById('tarefas-lista');
+    var vazio = document.getElementById('tarefas-vazio');
+
+    function render(filtro) {
+      cont.innerHTML = '';
+      var visiveis = 0;
+      lista.forEach(function(r) {
+        var tipo = r.operacao || 'manejo';
+        // Filtro "obito"/"nascimento"/"movimentacao" — "movimentacao" engloba transferencia/compravenda/evolucao
+        var grupo = (tipo === 'transferencia' || tipo === 'compravenda' || tipo === 'evolucao') ? 'movimentacao' : tipo;
+        if (filtro !== 'todas' && grupo !== filtro) return;
+
+        var ico = ICONES[tipo] || 'tarefas';
+        var rotulo = ROTULOS[tipo] || 'Registro';
+        var total = (r.animais || []).reduce(function(s,a){return s+(parseInt(a.quantidade)||0);},0);
+        var desc = total ? (total + ' cabeças') : (r.titulo || r.causa || '');
+        var data = r.data || (r.criadoEm || '').slice(0,10);
+
+        var card = document.createElement('div');
+        card.className = 'card tarefa-card';
+        card.dataset.tipo = grupo;
+        card.onclick = function() { window.location.href = '/boleta/' + r.id; };
+        card.innerHTML =
+          '<div class="bar-lateral concluida"></div>' +
+          '<div class="body">' +
+            '<div class="info">' +
+              '<span class="titulo"><img class="label-ico" src="/public/Icons/' + ico + '.ico" alt="" /> ' + rotulo + '</span>' +
+              '<span class="descricao">' + desc + '</span>' +
+              '<div class="meta"><span class="retiro-tag">📅 ' + data + '</span></div>' +
+            '</div>' +
+            '<div class="status-area">' +
+              '<span class="badge concluida">✓ Salvo</span>' +
+              '<span class="arrow">›</span>' +
+            '</div>' +
+          '</div>';
+        cont.appendChild(card);
+        visiveis++;
+      });
+      vazio.style.display = visiveis === 0 ? 'block' : 'none';
+    }
+
+    render('todas');
+
+    document.querySelectorAll('#filtros-tarefas .pill').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#filtros-tarefas .pill').forEach(function(b){b.classList.remove('active');});
+        btn.classList.add('active');
+        render(btn.dataset.filtro);
+      });
+    });
+  })();
+</script>
 
 <%- include('partials/footer') %>

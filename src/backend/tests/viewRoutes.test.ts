@@ -11,6 +11,11 @@
 
 import request from 'supertest';
 import app from '../app';
+import { inicializarBanco } from '../config/initDb';
+
+beforeAll(() => {
+  inicializarBanco();
+});
 
 describe('View Routes — EJS Template Rendering', () => {
   // ─────────────────────────────────────────────────────────
@@ -35,7 +40,7 @@ describe('View Routes — EJS Template Rendering', () => {
 
       expect(res.status).toBe(200);
       expect(res.headers['content-type']).toMatch(/text\/html/);
-      expect(res.text).toContain('Painel Gerencial');
+      expect(res.text).toContain('Dashboard');
     });
   });
 
@@ -49,6 +54,21 @@ describe('View Routes — EJS Template Rendering', () => {
       expect(res.status).toBe(200);
       expect(res.headers['content-type']).toMatch(/text\/html/);
       expect(res.text).toContain('Tarefas do Retiro');
+    });
+  });
+
+  // ─────────────────────────────────────────────────────────
+  // GET /nova-boleta
+  // ─────────────────────────────────────────────────────────
+  describe('GET /nova-boleta', () => {
+    it('retorna 200 e renderiza o formulário de boleta zootécnica', async () => {
+      const res = await request(app).get('/nova-boleta?perfil=Capataz&retiro=Geral');
+
+      expect(res.status).toBe(200);
+      expect(res.headers['content-type']).toMatch(/text\/html/);
+      expect(res.text).toContain('Nova Boleta Zootécnica');
+      expect(res.text).toContain('Tipo de boleta');
+      expect(res.text).toContain('Identificador do chip');
     });
   });
 });

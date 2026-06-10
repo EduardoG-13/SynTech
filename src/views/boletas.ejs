@@ -1,0 +1,231 @@
+<%- include('partials/header') %>
+
+<div id="device" class="logged">
+  <%- include('partials/sidebar') %>
+
+  <div id="app">
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar"><img src="/public/Icons/coordenador.ico" alt="Coordenador" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <h1>Boletas</h1>
+      <div class="sub"><%= retiro %> (<%= perfil %>)</div>
+    </div>
+
+    <main class="layout" style="padding: 0;">
+
+      <div class="filter-pills">
+        <span class="pill" onclick="window.location.href='/tarefas?perfil=<%= perfil %>'">Painel</span>
+        <span class="pill active">Boletas</span>
+      </div>
+
+      <div class="boletas-filtros" style="margin-bottom: 1rem;">
+        <div class="card" style="padding: 1rem;">
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <select id="filtro-retiro" style="flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;">
+              <option value="">Todos os retiros</option>
+            </select>
+            <select id="filtro-tipo" style="flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;">
+              <option value="">Todos os tipos</option>
+              <option value="nascimento">Nascimento</option>
+              <option value="obito">Óbito</option>
+              <option value="transferencia">Transferência</option>
+              <option value="compravenda">Compra/Venda</option>
+            </select>
+            <input type="date" id="filtro-data-inicio" style="flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;" placeholder="Data início" />
+            <input type="date" id="filtro-data-fim" style="flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;" placeholder="Data fim" />
+          </div>
+        </div>
+      </div>
+
+      <div class="boletas-resumo" style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+        <div class="card" style="flex: 1; text-align: center; padding: 0.75rem; min-width: 80px;">
+          <span style="font-size: 1.5rem; font-weight: 700; color: var(--verde-profundo, #1A4D2E);" id="total-nascimentos">0</span>
+          <p style="font-size: 0.75rem; color: #8A8A7C;">Nascimentos</p>
+        </div>
+        <div class="card" style="flex: 1; text-align: center; padding: 0.75rem; min-width: 80px;">
+          <span style="font-size: 1.5rem; font-weight: 700; color: var(--verde-profundo, #1A4D2E);" id="total-obitos">0</span>
+          <p style="font-size: 0.75rem; color: #8A8A7C;">Óbitos</p>
+        </div>
+        <div class="card" style="flex: 1; text-align: center; padding: 0.75rem; min-width: 80px;">
+          <span style="font-size: 1.5rem; font-weight: 700; color: var(--verde-profundo, #1A4D2E);" id="total-transferencias">0</span>
+          <p style="font-size: 0.75rem; color: #8A8A7C;">Transferências</p>
+        </div>
+        <div class="card" style="flex: 1; text-align: center; padding: 0.75rem; min-width: 80px;">
+          <span style="font-size: 1.5rem; font-weight: 700; color: var(--verde-profundo, #1A4D2E);" id="total-compravendas">0</span>
+          <p style="font-size: 0.75rem; color: #8A8A7C;">Compra/Venda</p>
+        </div>
+      </div>
+
+      <!-- Lista de boletas (lida da API) -->
+      <div class="boletas-lista" id="boletas-lista">
+        <p style="color:#8A8A7C; text-align:center; padding:1rem;">Carregando boletas...</p>
+      </div>
+
+      <!-- Exportação: escolher tipos + intervalo e gerar planilha -->
+      <div class="card" style="margin-top: 1.5rem; padding: 1.25rem;">
+        <h3 style="color: #1A4D2E; margin-bottom: 0.75rem;">⬇️ Exportar planilha</h3>
+        <p style="font-size: 0.85rem; color: #5c6b5d; margin-bottom: 0.75rem;">Escolha o que incluir e o período.</p>
+
+        <div class="export-tipos" style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem;">
+          <label><input type="checkbox" class="exp-tipo" value="movimentacao" checked /> <img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Movimentações / Transferências</label>
+          <label><input type="checkbox" class="exp-tipo" value="nascimento" checked /> <img class="label-ico" src="/public/Icons/nascimento.ico" alt="" /> Nascimentos</label>
+          <label><input type="checkbox" class="exp-tipo" value="obito" checked /> <img class="label-ico" src="/public/Icons/obto.ico" alt="" /> Óbitos / Mortes</label>
+          <label><input type="checkbox" class="exp-tipo" value="compravenda" checked /> Compras / Vendas</label>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+          <div style="flex: 1; min-width: 130px;">
+            <label style="font-size: 0.8rem; color: #5c6b5d;">📅 De</label>
+            <input type="date" id="exp-data-inicio" style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;" />
+          </div>
+          <div style="flex: 1; min-width: 130px;">
+            <label style="font-size: 0.8rem; color: #5c6b5d;">📅 Até</label>
+            <input type="date" id="exp-data-fim" style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;" />
+          </div>
+          <div style="flex: 1; min-width: 130px;">
+            <label style="font-size: 0.8rem; color: #5c6b5d;">📍 Retiro</label>
+            <select id="exp-retiro" style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;">
+              <option value="">Todos</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn btn-primario" id="btn-exportar" style="flex:1;">
+            ⬇️ Gerar planilha (filtros)
+          </button>
+          <button class="btn btn-primario" id="btn-exportar-selecionadas" style="flex:1; background:#A64B00;">
+            ⬇️ Exportar selecionadas (<span id="qtd-sel">0</span>)
+          </button>
+        </div>
+        <p id="export-msg" style="display:none; text-align:center; margin-top:0.75rem; font-weight:600;"></p>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script>
+  var BOLETAS = []; // cache da lista vinda da API
+  var SELECIONADAS = new Set();
+
+  document.addEventListener('DOMContentLoaded', function() {
+    fetch('/api/dados/retiros')
+      .then(function(r) { return r.json(); })
+      .then(function(retiros) {
+        var sel = document.getElementById('exp-retiro');
+        retiros.forEach(function(r) {
+          sel.insertAdjacentHTML('beforeend', '<option value="' + r.id + '">' + r.nome + '</option>');
+        });
+      }).catch(function(){});
+
+    carregarBoletasPendentes();
+
+    document.getElementById('btn-exportar').addEventListener('click', exportarComFiltros);
+    document.getElementById('btn-exportar-selecionadas').addEventListener('click', exportarSelecionadas);
+  });
+
+  function carregarBoletasPendentes() {
+    fetch('/api/coordenador/boletas-pendentes', { credentials: 'same-origin' })
+      .then(function(r) { return r.json(); })
+      .then(function(rows) {
+        BOLETAS = rows || [];
+        renderBoletas();
+      })
+      .catch(function() {
+        document.getElementById('boletas-lista').innerHTML =
+          '<p style="color:#D32F2F; text-align:center;">Erro ao carregar boletas. Faça login como Coordenador.</p>';
+      });
+  }
+
+  function renderBoletas() {
+    var cont = document.getElementById('boletas-lista');
+    if (!BOLETAS.length) {
+      cont.innerHTML = '<p style="color:#8A8A7C; text-align:center; padding:1rem;">Nenhuma boleta pendente de aprovação.</p>';
+      return;
+    }
+    cont.innerHTML = BOLETAS.map(function(b) {
+      var data = b.data || (b.criado_em || '').slice(0,10);
+      var aprovada = !!b.aprovado_por_coordenador_id;
+      return '<div class="card boleta-card" style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem; padding:0.75rem 1rem;">' +
+        '<input type="checkbox" class="boleta-check" data-id="' + b.id + '" ' + (aprovada ? 'disabled' : '') + ' />' +
+        '<div style="flex:1; cursor:pointer;" onclick="window.location.href=\'/boleta/' + b.id + '\'">' +
+          '<span class="boleta-titulo">' + (b.categoria || 'Movimentação') + ' — ' + (b.quantidade || 0) + ' cabeças</span>' +
+          '<span style="display:block; font-size:0.8rem; color:#8A8A7C;">📅 ' + data + ' · ' + (b.retiro_nome || '') + ' · ' + (b.capataz_nome || '') + '</span>' +
+        '</div>' +
+        (aprovada
+          ? '<span class="badge concluida">✓ Aprovada</span>'
+          : '<button class="btn-aprovar" data-id="' + b.id + '">✅ Aprovar</button>') +
+      '</div>';
+    }).join('');
+
+    cont.querySelectorAll('.boleta-check').forEach(function(c) {
+      c.addEventListener('change', function() {
+        if (c.checked) SELECIONADAS.add(c.dataset.id); else SELECIONADAS.delete(c.dataset.id);
+        document.getElementById('qtd-sel').textContent = SELECIONADAS.size;
+      });
+    });
+    cont.querySelectorAll('.btn-aprovar').forEach(function(b) {
+      b.addEventListener('click', function() { aprovarBoleta(b.dataset.id); });
+    });
+  }
+
+  function aprovarBoleta(id) {
+    fetch('/api/coordenador/boletas/' + id + '/aprovar', {
+      method: 'POST', credentials: 'same-origin'
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      if (d.mensagem) {
+        msgExport('✅ ' + d.mensagem, '#2E7D52');
+        carregarBoletasPendentes();
+      } else {
+        msgExport('❌ ' + (d.erro || 'Erro ao aprovar.'), '#D32F2F');
+      }
+    });
+  }
+
+  function exportarSelecionadas() {
+    if (SELECIONADAS.size === 0) {
+      msgExport('❌ Selecione ao menos uma boleta nas caixinhas.', '#D32F2F');
+      return;
+    }
+    var ids = Array.from(SELECIONADAS).join(',');
+    window.location.href = '/api/coordenador/exportar?ids=' + encodeURIComponent(ids);
+    msgExport('⬇️ Download da seleção iniciado.', '#2E7D52');
+  }
+
+  function exportarComFiltros() {
+    var tipos = Array.prototype.slice.call(document.querySelectorAll('.exp-tipo:checked'))
+      .map(function(c) { return c.value; });
+
+    if (!tipos.length) {
+      msgExport('❌ Selecione ao menos um tipo para exportar.', '#D32F2F');
+      return;
+    }
+
+    var params = new URLSearchParams();
+    params.set('tipos', tipos.join(','));
+    var ini = document.getElementById('exp-data-inicio').value;
+    var fim = document.getElementById('exp-data-fim').value;
+    var retiro = document.getElementById('exp-retiro').value;
+    if (ini) params.set('data_inicio', ini);
+    if (fim) params.set('data_fim', fim);
+    if (retiro) params.set('retiro_id', retiro);
+
+    var url = '/api/coordenador/exportar?' + params.toString();
+    msgExport('⏳ Gerando planilha...', '#A64B00');
+    window.location.href = url;
+    setTimeout(function() {
+      msgExport('✅ Download iniciado. Se nada baixou, confira o filtro.', '#2E7D52');
+    }, 1500);
+  }
+
+  function msgExport(texto, cor) {
+    var el = document.getElementById('export-msg');
+    el.textContent = texto;
+    el.style.color = cor;
+    el.style.display = 'block';
+  }
+</script>
+
+<%- include('partials/footer') %>

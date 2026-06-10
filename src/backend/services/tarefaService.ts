@@ -28,7 +28,20 @@ class TarefaService {
     return await tarefaRepository.buscarTarefasHoje(capataz_id, hoje);
   }
 
-  async concluirTarefa(tarefa_id, capataz_id) {
+  async concluirTarefa(
+    tarefa_id: string,
+    capataz_id: string
+  ): Promise<any> {
+    const tarefaAtual = await tarefaRepository.buscarPorId(tarefa_id);
+
+    if (!tarefaAtual || tarefaAtual.capataz_id !== capataz_id) {
+      throw new Error('Tarefa não encontrada ou não pertence ao capataz.');
+    }
+
+    if (tarefaAtual.status === 'CONCLUIDA') {
+      throw new Error('Tarefa já está concluída.');
+    }
+
     const data_conclusao = new Date().toISOString();
     const tarefa = await tarefaRepository.concluir(tarefa_id, capataz_id, data_conclusao);
     if (!tarefa) {
@@ -38,10 +51,25 @@ class TarefaService {
   }
 
   async anexarEvidencia(tarefa_id, capataz_id, dados) {
-    // Verificar se a tarefa pertence ao capataz
     const tarefa = await tarefaRepository.buscarPorId(tarefa_id);
     if (!tarefa || tarefa.capataz_id !== capataz_id) {
       throw new Error('RN05: Tarefa não encontrada ou não pertence ao capataz.');
+    }
+
+    if (dados.arquivo_base64 != null) {
+      // Remove prefixo data URI do navegador (ex: "data:image/png;base64,") antes de validar
+      const payload = dados.arquivo_base64.replace(/^data:[^;]+;base64,/, '');
+
+      // RN05: estrutura deve ser base64 válido (apenas chars permitidos)
+      if (!/^[A-Za-z0-9+/]+=*$/.test(payload)) {
+        throw new Error('RN05: arquivo_base64 contém caracteres inválidos.');
+      }
+      // RN05: tamanho máximo 5 MB em binário (~6,990,507 chars em base64)
+      if (payload.length > 6_990_507) {
+        throw new Error('RN05: arquivo_base64 excede o tamanho máximo permitido (5 MB).');
+      }
+
+      dados.arquivo_base64 = payload;
     }
 
     const evidencia_id = await tarefaRepository.salvarEvidencia(

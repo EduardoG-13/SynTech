@@ -4,8 +4,10 @@
 CREATE TABLE IF NOT EXISTS retiros (
     id TEXT PRIMARY KEY NOT NULL,
     nome TEXT NOT NULL,
+    numero TEXT,
     localizacao TEXT NOT NULL,
-    coordenador_id TEXT NOT NULL,
+    coordenador_id TEXT,
+    capataz_id TEXT,
     criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -57,7 +59,7 @@ CREATE TABLE IF NOT EXISTS alertas (
     id TEXT PRIMARY KEY NOT NULL,
     tipo TEXT NOT NULL,
     descricao TEXT,
-    status TEXT NOT NULL,
+    status TEXT NOT NULL CHECK(status IN ('ABERTO', 'EM_ANDAMENTO', 'RESOLVIDO')),
     capataz_id TEXT NOT NULL,
     retiro_id TEXT NOT NULL,
     latitude REAL NOT NULL,
@@ -66,9 +68,12 @@ CREATE TABLE IF NOT EXISTS alertas (
     sincronizado BOOLEAN DEFAULT 0,
     foto_id TEXT,
     tecnico_id TEXT,
+    solucao_resolucao TEXT,
+    resolvido_em DATETIME,
     FOREIGN KEY (capataz_id) REFERENCES usuarios(id),
     FOREIGN KEY (retiro_id) REFERENCES retiros(id),
-    FOREIGN KEY (foto_id) REFERENCES evidencias(id)
+    FOREIGN KEY (foto_id) REFERENCES evidencias(id),
+    FOREIGN KEY (tecnico_id) REFERENCES usuarios(id)
 );
 
 CREATE TABLE IF NOT EXISTS movimentacoes (

@@ -1,0 +1,122 @@
+<%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/tarefas.css" />
+
+<div id="device" class="logged">
+  <%- include('partials/sidebar') %>
+
+  <div id="app">
+    <main class="sucesso-main">
+
+      <div class="sucesso-card">
+        <div class="sucesso-icone">
+          <img src="/public/Icons/concluido.ico" alt="" />
+        </div>
+        <h1 id="sucesso-titulo">Registro concluído!</h1>
+        <p class="sucesso-sub" id="sucesso-sub">Seu registro foi salvo no dispositivo.</p>
+
+        <!-- Resumo dinâmico do que foi registrado -->
+        <div class="sucesso-resumo" id="sucesso-resumo">
+          <!-- preenchido via JS -->
+        </div>
+
+        <!-- Status de sincronização -->
+        <div class="sucesso-sync" id="sucesso-sync">
+          <span class="sync-dot"></span>
+          <span id="sync-texto">Aguardando envio para a nuvem...</span>
+        </div>
+
+        <div class="sucesso-acoes">
+          <button class="btn-secundario" id="btn-historico">
+            🕓 Ver histórico
+          </button>
+          <button class="btn-primario-grande" id="btn-novo">
+            <img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Registrar outra
+          </button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script>
+  var PERFIL = '<%= perfil %>';
+  var RETIRO = '<%= retiro %>';
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Lê o último registro salvo do localStorage (escrito pela nova-os ao registrar)
+    var ultimo = null;
+    try { ultimo = JSON.parse(localStorage.getItem('brpec_ultimo_registro') || 'null'); } catch(e){}
+
+    if (ultimo) {
+      preencherResumo(ultimo);
+    } else {
+      document.getElementById('sucesso-resumo').innerHTML =
+        '<p class="sucesso-vazio">Nenhum detalhe disponível.</p>';
+    }
+
+    // Botões de ação dependem do perfil
+    document.getElementById('btn-historico').addEventListener('click', function() {
+      if (PERFIL === 'Infraestrutura') window.location.href = '/historico';
+      else window.location.href = '/tarefas';
+    });
+    document.getElementById('btn-novo').addEventListener('click', function() {
+      if (PERFIL === 'Infraestrutura') window.location.href = '/infraestrutura';
+      else window.location.href = '/nova-os';
+    });
+
+    // Simula confirmação de sync após 2s (vai ser real quando integração estiver pronta)
+    setTimeout(function() {
+      document.getElementById('sucesso-sync').classList.add('ok');
+      document.getElementById('sync-texto').textContent = '✓ Enviado para a nuvem';
+    }, 2000);
+  });
+
+  function rotuloOperacao(op) {
+    var map = {
+      'nascimento': { ico: 'nascimento', label: 'Nascimento' },
+      'obito':      { ico: 'obto',       label: 'Óbito' },
+      'transferencia': { ico: 'movimentacao', label: 'Transferência' },
+      'compravenda': { ico: 'movimentacao', label: 'Compra / Venda' },
+      'evolucao':    { ico: 'movimentacao', label: 'Evolução' },
+      'manejo':      { ico: 'tarefas',   label: 'Manejo' },
+      'chamado':     { ico: 'infra',     label: 'Chamado de infraestrutura' },
+    };
+    return map[op] || { ico: 'concluido', label: op || 'Registro' };
+  }
+
+  function preencherResumo(r) {
+    var info = rotuloOperacao(r.operacao);
+    document.getElementById('sucesso-titulo').textContent = info.label + ' registrado!';
+
+    var html = '';
+    html += linhaResumo('Tipo', '<img class="label-ico" src="/public/Icons/' + info.ico + '.ico" alt="" /> ' + info.label);
+    if (r.data)    html += linhaResumo('📅 Data', r.data);
+    if (r.retiro || r.retiro_origem)  html += linhaResumo('📍 Retiro', r.retiro || r.retiro_origem);
+    if (r.retiro_destino)  html += linhaResumo('🎯 Destino', r.retiro_destino);
+    if (r.pasto)   html += linhaResumo('Pasto', r.pasto);
+
+    if (r.animais && r.animais.length) {
+      var lista = r.animais.map(function(a) { return a.quantidade + ' × ' + a.categoria; }).join('<br>');
+      html += linhaResumo('🐂 Animais', lista);
+      var total = r.animais.reduce(function(s,a) { return s + (parseInt(a.quantidade)||0); }, 0);
+      html += linhaResumo('Total', '<strong>' + total + ' cabeças</strong>');
+    }
+
+    if (r.brinco)  html += linhaResumo('🏷️ Brinco', r.brinco);
+    if (r.causa)   html += linhaResumo('Causa', r.causa);
+    if (r.valor)   html += linhaResumo('💵 Valor', 'R$ ' + r.valor);
+    if (r.titulo)  html += linhaResumo('Título', r.titulo);
+    if (r.observacoes) html += linhaResumo('📝 Observações', r.observacoes);
+    if (r.observacoes_audio) html += linhaResumo('🎙️ Áudio', 'Anexado');
+    if (r.tem_foto) html += linhaResumo('📷 Foto', 'Anexada');
+
+    document.getElementById('sucesso-resumo').innerHTML = html;
+  }
+
+  function linhaResumo(label, valor) {
+    return '<div class="resumo-linha"><span class="resumo-label">' + label + '</span><span class="resumo-valor">' + valor + '</span></div>';
+  }
+</script>
+
+<%- include('partials/footer') %>

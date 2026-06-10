@@ -2,12 +2,25 @@ import alertaRepository from '../repositories/alertaRepository';
 import { Alerta } from '../models/Alerta';
 
 class AlertaService {
-  criarAlerta(dados: Partial<Alerta>) {
-    return alertaRepository.criar(dados);
+  async criarAlerta(dados: Partial<Alerta>) {
+    if (!dados.descricao || dados.descricao.trim().length <= 10) {
+      throw new Error('RN06: descrição deve ter mais de 10 caracteres');
+    }
+
+    if (dados.latitude === undefined || dados.latitude === null ||
+        dados.longitude === undefined || dados.longitude === null) {
+      throw new Error('RN06: coordenadas GPS são obrigatórias');
+    }
+
+    if (dados.foto_base64 != null && typeof dados.foto_base64 !== 'string') {
+      throw new Error('Formato inválido para foto_base64');
+    }
+
+    return await alertaRepository.criar(dados);
   }
 
-  listarChamados(status?: string) {
-    return alertaRepository.listar(status);
+  async listarChamados(status?: string) {
+    return await alertaRepository.listar(status);
   }
 
   async resolverChamado(
@@ -35,5 +48,3 @@ class AlertaService {
 }
 
 export default new AlertaService();
-
-

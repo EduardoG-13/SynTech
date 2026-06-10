@@ -213,6 +213,34 @@ class CloudSyncService {
               ]);
               db.prepare('UPDATE evidencias SET sincronizada = 1 WHERE id = ?').run(ev.id);
             }
+          } else if (item.entidade_tipo === 'retiro') {
+            const r = db.prepare('SELECT * FROM retiros WHERE id = ?').get(item.entidade_id) as any;
+            if (r) {
+              await supabasePool.query(`
+                INSERT INTO retiros (id, nome, numero, localizacao, coordenador_id, capataz_id, criado_em)
+                VALUES ($1, $2, $3, $4, $5, $6, $7)
+                ON CONFLICT (id) DO UPDATE SET
+                  nome = EXCLUDED.nome,
+                  numero = EXCLUDED.numero,
+                  localizacao = EXCLUDED.localizacao,
+                  coordenador_id = EXCLUDED.coordenador_id,
+                  capataz_id = EXCLUDED.capataz_id
+              `, [r.id, r.nome, r.numero, r.localizacao, r.coordenador_id, r.capataz_id, r.criado_em]);
+            }
+          } else if (item.entidade_tipo === 'usuario') {
+            const u = db.prepare('SELECT * FROM usuarios WHERE id = ?').get(item.entidade_id) as any;
+            if (u) {
+              await supabasePool.query(`
+                INSERT INTO usuarios (id, nome, senha, perfil, retiro_id, is_admin, criado_em)
+                VALUES ($1, $2, $3, $4, $5, $6, $7)
+                ON CONFLICT (id) DO UPDATE SET
+                  nome = EXCLUDED.nome,
+                  senha = EXCLUDED.senha,
+                  perfil = EXCLUDED.perfil,
+                  retiro_id = EXCLUDED.retiro_id,
+                  is_admin = EXCLUDED.is_admin
+              `, [u.id, u.nome, u.senha, u.perfil, u.retiro_id, u.is_admin || 0, u.criado_em]);
+            }
           }
 
           // Mark outbox entry as SINCRONIZADO
