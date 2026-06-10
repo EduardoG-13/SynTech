@@ -109,6 +109,12 @@ app.get('/sucesso', requireLogin(), (_req, res) => {
   res.render('sucesso', { perfil: u.perfil, retiro: u.retiro_id || 'Geral' });
 });
 
+app.get('/nova-boleta', (req, res) => {
+  const perfil = req.query.perfil || 'Capataz';
+  const retiro = req.query.retiro || 'Geral';
+  res.render('nova-boleta', { perfil, retiro });
+});
+
 // Rotas de autenticação
 app.use('/api/auth', authRoutes);
 
