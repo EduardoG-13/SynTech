@@ -5017,6 +5017,143 @@ Time:        1.373 s
 Ran all test suites.
 ```
 
+### 5.1.5. Testes unitários de serviços
+
+A camada de serviços do BRPec foi coberta por testes unitários que verificam exclusivamente a **lógica de negócio** — sem dependência de banco de dados, rede ou filesystem. O isolamento é garantido pela substituição completa dos repositórios por dublês criados com `jest.mock()`, enquanto o padrão **AAA** (Arrange · Act · Assert) estrutura cada caso de forma legível e rastreável às regras de negócio.
+
+#### 5.1.5.1. Isolamento por Mock de Repositório
+
+A substituição de cada repositório ocorre no topo do arquivo de teste, antes de qualquer importação do módulo sob teste:
+
+```typescript
+jest.mock('../../repositories/tarefaRepository', () => ({
+  __esModule: true,
+  default: {
+    criar: jest.fn(),
+    buscarPorId: jest.fn(),
+    concluir: jest.fn(),
+    salvarEvidencia: jest.fn(),
+  },
+}));
+
+// Após o mock estar declarado, importa-se o serviço normalmente
+import tarefaRepository from '../../repositories/tarefaRepository';
+import tarefaService from '../../services/tarefaService';
+
+const mockTarefaRepo = tarefaRepository as jest.Mocked<typeof tarefaRepository>;
+```
+
+Com o módulo substituído, o serviço sob teste nunca alcança o banco real — qualquer chamada ao repositório invoca o `jest.fn()` correspondente. O valor de retorno de cada função é configurado por cenário com `mockResolvedValue` (assíncronas) ou `mockReturnValue` (síncronas), permitindo simular o caminho feliz e falhas específicas sem necessidade de seed de banco.
+
+Para garantir determinismo entre casos de teste, cada suite utiliza dois mecanismos:
+
+- **Fixtures**: funções puras (`tarefaFixture()`, `alertaFixture()`) que retornam um objeto de estado base que pode ser sobrescrito pontualmente por cada cenário.
+- **`beforeEach(() => jest.clearAllMocks())`**: restaura contadores de chamadas e valores configurados antes de cada teste, evitando que o estado de um caso contamine o próximo.
+
+#### 5.1.5.2. Padrão AAA (Arrange · Act · Assert)
+
+Cada caso de teste segue o padrão AAA para garantir legibilidade e rastreabilidade direta ao critério de aceite testado:
+
+| Fase | Responsabilidade |
+|---|---|
+| **Arrange** | Configurar o estado inicial — dados de entrada, comportamento dos mocks e fixtures |
+| **Act** | Invocar o método do serviço com os dados preparados |
+| **Assert** | Verificar o resultado retornado e os efeitos colaterais nos mocks |
+
+**Caminho feliz** — verifica que o repositório é chamado e o retorno está correto:
+
+```typescript
+it('deve concluir a tarefa e retornar o registro atualizado quando os dados são válidos', async () => {
+  // Arrange
+  const tarefaConcluida = {
+    ...tarefaFixture(),
+    status: 'CONCLUIDA' as const,
+    concluida_em: new Date().toISOString(),
+  };
+  mockTarefaRepo.concluir.mockResolvedValue(tarefaConcluida);
+
+  // Act
+  const resultado = await tarefaService.concluirTarefa(
+    'mock-tarefa-id-0001',
+    'mock-capataz-id-0001'
+  );
+
+  // Assert
+  expect(mockTarefaRepo.concluir).toHaveBeenCalledTimes(1);
+  expect(resultado.status).toBe('CONCLUIDA');
+});
+```
+
+**Caminho infeliz** — verifica que a validação interrompe o fluxo antes de qualquer persistência. O `not.toHaveBeenCalled()` é tão importante quanto o `rejects.toThrow()`, pois confirma que nenhum efeito colateral ocorreu:
+
+```typescript
+it('deve lançar erro e não persistir quando a data de agendamento for retroativa', async () => {
+  // Arrange
+  const dados = { ...dadosBase, data_execucao: DATA_PASSADA };
+
+  // Act & Assert
+  await expect(tarefaService.criarTarefa(dados))
+    .rejects
+    .toThrow('retroativa');
+  expect(mockTarefaRepo.criar).not.toHaveBeenCalled();
+});
+```
+
+#### 5.1.5.3. Matriz de Cobertura de Testes Unitários
+
+#### Suite 1 — `tests/unit/tarefaService.test.ts` (13 casos)
+
+| ID | Método | Cenário | RN/RF coberta |
+|---|---|---|---|
+| U-T01 | `concluirTarefa` | Dados válidos → retorna `CONCLUIDA` | RF003 |
+| U-T02 | `concluirTarefa` | Tarefa já concluída → lança erro, `concluir` não é chamado | — |
+| U-T03 | `concluirTarefa` | Tarefa pertence a outro capataz → lança erro | RN05 |
+| U-T04 | `anexarEvidencia` | Dados válidos → retorna `evidencia_id` | RF005 |
+| U-T05 | `anexarEvidencia` | Tarefa pertence a outro capataz → lança `RN05` | RN05 |
+| U-T06 | `anexarEvidencia` | `arquivo_base64` > 5 MB → lança `tamanho máximo` | — |
+| U-T07 | `anexarEvidencia` | Base64 com caracteres inválidos → lança erro | — |
+| U-T08 | `anexarEvidencia` | Prefixo `data URI` do browser → normaliza antes de persistir | — |
+| U-T09 | `anexarEvidencia` | `arquivo_base64` vazio → lança erro | — |
+| U-T10 | `anexarEvidencia` | Tipo `TEXTO` sem `arquivo_base64` → salva sem arquivo | — |
+| U-T11 | `criarTarefa` | Dados válidos → cria e retorna registro persistido | RF001 |
+| U-T12 | `criarTarefa` | Data de execução retroativa → não persiste | RN-DATA |
+| U-T13 | `criarTarefa` | Descrição fornecida em branco → não persiste | RN-DESC |
+
+#### Suite 2 — `tests/unit/alertaService.test.ts` (11 casos)
+
+| ID | Método | Cenário | RN coberta |
+|---|---|---|---|
+| U-A01 | `criarAlerta` | Dados válidos → persiste e retorna registro | RF007 |
+| U-A02 | `criarAlerta` | Descrição ≤ 10 caracteres → lança `RN06` | RN06 |
+| U-A03 | `criarAlerta` | Descrição em branco → lança `RN06` | RN06 |
+| U-A04 | `criarAlerta` | Descrição ausente → lança `RN06` | RN06 |
+| U-A05 | `criarAlerta` | Latitude ausente → lança `RN06` | RN06 |
+| U-A06 | `criarAlerta` | Longitude ausente → lança `RN06` | RN06 |
+| U-A07 | `resolverChamado` | Usuário Tecnico, dados válidos → retorna `RESOLVIDO` | RN-TECNICO |
+| U-A08 | `resolverChamado` | Usuário com perfil Capataz → lança `ACESSO_NEGADO` | RN-TECNICO |
+| U-A09 | `resolverChamado` | Usuário não encontrado → lança `ACESSO_NEGADO` | RN-TECNICO |
+| U-A10 | `resolverChamado` | Chamado inexistente → lança `CHAMADO_NAO_ENCONTRADO` | — |
+| U-A11 | `resolverChamado` | Chamado já resolvido → lança `CHAMADO_JA_RESOLVIDO` | RN-STATUS |
+
+#### Suite 3 — `tests/unit/cloudSyncService.test.ts` (4 casos)
+
+Esta suite usa banco SQLite real em memória, mas substitui o `supabasePool` por um mock — abordagem híbrida que testa a lógica de resiliência e controle de fila sem exigir conexão Supabase:
+
+| ID | Cenário | Estado esperado na fila |
+|---|---|---|
+| U-C01 | Pool recusa conexão (offline) → serviço suspende sem modificar fila | `status_envio = PENDENTE`, `tentativas = 0` |
+| U-C02 | Online + tarefa pendente → sincroniza e atualiza flag local | `status_envio = SINCRONIZADO`, `sincronizada = 1` |
+| U-C03 | Online + upsert falha → marca erro e incrementa tentativas | `status_envio = ERRO`, `tentativas = 1` |
+| U-C04 | Online + alerta pendente → sincroniza corretamente | `status_envio = SINCRONIZADO`, `sincronizado = 1` |
+
+#### 5.1.5.4. Resumo e Resultados
+
+As três suites totalizam **28 testes unitários**. Todos os casos aprovados confirmam que `TarefaService`, `AlertaService` e `CloudSyncService` aplicam corretamente suas regras de negócio independentemente da camada de persistência. A suite é executada com:
+
+```bash
+npx jest tests/unit --verbose
+```
+
 ## 5.2. Testes de usabilidade (sprint 5)
 
 ### 5.2.1. Relatório de testes de guerrilha
