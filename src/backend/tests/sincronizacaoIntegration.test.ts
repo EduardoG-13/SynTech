@@ -155,5 +155,20 @@ describe('POST /api/sincronizacao/lote — lote misto com tarefas concluídas', 
     expect(res.body).toHaveProperty('erro');
   });
 
+   it('413 — lote com mais de 500 itens excede limite (RNF-CAP)', async () => {
+    const itensExcedentes = Array.from({ length: 501 }, (_, i) => ({
+      entidade_tipo: 'tarefa',
+      dados: { titulo: `Tarefa ${i}` },
+    }));
+
+    const res = await request(app)
+      .post('/api/sincronizacao/lote')
+      .send({ itens: itensExcedentes });
+
+    expect(res.status).toBe(413);
+    expect(res.body).toHaveProperty('erro');
+    expect(res.body).toHaveProperty('itens_recebidos', 501);
+  });
+  
 });
 export {};
