@@ -128,5 +128,32 @@ describe('POST /api/sincronizacao/lote — lote misto com tarefas concluídas', 
     expect(itemComErro).toHaveProperty('erro');
   });
 
+   it('400 — sem campo itens no body', async () => {
+    const res = await request(app)
+      .post('/api/sincronizacao/lote')
+      .send({});
+
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('erro');
+  });
+
+  it('400 — itens não é array', async () => {
+    const res = await request(app)
+      .post('/api/sincronizacao/lote')
+      .send({ itens: 'tarefa' });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('erro');
+  });
+
+  it('400 — array de itens vazio', async () => {
+    const res = await request(app)
+      .post('/api/sincronizacao/lote')
+      .send({ itens: [] });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('erro');
+  });
+
 });
 export {};
