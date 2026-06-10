@@ -20,4 +20,47 @@ beforeAll(() => {
     .run(CAPATAZ_ID, 'Capataz Evento Intg', 'hash', 'Capataz', RETIRO_ID);
 });
 
+// ─────────────────────────────────────────────────────────
+// POST /api/eventos-zootecnicos/nascimentos
+// ─────────────────────────────────────────────────────────
+describe('POST /api/eventos-zootecnicos/nascimentos', () => {
+  it('201 — cria nascimento com payload válido completo (RF008)', async () => {
+    const res = await request(app)
+      .post('/api/eventos-zootecnicos/nascimentos')
+      .send({
+        data:       '2026-06-10',
+        retiro_id:  RETIRO_ID,
+        categoria:  'BOVINO',
+        quantidade: 3,
+        capataz_id: CAPATAZ_ID,
+      });
+
+    expect(res.status).toBe(201);
+    expect(res.body).toHaveProperty('id');
+    expect(res.body).toHaveProperty('mensagem', 'Registro de nascimento criado com sucesso');
+    expect(res.body).toHaveProperty('registro');
+  });
+
+  it('201 — registro retornado contém campos obrigatórios', async () => {
+    const res = await request(app)
+      .post('/api/eventos-zootecnicos/nascimentos')
+      .send({
+        data:       '2026-06-10',
+        retiro_id:  RETIRO_ID,
+        categoria:  'OVINO',
+        quantidade: 5,
+        capataz_id: CAPATAZ_ID,
+      });
+
+    expect(res.status).toBe(201);
+    const registro = res.body.registro;
+    expect(registro).toHaveProperty('id');
+    expect(registro).toHaveProperty('retiro_id', RETIRO_ID);
+    expect(registro).toHaveProperty('capataz_id', CAPATAZ_ID);
+    expect(registro).toHaveProperty('categoria', 'OVINO');
+    expect(registro).toHaveProperty('quantidade', 5);
+  });
+
+ 
+});
 export {};
