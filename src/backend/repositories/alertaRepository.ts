@@ -25,12 +25,38 @@ class AlertaRepository {
         alerta.longitude
       );
 
-      // Register outbox synchronization entry
+      let fotoId = null;
+      if (alerta.foto_base64) {
+        fotoId = uuidv7();
+        const stmtFoto = db.prepare(`
+          INSERT INTO evidencias (
+            id, alerta_id, tipo, arquivo_base64, sincronizada
+          )
+          VALUES (?, ?, 'FOTO', ?, 0)
+        `);
+        stmtFoto.run(fotoId, id, alerta.foto_base64);
+
+        const stmtUpdateAlerta = db.prepare(`
+          UPDATE alertas
+          SET foto_id = ?
+          WHERE id = ?
+        `);
+        stmtUpdateAlerta.run(fotoId, id);
+      }
+
       const stmtSync = db.prepare(`
         INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas, ultima_tentativa)
         VALUES (?, 'alerta', ?, 'PENDENTE', 0, null)
       `);
       stmtSync.run(uuidv7(), id);
+
+      if (fotoId) {
+        const stmtSyncFoto = db.prepare(`
+          INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas, ultima_tentativa)
+          VALUES (?, 'evidencia', ?, 'PENDENTE', 0, null)
+        `);
+        stmtSyncFoto.run(uuidv7(), fotoId);
+      }
 
       db.exec('COMMIT');
       return this.buscarPorId(id);

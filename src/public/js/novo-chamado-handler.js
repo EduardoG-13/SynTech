@@ -1,4 +1,4 @@
-const CHAMADO_API_PATH = '/api/alertas';
+const CHAMADO_API_PATH = '/api/chamados';
 const MAX_IMAGE_BYTES = 6 * 1024 * 1024; // 6 MB
 const STORAGE_KEY_CAPATAZ = 'brpec_capataz_id';
 const STORAGE_KEY_RETIRO = 'brpec_retiro_id';

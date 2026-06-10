@@ -13,6 +13,7 @@ export interface Alerta {
   criado_em?: string;
   sincronizado?: boolean | number;
   foto_id?: string | null;
+  foto_base64?: string | null;
   tecnico_id?: string | null;
   solucao_resolucao?: string | null;
   resolvido_em?: string | null;

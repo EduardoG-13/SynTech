@@ -29,6 +29,7 @@ router.use('/tarefas', tarefaRoutes);
 
 // Chamados (Alertas)
 router.use('/chamados', alertaRoutes);
+router.use('/alertas', alertaRoutes);
 
 // Eventos Zootecnicos
 router.use('/eventos-zootecnicos', eventoRoutes);
