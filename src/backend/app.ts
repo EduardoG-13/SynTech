@@ -56,8 +56,7 @@ app.get('/selecionar-categoria-infra', (_req, res) => {
 app.get('/dashboard', (req, res) => {
   const perfil = req.query.perfil || 'Gerente';
   const retiro = req.query.retiro || 'Geral';
-  const usuario_id = (req.session as any)?.usuario?.id ?? null;
-  res.render('dashboard', { title: 'BRPec | Dashboard', perfil, retiro, usuario_id });
+  res.render('dashboard', { perfil, retiro });
 });
 
 app.get('/configuracoes', (req, res) => {

@@ -37,12 +37,13 @@
           </label>
 
           <div class="gps-status-block">
-            <p><strong>Coordenadas GPS</strong></p>
-            <p id="gps-status" class="gps-status-text">Aguardando autorização do navegador...</p>
+            <p><strong>📍 Coordenadas GPS</strong></p>
+            <p id="gps-status" class="gps-status-text">🛰️ Capturando localização...</p>
           </div>
 
-          <input id="latitude" name="latitude" type="hidden" required />
-          <input id="longitude" name="longitude" type="hidden" required />
+          <!-- Hidden sem required: validação acontece no submit do form via JS -->
+          <input id="latitude" name="latitude" type="hidden" />
+          <input id="longitude" name="longitude" type="hidden" />
 
           <div class="upload-block">
             <span class="upload-label">Foto / evidência</span>
