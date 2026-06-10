@@ -53,18 +53,36 @@
         datasets: [
           {
             data: [0, 0, 0],
-            backgroundColor: [primaryColor, warningColor, mutedColor],
+            backgroundColor: ['#2d7a56', '#c4831e', '#0f3320'],
             borderWidth: 0,
+            hoverOffset: 8,
+            borderRadius: 3,
           },
         ],
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        cutout: '68%',
         plugins: {
           legend: {
             position: 'bottom',
-            labels: { padding: 16, font: { size: 13 } },
+            labels: {
+              padding: 16,
+              font: { size: 13 },
+              usePointStyle: true,
+              pointStyleWidth: 10,
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: function (ctx) {
+                const total = ctx.dataset.data.reduce(function (a, b) { return a + b; }, 0);
+                const valor = ctx.raw;
+                const pct = total > 0 ? Math.round((valor / total) * 100) : 0;
+                return ' ' + ctx.label + ': ' + valor + ' (' + pct + '%)';
+              },
+            },
           },
         },
       },
