@@ -105,6 +105,12 @@ app.get('/nova-os', (req, res) => {
   res.render('nova-os', { perfil, retiro });
 });
 
+app.get('/nova-boleta', (req, res) => {
+  const perfil = req.query.perfil || 'Capataz';
+  const retiro = req.query.retiro || 'Geral';
+  res.render('nova-boleta', { perfil, retiro });
+});
+
 // Rotas de autenticação
 app.use('/api/auth', authRoutes);
 

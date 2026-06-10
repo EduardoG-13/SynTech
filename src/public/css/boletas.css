@@ -1,0 +1,110 @@
+/* boletas.css — Layout do formulário de boletas zootécnicas */
+
+.form-main {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.btn-voltar {
+  background: none;
+  border: none;
+  color: #1A4D2E;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 1.25rem;
+}
+
+.btn-voltar:hover {
+  color: #2E7D52;
+}
+
+.boleta-card {
+  background: #fff;
+  border: 1px solid #d7dfd3;
+  border-radius: 16px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.boleta-card h2 {
+  margin-top: 0;
+  font-size: 1.3rem;
+  color: #1B1B1B;
+}
+
+.descricao-texto {
+  color: #5c6b5d;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.boleta-card label {
+  display: block;
+  margin-bottom: 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  color: #1B1B1B;
+}
+
+.boleta-card select,
+.boleta-card input[type="text"],
+.boleta-card input[type="date"],
+.boleta-card input[type="file"] {
+  width: 100%;
+  margin-top: 0.45rem;
+  padding: 0.85rem;
+  border-radius: 12px;
+  border: 1px solid #c8d3c3;
+  font-size: 1rem;
+  background: #fff;
+  color: #1B1B1B;
+}
+
+.boleta-card select:focus,
+.boleta-card input:focus {
+  outline: none;
+  border-color: #1A4D2E;
+}
+
+.upload-label {
+  display: block;
+  cursor: pointer;
+}
+
+.upload-label input[type="file"] {
+  padding: 0.6rem 0.75rem;
+}
+
+.morte-campos {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #f4d6d6;
+  background: #fff6f6;
+  border-radius: 12px;
+}
+
+.morte-campos.hidden {
+  display: none !important;
+}
+
+.btn-primario {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  background: #1A4D2E;
+  color: #fff;
+  padding: 0.95rem 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.btn-primario:hover {
+  background: #276b4a;
+}
