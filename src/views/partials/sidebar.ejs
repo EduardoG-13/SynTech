@@ -52,13 +52,12 @@
     <% } %>
   </nav>
 
-  <!-- Rodapé: Configurações (só Gerente) + Sair (todos) -->
+  <!-- Rodapé: Configurações (só Gerente ADM) + Sair (todos) -->
   <div class="side-footer">
-    <% if (perfil === 'Gerente') { %>
-      <button class="side-config" data-rota="/configuracoes" onclick="window.location.href='/configuracoes'">
-        <span><img src="/public/Icons/configuracao.ico" alt="Configurações" /></span> Configurações
-      </button>
-    <% } %>
+    <button class="side-config" id="side-config-btn" data-rota="/configuracoes"
+            onclick="window.location.href='/configuracoes'" style="display:none;">
+      <span><img src="/public/Icons/configuracao.ico" alt="Configurações" /></span> Configurações
+    </button>
     <button class="side-logout" id="side-logout-btn" onclick="fazerLogout()">
       <span><img src="/public/Icons/offline.ico" alt="Sair" /></span> Sair
     </button>
@@ -85,12 +84,22 @@
       var maiorLen = 0;
       botoes.forEach(function(b) {
         var rota = b.getAttribute('data-rota');
-        // Match exato OU início do path (ex: /boleta/3 ainda destaca /boletas? Não — exige startsWith com /)
         if (path === rota || path.indexOf(rota + '/') === 0) {
           if (rota.length > maiorLen) { maiorLen = rota.length; melhorMatch = b; }
         }
       });
       if (melhorMatch) melhorMatch.classList.add('active');
     })();
+
+    // Mostra o botão Configurações apenas para Gerente ADM (is_admin = true)
+    fetch('/api/auth/me', { credentials: 'same-origin' })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.usuario && data.usuario.perfil === 'Gerente' && data.usuario.is_admin) {
+          var btn = document.getElementById('side-config-btn');
+          if (btn) btn.style.display = '';
+        }
+      })
+      .catch(function() {});
   </script>
 </aside>

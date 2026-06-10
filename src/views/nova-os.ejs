@@ -234,6 +234,15 @@
       mostrarMsg('⚠️ Registro não encontrado para edição.', 'erro');
       return;
     }
+    // Janela de 30 dias: bloqueia edição se já passou
+    if (reg.criadoEm) {
+      var dias = (Date.now() - new Date(reg.criadoEm).getTime()) / (1000 * 60 * 60 * 24);
+      if (dias > 30) {
+        mostrarMsg('🔒 Esta boleta tem mais de 30 dias e não pode mais ser editada.', 'erro');
+        setTimeout(function() { window.location.href = '/boleta/' + id; }, 2000);
+        return;
+      }
+    }
 
     // Operação dispara o show dos campos certos
     var selOp = document.getElementById('os-operacao');

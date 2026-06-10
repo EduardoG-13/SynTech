@@ -90,6 +90,9 @@
         <button class="btn-enviar-detalhe" id="btn-editar">
           ✏️ Editar boleta
         </button>
+        <p id="bloqueio-edicao" style="display:none; text-align:center; color:#A64B00; font-size:0.85rem; margin-top:0.5rem;">
+          🔒 Boleta com mais de 30 dias — não pode mais ser editada (ciclo do Coordenador já fechado).
+        </p>
       <% } else if (perfil === 'Coordenador') { %>
         <button class="btn-enviar-detalhe" id="btn-validar">✅ Validar e aprovar</button>
         <button class="btn-baixar" id="btn-baixar">⬇️ Baixar boleta (CSV)</button>
@@ -110,9 +113,11 @@
     // Carrega dados reais do localStorage (escritos pela /nova-os ao registrar)
     carregarBoleta();
 
-    // Botão Editar (Capataz): vai pra /nova-os?edit=ID já preenchido
+    // Botão Editar (Capataz): só permitido dentro da janela de 30 dias
     var btnEditar = document.getElementById('btn-editar');
+    var bloqueio = document.getElementById('bloqueio-edicao');
     if (btnEditar) {
+      verificarJanelaEdicao(btnEditar, bloqueio);
       btnEditar.addEventListener('click', function() {
         window.location.href = '/nova-os?edit=' + encodeURIComponent(BOLETA_ID);
       });
@@ -139,6 +144,20 @@
     el.className = 'form-msg ' + tipo;
     el.style.display = 'block';
     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  // Janela de edição: até 30 dias após criação. Depois disso o Coordenador já fechou.
+  function verificarJanelaEdicao(btnEditar, bloqueio) {
+    var lista = [];
+    try { lista = JSON.parse(localStorage.getItem('brpec_registros') || '[]'); } catch(e){}
+    var reg = lista.find(function(r) { return String(r.id) === String(BOLETA_ID); });
+    if (!reg || !reg.criadoEm) return; // sem data, deixa editar
+    var diff = Date.now() - new Date(reg.criadoEm).getTime();
+    var dias = diff / (1000 * 60 * 60 * 24);
+    if (dias > 30) {
+      btnEditar.style.display = 'none';
+      if (bloqueio) bloqueio.style.display = 'block';
+    }
   }
 
   function carregarBoleta() {

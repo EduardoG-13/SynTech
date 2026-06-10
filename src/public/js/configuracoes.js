@@ -28,11 +28,12 @@
     });
   }
 
-  // Mostra o campo retiro só quando perfil = Capataz
+  // Mostra retiro só p/ Capataz; checkbox de admin só p/ Gerente
   function configurarPerfilUsuario() {
     var sel = document.getElementById('usr-perfil');
     sel.addEventListener('change', function () {
       document.getElementById('usr-retiro-wrap').style.display = sel.value === 'Capataz' ? 'block' : 'none';
+      document.getElementById('usr-admin-wrap').style.display = sel.value === 'Gerente' ? 'block' : 'none';
     });
   }
 
@@ -107,10 +108,13 @@
     var cont = document.getElementById('lista-usuarios-admin');
     if (!usuariosCache.length) { cont.innerHTML = '<p class="vazio">Nenhum usuário cadastrado.</p>'; return; }
     cont.innerHTML = usuariosCache.map(function (u) {
+      var badgeAdmin = (u.perfil === 'Gerente' && u.is_admin)
+        ? ' <span class="badge-perfil admin">🛡️ ADM</span>'
+        : '';
       return '<div class="item-admin">' +
         '<div class="item-info">' +
           '<strong>' + u.nome + '</strong>' +
-          '<span class="badge-perfil ' + u.perfil.toLowerCase() + '">' + u.perfil + '</span>' +
+          '<span class="badge-perfil ' + u.perfil.toLowerCase() + '">' + u.perfil + '</span>' + badgeAdmin +
         '</div>' +
         '<div class="item-acoes">' +
           '<button class="btn-edit" data-id="' + u.id + '">✏️</button>' +
@@ -187,7 +191,8 @@
       nome: document.getElementById('usr-nome').value.trim(),
       senha: document.getElementById('usr-senha').value,
       perfil: perfil,
-      retiro_id: perfil === 'Capataz' ? document.getElementById('usr-retiro').value : ''
+      retiro_id: perfil === 'Capataz' ? document.getElementById('usr-retiro').value : '',
+      is_admin: perfil === 'Gerente' ? document.getElementById('usr-is-admin').checked : false
     };
     if (!id && !payload.senha) { msg('❌ Informe uma senha para o novo usuário.', 'erro'); return; }
 
@@ -215,6 +220,8 @@
     document.getElementById('usr-perfil').value = u.perfil;
     document.getElementById('usr-retiro-wrap').style.display = u.perfil === 'Capataz' ? 'block' : 'none';
     document.getElementById('usr-retiro').value = u.retiro_id || '';
+    document.getElementById('usr-admin-wrap').style.display = u.perfil === 'Gerente' ? 'block' : 'none';
+    document.getElementById('usr-is-admin').checked = !!u.is_admin;
     document.getElementById('usr-btn-cancelar').style.display = 'inline-block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
