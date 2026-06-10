@@ -224,6 +224,177 @@
           }
         }
       }
+    },
+    "/api/sincronizacao/lote": {
+      "post": {
+        "summary": "Processa lote de registros offline",
+        "description": "Recebe um lote heterogêneo de entidades criadas ou alteradas no PWA offline e sincroniza os dados no backend. Cada item deve informar o tipo da entidade e o objeto de dados correspondente.",
+        "tags": ["Sincronização"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SincronizacaoLoteRequest"
+              },
+              "examples": {
+                "loteOffline": {
+                  "summary": "Lote com tarefa, alerta, movimentação e evidência",
+                  "value": {
+                    "itens": [
+                      {
+                        "entidade_tipo": "tarefa",
+                        "dados": {
+                          "id": "tarefa-offline-001",
+                          "titulo": "Inspecionar cerca do retiro norte",
+                          "descricao": "Verificar arame rompido próximo ao pasto 3",
+                          "status": "PENDENTE",
+                          "data_execucao": "2026-06-10",
+                          "retiro_id": "retiro-001",
+                          "capataz_id": "capataz-001",
+                          "gerente_id": "gerente-001"
+                        }
+                      },
+                      {
+                        "entidade_tipo": "alerta",
+                        "dados": {
+                          "id": "alerta-offline-001",
+                          "tipo": "CERCA_QUEBRADA",
+                          "descricao": "Cerca rompida na divisa do retiro",
+                          "capataz_id": "capataz-001",
+                          "retiro_id": "retiro-001",
+                          "latitude": -20.123456,
+                          "longitude": -56.123456
+                        }
+                      },
+                      {
+                        "entidade_tipo": "movimentacao",
+                        "dados": {
+                          "id": "movimentacao-offline-001",
+                          "capataz_id": "capataz-001",
+                          "retiro_id": "retiro-001",
+                          "data": "2026-06-10",
+                          "categoria": "BEZERRO",
+                          "quantidade": 3
+                        }
+                      },
+                      {
+                        "entidade_tipo": "evidencia",
+                        "dados": {
+                          "id": "evidencia-offline-001",
+                          "tarefa_id": "tarefa-offline-001",
+                          "tipo": "FOTO",
+                          "arquivo_base64": "data:image/jpeg;base64,/9j/4AAQSk...",
+                          "geolocalizacao": "-20.123456,-56.123456"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Lote processado com estatísticas por item",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SincronizacaoLoteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Payload inválido, array ausente ou lote vazio",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResponse"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Limite máximo de 500 itens excedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno ao processar lote"
+          }
+        }
+      }
+    },
+    "/api/painel-gerencial": {
+      "get": {
+        "summary": "Obtém métricas consolidadas do painel gerencial",
+        "description": "Retorna indicadores do gerente, incluindo percentual de tarefas concluídas, tarefas por retiro e chamados abertos.",
+        "tags": ["Painel Gerencial"],
+        "parameters": [
+          {
+            "name": "gerente_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do usuário com perfil Gerente",
+            "example": "gerente-001"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Métricas gerenciais retornadas com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PainelGerencialResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parâmetro obrigatório gerente_id ausente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Usuário não possui perfil Gerente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno ao montar painel gerencial"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -416,6 +587,456 @@
           "geolocalizacao": {
             "type": "string",
             "example": "-20.123456,-56.123456"
+          }
+        }
+      },
+      "SincronizacaoLoteRequest": {
+        "type": "object",
+        "required": ["itens"],
+        "properties": {
+          "itens": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 500,
+            "description": "Lista de registros pendentes criados em modo offline. O backend aceita até 500 itens por ciclo de sincronização.",
+            "items": {
+              "$ref": "#/components/schemas/SincronizacaoItem"
+            }
+          }
+        }
+      },
+      "SincronizacaoItem": {
+        "type": "object",
+        "required": ["entidade_tipo", "dados"],
+        "properties": {
+          "entidade_tipo": {
+            "type": "string",
+            "description": "Tipo da entidade enviada no lote offline.",
+            "enum": ["tarefa", "alerta", "movimentacao", "evidencia"],
+            "example": "tarefa"
+          },
+          "tipo": {
+            "type": "string",
+            "description": "Alias aceito pelo backend quando entidade_tipo não for informado.",
+            "enum": ["tarefa", "alerta", "movimentacao", "evidencia"],
+            "example": "tarefa"
+          },
+          "dados": {
+            "oneOf": [
+              { "$ref": "#/components/schemas/SincronizacaoTarefaDados" },
+              { "$ref": "#/components/schemas/SincronizacaoAlertaDados" },
+              { "$ref": "#/components/schemas/SincronizacaoMovimentacaoDados" },
+              { "$ref": "#/components/schemas/SincronizacaoEvidenciaDados" }
+            ]
+          }
+        }
+      },
+      "SincronizacaoTarefaDados": {
+        "type": "object",
+        "required": ["titulo", "data_execucao", "retiro_id", "capataz_id", "gerente_id"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID local gerado pelo cliente offline. Se omitido, o backend gera um UUID.",
+            "example": "tarefa-offline-001"
+          },
+          "titulo": {
+            "type": "string",
+            "example": "Inspecionar cerca do retiro norte"
+          },
+          "descricao": {
+            "type": "string",
+            "example": "Verificar arame rompido próximo ao pasto 3"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["PENDENTE", "EM_ANDAMENTO", "CONCLUIDA"],
+            "example": "PENDENTE"
+          },
+          "data_execucao": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-06-10"
+          },
+          "retiro_id": {
+            "type": "string",
+            "example": "retiro-001"
+          },
+          "capataz_id": {
+            "type": "string",
+            "example": "capataz-001"
+          },
+          "gerente_id": {
+            "type": "string",
+            "example": "gerente-001"
+          },
+          "criada_em": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-06-10T10:00:00.000Z"
+          },
+          "concluida_em": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": null
+          }
+        }
+      },
+      "SincronizacaoAlertaDados": {
+        "type": "object",
+        "required": ["tipo", "capataz_id", "retiro_id", "latitude", "longitude"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "alerta-offline-001"
+          },
+          "tipo": {
+            "type": "string",
+            "example": "CERCA_QUEBRADA"
+          },
+          "descricao": {
+            "type": "string",
+            "example": "Cerca rompida na divisa do retiro"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["ABERTO", "EM_ANDAMENTO", "RESOLVIDO"],
+            "example": "ABERTO"
+          },
+          "capataz_id": {
+            "type": "string",
+            "example": "capataz-001"
+          },
+          "retiro_id": {
+            "type": "string",
+            "example": "retiro-001"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double",
+            "example": -20.123456
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double",
+            "example": -56.123456
+          },
+          "criado_em": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-06-10T10:00:00.000Z"
+          }
+        }
+      },
+      "SincronizacaoMovimentacaoDados": {
+        "type": "object",
+        "required": ["capataz_id", "retiro_id", "data", "categoria", "quantidade"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "movimentacao-offline-001"
+          },
+          "capataz_id": {
+            "type": "string",
+            "example": "capataz-001"
+          },
+          "retiro_id": {
+            "type": "string",
+            "example": "retiro-001"
+          },
+          "data": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-06-10"
+          },
+          "categoria": {
+            "type": "string",
+            "example": "BEZERRO"
+          },
+          "quantidade": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 3
+          },
+          "validado": {
+            "type": "integer",
+            "enum": [0, 1],
+            "example": 0
+          },
+          "coordenador_id": {
+            "type": "string",
+            "nullable": true,
+            "example": null
+          },
+          "criado_em": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-06-10T10:00:00.000Z"
+          }
+        }
+      },
+      "SincronizacaoEvidenciaDados": {
+        "type": "object",
+        "required": ["tipo"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "evidencia-offline-001"
+          },
+          "tarefa_id": {
+            "type": "string",
+            "nullable": true,
+            "example": "tarefa-offline-001"
+          },
+          "alerta_id": {
+            "type": "string",
+            "nullable": true,
+            "example": null
+          },
+          "movimentacao_id": {
+            "type": "string",
+            "nullable": true,
+            "example": null
+          },
+          "tipo": {
+            "type": "string",
+            "example": "FOTO"
+          },
+          "arquivo_base64": {
+            "type": "string",
+            "format": "byte",
+            "example": "data:image/jpeg;base64,/9j/4AAQSk..."
+          },
+          "url_arquivo": {
+            "type": "string",
+            "nullable": true,
+            "example": null
+          },
+          "geolocalizacao": {
+            "type": "string",
+            "example": "-20.123456,-56.123456"
+          },
+          "duracao_segundos": {
+            "type": "integer",
+            "nullable": true,
+            "example": null
+          },
+          "conteudo": {
+            "type": "string",
+            "nullable": true,
+            "example": null
+          },
+          "tamanho_bytes": {
+            "type": "integer",
+            "nullable": true,
+            "example": 204800
+          },
+          "criada_em": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-06-10T10:00:00.000Z"
+          }
+        },
+        "description": "A evidência deve estar vinculada a pelo menos uma entidade por tarefa_id, alerta_id ou movimentacao_id."
+      },
+      "SincronizacaoLoteResponse": {
+        "type": "object",
+        "properties": {
+          "mensagem": {
+            "type": "string",
+            "example": "Lote de sincronização processado"
+          },
+          "processados": {
+            "type": "integer",
+            "example": 4
+          },
+          "sucessos": {
+            "type": "integer",
+            "example": 4
+          },
+          "erros": {
+            "type": "integer",
+            "example": 0
+          },
+          "resultados": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SincronizacaoResultadoItem"
+            }
+          }
+        }
+      },
+      "SincronizacaoResultadoItem": {
+        "type": "object",
+        "properties": {
+          "entidade_tipo": {
+            "type": "string",
+            "example": "tarefa"
+          },
+          "entidade_id": {
+            "type": "string",
+            "nullable": true,
+            "example": "tarefa-offline-001"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["SINCRONIZADO", "ERRO"],
+            "example": "SINCRONIZADO"
+          },
+          "erro": {
+            "type": "string",
+            "example": "Campo obrigatório ausente: titulo"
+          }
+        }
+      },
+      "PainelGerencialResponse": {
+        "type": "object",
+        "properties": {
+          "resumo_tarefas": {
+            "$ref": "#/components/schemas/ResumoTarefasGerenciais"
+          },
+          "percentual_tarefas_concluidas": {
+            "type": "number",
+            "format": "double",
+            "description": "Percentual de tarefas concluídas em relação ao total de tarefas do gerente.",
+            "example": 72.5
+          },
+          "tarefas_por_retiro": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TarefasPorRetiro"
+            }
+          },
+          "alertas_abertos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlertaAbertoPainel"
+            }
+          },
+          "total_alertas_abertos": {
+            "type": "integer",
+            "description": "Total de chamados abertos exibidos no painel.",
+            "example": 3
+          },
+          "gerado_em": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-06-10T10:00:00.000Z"
+          }
+        }
+      },
+      "ResumoTarefasGerenciais": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "example": 40
+          },
+          "pendentes": {
+            "type": "integer",
+            "example": 8
+          },
+          "em_andamento": {
+            "type": "integer",
+            "example": 3
+          },
+          "concluidas": {
+            "type": "integer",
+            "example": 29
+          },
+          "concluidas_hoje": {
+            "type": "integer",
+            "example": 5
+          }
+        }
+      },
+      "TarefasPorRetiro": {
+        "type": "object",
+        "properties": {
+          "retiro_id": {
+            "type": "string",
+            "example": "retiro-001"
+          },
+          "retiro_nome": {
+            "type": "string",
+            "example": "Retiro Norte"
+          },
+          "tarefas": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "example": {
+              "PENDENTE": 4,
+              "EM_ANDAMENTO": 2,
+              "CONCLUIDA": 12
+            }
+          }
+        }
+      },
+      "AlertaAbertoPainel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "alerta-001"
+          },
+          "tipo": {
+            "type": "string",
+            "example": "CERCA_QUEBRADA"
+          },
+          "descricao": {
+            "type": "string",
+            "example": "Cerca rompida próxima ao retiro norte"
+          },
+          "status": {
+            "type": "string",
+            "example": "ABERTO"
+          },
+          "capataz_id": {
+            "type": "string",
+            "example": "capataz-001"
+          },
+          "capataz_nome": {
+            "type": "string",
+            "example": "João Silva"
+          },
+          "retiro_id": {
+            "type": "string",
+            "example": "retiro-001"
+          },
+          "retiro_nome": {
+            "type": "string",
+            "example": "Retiro Norte"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double",
+            "example": -20.123456
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double",
+            "example": -56.123456
+          },
+          "criado_em": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-06-10T10:00:00.000Z"
+          }
+        }
+      },
+      "ErroResponse": {
+        "type": "object",
+        "properties": {
+          "erro": {
+            "type": "string",
+            "example": "Parâmetro obrigatório ausente: gerente_id (query string)"
+          },
+          "detalhe": {
+            "type": "string",
+            "example": "Detalhe técnico do erro"
           }
         }
       }
