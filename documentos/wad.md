@@ -5259,14 +5259,18 @@ _b) Preço (até 200 palavras)_
 
 O modelo de precificação adotado é o SaaS (Software as a Service) com cobrança
 anual baseada no volume de cabeças ativas no rebanho. Esse modelo foi escolhido
-por três razões: alinha o custo da solução à escala real da operação do cliente,
-tornando a precificação proporcional e transparente; é familiar ao mercado
-agropecuário, que já opera com insumos e serviços cobrados por animal; e gera
-previsibilidade de receita para o fornecedor, viabilizando investimento contínuo
-em manutenção e evolução do produto.
+porque alinha o custo da solução diretamente à escala da operação do cliente:
+fazendas maiores, com mais animais para rastrear e mais retiros para gerenciar,
+geram mais valor a partir do sistema — e pagam proporcionalmente mais por isso.
+Cobrar por cabeça ativa é também o modelo mais transparente para o produtor
+rural, que já está habituado a calcular custos por animal em insumos,
+veterinária e nutrição, tornando a adoção mais natural.
+
+Do lado do fornecedor, a recorrência anual gera previsibilidade de receita,
+viabilizando investimento contínuo em manutenção, suporte e evolução do produto.
 
 A estrutura de faixas sugerida segue o padrão praticado por softwares pecuários
-nacionais:
+nacionais como iRancho[44] e JetBov[45]:
 
 | Faixa de rebanho ativo  | Valor anual estimado (R$)       |
 |-------------------------|---------------------------------|
