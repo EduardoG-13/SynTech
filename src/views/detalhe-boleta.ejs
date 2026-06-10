@@ -1,0 +1,139 @@
+<%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/tarefas.css" />
+
+<div id="device" class="logged">
+
+  <%- include('partials/sidebar') %>
+
+  <div id="app">
+
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar"><%= perfil === 'Gerente' ? '🧑‍💼' : (perfil === 'Coordenador' ? '📋' : (perfil === 'Infraestrutura' ? '🔧' : '🤠')) %></div>
+      <h1>Detalhe da Boleta</h1>
+      <div class="sub"><%= retiro %> (<%= perfil %>)</div>
+    </div>
+
+    <main class="detalhe-main">
+
+      <button class="btn-voltar" onclick="window.history.back()">⬅️ Voltar</button>
+
+      <!-- Cabeçalho: tipo + status -->
+      <div class="card detalhe-cabecalho">
+        <h2 id="bol-tipo">🔄 Movimentação</h2>
+        <span class="badge concluida" id="bol-status">✓ Enviado</span>
+      </div>
+
+      <!-- ============ DADOS DA REQUISIÇÃO ============ -->
+      <div class="card detalhe-bloco">
+        <h3>📋 Dados do registro</h3>
+        <div class="dados-grid">
+          <div class="dado"><span class="dado-label">📍 Retiro</span><span class="dado-valor" id="bol-retiro"><%= retiro %></span></div>
+          <div class="dado"><span class="dado-label">📅 Data</span><span class="dado-valor" id="bol-data">09/06/2026</span></div>
+          <div class="dado"><span class="dado-label">🌾 Pasto</span><span class="dado-valor" id="bol-pasto">Pasto 12</span></div>
+          <div class="dado"><span class="dado-label">👷 Capataz</span><span class="dado-valor" id="bol-capataz">Rogério</span></div>
+        </div>
+      </div>
+
+      <!-- Transferência (origem/destino) -->
+      <div class="card detalhe-bloco" id="bloco-transferencia">
+        <h3>🔄 Transferência</h3>
+        <div class="dados-grid">
+          <div class="dado"><span class="dado-label">📤 Origem</span><span class="dado-valor">Acurizal</span></div>
+          <div class="dado"><span class="dado-label">🎯 Destino</span><span class="dado-valor">Cristo</span></div>
+          <div class="dado"><span class="dado-label">🚚 Transporte</span><span class="dado-valor">Caminhão</span></div>
+          <div class="dado"><span class="dado-label">👤 Motorista</span><span class="dado-valor">João Silva</span></div>
+        </div>
+      </div>
+
+      <!-- Animais (categorias e quantidades) -->
+      <div class="card detalhe-bloco">
+        <h3>🐂 Animais</h3>
+        <table class="dados-tabela">
+          <thead><tr><th>Categoria</th><th>Quantidade</th></tr></thead>
+          <tbody id="bol-animais">
+            <tr><td>Garrote 8 a 12 meses</td><td>30</td></tr>
+            <tr><td>Garrote 13 a 24 meses</td><td>15</td></tr>
+          </tbody>
+          <tfoot><tr><td><strong>Total</strong></td><td><strong id="bol-total">45</strong></td></tr></tfoot>
+        </table>
+      </div>
+
+      <!-- Observações (texto + áudio) -->
+      <div class="card detalhe-bloco">
+        <h3>📝 Observações</h3>
+        <p id="bol-obs">Movimentação feita na rotina da manhã, sem intercorrências.</p>
+        <div id="bol-audio-wrap">
+          <p class="ajuda-detalhe">🎙️ Áudio gravado pelo capataz:</p>
+          <audio controls id="bol-audio" style="width:100%;"></audio>
+          <p class="sem-audio" id="bol-sem-audio">🔇 Sem áudio anexado.</p>
+        </div>
+      </div>
+
+      <!-- Foto -->
+      <div class="card detalhe-bloco" id="bloco-foto">
+        <h3>📷 Foto anexada</h3>
+        <img id="bol-foto" class="foto-preview" alt="Foto da boleta" style="display:none;" />
+        <p class="sem-audio" id="bol-sem-foto">📭 Nenhuma foto anexada.</p>
+      </div>
+
+      <!-- ============ DADOS DA CONCLUSÃO / VALIDAÇÃO ============ -->
+      <div class="card detalhe-bloco bloco-conclusao">
+        <h3>✅ Status de validação</h3>
+        <div class="dados-grid">
+          <div class="dado"><span class="dado-label">Situação</span><span class="dado-valor" id="bol-validacao">Aguardando validação do coordenador</span></div>
+          <div class="dado"><span class="dado-label">Sincronização</span><span class="dado-valor" id="bol-sync">Enviado para a nuvem</span></div>
+        </div>
+      </div>
+
+      <!-- Ações por perfil -->
+      <% if (perfil === 'Capataz') { %>
+        <button class="btn-enviar-detalhe" onclick="window.location.href='/nova-os?perfil=Capataz&retiro=<%= retiro %>'">
+          ✏️ Editar boleta
+        </button>
+      <% } else if (perfil === 'Coordenador') { %>
+        <button class="btn-enviar-detalhe" id="btn-validar">✅ Validar e aprovar</button>
+        <button class="btn-baixar" id="btn-baixar">⬇️ Baixar boleta (CSV)</button>
+      <% } %>
+
+      <p class="form-msg" id="bol-msg" style="display:none;"></p>
+
+    </main>
+
+  </div>
+</div>
+
+<script>
+  var PERFIL = '<%= perfil %>';
+  var BOLETA_ID = '<%= typeof boletaId !== "undefined" ? boletaId : "" %>';
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Sem áudio/foto reais ainda (integração pendente) — mostra os avisos
+    document.getElementById('bol-audio').style.display = 'none';
+    document.getElementById('bol-sem-audio').style.display = 'block';
+    document.getElementById('bol-sem-foto').style.display = 'block';
+
+    var btnValidar = document.getElementById('btn-validar');
+    if (btnValidar) {
+      btnValidar.addEventListener('click', function() {
+        // TODO: PUT /api/eventos-zootecnicos/:id/validar (integração pendente)
+        mostrarMsg('✅ Boleta validada! (integração com API pendente)', 'sucesso');
+      });
+    }
+    var btnBaixar = document.getElementById('btn-baixar');
+    if (btnBaixar) {
+      btnBaixar.addEventListener('click', function() {
+        mostrarMsg('⬇️ Exportação será ligada ao endpoint /api/exportacao.', 'sucesso');
+      });
+    }
+  });
+
+  function mostrarMsg(texto, tipo) {
+    var el = document.getElementById('bol-msg');
+    el.textContent = texto;
+    el.className = 'form-msg ' + tipo;
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+</script>
+
+<%- include('partials/footer') %>

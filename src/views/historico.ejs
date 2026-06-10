@@ -1,0 +1,104 @@
+<%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/tarefas.css" />
+
+<div id="device" class="logged">
+
+  <%- include('partials/sidebar') %>
+
+  <div id="app">
+
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar"><%= perfil === 'Infraestrutura' ? '🔧' : '🤠' %></div>
+      <h1>Histórico</h1>
+      <div class="sub"><%= retiro %> (<%= perfil %>)</div>
+    </div>
+
+    <main class="tarefas-main">
+
+      <div class="filter-pills" id="filtros-hist">
+        <button class="pill active" data-filtro="todas">Todas</button>
+        <button class="pill" data-filtro="aberto">📋 Abertos</button>
+        <button class="pill" data-filtro="andamento">🔧 Em andamento</button>
+        <button class="pill" data-filtro="resolvido">✅ Resolvidos</button>
+      </div>
+
+      <div class="tarefas-lista" id="hist-lista">
+
+        <div class="card tarefa-card" data-status="andamento" onclick="window.location.href='/chamado/1/resolver?perfil=<%= perfil %>&retiro=<%= retiro %>'">
+          <div class="bar-lateral andamento"></div>
+          <div class="body">
+            <div class="info">
+              <span class="titulo">🚰 Vazamento no bebedouro</span>
+              <span class="descricao">Hidráulica — Pasto 4</span>
+              <div class="meta"><span class="retiro-tag">📅 09/06/2026</span></div>
+            </div>
+            <div class="status-area">
+              <span class="badge andamento">Em andamento</span>
+              <span class="arrow">›</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card tarefa-card" data-status="aberto" onclick="window.location.href='/chamado/2/resolver?perfil=<%= perfil %>&retiro=<%= retiro %>'">
+          <div class="bar-lateral pendente"></div>
+          <div class="body">
+            <div class="info">
+              <span class="titulo">⚡ Cerca elétrica sem carga</span>
+              <span class="descricao">Elétrica — divisa norte</span>
+              <div class="meta"><span class="retiro-tag">📅 08/06/2026</span></div>
+            </div>
+            <div class="status-area">
+              <span class="badge pendente">Aberto</span>
+              <span class="arrow">›</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card tarefa-card" data-status="resolvido" onclick="window.location.href='/chamado/3/resolver?perfil=<%= perfil %>&retiro=<%= retiro %>'">
+          <div class="bar-lateral concluida"></div>
+          <div class="body">
+            <div class="info">
+              <span class="titulo">🪵 Mourão quebrado</span>
+              <span class="descricao">Cerca — setor sul</span>
+              <div class="meta"><span class="retiro-tag">📅 05/06/2026</span></div>
+            </div>
+            <div class="status-area">
+              <span class="badge concluida">Resolvido</span>
+              <span class="arrow">›</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="tarefas-vazio" id="hist-vazio" style="display: none;">
+        <p>Nenhum chamado encontrado.</p>
+      </div>
+
+    </main>
+
+  </div>
+</div>
+
+<script>
+  (function() {
+    var filtros = document.querySelectorAll('#filtros-hist .pill');
+    var itens = document.querySelectorAll('#hist-lista .tarefa-card');
+    var vazio = document.getElementById('hist-vazio');
+    filtros.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        filtros.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var f = btn.dataset.filtro, vis = 0;
+        itens.forEach(function(c) {
+          var ok = (f === 'todas') || (c.dataset.status === f);
+          c.style.display = ok ? '' : 'none';
+          if (ok) vis++;
+        });
+        vazio.style.display = vis === 0 ? 'block' : 'none';
+      });
+    });
+  })();
+</script>
+
+<%- include('partials/footer') %>

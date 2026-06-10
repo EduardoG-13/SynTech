@@ -3,7 +3,10 @@
  * Carrega variáveis de ambiente, inicializa o banco e inicia o servidor.
  */
 
-require('dotenv').config();
+// Carrega o .env da raiz do projeto (g03/), funcione de onde for executado
+const path = require('path');
+require('dotenv').config(); // tenta o cwd primeiro
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') }); // fallback: raiz do projeto
 
 import app from './app';
 import { inicializarBanco } from './config/initDb';

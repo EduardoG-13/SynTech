@@ -15,15 +15,20 @@
     </div>
 
     <div id="lista-retiros">
-      <% retiros.forEach(function(r) { %>
+      <% retiros.forEach(function(r) {
+           var nome = r.nome || '';
+           var capataz = r.capataz || '';
+      %>
         <div class="card-retiro-card"
-             data-nome="<%= r.nome.toLowerCase() %>"
-             data-cap="<%= r.capataz.toLowerCase() %>"
-             onclick="selecionarRetiro('<%= r.nome %>')">
+             data-nome="<%= nome.toLowerCase() %>"
+             data-cap="<%= capataz.toLowerCase() %>"
+             onclick="selecionarRetiro('<%= nome %>')">
           <span class="pin"><img src="/public/Icons/localizacao.ico" alt="" /></span>
           <div class="info">
-            <div class="nome"><%= r.nome %></div>
-            <div class="cap">Capataz: <%= r.capataz %></div>
+            <div class="nome"><%= nome %></div>
+            <% if (capataz) { %>
+              <div class="cap">Capataz: <%= capataz %></div>
+            <% } %>
           </div>
           <span class="arrow">›</span>
         </div>

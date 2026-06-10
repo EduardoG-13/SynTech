@@ -248,3 +248,190 @@
     display: none;
   }
 }
+
+/* =========================================================
+   Detalhe da Tarefa (detalhe-tarefa.ejs) — US02 / RF005
+   ========================================================= */
+
+.detalhe-main {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.btn-voltar {
+  background: none;
+  border: none;
+  color: #1A4D2E;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 1rem;
+  min-height: auto;
+}
+.btn-voltar:hover { background: none; color: #2E7D52; }
+
+.detalhe-cabecalho {
+  background: #fff;
+  border: 1px solid #d7dfd3;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.detalhe-cabecalho h2 {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem;
+  color: #1B1B1B;
+}
+
+.detalhe-bloco {
+  background: #fff;
+  border: 1px solid #d7dfd3;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 0.85rem;
+}
+.detalhe-bloco h3 {
+  font-size: 1rem;
+  color: #1A4D2E;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.detalhe-bloco p { color: #5c6b5d; font-size: 0.95rem; }
+
+.detalhe-meta {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.label-ico {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+.ajuda-detalhe {
+  font-size: 0.8rem;
+  color: #8A8A7C;
+  margin-bottom: 0.5rem;
+}
+
+.audio-instrucao { width: 100%; margin-top: 0.5rem; }
+.sem-audio { color: #8A8A7C; font-size: 0.9rem; }
+
+/* Upload de foto na execução */
+.upload-foto-detalhe {
+  border: 2px dashed #c8d3c3;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+.upload-foto-detalhe:hover { border-color: #1A4D2E; }
+.upload-label-detalhe {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: #5c6b5d;
+}
+.upload-icon-img { width: 48px; height: 48px; object-fit: contain; }
+.upload-foto-detalhe input[type="file"] { display: none; }
+.foto-preview {
+  max-width: 100%;
+  border-radius: 10px;
+  margin-top: 0.75rem;
+}
+
+.detalhe-bloco textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #c8d3c3;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  resize: vertical;
+}
+.detalhe-bloco textarea:focus { outline: none; border-color: #1A4D2E; }
+
+/* Botão concluir */
+.btn-enviar-detalhe {
+  width: 100%;
+  background: #1A4D2E;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 1rem;
+  min-height: 56px;
+}
+.btn-enviar-detalhe:hover { background: #2E7D52; }
+.btn-ico { width: 22px; height: 22px; object-fit: contain; vertical-align: middle; margin-right: 6px; }
+
+/* Áudio recorder (reuso) */
+.audio-rec { margin-top: 0.75rem; }
+.btn-audio {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #E6F3EB;
+  color: #1A4D2E;
+  border: 2px solid #2E7D52;
+  border-radius: 10px;
+  padding: 0.65rem 1rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  min-height: auto;
+}
+.btn-audio:hover { background: #d4eadd; }
+.btn-audio.gravando {
+  background: #FCE8E8;
+  border-color: #D32F2F;
+  color: #D32F2F;
+  animation: pulso 1s infinite;
+}
+@keyframes pulso { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+.btn-audio-remover {
+  display: block;
+  margin-top: 0.5rem;
+  background: none;
+  border: none;
+  color: #D32F2F;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0;
+  min-height: auto;
+}
+
+.form-msg {
+  text-align: center;
+  font-weight: 600;
+  padding: 0.85rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+.form-msg.sucesso { background: #E6F3EB; color: #2E7D52; }
+.form-msg.erro { background: #FCE8E8; color: #D32F2F; }
+
+@media (max-width: 768px) {
+  .detalhe-main { max-width: 100%; }
+}
