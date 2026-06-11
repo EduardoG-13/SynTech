@@ -24,6 +24,8 @@ export function obterResumo(req: Request, res: Response) {
   const sess = (req.session as any)?.usuario as SessUsuario | undefined;
   if (!sess) return res.status(401).json({ erro: 'Não autenticado.' });
 
+  const filtroData = typeof req.query.data === 'string' && req.query.data ? req.query.data : null;
+
   const permitidos = retirosVisiveis(sess);
   const filtroRetirosSql = permitidos === null
     ? ''

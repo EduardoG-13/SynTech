@@ -157,6 +157,24 @@
 
     if (chartDonut) { chartDonut.destroy(); chartDonut = null; }
 
+    var wrap     = canvas.parentElement;
+    var semDados = wrap && wrap.querySelector('.db-sem-dados-donut');
+    var total = (c.abertos || 0) + (c.andamento || 0) + (c.resolvidos || 0);
+    if (!total) {
+      canvas.style.display = 'none';
+      if (!semDados) {
+        semDados = document.createElement('p');
+        semDados.className = 'db-sem-dados-donut';
+        semDados.style.cssText = 'text-align:center;color:#8A8A7C;padding:3rem 0;margin:0;';
+        semDados.textContent = 'Nenhum chamado registrado.';
+        if (wrap) wrap.appendChild(semDados);
+      }
+      semDados.style.display = '';
+      return;
+    }
+    canvas.style.display = '';
+    if (semDados) semDados.style.display = 'none';
+
     chartDonut = new Chart(canvas.getContext('2d'), {
       type: 'doughnut',
       data: {
@@ -210,6 +228,9 @@
             '</div>' +
           '</div>';
         }).join('');
+      })
+      .catch(function () {
+        if (cont) cont.innerHTML = '<p style="color:#C0392B;text-align:center;">⚠️ Não foi possível carregar os retiros.</p>';
       });
   }
 })();
