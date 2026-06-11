@@ -39,21 +39,30 @@
 </div>
 
 <script>
+  // Auto-redirect SÓ se houver sessão VÁLIDA no servidor (cookie ativo).
+  // Antes redirecionava só pelo localStorage e quando o cookie expirava dava loop.
   (function() {
-    var sessao = localStorage.getItem('brpec_sessao');
-    if (sessao) {
-      try {
-        var dados = JSON.parse(sessao);
-        if (dados.perfil === 'Capataz' && dados.retiro) {
-          window.location.href = '/tarefas?perfil=Capataz&retiro=' + encodeURIComponent(dados.retiro);
-        } else if (dados.perfil === 'Infraestrutura') {
-          window.location.href = '/infraestrutura?perfil=Infraestrutura';
-        } else if (dados.perfil) {
-          // Gerente e Coordenador
-          window.location.href = '/dashboard?perfil=' + encodeURIComponent(dados.perfil);
+    fetch('/api/auth/me', { credentials: 'same-origin' })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (!data.usuario) {
+          // Sessão do servidor não existe — limpa o localStorage stale e fica na tela de login
+          localStorage.removeItem('brpec_sessao');
+          return;
         }
-      } catch(e) {}
-    }
+        var perfil = data.usuario.perfil;
+        if (perfil === 'Capataz') {
+          window.location.href = '/tarefas';
+        } else if (perfil === 'Infraestrutura') {
+          window.location.href = '/infraestrutura';
+        } else if (perfil === 'Gerente' || perfil === 'Coordenador') {
+          window.location.href = '/dashboard';
+        }
+      })
+      .catch(function() {
+        // Sem conexão — limpa cache de sessão local pra não criar loop
+        localStorage.removeItem('brpec_sessao');
+      });
   })();
 </script>
 

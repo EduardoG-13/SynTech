@@ -186,6 +186,7 @@
 .badge-perfil.coordenador { background: #2E7D52; color: #fff; }
 .badge-perfil.capataz { background: #FFF4E5; color: #A64B00; }
 .badge-perfil.tecnico { background: #e5edf5; color: #2c5d8a; }
+.badge-perfil.admin { background: #A64B00; color: #fff; }
 
 .vazio {
   text-align: center;

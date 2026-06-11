@@ -435,3 +435,136 @@
 @media (max-width: 768px) {
   .detalhe-main { max-width: 100%; }
 }
+
+/* =========================================================
+   Tela de Sucesso / Confirmação após registrar
+   ========================================================= */
+.sucesso-main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1rem;
+  width: 100%;
+}
+.sucesso-card {
+  background: #fff;
+  border: 1px solid #d7dfd3;
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(26, 77, 46, 0.08);
+}
+.sucesso-icone img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 0.5rem;
+}
+.sucesso-card h1 {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.5rem;
+  color: #1A4D2E;
+  margin-bottom: 0.5rem;
+}
+.sucesso-sub {
+  color: #5c6b5d;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+.sucesso-vazio {
+  color: #8A8A7C;
+  font-style: italic;
+}
+
+.sucesso-resumo {
+  background: #fafdfb;
+  border: 1px solid #e5e5e0;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+  text-align: left;
+}
+.resumo-linha {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ececec;
+  gap: 1rem;
+}
+.resumo-linha:last-child { border-bottom: none; }
+.resumo-label {
+  font-size: 0.85rem;
+  color: #5c6b5d;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.resumo-valor {
+  font-size: 0.9rem;
+  color: #1B1B1B;
+  text-align: right;
+}
+
+.sucesso-sync {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #FFF4E5;
+  color: #A64B00;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+.sucesso-sync.ok {
+  background: #E6F3EB;
+  color: #2E7D52;
+}
+.sync-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #A64B00;
+  animation: pulso 1.2s infinite;
+}
+.sucesso-sync.ok .sync-dot {
+  background: #2E7D52;
+  animation: none;
+}
+
+.sucesso-acoes {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.sucesso-acoes button {
+  flex: 1;
+  min-width: 140px;
+}
+.btn-secundario {
+  background: #fff;
+  color: #1A4D2E;
+  border: 2px solid #1A4D2E;
+  border-radius: 12px;
+  padding: 0.85rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  min-height: 48px;
+}
+.btn-secundario:hover { background: #E6F3EB; }
+.btn-primario-grande {
+  background: #1A4D2E;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 0.85rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  min-height: 48px;
+}
+.btn-primario-grande:hover { background: #2E7D52; }

@@ -5,7 +5,7 @@
 
   <div id="app">
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar">👤</div>
+      <div class="user-avatar"><img src="/public/Icons/coordenador.ico" alt="Coordenador" style="width:32px;height:32px;object-fit:contain;" /></div>
       <h1>Boletas</h1>
       <div class="sub"><%= retiro %> (<%= perfil %>)</div>
     </div>
@@ -55,24 +55,9 @@
         </div>
       </div>
 
+      <!-- Lista de boletas (lida da API) -->
       <div class="boletas-lista" id="boletas-lista">
-
-        <div class="card boleta-card" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; cursor: pointer;" onclick="window.location.href='/boleta/1?perfil=<%= perfil %>'">
-          <div>
-            <span class="boleta-titulo">🐄 Nascimento - Retiro Acurizal</span>
-            <span class="boleta-sub" style="display: block; font-size: 0.8rem; color: #8A8A7C;">02/06/2026 - Capataz Rogério</span>
-          </div>
-          <span class="arrow" style="font-size: 1.5rem; color: #1A4D2E;">›</span>
-        </div>
-
-        <div class="card boleta-card" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; cursor: pointer;" onclick="window.location.href='/boleta/2?perfil=<%= perfil %>'">
-          <div>
-            <span class="boleta-titulo">⚰️ Óbito - Retiro Aroeira</span>
-            <span class="boleta-sub" style="display: block; font-size: 0.8rem; color: #8A8A7C;">01/06/2026 - Capataz Lucas</span>
-          </div>
-          <span class="arrow" style="font-size: 1.5rem; color: #1A4D2E;">›</span>
-        </div>
-
+        <p style="color:#8A8A7C; text-align:center; padding:1rem;">Carregando boletas...</p>
       </div>
 
       <!-- Exportação: escolher tipos + intervalo e gerar planilha -->
@@ -81,10 +66,10 @@
         <p style="font-size: 0.85rem; color: #5c6b5d; margin-bottom: 0.75rem;">Escolha o que incluir e o período.</p>
 
         <div class="export-tipos" style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem;">
-          <label><input type="checkbox" class="exp-tipo" value="movimentacao" checked /> 🔄 Movimentações / Transferências</label>
-          <label><input type="checkbox" class="exp-tipo" value="nascimento" checked /> 🐄 Nascimentos</label>
-          <label><input type="checkbox" class="exp-tipo" value="obito" checked /> ⚰️ Óbitos / Mortes</label>
-          <label><input type="checkbox" class="exp-tipo" value="compravenda" checked /> 💰 Compras / Vendas</label>
+          <label><input type="checkbox" class="exp-tipo" value="movimentacao" checked /> <img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Movimentações / Transferências</label>
+          <label><input type="checkbox" class="exp-tipo" value="nascimento" checked /> <img class="label-ico" src="/public/Icons/nascimento.ico" alt="" /> Nascimentos</label>
+          <label><input type="checkbox" class="exp-tipo" value="obito" checked /> <img class="label-ico" src="/public/Icons/obto.ico" alt="" /> Óbitos / Mortes</label>
+          <label><input type="checkbox" class="exp-tipo" value="compravenda" checked /> Compras / Vendas</label>
         </div>
 
         <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
@@ -104,9 +89,14 @@
           </div>
         </div>
 
-        <button class="btn btn-primario" id="btn-exportar" style="width: 100%;">
-          ⬇️ Gerar planilha (CSV/Excel)
-        </button>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn btn-primario" id="btn-exportar" style="flex:1;">
+            ⬇️ Gerar planilha (filtros)
+          </button>
+          <button class="btn btn-primario" id="btn-exportar-selecionadas" style="flex:1; background:#A64B00;">
+            ⬇️ Exportar selecionadas (<span id="qtd-sel">0</span>)
+          </button>
+        </div>
         <p id="export-msg" style="display:none; text-align:center; margin-top:0.75rem; font-weight:600;"></p>
       </div>
 
@@ -115,8 +105,10 @@
 </div>
 
 <script>
+  var BOLETAS = []; // cache da lista vinda da API
+  var SELECIONADAS = new Set();
+
   document.addEventListener('DOMContentLoaded', function() {
-    // Popula retiros (filtro de exportação) com dados reais do banco
     fetch('/api/dados/retiros')
       .then(function(r) { return r.json(); })
       .then(function(retiros) {
@@ -124,13 +116,85 @@
         retiros.forEach(function(r) {
           sel.insertAdjacentHTML('beforeend', '<option value="' + r.id + '">' + r.nome + '</option>');
         });
-      })
-      .catch(function() {});
+      }).catch(function(){});
 
-    document.getElementById('btn-exportar').addEventListener('click', exportar);
+    carregarBoletasPendentes();
+
+    document.getElementById('btn-exportar').addEventListener('click', exportarComFiltros);
+    document.getElementById('btn-exportar-selecionadas').addEventListener('click', exportarSelecionadas);
   });
 
-  function exportar() {
+  function carregarBoletasPendentes() {
+    fetch('/api/coordenador/boletas-pendentes', { credentials: 'same-origin' })
+      .then(function(r) { return r.json(); })
+      .then(function(rows) {
+        BOLETAS = rows || [];
+        renderBoletas();
+      })
+      .catch(function() {
+        document.getElementById('boletas-lista').innerHTML =
+          '<p style="color:#D32F2F; text-align:center;">Erro ao carregar boletas. Faça login como Coordenador.</p>';
+      });
+  }
+
+  function renderBoletas() {
+    var cont = document.getElementById('boletas-lista');
+    if (!BOLETAS.length) {
+      cont.innerHTML = '<p style="color:#8A8A7C; text-align:center; padding:1rem;">Nenhuma boleta pendente de aprovação.</p>';
+      return;
+    }
+    cont.innerHTML = BOLETAS.map(function(b) {
+      var data = b.data || (b.criado_em || '').slice(0,10);
+      var aprovada = !!b.aprovado_por_coordenador_id;
+      return '<div class="card boleta-card" style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem; padding:0.75rem 1rem;">' +
+        '<input type="checkbox" class="boleta-check" data-id="' + b.id + '" ' + (aprovada ? 'disabled' : '') + ' />' +
+        '<div style="flex:1; cursor:pointer;" onclick="window.location.href=\'/boleta/' + b.id + '\'">' +
+          '<span class="boleta-titulo">' + (b.categoria || 'Movimentação') + ' — ' + (b.quantidade || 0) + ' cabeças</span>' +
+          '<span style="display:block; font-size:0.8rem; color:#8A8A7C;">📅 ' + data + ' · ' + (b.retiro_nome || '') + ' · ' + (b.capataz_nome || '') + '</span>' +
+        '</div>' +
+        (aprovada
+          ? '<span class="badge concluida">✓ Aprovada</span>'
+          : '<button class="btn-aprovar" data-id="' + b.id + '">✅ Aprovar</button>') +
+      '</div>';
+    }).join('');
+
+    cont.querySelectorAll('.boleta-check').forEach(function(c) {
+      c.addEventListener('change', function() {
+        if (c.checked) SELECIONADAS.add(c.dataset.id); else SELECIONADAS.delete(c.dataset.id);
+        document.getElementById('qtd-sel').textContent = SELECIONADAS.size;
+      });
+    });
+    cont.querySelectorAll('.btn-aprovar').forEach(function(b) {
+      b.addEventListener('click', function() { aprovarBoleta(b.dataset.id); });
+    });
+  }
+
+  function aprovarBoleta(id) {
+    fetch('/api/coordenador/boletas/' + id + '/aprovar', {
+      method: 'POST', credentials: 'same-origin'
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      if (d.mensagem) {
+        msgExport('✅ ' + d.mensagem, '#2E7D52');
+        carregarBoletasPendentes();
+      } else {
+        msgExport('❌ ' + (d.erro || 'Erro ao aprovar.'), '#D32F2F');
+      }
+    });
+  }
+
+  function exportarSelecionadas() {
+    if (SELECIONADAS.size === 0) {
+      msgExport('❌ Selecione ao menos uma boleta nas caixinhas.', '#D32F2F');
+      return;
+    }
+    var ids = Array.from(SELECIONADAS).join(',');
+    window.location.href = '/api/coordenador/exportar?ids=' + encodeURIComponent(ids);
+    msgExport('⬇️ Download da seleção iniciado.', '#2E7D52');
+  }
+
+  function exportarComFiltros() {
     var tipos = Array.prototype.slice.call(document.querySelectorAll('.exp-tipo:checked'))
       .map(function(c) { return c.value; });
 
@@ -148,12 +212,11 @@
     if (fim) params.set('data_fim', fim);
     if (retiro) params.set('retiro_id', retiro);
 
-    // Endpoint de exportação do backend (RF015). Abre o download.
-    var url = '/api/exportacao?' + params.toString();
+    var url = '/api/coordenador/exportar?' + params.toString();
     msgExport('⏳ Gerando planilha...', '#A64B00');
     window.location.href = url;
     setTimeout(function() {
-      msgExport('✅ Se o download não iniciar, verifique o endpoint /api/exportacao.', '#2E7D52');
+      msgExport('✅ Download iniciado. Se nada baixou, confira o filtro.', '#2E7D52');
     }, 1500);
   }
 

@@ -3,33 +3,52 @@
 
 <div id="device" class="login-page">
   <div class="header-bar">
-    <button class="back-btn" onclick="window.location.href='/'">← Voltar</button>
+    <button class="back-btn" onclick="window.location.href='/'">⬅️ Voltar</button>
     <h1>Infraestrutura</h1>
     <div class="sub">Selecione sua área de atuação</div>
   </div>
 
   <div class="perfil-grid">
-    <a href="/infraestrutura?perfil=Infraestrutura&categoria=hidraulica" class="perfil-btn-link">
-      <button class="perfil-btn">
-        <span class="ic"><img src="/public/Icons/hidraulica.ico" alt="Hidráulica" /></span>
-        <span class="lbl">Hidráulica</span>
-      </button>
-    </a>
+    <button class="perfil-btn" onclick="entrarComoInfra('hidraulica')">
+      <span class="ic"><img src="/public/Icons/hidraulica.ico" alt="Hidráulica" /></span>
+      <span class="lbl">Hidráulica</span>
+    </button>
 
-    <a href="/infraestrutura?perfil=Infraestrutura&categoria=eletrica" class="perfil-btn-link">
-      <button class="perfil-btn">
-        <span class="ic"><img src="/public/Icons/eletrica.ico" alt="Elétrica" /></span>
-        <span class="lbl">Elétrica</span>
-      </button>
-    </a>
+    <button class="perfil-btn" onclick="entrarComoInfra('eletrica')">
+      <span class="ic"><img src="/public/Icons/eletrica.ico" alt="Elétrica" /></span>
+      <span class="lbl">Elétrica</span>
+    </button>
 
-    <a href="/infraestrutura?perfil=Infraestrutura&categoria=cerca" class="perfil-btn-link infra-full">
-      <button class="perfil-btn">
-        <span class="ic"><img src="/public/Icons/cerca.ico" alt="Cerca" /></span>
-        <span class="lbl">Cerca</span>
-      </button>
-    </a>
+    <button class="perfil-btn infra-full" onclick="entrarComoInfra('cerca')">
+      <span class="ic"><img src="/public/Icons/cerca.ico" alt="Cerca" /></span>
+      <span class="lbl">Cerca</span>
+    </button>
   </div>
 </div>
+
+<script>
+  function entrarComoInfra(categoria) {
+    fetch('/api/auth/login-infra', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ categoria: categoria })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.sucesso) {
+        localStorage.setItem('brpec_sessao', JSON.stringify({
+          perfil: 'Infraestrutura', categoria: categoria,
+          logadoEm: new Date().toISOString()
+        }));
+        window.location.href = '/infraestrutura';
+      } else {
+        alert(data.erro || 'Erro ao entrar.');
+      }
+    })
+    .catch(function() {
+      alert('Erro de conexão. Tente novamente.');
+    });
+  }
+</script>
 
 <%- include('partials/footer') %>

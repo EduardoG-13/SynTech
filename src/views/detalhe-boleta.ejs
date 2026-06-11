@@ -8,7 +8,7 @@
   <div id="app">
 
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar"><%= perfil === 'Gerente' ? '🧑‍💼' : (perfil === 'Coordenador' ? '📋' : (perfil === 'Infraestrutura' ? '🔧' : '🤠')) %></div>
+      <div class="user-avatar"><img src="/public/Icons/<%= perfil === 'Gerente' ? 'gerente' : (perfil === 'Coordenador' ? 'coordenador' : (perfil === 'Infraestrutura' ? 'infra' : 'capataz')) %>.ico" alt="<%= perfil %>" style="width:32px;height:32px;object-fit:contain;" /></div>
       <h1>Detalhe da Boleta</h1>
       <div class="sub"><%= retiro %> (<%= perfil %>)</div>
     </div>
@@ -19,7 +19,7 @@
 
       <!-- Cabeçalho: tipo + status -->
       <div class="card detalhe-cabecalho">
-        <h2 id="bol-tipo">🔄 Movimentação</h2>
+        <h2 id="bol-tipo"><img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Movimentação</h2>
         <span class="badge concluida" id="bol-status">✓ Enviado</span>
       </div>
 
@@ -36,7 +36,7 @@
 
       <!-- Transferência (origem/destino) -->
       <div class="card detalhe-bloco" id="bloco-transferencia">
-        <h3>🔄 Transferência</h3>
+        <h3><img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Transferência</h3>
         <div class="dados-grid">
           <div class="dado"><span class="dado-label">📤 Origem</span><span class="dado-valor">Acurizal</span></div>
           <div class="dado"><span class="dado-label">🎯 Destino</span><span class="dado-valor">Cristo</span></div>
@@ -47,7 +47,7 @@
 
       <!-- Animais (categorias e quantidades) -->
       <div class="card detalhe-bloco">
-        <h3>🐂 Animais</h3>
+        <h3><img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Animais</h3>
         <table class="dados-tabela">
           <thead><tr><th>Categoria</th><th>Quantidade</th></tr></thead>
           <tbody id="bol-animais">
@@ -63,7 +63,7 @@
         <h3>📝 Observações</h3>
         <p id="bol-obs">Movimentação feita na rotina da manhã, sem intercorrências.</p>
         <div id="bol-audio-wrap">
-          <p class="ajuda-detalhe">🎙️ Áudio gravado pelo capataz:</p>
+          <p class="ajuda-detalhe"><img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" /> Áudio gravado pelo capataz:</p>
           <audio controls id="bol-audio" style="width:100%;"></audio>
           <p class="sem-audio" id="bol-sem-audio">🔇 Sem áudio anexado.</p>
         </div>
@@ -71,7 +71,7 @@
 
       <!-- Foto -->
       <div class="card detalhe-bloco" id="bloco-foto">
-        <h3>📷 Foto anexada</h3>
+        <h3><img class="label-ico" src="/public/Icons/tira_foto.ico" alt="" /> Foto anexada</h3>
         <img id="bol-foto" class="foto-preview" alt="Foto da boleta" style="display:none;" />
         <p class="sem-audio" id="bol-sem-foto">📭 Nenhuma foto anexada.</p>
       </div>
@@ -87,9 +87,12 @@
 
       <!-- Ações por perfil -->
       <% if (perfil === 'Capataz') { %>
-        <button class="btn-enviar-detalhe" onclick="window.location.href='/nova-os?perfil=Capataz&retiro=<%= retiro %>'">
+        <button class="btn-enviar-detalhe" id="btn-editar">
           ✏️ Editar boleta
         </button>
+        <p id="bloqueio-edicao" style="display:none; text-align:center; color:#A64B00; font-size:0.85rem; margin-top:0.5rem;">
+          🔒 Boleta com mais de 30 dias — não pode mais ser editada (ciclo do Coordenador já fechado).
+        </p>
       <% } else if (perfil === 'Coordenador') { %>
         <button class="btn-enviar-detalhe" id="btn-validar">✅ Validar e aprovar</button>
         <button class="btn-baixar" id="btn-baixar">⬇️ Baixar boleta (CSV)</button>
@@ -107,10 +110,18 @@
   var BOLETA_ID = '<%= typeof boletaId !== "undefined" ? boletaId : "" %>';
 
   document.addEventListener('DOMContentLoaded', function() {
-    // Sem áudio/foto reais ainda (integração pendente) — mostra os avisos
-    document.getElementById('bol-audio').style.display = 'none';
-    document.getElementById('bol-sem-audio').style.display = 'block';
-    document.getElementById('bol-sem-foto').style.display = 'block';
+    // Carrega dados reais do localStorage (escritos pela /nova-os ao registrar)
+    carregarBoleta();
+
+    // Botão Editar (Capataz): só permitido dentro da janela de 30 dias
+    var btnEditar = document.getElementById('btn-editar');
+    var bloqueio = document.getElementById('bloqueio-edicao');
+    if (btnEditar) {
+      verificarJanelaEdicao(btnEditar, bloqueio);
+      btnEditar.addEventListener('click', function() {
+        window.location.href = '/nova-os?edit=' + encodeURIComponent(BOLETA_ID);
+      });
+    }
 
     var btnValidar = document.getElementById('btn-validar');
     if (btnValidar) {
@@ -133,6 +144,83 @@
     el.className = 'form-msg ' + tipo;
     el.style.display = 'block';
     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  // Janela de edição: até 30 dias após criação. Depois disso o Coordenador já fechou.
+  function verificarJanelaEdicao(btnEditar, bloqueio) {
+    var lista = [];
+    try { lista = JSON.parse(localStorage.getItem('brpec_registros') || '[]'); } catch(e){}
+    var reg = lista.find(function(r) { return String(r.id) === String(BOLETA_ID); });
+    if (!reg || !reg.criadoEm) return; // sem data, deixa editar
+    var diff = Date.now() - new Date(reg.criadoEm).getTime();
+    var dias = diff / (1000 * 60 * 60 * 24);
+    if (dias > 30) {
+      btnEditar.style.display = 'none';
+      if (bloqueio) bloqueio.style.display = 'block';
+    }
+  }
+
+  function carregarBoleta() {
+    var lista = [];
+    try { lista = JSON.parse(localStorage.getItem('brpec_registros') || '[]'); } catch(e){}
+    var reg = lista.find(function(r) { return String(r.id) === String(BOLETA_ID); });
+
+    // Fallback: se id não bateu, usa o último registrado (vindo da tela de sucesso)
+    if (!reg) {
+      try { reg = JSON.parse(localStorage.getItem('brpec_ultimo_registro') || 'null'); } catch(e){}
+    }
+
+    if (!reg) {
+      document.getElementById('bol-tipo').textContent = 'Boleta não encontrada';
+      document.getElementById('bol-status').textContent = '—';
+      return;
+    }
+
+    var RANKS = {
+      'nascimento': { ico: 'nascimento', label: 'Nascimento' },
+      'obito': { ico: 'obto', label: 'Óbito' },
+      'transferencia': { ico: 'movimentacao', label: 'Transferência' },
+      'compravenda': { ico: 'movimentacao', label: 'Compra/Venda' },
+      'evolucao': { ico: 'movimentacao', label: 'Evolução' },
+      'manejo': { ico: 'tarefas', label: 'Manejo' }
+    };
+    var meta = RANKS[reg.operacao] || { ico: 'tarefas', label: reg.operacao || 'Boleta' };
+
+    document.getElementById('bol-tipo').innerHTML =
+      '<img class="label-ico" src="/public/Icons/' + meta.ico + '.ico" alt="" /> ' + meta.label;
+
+    if (reg.retiro || reg.retiro_origem)
+      document.getElementById('bol-retiro').textContent = reg.retiro || reg.retiro_origem;
+    if (reg.data) document.getElementById('bol-data').textContent = reg.data;
+    if (reg.pasto) document.getElementById('bol-pasto').textContent = reg.pasto;
+
+    // Mostra bloco de transferência só quando aplica
+    var blocoTransf = document.getElementById('bloco-transferencia');
+    if (reg.operacao !== 'transferencia') blocoTransf.style.display = 'none';
+
+    // Animais
+    if (reg.animais && reg.animais.length) {
+      var tbody = document.getElementById('bol-animais');
+      tbody.innerHTML = reg.animais.map(function(a){
+        return '<tr><td>' + a.categoria + '</td><td>' + a.quantidade + '</td></tr>';
+      }).join('');
+      var total = reg.animais.reduce(function(s,a){return s+(parseInt(a.quantidade)||0);},0);
+      document.getElementById('bol-total').textContent = total;
+    }
+
+    // Observações texto + áudio
+    if (reg.observacoes) document.getElementById('bol-obs').textContent = reg.observacoes;
+    if (reg.observacoes_audio) {
+      var au = document.getElementById('bol-audio');
+      au.src = reg.observacoes_audio;
+      au.style.display = 'block';
+      document.getElementById('bol-sem-audio').style.display = 'none';
+    } else {
+      document.getElementById('bol-audio').style.display = 'none';
+      document.getElementById('bol-sem-audio').style.display = 'block';
+    }
+
+    document.getElementById('bol-sem-foto').style.display = reg.tem_foto ? 'none' : 'block';
   }
 </script>
 

@@ -8,7 +8,7 @@
   <div id="app">
 
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar"><%= perfil === 'Infraestrutura' ? '🔧' : '🤠' %></div>
+      <div class="user-avatar"><img src="/public/Icons/<%= perfil === 'Infraestrutura' ? 'infra' : 'capataz' %>.ico" alt="<%= perfil %>" style="width:32px;height:32px;object-fit:contain;" /></div>
       <h1>Histórico</h1>
       <div class="sub"><%= retiro %> (<%= perfil %>)</div>
     </div>
@@ -18,7 +18,7 @@
       <div class="filter-pills" id="filtros-hist">
         <button class="pill active" data-filtro="todas">Todas</button>
         <button class="pill" data-filtro="aberto">📋 Abertos</button>
-        <button class="pill" data-filtro="andamento">🔧 Em andamento</button>
+        <button class="pill" data-filtro="andamento"><img class="label-ico" src="/public/Icons/andamento.ico" alt="" /> Em andamento</button>
         <button class="pill" data-filtro="resolvido">✅ Resolvidos</button>
       </div>
 
@@ -28,7 +28,7 @@
           <div class="bar-lateral andamento"></div>
           <div class="body">
             <div class="info">
-              <span class="titulo">🚰 Vazamento no bebedouro</span>
+              <span class="titulo"><img class="label-ico" src="/public/Icons/bebedouro.ico" alt="" /> Vazamento no bebedouro</span>
               <span class="descricao">Hidráulica — Pasto 4</span>
               <div class="meta"><span class="retiro-tag">📅 09/06/2026</span></div>
             </div>
@@ -43,7 +43,7 @@
           <div class="bar-lateral pendente"></div>
           <div class="body">
             <div class="info">
-              <span class="titulo">⚡ Cerca elétrica sem carga</span>
+              <span class="titulo"><img class="label-ico" src="/public/Icons/cerca_eletrica.ico" alt="" /> Cerca elétrica sem carga</span>
               <span class="descricao">Elétrica — divisa norte</span>
               <div class="meta"><span class="retiro-tag">📅 08/06/2026</span></div>
             </div>
@@ -58,7 +58,7 @@
           <div class="bar-lateral concluida"></div>
           <div class="body">
             <div class="info">
-              <span class="titulo">🪵 Mourão quebrado</span>
+              <span class="titulo"><img class="label-ico" src="/public/Icons/cerca_quebrada.ico" alt="" /> Mourão quebrado</span>
               <span class="descricao">Cerca — setor sul</span>
               <div class="meta"><span class="retiro-tag">📅 05/06/2026</span></div>
             </div>

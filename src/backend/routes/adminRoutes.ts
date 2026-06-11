@@ -7,18 +7,21 @@ import {
 const router = Router();
 
 /**
- * Middleware de proteção: apenas Gerente logado acessa rotas admin.
- * Usa a sessão criada no login (authController).
+ * Middleware de proteção: apenas Gerente ADMINISTRADOR (is_admin=1) acessa rotas admin.
+ * Gerente comum (is_admin=0) é bloqueado.
  */
-function apenasGerente(req: Request, res: Response, next: NextFunction) {
+function apenasGerenteAdmin(req: Request, res: Response, next: NextFunction) {
   const usuario = (req.session as any)?.usuario;
   if (!usuario || usuario.perfil !== 'Gerente') {
     return res.status(403).json({ erro: 'Acesso restrito ao Gerente.' });
   }
+  if (!usuario.is_admin) {
+    return res.status(403).json({ erro: 'Acesso restrito ao Gerente Administrador.' });
+  }
   next();
 }
 
-router.use(apenasGerente);
+router.use(apenasGerenteAdmin);
 
 // Retiros
 router.get('/retiros', listarRetiros);

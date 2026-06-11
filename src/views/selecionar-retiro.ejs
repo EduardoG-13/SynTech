@@ -22,7 +22,7 @@
         <div class="card-retiro-card"
              data-nome="<%= nome.toLowerCase() %>"
              data-cap="<%= capataz.toLowerCase() %>"
-             onclick="selecionarRetiro('<%= nome %>')">
+             onclick="selecionarRetiro('<%= r.id %>', '<%= nome %>')">
           <span class="pin"><img src="/public/Icons/localizacao.ico" alt="" /></span>
           <div class="info">
             <div class="nome"><%= nome %></div>
@@ -42,13 +42,29 @@
 </div>
 
 <script>
-  function selecionarRetiro(nome) {
-    localStorage.setItem('brpec_sessao', JSON.stringify({
-      perfil: 'Capataz',
-      retiro: nome,
-      logadoEm: new Date().toISOString()
-    }));
-    window.location.href = '/tarefas?perfil=Capataz&retiro=' + encodeURIComponent(nome);
+  function selecionarRetiro(retiroId, nome) {
+    // Cria a SESSÃO no servidor (cookie) — fonte da verdade para autenticação
+    fetch('/api/auth/login-capataz', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ retiro_id: retiroId })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.sucesso) {
+        // Cache local pra UX (auto-redirect na próxima abertura)
+        localStorage.setItem('brpec_sessao', JSON.stringify({
+          perfil: 'Capataz', retiro: nome, retiro_id: retiroId,
+          logadoEm: new Date().toISOString()
+        }));
+        window.location.href = '/tarefas';
+      } else {
+        alert(data.erro || 'Não foi possível entrar neste retiro.');
+      }
+    })
+    .catch(function() {
+      alert('Erro de conexão. Tente novamente.');
+    });
   }
 
   function filtrarRetiros(q) {

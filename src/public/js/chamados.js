@@ -1,31 +1,61 @@
-// capturarCoordenadas: leitura da Geolocation API com escrita em inputs hidden.
-// Sem `required` nos hidden — a validação acontece aqui no submit, com mensagem clara.
+// capturarCoordenadas: leitura da Geolocation API com cache local e checagem prévia
+// de permissão. Pede ao usuário apenas se ainda não autorizou; depois disso, captura
+// silenciosa em todas as próximas vezes. Última localização válida fica salva no
+// dispositivo (localStorage) para uso imediato e fallback offline.
+
+const STORAGE_KEY_AUTORIZADO = 'brpec_gps_autorizado';
+const STORAGE_KEY_ULTIMA_POS = 'brpec_gps_ultima_pos';
 
 function setGpsStatus(message) {
   const statusElement = document.getElementById('gps-status');
   if (statusElement) statusElement.textContent = message;
 }
 
-function capturarCoordenadas() {
-  if (!navigator.geolocation || typeof navigator.geolocation.getCurrentPosition !== 'function') {
-    console.warn('Geolocation não suportado pelo navegador.');
-    setGpsStatus('Não foi possível capturar as coordenadas: recurso indisponível.');
-    return;
+function preencherInputs(lat, lon) {
+  const latInput = document.getElementById('latitude');
+  const lonInput = document.getElementById('longitude');
+  if (latInput) latInput.value = lat;
+  if (lonInput) lonInput.value = lon;
+}
+
+function salvarUltimaPos(lat, lon) {
+  try {
+    localStorage.setItem(STORAGE_KEY_ULTIMA_POS, JSON.stringify({
+      lat: lat,
+      lon: lon,
+      timestamp: Date.now(),
+    }));
+    localStorage.setItem(STORAGE_KEY_AUTORIZADO, 'true');
+  } catch (e) {
+    /* localStorage indisponível (modo anônimo) — ignorar */
   }
+}
 
-  setGpsStatus('🛰️ Capturando localização...');
+function lerUltimaPos() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_ULTIMA_POS);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    return null;
+  }
+}
 
+function jaAutorizado() {
+  try {
+    return localStorage.getItem(STORAGE_KEY_AUTORIZADO) === 'true';
+  } catch (e) {
+    return false;
+  }
+}
+
+function disparaGeolocation() {
   const onSuccess = (pos) => {
     const lat = pos.coords.latitude?.toString() ?? '';
     const lon = pos.coords.longitude?.toString() ?? '';
 
-    const latInput = document.getElementById('latitude');
-    const lonInput = document.getElementById('longitude');
+    preencherInputs(lat, lon);
+    salvarUltimaPos(lat, lon);
 
-    if (latInput) latInput.value = lat;
-    if (lonInput) lonInput.value = lon;
-
-    // Formata com 6 casas decimais para leitura humana
     const latFmt = parseFloat(lat).toFixed(6);
     const lonFmt = parseFloat(lon).toFixed(6);
     setGpsStatus(`✅ GPS capturado: ${latFmt}, ${lonFmt}`);
@@ -33,8 +63,9 @@ function capturarCoordenadas() {
 
   const onError = (err) => {
     console.warn('Erro obtendo posição:', err);
-    // Mensagens específicas por código de erro do PositionError
     if (err && err.code === 1) {
+      // Permissão negada — limpa flag local pra perguntar de novo na próxima sessão
+      try { localStorage.removeItem(STORAGE_KEY_AUTORIZADO); } catch (e) {}
       setGpsStatus('🚫 Permissão de localização negada. Habilite o GPS para abrir o chamado.');
     } else if (err && err.code === 3) {
       setGpsStatus('⏱️ GPS demorou para responder. Toque em "Registrar" novamente para tentar de novo.');
@@ -52,7 +83,46 @@ function capturarCoordenadas() {
   navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
 }
 
-// Validação no submit: bloqueia envio sem GPS e mostra mensagem visível ao usuário
+function capturarCoordenadas() {
+  if (!navigator.geolocation || typeof navigator.geolocation.getCurrentPosition !== 'function') {
+    console.warn('Geolocation não suportado pelo navegador.');
+    setGpsStatus('Não foi possível capturar as coordenadas: recurso indisponível.');
+    return;
+  }
+
+  // Já capturado antes? Pré-preenche com a última leitura para o usuário não esperar
+  const ultima = lerUltimaPos();
+  if (ultima && ultima.lat && ultima.lon) {
+    preencherInputs(ultima.lat, ultima.lon);
+    const latFmt = parseFloat(ultima.lat).toFixed(6);
+    const lonFmt = parseFloat(ultima.lon).toFixed(6);
+    setGpsStatus(`📍 Última posição: ${latFmt}, ${lonFmt} (atualizando...)`);
+  } else {
+    setGpsStatus('🛰️ Capturando localização...');
+  }
+
+  // Usa Permissions API quando disponível para evitar prompt repetido
+  if (navigator.permissions && typeof navigator.permissions.query === 'function') {
+    navigator.permissions.query({ name: 'geolocation' })
+      .then((res) => {
+        if (res.state === 'granted' || res.state === 'prompt' || jaAutorizado()) {
+          // granted = autorizado em sessão anterior (sem prompt)
+          // prompt  = primeira vez (vai aparecer o prompt do browser)
+          // jaAutorizado = guardamos manualmente no localStorage como reforço
+          disparaGeolocation();
+        } else if (res.state === 'denied') {
+          setGpsStatus('🚫 Acesso ao GPS bloqueado nas permissões do navegador. Reative para usar o app.');
+        }
+      })
+      .catch(() => {
+        // Browser sem Permissions API → tenta direto
+        disparaGeolocation();
+      });
+  } else {
+    disparaGeolocation();
+  }
+}
+
 function bloquearSubmitSemGps() {
   const form = document.getElementById('form-novo-chamado');
   if (!form) return;
@@ -62,13 +132,11 @@ function bloquearSubmitSemGps() {
     if (!lat?.value || !lon?.value) {
       ev.preventDefault();
       setGpsStatus('📍 Aguardando GPS. Tentando capturar novamente...');
-      // Tenta capturar de novo automaticamente — útil quando a 1ª leitura ainda não terminou
       capturarCoordenadas();
     }
   });
 }
 
-// Executa ao carregar a página
 document.addEventListener('DOMContentLoaded', () => {
   try {
     capturarCoordenadas();

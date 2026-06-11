@@ -231,14 +231,15 @@ class CloudSyncService {
             const u = db.prepare('SELECT * FROM usuarios WHERE id = ?').get(item.entidade_id) as any;
             if (u) {
               await supabasePool.query(`
-                INSERT INTO usuarios (id, nome, senha, perfil, retiro_id, criado_em)
-                VALUES ($1, $2, $3, $4, $5, $6)
+                INSERT INTO usuarios (id, nome, senha, perfil, retiro_id, is_admin, criado_em)
+                VALUES ($1, $2, $3, $4, $5, $6, $7)
                 ON CONFLICT (id) DO UPDATE SET
                   nome = EXCLUDED.nome,
                   senha = EXCLUDED.senha,
                   perfil = EXCLUDED.perfil,
-                  retiro_id = EXCLUDED.retiro_id
-              `, [u.id, u.nome, u.senha, u.perfil, u.retiro_id, u.criado_em]);
+                  retiro_id = EXCLUDED.retiro_id,
+                  is_admin = EXCLUDED.is_admin
+              `, [u.id, u.nome, u.senha, u.perfil, u.retiro_id, u.is_admin || 0, u.criado_em]);
             }
           }
 

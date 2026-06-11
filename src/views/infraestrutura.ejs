@@ -5,7 +5,7 @@
 
   <div id="app">
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar"><%= perfil === 'Gerente' ? '🧑‍💼' : (perfil === 'Coordenador' ? '📋' : (perfil === 'Infraestrutura' ? '🔧' : '🤠')) %></div>
+      <div class="user-avatar"><img src="/public/Icons/<%= perfil === 'Gerente' ? 'gerente' : (perfil === 'Coordenador' ? 'coordenador' : (perfil === 'Infraestrutura' ? 'infra' : 'capataz')) %>.ico" alt="<%= perfil %>" style="width:32px;height:32px;object-fit:contain;" /></div>
       <h1>Infraestrutura</h1>
       <div class="sub"><%= retiro %> (<%= perfil %>)</div>
     </div>
@@ -21,7 +21,7 @@
       <div class="chamados-resumo" id="chamados-resumo">
 
         <div class="card chamado-status-card">
-          <div class="chamado-status-icon aberto">📋</div>
+          <div class="chamado-status-icon aberto"><img src="/public/Icons/pendente.ico" alt="" style="width:32px;height:32px;object-fit:contain;" /></div>
           <div class="chamado-status-info">
             <span class="chamado-status-label">Abertos</span>
             <span class="chamado-status-sub">Total de chamados</span>
@@ -30,7 +30,7 @@
         </div>
 
         <div class="card chamado-status-card">
-          <div class="chamado-status-icon andamento">🔧</div>
+          <div class="chamado-status-icon andamento"><img src="/public/Icons/andamento.ico" alt="" style="width:32px;height:32px;object-fit:contain;" /></div>
           <div class="chamado-status-info">
             <span class="chamado-status-label">Em andamento</span>
             <span class="chamado-status-sub">Total de chamados</span>
@@ -39,7 +39,7 @@
         </div>
 
         <div class="card chamado-status-card">
-          <div class="chamado-status-icon fechado">✅</div>
+          <div class="chamado-status-icon fechado"><img src="/public/Icons/concluido.ico" alt="" style="width:32px;height:32px;object-fit:contain;" /></div>
           <div class="chamado-status-info">
             <span class="chamado-status-label">Fechados</span>
             <span class="chamado-status-sub">Histórico semanal</span>
@@ -55,7 +55,7 @@
           <div class="bar-lateral andamento"></div>
           <div class="body">
             <div class="info">
-              <span class="titulo">🚰 Vazamento no bebedouro</span>
+              <span class="titulo"><img class="label-ico" src="/public/Icons/bebedouro.ico" alt="" /> Vazamento no bebedouro</span>
               <span class="descricao">Hidráulica — Pasto 4</span>
               <div class="meta"><span class="retiro-tag">📅 09/06/2026</span></div>
             </div>
@@ -70,7 +70,7 @@
           <div class="bar-lateral pendente"></div>
           <div class="body">
             <div class="info">
-              <span class="titulo">⚡ Cerca elétrica sem carga</span>
+              <span class="titulo"><img class="label-ico" src="/public/Icons/cerca_eletrica.ico" alt="" /> Cerca elétrica sem carga</span>
               <span class="descricao">Elétrica — divisa norte</span>
               <div class="meta"><span class="retiro-tag">📅 08/06/2026</span></div>
             </div>

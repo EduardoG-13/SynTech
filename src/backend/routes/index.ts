@@ -14,6 +14,7 @@ import sincronizacaoRoutes from './sincronizacaoRoutes';
 import exportacaoRoutes from './exportacaoRoutes';
 import dadosRoutes from './dadosRoutes';
 import adminRoutes from './adminRoutes';
+import coordenadorRoutes from './coordenadorRoutes';
 
 // Health-check
 router.get('/health', healthController.verificarSaude);
@@ -21,8 +22,11 @@ router.get('/health', healthController.verificarSaude);
 // Dados de apoio para formulários (retiros, capatazes, categorias)
 router.use('/dados', dadosRoutes);
 
-// Administração (Gerente): CRUD de retiros e usuários
+// Administração (Gerente ADM): CRUD de retiros e usuários
 router.use('/admin', adminRoutes);
+
+// Coordenador: aprovar boletas + exportar CSV
+router.use('/coordenador', coordenadorRoutes);
 
 // Tarefas
 router.use('/tarefas', tarefaRoutes);

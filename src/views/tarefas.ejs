@@ -8,7 +8,7 @@
   <div id="app">
 
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar">🤠</div>
+      <div class="user-avatar"><img src="/public/Icons/capataz.ico" alt="Capataz" style="width:32px;height:32px;object-fit:contain;" /></div>
       <h1>Histórico de Registros</h1>
       <div class="sub"><%= retiro %> (<%= perfil %>)</div>
     </div>
@@ -18,66 +18,13 @@
       <!-- Filtro por tipo de boleta (ajuda a achar registros) -->
       <div class="filter-pills" id="filtros-tarefas">
         <button class="pill active" data-filtro="todas">Todas</button>
-        <button class="pill" data-filtro="movimentacao">🔄 Movimentação</button>
-        <button class="pill" data-filtro="nascimento">🐄 Nascimento</button>
-        <button class="pill" data-filtro="obito">⚰️ Óbito</button>
+        <button class="pill" data-filtro="movimentacao"><img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Movimentação</button>
+        <button class="pill" data-filtro="nascimento"><img class="label-ico" src="/public/Icons/nascimento.ico" alt="" /> Nascimento</button>
+        <button class="pill" data-filtro="obito"><img class="label-ico" src="/public/Icons/obto.ico" alt="" /> Óbito</button>
       </div>
 
-      <!-- Lista de boletas criadas pelo capataz (editáveis) -->
-      <div class="tarefas-lista" id="tarefas-lista">
-
-        <div class="card tarefa-card" data-tipo="movimentacao" onclick="window.location.href='/boleta/1?perfil=<%= perfil %>&retiro=<%= retiro %>'">
-          <div class="bar-lateral concluida"></div>
-          <div class="body">
-            <div class="info">
-              <span class="titulo">🔄 Movimentação — 30 Garrotes</span>
-              <span class="descricao">Saída para o Retiro Cristo</span>
-              <div class="meta">
-                <span class="retiro-tag">📅 09/06/2026</span>
-              </div>
-            </div>
-            <div class="status-area">
-              <span class="badge concluida">✓ Enviado</span>
-              <span class="arrow">✏️</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card tarefa-card" data-tipo="nascimento" onclick="window.location.href='/boleta/2?perfil=<%= perfil %>&retiro=<%= retiro %>'">
-          <div class="bar-lateral concluida"></div>
-          <div class="body">
-            <div class="info">
-              <span class="titulo">🐄 Nascimento — 5 Bezerros</span>
-              <span class="descricao">Raça Nelore</span>
-              <div class="meta">
-                <span class="retiro-tag">📅 08/06/2026</span>
-              </div>
-            </div>
-            <div class="status-area">
-              <span class="badge pendente">⏳ Aguardando envio</span>
-              <span class="arrow">✏️</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card tarefa-card" data-tipo="obito" onclick="window.location.href='/boleta/3?perfil=<%= perfil %>&retiro=<%= retiro %>'">
-          <div class="bar-lateral concluida"></div>
-          <div class="body">
-            <div class="info">
-              <span class="titulo">⚰️ Óbito — 1 Vaca</span>
-              <span class="descricao">Causa: Doença</span>
-              <div class="meta">
-                <span class="retiro-tag">📅 07/06/2026</span>
-              </div>
-            </div>
-            <div class="status-area">
-              <span class="badge concluida">✓ Enviado</span>
-              <span class="arrow">✏️</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
+      <!-- Lista de boletas criadas pelo capataz (lidas do localStorage) -->
+      <div class="tarefas-lista" id="tarefas-lista"></div>
 
       <div class="tarefas-vazio" id="tarefas-vazio" style="display: none;">
         <p>Nenhuma boleta encontrada.</p>
@@ -94,26 +41,68 @@
 
 <script>
   (function() {
-    const filtros = document.querySelectorAll('#filtros-tarefas .pill');
-    const boletas = document.querySelectorAll('#tarefas-lista .tarefa-card');
-    const vazio = document.getElementById('tarefas-vazio');
+    var ICONES = {
+      'movimentacao': 'movimentacao', 'transferencia': 'movimentacao',
+      'nascimento': 'nascimento', 'obito': 'obto',
+      'compravenda': 'movimentacao', 'evolucao': 'movimentacao', 'manejo': 'tarefas'
+    };
+    var ROTULOS = {
+      'movimentacao': 'Movimentação', 'transferencia': 'Transferência',
+      'nascimento': 'Nascimento', 'obito': 'Óbito',
+      'compravenda': 'Compra/Venda', 'evolucao': 'Evolução', 'manejo': 'Manejo'
+    };
 
-    filtros.forEach(function(btn) {
+    var lista = [];
+    try { lista = JSON.parse(localStorage.getItem('brpec_registros') || '[]'); } catch(e){}
+
+    var cont = document.getElementById('tarefas-lista');
+    var vazio = document.getElementById('tarefas-vazio');
+
+    function render(filtro) {
+      cont.innerHTML = '';
+      var visiveis = 0;
+      lista.forEach(function(r) {
+        var tipo = r.operacao || 'manejo';
+        // Filtro "obito"/"nascimento"/"movimentacao" — "movimentacao" engloba transferencia/compravenda/evolucao
+        var grupo = (tipo === 'transferencia' || tipo === 'compravenda' || tipo === 'evolucao') ? 'movimentacao' : tipo;
+        if (filtro !== 'todas' && grupo !== filtro) return;
+
+        var ico = ICONES[tipo] || 'tarefas';
+        var rotulo = ROTULOS[tipo] || 'Registro';
+        var total = (r.animais || []).reduce(function(s,a){return s+(parseInt(a.quantidade)||0);},0);
+        var desc = total ? (total + ' cabeças') : (r.titulo || r.causa || '');
+        var data = r.data || (r.criadoEm || '').slice(0,10);
+
+        var card = document.createElement('div');
+        card.className = 'card tarefa-card';
+        card.dataset.tipo = grupo;
+        card.onclick = function() { window.location.href = '/boleta/' + r.id; };
+        card.innerHTML =
+          '<div class="bar-lateral concluida"></div>' +
+          '<div class="body">' +
+            '<div class="info">' +
+              '<span class="titulo"><img class="label-ico" src="/public/Icons/' + ico + '.ico" alt="" /> ' + rotulo + '</span>' +
+              '<span class="descricao">' + desc + '</span>' +
+              '<div class="meta"><span class="retiro-tag">📅 ' + data + '</span></div>' +
+            '</div>' +
+            '<div class="status-area">' +
+              '<span class="badge concluida">✓ Salvo</span>' +
+              '<span class="arrow">›</span>' +
+            '</div>' +
+          '</div>';
+        cont.appendChild(card);
+        visiveis++;
+      });
+      vazio.style.display = visiveis === 0 ? 'block' : 'none';
+    }
+
+    render('todas');
+
+    document.querySelectorAll('#filtros-tarefas .pill').forEach(function(btn) {
       btn.addEventListener('click', function() {
-        filtros.forEach(function(b) { b.classList.remove('active'); });
+        document.querySelectorAll('#filtros-tarefas .pill').forEach(function(b){b.classList.remove('active');});
         btn.classList.add('active');
-
-        const filtro = btn.dataset.filtro;
-        let visiveis = 0;
-
-        boletas.forEach(function(card) {
-          const tipo = card.dataset.tipo;
-          const mostrar = (filtro === 'todas') || (tipo === filtro);
-          card.style.display = mostrar ? '' : 'none';
-          if (mostrar) visiveis++;
-        });
-
-        vazio.style.display = visiveis === 0 ? 'block' : 'none';
+        render(btn.dataset.filtro);
       });
     });
   })();

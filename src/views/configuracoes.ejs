@@ -6,7 +6,7 @@
 
   <div id="app">
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar">🧑‍💼</div>
+      <div class="user-avatar"><img src="/public/Icons/gerente.ico" alt="Gerente" style="width:32px;height:32px;object-fit:contain;" /></div>
       <h1>Configurações</h1>
       <div class="sub">Gestão de retiros e usuários (Gerente)</div>
     </div>
@@ -15,7 +15,7 @@
 
       <!-- Abas -->
       <div class="config-abas">
-        <button class="aba active" data-aba="retiros">🏠 Retiros</button>
+        <button class="aba active" data-aba="retiros"><img class="label-ico" src="/public/Icons/home.ico" alt="" /> Retiros</button>
         <button class="aba" data-aba="usuarios">👥 Usuários</button>
       </div>
 
@@ -93,6 +93,13 @@
             <div id="usr-retiro-wrap" style="display:none;">
               <label>Retiro (capataz)</label>
               <select id="usr-retiro"><option value="">— Sem retiro —</option></select>
+            </div>
+            <div id="usr-admin-wrap" style="display:none;">
+              <label style="display:flex; align-items:center; gap:0.5rem;">
+                <input type="checkbox" id="usr-is-admin" />
+                <span>🛡️ Administrador (acessa Configurações)</span>
+              </label>
+              <small style="color:#5c6b5d;">Marque para conceder acesso à tela de Configurações.</small>
             </div>
             <div class="form-acoes">
               <button type="submit" class="btn-salvar" id="usr-btn-salvar">💾 Salvar usuário</button>

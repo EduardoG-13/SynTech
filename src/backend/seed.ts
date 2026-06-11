@@ -52,9 +52,17 @@ try {
     stmtRetiro.run(retiros[i].id, retiros[i].nome, retiros[i].loc, coordDistribuicao[i]);
   }
 
-  // ==================== GERENTE (único) ====================
-  db.prepare(`INSERT OR IGNORE INTO usuarios (id, nome, senha, perfil, retiro_id) VALUES (?, ?, ?, ?, ?)`)
-    .run('gerente-1', 'admin', senhaHash, 'Gerente', null);
+  // ==================== GERENTE ADM master (único inicial) ====================
+  // Tenta com is_admin; se a coluna ainda não existe (banco antigo sem migration 002), faz sem
+  try {
+    db.prepare(`INSERT OR IGNORE INTO usuarios (id, nome, senha, perfil, retiro_id, is_admin) VALUES (?, ?, ?, ?, ?, 1)`)
+      .run('gerente-1', 'admin', senhaHash, 'Gerente', null);
+  } catch (e) {
+    db.prepare(`INSERT OR IGNORE INTO usuarios (id, nome, senha, perfil, retiro_id) VALUES (?, ?, ?, ?, ?)`)
+      .run('gerente-1', 'admin', senhaHash, 'Gerente', null);
+  }
+  // Garante que o admin tem is_admin=1 mesmo se foi criado antes da migration
+  try { db.prepare("UPDATE usuarios SET is_admin = 1 WHERE id = 'gerente-1'").run(); } catch(e) {}
 
   // ==================== CAPATAZES ====================
   const capatazes = [

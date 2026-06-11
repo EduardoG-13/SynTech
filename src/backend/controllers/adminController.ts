@@ -77,18 +77,18 @@ export function listarUsuarios(req: Request, res: Response) {
   let rows;
   if (perfil) {
     rows = db.prepare(
-      'SELECT id, nome, perfil, retiro_id FROM usuarios WHERE perfil = ? ORDER BY nome'
+      'SELECT id, nome, perfil, retiro_id, is_admin FROM usuarios WHERE perfil = ? ORDER BY nome'
     ).all(perfil);
   } else {
     rows = db.prepare(
-      'SELECT id, nome, perfil, retiro_id FROM usuarios ORDER BY perfil, nome'
+      'SELECT id, nome, perfil, retiro_id, is_admin FROM usuarios ORDER BY perfil, nome'
     ).all();
   }
   return res.json(rows);
 }
 
 export function criarUsuario(req: Request, res: Response) {
-  const { nome, senha, perfil, retiro_id } = req.body;
+  const { nome, senha, perfil, retiro_id, is_admin } = req.body;
   if (!nome || !senha || !perfil) {
     return res.status(400).json({ erro: 'Nome, senha e perfil são obrigatórios.' });
   }
@@ -101,11 +101,14 @@ export function criarUsuario(req: Request, res: Response) {
   const jaExiste = db.prepare('SELECT id FROM usuarios WHERE nome = ? AND perfil = ?').get(nome, perfil);
   if (jaExiste) return res.status(409).json({ erro: 'Já existe um usuário com esse nome e perfil.' });
 
+  // is_admin só é válido para perfil Gerente — demais, força 0
+  const adminFlag = (perfil === 'Gerente' && (is_admin === true || is_admin === 1 || is_admin === '1')) ? 1 : 0;
+
   const id = uuidv7();
   const senhaHash = bcrypt.hashSync(senha, 10);
   db.prepare(
-    `INSERT INTO usuarios (id, nome, senha, perfil, retiro_id) VALUES (?, ?, ?, ?, ?)`
-  ).run(id, nome, senhaHash, perfil, retiro_id || null);
+    `INSERT INTO usuarios (id, nome, senha, perfil, retiro_id, is_admin) VALUES (?, ?, ?, ?, ?, ?)`
+  ).run(id, nome, senhaHash, perfil, retiro_id || null, adminFlag);
 
   enfileirarSync('usuario', id);
   return res.status(201).json({ id, mensagem: 'Usuário criado com sucesso.' });
@@ -113,17 +116,31 @@ export function criarUsuario(req: Request, res: Response) {
 
 export function atualizarUsuario(req: Request, res: Response) {
   const id = String(req.params.id);
-  const { nome, senha, perfil, retiro_id } = req.body;
+  const { nome, senha, perfil, retiro_id, is_admin } = req.body;
 
   const usuario = db.prepare('SELECT * FROM usuarios WHERE id = ?').get(id) as any;
   if (!usuario) return res.status(404).json({ erro: 'Usuário não encontrado.' });
 
-  // Se senha foi informada, gera novo hash; senão mantém a atual
   const senhaFinal = senha ? bcrypt.hashSync(senha, 10) : usuario.senha;
+  const perfilFinal = perfil || usuario.perfil;
+
+  // is_admin só é válido para perfil Gerente
+  let adminFlag = usuario.is_admin;
+  if (typeof is_admin !== 'undefined') {
+    adminFlag = (perfilFinal === 'Gerente' && (is_admin === true || is_admin === 1 || is_admin === '1')) ? 1 : 0;
+  }
+
+  // Não permite remover is_admin do único Gerente ADM (não bloquear o sistema)
+  if (usuario.is_admin === 1 && adminFlag === 0) {
+    const totalAdmins = db.prepare("SELECT COUNT(*) AS n FROM usuarios WHERE perfil = 'Gerente' AND is_admin = 1").get() as any;
+    if (totalAdmins.n <= 1) {
+      return res.status(422).json({ erro: 'Não é possível remover o privilégio de administrador do único Gerente ADM.' });
+    }
+  }
 
   db.prepare(
-    `UPDATE usuarios SET nome = ?, senha = ?, perfil = ?, retiro_id = ? WHERE id = ?`
-  ).run(nome || usuario.nome, senhaFinal, perfil || usuario.perfil, retiro_id || null, id);
+    `UPDATE usuarios SET nome = ?, senha = ?, perfil = ?, retiro_id = ?, is_admin = ? WHERE id = ?`
+  ).run(nome || usuario.nome, senhaFinal, perfilFinal, retiro_id || null, adminFlag, id);
 
   enfileirarSync('usuario', id);
   return res.json({ mensagem: 'Usuário atualizado com sucesso.' });

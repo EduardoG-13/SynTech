@@ -1837,19 +1837,19 @@ O diagrama é organizado em três camadas conceituais:
   os três perfis de acesso e as responsabilidades distintas de cada ator, conforme
   descritos na seção 3.1;
 - **Camada Operacional:** concentra as entidades centrais do fluxo de trabalho —
-  `Retiro`, `Tarefa`, `Evidencia` e `AlertaInfraestrutura` —, que materializam o
+  `Retiro`, `Tarefa`, `Evidencia` e `Alerta` —, que materializam o
   planejamento, a execução e o reporte das atividades de campo (US01 a US07);
 - **Camada Zootécnica e de Controle:** reúne os registros de eventos do rebanho —
-  `EventoZootecnico`, `RegistroNascimento` e `RegistroObito` —, que suportam o controle
+  `MovimentacaoBase`, `Nascimento`, `Obito`, `Transferencia` e `Compravenda` —, que suportam o controle
   pecuário offline (US08 a US10), além da entidade `Sincronizacao`, responsável pela
   gestão do ciclo de envio de dados ao servidor central, e `Exportacao`, que atende à
   demanda do Coordenador de geração de relatórios estruturados (RF015).
 
-A decisão de modelar `Evidencia` e `EventoZootecnico` como classes abstratas decorre
+A decisão de modelar `Evidencia` e `MovimentacaoBase` como classes abstratas decorre
 da necessidade de encapsular atributos e comportamentos comuns — como o vínculo com
 a tarefa ou com o retiro e o controle de sincronização offline —, evitando duplicação
-nas subclasses concretas (`Foto`, `Audio`, `TextoComplementar`, `RegistroNascimento`
-e `RegistroObito`). Segundo Larman [24], é útil identificar classes abstratas no modelo
+nas subclasses concretas (`Foto`, `Audio`, `TextoComplementar`, `Nascimento`, `Obito`,
+`Transferencia` e `Compravenda`). Segundo Larman [16], é útil identificar classes abstratas no modelo
 de domínio porque elas restringem quais classes podem ter instâncias concretas,
 esclarecendo as regras do domínio do problema: se toda instância de um conceito deve,
 obrigatoriamente, ser uma instância de uma de suas subclasses, então esse conceito é
@@ -1927,8 +1927,8 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
 | retiro_id                   | UUID                 | Chave estrangeira que vincula o Capataz a um único Retiro (RN01, RN05)                  |
 | visualizarTarefas()         | List\<Tarefa\>       | Recupera as tarefas do dia do retiro ao qual o Capataz pertence (RF002)                 |
 | concluirTarefa()            | void                 | Atualiza o status de uma tarefa para `CONCLUIDA` e aciona o envio de evidências (RF003) |
-| abrirAlerta()               | AlertaInfraestrutura | Registra um novo alerta de infraestrutura com geolocalização (RF006)                    |
-| registrarEventoZootecnico() | EventoZootecnico     | Preenche e persiste localmente um evento de nascimento ou óbito (RF008, RF009)          |
+| abrirAlerta()               | Alerta               | Registra um novo alerta de infraestrutura com geolocalização (RF006)                    |
+| registrarEventoZootecnico() | MovimentacaoBase     | Preenche e persiste localmente um evento zootécnico (RF008, RF009)                       |
 
 <center>
   <p><strong>Tabela 34</strong> — Métodos da classe Capataz</p>
@@ -2014,7 +2014,7 @@ A classe `Evidencia` é modelada como abstrata por reunir o comportamento comum 
 | foto_id      | UUID     | Não         | Chave estrangeira opcional para uma Foto associada ao chamado                 |
 
 <center>
-  <p><strong>Tabela 38</strong> — Atributos da classe AlertaInfraestrutura</p>
+  <p><strong>Tabela 38</strong> — Atributos da classe Alerta</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2022,28 +2022,32 @@ A classe `Evidencia` é modelada como abstrata por reunir o comportamento comum 
 
 **Camada Zootécnica e de Controle**
 
-Essa camada concentra os registros de eventos do rebanho e as entidades de suporte à operação offline e à geração de relatórios. A classe `EventoZootecnico` é modelada como abstrata pelo mesmo princípio aplicado a `Evidencia`: nascimentos e óbitos compartilham atributos estruturais comuns, mas possuem campos obrigatórios e regras de validação distintos, justificando a especialização em subclasses concretas.
+Essa camada concentra os registros de eventos do rebanho e as entidades de suporte à operação offline e à geração de relatórios. A classe `MovimentacaoBase` é modelada como abstrata pelo mesmo princípio aplicado a `Evidencia`: nascimentos, óbitos, transferências e compravendas compartilham atributos estruturais comuns, mas possuem campos específicos e regras de validação distintos, justificando a especialização em subclasses concretas.
 
 
 | Classe                 | Atributo                     | Tipo     | Obrigatório | Descrição                                                                                |
 | ---------------------- | ---------------------------- | -------- | ----------- | ---------------------------------------------------------------------------------------- |
-| **EventoZootecnico**   | id                           | UUID     | Sim         | Identificador único do evento                                                            |
-| **EventoZootecnico**   | capataz_id                   | UUID     | Sim         | Chave estrangeira para o Capataz que realizou o registro                                 |
-| **EventoZootecnico**   | retiro_id                    | UUID     | Sim         | Chave estrangeira para o Retiro de origem do evento                                      |
-| **EventoZootecnico**   | data                         | Date     | Sim         | Data de ocorrência do evento no campo                                                    |
-| **EventoZootecnico**   | categoria                    | String   | Sim         | Categoria do animal envolvido (ex.: bezerro, vaca, touro)                                |
-| **EventoZootecnico**   | quantidade                   | Integer  | Sim         | Quantidade de animais envolvidos no evento                                               |
-| **EventoZootecnico**   | sincronizado                 | Boolean  | Sim         | Indica se o registro foi transmitido ao servidor central (RF010, RF012)                  |
-| **EventoZootecnico**   | validado                     | Boolean  | Sim         | Indica se o Coordenador confirmou a integridade do registro (RF014)                      |
-| **EventoZootecnico**   | coordenador_id               | UUID     | Não         | Chave estrangeira preenchida pelo sistema após validação pelo Coordenador                |
-| **EventoZootecnico**   | criadoEm                     | DateTime | Sim         | Timestamp de criação local do registro, injetado automaticamente (RNF — SEG)             |
-| **RegistroNascimento** | _(sem atributos adicionais)_ | —        | —           | Especialização de EventoZootecnico para nascimentos (US08, RF008)                        |
-| **RegistroObito**      | identificacaoAnimal          | String   | Sim         | Identificação individual do animal (brinco, marca ou descrição) (RF013)                  |
-| **RegistroObito**      | causaMorte                   | String   | Sim         | Causa declarada do óbito, campo obrigatório para validação sanitária (RF013)             |
-| **RegistroObito**      | foto_id                      | UUID     | Sim         | Chave estrangeira para a Foto obrigatória da carcaça, exigida para auditoria (US09, CR2) |
+| **MovimentacaoBase**   | id                           | UUID     | Sim         | Identificador único da movimentação                                                      |
+| **MovimentacaoBase**   | capataz_id                   | UUID     | Sim         | Chave estrangeira para o Capataz que realizou o registro                                 |
+| **MovimentacaoBase**   | retiro_id                    | UUID     | Sim         | Chave estrangeira para o Retiro de origem do evento                                      |
+| **MovimentacaoBase**   | data                         | Date     | Sim         | Data de ocorrência do evento no campo                                                    |
+| **MovimentacaoBase**   | categoria                    | String   | Sim         | Categoria do animal envolvido (ex.: bezerro, vaca, touro)                                |
+| **MovimentacaoBase**   | quantidade                   | Integer  | Sim         | Quantidade de animais envolvidos no evento                                               |
+| **MovimentacaoBase**   | sincronizado                 | Boolean  | Sim         | Indica se o registro foi transmitido ao servidor central (RF010, RF012)                  |
+| **MovimentacaoBase**   | validado                     | Boolean  | Sim         | Indica se o Coordenador confirmou a integridade do registro (RF014)                      |
+| **MovimentacaoBase**   | coordenador_id               | UUID     | Não         | Chave estrangeira preenchida pelo sistema após validação pelo Coordenador                |
+| **MovimentacaoBase**   | criadoEm                     | DateTime | Sim         | Timestamp de criação local do registro, injetado automaticamente (RNF — SEG)             |
+| **Nascimento**         | _(sem atributos adicionais)_ | —        | —           | Especialização de MovimentacaoBase para nascimentos (US08, RF008)                        |
+| **Obito**              | identificacaoAnimal          | String   | Sim         | Identificação individual do animal (brinco, marca ou descrição) (RF013)                  |
+| **Obito**              | causaMorte                   | String   | Sim         | Causa declarada do óbito, campo obrigatório para validação sanitária (RF013)             |
+| **Obito**              | foto_id                      | UUID     | Sim         | Chave estrangeira para a Foto obrigatória da carcaça, exigida para auditoria (US09, CR2) |
+| **Transferencia**      | retiroOrigemId               | UUID     | Sim         | Chave estrangeira para o Retiro de origem da transferência                               |
+| **Transferencia**      | retiroDestinoId              | UUID     | Sim         | Chave estrangeira para o Retiro de destino da transferência                             |
+| **Compravenda**        | tipoNegocio                  | Enum     | Sim         | Tipo de negócio zootécnico: `COMPRA` ou `VENDA`                                          |
+| **Compravenda**        | valorFinanceiro              | Decimal  | Sim         | Valor financeiro associado ao negócio                                                    |
 
 <center>
-  <p><strong>Tabela 39</strong> — Atributos da classe EventoZootecnico</p>
+  <p><strong>Tabela 39</strong> — Atributos da classe MovimentacaoBase e suas subclasses</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2055,7 +2059,7 @@ Essa camada concentra os registros de eventos do rebanho e as entidades de supor
 | id              | UUID     | Sim         | Identificador único do registro de sincronização                                    |
 | entidadeTipo    | String   | Sim         | Nome da classe da entidade gerenciada (ex.: `"Tarefa"`, `"RegistroObito"`)          |
 | entidadeId      | UUID     | Sim         | Identificador da instância específica da entidade a ser sincronizada                |
-| statusEnvio     | Enum     | Sim         | Estado da transmissão: `PENDENTE`, `ENVIADO` ou `FALHA`                             |
+| statusEnvio     | Enum     | Sim         | Estado da transmissão: `PENDENTE`, `PROCESSANDO`, `ERRO` ou `SINCRONIZADO`          |
 | tentativas      | Integer  | Sim         | Contador de tentativas de envio realizadas pelo sistema (RF012)                     |
 | ultimaTentativa | DateTime | Não         | Timestamp da última tentativa de sincronização, atualizado a cada ciclo             |
 | criadaEm        | DateTime | Sim         | Timestamp de criação do registro de controle, gerado no momento do salvamento local |
@@ -2103,18 +2107,18 @@ A Tabela 19 consolida todos os relacionamentos modelados no diagrama, com seus t
 | Tarefa               | Composição (◆)      | Evidencia            | 1 para 0..N    | RF004, RF005, RN10 |
 | Tarefa               | Associação          | Retiro               | N para 1       | RF001, RN01        |
 | Retiro               | Associação          | Coordenador          | N para 1       | UC07               |
-| Capataz              | Associação          | AlertaInfraestrutura | 1 para N       | RF006, RN19        |
-| AlertaInfraestrutura | Associação          | Retiro               | N para 1       | RN26               |
-| AlertaInfraestrutura | Associação          | Foto                 | 1 para 0..1    | RF006              |
-| Capataz              | Associação          | EventoZootecnico     | 1 para N       | RF008, RF009       |
-| EventoZootecnico     | Associação          | Retiro               | N para 1       | RF008, RF009       |
-| Coordenador          | Associação          | EventoZootecnico     | 1 para N       | RF014, RN28        |
-| RegistroObito        | Associação          | Foto                 | 1 para 1       | US09, CR2, RF013   |
+| Capataz              | Associação          | Alerta               | 1 para N       | RF006, RN19        |
+| Alerta               | Associação          | Retiro               | N para 1       | RN26               |
+| Alerta               | Associação          | Foto                 | 1 para 0..1    | RF006              |
+| Capataz              | Associação          | MovimentacaoBase     | 1 para N       | RF008, RF009       |
+| MovimentacaoBase     | Associação          | Retiro               | N para 1       | RF008, RF009       |
+| Coordenador          | Associação          | MovimentacaoBase     | 1 para N       | RF014, RN28        |
+| Obito                | Associação          | Foto                 | 1 para 1       | US09, CR2, RF013   |
 | Coordenador          | Associação          | Exportacao           | 1 para N       | RF015, RN28        |
 | Sincronizacao        | Dependência (- - →) | Tarefa               | 1 para 1       | RF010, RF012       |
 | Sincronizacao        | Dependência (- - →) | Evidencia            | 1 para 1       | RF010, RF012       |
-| Sincronizacao        | Dependência (- - →) | AlertaInfraestrutura | 1 para 1       | RN20, RN21         |
-| Sincronizacao        | Dependência (- - →) | EventoZootecnico     | 1 para 1       | RF010, RF012       |
+| Sincronizacao        | Dependência (- - →) | Alerta               | 1 para 1       | RN20, RN21         |
+| Sincronizacao        | Dependência (- - →) | MovimentacaoBase     | 1 para 1       | RF010, RF012       |
 
 <center>
   <p><strong>Tabela 42</strong> — Síntese de Relacionamentos</p>
@@ -2362,7 +2366,7 @@ sequenceDiagram
     participant TREP as TarefaRepository
     participant DB as SQLite
 
-    G->>CTR: POST /tarefas {titulo, descricao, retiro_id, capataz_id, data_execucao, gerente_id}
+    G->>CTR: POST /api/tarefas {titulo, descricao, retiro_id, capataz_id, data_execucao, gerente_id}
     CTR->>CTR: Valida campos obrigatórios
 
     alt Campos obrigatórios ausentes
@@ -2379,8 +2383,13 @@ sequenceDiagram
             CTR-->>G: 422 Unprocessable Entity {erro: "Capataz não pertence ao retiro"}
         else Validação aprovada
             SRV->>TREP: criar(dados)
-            TREP->>DB: INSERT INTO tarefas (...) VALUES (...)
-            DB-->>TREP: rowid
+            TREP->>DB: BEGIN TRANSACTION
+            TREP->>DB: INSERT INTO tarefas (...)
+            DB-->>TREP: ok
+            TREP->>DB: INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio) VALUES (uuid, 'tarefa', ?, 'PENDENTE')
+            DB-->>TREP: ok
+            TREP->>DB: COMMIT
+            DB-->>TREP: ok
             TREP-->>SRV: Tarefa {id: "uuid-v7", status: "PENDENTE", ...}
             SRV-->>CTR: Tarefa
             CTR-->>G: 201 Created {id, mensagem: "Tarefa criada com sucesso", tarefa}
@@ -2433,37 +2442,41 @@ sequenceDiagram
     autonumber
     actor C as Capataz
     participant PWA as Cliente (PWA)
-    participant CTR as Controller
-    participant SRV as Service
-    participant REP as Repository
-    participant LS as Armazenamento Local (IndexedDB)
+    participant CS as Cache Storage (Browser)
+    participant LS as IndexedDB (sync_queue)
+    participant CTR as TarefaController
+    participant SRV as TarefaService
+    participant TREP as TarefaRepository
+    participant DB as SQLite (Servidor)
 
-    note over C,LS: Dispositivo sem conexão — tarefas foram sincronizadas previamente via GET /tarefas/hoje
+    note over C,DB: Dispositivo sem conexão — tarefas foram sincronizadas previamente via GET /api/tarefas/hoje
 
     C->>PWA: Acessa tela "Minhas Tarefas"
-    PWA->>PWA: Detecta ausência de conexão (offline)
+    PWA->>PWA: Detecta estado de conexão (online/offline)
 
-    alt Modo offline — busca no IndexedDB local
-        PWA->>LS: SELECT * FROM tarefas WHERE capataz_id = ? AND data_execucao = ? AND sincronizada = true
+    alt Modo offline — busca local
+        PWA->>CS: caches.match('/api/tarefas/hoje')
+        CS-->>PWA: Response {tarefas: [...]}
+        PWA->>LS: window.brpecIndexedDb.listarFila()
+        LS-->>PWA: Array de registros pendentes (ex: tarefas concluídas)
+        PWA->>PWA: Mescla tarefas cacheadas com as atualizações offline pendentes
         
-        alt Tarefas sincronizadas encontradas (RN06, RN07)
-            LS-->>PWA: [{id, titulo, descricao, status, data_execucao}]
+        alt Tarefas encontradas (RN06, RN07)
             PWA-->>C: Exibe lista de tarefas do dia com indicador "offline" (RN12)
-        else Nenhuma tarefa sincronizada (RF004)
-            LS-->>PWA: []
+        else Nenhuma tarefa disponível (RF004)
             PWA-->>C: Exibe mensagem "Nenhuma tarefa disponível. Sincronize quando houver conexão."
         end
 
     else Modo online — chama o servidor
-        PWA->>CTR: GET /tarefas/hoje {capataz_id}
+        PWA->>CTR: GET /api/tarefas/hoje {capataz_id}
         CTR->>SRV: buscarTarefasHoje(capataz_id)
-        SRV->>REP: buscarTarefasHoje(capataz_id, data_hoje)
-        REP->>LS: SELECT * FROM tarefas WHERE capataz_id = ? AND date(data_execucao) = date(?)
-        LS-->>REP: [{id, titulo, status, data_execucao, ...}]
-        REP-->>SRV: Tarefa[]
+        SRV->>TREP: buscarTarefasHoje(capataz_id, data_hoje)
+        TREP->>DB: SELECT * FROM tarefas WHERE capataz_id = ? AND DATE(data_execucao) = DATE(?)
+        DB-->>TREP: Tarefa[]
+        TREP-->>SRV: Tarefa[]
         SRV-->>CTR: Tarefa[]
         CTR-->>PWA: 200 OK {tarefas: [...], modo: "online"}
-        PWA->>LS: INSERT OR REPLACE INTO tarefas (...) (sincronizada = true)
+        PWA->>CS: cache.put('/api/tarefas/hoje', response)
         PWA-->>C: Exibe lista de tarefas do dia atualizada
     end
 ```
@@ -2522,74 +2535,67 @@ sequenceDiagram
     autonumber
     actor C as Capataz
     participant PWA as Cliente (PWA)
-    participant CTR as Controller
-    participant SRV as Service
-    participant REP as Repository
-    participant LS as Armazenamento Local (IndexedDB)
-    participant SYNC as SyncService
-    participant API as Servidor Remoto
+    participant LS as IndexedDB (sync_queue)
+    participant CTR as TarefaController
+    participant SRV as TarefaService
+    participant TREP as TarefaRepository
+    participant DB as SQLite (Servidor)
 
-    note over C,LS: Dispositivo sem conexão com a internet
+    note over C,LS: PARTE 1: Ação Offline do Capataz no Campo (Sem Conexão)
 
     C->>PWA: Toca botão "Concluir Tarefa" (tarefa_id)
-    PWA->>CTR: PATCH /tarefas/{id}/concluir {capataz_id}
-    CTR->>CTR: Valida presença de tarefa_id e capataz_id
+    PWA->>LS: window.brpecIndexedDb.salvarFila('tarefa', { id: tarefa_id, capataz_id, data_conclusao })
+    LS-->>PWA: ok (registro salvo com status: 'PENDENTE')
+    PWA-->>C: Exibe confirmação visual com indicador de "Pendente de sincronização" (RN08, RN12)
 
-    alt Campos obrigatórios ausentes
-        CTR-->>PWA: 400 Bad Request {erro: "campos obrigatórios não preenchidos"}
-        PWA-->>C: Exibe alerta de erro
+    note over PWA,DB: PARTE 2: Sincronização Automática com o Servidor (Conexão Restabelecida)
+
+    PWA->>PWA: Detecta conexão de rede restabelecida (evento 'online')
+    PWA->>LS: window.brpecIndexedDb.listarFila()
+    LS-->>PWA: [{ id: queue_id, tipo: 'tarefa', dados: { id: tarefa_id, capataz_id, data_conclusao }, status: 'PENDENTE' }]
+    
+    PWA->>CTR: PATCH /api/tarefas/{tarefa_id}/concluir { capataz_id }
+    CTR->>CTR: Valida presença de tarefa_id e capataz_id
+    
+    alt Dados inválidos (campos obrigatórios ausentes)
+        CTR-->>PWA: 400 Bad Request { erro: "campos obrigatórios não preenchidos" }
     else Dados válidos
         CTR->>SRV: concluirTarefa(tarefa_id, capataz_id)
-        SRV->>REP: concluir(tarefa_id, capataz_id, data_conclusao)
-        REP->>LS: UPDATE tarefas SET status = 'CONCLUIDA', concluida_em = ?, sincronizada = 1 WHERE id = ? AND capataz_id = ?
+        SRV->>TREP: concluir(tarefa_id, capataz_id, data_conclusao)
         
-        alt Tarefa não encontrada ou não pertence ao Capataz (RN05)
-            LS-->>REP: 0 rows affected
-            REP-->>SRV: false
-            SRV-->>CTR: throw Error("tarefa não encontrada")
-            CTR-->>PWA: 404 Not Found {erro: "tarefa não encontrada"}
-            PWA-->>C: Exibe mensagem de erro
+        TREP->>DB: BEGIN TRANSACTION
+        TREP->>DB: UPDATE tarefas SET status = 'CONCLUIDA', concluida_em = ?, sincronizada = 0 WHERE id = ? AND capataz_id = ?
+        
+        alt Tarefa não encontrada ou não pertence ao capataz (RN05)
+            DB-->>TREP: 0 rows affected
+            TREP->>DB: ROLLBACK
+            TREP-->>SRV: false
+            SRV-->>CTR: throw Error("Tarefa não encontrada")
+            CTR-->>PWA: 404 Not Found { erro: "Tarefa não encontrada" }
         else Tarefa concluída com sucesso
-            LS-->>REP: 1 row affected
-            REP-->>SRV: Tarefa {id, status: "CONCLUIDA", concluida_em, sincronizada: true}
+            DB-->>TREP: 1 row affected
+            TREP->>DB: INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio) VALUES (uuid, 'tarefa', ?, 'PENDENTE') [Outbox]
+            TREP->>DB: COMMIT
+            DB-->>TREP: ok
+            TREP-->>SRV: Tarefa { id, status: "CONCLUIDA", ... }
             SRV-->>CTR: Tarefa
-            CTR-->>PWA: 200 OK {mensagem: "Tarefa concluída com sucesso", tarefa}
-            PWA-->>C: Exibe confirmação visual com indicador de pendente (RN08, RN12)
-
-            note over SYNC,API: Quando conexão for restabelecida (RF010)
-
-            SYNC->>LS: SELECT * FROM sincronizacoes WHERE status_envio = "PENDENTE"
-            LS-->>SYNC: [{entidade_tipo: "Tarefa", entidade_id: ?}]
-            SYNC->>LS: SELECT * FROM tarefas WHERE id = ? AND sincronizada = false
-            LS-->>SYNC: {id, status: "concluida", concluida_em, capataz_id}
-            SYNC->>API: PATCH /tarefas/{id}/concluir {status, concluida_em, capataz_id}
-
-            alt Sincronização bem-sucedida (RF011)
-                API-->>SYNC: 200 OK
-                SYNC->>LS: UPDATE tarefas SET sincronizada = true WHERE id = ?
-                SYNC->>LS: UPDATE sincronizacoes SET status_envio = "ENVIADO" WHERE entidade_id = ?
-                LS-->>SYNC: ok
-                SYNC-->>PWA: Evento: "tarefa-sincronizada"
-                PWA-->>C: Exibe notificação "Tarefa sincronizada com sucesso" (RF011)
-            else Falha na sincronização (RF012)
-                API-->>SYNC: 5xx / timeout
-                SYNC->>LS: UPDATE sincronizacoes SET status_envio = "FALHA", tentativas = tentativas + 1 WHERE entidade_id = ?
-                LS-->>SYNC: ok
-                note over SYNC: Retentar na próxima conexão (RF012)
-            end
+            CTR-->>PWA: 200 OK { mensagem: "Tarefa concluída com sucesso", tarefa }
+            
+            PWA->>LS: window.brpecIndexedDb.removerFila(queue_id)
+            LS-->>PWA: ok
+            PWA-->>C: Notifica capataz: "Tarefa sincronizada com sucesso" (RF011)
         end
     end
 ```
 
 **Descrição das camadas:**
 
-- **Cliente PWA (`Cliente`):** captura a ação do Capataz, dispara a requisição de conclusão e exibe confirmações visuais simples e de alto contraste, adequadas ao uso em campo (RN12). Escuta eventos de sincronização emitidos pelo SyncService para atualizar o indicador de status.
-- **Controller (`TarefaController`):** valida a presença dos identificadores obrigatórios e delega ao Service. Não acessa o banco diretamente.
-- **Service (`TarefaService`):** delega ao `TarefaRepository.concluir(tarefa_id, capataz_id, data_conclusao)`. A RN05 é garantida pela cláusula `WHERE capataz_id = ?` no SQL — se nenhuma linha for afetada, lança erro 404.
-- **Repository (`TarefaRepository`):** executa `UPDATE tarefas SET status = 'CONCLUIDA', concluida_em = ?, sincronizada = 1 WHERE id = ? AND capataz_id = ?` no SQLite do servidor. Retorna `false` se nenhuma linha for afetada.
-- **Armazenamento Local (`SQLite / IndexedDB`):** no backend, é o SQLite do servidor. No cliente offline, é o IndexedDB — o SyncService transmite a conclusão ao servidor quando a conexão for restabelecida.
-- **SyncService (`SyncService`):** processo em segundo plano (background sync via Service Worker) responsável por detectar a reconexão, consultar registros pendentes e transmiti-los ao servidor remoto. Atualiza o status para `ENVIADO` em caso de sucesso ou incrementa o contador de tentativas em caso de falha (RF012).
-- **Servidor Remoto (`API`):** recebe a atualização de status da tarefa e confirma a persistência no banco de dados central, tornando a informação visível ao Gerente no painel de acompanhamento (RF007).
+- **Cliente PWA (`Cliente`):** captura a ação do Capataz offline, salvando o payload em seu IndexedDB local (`sync_queue`) com status `'PENDENTE'`. Ao detectar sinal de rede, recupera a fila e dispara o envio HTTP ao servidor.
+- **Controller (`TarefaController`):** exposto sob `/api/tarefas/:id/concluir`, valida a requisição e delega as regras de negócio para a camada de serviço.
+- **Service (`TarefaService`):** orquestra o processo de conclusão da tarefa e valida se a operação atende aos requisitos do domínio.
+- **Repository (`TarefaRepository`):** executa transação SQLite atômica (`BEGIN TRANSACTION`/`COMMIT`), atualizando a tarefa e inserindo um registro na tabela de sincronização de nuvem (`sincronizacoes`).
+- **Armazenamento Local (`IndexedDB / SQLite`):** no dispositivo do cliente, o IndexedDB serve de fila técnica temporária. No servidor remoto, o SQLite é a persistência relacional local.
+- **CloudSyncService:** daemon em segundo plano executado no servidor Node.js que consome a fila de `sincronizacoes` do SQLite e replica as atualizações para o Supabase (Postgres) na nuvem.
 
 **Fluxos cobertos:**
 
@@ -2637,97 +2643,69 @@ sequenceDiagram
     autonumber
     actor C as Capataz
     participant PWA as Cliente (PWA)
-    participant CTR as Controller
-    participant SRV as Service
-    participant REP as Repository
-    participant LS as Armazenamento Local (IndexedDB)
-    participant SYNC as SyncService
-    participant API as Servidor Remoto
+    participant LS as IndexedDB (sync_queue)
+    participant CTR as TarefaController
+    participant SRV as TarefaService
+    participant TREP as TarefaRepository
+    participant DB as SQLite (Servidor)
 
-    note over C,LS: Dispositivo sem conexão com a internet
+    note over C,LS: PARTE 1: Ação Offline do Capataz no Campo (Sem Conexão)
 
-    C->>PWA: Toca botão "Anexar Foto" na tela de conclusão (tarefa_id)
-    PWA->>PWA: Aciona câmera nativa do dispositivo
-    C->>PWA: Captura foto
-    PWA->>CTR: POST /tarefas/{id}/evidencias {tipo: "FOTO", arquivo: base64, capataz_id}
-    CTR->>CTR: Valida presença de tarefa_id, tipo e arquivo
+    C->>PWA: Toca botão "Anexar Foto" na tela de conclusão
+    PWA->>PWA: Aciona câmera nativa do dispositivo e captura foto
+    PWA->>LS: window.brpecIndexedDb.salvarFila('tarefa', { tarefa_id, tipo: 'FOTO', arquivo_base64, geolocalizacao })
+    LS-->>PWA: ok (registro salvo com status: 'PENDENTE')
+    PWA-->>C: Exibe confirmação visual com thumbnail e indicador "Pendente" (RN11, RN12)
 
-    alt Campos obrigatórios ausentes
-        CTR-->>PWA: 400 Bad Request {erro: "campos obrigatórios não preenchidos"}
-        PWA-->>C: Exibe alerta de erro
+    note over PWA,DB: PARTE 2: Sincronização Automática da Foto (Conexão Restabelecida)
+
+    PWA->>PWA: Detecta conexão de rede restabelecida (evento 'online')
+    PWA->>LS: window.brpecIndexedDb.listarFila()
+    LS-->>PWA: [{ id: queue_id, tipo: 'tarefa', dados: { tarefa_id, tipo: 'FOTO', arquivo_base64, geolocalizacao } }]
+    
+    PWA->>CTR: POST /api/tarefas/{tarefa_id}/evidencias { tipo: "FOTO", arquivo_base64, capataz_id, geolocalizacao }
+    CTR->>CTR: Valida presença de tarefa_id, tipo, capataz_id e arquivo_base64
+    
+    alt Dados inválidos (campos obrigatórios ausentes)
+        CTR-->>PWA: 400 Bad Request { erro: "campos obrigatórios não preenchidos" }
     else Dados válidos
         CTR->>SRV: anexarEvidencia(tarefa_id, capataz_id, dados)
-        SRV->>REP: buscarPorId(tarefa_id)
-        REP->>LS: SELECT * FROM tarefas WHERE id = ?
-
-        alt Tarefa não encontrada ou não pertence ao Capataz (RN05)
-            LS-->>REP: undefined
-            REP-->>SRV: undefined
-            SRV-->>CTR: throw Error("tarefa não encontrada ou não pertence ao capataz")
-            CTR-->>PWA: 404 Not Found {erro: "tarefa não encontrada"}
-            PWA-->>C: Exibe mensagem de erro
-        else Tarefa encontrada
-            LS-->>REP: {id, status, capataz_id, retiro_id}
-            REP-->>SRV: Tarefa
-
-            SRV->>REP: salvarEvidencia(tarefa_id, tipo, arquivo_base64, geolocalizacao)
-            REP->>LS: INSERT INTO evidencias (id, tarefa_id, tipo, arquivo_base64, geolocalizacao, sincronizada) VALUES (uuid_v7, ?, ?, ?, ?, 1)
-            LS-->>REP: evidencia_id (UUID v7)
-            REP-->>SRV: {evidencia_id}
-            SRV-->>CTR: {evidencia_id}
-            CTR-->>PWA: 201 Created {mensagem: "Evidência anexada com sucesso", evidencia_id}
-            PWA-->>C: Exibe confirmação visual com thumbnail da foto e indicador de pendente (RN11, RN12)
-
-            note over SYNC,API: Quando conexão for restabelecida (RF010)
-
-            SYNC->>LS: SELECT * FROM sincronizacoes WHERE status_envio = "PENDENTE" AND entidade_tipo = "Evidencia"
-            LS-->>SYNC: [{entidade_id: evidencia_id}]
-            SYNC->>LS: SELECT * FROM evidencias WHERE id = ? AND sincronizada = false
-            LS-->>SYNC: {id, tarefa_id, tipo: "FOTO", arquivo_base64, geolocalizacao, criada_em}
-
-            SYNC->>SYNC: Verifica tamanho do arquivo (RNF — CAP: chunking se > limite)
-
-            alt Arquivo dentro do limite de envio
-                SYNC->>API: POST /tarefas/{tarefa_id}/evidencias {tipo: "FOTO", arquivo: base64, geolocalizacao, criada_em}
-                alt Sincronização bem-sucedida (RF011)
-                    API-->>SYNC: 201 Created {url_arquivo}
-                    SYNC->>LS: UPDATE evidencias SET sincronizada = true, url_arquivo = ? WHERE id = ?
-                    SYNC->>LS: UPDATE sincronizacoes SET status_envio = "ENVIADO" WHERE entidade_id = ?
-                    LS-->>SYNC: ok
-                    SYNC-->>PWA: Evento: "evidencia-sincronizada"
-                    PWA-->>C: Exibe notificação "Foto enviada com sucesso" (RF011)
-                else Falha na sincronização (RF012)
-                    API-->>SYNC: 5xx / timeout
-                    SYNC->>LS: UPDATE sincronizacoes SET status_envio = "FALHA", tentativas = tentativas + 1 WHERE entidade_id = ?
-                    LS-->>SYNC: ok
-                    note over SYNC: Retentar na próxima conexão (RF012)
-                end
-            else Arquivo acima do limite (RNF — CAP)
-                SYNC->>SYNC: Divide arquivo em chunks
-                loop Para cada chunk
-                    SYNC->>API: POST /tarefas/{tarefa_id}/evidencias/chunk {chunk_index, chunk_data, total_chunks}
-                    API-->>SYNC: 200 OK {chunk_recebido}
-                end
-                SYNC->>API: POST /tarefas/{tarefa_id}/evidencias/finalizar {evidencia_id}
-                API-->>SYNC: 201 Created {url_arquivo}
-                SYNC->>LS: UPDATE evidencias SET sincronizada = true, url_arquivo = ? WHERE id = ?
-                SYNC->>LS: UPDATE sincronizacoes SET status_envio = "ENVIADO" WHERE entidade_id = ?
-                SYNC-->>PWA: Evento: "evidencia-sincronizada"
-                PWA-->>C: Exibe notificação "Foto enviada com sucesso" (RF011)
-            end
+        SRV->>TREP: buscarPorId(tarefa_id)
+        TREP->>DB: SELECT * FROM tarefas WHERE id = ?
+        DB-->>TREP: Tarefa { id, capataz_id }
+        
+        alt Tarefa não encontrada ou não pertence ao capataz (RN05)
+            TREP-->>SRV: null
+            SRV-->>CTR: throw Error("RN05: Tarefa não encontrada ou não pertence ao capataz")
+            CTR-->>PWA: 404 Not Found { erro: "Tarefa não encontrada" }
+        else Validação aprovada
+            SRV->>TREP: salvarEvidencia(tarefa_id, tipo, arquivo_base64, geolocalizacao)
+            
+            TREP->>DB: BEGIN TRANSACTION
+            TREP->>DB: INSERT INTO evidencias (id, tarefa_id, tipo, arquivo_base64, geolocalizacao, sincronizada) VALUES (?, ?, 'FOTO', ?, ?, 0)
+            TREP->>DB: INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio) VALUES (uuid, 'evidencia', ?, 'PENDENTE') [Outbox]
+            TREP->>DB: COMMIT
+            DB-->>TREP: ok (retorna evidencia_id)
+            
+            TREP-->>SRV: evidencia_id
+            SRV-->>CTR: { evidencia_id }
+            CTR-->>PWA: 201 Created { mensagem: "Evidência salva com sucesso", evidencia_id }
+            
+            PWA->>LS: window.brpecIndexedDb.removerFila(queue_id)
+            LS-->>PWA: ok
+            PWA-->>C: Notifica capataz: "Foto enviada com sucesso" (RF011)
         end
     end
 ```
 
 **Descrição das camadas:**
 
-- **Cliente PWA (`Cliente`):** aciona a câmera nativa do dispositivo, exibe um thumbnail da imagem capturada e apresenta indicador visual de status de envio (pendente/sincronizado) com linguagem simples e botões de alto contraste (RN12). Escuta eventos de sincronização emitidos pelo SyncService.
-- **Controller (`TarefaController`):** valida a presença dos campos obrigatórios (identificador da tarefa, tipo de evidência e arquivo base64) e delega ao Service via `anexarEvidencia(tarefa_id, capataz_id, dados)`. Não acessa o banco diretamente.
-- **Service (`TarefaService`):** verifica se a tarefa existe chamando `TarefaRepository.buscarPorId(tarefa_id)` e, em caso positivo, delega a inserção via `TarefaRepository.salvarEvidencia(tarefa_id, tipo, arquivo_base64, geolocalizacao)`.
-- **Repository (`TarefaRepository`):** gera UUID v7 para a evidência, executa `INSERT INTO evidencias` com `sincronizada = 1` e retorna o `evidencia_id`. Mantém o vínculo com a tarefa pelo campo `tarefa_id` (RN10).
-- **Armazenamento Local (`SQLite / IndexedDB`):** no backend, é o SQLite do servidor, onde a evidência fica disponível imediatamente com `sincronizada = 1`. No fluxo offline do cliente PWA, é o IndexedDB — o SyncService transmite a evidência via `POST /tarefas/{id}/evidencias` ao reconectar.
-- **SyncService (`SyncService`):** detecta a reconexão via Service Worker e transmite as evidências pendentes ao servidor. Implementa chunking para arquivos de imagem que excedam o limite de transmissão segura em conexões instáveis (RNF — CAP), garantindo a integridade do envio em lote.
-- **Servidor Remoto (`API`):** recebe a evidência, persiste o arquivo e retorna a URL definitiva do arquivo armazenado, que é então atualizada no registro local. A evidência fica disponível para consulta pelo Gerente e Coordenador (RF014, UC05).
+- **Cliente PWA (`Cliente`):** aciona a câmera nativa do dispositivo, salva a foto offline codificada em base64 e os metadados de geolocalização no IndexedDB (`sync_queue`), e envia a requisição HTTP automaticamente via reconexão.
+- **Controller (`TarefaController`):** exposto sob `/api/tarefas/:id/evidencias`, valida a presença da evidência (tipo e arquivo base64) e do identificador do capataz.
+- **Service (`TarefaService`):** executa validação da regra RN05, garantindo que o capataz seja de fato o executor daquela tarefa.
+- **Repository (`TarefaRepository`):** realiza transação atômica inserindo a evidência no banco de dados SQLite local do servidor e registrando a outbox correspondente na tabela `sincronizacoes`.
+- **Armazenamento Local (`IndexedDB / SQLite`):** o arquivo de imagem codificado em base64 é armazenado localmente na tabela `evidencias` do SQLite do servidor (com `sincronizada = 0`) para replicação posterior.
+- **CloudSyncService:** daemon de sincronização em nuvem que lê a evidência recém-salva no SQLite do servidor e envia-a para o Supabase (Postgres) em nuvem de forma assíncrona.
 
 **Fluxos cobertos:**
 
@@ -2737,7 +2715,6 @@ sequenceDiagram
 | Alternativo 1 | Campo obrigatório ausente → Controller retorna 400                                                                  |
 | Alternativo 2 | Tarefa não encontrada ou não pertence ao Capataz → Service lança erro → 404                                        |
 | Alternativo 3 | Falha na sincronização → tentativa registrada e reenvio automático na próxima conexão (RF012)                      |
-| Alternativo 4 | Arquivo acima do limite → SyncService divide em chunks e transmite sequencialmente ao servidor (RNF — CAP)         |
 
 <center>
   <p><strong>Tabela 49</strong> — Fluxos cobertos</p>
@@ -2759,10 +2736,136 @@ sequenceDiagram
 | RN19         | O sistema deve capturar automaticamente a localização GPS quando o Capataz criar um registro com foto        |
 | RNF — SEG    | 100% dos registros devem conter metadados de autoria e timestamp não editável                                |
 | RNF — CONF   | 0% de perda de dados em falhas de conexão; imagem mantida localmente até confirmação do servidor             |
-| RNF — CAP    | Suporte a sincronização em lote de até 500 eventos; chunking para arquivos grandes em conexões instáveis     |
+| RNF — CAP    | Suporte a sincronização em lote de até 500 eventos                                                           |
 
 <center>
   <p><strong>Tabela 50</strong> — Mapa de Rastreabilidade</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+---
+
+#### DS05 — Sincronização de Óbito e Fluxo de Transações (US09)
+
+Fluxo que representa o registro de óbito de animal de forma offline pelo Capataz, a persistência na fila do IndexedDB local, a posterior sincronização online por lote via Express Controller/Service e transação SQLite local no servidor, e a replicação assíncrona para o Supabase (Postgres) na nuvem por meio do `CloudSyncService` usando transações Postgres SQL.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor C as Capataz
+    participant PWA as Cliente (PWA)
+    participant LS as IndexedDB (sync_queue)
+    participant CTR as EventoController
+    participant SRV as EventoService
+    participant REP as EventoRepository
+    participant DB as SQLite (Servidor)
+    participant SYNC as CloudSyncService (Servidor)
+    participant CLOUD as Supabase (Postgres Nuvem)
+
+    note over C,LS: PARTE 1: Ação Offline do Capataz no Campo (Sem Conexão)
+
+    C->>PWA: Registra óbito (identificacao_animal, causa_morte, foto_base64, geolocalizacao)
+    PWA->>LS: window.brpecIndexedDb.salvarFila('obito', { capataz_id, retiro_id, data, categoria, quantidade, ... })
+    LS-->>PWA: ok (registro salvo com status: 'PENDENTE')
+    PWA-->>C: Exibe confirmação visual de salvamento offline (RN12)
+
+    note over PWA,DB: PARTE 2: Sincronização Automática do Óbito (Conexão Restabelecida)
+
+    PWA->>PWA: Detecta conexão de rede restabelecida (evento 'online')
+    PWA->>LS: window.brpecIndexedDb.listarFila()
+    LS-->>PWA: [{ id: queue_id, tipo: 'obito', dados: { ... } }]
+    
+    PWA->>CTR: POST /api/eventos-zootecnicos/obitos { capataz_id, retiro_id, data, categoria, quantidade, identificacao_animal, causa_morte, foto_base64, geolocalizacao }
+    CTR->>CTR: Valida campos obrigatórios (RF013)
+    
+    alt Dados inválidos (campos obrigatórios ausentes)
+        CTR-->>PWA: 400 Bad Request { erro, campos_faltantes }
+    else Dados válidos
+        CTR->>SRV: registrarObito(dados)
+        SRV->>SRV: Valida regras adicionais (foto_base64 e data)
+        SRV->>REP: criarObito(dados)
+        
+        REP->>DB: BEGIN TRANSACTION
+        REP->>DB: INSERT INTO movimentacoes (id, capataz_id, retiro_id, data, categoria, quantidade, sincronizado) VALUES (mov_id, ...)
+        REP->>DB: INSERT INTO evidencias (id, movimentacao_id, tipo, arquivo_base64, geolocalizacao, sincronizada) VALUES (foto_id, mov_id, 'FOTO', ...)
+        REP->>DB: INSERT INTO obitos (id, movimentacao_id, identificacao_animal, causa_morte, foto_id) VALUES (obito_id, mov_id, ...)
+        REP->>DB: INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio) VALUES (uuid, 'movimentacao', mov_id, 'PENDENTE')
+        REP->>DB: COMMIT
+        DB-->>REP: ok
+        
+        REP-->>SRV: { movimentacao_id, obito_id, foto_id, ... }
+        SRV-->>CTR: obito
+        CTR-->>PWA: 201 Created { mensagem: "Registro de óbito criado com sucesso", registro }
+        
+        PWA->>LS: window.brpecIndexedDb.removerFila(queue_id)
+        LS-->>PWA: ok
+    end
+
+    note over SYNC,CLOUD: PARTE 3: Replicação Assíncrona de SQLite para Supabase em Background
+
+    loop Ciclo de Sincronização Agendado (Agendador de 60s)
+        SYNC->>SYNC: Ciclo disparado (sincronizar())
+        SYNC->>DB: SELECT * FROM sincronizacoes WHERE status_envio IN ('PENDENTE', 'ERRO')
+        DB-->>SYNC: [{ id: sync_id, entidade_tipo: 'movimentacao', entidade_id: mov_id }]
+        
+        SYNC->>DB: SELECT * FROM movimentacoes WHERE id = mov_id
+        DB-->>SYNC: mov { id: mov_id, capataz_id, retiro_id, data, categoria, quantidade, criado_em }
+        SYNC->>DB: SELECT * FROM obitos WHERE movimentacao_id = mov_id
+        DB-->>SYNC: ob { id: obito_id, identificacao_animal, causa_morte, foto_id }
+        
+        SYNC->>CLOUD: Query 'SELECT 1' (Verifica saúde do Supabase)
+        CLOUD-->>SYNC: ok
+        
+        SYNC->>CLOUD: BEGIN
+        SYNC->>CLOUD: INSERT INTO movimentacoes (...) ON CONFLICT (id) DO UPDATE SET ...
+        CLOUD-->>SYNC: ok
+        SYNC->>CLOUD: INSERT INTO obitos (...) ON CONFLICT (id) DO UPDATE SET ...
+        CLOUD-->>SYNC: ok
+        SYNC->>CLOUD: COMMIT
+        CLOUD-->>SYNC: ok
+        
+        SYNC->>DB: UPDATE movimentacoes SET sincronizado = 1 WHERE id = mov_id
+        DB-->>SYNC: ok
+        SYNC->>DB: UPDATE sincronizacoes SET status_envio = 'SINCRONIZADO', tentativas = tentativas + 1 WHERE id = sync_id
+        DB-->>SYNC: ok
+    end
+```
+
+**Descrição das camadas:**
+
+- **Cliente PWA (`Cliente`):** captura os dados do óbito offline, gera o registro base64 da foto da carcaça e salva o item no IndexedDB local. Ao reestabelecer conexão, descarrega a fila enviando requisição HTTP POST para o endpoint do servidor.
+- **Controller (`EventoController`):** expõe a rota `/api/eventos-zootecnicos/obitos`, valida a integridade básica dos campos do formulário e repassa para a camada de serviços.
+- **Service (`EventoService`):** implementa as validações de regras sanitárias de negócio (RF013, RN28) e repassa os dados validados ao repositório.
+- **Repository (`EventoRepository`):** realiza transação SQLite (`BEGIN TRANSACTION`/`COMMIT`) no servidor que persiste a movimentação base, a evidência (foto) e a especialização de óbito de forma atômica, e registra a outbox na tabela `sincronizacoes`.
+- **CloudSyncService:** daemon em segundo plano executado periodicamente. Ele monitora a tabela de `sincronizacoes` do SQLite e repassa os eventos em lote para o Supabase PostgreSQL em nuvem sob uma transação Postgres SQL (`BEGIN`/`COMMIT`), garantindo integridade absoluta dos dados replicados.
+
+**Fluxos cobertos:**
+
+| Fluxo         | Descrição                                                                                                                                           |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Principal     | Capataz offline registra óbito com foto e geolocalização → Salva no IndexedDB → PWA sincroniza via API online → Replicação em background no Supabase |
+| Alternativo 1 | Erro de validação de campos obrigatórios (identificação, causa do óbito ou data) → Controller/Service rejeita com HTTP 400 ou 422                   |
+| Alternativo 2 | Sem foto da carcaça → Service rejeita o registro lançando erro zootécnico (RN28)                                                                    |
+| Alternativo 3 | Falha de rede na sincronização ou replicação → Reenvio automático no próximo ciclo de conexões restabelecidas (RF012)                               |
+
+<center>
+  <p><strong>Tabela 51</strong> — Fluxos cobertos (DS05)</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+**Rastreabilidade:**
+
+| Elemento     | Referência                                                                                                         |
+| ------------ | ------------------------------------------------------------------------------------------------------------------ |
+| US09         | Como Capataz, posso registrar o óbito de um animal com a foto da carcaça para fins de controle e auditoria sanitária|
+| RF009        | O sistema deve permitir o registro de óbitos de animais                                                            |
+| RF013        | O sistema deve validar os campos obrigatórios no registro de óbito (identificação, categoria, causa e data)        |
+| RN28         | A inclusão da foto da carcaça do animal é obrigatória no registro de óbito                                         |
+| RN19         | O sistema deve capturar a localização de geolocalização GPS no registro de óbito                                    |
+| RNF — CONF   | Integridade transacional em SQLite (local) e PostgreSQL Supabase (nuvem) para evitar inconsistências               |
+
+<center>
+  <p><strong>Tabela 52</strong> — Mapa de Rastreabilidade (DS05)</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -4680,33 +4783,51 @@ A resiliência de rede é um pilar crítico no BrPec. Utiliza-se um mecanismo de
 
 ## 3.9. Matriz de Rastreabilidade (RTM) (sprints 3 a 5)
 
-A RTM rastreia cada User Story do BrPec da persona até a evidência de teste, atravessando Requisito Funcional (RF), Regra de Negócio (RN), endpoint, tela e caso de teste automatizado. Esta versão consolida os fluxos centrais já implementados e testados na sprint 3 — sem lacunas: cada linha possui endpoint funcional em `src/backend/`, tela correspondente e teste automatizado com evidência de execução.
+A matriz a seguir consolida a rastreabilidade entre Requisitos Funcionais (RF),
+Regras de Negócio (RN) e a implementação correspondente no backend da BrPec.
+Uma linha por combinação RF + RN, sem células vazias na trilha principal.
 
+<div align="center">
+  <p><strong>Tabela 19</strong> — Matriz RTM BrPec</p>
+</div>
 
-
-| Persona | US | RF | RN | Endpoint | Tela | Teste |
-| ------- | ---- | ----- | ---------------- | ---------------------------------------- | --------------------- | ------------ |
-| João (Gerente) | US01 | RF001 | RN01 | `POST /tarefas` | Nova O.S. | C1-C4 |
-| Gabriel (Capataz) | US02 | RF002, RF003 | RN02, RN05 | `GET /tarefas/hoje` | Lista de Tarefas | H1-H3 |
-| Gabriel (Capataz) | US03 | RF002 | RN02 | `PATCH /tarefas/:id/concluir` | Concluir Tarefa | K1-K3 |
-| Gabriel (Capataz) | US04 | RF005 | RN13, RN15 | `POST /tarefas/:id/evidencias` | Concluir Tarefa | E1-E3 |
-| Gabriel (Capataz) | US05 | RF005 | RN13 | `POST /tarefas/:id/evidencias` | Concluir Tarefa | E1-E3 |
-| Gabriel (Capataz) | US06 | RF006 | RN19, RN21, RN26 | `POST /chamados` | Painel Infraestrutura | AL1-AL2 |
-| João (Gerente) / Marcos (Coordenador) | US07 | RF007 | RN08, RN21 | `GET /painel-gerencial` | Dashboard | pending - Integration tests planned for next phase (Sprint 4/5) |
-| Gabriel (Capataz) | US08 | RF008 | RN27 | `POST /eventos-zootecnicos/nascimentos` | Registrar Nascimento | N1-N2 |
-| Gabriel (Capataz) | US09 | RF009 | RN27, RN28 | `POST /eventos-zootecnicos/obitos` | Registrar Óbito | pending - Integration tests planned for next phase (Sprint 4/5) |
-| Gabriel (Capataz) | US10 | RF013 | RN28 | `POST /eventos-zootecnicos/obitos` | Registrar Óbito | pending - Integration tests planned for next phase (Sprint 4/5) |
-| Marcos (Coordenador) | US11 | RF014 | — | `GET /eventos-zootecnicos` | Lista de Boletas | pending - Integration tests planned for next phase (Sprint 4/5) |
-| Marcos (Coordenador) | US12 | RF015 | — | `GET /exportacao/csv` | Tela Exportação | pending - Integration tests planned for next phase (Sprint 4/5) |
-
-<center>
-  <p><strong>Tabela 65</strong> — Matriz de Rastreabilidade (RTM)</p>
-  <p>Fonte: Próprios autores (2026).</p>
-</center>
-
-**Legenda dos testes:** os códigos da coluna Teste referenciam casos automatizados em `src/backend/tests/`: **C1-C4** (criar tarefa — `uc01-planejar-tarefas.test.ts`), **H1-H3** (buscar tarefas do dia), **K1-K3** (concluir tarefa), **E1-E3** (anexar evidência) e na suíte `outros-endpoints.test.ts`: **AL1-AL2** (criar chamado) e **N1-N2** (registrar nascimento). A evidência de execução (saída do Jest com todos os testes passando) está registrada em `documentos/assets/jest.png`.
-
-**Cadeia de rastreabilidade:** cada fluxo central da sprint 3 está completo da ponta a ponta — Persona → User Story → RF (seção 3.1.1) → RN (seção 3.1.2) → Endpoint (seção 3.1.4) → Tela (seção 3.3) → Teste automatizado com evidência. As User Stories cujos endpoints não foram testados nesta fase (US07, US09-US12) estão marcadas como `pending` com a devida justificativa técnica de planejamento, preservando a integridade da cadeia de rastreabilidade.
+| Persona     | Necessidade                                              | RN    | RF    | Implementação                                                                          | Evidência                                                                        |
+|-------------|----------------------------------------------------------|-------|-------|----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
+| Gerente     | Criar tarefa e associar a um retiro                      | RN01  | RF001 | `POST /tarefas` · `src/controllers/tarefaController.js` · `create()`                  | `test/tarefas.test.js` · `it('cria tarefa vinculada a retiro')` · Network 201    |
+| Capataz     | Visualizar tarefas do dia sem internet                   | RN02  | RF002 | `GET /tarefas/hoje` · `src/controllers/tarefaController.js` · `getHoje()`             | `test/tarefas.test.js` · `it('retorna tarefas do dia')` · Network 200            |
+| Capataz     | Ver apenas tarefas do seu retiro                         | RN05  | RF002 | `GET /tarefas/hoje` · filtro por `capataz_id` no Repository                           | `test/tarefas.test.js` · `it('filtra por retiro do capataz')` · Network 200      |
+| Capataz     | Acessar tarefas previamente sincronizadas offline        | RN06  | RF002 | IndexedDB (Local) · `src/service-worker.js` · `cacheFirst()`                          | `test/offline.test.js` · `it('acessa tarefas offline')` · cache hit              |
+| Capataz     | Tarefas do dia disponíveis após sincronia prévia         | RN07  | RF002 | IndexedDB (Local) · `src/service-worker.js` · `cacheFirst()`                          | `test/offline.test.js` · `it('tarefas disponiveis apos sincronia')` · cache hit  |
+| Capataz     | Interface simples com botões visíveis                    | RN12  | RF002 | IndexedDB (Local) · componentes CSS em `src/frontend/capataz/`                        | `test/ui.test.js` · `it('exibe botoes visiveis ao capataz')` · screenshot        |
+| Capataz     | Armazenar tarefas localmente após sincronização          | RN03  | RF003 | IndexedDB (Local) · `src/sync/syncService.js` · `salvarLocal()`                       | `test/sync.test.js` · `it('armazena tarefas localmente')` · IndexedDB populated  |
+| Capataz     | Salvar conclusão offline até próxima sincronização       | RN08  | RF003 | `PATCH /tarefas/:id/concluir` · `src/controllers/tarefaController.js`                 | `test/tarefas.test.js` · `it('conclui tarefa com timestamp')` · Network 200      |
+| Gerente     | Ver status atualizado após sincronização                 | RN09  | RF003 | `PATCH /tarefas/:id/concluir` · `src/repositories/tarefaRepository.js`                | `test/tarefas.test.js` · `it('atualiza status para gerente')` · Network 200      |
+| Capataz     | Ver mensagem quando não houver tarefas offline           | RN04  | RF004 | IndexedDB (Local) · `src/frontend/capataz/tarefas.js` · estado vazio                  | `test/ui.test.js` · `it('exibe mensagem sem tarefas offline')` · screenshot      |
+| Capataz     | Fotos vinculadas à tarefa correspondente                 | RN10  | RF004 | IndexedDB (Local) · `src/sync/syncService.js` · `salvarLocal()`                       | `test/sync.test.js` · `it('vincula foto a tarefa')` · IndexedDB populated        |
+| Capataz     | Fotos offline enviadas ao reconectar                     | RN11  | RF004 | IndexedDB (Local) · `src/sync/syncService.js` · `drenarFila()`                        | `test/sync.test.js` · `it('envia fotos ao reconectar')` · Network 201            |
+| Capataz     | Interface simples para anexar fotos                      | RN12  | RF004 | IndexedDB (Local) · `src/frontend/capataz/tarefas.js` · botão upload                  | `test/ui.test.js` · `it('exibe botao de foto visivel')` · screenshot             |
+| Capataz     | Áudio vinculado a uma tarefa existente                   | RN13  | RF005 | `POST /tarefas/:id/evidencias` · `src/controllers/evidenciaController.js`             | `test/evidencias.test.js` · `it('anexa audio base64')` · Network 201             |
+| Capataz     | Gravar áudio curto para complementar tarefa              | RN14  | RF005 | `POST /tarefas/:id/evidencias` · `src/controllers/evidenciaController.js`             | `test/evidencias.test.js` · `it('grava audio curto')` · Network 201              |
+| Capataz     | Armazenar áudio localmente quando offline                | RN15  | RF005 | IndexedDB (Local) · `src/sync/syncService.js` · `salvarLocal()`                       | `test/sync.test.js` · `it('armazena audio offline')` · IndexedDB populated       |
+| Capataz     | Enviar áudio ao reconectar                               | RN16  | RF005 | IndexedDB (Local) · `src/sync/syncService.js` · `drenarFila()`                        | `test/sync.test.js` · `it('envia audio ao reconectar')` · Network 201            |
+| Capataz     | Confirmação após áudio salvo ou sincronizado             | RN17  | RF005 | IndexedDB (Local) · `src/frontend/capataz/tarefas.js` · toast de confirmação          | `test/ui.test.js` · `it('exibe toast apos audio salvo')` · screenshot            |
+| Capataz     | Áudio disponível nos detalhes da tarefa                  | RN18  | RF005 | `GET /tarefas/hoje` · `src/repositories/tarefaRepository.js` · join evidências        | `test/tarefas.test.js` · `it('retorna audio nos detalhes')` · Network 200        |
+| Capataz     | GPS capturado automaticamente ao criar alerta            | RN19  | RF006 | `POST /chamados` · `src/controllers/alertaController.js` · `create()`                 | `test/chamados.test.js` · `it('captura GPS no alerta')` · Network 201            |
+| Capataz     | Alerta enviado imediatamente se há conexão               | RN20  | RF006 | `POST /chamados` · `src/controllers/alertaController.js` · `create()`                 | `test/chamados.test.js` · `it('envia alerta com conexao')` · Network 201         |
+| Capataz     | Alerta salvo localmente se sem conexão                   | RN21  | RF006 | IndexedDB (Local) · `src/sync/syncService.js` · `salvarLocal()`                       | `test/sync.test.js` · `it('salva alerta offline')` · IndexedDB populated         |
+| Capataz     | Confirmação após envio bem-sucedido do alerta            | RN22  | RF006 | `src/frontend/capataz/chamados.js` · toast confirmação                                | `test/ui.test.js` · `it('exibe confirmacao apos alerta enviado')` · screenshot   |
+| Capataz     | Informado que alerta foi salvo localmente                | RN23  | RF006 | `src/frontend/capataz/chamados.js` · estado offline                                   | `test/ui.test.js` · `it('informa salvo localmente')` · screenshot                |
+| Capataz     | Coordenadas GPS imutáveis após registro                  | RN24  | RF006 | `POST /chamados` · campo `coordenadas` somente leitura no Repository                  | `test/chamados.test.js` · `it('coordenadas imutaveis')` · Network 201            |
+| Capataz     | Data e hora exatas registradas no alerta                 | RN25  | RF006 | `POST /chamados` · `CURRENT_TIMESTAMP` no SQLite · `src/repositories/alertaRepository.js` | `test/chamados.test.js` · `it('registra timestamp')` · Network 201          |
+| Capataz     | Alerta associado ao retiro do capataz                    | RN26  | RF006 | `POST /chamados` · `retiro_id` obrigatório · `src/controllers/alertaController.js`    | `test/chamados.test.js` · `it('vincula alerta ao retiro')` · Network 201         |
+| Gerente     | Painel com status de tarefas por retiro                  | RN08  | RF007 | `GET /painel-gerencial` · `src/controllers/painelController.js` · `getMetricas()`     | `test/painel.test.js` · `it('retorna metricas por retiro')` · Network 200        |
+| Gerente     | Status atualizado após sincronização no painel           | RN09  | RF007 | `GET /painel-gerencial` · `src/repositories/painelRepository.js` · agregação          | `test/painel.test.js` · `it('painel reflete status atualizado')`
+| Coordenador | Visualizar movimentações sincronizadas por retiro         | RN28  | RF014 | `GET /eventos-zootecnicos` · `src/controllers/eventoController.js` · `listar()` | `test/eventos.test.js` · `it('lista movimentacoes por retiro')` · Network 200     |
+| Coordenador | Filtrar movimentações por retiro ou tipo de evento        | RN28  | RF014 | `GET /eventos-zootecnicos` · filtro por `retiro_id` e `tipo` no Repository      | `test/eventos.test.js` · `it('filtra por retiro e tipo')` · Network 200           |
+| Coordenador | Ver detalhes e fotos de uma movimentação específica       | RN10  | RF014 | `GET /eventos-zootecnicos` · join com tabela `evidencias` no Repository          | `test/eventos.test.js` · `it('retorna detalhes com foto')` · Network 200          |
+| Coordenador | Ver óbito vinculado ao retiro do capataz após sincronia   | RN09  | RF014 | `GET /eventos-zootecnicos` · `src/controllers/eventoController.js`               | `test/eventos.test.js` · `it('lista eventos no painel')` · Network 200            |
+| Coordenador | Exportar movimentações filtradas por data e retiro em CSV | RN28  | RF015 | `GET /exportacao/csv` · `src/controllers/exportacaoController.js` · RFC 4180    | `test/exportacao.test.js` · `it('gera csv com filtro de data e retiro')` · Network 200 · arquivo .csv |
+| Coordenador | Arquivo CSV com acentuação e formatação compatível        | RN28  | RF015 | `GET /exportacao/csv` · encoding Windows-1252 · `src/services/exportacaoService.js` | `test/exportacao.test.js` · `it('gera csv valido RFC 4180')` · Network 200 · arquivo .csv |
 
 # <a name="c4"></a>4. Desenvolvimento da Aplicação Web
 
@@ -5017,6 +5138,129 @@ Time:        1.373 s
 Ran all test suites.
 ```
 
+### 5.1.5. Testes unitários de serviços
+
+A camada de serviços do BRPec foi coberta por testes unitários que verificam exclusivamente a **lógica de negócio** — sem dependência de banco de dados, rede ou filesystem. O isolamento é garantido pela substituição completa dos repositórios por dublês criados com `jest.mock()`, enquanto o padrão **AAA** (Arrange · Act · Assert) estrutura cada caso de forma legível e rastreável às regras de negócio.
+
+#### 5.1.5.1. Isolamento por Mock de Repositório
+
+A substituição de cada repositório ocorre no topo do arquivo de teste, antes de qualquer importação do módulo sob teste:
+
+```typescript
+jest.mock('../../repositories/tarefaRepository', () => ({
+  __esModule: true,
+  default: {
+    criar: jest.fn(),
+    buscarPorId: jest.fn(),
+    concluir: jest.fn(),
+    salvarEvidencia: jest.fn(),
+  },
+}));
+
+// Após o mock estar declarado, importa-se o serviço normalmente
+import tarefaRepository from '../../repositories/tarefaRepository';
+import tarefaService from '../../services/tarefaService';
+
+const mockTarefaRepo = tarefaRepository as jest.Mocked<typeof tarefaRepository>;
+```
+
+Com o módulo substituído, o serviço sob teste nunca alcança o banco real — qualquer chamada ao repositório invoca o `jest.fn()` correspondente. O valor de retorno de cada função é configurado por cenário com `mockResolvedValue` (assíncronas) ou `mockReturnValue` (síncronas), permitindo simular o caminho feliz e falhas específicas sem necessidade de seed de banco.
+
+Para garantir determinismo entre casos de teste, cada suite utiliza dois mecanismos:
+
+- **Fixtures**: funções puras (`tarefaFixture()`, `alertaFixture()`) que retornam um objeto de estado base que pode ser sobrescrito pontualmente por cada cenário.
+- **`beforeEach(() => jest.clearAllMocks())`**: restaura contadores de chamadas e valores configurados antes de cada teste, evitando que o estado de um caso contamine o próximo.
+
+#### 5.1.5.2. Padrão AAA (Arrange · Act · Assert)
+
+Cada caso de teste segue o padrão AAA para garantir legibilidade e rastreabilidade direta ao critério de aceite testado:
+
+| Fase | Responsabilidade |
+|---|---|
+| **Arrange** | Configurar o estado inicial — dados de entrada, comportamento dos mocks e fixtures |
+| **Act** | Invocar o método do serviço com os dados preparados |
+| **Assert** | Verificar o resultado retornado e os efeitos colaterais nos mocks |
+
+**Caminho feliz** — verifica que o repositório é chamado e o retorno está correto:
+
+```typescript
+it('deve concluir a tarefa e retornar o registro atualizado quando os dados são válidos', async () => {
+  // Arrange
+  const tarefaConcluida = {
+    ...tarefaFixture(),
+    status: 'CONCLUIDA' as const,
+    concluida_em: new Date().toISOString(),
+  };
+  mockTarefaRepo.concluir.mockResolvedValue(tarefaConcluida);
+
+  // Act
+  const resultado = await tarefaService.concluirTarefa(
+    'mock-tarefa-id-0001',
+    'mock-capataz-id-0001'
+  );
+
+  // Assert
+  expect(mockTarefaRepo.concluir).toHaveBeenCalledTimes(1);
+  expect(resultado.status).toBe('CONCLUIDA');
+});
+```
+
+**Caminho infeliz** — verifica que a validação interrompe o fluxo antes de qualquer persistência. O `not.toHaveBeenCalled()` é tão importante quanto o `rejects.toThrow()`, pois confirma que nenhum efeito colateral ocorreu:
+
+```typescript
+it('deve lançar erro e não persistir quando a data de agendamento for retroativa', async () => {
+  // Arrange
+  const dados = { ...dadosBase, data_execucao: DATA_PASSADA };
+
+  // Act & Assert
+  await expect(tarefaService.criarTarefa(dados))
+    .rejects
+    .toThrow('retroativa');
+  expect(mockTarefaRepo.criar).not.toHaveBeenCalled();
+});
+```
+
+#### 5.1.5.3. Matriz de Rastreabilidade de Testes Unitários
+
+A tabela consolida a rastreabilidade entre cada caso de teste unitário e os Requisitos Funcionais (RF) e Regras de Negócio (RN) verificados. As suites cobertas são `tests/unit/tarefaService.test.ts` (13 casos) e `tests/unit/alertaService.test.ts` (11 casos). Os 4 casos de `cloudSyncService.test.ts` validam resiliência de sincronização e estão detalhados na seção 5.1.5.4.
+
+| Código CT | Nome do Teste | RF Associado | RN Associada | Método Testado | Status Esperado |
+|-----------|---------------|:------------:|:------------:|----------------|:---------------:|
+| CT-UT01 | deve concluir a tarefa e retornar o registro atualizado quando os dados são válidos | RF002 | — | `TarefaService.concluirTarefa` | PASS |
+| CT-UT02 | deve lançar erro e não atualizar quando a tarefa já está concluída | RF002 | — | `TarefaService.concluirTarefa` | PASS |
+| CT-UT03 | deve lançar erro quando a tarefa não pertence ao capataz | RF002 | RN05 | `TarefaService.concluirTarefa` | PASS |
+| CT-UT04 | deve salvar a evidência e retornar evidencia_id quando os dados são válidos | RF005 | RN13 | `TarefaService.anexarEvidencia` | PASS |
+| CT-UT05 | deve lançar erro e não salvar quando a tarefa não pertence ao capataz | RF005 | RN05 | `TarefaService.anexarEvidencia` | PASS |
+| CT-UT06 | deve lançar erro e não salvar quando arquivo_base64 excede 5 MB | RF005 | — | `TarefaService.anexarEvidencia` | PASS |
+| CT-UT07 | deve lançar erro e não salvar quando arquivo_base64 contém caracteres inválidos | RF005 | — | `TarefaService.anexarEvidencia` | PASS |
+| CT-UT08 | deve aceitar e normalizar base64 com prefixo data URI do navegador | RF005 | — | `TarefaService.anexarEvidencia` | PASS |
+| CT-UT09 | deve lançar erro quando arquivo_base64 é string vazia | RF005 | — | `TarefaService.anexarEvidencia` | PASS |
+| CT-UT10 | deve salvar evidência de texto sem arquivo_base64 | RF005 | — | `TarefaService.anexarEvidencia` | PASS |
+| CT-UT11 | deve criar a tarefa e retornar o registro persistido quando os dados são válidos | RF001 | RN01 | `TarefaService.criarTarefa` | PASS |
+| CT-UT12 | deve lançar erro e não persistir quando a data de agendamento for retroativa | RF001 | RN-DATA | `TarefaService.criarTarefa` | PASS |
+| CT-UT13 | deve lançar erro e não persistir quando a descrição for fornecida em branco | RF001 | RN-DESC | `TarefaService.criarTarefa` | PASS |
+| CT-UA01 | deve criar o chamado e retornar o registro persistido quando os dados são válidos | RF006 | RN19, RN26 | `AlertaService.criarAlerta` | PASS |
+| CT-UA02 | deve lançar erro e não persistir quando a descrição for muito curta (≤ 10 caracteres) | RF006 | RN06 | `AlertaService.criarAlerta` | PASS |
+| CT-UA03 | deve lançar erro e não persistir quando a descrição estiver em branco | RF006 | RN06 | `AlertaService.criarAlerta` | PASS |
+| CT-UA04 | deve lançar erro e não persistir quando a descrição estiver ausente | RF006 | RN06 | `AlertaService.criarAlerta` | PASS |
+| CT-UA05 | deve lançar erro e não persistir quando a latitude estiver ausente | RF006 | RN06, RN19 | `AlertaService.criarAlerta` | PASS |
+| CT-UA06 | deve lançar erro e não persistir quando a longitude estiver ausente | RF006 | RN06, RN19 | `AlertaService.criarAlerta` | PASS |
+| CT-UA07 | deve resolver o chamado quando os dados são válidos e o usuário é Tecnico | RF006 | RN-TECNICO | `AlertaService.resolverChamado` | PASS |
+| CT-UA08 | deve lançar ACESSO_NEGADO e não resolver quando o usuário não tiver perfil Tecnico | RF006 | RN-TECNICO | `AlertaService.resolverChamado` | PASS |
+| CT-UA09 | deve lançar ACESSO_NEGADO e não resolver quando o usuário não for encontrado | RF006 | RN-TECNICO | `AlertaService.resolverChamado` | PASS |
+| CT-UA10 | deve lançar CHAMADO_NAO_ENCONTRADO quando o chamado não existir | RF006 | — | `AlertaService.resolverChamado` | PASS |
+| CT-UA11 | deve lançar CHAMADO_JA_RESOLVIDO e não atualizar quando o chamado já foi resolvido | RF006 | RN-STATUS | `AlertaService.resolverChamado` | PASS |
+
+> **Legenda de RN internas ao domínio de serviço:** RN-DATA = data de agendamento não pode ser retroativa; RN-DESC = descrição não pode estar em branco quando informada; RN06 = chamado deve ter descrição com mais de 10 caracteres e coordenadas GPS obrigatórias; RN-TECNICO = somente usuários com perfil Técnico podem resolver chamados; RN-STATUS = chamado já resolvido não pode ser resolvido novamente.
+
+#### 5.1.5.4. Resumo e Resultados
+
+As três suites totalizam **28 testes unitários**. Todos os casos aprovados confirmam que `TarefaService`, `AlertaService` e `CloudSyncService` aplicam corretamente suas regras de negócio independentemente da camada de persistência. A suite é executada com:
+
+```bash
+npx jest tests/unit --verbose
+```
+
 ## 5.2. Testes de usabilidade (sprint 5)
 
 ### 5.2.1. Relatório de testes de guerrilha
@@ -5290,23 +5534,14 @@ _b) Estratégia de Diferenciação (até 250 palavras)_
 A estratégia de diferenciação da solução se apoia em três eixos que os concorrentes
 de mercado não endereçam de forma combinada.
 
-O primeiro eixo é a **aderência ao contexto operacional**. Sistemas como iRancho [44] e JetBov[45] oferecem funcionalidades offline, mas foram projetados para um perfil de
-usuário com maior familiaridade digital e para fazendas com infraestrutura mais
-consolidada. A solução da BrPec foi construída sobre o fluxo real da operação,
-os tipos de registro, a estrutura de retiros, o perfil dos capatazes, o que
+O primeiro eixo é a **aderência ao contexto operacional**. Sistemas como iRancho [44] e JetBov[45] oferecem funcionalidades offline, mas foram projetados para um perfil de usuário com maior familiaridade digital e para fazendas com infraestrutura mais
+consolidada. A solução da BrPec foi construída sobre o fluxo real da operação, os tipos de registro, a estrutura de retiros, o perfil dos capatazes, o que
 elimina a necessidade de adaptação do processo ao sistema. 
 
-O segundo eixo é a **simplicidade como requisito técnico**. A interface não é
-simplificada por limitação, mas por decisão de projeto: cada tela foi desenhada
-para o perfil de menor familiaridade digital, garantindo que o usuário mais
-limitado consiga operar sem auxílio. Isso aumenta a taxa de adoção e reduz erros
-de preenchimento na origem.
+O segundo eixo é a **simplicidade como requisito técnico**. A interface não é simplificada por limitação, mas por decisão de projeto: cada tela foi desenhada para o perfil de menor familiaridade digital, garantindo que o usuário mais
+limitado consiga operar sem auxílio. Isso aumenta a taxa de adoção e reduz erros de preenchimento na origem.
 
-O terceiro eixo é a **arquitetura offline-first com SQLite**. Diferentemente de
-soluções que degradam funcionalidades sem internet, a aplicação opera com
-capacidade plena sem conexão. Os dados são gravados localmente e sincronizados
-via fila estruturada (sync_queue) nas janelas de Starlink, sem perda de registros
-e sem intervenção manual do usuário.
+O terceiro eixo é a **arquitetura offline-first com SQLite**. Diferentemente de soluções que degradam funcionalidades sem internet, a aplicação opera com capacidade plena sem conexão. Os dados são gravados localmente e sincronizados via fila estruturada (sync_queue) nas janelas de Starlink, sem perda de registros e sem intervenção manual do usuário.
 
 A combinação desses três eixos posiciona a solução não como uma alternativa
 genérica de gestão pecuária, mas como uma ferramenta construída especificamente
@@ -5316,16 +5551,86 @@ produtos de prateleira não conseguem superar.
 ## 6.6 Estratégia de Marketing
 
 _a) Produto/Serviço (até 200 palavras)_
-_Descreva as funcionalidades, benefícios e diferenciais da aplicação_
+
+A solução é uma aplicação web progressiva (PWA) voltada à digitalização do
+gerenciamento de campo em fazendas de pecuária de corte. É composta por dois
+módulos integrados: o aplicativo de campo, utilizado pelos capatazes para registro
+offline de movimentações do rebanho — nascimentos, mortes, compras, vendas e
+transferências entre retiros, e o painel administrativo, acessado por
+coordenadores e pelo gerente para acompanhamento consolidado das operações.
+
+O principal diferencial técnico é a arquitetura offline-first: o banco de dados
+local (SQLite) garante funcionamento pleno sem conexão, e os dados são
+sincronizados automaticamente com o servidor via fila estruturada (sync_queue)
+nas janelas de conectividade disponíveis. Não há perda de registros nem
+necessidade de intervenção manual do usuário no processo de sincronização.
+
+A interface foi projetada para usuários com baixo letramento digital, com fluxos
+de poucos passos, linguagem visual direta e suporte a registros por áudio. Por
+ser uma PWA, a instalação ocorre pelo navegador, sem necessidade de loja de
+aplicativos, simplificando a distribuição nos dispositivos da BrPec. O conjunto
+dessas características elimina a etapa de redigitação manual, reduz erros de
+registro na origem e amplia a rastreabilidade das movimentações do rebanho em
+tempo real.
 
 _b) Preço (até 200 palavras)_
-_Explique o modelo de precificação adotado e justifique com base nas análises anteriores._
+
+O modelo de precificação adotado é o SaaS (Software as a Service) com cobrança
+anual baseada no volume de cabeças ativas no rebanho. Esse modelo foi escolhido
+porque alinha o custo da solução diretamente à escala da operação do cliente:
+fazendas maiores, com mais animais para rastrear e mais retiros para gerenciar,
+geram mais valor a partir do sistema — e pagam proporcionalmente mais por isso.
+Cobrar por cabeça ativa é também o modelo mais transparente para o produtor
+rural, que já está habituado a calcular custos por animal em insumos,
+veterinária e nutrição, tornando a adoção mais natural.
+
+Do lado do fornecedor, a recorrência anual gera previsibilidade de receita,
+viabilizando investimento contínuo em manutenção, suporte e evolução do produto.
+
+A estrutura de faixas sugerida segue o padrão praticado por softwares pecuários
+nacionais como iRancho[44] e JetBov[45]:
+
+| Faixa de rebanho ativo  | Valor anual estimado (R$)       |
+|-------------------------|---------------------------------|
+| Até 5.000 cabeças       | R$ 6.000 – R$ 9.000             |
+| 5.001 a 20.000 cabeças  | R$ 9.000 – R$ 18.000            |
+| Acima de 20.000 cabeças | Negociação direta (enterprise)  |
+
+A BrPec, com rebanho distribuído em 14 retiros, se enquadra na faixa enterprise,
+com contrato negociado com base no volume total de animais ativos e no número de
+usuários operacionais licenciados. Cobrar por cabeça ativa — e não por usuário ou
+por módulo — é o modelo mais transparente para o cliente rural, pois vincula
+diretamente o custo da ferramenta ao tamanho do negócio que ela suporta.
 
 _c) Praça (Distribuição) (até 200 palavras)_
-_Apresente os canais digitais utilizados para distribuir e entregar a aplicação ao público._
+
+A estratégia de distribuição é B2B direta, sem intermediários. O produto é
+comercializado por meio de contato direto com a empresa e, com foco em propriedades que compartilham o perfil operacional da BrPec: múltiplos retiros, rebanho extenso e conectividade limitada.
+
+A aplicação é disponibilizada via navegador, sem necessidade de instalação por loja
+de aplicativos, o que reduz barreiras de acesso em dispositivos com configurações
+restritas. A implementação é realizada de forma assistida: visita técnica à
+propriedade para configuração inicial, treinamento presencial dos capatazes e
+coordenadores e acompanhamento do primeiro ciclo completo de sincronização.
 
 _d) Promoção (até 200 palavras)_
-_Descreva as estratégias digitais planejadas, como SEO, redes sociais, marketing de conteúdo e campanhas pagas._
+
+A estratégia de promoção é concentrada em canais com alta densidade do
+público-alvo e adequados ao ciclo de vendas B2B de ticket elevado.
+
+O canal principal são as **feiras agropecuárias regionais**, como a Expogrande
+(Campo Grande/MS), a Fenapec e a Agrishow, onde produtores e gestores de fazendas
+tomam decisões de compra de tecnologia. A demonstração ao vivo em condições
+simuladas de campo, inclusive sem internet, é o argumento de venda mais eficaz
+para esse perfil de cliente.
+
+O canal complementar é o **marketing de conteúdo técnico** em portais
+especializados do agronegócio, como Canal Rural, com publicações que abordam os custos operacionais do controle manual de rebanho e os ganhos de rastreabilidade com a digitalização. Esse posicionamento constrói autoridade técnica
+e gera demanda qualificada.
+
+Como estratégia de relacionamento, o programa de indicação entre clientes ativos
+reduz o custo de aquisição e acelera a expansão para fazendas com perfil semelhante
+ao da BrPec, aproveitando a rede de confiança já estabelecida no setor.
 
 # <a name="c7"></a>7. Conclusões e trabalhos futuros (sprint 5)
 

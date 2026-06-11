@@ -5,7 +5,7 @@
 
   <div id="app">
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar">👤</div>
+      <div class="user-avatar"><img src="/public/Icons/capataz.ico" alt="Capataz" style="width:32px;height:32px;object-fit:contain;" /></div>
       <h1>Concluir Tarefa</h1>
       <div class="sub"><%= retiro %> (<%= perfil %>)</div>
     </div>
@@ -22,7 +22,7 @@
         <h3>Foto da Conclusão</h3>
         <div class="upload-area" id="area-foto">
           <label for="input-foto" class="upload-label">
-            <span class="upload-icon">📷</span>
+            <span class="upload-icon"><img src="/public/Icons/tira_foto.ico" alt="" style="width:48px;height:48px;object-fit:contain;" /></span>
             <span>Clique ou arraste uma imagem</span>
           </label>
           <input type="file" id="input-foto" accept="image/*" capture="environment" style="display: none;" />
@@ -39,7 +39,7 @@
         <h3>Gravar Áudio</h3>
         <div class="audio-recorder">
           <button class="btn btn-secundario" id="btn-gravar" style="width: 100%;">
-            🎙️ Grave seu áudio
+            <img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" /> Grave seu áudio
           </button>
           <audio id="audio-gravado" controls style="width: 100%; display: none; margin-top: 0.5rem;"></audio>
         </div>
@@ -47,10 +47,10 @@
 
       <div class="acoes-concluir" style="display: flex; gap: 1rem; margin-top: 1rem;">
         <button class="btn btn-secundario" id="btn-tirar-foto" style="flex: 1;">
-          📷 Tirar Foto
+          <img class="label-ico" src="/public/Icons/tira_foto.ico" alt="" /> Tirar Foto
         </button>
         <button class="btn btn-primario" id="btn-salvar" style="flex: 1;">
-          💾 Salvar
+          <img class="label-ico" src="/public/Icons/salvar.ico" alt="" /> Salvar
         </button>
       </div>
 

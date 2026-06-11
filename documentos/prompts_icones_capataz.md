@@ -1,20 +1,72 @@
-# Prompts de Geração de Ícones — Sistema do Capataz (BRPec / SynTech)
+# Prompts de Geração de Ícones — Sistema BRPec / SynTech
 
-Padrão visual de todos os ícones (manter consistência com os `.ico` já existentes):
+Levantamento completo dos emojis usados no projeto, com prompts prontos para gerar ícones consistentes em IA generativa (Midjourney / DALL-E / Imagen / Stable Diffusion). Após gerar como PNG transparente 512×512, exportar também como `.ico` para uso no projeto.
 
-> **Estilo base (colar no início de cada prompt):**
-> "Flat minimalist icon, single centered subject, Phosphor-icons style with bold/fill weight, thick rounded strokes, deep green (#1A4D2E) on transparent background, no text, no shadow, 1:1 square aspect ratio, 512x512px, generous padding around the subject, high contrast for outdoor sunlight readability, simple and instantly recognizable for low-literacy users."
+## 📐 Estilo base (colar no início de TODO prompt)
 
-A proporção **1:1 (quadrada), 512x512px** e o **padding generoso** são obrigatórios para os ícones reduzirem bem (até 24px) sem perder legibilidade — exatamente a crítica que recebemos no Art. 7 (logo complexo demais).
+> "Flat minimalist icon, single centered subject, Phosphor-icons style with bold/fill weight, thick rounded strokes, deep green (#1A4D2E) on transparent background, no text, no shadow, 1:1 square aspect ratio, 512x512px, generous padding around the subject (subject occupies ~65% of canvas), high contrast for outdoor sunlight readability, simple and instantly recognizable for low-literacy users."
+
+**Regras obrigatórias** (atacam diretamente a crítica do Art. 7 do WAD):
+- **1:1 quadrado, 512×512** — reduz bem até 24px sem perder legibilidade
+- **Padding generoso** — subject ocupa ~65% do canvas
+- **Cor única** `#1A4D2E` (verde profundo), exceto status (vermelho/âmbar/verde semânticos)
+- **Sem texto** dentro do ícone — label textual sempre acompanha
+- **Mesmo modelo/seed** entre ícones para uniformidade de traço
 
 ---
 
-## Ícones de Operação / Boleta (tela Nova Boleta)
+## 1. ✅ Ações universais (botões e estados)
+
+### ✅ Sucesso / Confirmar
+> [estilo base] + "A bold checkmark inside a rounded circle, deep green color, representing success or confirmation."
+
+### ❌ Erro / Cancelar
+> [estilo base, usar VERMELHO `#D32F2F`] + "A bold X mark inside a rounded circle, representing error or cancellation."
+
+### ✏️ Editar
+> [estilo base] + "A simple pencil with a soft eraser tip, slightly tilted, representing edit or modify."
+
+### ✓ Check simples (inline)
+> [estilo base] + "A thin checkmark stroke without circle, used inline next to text items."
+
+### ➕ Adicionar
+> [estilo base] + "A bold plus sign with rounded ends, representing add new item."
+
+### 🗑️ Excluir / Remover
+> [estilo base] + "A simple trash can icon with rounded lid, representing delete."
+
+### 💾 Salvar
+> [estilo base] + "A floppy disk icon with a folded corner, representing save data."
+
+### 👁️ Mostrar senha
+> [estilo base] + "An open eye with a centered pupil, representing show/reveal password."
+
+### 🔍 Buscar
+> [estilo base] + "A magnifying glass tilted to the right, representing search."
+
+### 🚪 Sair / Logout
+> [estilo base] + "A door slightly ajar with an arrow pointing out to the right, representing logout."
+
+### 🔒 Acesso restrito
+> [estilo base, usar ÂMBAR `#A64B00`] + "A closed padlock with a thick shackle, representing locked or restricted access."
+
+### 🚫 Bloqueado / Negado
+> [estilo base, usar VERMELHO `#D32F2F`] + "A circle with a diagonal slash, representing blocked or denied."
+
+### ⚠️ Aviso
+> [estilo base, usar ÂMBAR `#A64B00`] + "A triangle warning sign with an exclamation mark inside, representing alert."
+
+### 👉 Dica / Aqui
+> [estilo base] + "A hand with extended index finger pointing to the right, representing a tip or call-to-action."
+
+---
+
+## 2. 🐂 Operações de boleta (tela Nova Boleta)
 
 ### 🐄 Nascimento
 > [estilo base] + "A friendly cow with a small calf beside it, symbolizing birth of cattle. Warm and positive feel."
 
-### ⚰️ Óbito / Morte
+### ⚰️ Óbito / Morte de animal
 > [estilo base] + "A simple cross or tombstone combined with a subtle cattle silhouette, respectful and neutral, representing animal death record. Avoid gore or disturbing imagery."
 
 ### 🔄 Transferência entre retiros
@@ -23,110 +75,215 @@ A proporção **1:1 (quadrada), 512x512px** e o **padding generoso** são obriga
 ### 💰 Compra / Venda
 > [estilo base] + "A hand holding coins next to a cattle silhouette, representing buying and selling livestock."
 
-### 📈 Evolução de rebanho
-> [estilo base] + "An upward trending arrow over stacked cattle silhouettes of increasing size, representing herd category evolution/growth."
+### 📈 Evolução de rebanho (reclassificação)
+> [estilo base] + "An upward trending arrow over stacked cattle silhouettes of increasing size, representing herd category evolution."
 
-### 🛠️ Manejo geral
+### 🔧 Manejo geral (manutenção/vacinação)
 > [estilo base] + "Crossed wrench and syringe, representing general cattle handling and vaccination tasks."
 
 ---
 
-## Ícones de Transferência (detalhes)
+## 3. 🐂 Categorias e tipos de animal
 
-### 📤 Enviando (Saída)
-> [estilo base] + "An arrow pointing up and out of an open box, representing outbound shipment of animals."
+### 🐂 Rebanho geral (categoria)
+> [estilo base] + "A bold ox/bull head silhouette facing front with prominent horns, representing the herd section."
 
-### 📥 Recebendo (Entrada)
-> [estilo base] + "An arrow pointing down into an open box/tray, representing inbound arrival of animals."
-
-### 🚛 Caminhão (Rodoviário)
-> [estilo base] + "A side view of a cattle transport truck, simple and bold."
-
-### 🐎 Comitiva (Estrada/cavalo)
-> [estilo base] + "A horse silhouette, representing cattle drive on horseback (comitiva)."
+### 🐮 Raça (nascimento)
+> [estilo base] + "A friendly cow face front view with visible breed features (humped neck Nelore-style), representing animal breed."
 
 ---
 
-## Ícones de Campos do Formulário
+## 4. 📋 Campos do formulário (boleta)
 
 ### 🏠 Retiro
-> [estilo base] + "A simple farm house/ranch building, representing a farm unit (retiro)."
+> [estilo base] + "A simple farmhouse/ranch building with a gabled roof, representing a farm unit (retiro)."
 
-### 📍 Nº do pasto
-> [estilo base] + "A single map location pin, clean and bold, representing a pasture number."
+### 🌾 Pasto (campo)
+> [estilo base] + "Three wheat/grass stalks tied together, representing pasture/field."
+
+### 📍 Localização / Nº do pasto
+> [estilo base] + "A single map location pin, clean and bold, representing a place or pasture number."
+
+### 🎯 Retiro de destino
+> [estilo base] + "A bullseye target with concentric circles, representing destination."
 
 ### 📅 Data
-> [estilo base] + "A simple calendar page icon."
+> [estilo base] + "A simple calendar page icon with the top binder visible."
 
-### 🏷️ Identificação / Brinco do animal
-> [estilo base] + "A cattle ear tag (brinco) with a number, representing animal identification."
+### 🏷️ Brinco / Identificação do animal
+> [estilo base] + "A cattle ear tag (brinco) with a small number visible, representing animal identification."
 
 ### 💀 Causa da morte
-> [estilo base] + "A simple medical clipboard with a small cross, representing cause-of-death record. Neutral and clinical."
+> [estilo base] + "A simple medical clipboard with a small cross at the top, representing cause-of-death record. Neutral and clinical, not horror."
 
-### 📷 Foto da carcaça
-> [estilo base] + "A simple camera icon, bold and rounded."
+### 📷 Foto / Câmera
+> [estilo base] + "A simple camera icon with a round lens, bold and rounded."
 
 ### 📝 Observações
-> [estilo base] + "A notepad with a pencil, representing written notes/observations."
+> [estilo base] + "A notepad with a pencil resting on top, representing written notes."
 
-### 👤 Motorista / Comissário
-> [estilo base] + "A simple person bust silhouette wearing a cap, representing the driver/transporter."
+### 🔢 Número / Placa
+> [estilo base] + "Three numeric digits inside a rectangle frame, representing a number or vehicle plate."
 
-### 🪪 RG / CPF
-> [estilo base] + "A simple ID card icon."
+### 👤 Pessoa / Usuário
+> [estilo base] + "A single person bust silhouette in a rounded circle, generic user avatar."
 
----
+### 👥 Usuários (plural)
+> [estilo base] + "Two overlapping person bust silhouettes, representing multiple users."
 
-## Ícones de Navegação (sidebar / bottom-nav) — perfil Capataz
+### 🪪 RG / CPF / Documento
+> [estilo base] + "A simple ID card with a small portrait silhouette in the corner."
 
-### Tarefas (📋)
-> [estilo base] + "A checklist clipboard with a checkmark, representing daily tasks."
-
-### Movimentação / Rebanho (🐂)
-> [estilo base] + "A bold ox/cattle head silhouette facing front, representing the herd section."
-
-### Infraestrutura (🔧)
-> [estilo base] + "Crossed wrench and screwdriver, representing infrastructure maintenance."
-
-### Início / Home (🏠)
-> [estilo base] + "A simple house icon."
+### 🛰️ GPS / Satélite
+> [estilo base] + "A satellite with two solar panels and signal waves emanating from it, representing GPS positioning."
 
 ---
 
-## Ícones de Status de Tarefa
+## 5. 🎙️ Áudio e mídia
 
-### Pendente (🟠)
-> [estilo base, mas usar cor ÂMBAR #A64B00] + "A clock with hands, representing a pending task awaiting action."
+### 🎙️ Gravar áudio
+> [estilo base] + "A studio microphone on a small stand, representing audio recording."
 
-### Em andamento (🔵)
-> [estilo base, mas usar cor ÂMBAR #A64B00] + "A circular arrow (refresh/spinner), representing a task in progress."
+### 🔇 Sem áudio / mudo
+> [estilo base, usar CINZA `#8A8A7C`] + "A speaker icon with a diagonal slash through it, representing muted or no audio."
 
-### Concluída (🟢)
-> [estilo base, manter VERDE #2E7D52] + "A checkmark inside a circle, representing a completed task."
+### 📭 Vazio / Sem registros
+> [estilo base, usar CINZA `#8A8A7C`] + "An empty open mailbox with the flag down, representing no items / empty list."
 
 ---
 
-## Ícones de Perfil (avatares)
+## 6. 🚚 Transferência (detalhes da boleta de movimentação)
+
+### 📤 Enviando / Saída
+> [estilo base] + "An arrow pointing up and out of an open box, representing outbound shipment of animals."
+
+### 📥 Recebendo / Entrada
+> [estilo base] + "An arrow pointing down into an open tray, representing inbound arrival of animals."
+
+### 🚛 / 🚚 Caminhão / Transporte rodoviário
+> [estilo base] + "A side view of a cattle transport truck with covered cargo, simple and bold."
+
+### 🐎 Comitiva (cavalo)
+> [estilo base] + "A horse silhouette in profile, representing cattle drive on horseback (comitiva)."
+
+### 🧭 Direção / Navegação
+> [estilo base] + "A compass with a clearly visible north needle, representing direction or guidance."
+
+### ➡️ Seta evolução (origem → destino)
+> [estilo base] + "A bold right-pointing arrow with rounded tip, representing flow from A to B."
+
+---
+
+## 7. 💰 Compra e venda
+
+### 💵 Valor / Dinheiro
+> [estilo base] + "A folded paper bill (banknote) with a dollar/real-style symbol in the center."
+
+### 🛒 Compra
+> [estilo base] + "A shopping cart silhouette, simple and bold, representing purchase."
+
+### 🤝 Venda / Negócio fechado
+> [estilo base] + "Two hands shaking, representing a deal or sale closed."
+
+### 💼 Negócio / Coordenador
+> [estilo base] + "A briefcase with a handle and clasps, representing business/management."
+
+### 🧮 Total / Cálculo
+> [estilo base] + "A simple abacus with bead rows, representing total or calculation."
+
+---
+
+## 8. 🟢 Status de chamado de infraestrutura
+
+### 🟠 Aberto / Pendente
+> [estilo base, usar ÂMBAR `#A64B00`] + "A clock face with hands showing waiting, representing a pending or open ticket."
+
+### 🔵 Em andamento
+> [estilo base, usar ÂMBAR `#A64B00`] + "A circular arrow (spinner/refresh), representing work in progress."
+
+### 🟢 Concluído / Resolvido
+> [estilo base, manter VERDE `#2E7D52`] + "A checkmark inside a circle, representing a completed task."
+
+---
+
+## 9. 🔧 Categorias de infraestrutura
+
+### 🔧 Ferramenta / Manutenção
+> [estilo base] + "A wrench at 45 degrees, bold and clean, representing infrastructure maintenance."
+
+### 🚰 Hidráulica / Bebedouro
+> [estilo base] + "A water tap with a drop falling, representing hydraulic infrastructure / animal trough."
+
+### ⚡ Elétrica / Cerca elétrica
+> [estilo base, usar ÂMBAR `#A64B00`] + "A bold lightning bolt with rounded edges, representing electrical infrastructure."
+
+### 🪵 Cerca / Mourão de madeira
+> [estilo base] + "A vertical wood log/post with visible bark texture, representing fence post."
+
+### 👷 Técnico de infraestrutura
+> [estilo base] + "A person bust wearing a hard hat with a small wrench in the corner, representing maintenance technician."
+
+---
+
+## 10. 🤠 Perfis de usuário (avatares)
 
 ### 🤠 Capataz
 > [estilo base] + "A person bust wearing a wide-brim cowboy/field hat, representing the field foreman (capataz)."
 
 ### 🧑‍💼 Gerente
-> [estilo base] + "A person bust wearing a tie/business attire, representing the manager."
+> [estilo base] + "A person bust wearing a tie and collared shirt, representing the manager."
 
 ### 📋 Coordenador
-> [estilo base] + "A person bust beside a clipboard, representing the coordinator."
+> [estilo base] + "A person bust beside a clipboard with checklist visible, representing the coordinator."
 
-### 🔧 Infraestrutura / Técnico
-> [estilo base] + "A person bust wearing a hard hat with a wrench, representing the maintenance technician."
+### 🔧 Infraestrutura (perfil)
+> use o ícone `👷` acima — mesmo conceito.
 
 ---
 
-## Observações de uso
+## 11. 🌱 Sistema e marca
 
-1. **Sempre 1:1 e 512px** — depois exportar em PNG transparente e converter para `.ico` se necessário.
-2. **Cor única (#1A4D2E)** exceto os de status, que seguem a semântica da paleta (âmbar = atenção, vermelho = erro/morte, verde = sucesso).
-3. **Padding generoso** — o subject deve ocupar ~70% do canvas, deixando margem. Isso garante legibilidade em 24px.
-4. **Sem texto** dentro do ícone — o label textual sempre acompanha (decisão de acessibilidade do WAD seção 3.4.3).
-5. Gerar todos com o **mesmo modelo/seed** quando possível, para manter uniformidade de traço (crítica recebida no Art. 7).
+### 🌱 Logo SynTech
+> NÃO refazer com IA — usar a versão oficial em `assets/Logos/`. Esta entrada existe só como marca de identificação na sidebar.
+
+### 📲 Instalar PWA (app)
+> [estilo base] + "A smartphone with a downward arrow entering its screen, representing install app."
+
+### 📱 Celular / Notificação
+> [estilo base] + "A simple smartphone silhouette with a small dot in the corner, representing mobile device or notification."
+
+### 🕓 Histórico / Tempo
+> [estilo base] + "A clock face with hands and a curved arrow around it, representing history or time-back."
+
+---
+
+## 12. 🧭 Navegação (sidebar / bottom-nav)
+
+| Item | Ícone | Prompt já listado em |
+|---|---|---|
+| Início (Capataz) | 🏠 | seção 4 (Retiro) |
+| Tarefas / Boletas | 📋 | seção 4 (Coordenador) |
+| Nova Boleta | ➕ + 🐂 | seções 1 + 3 |
+| Histórico | 🕓 | seção 11 |
+| Movimentação | 🔄 | seção 2 |
+| Infraestrutura | 🔧 | seção 9 |
+| Abrir Chamado | 👷 | seção 9 |
+| Dashboard (Gerente/Coord) | 📊 (novo) | abaixo |
+| Configurações | ⚙️ (novo) | abaixo |
+| Sair | 🚪 | seção 1 |
+
+### 📊 Dashboard (Gerente/Coordenador)
+> [estilo base] + "Two vertical bars of different heights next to a small upward trending line, representing analytics dashboard."
+
+### ⚙️ Configurações
+> [estilo base] + "A gear/cog with 6-8 teeth, centered, representing settings."
+
+---
+
+## Notas finais
+
+1. **Geração em lote**: para manter uniformidade, gere os ícones usando o **mesmo modelo + mesmo seed** quando possível. Diferentes seeds geram traços visivelmente diferentes.
+2. **Pós-processamento**: depois de gerar os PNGs 512×512, converta para `.ico` multi-tamanho usando https://convertio.co/png-ico/ ou similar, gerando os tamanhos **24, 32, 48, 64, 128, 256**.
+3. **Onde colocar no projeto**: `src/public/Icons/` (mantém o padrão atual).
+4. **Status com cor**: os ícones marcados com cor diferente (vermelho/âmbar) devem ser gerados separadamente com a cor especificada — o frontend já usa CSS pra adaptar, mas a cor base da imagem precisa estar correta para fundos claros.
+5. **Critério de aceite**: cada ícone deve ser **identificável a 24px** numa tela mobile sob luz solar direta. Teste antes de aprovar.

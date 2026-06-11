@@ -12,55 +12,54 @@
 
   <nav id="side-nav">
     <% if (perfil==='Infraestrutura' ) { %>
-      <!-- Menu da Infraestrutura (recebe e executa chamados) -->
-      <button class="active" onclick="window.location.href='/infraestrutura?perfil=Infraestrutura'">
+      <!-- Menu da Infraestrutura -->
+      <button data-rota="/infraestrutura" onclick="window.location.href='/infraestrutura'">
         <span><img src="/public/Icons/alerta.ico" alt="Chamados" /></span> Chamados
       </button>
-      <button onclick="window.location.href='/historico?perfil=Infraestrutura'">
+      <button data-rota="/historico" onclick="window.location.href='/historico'">
         <span>🕓</span> Histórico
       </button>
 
-      <% } else if (perfil==='Gerente' ) { %>
-        <!-- Menu do Gerente (visão gerencial: dashboard + infraestrutura) -->
-        <button class="active" onclick="window.location.href='/dashboard?perfil=Gerente'">
-          <span><img src="/public/Icons/home.ico" alt="Dashboard" /></span> Dashboard
-        </button>
-        <button onclick="window.location.href='/infraestrutura?perfil=Gerente'">
-          <span><img src="/public/Icons/alerta.ico" alt="Infraestrutura" /></span> Infraestrutura
-        </button>
+    <% } else if (perfil==='Gerente' ) { %>
+      <!-- Menu do Gerente -->
+      <button data-rota="/dashboard" onclick="window.location.href='/dashboard'">
+        <span><img src="/public/Icons/home.ico" alt="Dashboard" /></span> Dashboard
+      </button>
+      <button data-rota="/infraestrutura" onclick="window.location.href='/infraestrutura'">
+        <span><img src="/public/Icons/alerta.ico" alt="Infraestrutura" /></span> Infraestrutura
+      </button>
 
-        <% } else if (perfil==='Coordenador' ) { %>
-          <!-- Menu do Coordenador (valida e exporta movimentações) -->
-          <button class="active" onclick="window.location.href='/dashboard?perfil=Coordenador'">
-            <span><img src="/public/Icons/home.ico" alt="Dashboard" /></span> Dashboard
-          </button>
-          <button onclick="window.location.href='/boletas?perfil=Coordenador'">
-            <span><img src="/public/Icons/movimentacao.ico" alt="Boletas" /></span> Boletas
-          </button>
+    <% } else if (perfil==='Coordenador' ) { %>
+      <!-- Menu do Coordenador -->
+      <button data-rota="/dashboard" onclick="window.location.href='/dashboard'">
+        <span><img src="/public/Icons/home.ico" alt="Dashboard" /></span> Dashboard
+      </button>
+      <button data-rota="/boletas" onclick="window.location.href='/boletas'">
+        <span><img src="/public/Icons/movimentacao.ico" alt="Boletas" /></span> Boletas
+      </button>
 
-          <% } else { %>
-            <!-- Menu padrão (Capataz) -->
-            <button class="active" onclick="window.location.href='/nova-os?perfil=Capataz&retiro=<%= retiro %>'">
-              <span><img src="/public/Icons/movimentacao.ico" alt="Nova Boleta" /></span> Nova Boleta
-            </button>
-            <button onclick="window.location.href='/tarefas?perfil=Capataz&retiro=<%= retiro %>'">
-              <span>🕓</span> Histórico
-            </button>
-            <button onclick="window.location.href='/novo-chamado?perfil=Capataz&retiro=<%= retiro %>'">
-              <span><img src="/public/Icons/infra.ico" alt="Abrir chamado" /></span> Abrir Chamado
-            </button>
-            <% } %>
-  </nav>
-
-  <!-- Rodapé da sidebar: Configurações (só Gerente) + Sair (todos) -->
-  <div class="side-footer">
-    <% if (perfil === 'Gerente') { %>
-      <button class="side-config" id="side-config-btn" onclick="window.location.href='/configuracoes?perfil=<%= perfil %>'">
-        <span><img src="/public/Icons/configuracao.ico" alt="Configurações" /></span> Configurações
+    <% } else { %>
+      <!-- Menu padrão (Capataz) -->
+      <button data-rota="/nova-os" onclick="window.location.href='/nova-os'">
+        <span><img src="/public/Icons/movimentacao.ico" alt="Nova Boleta" /></span> Nova Boleta
+      </button>
+      <button data-rota="/tarefas" onclick="window.location.href='/tarefas'">
+        <span>🕓</span> Histórico
+      </button>
+      <button data-rota="/novo-chamado" onclick="window.location.href='/novo-chamado'">
+        <span><img src="/public/Icons/infra.ico" alt="Abrir chamado" /></span> Abrir Chamado
       </button>
     <% } %>
+  </nav>
+
+  <!-- Rodapé: Configurações (só Gerente ADM) + Sair (todos) -->
+  <div class="side-footer">
+    <button class="side-config" id="side-config-btn" data-rota="/configuracoes"
+            onclick="window.location.href='/configuracoes'" style="display:none;">
+      <span><img src="/public/Icons/configuracao.ico" alt="Configurações" /></span> Configurações
+    </button>
     <button class="side-logout" id="side-logout-btn" onclick="fazerLogout()">
-      <span>🚪</span> Sair
+      <span><img src="/public/Icons/offline.ico" alt="Sair" /></span> Sair
     </button>
   </div>
 
@@ -76,5 +75,31 @@
       document.getElementById('sidebar').classList.toggle('open');
       document.getElementById('sidebar-overlay').classList.toggle('open');
     }
+
+    // Marca o botão da rota atual como "active" automaticamente
+    (function() {
+      var path = window.location.pathname;
+      var botoes = document.querySelectorAll('#sidebar [data-rota]');
+      var melhorMatch = null;
+      var maiorLen = 0;
+      botoes.forEach(function(b) {
+        var rota = b.getAttribute('data-rota');
+        if (path === rota || path.indexOf(rota + '/') === 0) {
+          if (rota.length > maiorLen) { maiorLen = rota.length; melhorMatch = b; }
+        }
+      });
+      if (melhorMatch) melhorMatch.classList.add('active');
+    })();
+
+    // Mostra o botão Configurações apenas para Gerente ADM (is_admin = true)
+    fetch('/api/auth/me', { credentials: 'same-origin' })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.usuario && data.usuario.perfil === 'Gerente' && data.usuario.is_admin) {
+          var btn = document.getElementById('side-config-btn');
+          if (btn) btn.style.display = '';
+        }
+      })
+      .catch(function() {});
   </script>
 </aside>
