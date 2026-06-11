@@ -2,6 +2,9 @@
 <link rel="stylesheet" href="/public/css/login.css" />
 
 <div id="device" class="login-page">
+  <div class="login-logo">
+    <img src="/public/syntech-verde.png" alt="Syntech" />
+  </div>
   <div class="header-bar">
     <button class="back-btn" onclick="window.location.href='/'">← Voltar</button>
     <h1><%= perfil %></h1>
@@ -18,7 +21,7 @@
       <label for="senha">Senha</label>
       <div class="senha-wrapper">
         <input type="password" id="senha" placeholder="Digite sua senha" required />
-        <button type="button" class="btn-olho" onclick="toggleSenha()">👁️</button>
+        <button type="button" class="btn-olho" onclick="toggleSenha()"><img id="ico-olho" src="/public/Icons/olho_senha_fechado.ico" alt="Mostrar senha" /></button>
       </div>
     </div>
 
@@ -33,7 +36,10 @@
 
   function toggleSenha() {
     var input = document.getElementById('senha');
-    input.type = input.type === 'password' ? 'text' : 'password';
+    var ico = document.getElementById('ico-olho');
+    var mostrando = input.type === 'text';
+    input.type = mostrando ? 'password' : 'text';
+    if (ico) ico.src = mostrando ? '/public/Icons/olho_senha_fechado.ico' : '/public/Icons/olho_senha_aberto.ico';
   }
 
   function realizarLogin(e) {

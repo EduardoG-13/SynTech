@@ -91,10 +91,10 @@ describe('C — POST /api/tarefas (criar tarefa — UC01 / RF001)', () => {
     expect(res.body.tarefa.status).toBe('PENDENTE');
   });
 
-  test('C2. Regra de negócio (RN01) — capataz não pertence ao retiro retorna HTTP 422', async () => {
+  test('C2. Regra de negócio — capataz não pertence ao retiro retorna HTTP 422', async () => {
     const res = await criarTarefa({ capataz_id: CAPATAZ_B });
     expect(res.status).toBe(422);
-    expect(res.body.erro).toMatch(/RN01/);
+    expect(res.body.erro).toMatch(/não pertence ao retiro/i);
   });
 
   test('C3. Payload inválido — campos obrigatórios ausentes retorna HTTP 400', async () => {
@@ -219,7 +219,7 @@ describe('E — POST /api/tarefas/:id/evidencias (anexar evidência)', () => {
       .send({ tipo: 'FOTO', arquivo_base64: 'data:image/png;base64,abc123', capataz_id: CAPATAZ_B });
 
     expect(res.status).toBe(404);
-    expect(res.body.erro).toMatch(/RN05/);
+    expect(res.body.erro).toMatch(/não encontrada|não pertence/i);
   });
 
   test('E3. Payload inválido — tipo ausente retorna HTTP 400', async () => {

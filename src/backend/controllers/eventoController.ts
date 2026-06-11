@@ -80,7 +80,14 @@ class EventoController {
         registro: obito
       });
     } catch (erro: any) {
-      if (erro.message.includes('RF013')) {
+      // Mensagens de validação amigáveis voltam direto pro usuário
+      if (erro.message && (
+        erro.message.includes('obrigatório') ||
+        erro.message.includes('obrigatória') ||
+        erro.message.includes('Informe') ||
+        erro.message.includes('Selecione') ||
+        erro.message.includes('foto da carcaça')
+      )) {
         res.status(422).json({ erro: erro.message });
         return;
       }

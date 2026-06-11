@@ -162,3 +162,54 @@ export function excluirUsuario(req: Request, res: Response) {
   db.prepare('DELETE FROM usuarios WHERE id = ?').run(id);
   return res.json({ mensagem: 'Usuário excluído com sucesso.' });
 }
+
+// ==================== EXCLUSÃO DE REGISTROS (admin only) ====================
+
+/**
+ * DELETE /api/admin/boletas/:grupo_id
+ * Apaga todas as rows da boleta (mesmo grupo_id) e enfileira sync de exclusão.
+ * Só Gerente ADM (gateado no router).
+ */
+export function excluirBoleta(req: Request, res: Response) {
+  const idOuGrupo = String(req.params.grupo_id);
+  const rows = db.prepare(
+    `SELECT id FROM movimentacoes WHERE id = ? OR grupo_id = ?`
+  ).all(idOuGrupo, idOuGrupo) as { id: string }[];
+
+  if (rows.length === 0) return res.status(404).json({ erro: 'Boleta não encontrada.' });
+
+  const deleteStmt = db.prepare('DELETE FROM movimentacoes WHERE id = ?');
+  for (const r of rows) {
+    deleteStmt.run(r.id);
+    enfileirarSync('movimentacao_excluida', r.id);
+  }
+  return res.json({ mensagem: 'Boleta excluída com sucesso.', linhas_apagadas: rows.length });
+}
+
+/**
+ * DELETE /api/admin/chamados/:id
+ * Apaga um chamado (alerta) específico.
+ */
+export function excluirChamado(req: Request, res: Response) {
+  const id = String(req.params.id);
+  const existe = db.prepare('SELECT id FROM alertas WHERE id = ?').get(id);
+  if (!existe) return res.status(404).json({ erro: 'Chamado não encontrado.' });
+
+  db.prepare('DELETE FROM alertas WHERE id = ?').run(id);
+  enfileirarSync('chamado_excluido', id);
+  return res.json({ mensagem: 'Chamado excluído com sucesso.' });
+}
+
+/**
+ * DELETE /api/admin/tarefas/:id
+ * Apaga uma ordem de serviço / tarefa.
+ */
+export function excluirTarefa(req: Request, res: Response) {
+  const id = String(req.params.id);
+  const tab = db.prepare('SELECT id FROM tarefas WHERE id = ?').get(id) as any;
+  if (!tab) return res.status(404).json({ erro: 'Tarefa não encontrada.' });
+
+  db.prepare('DELETE FROM tarefas WHERE id = ?').run(id);
+  enfileirarSync('tarefa_excluida', id);
+  return res.json({ mensagem: 'Tarefa excluída com sucesso.' });
+}

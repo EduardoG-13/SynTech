@@ -8,7 +8,7 @@
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
       <div class="user-avatar">🐄</div>
       <h1>Nova Boleta Zootécnica</h1>
-      <div class="sub"><%= retiro %> (<%= perfil %>)</div>
+      <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %> · <%= retiro %></div>
     </div>
 
     <main class="form-main">

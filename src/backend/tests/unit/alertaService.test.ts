@@ -60,47 +60,32 @@ describe('AlertaService', () => {
     });
 
     it('deve lançar erro e não persistir quando a descrição for muito curta (≤ 10 caracteres)', async () => {
-      // Arrange — exatamente 10 caracteres (limite não satisfeito)
       const dados = { ...dadosBase, descricao: '1234567890' };
-
-      // Act & Assert
-      await expect(alertaService.criarAlerta(dados)).rejects.toThrow('RN06');
+      await expect(alertaService.criarAlerta(dados)).rejects.toThrow('descrição');
       expect(mockAlertaRepo.criar).not.toHaveBeenCalled();
     });
 
     it('deve lançar erro e não persistir quando a descrição estiver em branco', async () => {
-      // Arrange
       const dados = { ...dadosBase, descricao: '   ' };
-
-      // Act & Assert
-      await expect(alertaService.criarAlerta(dados)).rejects.toThrow('RN06');
+      await expect(alertaService.criarAlerta(dados)).rejects.toThrow('descrição');
       expect(mockAlertaRepo.criar).not.toHaveBeenCalled();
     });
 
     it('deve lançar erro e não persistir quando a descrição estiver ausente', async () => {
-      // Arrange
       const { descricao: _, ...dadosSemDescricao } = dadosBase;
-
-      // Act & Assert
-      await expect(alertaService.criarAlerta(dadosSemDescricao)).rejects.toThrow('RN06');
+      await expect(alertaService.criarAlerta(dadosSemDescricao)).rejects.toThrow('descrição');
       expect(mockAlertaRepo.criar).not.toHaveBeenCalled();
     });
 
     it('deve lançar erro e não persistir quando a latitude estiver ausente', async () => {
-      // Arrange
       const { latitude: _, ...dadosSemLat } = dadosBase;
-
-      // Act & Assert
-      await expect(alertaService.criarAlerta(dadosSemLat)).rejects.toThrow('RN06');
+      await expect(alertaService.criarAlerta(dadosSemLat)).rejects.toThrow('coordenadas GPS');
       expect(mockAlertaRepo.criar).not.toHaveBeenCalled();
     });
 
     it('deve lançar erro e não persistir quando a longitude estiver ausente', async () => {
-      // Arrange
       const { longitude: _, ...dadosSemLng } = dadosBase;
-
-      // Act & Assert
-      await expect(alertaService.criarAlerta(dadosSemLng)).rejects.toThrow('RN06');
+      await expect(alertaService.criarAlerta(dadosSemLng)).rejects.toThrow('coordenadas GPS');
       expect(mockAlertaRepo.criar).not.toHaveBeenCalled();
     });
   });

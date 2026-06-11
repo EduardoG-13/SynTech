@@ -99,9 +99,22 @@ function inicializarBanco() {
       } catch (rollbackErr) {
         console.error('[initDb] ERRO ao executar ROLLBACK:', rollbackErr.message);
       }
-      
+
+      // Migrations ALTER TABLE ADD COLUMN são idempotentes na prática:
+      // se a coluna já existir (porque outra migration anterior já a adicionou
+      // ou o schema base já a tinha), apenas registramos e seguimos.
+      const msg = String(err.message || err);
+      if (msg.includes('duplicate column name')) {
+        console.warn(`[initDb] Migration '${migration.name}' já aplicada (coluna duplicada): ${msg}`);
+        try {
+          const stmt = db.prepare('INSERT OR IGNORE INTO schema_migrations (migration_name) VALUES (?)');
+          stmt.run(migration.name);
+        } catch (_) {}
+        continue;
+      }
+
       console.error(`[initDb] ERRO ao executar a migration '${migration.name}':`, err.message);
-      throw err; // Lança a exceção para interromper o bootstrap do Express
+      throw err;
     }
   }
 

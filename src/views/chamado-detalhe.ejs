@@ -8,7 +8,7 @@
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
       <div class="user-avatar"><img src="/public/Icons/<%= perfil === 'Gerente' ? 'gerente' : (perfil === 'Coordenador' ? 'coordenador' : (perfil === 'Capataz' ? 'capataz' : 'infra')) %>.ico" alt="<%= perfil %>" style="width:32px;height:32px;object-fit:contain;" /></div>
       <h1>Detalhe do Chamado</h1>
-      <div class="sub"><%= perfil %> · somente leitura</div>
+      <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %> · somente leitura</div>
     </div>
 
     <main class="chamado-main">
@@ -23,30 +23,45 @@
           </div>
         </div>
         <div class="card-chamado-meta">
-          <div><strong>📍 Retiro:</strong> <span id="chamado-retiro">—</span></div>
-          <div><strong>📅 Aberto em:</strong> <span id="chamado-data">—</span></div>
-          <div><strong>📝 Descrição:</strong> <span id="chamado-descricao">—</span></div>
+          <div><strong><img class="ico-sm" src="/public/Icons/localizacao.ico" alt="" /> Retiro:</strong> <span id="chamado-retiro">—</span></div>
+          <div><strong><img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> Aberto em:</strong> <span id="chamado-data">—</span></div>
+          <div><strong><img class="ico-sm" src="/public/Icons/capataz.ico" alt="" /> Capataz:</strong> <span id="chamado-capataz">—</span></div>
+          <div><strong><img class="ico-sm" src="/public/Icons/editar.ico" alt="" /> Descrição:</strong> <span id="chamado-descricao">—</span></div>
           <div id="chamado-gps-box" style="display:none;">
-            <strong>🛰️ GPS:</strong>
+            <strong><img class="ico-sm" src="/public/Icons/GPS.ico" alt="" /> GPS:</strong>
             <a id="chamado-gps-link" href="#" target="_blank" rel="noopener" style="color:#1A4D2E; text-decoration:underline;">—</a>
           </div>
-          <div id="chamado-local-box" style="display:none;"><strong>🗺️ Local (referência):</strong> <span id="chamado-local">—</span></div>
+          <div id="chamado-local-box" style="display:none;"><strong><img class="ico-sm" src="/public/Icons/bussola_direcao_guia.ico" alt="" /> Local (referência):</strong> <span id="chamado-local">—</span></div>
+        </div>
+        <div id="chamado-audio-box" style="display:none; margin-top:0.75rem;">
+          <p class="ajuda" style="margin-bottom:0.25rem;"><img class="ico-sm" src="/public/Icons/grava_audio.ico" alt="" /> Áudio enviado pelo capataz:</p>
+          <audio controls id="chamado-audio" style="width:100%;"></audio>
+        </div>
+        <div id="chamado-foto-box" style="display:none; margin-top:0.75rem;">
+          <p class="ajuda" style="margin-bottom:0.25rem;"><img class="ico-sm" src="/public/Icons/tira_foto.ico" alt="" /> Foto enviada pelo capataz:</p>
+          <img id="chamado-foto" alt="Foto do problema" style="max-width:100%; border-radius:10px;" />
         </div>
       </div>
 
       <!-- Bloco de resolução (se já tiver) -->
       <div class="card-chamado" id="bloco-resolucao" style="display:none;">
-        <h3 style="color:#1A4D2E; margin-bottom:0.5rem;">✅ Resolução</h3>
+        <h3 style="color:#1A4D2E; margin-bottom:0.5rem;"><img class="label-ico" src="/public/Icons/concluido.ico" alt="" /> Resolução</h3>
         <div class="card-chamado-meta">
-          <div><strong>👷 Técnico:</strong> <span id="resol-tecnico">—</span></div>
-          <div><strong>📅 Resolvido em:</strong> <span id="resol-data">—</span></div>
-          <div><strong>🛠️ Solução:</strong> <span id="resol-solucao">—</span></div>
+          <div><strong><img class="ico-sm" src="/public/Icons/infra.ico" alt="" /> Técnico:</strong> <span id="resol-tecnico">—</span></div>
+          <div><strong><img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> Resolvido em:</strong> <span id="resol-data">—</span></div>
+          <div><strong><img class="ico-sm" src="/public/Icons/concluido.ico" alt="" /> Solução:</strong> <span id="resol-solucao">—</span></div>
         </div>
       </div>
 
       <p style="text-align:center; color:#8A8A7C; font-size:0.85rem; margin-top:1rem;">
-        🔒 Esta tela é somente leitura para o seu perfil.
+        <img class="ico-sm" src="/public/Icons/bloqueado.ico" alt="" /> Esta tela é somente leitura para o seu perfil.
       </p>
+
+      <!-- Botão Excluir: só Gerente ADM -->
+      <button id="btn-excluir-chamado" style="display:none; width:100%; padding:0.85rem; background:#D32F2F; color:#fff; border:none; border-radius:10px; font-weight:700; cursor:pointer; margin-top:0.5rem;">
+        <img class="label-ico" src="/public/Icons/excluir.ico" alt="" /> Excluir chamado
+      </button>
+      <p class="form-msg" id="cham-msg" style="display:none; margin-top:0.5rem;"></p>
     </main>
   </div>
 </div>
@@ -62,9 +77,20 @@
       var cat = document.getElementById('chamado-categoria');
       cat.textContent = (c.tipo || '').toUpperCase();
       cat.className = 'badge ' + (c.status === 'RESOLVIDO' ? 'concluida' : (c.status === 'EM_ANDAMENTO' ? 'andamento' : 'pendente'));
-      document.getElementById('chamado-retiro').textContent = c.retiro_id || '—';
+      document.getElementById('chamado-retiro').textContent = c.retiro_nome || c.retiro_id || '—';
+      document.getElementById('chamado-capataz').textContent = c.capataz_nome || '—';
       document.getElementById('chamado-data').textContent = (c.criado_em || '').slice(0,16).replace('T',' ');
       document.getElementById('chamado-descricao').textContent = c.descricao || '—';
+
+      if (c.audio_base64) {
+        document.getElementById('chamado-audio-box').style.display = 'block';
+        document.getElementById('chamado-audio').src = c.audio_base64;
+      }
+      if (c.foto_base64) {
+        document.getElementById('chamado-foto-box').style.display = 'block';
+        var src = c.foto_base64.indexOf('data:') === 0 ? c.foto_base64 : ('data:image/jpeg;base64,' + c.foto_base64);
+        document.getElementById('chamado-foto').src = src;
+      }
 
       if (c.latitude && c.longitude) {
         document.getElementById('chamado-gps-box').style.display = 'block';
@@ -88,6 +114,51 @@
         document.getElementById('resol-solucao').textContent = c.solucao_resolucao || '—';
       }
     });
+
+  // Botão Excluir: só Gerente ADM
+  fetch('/api/auth/me', { credentials: 'same-origin' })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.usuario && data.usuario.perfil === 'Gerente' && data.usuario.is_admin) {
+        var btn = document.getElementById('btn-excluir-chamado');
+        if (btn) {
+          btn.style.display = '';
+          btn.addEventListener('click', excluirChamado);
+        }
+      }
+    })
+    .catch(function() {});
+
+  function excluirChamado() {
+    if (!CHAMADO_ID) return;
+    if (!confirm('Tem certeza que deseja EXCLUIR este chamado? Essa ação não pode ser desfeita.')) return;
+    var btn = document.getElementById('btn-excluir-chamado');
+    btn.disabled = true;
+    btn.textContent = '⏳ Excluindo...';
+    fetch('/api/admin/chamados/' + encodeURIComponent(CHAMADO_ID), {
+      method: 'DELETE', credentials: 'same-origin'
+    })
+      .then(function(r) { return r.json().then(function(d){ return { ok: r.ok, data: d }; }); })
+      .then(function(res) {
+        var msg = document.getElementById('cham-msg');
+        if (!res.ok) {
+          btn.disabled = false;
+          btn.innerHTML = '🗑️ Excluir chamado';
+          msg.textContent = '❌ ' + (res.data.erro || 'Erro ao excluir.');
+          msg.className = 'form-msg erro';
+          msg.style.display = 'block';
+          return;
+        }
+        msg.textContent = '🗑️ Chamado excluído. Redirecionando...';
+        msg.className = 'form-msg sucesso';
+        msg.style.display = 'block';
+        setTimeout(function() { window.location.href = '/historico'; }, 1200);
+      })
+      .catch(function() {
+        btn.disabled = false;
+        btn.innerHTML = '🗑️ Excluir chamado';
+      });
+  }
 </script>
 
 <%- include('partials/footer') %>

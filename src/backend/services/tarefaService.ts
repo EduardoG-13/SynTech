@@ -17,7 +17,7 @@ class TarefaService {
       throw new Error('Usuário informado não é um Capataz válido.');
     }
     if (capataz.retiro_id !== dados.retiro_id) {
-      throw new Error('RN01: Capataz não pertence ao retiro informado.');
+      throw new Error('O capataz não pertence ao retiro informado.');
     }
 
     return await tarefaRepository.criar(dados);
@@ -53,20 +53,20 @@ class TarefaService {
   async anexarEvidencia(tarefa_id, capataz_id, dados) {
     const tarefa = await tarefaRepository.buscarPorId(tarefa_id);
     if (!tarefa || tarefa.capataz_id !== capataz_id) {
-      throw new Error('RN05: Tarefa não encontrada ou não pertence ao capataz.');
+      throw new Error('Tarefa não encontrada ou não pertence ao capataz.');
     }
 
     if (dados.arquivo_base64 != null) {
       // Remove prefixo data URI do navegador (ex: "data:image/png;base64,") antes de validar
       const payload = dados.arquivo_base64.replace(/^data:[^;]+;base64,/, '');
 
-      // RN05: estrutura deve ser base64 válido (apenas chars permitidos)
+      // estrutura deve ser base64 válido (apenas chars permitidos)
       if (!/^[A-Za-z0-9+/]+=*$/.test(payload)) {
-        throw new Error('RN05: arquivo_base64 contém caracteres inválidos.');
+        throw new Error('O arquivo enviado não está em formato válido.');
       }
-      // RN05: tamanho máximo 5 MB em binário (~6,990,507 chars em base64)
+      // tamanho máximo 5 MB em binário (~6,990,507 chars em base64)
       if (payload.length > 6_990_507) {
-        throw new Error('RN05: arquivo_base64 excede o tamanho máximo permitido (5 MB).');
+        throw new Error('O arquivo enviado é muito grande (máximo 5 MB).');
       }
 
       dados.arquivo_base64 = payload;

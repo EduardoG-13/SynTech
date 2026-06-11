@@ -79,7 +79,8 @@ export class ViewRoutes {
       const capataz_id = sess.id;
       const retiro_id = sess.retiro_id || '';
       const retiro = sess.retiro_id || 'Geral';
-      res.render('novo-chamado', { perfil, retiro, capataz_id, retiro_id });
+      const nome = sess.nome || '';
+      res.render('novo-chamado', { perfil, retiro, capataz_id, retiro_id, nome });
     });
 
     // Painel de Infraestrutura (US06/US07)
@@ -97,14 +98,14 @@ export class ViewRoutes {
         // Outros perfis veem read-only
         return res.redirect('/chamado/' + req.params.id);
       }
-      res.render('chamado-resolver', { perfil: sess.perfil, retiro: sess.retiro_id || 'Geral', chamadoId: req.params.id });
+      res.render('chamado-resolver', { perfil: sess.perfil, retiro: sess.retiro_id || 'Geral', nome: sess.nome || '', chamadoId: req.params.id });
     });
 
     // Tela read-only de chamado (Gerente, Coordenador, Capataz)
     this.router.get('/chamado/:id', (req: Request, res: Response) => {
       const sess = (req.session as any)?.usuario;
       if (!sess) return res.redirect('/');
-      res.render('chamado-detalhe', { perfil: sess.perfil, retiro: sess.retiro_id || 'Geral', chamadoId: req.params.id });
+      res.render('chamado-detalhe', { perfil: sess.perfil, retiro: sess.retiro_id || 'Geral', nome: sess.nome || '', chamadoId: req.params.id });
     });
 
     // Boletas / Movimentações — exclusivo do Coordenador (US11/US12)
@@ -117,7 +118,7 @@ export class ViewRoutes {
           perfilNecessario: 'Coordenador',
         });
       }
-      res.render('boletas', { perfil: sess.perfil, retiro: sess.retiro_id || 'Geral' });
+      res.render('boletas', { perfil: sess.perfil, retiro: sess.retiro_id || 'Geral', nome: sess.nome || '' });
     });
 
     // Nova boleta zootécnica (US05/RF007)

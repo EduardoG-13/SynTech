@@ -9,7 +9,7 @@
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
       <div class="user-avatar"><img src="/public/Icons/<%= perfil === 'Gerente' ? 'gerente' : (perfil === 'Coordenador' ? 'coordenador' : (perfil === 'Infraestrutura' ? 'infra' : 'capataz')) %>.ico" alt="<%= perfil %>" style="width:32px;height:32px;object-fit:contain;" /></div>
       <h1>Histórico</h1>
-      <div class="sub"><%= perfil %></div>
+      <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %></div>
     </div>
 
     <main class="tarefas-main">
@@ -17,10 +17,10 @@
       <!-- Abas: Boletas | Chamados (Infra só vê Chamados; Capataz só vê Boletas) -->
       <div class="filter-pills" id="abas-hist">
         <% if (perfil !== 'Infraestrutura') { %>
-          <button class="pill active" data-aba="boletas">📝 Boletas</button>
+          <button class="pill active" data-aba="boletas"><img class="ico-md" src="/public/Icons/movimentacao.ico" alt="" /> Boletas</button>
         <% } %>
         <% if (perfil !== 'Capataz') { %>
-          <button class="pill <%= perfil === 'Infraestrutura' ? 'active' : '' %>" data-aba="chamados">🛠️ Chamados</button>
+          <button class="pill <%= perfil === 'Infraestrutura' ? 'active' : '' %>" data-aba="chamados"><img class="ico-md" src="/public/Icons/infra.ico" alt="" /> Chamados</button>
         <% } %>
       </div>
 
@@ -29,22 +29,45 @@
         <div class="card-filtros" style="background:#fff; border:1px solid #d7dfd3; border-radius:12px; padding:1rem; margin-bottom:1rem;">
           <div class="export-datas">
             <div class="export-data-field">
-              <label class="export-field-label">📍 Retiro</label>
+              <label class="export-field-label"><img class="ico-sm" src="/public/Icons/localizacao.ico" alt="" /> Retiro</label>
               <select id="filtro-retiro"><option value="">Todos</option></select>
             </div>
+            <div class="export-data-field" id="campo-filtro-tipo">
+              <label class="export-field-label"><img class="ico-sm" src="/public/Icons/movimentacao.ico" alt="" /> Tipo</label>
+              <select id="filtro-tipo">
+                <option value="">Todos</option>
+                <option value="nascimento">Nascimento</option>
+                <option value="obito">Óbito</option>
+                <option value="transferencia">Transferência</option>
+                <option value="compravenda">Compra/Venda</option>
+                <option value="manejo">Manejo</option>
+              </select>
+            </div>
+            <div class="export-data-field" id="campo-filtro-status">
+              <label class="export-field-label"><img class="ico-sm" src="/public/Icons/concluido.ico" alt="" /> Status</label>
+              <select id="filtro-status">
+                <option value="">Todos</option>
+                <option value="aprovada">Aprovadas</option>
+                <option value="pendente">Pendentes</option>
+              </select>
+            </div>
             <div class="export-data-field">
-              <label class="export-field-label">📅 De</label>
+              <label class="export-field-label"><img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> De</label>
               <input type="date" id="filtro-data-ini" />
             </div>
             <div class="export-data-field">
-              <label class="export-field-label">📅 Até</label>
+              <label class="export-field-label"><img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> Até</label>
               <input type="date" id="filtro-data-fim" />
             </div>
           </div>
-          <button type="button" id="btn-aplicar-filtros" class="btn-primario" style="margin-top:0.75rem;">🔎 Aplicar filtros</button>
-          <% if (perfil === 'Coordenador') { %>
-            <button type="button" id="btn-exportar-historico" class="btn-secundario-laranja" style="margin-top:0.75rem;">⬇️ Exportar planilha (CSV)</button>
-          <% } %>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.75rem;">
+            <button type="button" id="btn-aplicar-filtros" class="btn-primario"><img class="label-ico" src="/public/Icons/lupa.ico" alt="" /> Aplicar filtros</button>
+            <button type="button" id="btn-limpar-filtros" class="btn-secundario-laranja">🧹 Limpar</button>
+            <% if (perfil === 'Coordenador') { %>
+              <button type="button" id="btn-exportar-xlsx" class="btn-secundario-laranja">📊 Exportar XLSX</button>
+              <button type="button" id="btn-exportar-csv" class="btn-secundario-laranja" style="background:#5C6B5D; color:#fff;">📄 Exportar CSV</button>
+            <% } %>
+          </div>
         </div>
       <% } %>
 
@@ -68,19 +91,46 @@
     if (PERFIL === 'Gerente' || PERFIL === 'Coordenador') {
       carregarRetiros();
       document.getElementById('btn-aplicar-filtros').addEventListener('click', carregar);
-      var btnExp = document.getElementById('btn-exportar-historico');
-      if (btnExp) btnExp.addEventListener('click', exportar);
+      document.getElementById('btn-limpar-filtros').addEventListener('click', limparFiltros);
+      var btnXlsx = document.getElementById('btn-exportar-xlsx');
+      if (btnXlsx) btnXlsx.addEventListener('click', function() { exportar('xlsx'); });
+      var btnCsv = document.getElementById('btn-exportar-csv');
+      if (btnCsv) btnCsv.addEventListener('click', function() { exportar('csv'); });
+      ajustarFiltrosPorAba();
     }
     document.querySelectorAll('#abas-hist .pill').forEach(function(btn) {
       btn.addEventListener('click', function() {
         document.querySelectorAll('#abas-hist .pill').forEach(function(b){b.classList.remove('active');});
         btn.classList.add('active');
         ABA_ATIVA = btn.dataset.aba;
+        ajustarFiltrosPorAba();
         carregar();
       });
     });
     carregar();
   });
+
+  // Tipo e Status só fazem sentido pra boletas; aba "Chamados" esconde
+  function ajustarFiltrosPorAba() {
+    var campoTipo = document.getElementById('campo-filtro-tipo');
+    var campoStatus = document.getElementById('campo-filtro-status');
+    if (!campoTipo || !campoStatus) return;
+    var ehBoletas = ABA_ATIVA === 'boletas';
+    campoTipo.style.display = ehBoletas ? '' : 'none';
+    campoStatus.style.display = ehBoletas ? '' : 'none';
+  }
+
+  function limparFiltros() {
+    ['filtro-retiro', 'filtro-tipo', 'filtro-status'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    ['filtro-data-ini', 'filtro-data-fim'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    carregar();
+  }
 
   function carregarRetiros() {
     fetch('/api/dashboard/retiros', { credentials: 'same-origin' })
@@ -96,9 +146,13 @@
   function montarParams() {
     var p = new URLSearchParams();
     var ret = document.getElementById('filtro-retiro');
+    var tipo = document.getElementById('filtro-tipo');
+    var status = document.getElementById('filtro-status');
     var ini = document.getElementById('filtro-data-ini');
     var fim = document.getElementById('filtro-data-fim');
     if (ret && ret.value) p.set('retiro_id', ret.value);
+    if (tipo && tipo.value && ABA_ATIVA === 'boletas') p.set('tipo', tipo.value);
+    if (status && status.value && ABA_ATIVA === 'boletas') p.set('status', status.value);
     if (ini && ini.value) p.set('data_inicio', ini.value);
     if (fim && fim.value) p.set('data_fim', fim.value);
     return p.toString();
@@ -177,11 +231,18 @@
     }).join('');
   }
 
-  function exportar() {
+  function exportar(formato) {
+    formato = formato || 'xlsx';
     var qs = montarParams();
-    var tipos = ['nascimento', 'obito', 'transferencia', 'compravenda'];
     var p = new URLSearchParams(qs);
-    p.set('tipos', tipos.join(','));
+    p.set('formato', formato);
+    // Se o filtro tipo foi escolhido, exporta só ele; senão, todos
+    var tipoSel = document.getElementById('filtro-tipo');
+    if (tipoSel && tipoSel.value) {
+      p.set('tipos', tipoSel.value);
+    } else {
+      p.set('tipos', ['nascimento', 'obito', 'transferencia', 'compravenda', 'manejo'].join(','));
+    }
     window.location.href = '/api/coordenador/exportar?' + p.toString();
   }
 </script>

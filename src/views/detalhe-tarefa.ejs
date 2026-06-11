@@ -10,7 +10,7 @@
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
       <div class="user-avatar"><img src="/public/Icons/capataz.ico" alt="Capataz" style="width:32px;height:32px;object-fit:contain;" /></div>
       <h1>Detalhe da Tarefa</h1>
-      <div class="sub"><%= retiro %> (<%= perfil %>)</div>
+      <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %> · <%= retiro %></div>
     </div>
 
     <main class="detalhe-main">
@@ -25,11 +25,11 @@
 
       <!-- Descrição -->
       <div class="card detalhe-bloco">
-        <h3>📝 Descrição</h3>
+        <h3><img class="label-ico" src="/public/Icons/editar.ico" alt="" /> Descrição</h3>
         <p id="tarefa-descricao">Reparar a cerca quebrada no setor norte do pasto. Verificar mourões e esticadores.</p>
         <div class="detalhe-meta">
           <span class="prioridade alta">● Prioridade Alta</span>
-          <span class="retiro-tag">📍 <%= retiro %></span>
+          <span class="retiro-tag"><img class="ico-sm" src="/public/Icons/localizacao.ico" alt="" /> <%= retiro %></span>
         </div>
       </div>
 
@@ -63,7 +63,7 @@
 
         <!-- Anotações (texto OU áudio) -->
         <div class="card detalhe-bloco">
-          <h3>📝 Anotações</h3>
+          <h3><img class="label-ico" src="/public/Icons/editar.ico" alt="" /> Anotações</h3>
           <textarea id="anotacoes" rows="3" placeholder="Escreva ou grave um áudio (opcional)"></textarea>
 
           <div class="audio-rec">
@@ -195,16 +195,35 @@
       mostrarMsg('📷 Anexe ao menos uma foto, anotação ou áudio para concluir.', 'erro');
       return;
     }
-    var payload = {
-      tarefa_id: TAREFA_ID,
-      anotacoes: document.getElementById('anotacoes').value || '',
-      anotacoes_audio: audioBase64 || '',
-      tem_foto: foto.files.length > 0
-    };
-    // TODO: integração com POST real (/api/tarefas/:id/concluir) — cards #267/#268
-    console.log('Conclusão da tarefa:', payload);
-    mostrarMsg('✅ Tarefa concluída! (integração com API pendente)', 'sucesso');
-    setTimeout(function() { window.history.back(); }, 1800);
+    var btn = document.getElementById('btn-concluir');
+    if (btn) { btn.disabled = true; btn.textContent = '⏳ Concluindo...'; }
+
+    // PATCH real no endpoint /api/tarefas/:id/concluir
+    fetch('/api/auth/me', { credentials: 'same-origin' })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var capatazId = (data && data.usuario && data.usuario.id) || '';
+        return fetch('/api/tarefas/' + encodeURIComponent(TAREFA_ID) + '/concluir', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ capataz_id: capatazId })
+        });
+      })
+      .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
+      .then(function(res) {
+        if (!res.ok) {
+          if (btn) { btn.disabled = false; btn.textContent = '✅ Concluir tarefa'; }
+          mostrarMsg('❌ ' + (res.data.erro || 'Erro ao concluir.'), 'erro');
+          return;
+        }
+        mostrarMsg('✅ Tarefa concluída!', 'sucesso');
+        setTimeout(function() { window.location.href = '/tarefas'; }, 1500);
+      })
+      .catch(function() {
+        if (btn) { btn.disabled = false; btn.textContent = '✅ Concluir tarefa'; }
+        mostrarMsg('❌ Erro de conexão. Tente novamente.', 'erro');
+      });
   });
 </script>
 

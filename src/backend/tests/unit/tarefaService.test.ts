@@ -138,10 +138,10 @@ describe('TarefaService', () => {
         capataz_id: 'mock-capataz-id-0002',
       });
 
-      // Act & Assert
+      // Act & Assert — tarefa que não pertence ao capataz logado
       await expect(
         tarefaService.anexarEvidencia(TAREFA_ID, CAPATAZ_ID, { tipo: 'FOTO', arquivo_base64: BASE64_VALIDO })
-      ).rejects.toThrow('RN05');
+      ).rejects.toThrow('Tarefa não encontrada ou não pertence');
       expect(mockTarefaRepo.salvarEvidencia).not.toHaveBeenCalled();
     });
 
@@ -153,7 +153,7 @@ describe('TarefaService', () => {
       // Act & Assert
       await expect(
         tarefaService.anexarEvidencia(TAREFA_ID, CAPATAZ_ID, dados)
-      ).rejects.toThrow('tamanho máximo');
+      ).rejects.toThrow('muito grande');
       expect(mockTarefaRepo.salvarEvidencia).not.toHaveBeenCalled();
     });
 
@@ -165,7 +165,7 @@ describe('TarefaService', () => {
       // Act & Assert
       await expect(
         tarefaService.anexarEvidencia(TAREFA_ID, CAPATAZ_ID, dados)
-      ).rejects.toThrow('caracteres inválidos');
+      ).rejects.toThrow('formato válido');
       expect(mockTarefaRepo.salvarEvidencia).not.toHaveBeenCalled();
     });
 
@@ -194,10 +194,10 @@ describe('TarefaService', () => {
       // Arrange
       const dados = { tipo: 'FOTO', arquivo_base64: '', geolocalizacao: null };
 
-      // Act & Assert
+      // Act & Assert — string vazia também é considerada inválida
       await expect(
         tarefaService.anexarEvidencia(TAREFA_ID, CAPATAZ_ID, dados)
-      ).rejects.toThrow('caracteres inválidos');
+      ).rejects.toThrow('formato válido');
       expect(mockTarefaRepo.salvarEvidencia).not.toHaveBeenCalled();
     });
 

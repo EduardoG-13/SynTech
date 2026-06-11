@@ -1,5 +1,6 @@
 <%- include('partials/header') %>
 <link rel="stylesheet" href="/public/css/chamado.css" />
+<link rel="stylesheet" href="/public/css/nova-os.css" />
 
 <div id="device" class="logged">
   <%- include('partials/sidebar') %>
@@ -8,7 +9,7 @@
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
       <div class="user-avatar"><img src="/public/Icons/<%= perfil === 'Capataz' ? 'capataz' : 'infra' %>.ico" alt="<%= perfil %>" style="width:32px;height:32px;object-fit:contain;" /></div>
       <h1>Abrir Chamado</h1>
-      <div class="sub">Infraestrutura — <%= perfil %></div>
+      <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %></div>
     </div>
 
     <main class="chamado-main">
@@ -18,24 +19,40 @@
       <form id="form-novo-chamado" class="form-novo-chamado">
 
         <div class="card-resolucao">
-          <label class="label-bold">🛠️ Tipo de problema</label>
-          <select id="tipo-ocorrencia" name="tipo" required>
-            <option value="">Selecione o tipo de problema</option>
-            <option value="hidraulica">💧 Hidráulica (bebedouro, encanamento)</option>
-            <option value="eletrica">⚡ Elétrica (energia, painel)</option>
-            <option value="cerca">🪵 Cerca (mourão, arame)</option>
-            <option value="outro">📋 Outro</option>
-          </select>
+          <label class="label-bold"><img class="label-ico" src="/public/Icons/infra.ico" alt="" /> Tipo de problema</label>
+          <div class="operacao-grid" id="tipo-grid">
+            <button type="button" class="op-card" data-tipo="hidraulica">
+              <img class="op-card-ico" src="/public/Icons/hidraulica.ico" alt="" />
+              <span class="op-card-label">Hidráulica</span>
+              <span class="op-card-sub">bebedouro, encanamento</span>
+            </button>
+            <button type="button" class="op-card" data-tipo="eletrica">
+              <img class="op-card-ico" src="/public/Icons/eletrica.ico" alt="" />
+              <span class="op-card-label">Elétrica</span>
+              <span class="op-card-sub">energia, painel</span>
+            </button>
+            <button type="button" class="op-card" data-tipo="cerca">
+              <img class="op-card-ico" src="/public/Icons/cerca.ico" alt="" />
+              <span class="op-card-label">Cerca</span>
+              <span class="op-card-sub">mourão, arame</span>
+            </button>
+            <button type="button" class="op-card" data-tipo="outro">
+              <img class="op-card-ico" src="/public/Icons/alerta.ico" alt="" />
+              <span class="op-card-label">Outro</span>
+              <span class="op-card-sub">qualquer outro problema</span>
+            </button>
+          </div>
+          <input type="hidden" id="tipo-ocorrencia" name="tipo" required />
         </div>
 
         <div class="card-resolucao">
-          <label class="label-bold" for="descricao">📝 Descreva o problema</label>
+          <label class="label-bold" for="descricao"><img class="label-ico" src="/public/Icons/editar.ico" alt="" /> Descreva o problema</label>
           <p class="ajuda">Mínimo 10 caracteres. Seja claro sobre o que aconteceu.</p>
           <textarea id="descricao" name="descricao" rows="4" placeholder="Ex: Bebedouro com vazamento no pasto 4, gado sem água..." minlength="10" required></textarea>
         </div>
 
         <div class="card-resolucao">
-          <label class="label-bold">🎙️ Áudio (opcional)</label>
+          <label class="label-bold"><img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" /> Áudio (opcional)</label>
           <p class="ajuda">Grave detalhes em áudio se preferir não digitar.</p>
           <button type="button" class="btn-audio" id="btn-gravar-audio">
             <img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" />
@@ -46,8 +63,8 @@
         </div>
 
         <div class="card-resolucao">
-          <label class="label-bold">📍 Localização GPS</label>
-          <p id="gps-status" class="gps-status-text">🛰️ Capturando localização...</p>
+          <label class="label-bold"><img class="label-ico" src="/public/Icons/GPS.ico" alt="" /> Localização GPS</label>
+          <p id="gps-status" class="gps-status-text"><img class="ico-sm" src="/public/Icons/GPS.ico" alt="" /> Capturando localização...</p>
           <input id="latitude" name="latitude" type="hidden" />
           <input id="longitude" name="longitude" type="hidden" />
           <input id="capataz_id" name="capataz_id" type="hidden" value="<%= typeof capataz_id !== 'undefined' ? capataz_id : '' %>" />
@@ -55,13 +72,13 @@
         </div>
 
         <div class="card-resolucao">
-          <label class="label-bold" for="local-referencia">🗺️ Local / Referência (texto)</label>
+          <label class="label-bold" for="local-referencia"><img class="label-ico" src="/public/Icons/bussola_direcao_guia.ico" alt="" /> Local / Referência (texto)</label>
           <p class="ajuda">Ajuda a Infra encontrar o local. Ex: "Pasto 4, perto do bebedouro velho".</p>
           <input id="local-referencia" name="local_referencia" type="text" placeholder="Onde está o problema?" />
         </div>
 
         <div class="card-resolucao">
-          <label class="label-bold">📷 Foto / evidência (opcional)</label>
+          <label class="label-bold"><img class="label-ico" src="/public/Icons/tira_foto.ico" alt="" /> Foto / evidência (opcional)</label>
           <div class="upload-foto">
             <label for="foto" class="upload-label">
               <img class="upload-icon-img" src="/public/Icons/tira_foto.ico" alt="" />
@@ -84,6 +101,20 @@
 </div>
 
 <script src="/public/js/chamados.js"></script>
+<script>
+  // Grid de cards do tipo de problema → preenche input hidden #tipo-ocorrencia
+  (function() {
+    var grid = document.getElementById('tipo-grid');
+    if (!grid) return;
+    grid.querySelectorAll('.op-card').forEach(function(card) {
+      card.addEventListener('click', function() {
+        grid.querySelectorAll('.op-card').forEach(function(c) { c.classList.remove('active'); });
+        card.classList.add('active');
+        document.getElementById('tipo-ocorrencia').value = card.dataset.tipo;
+      });
+    });
+  })();
+</script>
 <script>
   // Áudio + preview de foto + submit
   (function() {

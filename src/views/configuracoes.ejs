@@ -16,19 +16,19 @@
       <!-- Abas -->
       <div class="config-abas">
         <button class="aba active" data-aba="retiros"><img class="label-ico" src="/public/Icons/home.ico" alt="" /> Retiros</button>
-        <button class="aba" data-aba="usuarios">👥 Usuários</button>
+        <button class="aba" data-aba="usuarios"><img class="label-ico" src="/public/Icons/capataz.ico" alt="" /> Usuários</button>
       </div>
 
       <!-- Aviso de acesso -->
       <div class="config-aviso" id="config-aviso" style="display:none;">
-        🔒 Acesso restrito. Faça login como <strong>Gerente</strong> para gerenciar.
+        <img class="ico-sm" src="/public/Icons/acesso_restrito.ico" alt="" /> Acesso restrito. Faça login como <strong>Gerente</strong> para gerenciar.
       </div>
 
       <!-- ================= ABA RETIROS ================= -->
       <section class="aba-conteudo" id="conteudo-retiros">
 
         <div class="card-config">
-          <h2>➕ Novo retiro</h2>
+          <h2><img class="label-ico" src="/public/Icons/localizacao.ico" alt="" /> Novo retiro</h2>
           <form id="form-retiro" class="grid-form">
             <input type="hidden" id="ret-id" />
             <div>
@@ -52,14 +52,14 @@
               <select id="ret-coord"><option value="">— Sem coordenador —</option></select>
             </div>
             <div class="form-acoes">
-              <button type="submit" class="btn-salvar" id="ret-btn-salvar">💾 Salvar retiro</button>
+              <button type="submit" class="btn-salvar" id="ret-btn-salvar"><img class="label-ico" src="/public/Icons/salvar.ico" alt="" /> Salvar retiro</button>
               <button type="button" class="btn-cancelar" id="ret-btn-cancelar" style="display:none;">Cancelar</button>
             </div>
           </form>
         </div>
 
         <div class="card-config">
-          <h2>📋 Retiros cadastrados</h2>
+          <h2><img class="label-ico" src="/public/Icons/tarefas.ico" alt="" /> Retiros cadastrados</h2>
           <div id="lista-retiros-admin" class="lista-admin"></div>
         </div>
 
@@ -69,7 +69,7 @@
       <section class="aba-conteudo" id="conteudo-usuarios" style="display:none;">
 
         <div class="card-config">
-          <h2>➕ Novo usuário</h2>
+          <h2><img class="label-ico" src="/public/Icons/capataz.ico" alt="" /> Novo usuário</h2>
           <form id="form-usuario" class="grid-form">
             <input type="hidden" id="usr-id" />
             <div>
@@ -97,19 +97,19 @@
             <div id="usr-admin-wrap" style="display:none;">
               <label style="display:flex; align-items:center; gap:0.5rem;">
                 <input type="checkbox" id="usr-is-admin" />
-                <span>🛡️ Administrador (acessa Configurações)</span>
+                <span><img class="ico-sm" src="/public/Icons/bloqueado.ico" alt="" /> Administrador (acessa Configurações)</span>
               </label>
               <small style="color:#5c6b5d;">Marque para conceder acesso à tela de Configurações.</small>
             </div>
             <div class="form-acoes">
-              <button type="submit" class="btn-salvar" id="usr-btn-salvar">💾 Salvar usuário</button>
+              <button type="submit" class="btn-salvar" id="usr-btn-salvar"><img class="label-ico" src="/public/Icons/salvar.ico" alt="" /> Salvar usuário</button>
               <button type="button" class="btn-cancelar" id="usr-btn-cancelar" style="display:none;">Cancelar</button>
             </div>
           </form>
         </div>
 
         <div class="card-config">
-          <h2>👥 Usuários cadastrados</h2>
+          <h2><img class="label-ico" src="/public/Icons/capataz.ico" alt="" /> Usuários cadastrados</h2>
           <div id="lista-usuarios-admin" class="lista-admin"></div>
         </div>
 

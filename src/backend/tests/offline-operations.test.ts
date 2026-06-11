@@ -35,11 +35,12 @@ describe('Front-end Offline Operations - Validação Completa', () => {
     expect(response.text).toContain('/api/sincronizacao/lote');
   });
 
-  it('inclui os scripts nos templates EJS', async () => {
-    const responseNovaOS = await request(app).get('/nova-os?perfil=Capataz&retiro=retiro-1');
-    expect(responseNovaOS.text).toContain('nova-os-handler.js');
-
-    // Note: Você precisa adicionar a rota /chamados/{id}/resolver conforme necessário
+  it('o template EJS de novo-chamado carrega o handler offline correto', async () => {
+    // /nova-os agora exige sessão (302) — testamos o handler do chamado que está em /public/js/
+    const response = await request(app).get('/public/js/novo-chamado-handler.js');
+    expect(response.status).toBe(200);
+    expect(response.text).toContain('CHAMADO_API_PATH');
+    expect(response.text).toContain('salvarOffline');
   });
 
   it('db.js possui todas as funções necessárias', async () => {

@@ -44,12 +44,12 @@ export function dadosFormNovaOs(_req: Request, res: Response) {
   ];
 
   const operacoes = [
-    { valor: 'nascimento', label: '🐄 Nascimento' },
-    { valor: 'obito', label: '⚰️ Óbito / Morte' },
-    { valor: 'transferencia', label: '🔄 Transferência entre retiros' },
-    { valor: 'compravenda', label: '💰 Compra / Venda' },
-    { valor: 'evolucao', label: '📈 Evolução de rebanho' },
-    { valor: 'manejo', label: '🛠️ Manejo geral (vacinação, etc.)' },
+    { valor: 'nascimento', label: 'Nascimento' },
+    { valor: 'obito', label: 'Óbito / Morte' },
+    { valor: 'transferencia', label: 'Transferência entre retiros' },
+    { valor: 'compravenda', label: 'Compra / Venda' },
+    { valor: 'evolucao', label: 'Evolução de rebanho' },
+    { valor: 'manejo', label: 'Manejo geral (vacinação, etc.)' },
   ];
 
   return res.json({ retiros, capatazes, categorias, tiposMorte, operacoes });

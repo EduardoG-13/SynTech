@@ -8,7 +8,7 @@
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
       <div class="user-avatar"><img src="/public/Icons/<%= perfil === 'Gerente' ? 'gerente' : (perfil === 'Coordenador' ? 'coordenador' : (perfil === 'Infraestrutura' ? 'infra' : 'capataz')) %>.ico" alt="<%= perfil %>" style="width:32px;height:32px;object-fit:contain;" /></div>
       <h1>Nova Boleta</h1>
-      <div class="sub"><%= retiro %> (<%= perfil %>)</div>
+      <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %> · <%= retiro %></div>
     </div>
 
     <main class="form-main">
@@ -17,20 +17,19 @@
 
       <form id="form-nova-os">
 
-        <!-- 1. Operação (sempre visível) -->
+        <!-- 1. Operação (sempre visível) — grid de cards com ícone -->
         <div class="card campo">
-          <label for="os-operacao"><img class="label-ico" src="/public/Icons/tarefas.ico" alt="" /> O que você quer registrar?</label>
-          <select id="os-operacao" required>
-            <option value="">👉 Toque para escolher</option>
-          </select>
+          <label><img class="label-ico" src="/public/Icons/tarefas.ico" alt="" /> O que você quer registrar?</label>
+          <div class="operacao-grid" id="operacao-grid"></div>
+          <input type="hidden" id="os-operacao" required />
         </div>
 
         <!-- ===================== TRANSFERÊNCIA ===================== -->
         <div class="card campo dinamico" data-op="transferencia">
-          <label>🧭 Direção da movimentação</label>
+          <label><img class="label-ico" src="/public/Icons/bussola_direcao_guia.ico" alt="" /> Direção da movimentação</label>
           <div class="toggle-pills">
-            <button type="button" class="pill active" data-tipo="envio">📤 Estou enviando</button>
-            <button type="button" class="pill" data-tipo="recebimento">📥 Estou recebendo</button>
+            <button type="button" class="pill active" data-tipo="envio"><img class="label-ico" src="/public/Icons/envio_animais_caixa.ico" alt="" /> Estou enviando</button>
+            <button type="button" class="pill" data-tipo="recebimento"><img class="label-ico" src="/public/Icons/entrada_animais_recebimento_compra.ico" alt="" /> Estou recebendo</button>
           </div>
           <p class="ajuda">⚠️ A boleta só é aprovada quando os dois retiros registram a mesma quantidade.</p>
         </div>
@@ -41,28 +40,28 @@
         </div>
 
         <div class="card campo dinamico" data-op="transferencia">
-          <label for="os-retiro-destino"><img class="label-ico" src="/public/Icons/localizacao.ico" alt="" /> Retiro de destino (para onde vai)</label>
+          <label for="os-retiro-destino"><img class="label-ico" src="/public/Icons/destido.ico" alt="" /> Retiro de destino (para onde vai)</label>
           <select id="os-retiro-destino"></select>
         </div>
 
         <div class="card campo dinamico" data-op="transferencia">
-          <label><img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Tipo de transporte</label>
+          <label><img class="label-ico" src="/public/Icons/caminhao_transporte_gado.ico" alt="" /> Tipo de transporte</label>
           <div class="toggle-pills">
-            <button type="button" class="pill active" data-transporte="rodoviario">🚛 Caminhão</button>
-            <button type="button" class="pill" data-transporte="comitiva">🐎 Comitiva</button>
+            <button type="button" class="pill active" data-transporte="rodoviario"><img class="label-ico" src="/public/Icons/caminhao_transporte_gado.ico" alt="" /> Caminhão</button>
+            <button type="button" class="pill" data-transporte="comitiva"><img class="label-ico" src="/public/Icons/comitiva_peao_a_cavalo.ico" alt="" /> Comitiva</button>
           </div>
         </div>
 
         <div class="card campo dinamico" data-op="transferencia" id="bloco-motorista">
-          <label for="os-motorista">👤 Motorista / Comissário</label>
+          <label for="os-motorista"><img class="label-ico" src="/public/Icons/capataz.ico" alt="" /> Motorista / Comissário</label>
           <input type="text" id="os-motorista" placeholder="Nome de quem leva os animais" />
           <div class="dois-campos">
             <div>
-              <label for="os-rgcpf">🪪 RG ou CPF</label>
+              <label for="os-rgcpf"><img class="label-ico" src="/public/Icons/identidade.ico" alt="" /> RG ou CPF</label>
               <input type="text" id="os-rgcpf" placeholder="Documento" />
             </div>
             <div>
-              <label for="os-placa">🔢 Placa</label>
+              <label for="os-placa"><img class="label-ico" src="/public/Icons/Placa_de_carro.ico" alt="" /> Placa</label>
               <input type="text" id="os-placa" placeholder="Placa do caminhão" />
             </div>
           </div>
@@ -78,11 +77,11 @@
         <div class="card campo dinamico" data-op="nascimento obito transferencia compravenda evolucao">
           <div class="dois-campos">
             <div>
-              <label for="os-pasto"><img class="label-ico" src="/public/Icons/localizacao.ico" alt="" /> Nº do pasto <span class="opcional-txt">(opcional)</span></label>
+              <label for="os-pasto"><img class="label-ico" src="/public/Icons/Pasto.ico" alt="" /> Nº do pasto <span class="opcional-txt">(opcional)</span></label>
               <input type="text" id="os-pasto" placeholder="Ex: Pasto 12" />
             </div>
             <div>
-              <label for="os-data">📅 Data</label>
+              <label for="os-data"><img class="label-ico" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> Data</label>
               <input type="date" id="os-data" />
             </div>
           </div>
@@ -94,14 +93,14 @@
           <div id="linhas-categoria"></div>
           <button type="button" class="btn-add" id="btn-add-categoria">➕ Adicionar outra categoria</button>
           <div class="total-linha">
-            <span>🧮 Total de animais:</span>
+            <span><img class="label-ico" src="/public/Icons/abaco_calculo_total.ico" alt="" /> Total de animais:</span>
             <strong id="total-animais">0</strong>
           </div>
         </div>
 
         <!-- ===================== EVOLUÇÃO (origem → destino) ===================== -->
         <div class="card campo dinamico" data-op="evolucao">
-          <label><img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Reclassificação de categoria</label>
+          <label><img class="label-ico" src="/public/Icons/evolucao.ico" alt="" /> Reclassificação de categoria</label>
           <p class="ajuda">Ex: bezerro que cresceu e virou garrote.</p>
           <div id="linhas-evolucao"></div>
           <button type="button" class="btn-add" id="btn-add-evolucao">➕ Adicionar outra evolução</button>
@@ -115,7 +114,7 @@
 
         <!-- ===================== ÓBITO: ID do animal + causa ===================== -->
         <div class="card campo dinamico destaque-obito" data-op="obito">
-          <label for="os-brinco">🏷️ Identificação do animal (brinco / RG)</label>
+          <label for="os-brinco"><img class="label-ico" src="/public/Icons/Brinco.ico" alt="" /> Identificação do animal (brinco / RG)</label>
           <input type="text" id="os-brinco" placeholder="Ex: Brinco 4471" />
         </div>
 
@@ -126,15 +125,15 @@
 
         <!-- ===================== COMPRA/VENDA ===================== -->
         <div class="card campo dinamico" data-op="compravenda">
-          <label>💰 Tipo de negócio</label>
+          <label><img class="label-ico" src="/public/Icons/cedula_dinheiro_bovino.ico" alt="" /> Tipo de negócio</label>
           <div class="toggle-pills">
-            <button type="button" class="pill active" data-negocio="compra">🛒 Compra</button>
-            <button type="button" class="pill" data-negocio="venda">🤝 Venda</button>
+            <button type="button" class="pill active" data-negocio="compra"><img class="label-ico" src="/public/Icons/carrinho_compras_gado.ico" alt="" /> Compra</button>
+            <button type="button" class="pill" data-negocio="venda"><img class="label-ico" src="/public/Icons/aperto_maos_acordo.ico" alt="" /> Venda</button>
           </div>
         </div>
 
         <div class="card campo dinamico" data-op="compravenda">
-          <label for="os-valor">💵 Valor total (R$)</label>
+          <label for="os-valor"><img class="label-ico" src="/public/Icons/cedula_dinheiro_bovino.ico" alt="" /> Valor total (R$)</label>
           <input type="number" id="os-valor" min="0" step="0.01" placeholder="0,00" />
         </div>
 
@@ -146,7 +145,7 @@
 
         <!-- ===================== OBSERVAÇÕES (texto OU áudio) ===================== -->
         <div class="card campo dinamico" data-op="nascimento obito transferencia compravenda evolucao manejo">
-          <label for="os-observacoes">📝 Observações</label>
+          <label for="os-observacoes"><img class="label-ico" src="/public/Icons/editar.ico" alt="" /> Observações</label>
           <textarea id="os-observacoes" rows="3" placeholder="Escreva ou grave um áudio (opcional)"></textarea>
 
           <div class="audio-rec">
@@ -436,14 +435,39 @@
     document.getElementById('total-animais').textContent = total;
   }
 
+  // Mapeia cada operação ao seu ícone temático
+  var ICO_OPERACAO = {
+    nascimento:    'nascimento',
+    obito:         'obto',
+    transferencia: 'movimentacao',
+    compravenda:   'cedula_dinheiro_bovino',
+    evolucao:      'evolucao',
+    manejo:        'tarefas'
+  };
+
   function carregarDados() {
     fetch('/api/dados/form-nova-os')
       .then(function(r) { return r.json(); })
       .then(function(d) {
-        var selOp = document.getElementById('os-operacao');
-        d.operacoes.forEach(function(o) {
-          selOp.insertAdjacentHTML('beforeend', '<option value="' + o.valor + '">' + o.label + '</option>');
-        });
+        var grid = document.getElementById('operacao-grid');
+        if (grid) {
+          grid.innerHTML = d.operacoes.map(function(o) {
+            var ico = ICO_OPERACAO[o.valor] || 'tarefas';
+            return '<button type="button" class="op-card" data-op="' + o.valor + '">' +
+              '<img class="op-card-ico" src="/public/Icons/' + ico + '.ico" alt="" />' +
+              '<span class="op-card-label">' + o.label + '</span>' +
+            '</button>';
+          }).join('');
+          grid.querySelectorAll('.op-card').forEach(function(card) {
+            card.addEventListener('click', function() {
+              grid.querySelectorAll('.op-card').forEach(function(c) { c.classList.remove('active'); });
+              card.classList.add('active');
+              var inp = document.getElementById('os-operacao');
+              inp.value = card.dataset.op;
+              inp.dispatchEvent(new Event('change'));
+            });
+          });
+        }
 
         var optsRetiro = d.retiros.map(function(r) {
           return '<option value="' + r.id + '">' + r.nome + '</option>';
@@ -467,7 +491,12 @@
   }
 
   function preselecionarRetiroLogado(retiros) {
-    var match = retiros.find(function(r) { return r.nome === RETIRO_LOGADO; });
+    var alvo = (RETIRO_LOGADO || '').trim().toLowerCase();
+    if (!alvo) return;
+    var match = retiros.find(function(r) {
+      return String(r.id).toLowerCase() === alvo
+          || String(r.nome).toLowerCase() === alvo;
+    });
     if (!match) return;
     ['os-retiro', 'os-retiro-origem'].forEach(function(id) {
       var sel = document.getElementById(id);
@@ -476,9 +505,9 @@
   }
 
   function configurarOperacao() {
-    var selOp = document.getElementById('os-operacao');
-    selOp.addEventListener('change', function() {
-      var op = selOp.value;
+    var inpOp = document.getElementById('os-operacao');
+    inpOp.addEventListener('change', function() {
+      var op = inpOp.value;
       document.querySelectorAll('.campo.dinamico').forEach(function(el) {
         var ops = el.getAttribute('data-op').split(' ');
         el.style.display = ops.indexOf(op) >= 0 ? 'block' : 'none';
@@ -608,6 +637,8 @@
       payload.pasto = document.getElementById('os-pasto').value;
       payload.brinco = document.getElementById('os-brinco').value;
       payload.causa = document.getElementById('os-causa').value;
+      var fotoObito = document.getElementById('os-foto');
+      payload.tem_foto = !!(fotoObito && fotoObito.files.length);
     } else if (op === 'evolucao') {
       payload.retiro = document.getElementById('os-retiro').value;
       payload.evolucoes = coletarEvolucoes();
@@ -620,8 +651,35 @@
     payload.observacoes = (document.getElementById('os-observacoes') || {}).value || '';
     payload.observacoes_audio = audioBase64 || ''; // áudio em base64 (data URL) para salvar no banco
 
-    console.log('Payload da boleta:', payload);
-    // Salva no banco (POST /api/boletas). Se houver editId, faz PUT no grupo.
+    // Lê a foto (óbito ou manejo) como base64 antes de enviar
+    var fotoFile = null;
+    if (op === 'obito') {
+      var fObito = document.getElementById('os-foto');
+      if (fObito && fObito.files.length) fotoFile = fObito.files[0];
+    } else if (op === 'manejo') {
+      var fManejo = document.getElementById('os-foto-manejo');
+      if (fManejo && fManejo.files.length) fotoFile = fManejo.files[0];
+    }
+
+    var lerFoto = fotoFile
+      ? new Promise(function(resolve) {
+          var r = new FileReader();
+          r.onload = function() { resolve(r.result); };
+          r.onerror = function() { resolve(''); };
+          r.readAsDataURL(fotoFile);
+        })
+      : Promise.resolve('');
+
+    lerFoto.then(function(fotoBase64) {
+      if (fotoBase64) {
+        payload.foto_base64 = fotoBase64;
+        payload.tem_foto = true;
+      }
+      enviarPayload(payload);
+    });
+  });
+
+  function enviarPayload(payload) {
     var editId = new URLSearchParams(window.location.search).get('edit');
     var url = editId ? '/api/boletas/' + encodeURIComponent(editId) : '/api/boletas';
     var metodo = editId ? 'PUT' : 'POST';
@@ -648,8 +706,7 @@
     .catch(function() {
       mostrarMsg('❌ Erro de conexão. Tente novamente.', 'erro');
     });
-  });
+  }
 </script>
-<script type="module" src="/public/js/nova-os-handler.js"></script>
 
 <%- include('partials/footer') %>
