@@ -53,10 +53,10 @@
           <div class="upload-foto-detalhe">
             <label for="foto-execucao" class="upload-label-detalhe">
               <img class="upload-icon-img" src="/public/Icons/tira_foto.ico" alt="" />
-              <span id="foto-txt">Tirar foto agora</span>
+              <span id="foto-txt">📷 Tirar foto ou escolher do celular</span>
             </label>
-            <!-- accept="image/*" + capture aciona a câmera nativa do celular -->
-            <input type="file" id="foto-execucao" accept="image/*" capture="environment" />
+            <!-- Sem 'capture' → no celular o browser pergunta "Câmera ou Arquivos" -->
+            <input type="file" id="foto-execucao" accept="image/*" />
           </div>
           <img id="foto-preview" class="foto-preview" alt="Pré-visualização" style="display:none;" />
         </div>

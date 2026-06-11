@@ -10,9 +10,9 @@ class AlertaRepository {
       const stmtInsert = db.prepare(`
         INSERT INTO alertas (
           id, tipo, descricao, status, capataz_id,
-          retiro_id, latitude, longitude, sincronizado
+          retiro_id, latitude, longitude, local_referencia, audio_base64, sincronizado
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)
       `);
       stmtInsert.run(
         id,
@@ -22,7 +22,9 @@ class AlertaRepository {
         alerta.capataz_id,
         alerta.retiro_id,
         alerta.latitude,
-        alerta.longitude
+        alerta.longitude,
+        alerta.local_referencia || null,
+        alerta.audio_base64 || null,
       );
 
       let fotoId = null;
@@ -78,23 +80,18 @@ class AlertaRepository {
     return row || null;
   }
 
-  async listar(status?: string): Promise<any[]> {
-    if (status) {
-      const stmt = db.prepare(`
-        SELECT *
-        FROM alertas
-        WHERE status = ?
-        ORDER BY criado_em DESC
-      `);
-      return stmt.all(status) as any[];
-    }
-
+  async listar(status?: string, tipo?: string): Promise<any[]> {
+    const conds: string[] = [];
+    const params: any[] = [];
+    if (status) { conds.push('status = ?'); params.push(status); }
+    if (tipo)   { conds.push('LOWER(tipo) = LOWER(?)'); params.push(tipo); }
+    const where = conds.length ? 'WHERE ' + conds.join(' AND ') : '';
     const stmt = db.prepare(`
-      SELECT *
-      FROM alertas
+      SELECT * FROM alertas
+      ${where}
       ORDER BY criado_em DESC
     `);
-    return stmt.all() as any[];
+    return stmt.all(...params) as any[];
   }
 
   async resolver(

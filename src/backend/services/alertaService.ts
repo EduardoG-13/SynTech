@@ -19,8 +19,10 @@ class AlertaService {
     return await alertaRepository.criar(dados);
   }
 
-  async listarChamados(status?: string) {
-    return await alertaRepository.listar(status);
+  async listarChamados(filtros?: { status?: string; tipo?: string } | string) {
+    if (typeof filtros === 'string') return await alertaRepository.listar(filtros);
+    if (filtros === undefined)        return await alertaRepository.listar();
+    return await alertaRepository.listar(filtros.status, filtros.tipo);
   }
 
   async resolverChamado(
@@ -30,8 +32,13 @@ class AlertaService {
     foto_base64: string
   ) {
     const usuario = await alertaRepository.buscarUsuarioPorId(tecnico_id);
-    if (!usuario || usuario.perfil !== 'Tecnico') {
-      throw new Error('ACESSO_NEGADO: Apenas técnicos podem resolver chamados');
+    // Aceita tanto 'Tecnico' (modelo antigo) quanto 'Infraestrutura' (novo perfil de sessão)
+    const perfisPermitidos = ['Tecnico', 'Infraestrutura'];
+    // O Capataz logado também não pode resolver, mas a Infra do login simplificado pode
+    if (!usuario && tecnico_id.startsWith('tecnico-')) {
+      // Login simplificado da Infra não persiste no banco — aceitar pelo padrão de id
+    } else if (!usuario || !perfisPermitidos.includes(usuario.perfil)) {
+      throw new Error('ACESSO_NEGADO: Apenas técnicos da infraestrutura podem resolver chamados');
     }
 
     const chamado = await alertaRepository.buscarPorId(id);

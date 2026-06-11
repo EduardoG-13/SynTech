@@ -1,0 +1,93 @@
+<%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/chamado.css" />
+
+<div id="device" class="logged">
+  <%- include('partials/sidebar') %>
+
+  <div id="app">
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar"><img src="/public/Icons/<%= perfil === 'Gerente' ? 'gerente' : (perfil === 'Coordenador' ? 'coordenador' : (perfil === 'Capataz' ? 'capataz' : 'infra')) %>.ico" alt="<%= perfil %>" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <h1>Detalhe do Chamado</h1>
+      <div class="sub"><%= perfil %> · somente leitura</div>
+    </div>
+
+    <main class="chamado-main">
+      <button type="button" class="btn-voltar" onclick="window.history.back()">⬅️ Voltar</button>
+
+      <div class="card-chamado">
+        <div class="card-chamado-header">
+          <div class="card-chamado-icone"><img src="/public/Icons/infra.ico" alt="" /></div>
+          <div>
+            <h2 id="chamado-titulo">Carregando...</h2>
+            <span class="badge" id="chamado-categoria">—</span>
+          </div>
+        </div>
+        <div class="card-chamado-meta">
+          <div><strong>📍 Retiro:</strong> <span id="chamado-retiro">—</span></div>
+          <div><strong>📅 Aberto em:</strong> <span id="chamado-data">—</span></div>
+          <div><strong>📝 Descrição:</strong> <span id="chamado-descricao">—</span></div>
+          <div id="chamado-gps-box" style="display:none;">
+            <strong>🛰️ GPS:</strong>
+            <a id="chamado-gps-link" href="#" target="_blank" rel="noopener" style="color:#1A4D2E; text-decoration:underline;">—</a>
+          </div>
+          <div id="chamado-local-box" style="display:none;"><strong>🗺️ Local (referência):</strong> <span id="chamado-local">—</span></div>
+        </div>
+      </div>
+
+      <!-- Bloco de resolução (se já tiver) -->
+      <div class="card-chamado" id="bloco-resolucao" style="display:none;">
+        <h3 style="color:#1A4D2E; margin-bottom:0.5rem;">✅ Resolução</h3>
+        <div class="card-chamado-meta">
+          <div><strong>👷 Técnico:</strong> <span id="resol-tecnico">—</span></div>
+          <div><strong>📅 Resolvido em:</strong> <span id="resol-data">—</span></div>
+          <div><strong>🛠️ Solução:</strong> <span id="resol-solucao">—</span></div>
+        </div>
+      </div>
+
+      <p style="text-align:center; color:#8A8A7C; font-size:0.85rem; margin-top:1rem;">
+        🔒 Esta tela é somente leitura para o seu perfil.
+      </p>
+    </main>
+  </div>
+</div>
+
+<script>
+  var CHAMADO_ID = '<%= typeof chamadoId !== "undefined" ? chamadoId : "" %>';
+
+  fetch('/api/chamados/' + encodeURIComponent(CHAMADO_ID), { credentials: 'same-origin' })
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(c) {
+      if (!c) { document.getElementById('chamado-titulo').textContent = 'Não encontrado'; return; }
+      document.getElementById('chamado-titulo').textContent = (c.descricao || '').slice(0, 80);
+      var cat = document.getElementById('chamado-categoria');
+      cat.textContent = (c.tipo || '').toUpperCase();
+      cat.className = 'badge ' + (c.status === 'RESOLVIDO' ? 'concluida' : (c.status === 'EM_ANDAMENTO' ? 'andamento' : 'pendente'));
+      document.getElementById('chamado-retiro').textContent = c.retiro_id || '—';
+      document.getElementById('chamado-data').textContent = (c.criado_em || '').slice(0,16).replace('T',' ');
+      document.getElementById('chamado-descricao').textContent = c.descricao || '—';
+
+      if (c.latitude && c.longitude) {
+        document.getElementById('chamado-gps-box').style.display = 'block';
+        var link = document.getElementById('chamado-gps-link');
+        link.textContent = c.latitude + ', ' + c.longitude + ' (abrir no Maps)';
+        // No celular usa esquema geo: (abre app de mapas instalado, funciona OFFLINE).
+        // No desktop cai no Google Maps web.
+        var ehMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+        link.href = ehMobile
+          ? 'geo:' + c.latitude + ',' + c.longitude + '?q=' + c.latitude + ',' + c.longitude
+          : 'https://www.google.com/maps?q=' + c.latitude + ',' + c.longitude;
+      }
+      if (c.local_referencia) {
+        document.getElementById('chamado-local-box').style.display = 'block';
+        document.getElementById('chamado-local').textContent = c.local_referencia;
+      }
+      if (c.status === 'RESOLVIDO') {
+        document.getElementById('bloco-resolucao').style.display = 'block';
+        document.getElementById('resol-tecnico').textContent = c.tecnico_id || '—';
+        document.getElementById('resol-data').textContent = (c.resolvido_em || '').slice(0,16).replace('T',' ');
+        document.getElementById('resol-solucao').textContent = c.solucao_resolucao || '—';
+      }
+    });
+</script>
+
+<%- include('partials/footer') %>

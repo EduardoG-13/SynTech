@@ -1,98 +1,260 @@
 <%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/chamado.css" />
 
 <div id="device" class="logged">
   <%- include('partials/sidebar') %>
 
   <div id="app">
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar"><img src="/public/Icons/infra.ico" alt="Infraestrutura" style="width:32px;height:32px;object-fit:contain;" /></div>
-      <h1>Registrar Resolução</h1>
-      <div class="sub"><%= retiro %> (<%= perfil %>)</div>
+      <div class="user-avatar"><img src="/public/Icons/infra.ico" alt="Infra" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <h1>Resolver Chamado</h1>
+      <div class="sub"><%= perfil %></div>
     </div>
 
-    <main class="layout" style="padding: 0;">
+    <main class="chamado-main">
 
-      <button class="btn-voltar" onclick="window.history.back()">← Voltar</button>
+      <button type="button" class="btn-voltar" onclick="window.history.back()">⬅️ Voltar</button>
 
-      <div class="card" style="margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem;">
-        <div class="chamado-status-icon andamento"><img src="/public/Icons/infra.ico" alt="" style="width:32px;height:32px;object-fit:contain;" /></div>
-        <div>
-          <h2 id="chamado-titulo">Carregando...</h2>
-          <span class="badge andamento" id="chamado-categoria">—</span>
+      <!-- Card do chamado -->
+      <div class="card-chamado">
+        <div class="card-chamado-header">
+          <div class="card-chamado-icone" id="chamado-icone">
+            <img src="/public/Icons/infra.ico" alt="" />
+          </div>
+          <div>
+            <h2 id="chamado-titulo">Carregando...</h2>
+            <span class="badge" id="chamado-categoria">—</span>
+          </div>
         </div>
-      </div>
-
-      <form id="form-resolver-chamado">
-
-        <div class="card" style="margin-bottom: 1rem;">
-          <h3>Descrição da Solução</h3>
-          <textarea id="descricao-solucao" rows="5" maxlength="500" placeholder="Descreva detalhadamente o que foi realizado para resolver o problema..." style="width: 100%; border: 1px solid #ccc; border-radius: 8px; padding: 0.75rem; font-family: inherit; resize: vertical;"></textarea>
-        <div style="text-align: right; font-size: 0.75rem; color: #8A8A7C;">
-          <span id="char-count">0</span>/500
+        <div class="card-chamado-meta">
+          <div><strong>📍 Retiro:</strong> <span id="chamado-retiro">—</span></div>
+          <div><strong>📅 Aberto em:</strong> <span id="chamado-data">—</span></div>
+          <div><strong>📝 Descrição:</strong> <span id="chamado-descricao">—</span></div>
+          <div id="chamado-gps-box" style="display:none;"><strong>🛰️ GPS:</strong> <span id="chamado-gps">—</span></div>
         </div>
+        <img id="chamado-foto" class="chamado-foto" style="display:none;" />
       </div>
 
-      <div class="card" style="margin-bottom: 1rem;">
-        <h3>Data e Hora da Conclusão</h3>
-        <input type="datetime-local" id="data-conclusao" style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 8px;" />
-      </div>
+      <!-- Formulário de resolução -->
+      <form id="form-resolver-chamado" class="form-resolucao">
+        <input type="hidden" id="chamado-id" value="<%= typeof chamadoId !== 'undefined' ? chamadoId : '' %>" />
 
-      <div class="card" style="margin-bottom: 1rem;">
-        <h3>Foto da Resolução</h3>
-        <div class="upload-area" id="area-foto-resolucao">
-          <label for="input-foto-resolucao" class="upload-label">
-            <span class="upload-icon"><img src="/public/Icons/tira_foto.ico" alt="" style="width:48px;height:48px;object-fit:contain;" /></span>
-            <span>Arraste ou selecione uma imagem</span>
-            <span style="font-size: 0.75rem; color: #8A8A7C;">JPG, PNG - máx. 10MB</span>
-          </label>
-          <input type="file" id="input-foto-resolucao" accept="image/jpeg,image/png" style="display: none;" />
-          <img id="preview-foto-resolucao" src="" alt="Preview" style="display: none; max-width: 100%; border-radius: 8px; margin-top: 0.5rem;" />
+        <div class="card-resolucao">
+          <label class="label-bold">🛠️ Descrição da Solução</label>
+          <textarea id="descricao-solucao" rows="5" maxlength="500" placeholder="Descreva o que foi feito para resolver o problema..."></textarea>
+          <div class="char-counter"><span id="char-count">0</span>/500</div>
         </div>
-      </div>
 
-      <button class="btn btn-primario" id="btn-salvar-resolucao" style="width: 100%; margin-top: 1rem;">
-        ✅ Salvar Resolução
-      </button>
+        <div class="card-resolucao">
+          <label class="label-bold">🎙️ Gravar áudio (opcional)</label>
+          <p class="ajuda">Se preferir, grave um áudio explicando a resolução.</p>
+          <button type="button" class="btn-audio" id="btn-gravar-audio">
+            <img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" />
+            <span id="audio-btn-txt">Gravar áudio</span>
+          </button>
+          <audio id="audio-preview" controls style="display:none; width:100%; margin-top:0.5rem;"></audio>
+          <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;">🗑️ Apagar áudio</button>
+        </div>
 
-      <input type="hidden" id="chamado-id" />
+        <div class="card-resolucao">
+          <label class="label-bold">📷 Foto da resolução (opcional)</label>
+          <p class="ajuda">Tire foto ou escolha do celular.</p>
+          <div class="upload-foto">
+            <label for="input-foto-resolucao" class="upload-label">
+              <img class="upload-icon-img" src="/public/Icons/tira_foto.ico" alt="" />
+              <span id="foto-txt">📷 Tirar foto ou escolher do celular</span>
+            </label>
+            <input type="file" id="input-foto-resolucao" accept="image/*" style="display:none;" />
+          </div>
+          <img id="preview-foto-resolucao" src="" alt="" style="display:none; max-width:100%; border-radius:10px; margin-top:0.75rem;" />
+        </div>
 
+        <button type="submit" class="btn-salvar" id="btn-salvar-resolucao">
+          <img class="label-ico" src="/public/Icons/concluido.ico" alt="" /> Salvar Resolução
+        </button>
+
+        <p class="form-msg" id="resolver-msg" style="display:none;"></p>
       </form>
 
-      <div class="card" style="margin-top: 2rem;">
-        <h3>Histórico do Chamado</h3>
-        <div class="timeline" id="timeline-chamado">
-          <!-- Timeline será preenchida dinamicamente -->
-          <div class="timeline-item">
-            <div class="timeline-dot aberto"></div>
-            <div class="timeline-content">
-              <strong>Aberto</strong>
-              <p class="timeline-data">—</p>
-              <p class="timeline-desc">Chamado registrado</p>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot andamento"></div>
-            <div class="timeline-content">
-              <strong>Em andamento</strong>
-              <p class="timeline-data">—</p>
-              <p class="timeline-desc">Técnico iniciou atendimento</p>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot resolvido"></div>
-            <div class="timeline-content">
-              <strong>Resolvido</strong>
-              <p class="timeline-data">—</p>
-              <p class="timeline-desc">Aguardando registro de resolução</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </main>
+
   </div>
 </div>
 
-<%- include('partials/footer') %>
+<script>
+  var CHAMADO_ID = '<%= typeof chamadoId !== "undefined" ? chamadoId : "" %>';
 
-<script src="/public/js/chamado-resolver-handler.js"></script>
+  document.addEventListener('DOMContentLoaded', function() {
+    carregarChamado();
+    configurarFoto();
+    configurarAudio();
+    configurarContador();
+
+    document.getElementById('form-resolver-chamado').addEventListener('submit', enviarResolucao);
+  });
+
+  function carregarChamado() {
+    fetch('/api/chamados/' + encodeURIComponent(CHAMADO_ID), { credentials: 'same-origin' })
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(c) {
+        if (!c) {
+          document.getElementById('chamado-titulo').textContent = 'Chamado não encontrado';
+          return;
+        }
+        document.getElementById('chamado-titulo').textContent = (c.descricao || '').slice(0, 60);
+        var cat = document.getElementById('chamado-categoria');
+        cat.textContent = (c.tipo || '').toUpperCase();
+        cat.className = 'badge ' + (c.status === 'RESOLVIDO' ? 'concluida' : (c.status === 'EM_ANDAMENTO' ? 'andamento' : 'pendente'));
+        document.getElementById('chamado-retiro').textContent = c.retiro_id || '—';
+        document.getElementById('chamado-data').textContent = (c.criado_em || '').slice(0, 16).replace('T', ' ');
+        document.getElementById('chamado-descricao').textContent = c.descricao || '—';
+        if (c.latitude && c.longitude) {
+          document.getElementById('chamado-gps-box').style.display = 'block';
+          var ehMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+          var url = ehMobile
+            ? 'geo:' + c.latitude + ',' + c.longitude + '?q=' + c.latitude + ',' + c.longitude
+            : 'https://www.google.com/maps?q=' + c.latitude + ',' + c.longitude;
+          var link = document.createElement('a');
+          link.href = url; link.target = '_blank'; link.rel = 'noopener';
+          link.textContent = c.latitude + ', ' + c.longitude + ' (abrir no Maps)';
+          link.style.color = '#1A4D2E'; link.style.textDecoration = 'underline';
+          var span = document.getElementById('chamado-gps');
+          span.textContent = ''; span.appendChild(link);
+        }
+
+        // Se já resolvido, bloqueia edição e mostra a resolução existente
+        if (c.status === 'RESOLVIDO') {
+          bloquearEdicao(c);
+        }
+      });
+  }
+
+  function bloquearEdicao(c) {
+    document.getElementById('form-resolver-chamado').style.display = 'none';
+    var aviso = document.createElement('div');
+    aviso.className = 'card-resolucao';
+    aviso.innerHTML =
+      '<h3 style="color:#1A4D2E; margin-bottom:0.5rem;">✅ Resolução já registrada</h3>' +
+      '<div class="card-chamado-meta">' +
+        '<div><strong>📅 Resolvido em:</strong> ' + ((c.resolvido_em || '').slice(0,16).replace('T',' ') || '—') + '</div>' +
+        '<div><strong>🛠️ Solução:</strong> ' + (c.solucao_resolucao || '—') + '</div>' +
+      '</div>' +
+      '<p style="margin-top:0.75rem; color:#8A8A7C; font-size:0.85rem;">🔒 Não é possível alterar uma resolução já registrada.</p>';
+    document.querySelector('.chamado-main').appendChild(aviso);
+  }
+
+  function configurarFoto() {
+    var input = document.getElementById('input-foto-resolucao');
+    input.addEventListener('change', function() {
+      if (!input.files.length) return;
+      document.getElementById('foto-txt').textContent = '✅ ' + input.files[0].name;
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var img = document.getElementById('preview-foto-resolucao');
+        img.src = e.target.result;
+        img.style.display = 'block';
+      };
+      reader.readAsDataURL(input.files[0]);
+    });
+  }
+
+  function configurarContador() {
+    var ta = document.getElementById('descricao-solucao');
+    var counter = document.getElementById('char-count');
+    ta.addEventListener('input', function() { counter.textContent = ta.value.length; });
+  }
+
+  // === Áudio (gravação) ===
+  var mediaRecorder = null, audioChunks = [], audioBase64 = '', gravando = false;
+  function configurarAudio() {
+    var btn = document.getElementById('btn-gravar-audio');
+    var rem = document.getElementById('btn-remover-audio');
+    btn.addEventListener('click', function() {
+      if (!gravando) iniciarGravacao(); else pararGravacao();
+    });
+    rem.addEventListener('click', function() {
+      audioBase64 = '';
+      var p = document.getElementById('audio-preview');
+      p.src = ''; p.style.display = 'none';
+      rem.style.display = 'none';
+    });
+  }
+  function iniciarGravacao() {
+    if (!navigator.mediaDevices) { msg('🎙️ Navegador não suporta gravação.', 'erro'); return; }
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+      mediaRecorder = new MediaRecorder(stream);
+      audioChunks = [];
+      mediaRecorder.ondataavailable = function(e) { audioChunks.push(e.data); };
+      mediaRecorder.onstop = function() {
+        var blob = new Blob(audioChunks, { type: 'audio/webm' });
+        var r = new FileReader();
+        r.onloadend = function() {
+          audioBase64 = r.result;
+          var p = document.getElementById('audio-preview');
+          p.src = audioBase64; p.style.display = 'block';
+          document.getElementById('btn-remover-audio').style.display = 'inline-block';
+        };
+        r.readAsDataURL(blob);
+        stream.getTracks().forEach(function(t) { t.stop(); });
+      };
+      mediaRecorder.start();
+      gravando = true;
+      document.getElementById('audio-btn-txt').textContent = '⏹️ Parar gravação';
+      document.getElementById('btn-gravar-audio').classList.add('gravando');
+    }).catch(function() { msg('🎙️ Permissão de microfone negada.', 'erro'); });
+  }
+  function pararGravacao() {
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+    gravando = false;
+    document.getElementById('audio-btn-txt').textContent = 'Gravar novamente';
+    document.getElementById('btn-gravar-audio').classList.remove('gravando');
+  }
+
+  function msg(texto, tipo) {
+    var el = document.getElementById('resolver-msg');
+    el.textContent = texto;
+    el.className = 'form-msg ' + tipo;
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function enviarResolucao(e) {
+    e.preventDefault();
+    var descricao = document.getElementById('descricao-solucao').value.trim();
+    if (descricao.length < 5) {
+      msg('🛠️ Descreva a resolução (mínimo 5 caracteres).', 'erro');
+      return;
+    }
+    var foto = document.getElementById('input-foto-resolucao').files[0];
+    var lerFoto = foto
+      ? new Promise(function(resolve) {
+          var r = new FileReader();
+          r.onload = function() { resolve(r.result); };
+          r.readAsDataURL(foto);
+        })
+      : Promise.resolve('');
+
+    lerFoto.then(function(fotoBase64) {
+      var payload = {
+        solucao: descricao,
+        foto_base64: fotoBase64 || undefined,
+        audio_base64: audioBase64 || undefined,
+      };
+      fetch('/api/chamados/' + encodeURIComponent(CHAMADO_ID) + '/resolver', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify(payload),
+      })
+      .then(function(r) { return r.json().then(function(d){ return { ok: r.ok, data: d }; }); })
+      .then(function(res) {
+        if (!res.ok) { msg('❌ ' + (res.data.erro || 'Erro ao salvar.'), 'erro'); return; }
+        msg('✅ Resolução registrada com sucesso!', 'sucesso');
+        setTimeout(function() { window.location.href = '/infraestrutura'; }, 1500);
+      })
+      .catch(function() { msg('❌ Erro de conexão.', 'erro'); });
+    });
+  }
+</script>
+
+<%- include('partials/footer') %>

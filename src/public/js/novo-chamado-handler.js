@@ -67,7 +67,7 @@ function readFileAsDataUrl(file) {
   });
 }
 
-function buildRequestPayload({ descricao, tipo, latitude, longitude, fotoBase64, capataz_id, retiro_id }) {
+function buildRequestPayload({ descricao, tipo, latitude, longitude, fotoBase64, capataz_id, retiro_id, local_referencia, audio_base64 }) {
   const payload = {
     tipo,
     descricao,
@@ -78,6 +78,8 @@ function buildRequestPayload({ descricao, tipo, latitude, longitude, fotoBase64,
 
   if (capataz_id) payload.capataz_id = capataz_id;
   if (retiro_id) payload.retiro_id = retiro_id;
+  if (local_referencia) payload.local_referencia = local_referencia;
+  if (audio_base64) payload.audio_base64 = audio_base64;
 
   return payload;
 }
@@ -171,32 +173,31 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    if (!fileInput?.files?.length) {
-      alert('Selecione uma foto ou evidência para o chamado.');
-      return;
+    // Foto agora é OPCIONAL
+    let fotoBase64 = '';
+    if (fileInput?.files?.length) {
+      const fotoFile = fileInput.files[0];
+      if (!fotoFile.type.startsWith('image/')) {
+        alert('O arquivo selecionado deve ser uma imagem.');
+        return;
+      }
+      if (fotoFile.size > MAX_IMAGE_BYTES) {
+        alert('A imagem selecionada é muito grande. Use um arquivo menor que 6 MB.');
+        return;
+      }
+      try {
+        fotoBase64 = await readFileAsDataUrl(fotoFile);
+      } catch (erro) {
+        console.error('Erro ao converter imagem para Base64:', erro);
+        alert('Não foi possível converter a imagem. Tente novamente.');
+        return;
+      }
     }
 
-    const fotoFile = fileInput.files[0];
-
-    if (!fotoFile.type.startsWith('image/')) {
-      alert('O arquivo selecionado deve ser uma imagem.');
-      return;
-    }
-
-    if (fotoFile.size > MAX_IMAGE_BYTES) {
-      alert('A imagem selecionada é muito grande. Use um arquivo menor que 6 MB.');
-      return;
-    }
-
-    let fotoBase64;
-
-    try {
-      fotoBase64 = await readFileAsDataUrl(fotoFile);
-    } catch (erro) {
-      console.error('Erro ao converter imagem para Base64:', erro);
-      alert('Não foi possível converter a imagem. Tente novamente.');
-      return;
-    }
+    const localRef = document.getElementById('local-referencia')?.value || '';
+    const audioBase64 = (typeof window.__audioChamadoBase64 === 'function')
+      ? window.__audioChamadoBase64()
+      : '';
 
     const payload = buildRequestPayload({
       descricao,
@@ -206,6 +207,8 @@ document.addEventListener('DOMContentLoaded', () => {
       fotoBase64,
       capataz_id: capatazId,
       retiro_id: retiroId,
+      local_referencia: localRef,
+      audio_base64: audioBase64,
     });
 
     let resultado;
