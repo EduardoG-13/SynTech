@@ -5475,7 +5475,20 @@ problema que a solução desenvolvida para a BrPec endereça.
 
 
 _c) Tendências de Mercado (até 300 palavras)_
-_Identifique e analise tendências relevantes (tecnológicas, comportamentais e mercadológicas) que influenciam o setor. Utilize fontes confiáveis._
+
+Três tendências convergem para criar um momento favorável à adoção de soluções de gestão digital na pecuária de campo.
+
+**Tendência tecnológica: conectividade satelital e arquitetura offline-first**
+
+A expansão do Starlink no Brasil ampliou o acesso à internet em propriedades rurais remotas sem cobertura de banda larga convencional. Em 2024, o serviço registrou mais de 1,2 milhão de acessos ativos no país, com crescimento concentrado no setor agropecuário [51]. Essa conectividade intermitente — disponível em janelas fixas por retiro — não elimina a necessidade de operação offline, mas cria infraestrutura de sincronização viável onde antes não havia nenhuma. Paralelamente, o modelo PWA consolida-se como padrão para aplicações de campo: elimina a dependência de lojas de aplicativos, opera em dispositivos Android de baixo custo e permite atualizações remotas sem intervenção do usuário.
+
+**Tendência regulatória e comportamental: rastreabilidade como pré-requisito**
+
+O comportamento dos compradores internacionais de carne bovina mudou estruturalmente: rastreabilidade de origem deixou de ser diferencial competitivo e tornou-se pré-requisito de acesso a mercados. O Regulamento Europeu Antidesmatamento (EUDR), com vigência prevista para 2026, exige comprovação de origem livre de desmatamento para exportações bovinas à União Europeia [40]. No plano doméstico, o PNIB estabelece rastreabilidade individual de todo o rebanho nacional até 2032 [29]. Fazendas que operam com registros manuais e sem rastreabilidade estruturada enfrentarão exclusão progressiva dos mercados premium.
+
+**Tendência mercadológica: crescimento do agtech e digitalização da gestão pecuária**
+
+O ecossistema de agtechs no Brasil cresceu de forma acelerada nos últimos anos, com o número de startups do setor expandindo mais de 30% entre 2020 e 2024 [52]. O segmento de gestão pecuária concentra parte crescente desse fluxo, com soluções voltadas a registro de rebanho, manejo sanitário e rastreabilidade ganhando tração junto a produtores de médio e grande porte. Esse crescimento eleva a pressão competitiva sobre fazendas que ainda operam com papel e amplia o mercado para ferramentas como a desenvolvida para a BrPec.
 
 ## 6.3 Análise da Concorrência
 
@@ -5633,6 +5646,22 @@ A combinação desses três eixos posiciona a solução não como uma alternativ
 genérica de gestão pecuária, mas como uma ferramenta construída especificamente
 para o problema da BrPec, o que representa uma barreira de replicação que
 produtos de prateleira não conseguem superar.
+
+## 6.6 Business Model Canvas
+
+O Business Model Canvas abaixo sintetiza a estrutura de negócio da solução desenvolvida para a BrPec, integrando os elementos analisados nas seções anteriores.
+
+| Bloco | Descrição |
+|-------|-----------|
+| **Segmentos de Clientes** | **Primário:** fazendas de pecuária de corte extensiva com múltiplos retiros, rebanho acima de 5.000 cabeças e conectividade limitada — perfil representado pela BrPec Agropecuária S.A. **Secundário:** coordenadores e gestores que necessitam de visibilidade consolidada das operações de campo sem depender de relatórios manuais. **Potencial de expansão:** outras fazendas pantaneiras e do Cerrado com estrutura operacional similar. |
+| **Proposta de Valor** | Eliminação das boletas de papel e da redigitação manual como etapas do fluxo operacional. Registro offline nativo com sincronização automática nas janelas de conectividade (sem perda de dados). Interface projetada para baixo letramento digital, com suporte a áudio. Rastreabilidade completa de nascimentos, mortes, compras, vendas e transferências — compatível com as exigências do EUDR e do PNIB. |
+| **Canais** | Venda direta B2B sem intermediários. Feiras agropecuárias regionais (Expogrande, Agrishow, Fenapec) com demonstração ao vivo em condições de campo. Marketing de conteúdo técnico em portais especializados (Canal Rural). Programa de indicação entre clientes ativos. |
+| **Relacionamento com Clientes** | Implementação assistida com visita técnica à propriedade. Treinamento presencial de capatazes e coordenadores. Suporte técnico contínuo pós-implantação. Acompanhamento do primeiro ciclo completo de sincronização. |
+| **Fontes de Receita** | Contrato SaaS anual por faixa de rebanho ativo: R$ 6.000–R$ 9.000 (até 5.000 cabeças), R$ 9.000–R$ 18.000 (5.001–20.000 cabeças), negociação enterprise acima de 20.000 cabeças. Serviços de implementação e treinamento cobrados pontualmente na contratação. |
+| **Recursos Principais** | Equipe de desenvolvimento e manutenção da PWA. Infraestrutura de servidor (banco de dados, API, fila de sincronização sync_queue). Conhecimento de domínio do setor pecuário. BrPec como cliente âncora e referência comercial para novas prospecções. |
+| **Atividades Principais** | Desenvolvimento e manutenção da PWA (módulo de campo e painel administrativo). Gestão e evolução da fila de sincronização. Implementação e onboarding presencial nas propriedades. Suporte técnico e atualização da solução conforme mudanças regulatórias (EUDR, PNIB). |
+| **Parcerias Principais** | BrPec Agropecuária S.A. (cliente âncora e validador em campo). Provedores de infraestrutura cloud (hospedagem e banco de dados). SpaceX/Starlink (conectividade dos retiros como infraestrutura de sincronização). MAPA, ABIEC e CNA para acompanhamento de exigências regulatórias. |
+| **Estrutura de Custos** | Desenvolvimento e manutenção de software (custo principal). Infraestrutura de servidores e banco de dados em nuvem. Equipe de implementação e suporte presencial em campo. Participação em feiras agropecuárias. Deslocamento para treinamento nas propriedades clientes. |
 
 ## 6.6 Estratégia de Marketing
 
@@ -5813,6 +5842,10 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 [42] UXPIN. Design System vs. Pattern Library vs. Style Guide vs. Component Library. 2026. Disponível em: https://www.uxpin.com/studio/blog/design-systems-vs-pattern-libraries-vs-style-guides-whats-difference/. Acesso em: 18 maio 2026.
 
 [43] W3C. WCAG 2.1 — Success Criterion 1.4.6: Contrast (Enhanced). Disponível em: https://www.w3.org/TR/WCAG21/#contrast-enhanced. Acesso em: maio 2026.
+
+[51] ANATEL. Serviço de Comunicação Multimídia (SCM): acessos por tecnologia de acesso. Brasília: Anatel, 2024. Disponível em: https://informacoes.anatel.gov.br/paineis/acesso-a-internet-banda-larga. Acesso em: jun. 2026.
+
+[52] DISTRITO. Agtech Report Brasil 2024. São Paulo: Distrito, 2024. Disponível em: https://distrito.me/agtech-report/. Acesso em: jun. 2026.
 
 # <a name="c9"></a>Anexos
 
