@@ -24,6 +24,8 @@ export function obterResumo(req: Request, res: Response) {
   const sess = (req.session as any)?.usuario as SessUsuario | undefined;
   if (!sess) return res.status(401).json({ erro: 'Não autenticado.' });
 
+  const filtroData = typeof req.query.data === 'string' && req.query.data ? req.query.data : null;
+
   const permitidos = retirosVisiveis(sess);
   const filtroRetirosSql = permitidos === null
     ? ''
@@ -34,15 +36,17 @@ export function obterResumo(req: Request, res: Response) {
   const filtroAlertaPorRetiro = permitidos === null
     ? ''
     : (permitidos.length === 0 ? 'WHERE 1=0' : `WHERE r.id IN (${permitidos.map(() => '?').join(',')})`);
+  const dateJoinAlerta = filtroData ? ` AND date(a.criado_em) = ?` : '';
+  const dateJoinParams = filtroData ? [filtroData] : [];
   const chamadosPorRetiro = db.prepare(`
     SELECT r.nome AS retiro, COUNT(a.id) AS total
     FROM retiros r
-    LEFT JOIN alertas a ON a.retiro_id = r.id AND a.status IN ('ABERTO', 'EM_ANDAMENTO')
+    LEFT JOIN alertas a ON a.retiro_id = r.id AND a.status IN ('ABERTO', 'EM_ANDAMENTO')${dateJoinAlerta}
     ${filtroAlertaPorRetiro}
     GROUP BY r.id, r.nome
     ORDER BY total DESC
     LIMIT 8
-  `).all(...filtroRetirosParams) as any[];
+  `).all(...dateJoinParams, ...filtroRetirosParams) as any[];
 
   // Boletas (movimentações) — filtra por retiros visíveis incluindo origem/destino em transferências
   const condMovParams: any[] = [];
@@ -55,6 +59,10 @@ export function obterResumo(req: Request, res: Response) {
       condMov = `WHERE (retiro_id IN (${ph}) OR retiro_origem_id IN (${ph}) OR retiro_destino_id IN (${ph}))`;
       condMovParams.push(...permitidos, ...permitidos, ...permitidos);
     }
+  }
+  if (filtroData) {
+    condMov += condMov ? ` AND data = ?` : ` WHERE data = ?`;
+    condMovParams.push(filtroData);
   }
   const totaisBoletas = db.prepare(`
     SELECT
@@ -76,6 +84,10 @@ export function obterResumo(req: Request, res: Response) {
       condAlerta = `WHERE retiro_id IN (${ph})`;
       condAlertaParams.push(...permitidos);
     }
+  }
+  if (filtroData) {
+    condAlerta += condAlerta ? ` AND date(criado_em) = ?` : ` WHERE date(criado_em) = ?`;
+    condAlertaParams.push(filtroData);
   }
   const chamadosPorStatus = db.prepare(`
     SELECT
