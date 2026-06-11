@@ -2881,7 +2881,75 @@ O diagrama de atividades abaixo representa o fluxo de execução de tarefas no s
 
 ### 3.2.6. Diagrama de Implantação (sprints 4 e 5)
 
-_Diagrama UML de deployment mostrando nós físicos, artefatos e canais de comunicação. Representa a visão Engineering + Technology do RM-ODP._
+O diagrama de implantação física do sistema BrPec descreve a infraestrutura de hardware e de rede projetada para operar no cenário real do Pantanal, onde a conectividade com a internet é restrita e intermitente. A arquitetura distribui a computação e a persistência em três níveis físicos isolados (dispositivo de campo, servidor local na fazenda e nuvem), utilizando canais de comunicação adequados a cada contexto.
+
+```mermaid
+flowchart TD
+    %% Definições de Estilo
+    classDef hardware fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+    classDef software fill:#efebe9,stroke:#4e342e,stroke-width:1px;
+    classDef database fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
+    
+    subgraph Capataz["Celular do Capataz (Dispositivo Móvel)"]
+        direction TB
+        PWA["Cliente Web (Chrome / PWA)"]:::software
+        IDB[("Camada 1: IndexedDB<br>(brpec_local)")]:::database
+        PWA <-->|"Leitura/Escrita"| IDB
+    end
+    style Capataz fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+
+    subgraph FarmServer["Servidor Local (Sede da Fazenda)"]
+        direction TB
+        ExpressLocal["API Local Express (Node.js)"]:::software
+        SQLiteDB[("Camada 2: SQLite DB<br>(brpec.sqlite)")]:::database
+        SyncService["CloudSyncService (Sincronizador)"]:::software
+        
+        ExpressLocal <-->|"Leitura/Escrita Relacional"| SQLiteDB
+        SyncService <-->|"Consome Outbox / Logs"| SQLiteDB
+    end
+    style FarmServer fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+
+    subgraph SupabaseCloud["Nuvem Supabase"]
+        direction TB
+        PostgresDB[("Camada 3: Supabase Postgres DB<br>(Consolidação Central)")]:::database
+    end
+    style SupabaseCloud fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+
+    subgraph RenderHosting["Servidor Render Cloud Hosting"]
+        direction TB
+        ExpressCloud["Dashboard Web App (Node.js)"]:::software
+    end
+    style RenderHosting fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+
+    subgraph Office["Estação de Trabalho (Gerente / Coordenador)"]
+        Browser["Navegador Desktop (Dashboard UI)"]:::software
+    end
+    style Office fill:#f5f5f5,stroke:#9e9e9e,stroke-width:1px;
+
+    %% Conexões de Rede Físicas e Protocolos
+    Capataz <-->|"Rede Local Wi-Fi (2.4 / 5 GHz)"| FarmServer
+    FarmServer -->|"Link Satélite Starlink (HTTPS / TLS)"| SupabaseCloud
+    FarmServer -->|"Link Satélite Starlink (HTTPS / TLS)"| RenderHosting
+    RenderHosting <-->|"Conexão Segura Interna (SSL / Pool)"| SupabaseCloud
+    Office <-->|"Conexão Internet (HTTPS / TLS)"| RenderHosting
+```
+
+<center>
+  <p><strong>Figura 12</strong> — Diagrama de Implantação Física do Sistema BrPec</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+#### Isolamento Físico e as Três Camadas de Persistência
+Para garantir a operação contínua e mitigar riscos de perda de dados sob conectividade nula ou intermitente no Pantanal, o sistema BrPec isola fisicamente sua persistência em três camadas distintas:
+1. **Camada 1 — Armazenamento Local no Dispositivo (IndexedDB):** Executa na sandbox do navegador Chrome/PWA (`brpec_local`) diretamente nos celulares dos Capatazes. É uma base de dados NoSQL transacional client-side que serve de repositório temporário. Todas as ações em campo (como registrar nascimentos, óbitos, anexo de fotos codificadas em base64 e áudios de evidências) são salvas localmente e empilhadas com status `PENDENTE` na fila de sincronização (IndexedDB), garantindo que o capataz possa realizar o trabalho sem nenhuma conectividade com a internet.
+2. **Camada 2 — Persistência Relacional Local na Sede (SQLite):** Fica alocada no Servidor Local (computador físico na sede da fazenda) que roda a API local Express. O banco SQLite (`brpec.sqlite`) funciona como a base de dados relacional operacional principal para o retiro. Quando o capataz retorna à sede da fazenda e conecta-se à rede Wi-Fi local (2.4/5GHz), o PWA transmite em lote as requisições acumuladas no IndexedDB para a API do Servidor Local, que as persiste via transações ACID no SQLite. Esse servidor local também executa o `CloudSyncService` para monitorar registros modificados locais pendentes de envio para a nuvem.
+3. **Camada 3 — Consolidação Centralizada em Nuvem (Supabase Postgres):** Localizada na infraestrutura de nuvem gerenciada pelo Supabase. O banco de dados PostgreSQL consolida todas as informações agregadas de todos os retiros e fazendas da BrPec. A sincronização ocorre de forma assíncrona por meio do `CloudSyncService` do Servidor Local via link satelital Starlink (HTTPS/TLS) sempre que a conexão estiver disponível. Os gerentes e coordenadores acessam o Dashboard Web hospedado na Render Cloud, que consome os dados consolidados diretamente do Supabase PostgreSQL através de conexões seguras com pool.
+
+#### Mapeamento das Conexões de Rede Físicas
+1. **Wi-Fi 2.4/5GHz Local da Fazenda:** Conecta os dispositivos móveis dos Capatazes ao Servidor Local localizado na sede da fazenda. Essa rede cobre a área administrativa da sede e permite a descarga rápida de dados offline de campo para o banco local.
+2. **Link Satélite Starlink:** Estabelece o canal de internet de banda larga de alta latência e conectividade intermitente entre o Servidor Local da fazenda e os nós de nuvem (Supabase e Render). A transferência de dados é feita via requisições HTTPS e canais TLS criptografados.
+3. **Conexão Interna Segura (Render/Supabase):** Roteamento em nuvem otimizado via SSL com pooling de conexões ativo para suportar múltiplas requisições simultâneas do Dashboard Web App ao Supabase Postgres.
+4. **Internet HTTPS/TLS:** Acesso padrão de rede pública utilizado pelos Gerentes e Coordenadores para interagir com o Dashboard hospedado na Render Cloud a partir de suas estações de trabalho administrativas.
 
 ### 3.2.7. Padrões de Projeto Aplicados (sprints 3 a 5)
 
@@ -2895,28 +2963,44 @@ A tabela a seguir consolida os quatro padrões adotados nesta sprint, indicando 
 
 | # | Padrão              | Categoria         | Localização no repositório                                                                        | Necessidade que atende                                  | SOLID |
 |---|---------------------|-------------------|---------------------------------------------------------------------------------------------------|---------------------------------------------------------|-------|
-| 1 | Repository          | Estrutural        | `src/backend/repositories/` (ex.: `tarefaRepository.ts`)                                         | Isolar a troca de driver/ORM da camada de persistência  | S, D  |
-| 2 | Outbox (Sync Queue) | Arquitetural [16] | Tabela `sincronizacoes` (migration.sql) + `src/backend/services/sincronizacaoService.ts`          | Offline-first: 0% de perda de dados em falha de rede   | S, O  |
-| 3 | Singleton           | Criacional        | `src/backend/config/database.ts`                                                                  | Reuso de uma única instância do cliente de banco local  | D     |
-| 4 | Strategy            | Comportamental    | `src/backend/middlewares/permissions/` (previsto para a sprint 5)                                 | Regras de autorização distintas por perfil de usuário   | O, L  |
+| 1 | MVC                 | Arquitetural      | `src/backend/models/`, `src/views/`, `src/backend/controllers/`                                    | Divisão de responsabilidade entre dados, apresentação e fluxo | S     |
+| 2 | Repository          | Estrutural        | `src/backend/repositories/` (ex.: `tarefaRepository.ts`)                                         | Isolar a troca de driver/ORM da camada de persistência  | S, D  |
+| 3 | Outbox (Sync Queue) | Arquitetural [16] | Tabela `sincronizacoes` (migration.sql) + `src/backend/services/sincronizacaoService.ts`          | Offline-first: 0% de perda de dados em falha de rede   | S, O  |
+| 4 | Singleton           | Criacional        | `src/backend/config/database.ts` e `src/backend/config/supabasePool.ts`                           | Reuso de conexões únicas e pooling com banco de dados   | D     |
+| 5 | Strategy            | Comportamental    | `src/backend/middlewares/permissions/` (previsto para a sprint 5)                                 | Regras de autorização distintas por perfil de usuário   | O, L  |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-Os padrões 1, 2 e 3 já possuem implementação no repositório, validando a arquitetura proposta. O padrão 4 está planejado para a sprint 5, conforme o cronograma de implementação do controle de autorização. O detalhamento de cada padrão, com sua justificativa de negócio e princípios SOLID associados, é apresentado nas subseções seguintes.
+Os padrões 1, 2, 3 e 4 já possuem implementação no repositório, validando a arquitetura proposta. O padrão 5 está planejado para a sprint 5, conforme o cronograma de implementação do controle de autorização. O detalhamento de cada padrão, com sua justificativa de negócio e princípios SOLID associados, é apresentado nas subseções seguintes.
 
-#### 1. Repository Pattern *(estrutural)*
+#### 1. MVC (Model-View-Controller) *(arquitetural)*
 
-**Localização:** `src/repositories/` (já implementado: `movimentacaoRepository.ts`; demais repositories — `tarefasRepository.ts`, `usuariosRepository.ts`, `retirosRepository.ts` — em desenvolvimento nesta sprint).
+**Localização:**
+- *Models (Modelos):* Interfaces e esquemas TypeScript em [models](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/models/) (ex.: [Tarefa.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/models/Tarefa.ts), [Usuario.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/models/Usuario.ts)).
+- *Views (Apresentação):* Templates EJS em [views](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/views/) (ex.: [dashboard.ejs](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/views/dashboard.ejs), [tarefas.ejs](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/views/tarefas.ejs), [login.ejs](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/views/login.ejs), [selecionar-retiro.ejs](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/views/selecionar-retiro.ejs)), além de partials reutilizáveis em `views/partials/` (header, footer, sidebar).
+- *Controllers (Controladores):* Classes de controle em [controllers](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/controllers/) (ex.: [tarefaController.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/controllers/tarefaController.ts)).
 
-**Necessidade que atende:** o backend acessa duas fontes de dados distintas — `better-sqlite3` para o cache local offline e `@supabase/supabase-js` para o servidor central. Sem uma camada que abstraia esse acesso, qualquer evolução (introduzir cache, migrar para um ORM como Prisma, trocar provedor) propagaria mudanças por Controllers e Services. O Repository centraliza o acesso a dados e expõe métodos com semântica de domínio (`movimentacaoRepository.inserir(mov)`), em linha com a definição clássica de Fowler [13]: *"mediates between the domain and data mapping layers"*.
+**Necessidade que atende:**
+Organiza o fluxo de interação dividindo o sistema em três componentes com responsabilidades distintas. Os modelos contêm a representação dos dados e suas restrições lógicas. As views renderizam páginas dinâmicas para a gerência na fazenda. Os controladores interceptam as rotas HTTP vindas de agregadores (como [index.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/routes/index.ts) e [viewRoutes.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/routes/viewRoutes.ts)), processando os dados através da chamada de serviços específicos e devolvendo a representação apropriada (View via `res.render` ou dados brutos via `res.json`). Isso isola a camada de interface da lógica estrutural interna e facilita a manutenibilidade.
 
-**Validação pela equipe:** o padrão foi validado em revisão dedicada na issue [#202](https://git.inteli.edu.br/graduacao/2026-1b/t26/g03/-/issues/202).
+**Princípios SOLID:**
+- **S — Single Responsibility:** Isolação física e funcional entre a lógica de interface visual (View), o roteamento e respostas HTTP (Controller) e as regras/interfaces de dados (Model).
 
-**Princípios SOLID:** **S** — cada repository é responsável por uma única entidade do domínio pecuário; **D** — Services dependem da abstração do repository, não do driver de banco.
+#### 2. Repository Pattern *(estrutural)*
 
-#### 2. Outbox / Sync Queue *(arquitetural)*
+**Localização:** na pasta [repositories](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/repositories/) (ex.: [tarefaRepository.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/repositories/tarefaRepository.ts), [usuarioRepository.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/repositories/usuarioRepository.ts), [alertaRepository.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/repositories/alertaRepository.ts)) e para a nuvem Postgres [tarefaPgRepository.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/repositories/pg/tarefaPgRepository.ts).
+
+**Necessidade que atende:** O backend precisa gerenciar dados em duas origens distintas: o banco SQLite local (`brpec.sqlite` via `node:sqlite`) no servidor da fazenda e o Supabase PostgreSQL na nuvem central. Sem uma camada que abstraia esse acesso, qualquer evolução (como migrar de driver, introduzir cache ou trocar de banco) propagaria mudanças por controladores e serviços. A camada de Repository isola as queries SQL brutas e chamadas de driver da lógica de negócios, expondo métodos com semântica de domínio (como `inserir` ou `criar`), em linha com a definição clássica de Fowler [13]: *"mediates between the domain and data mapping layers"*. Assim, a camada de serviços interage com essas abstrações, permanecendo agnóstica das particularidades do dialeto ou driver de banco de dados utilizado, facilitando manutenções ou substituições de drivers.
+
+**Validação pela equipe:** O padrão foi validado e está totalmente implementado para as principais entidades do domínio operacional.
+
+**Princípios SOLID:**
+- **S — Single Responsibility:** Cada repositório gerencia a persistência de uma única entidade do domínio.
+- **D — Dependency Inversion:** Os serviços dependem da abstração do repositório, não do driver de banco direto.
+
+#### 3. Outbox / Sync Queue *(arquitetural)*
 
 **Localização:** tabela `sincronizacoes` (migration.sql, seção 3.6.3) + serviço já implementado em `src/backend/services/sincronizacaoService.ts`.
 
@@ -2924,7 +3008,7 @@ Os padrões 1, 2 e 3 já possuem implementação no repositório, validando a ar
 
 **Princípios SOLID:** **S** — a fila tem uma única responsabilidade (garantir entrega eventual); **O** — novos tipos de operação (`INSERT`, `UPDATE`, `DELETE`, futuramente `MERGE`) podem ser adicionados sem alterar o processador.
 
-#### 3. DTO (Data Transfer Object) *(estrutural — não implementado na sprint 3)*
+#### DTO (Data Transfer Object) *(estrutural — não implementado na sprint 3)*
 
 **Localização planejada:** `src/backend/dtos/` (ex.: `CriarTarefaDTO.ts`, `TarefaResponseDTO.ts`), a implementar em sprints futuras conforme os endpoints forem evoluídos.
 
@@ -2983,15 +3067,16 @@ Linha persistida em `tarefas` (Migration 003) — o que o banco efetivamente gua
 
 Note que o response **omite** campos internos como `criado_em`, `sincronizado_em` e `deletado_em` (relevantes só para o backend) e simplifica a estrutura para o consumidor da API. Esse é exatamente o papel do DTO: nenhum dos três representa "a tarefa" sozinho — cada um é a forma apropriada da entidade para sua fronteira específica. Exemplos completos de request/response dos demais endpoints encontram-se na seção 3.1.4.
 
-#### 3. Singleton *(criacional)*
+#### 4. Singleton *(criacional)*
 
-**Localização:** `src/backend/config/database.ts` — uma única instância do cliente de banco de dados (SQLite via `better-sqlite3`) reutilizada em todo o backend.
+**Localização:** na configuração do banco de dados relacional local [database.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/config/database.ts) e de nuvem [supabasePool.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/config/supabasePool.ts), bem como nas exportações de controladores (ex: [tarefaController.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/controllers/tarefaController.ts)).
 
-**Necessidade que atende:** evita inicializações redundantes do banco SQLite a cada requisição, garantindo que a mesma conexão e cache em memória do `better-sqlite3` sejam compartilhados por todos os repositories. Vale registrar a crítica de Fowler [13] e da comunidade DDD ao uso indiscriminado do padrão (acoplamento global, dificuldade de teste); aqui o uso é justificado por se tratar de um cliente de infraestrutura sem estado de negócio, e a injeção do cliente nos repositories preserva a testabilidade.
+**Necessidade que atende:** O padrão garante que uma classe possua apenas uma única instância em todo o ciclo de vida do servidor Node.js. Para as conexões de banco de dados, o `database.ts` exporta diretamente a instância `db` do `DatabaseSync` (SQLite via `node:sqlite`), enquanto `supabasePool.ts` exporta a instância única `supabasePool` do Postgres. Isso evita inicializações redundantes, vazamentos de conexões e conflitos de leitura/escrita simultânea no arquivo SQLite. Adicionalmente, os controladores e repositórios são exportados como instâncias já instanciadas (ex.: `export default new TarefaController()`), compartilhando o mesmo estado e reduzindo o consumo de memória sob carga. Vale registrar a crítica de Fowler [13] e da comunidade DDD ao uso indiscriminado do padrão (acoplamento global, dificuldade de teste); aqui o uso é justificado por se tratar de um cliente de infraestrutura sem estado de negócio, e a injeção do cliente nos repositories preserva a testabilidade.
 
-**Princípios SOLID:** **D** — toda a aplicação depende da mesma abstração de cliente, injetada nos repositories.
+**Princípios SOLID:**
+- **D — Dependency Inversion:** Os módulos dependem das instâncias injetadas ou importadas compartilhadas, mantendo o controle centralizado.
 
-#### Middleware Chain (Chain of Responsibility) *(comportamental — planejado para as sprints 4-5)*
+#### 5. Middleware Chain (Chain of Responsibility) *(comportamental — planejado para as sprints 4-5)*
 
 **Localização planejada:** `src/backend/middlewares/` (autenticação, autorização, validação de payload, tratamento de erros), a implementar ao longo das sprints 4 a 5 conforme os requisitos da seção 3.8 forem desenvolvidos.
 
@@ -2999,7 +3084,7 @@ Note que o response **omite** campos internos como `criado_em`, `sincronizado_em
 
 **Princípios SOLID:** **S** — cada middleware tem uma responsabilidade isolada; **O** — novos middlewares são plugados na cadeia sem modificar os anteriores.
 
-#### 4. Strategy *(comportamental — previsto para a sprint 5)*
+#### 6. Strategy *(comportamental — previsto para a sprint 5)*
 
 **Localização planejada:** `src/middlewares/permissions/` (ex.: `GerenteStrategy.ts`, `CoordenadorStrategy.ts`, `CapatazStrategy.ts`, `TecnicoStrategy.ts`), invocadas pelo middleware de autorização da seção 3.8.3.
 
@@ -3007,15 +3092,16 @@ Note que o response **omite** campos internos como `criado_em`, `sincronizado_em
 
 **Princípios SOLID:** **O** — adicionar um quinto perfil significa criar uma nova classe sem alterar o middleware; **L** — todas as strategies são intercambiáveis pela mesma interface (`podeExecutar(acao, recurso)`).
 
+
 #### Síntese SOLID
 
 Em conjunto, os padrões adotados materializam os cinco princípios SOLID [27]:
 
-- **S — Single Responsibility:** todas as camadas e padrões (Repository, DTO, Middleware) isolam responsabilidades únicas.
+- **S — Single Responsibility:** Todas as camadas e padrões (MVC, Repository, DTO, Middleware) isolam responsabilidades únicas.
 - **O — Open/Closed:** Outbox, Strategy e Middleware Chain permitem extensão sem modificação do código existente.
-- **L — Liskov Substitution:** as Strategies de permissão são plenamente substituíveis pela mesma interface.
+- **L — Liskov Substitution:** As Strategies de permissão são plenamente substituíveis pela mesma interface.
 - **I — Interface Segregation:** DTOs garantem que clientes da API recebam apenas os campos pertinentes.
-- **D — Dependency Inversion:** Services dependem de abstrações de Repository, não de drivers concretos; o Singleton do Supabase é injetado, não instanciado in-loco.
+- **D — Dependency Inversion:** Services dependem de abstrações de Repository, não de drivers concretos; os Singletons de conexão (SQLite e Supabase Pool) e controladores são injetados e importados como instâncias únicas, mantendo o controle centralizado.
 
 ## 3.3. Wireframes (sprint 2)
 
