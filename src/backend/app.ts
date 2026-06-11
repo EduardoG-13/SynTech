@@ -23,8 +23,9 @@ app.set('views', path.join(projectRoot, 'src/views'));
 
 // Middleware
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Limite aumentado para 25MB para suportar foto + áudio em base64 (boletas e resoluções)
+app.use(express.json({ limit: '25mb' }));
+app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 app.use('/public', express.static(path.join(projectRoot, 'src/public')));
 app.use(session({
   secret: 'brpec-syntech-2026',
@@ -91,8 +92,8 @@ app.get('/tarefa/:id', requireLogin(), (req, res) => {
   res.render('detalhe-tarefa', { perfil: u.perfil, retiro: u.retiro_id || 'Geral', tarefaId: req.params.id });
 });
 
-// Histórico (Capataz: boletas dele | Infra: chamados que executou)
-app.get('/historico', requireLogin(['Capataz', 'Infraestrutura']), (_req, res) => {
+// Histórico (unificado — perfis com acesso são filtrados no endpoint)
+app.get('/historico', requireLogin(['Capataz', 'Infraestrutura', 'Coordenador', 'Gerente']), (_req, res) => {
   const u = (res.locals as any).usuarioLogado;
   res.render('historico', { perfil: u.perfil, retiro: u.retiro_id || 'Geral' });
 });

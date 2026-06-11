@@ -1,4 +1,6 @@
 <%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/infraestrutura.css" />
+<link rel="stylesheet" href="/public/css/tarefas.css" />
 
 <div id="device" class="logged">
   <%- include('partials/sidebar') %>
@@ -10,13 +12,7 @@
       <div class="sub"><%= retiro %> (<%= perfil %>)</div>
     </div>
 
-    <main class="layout" style="padding: 0;">
-
-      <div class="filter-pills">
-        <span class="pill active" data-categoria="hidraulica">Hidráulica</span>
-        <span class="pill" data-categoria="cerca">Cerca</span>
-        <span class="pill" data-categoria="eletrica">Elétrica</span>
-      </div>
+    <main class="infra-main">
 
       <div class="chamados-resumo" id="chamados-resumo">
 
@@ -50,37 +46,7 @@
       </div>
 
       <div class="chamados-lista tarefas-lista" id="chamados-lista" style="margin-top: 1rem;">
-
-        <div class="card tarefa-card" onclick="window.location.href='/chamado/1/resolver?perfil=<%= perfil %>&retiro=<%= retiro %>'">
-          <div class="bar-lateral andamento"></div>
-          <div class="body">
-            <div class="info">
-              <span class="titulo"><img class="label-ico" src="/public/Icons/bebedouro.ico" alt="" /> Vazamento no bebedouro</span>
-              <span class="descricao">Hidráulica — Pasto 4</span>
-              <div class="meta"><span class="retiro-tag">📅 09/06/2026</span></div>
-            </div>
-            <div class="status-area">
-              <span class="badge andamento">Em andamento</span>
-              <span class="arrow">›</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card tarefa-card" onclick="window.location.href='/chamado/2/resolver?perfil=<%= perfil %>&retiro=<%= retiro %>'">
-          <div class="bar-lateral pendente"></div>
-          <div class="body">
-            <div class="info">
-              <span class="titulo"><img class="label-ico" src="/public/Icons/cerca_eletrica.ico" alt="" /> Cerca elétrica sem carga</span>
-              <span class="descricao">Elétrica — divisa norte</span>
-              <div class="meta"><span class="retiro-tag">📅 08/06/2026</span></div>
-            </div>
-            <div class="status-area">
-              <span class="badge pendente">Aberto</span>
-              <span class="arrow">›</span>
-            </div>
-          </div>
-        </div>
-
+        <p style="text-align:center; color:#8A8A7C; padding:1rem;">Carregando chamados...</p>
       </div>
 
       <% if (perfil !== 'Infraestrutura') { %>
@@ -94,5 +60,58 @@
 
   </div>
 </div>
+
+<script>
+  (function() {
+    var PERFIL = '<%= perfil %>';
+    var RETIRO = '<%= retiro %>';
+    var cont = document.getElementById('chamados-lista');
+
+    fetch('/api/chamados', { credentials: 'same-origin' })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var chamados = (data && data.chamados) || [];
+        var counts = { ABERTO: 0, EM_ANDAMENTO: 0, RESOLVIDO: 0 };
+        chamados.forEach(function(c) { if (counts[c.status] !== undefined) counts[c.status]++; });
+
+        var elAb = document.getElementById('count-abertos');
+        var elAn = document.getElementById('count-andamento');
+        var elFe = document.getElementById('count-fechados');
+        if (elAb) elAb.textContent = counts.ABERTO;
+        if (elAn) elAn.textContent = counts.EM_ANDAMENTO;
+        if (elFe) elFe.textContent = counts.RESOLVIDO;
+
+        if (!chamados.length) {
+          cont.innerHTML = '<p style="text-align:center; color:#8A8A7C; padding:1.5rem;">📭 Nenhum chamado registrado ainda.</p>';
+          return;
+        }
+
+        var ICOS = { hidraulica: 'hidraulica', eletrica: 'eletrica', cerca: 'cerca', bebedouro: 'bebedouro' };
+        cont.innerHTML = chamados.map(function(c) {
+          var ico = ICOS[c.tipo] || 'alerta';
+          var statusClasse = c.status === 'RESOLVIDO' ? 'concluida' : (c.status === 'EM_ANDAMENTO' ? 'andamento' : 'pendente');
+          var statusLabel = c.status === 'RESOLVIDO' ? 'Resolvido' : (c.status === 'EM_ANDAMENTO' ? 'Em andamento' : 'Aberto');
+          var data = (c.criado_em || '').slice(0, 10);
+          return '<div class="card tarefa-card" onclick="window.location.href=\'/chamado/' + c.id + '/resolver\'">' +
+            '<div class="bar-lateral ' + statusClasse + '"></div>' +
+            '<div class="body">' +
+              '<div class="info">' +
+                '<span class="titulo"><img class="label-ico" src="/public/Icons/' + ico + '.ico" alt="" /> ' + (c.descricao || '').slice(0, 50) + '</span>' +
+                '<span class="descricao">' + (c.tipo || '').toUpperCase() + '</span>' +
+                '<div class="meta"><span class="retiro-tag">📅 ' + data + '</span></div>' +
+              '</div>' +
+              '<div class="status-area">' +
+                '<span class="badge ' + statusClasse + '">' + statusLabel + '</span>' +
+                '<span class="arrow">›</span>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+      })
+      .catch(function() {
+        cont.innerHTML = '<p style="color:#D32F2F; text-align:center;">Erro ao carregar chamados.</p>';
+      });
+  })();
+</script>
 
 <%- include('partials/footer') %>

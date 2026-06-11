@@ -1,4 +1,6 @@
 <%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/boletas.css" />
+<link rel="stylesheet" href="/public/css/tarefas.css" />
 
 <div id="device" class="logged">
   <%- include('partials/sidebar') %>
@@ -10,12 +12,8 @@
       <div class="sub"><%= retiro %> (<%= perfil %>)</div>
     </div>
 
-    <main class="layout" style="padding: 0;">
+    <main class="boletas-main">
 
-      <div class="filter-pills">
-        <span class="pill" onclick="window.location.href='/tarefas?perfil=<%= perfil %>'">Painel</span>
-        <span class="pill active">Boletas</span>
-      </div>
 
       <div class="boletas-filtros" style="margin-bottom: 1rem;">
         <div class="card" style="padding: 1rem;">
@@ -65,35 +63,35 @@
         <h3 style="color: #1A4D2E; margin-bottom: 0.75rem;">⬇️ Exportar planilha</h3>
         <p style="font-size: 0.85rem; color: #5c6b5d; margin-bottom: 0.75rem;">Escolha o que incluir e o período.</p>
 
-        <div class="export-tipos" style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem;">
-          <label><input type="checkbox" class="exp-tipo" value="movimentacao" checked /> <img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Movimentações / Transferências</label>
-          <label><input type="checkbox" class="exp-tipo" value="nascimento" checked /> <img class="label-ico" src="/public/Icons/nascimento.ico" alt="" /> Nascimentos</label>
-          <label><input type="checkbox" class="exp-tipo" value="obito" checked /> <img class="label-ico" src="/public/Icons/obto.ico" alt="" /> Óbitos / Mortes</label>
-          <label><input type="checkbox" class="exp-tipo" value="compravenda" checked /> Compras / Vendas</label>
+        <div class="export-tipos">
+          <label class="export-checkbox"><input type="checkbox" class="exp-tipo" value="movimentacao" checked /><img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /><span>Movimentações / Transferências</span></label>
+          <label class="export-checkbox"><input type="checkbox" class="exp-tipo" value="nascimento" checked /><img class="label-ico" src="/public/Icons/nascimento.ico" alt="" /><span>Nascimentos</span></label>
+          <label class="export-checkbox"><input type="checkbox" class="exp-tipo" value="obito" checked /><img class="label-ico" src="/public/Icons/obto.ico" alt="" /><span>Óbitos / Mortes</span></label>
+          <label class="export-checkbox"><input type="checkbox" class="exp-tipo" value="compravenda" checked /><span class="emoji-ico">💰</span><span>Compras / Vendas</span></label>
         </div>
 
-        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
-          <div style="flex: 1; min-width: 130px;">
-            <label style="font-size: 0.8rem; color: #5c6b5d;">📅 De</label>
-            <input type="date" id="exp-data-inicio" style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;" />
+        <div class="export-datas">
+          <div class="export-data-field">
+            <label class="export-field-label">📅 De</label>
+            <input type="date" id="exp-data-inicio" />
           </div>
-          <div style="flex: 1; min-width: 130px;">
-            <label style="font-size: 0.8rem; color: #5c6b5d;">📅 Até</label>
-            <input type="date" id="exp-data-fim" style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;" />
+          <div class="export-data-field">
+            <label class="export-field-label">📅 Até</label>
+            <input type="date" id="exp-data-fim" />
           </div>
-          <div style="flex: 1; min-width: 130px;">
-            <label style="font-size: 0.8rem; color: #5c6b5d;">📍 Retiro</label>
-            <select id="exp-retiro" style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;">
+          <div class="export-data-field">
+            <label class="export-field-label">📍 Retiro</label>
+            <select id="exp-retiro">
               <option value="">Todos</option>
             </select>
           </div>
         </div>
 
-        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-          <button class="btn btn-primario" id="btn-exportar" style="flex:1;">
+        <div class="export-acoes">
+          <button class="btn btn-primario" id="btn-exportar">
             ⬇️ Gerar planilha (filtros)
           </button>
-          <button class="btn btn-primario" id="btn-exportar-selecionadas" style="flex:1; background:#A64B00;">
+          <button class="btn btn-secundario-laranja" id="btn-exportar-selecionadas">
             ⬇️ Exportar selecionadas (<span id="qtd-sel">0</span>)
           </button>
         </div>
@@ -109,11 +107,12 @@
   var SELECIONADAS = new Set();
 
   document.addEventListener('DOMContentLoaded', function() {
-    fetch('/api/dados/retiros')
+    // Usa endpoint que já filtra retiros pelo Coordenador logado
+    fetch('/api/dashboard/retiros', { credentials: 'same-origin' })
       .then(function(r) { return r.json(); })
       .then(function(retiros) {
         var sel = document.getElementById('exp-retiro');
-        retiros.forEach(function(r) {
+        (retiros || []).forEach(function(r) {
           sel.insertAdjacentHTML('beforeend', '<option value="' + r.id + '">' + r.nome + '</option>');
         });
       }).catch(function(){});
@@ -129,6 +128,7 @@
       .then(function(r) { return r.json(); })
       .then(function(rows) {
         BOLETAS = rows || [];
+        console.log('[Boletas] ' + BOLETAS.length + ' boletas pendentes para aprovação');
         renderBoletas();
       })
       .catch(function() {
@@ -138,9 +138,14 @@
   }
 
   function renderBoletas() {
+    atualizarTotais();
     var cont = document.getElementById('boletas-lista');
     if (!BOLETAS.length) {
-      cont.innerHTML = '<p style="color:#8A8A7C; text-align:center; padding:1rem;">Nenhuma boleta pendente de aprovação.</p>';
+      cont.innerHTML =
+        '<div style="text-align:center; padding:1.5rem; color:#8A8A7C; background:#fff; border:1px dashed #d7dfd3; border-radius:12px;">' +
+        '<p style="font-size:1rem; margin-bottom:0.5rem;">📭 Nenhuma boleta pendente de aprovação no momento.</p>' +
+        '<p style="font-size:0.85rem;">Você vê apenas boletas dos retiros sob sua responsabilidade.</p>' +
+        '</div>';
       return;
     }
     cont.innerHTML = BOLETAS.map(function(b) {
@@ -148,7 +153,7 @@
       var aprovada = !!b.aprovado_por_coordenador_id;
       return '<div class="card boleta-card" style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem; padding:0.75rem 1rem;">' +
         '<input type="checkbox" class="boleta-check" data-id="' + b.id + '" ' + (aprovada ? 'disabled' : '') + ' />' +
-        '<div style="flex:1; cursor:pointer;" onclick="window.location.href=\'/boleta/' + b.id + '\'">' +
+        '<div style="flex:1; cursor:pointer;" onclick="window.location.href=\'/boleta/' + (b.grupo_id || b.id) + '\'">' +
           '<span class="boleta-titulo">' + (b.categoria || 'Movimentação') + ' — ' + (b.quantidade || 0) + ' cabeças</span>' +
           '<span style="display:block; font-size:0.8rem; color:#8A8A7C;">📅 ' + data + ' · ' + (b.retiro_nome || '') + ' · ' + (b.capataz_nome || '') + '</span>' +
         '</div>' +
@@ -167,6 +172,22 @@
     cont.querySelectorAll('.btn-aprovar').forEach(function(b) {
       b.addEventListener('click', function() { aprovarBoleta(b.dataset.id); });
     });
+  }
+
+  function atualizarTotais() {
+    var counts = { nascimento: 0, obito: 0, transferencia: 0, compravenda: 0 };
+    BOLETAS.forEach(function(b) {
+      // boletas-pendentes retorna rows individuais; pra evitar duplicação, contamos pelo id
+      if (counts[b.tipo_operacao] !== undefined) counts[b.tipo_operacao]++;
+    });
+    var elN = document.getElementById('total-nascimentos');
+    var elO = document.getElementById('total-obitos');
+    var elT = document.getElementById('total-transferencias');
+    var elC = document.getElementById('total-compravendas');
+    if (elN) elN.textContent = counts.nascimento;
+    if (elO) elO.textContent = counts.obito;
+    if (elT) elT.textContent = counts.transferencia;
+    if (elC) elC.textContent = counts.compravenda;
   }
 
   function aprovarBoleta(id) {

@@ -16,37 +16,120 @@ interface SessUsuario {
   perfil: string;
 }
 
+/**
+ * IDs dos retiros sob responsabilidade do Coordenador logado.
+ * Gerente vê todos → retorna `null` (sem filtro).
+ * Para transferências, o coordenador vê se o retiro de origem OU destino é dele.
+ */
+function getRetirosDoCoordenador(sess: SessUsuario): string[] | null {
+  if (sess.perfil === 'Gerente') return null;
+  const rows = db.prepare(
+    'SELECT id FROM retiros WHERE coordenador_id = ?'
+  ).all(sess.id) as { id: string }[];
+  return rows.map((r) => r.id);
+}
+
 // ============ APROVAÇÃO ============
 
 // GET /api/coordenador/boletas-pendentes
-export function listarBoletasPendentes(_req: Request, res: Response) {
-  const rows = db.prepare(`
+export function listarBoletasPendentes(req: Request, res: Response) {
+  const sess = (req.session as any)?.usuario as SessUsuario | undefined;
+  if (!sess) return res.status(401).json({ erro: 'Não autenticado.' });
+
+  const retirosPermitidos = getRetirosDoCoordenador(sess);
+
+  // Debug log: quantas boletas pendentes existem no total + quais retiros o coord gerencia
+  const totalPendentes = (db.prepare(
+    "SELECT COUNT(*) AS n FROM movimentacoes WHERE aprovado_por_coordenador_id IS NULL"
+  ).get() as any).n;
+  console.log(`[listarBoletasPendentes] usuario=${sess.id} perfil=${sess.perfil} ` +
+    `retirosGerenciados=${JSON.stringify(retirosPermitidos)} totalPendentes=${totalPendentes}`);
+
+  let sql = `
     SELECT m.*, u.nome AS capataz_nome, r.nome AS retiro_nome
     FROM movimentacoes m
     LEFT JOIN usuarios u ON u.id = m.capataz_id
     LEFT JOIN retiros r ON r.id = m.retiro_id
     WHERE m.aprovado_por_coordenador_id IS NULL
-    ORDER BY m.criado_em DESC
-  `).all();
-  return res.json(rows);
+  `;
+  const params: any[] = [];
+
+  if (retirosPermitidos !== null) {
+    if (retirosPermitidos.length === 0) {
+      // Coordenador não responsável por nenhum retiro — não vê nada
+      console.log('[listarBoletasPendentes] coordenador sem retiros atribuídos');
+      return res.json([]);
+    }
+    const ph = retirosPermitidos.map(() => '?').join(',');
+    // Cobre tanto operações simples (retiro_id) quanto transferências (origem/destino)
+    sql += ` AND (m.retiro_id IN (${ph})
+              OR m.retiro_origem_id IN (${ph})
+              OR m.retiro_destino_id IN (${ph}))`;
+    params.push(...retirosPermitidos, ...retirosPermitidos, ...retirosPermitidos);
+  }
+
+  sql += ' ORDER BY m.criado_em DESC';
+  const rows = db.prepare(sql).all(...params) as any[];
+
+  // Agrupa por grupo_id (1 boleta = N rows de categorias)
+  const grupos: Record<string, any> = {};
+  for (const r of rows) {
+    const key = r.grupo_id || r.id;
+    if (!grupos[key]) {
+      grupos[key] = {
+        ...r,
+        id: r.id, // mantém o ID da row pra aprovar
+        grupo_id: key,
+        animais: [],
+      };
+    }
+    grupos[key].animais.push({ categoria: r.categoria, quantidade: r.quantidade });
+  }
+  const lista = Object.values(grupos);
+  console.log(`[listarBoletasPendentes] retornando ${lista.length} boleta(s) agrupadas (de ${rows.length} rows)`);
+  return res.json(lista);
 }
 
 // POST /api/coordenador/boletas/:id/aprovar
+// Aceita tanto um id de row quanto um grupo_id (aprova todas as rows do grupo).
 export function aprovarBoleta(req: Request, res: Response) {
   const sess = (req.session as any)?.usuario as SessUsuario | undefined;
   if (!sess) return res.status(401).json({ erro: 'Não autenticado.' });
 
-  const id = String(req.params.id);
-  const existe = db.prepare('SELECT id FROM movimentacoes WHERE id = ?').get(id);
-  if (!existe) return res.status(404).json({ erro: 'Boleta não encontrada.' });
+  const idOuGrupo = String(req.params.id);
+  // Busca todas as rows que compõem essa boleta (mesmo grupo_id)
+  const rows = db.prepare(
+    `SELECT id, retiro_id, retiro_origem_id, retiro_destino_id, grupo_id
+     FROM movimentacoes
+     WHERE id = ? OR grupo_id = ?`
+  ).all(idOuGrupo, idOuGrupo) as any[];
 
-  db.prepare(`
+  if (rows.length === 0) return res.status(404).json({ erro: 'Boleta não encontrada.' });
+
+  // Verifica permissão usando qualquer das rows (todas pertencem ao mesmo grupo/retiro)
+  const retirosPermitidos = getRetirosDoCoordenador(sess);
+  if (retirosPermitidos !== null) {
+    const envolvidos = new Set<string>();
+    for (const r of rows) {
+      if (r.retiro_id) envolvidos.add(r.retiro_id);
+      if (r.retiro_origem_id) envolvidos.add(r.retiro_origem_id);
+      if (r.retiro_destino_id) envolvidos.add(r.retiro_destino_id);
+    }
+    const podeAprovar = Array.from(envolvidos).some((rId) => retirosPermitidos.includes(rId));
+    if (!podeAprovar) {
+      return res.status(403).json({ erro: 'Você não é o coordenador responsável por nenhum retiro envolvido nesta boleta.' });
+    }
+  }
+
+  // Aprova TODAS as rows da boleta (mesmo grupo_id)
+  const stmt = db.prepare(`
     UPDATE movimentacoes
     SET aprovado_por_coordenador_id = ?, aprovado_em = datetime('now'), validado = 1
     WHERE id = ?
-  `).run(sess.id, id);
+  `);
+  for (const r of rows) stmt.run(sess.id, r.id);
 
-  return res.json({ mensagem: 'Boleta aprovada.' });
+  return res.json({ mensagem: 'Boleta aprovada.', linhas_atualizadas: rows.length });
 }
 
 // ============ EXPORTAÇÃO CSV ============
@@ -66,11 +149,25 @@ interface FiltrosExport {
  * Retiro, Data, Tipo, Categoria, Quantidade, Origem, Destino, Mês-Ano, Ano, Mês, Causa Morte, Obs, Fazenda
  */
 export function exportarCsv(req: Request, res: Response) {
+  const sess = (req.session as any)?.usuario as SessUsuario | undefined;
+  if (!sess) return res.status(401).send('Não autenticado.');
+
   const f = req.query as unknown as FiltrosExport;
 
   // WHERE dinâmico
   const conds: string[] = [];
   const params: any[] = [];
+
+  // Filtro automático por retiros do coordenador
+  const retirosPermitidos = getRetirosDoCoordenador(sess);
+  if (retirosPermitidos !== null) {
+    if (retirosPermitidos.length === 0) {
+      return res.status(403).send('Você não gerencia nenhum retiro.');
+    }
+    const ph = retirosPermitidos.map(() => '?').join(',');
+    conds.push(`(m.retiro_id IN (${ph}) OR m.retiro_origem_id IN (${ph}) OR m.retiro_destino_id IN (${ph}))`);
+    params.push(...retirosPermitidos, ...retirosPermitidos, ...retirosPermitidos);
+  }
 
   if (f.ids) {
     const idList = String(f.ids).split(',').filter(Boolean);

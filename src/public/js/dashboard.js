@@ -1,150 +1,130 @@
+/* dashboard.js — Carrega dados reais via /api/dashboard/* e popula gráficos Chart.js */
+
 (function () {
-  const primaryColor = '#286140';
-  const warningColor = '#946510';
-  const mutedColor = '#5c6b5d';
+  document.addEventListener('DOMContentLoaded', function () {
+    carregarResumo();
+    carregarListaRetiros();
+  });
 
-  let chartChamados;
-  let chartStatus;
+  function carregarResumo() {
+    fetch('/api/dashboard/resumo', { credentials: 'same-origin' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        // Aviso visual quando o escopo é "meus-retiros" (Coordenador)
+        if (d.escopo === 'meus-retiros') {
+          var header = document.querySelector('.header-bar .sub');
+          if (header && (d.totais && d.totais.retiros !== undefined)) {
+            header.textContent += ' · ' + d.totais.retiros + ' retiro(s) sob sua responsabilidade';
+          }
+          if ((d.totais && d.totais.retiros === 0)) {
+            var main = document.querySelector('.dashboard-main');
+            if (main) {
+              main.insertAdjacentHTML('afterbegin',
+                '<div class="card" style="padding:1rem; margin-bottom:1rem; background:#FFF4E5; border-color:#A64B00;">' +
+                '<strong>⚠️ Você ainda não gerencia nenhum retiro.</strong><br>' +
+                '<small>Peça ao Gerente para te atribuir como coordenador de algum retiro nas Configurações.</small>' +
+                '</div>');
+            }
+          }
+        }
+        // Indicadores de topo
+        var alertasEl = document.getElementById('stat-alertas');
+        var prioEl    = document.getElementById('stat-prioridades');
+        var evoEl     = document.getElementById('stat-evolucao');
+        if (alertasEl) alertasEl.textContent = (d.chamados && d.chamados.abertos) || 0;
+        if (prioEl)    prioEl.textContent    = (d.boletas && d.boletas.pendentes) || 0;
+        if (evoEl) {
+          var total = (d.boletas && d.boletas.total) || 0;
+          var aprov = (d.boletas && d.boletas.aprovadas) || 0;
+          evoEl.textContent = (total ? Math.round((aprov / total) * 100) : 0) + '%';
+        }
 
-  function criarLoader(canvas) {
-    const wrap = canvas.parentElement;
-    const loader = document.createElement('div');
-    loader.className = 'db-loader';
-    loader.textContent = 'Carregando…';
-    wrap.appendChild(loader);
-    return loader;
+        renderBarras(d.chamadosPorRetiro || []);
+        renderDonut(d.chamados || {});
+      })
+      .catch(function () {
+        console.warn('[dashboard] falha ao carregar /api/dashboard/resumo');
+      });
   }
 
-  function criarGraficos() {
-    const barCtx = document.getElementById('chart-chamados').getContext('2d');
-    chartChamados = new Chart(barCtx, {
+  function renderBarras(rows) {
+    var canvas = document.getElementById('chart-chamados');
+    if (!canvas || typeof Chart === 'undefined') return;
+    var labels = rows.map(function (r) { return r.retiro; });
+    var dados  = rows.map(function (r) { return r.total; });
+    new Chart(canvas.getContext('2d'), {
       type: 'bar',
-      data: {
-        labels: [],
-        datasets: [
-          {
-            label: 'Chamados abertos',
-            data: [],
-            backgroundColor: '#1f5c3a',
-            hoverBackgroundColor: '#163f28',
-            borderRadius: 6,
-            borderSkipped: false,
-          },
-        ],
-      },
+      data: { labels: labels, datasets: [{
+        label: 'Chamados abertos',
+        data: dados,
+        backgroundColor: '#1A4D2E',
+        borderRadius: 6,
+      }]},
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: { legend: { display: false } },
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: { precision: 0 },
-            grid: { color: '#d7dfd3' },
-          },
-          x: { grid: { display: false } },
-        },
-      },
+        scales: { y: { beginAtZero: true, ticks: { precision: 0 } } },
+      }
     });
+  }
 
-    const donutCtx = document.getElementById('chart-status').getContext('2d');
-    chartStatus = new Chart(donutCtx, {
+  function renderDonut(c) {
+    var canvas = document.getElementById('chart-status');
+    if (!canvas || typeof Chart === 'undefined') return;
+    new Chart(canvas.getContext('2d'), {
       type: 'doughnut',
       data: {
-        labels: ['Pendente', 'Em andamento', 'Concluída'],
-        datasets: [
-          {
-            data: [0, 0, 0],
-            backgroundColor: ['#2d7a56', '#c4831e', '#0f3320'],
-            borderWidth: 0,
-            hoverOffset: 8,
-            borderRadius: 3,
-          },
-        ],
+        labels: ['Aberto', 'Em andamento', 'Resolvido'],
+        datasets: [{
+          data: [c.abertos || 0, c.andamento || 0, c.resolvidos || 0],
+          backgroundColor: ['#1A4D2E', '#A64B00', '#2E7D52'],
+          borderWidth: 0,
+        }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        cutout: '68%',
         plugins: {
-          legend: {
-            position: 'bottom',
-            labels: {
-              padding: 16,
-              font: { size: 13 },
-              usePointStyle: true,
-              pointStyleWidth: 10,
-            },
-          },
-          tooltip: {
-            callbacks: {
-              label: function (ctx) {
-                const total = ctx.dataset.data.reduce(function (a, b) { return a + b; }, 0);
-                const valor = ctx.raw;
-                const pct = total > 0 ? Math.round((valor / total) * 100) : 0;
-                return ' ' + ctx.label + ': ' + valor + ' (' + pct + '%)';
-              },
-            },
-          },
+          legend: { position: 'bottom', labels: { font: { family: 'Inter', size: 12 } } },
         },
-      },
+        cutout: '60%',
+      }
     });
   }
 
-  async function renderizarGraficos() {
-    const gerenteId = window.DASHBOARD_USUARIO_ID;
-    if (!gerenteId) {
-      console.warn('[Dashboard] gerente_id não disponível — gráficos em modo vazio.');
-      return;
-    }
-
-    const loaderChamados = criarLoader(document.getElementById('chart-chamados'));
-    const loaderStatus = criarLoader(document.getElementById('chart-status'));
-
-    try {
-      const resp = await fetch('/api/painel-gerencial?gerente_id=' + encodeURIComponent(gerenteId));
-      if (!resp.ok) throw new Error('HTTP ' + resp.status);
-      const dados = await resp.json();
-
-      // Atualizar cards numéricos
-      document.getElementById('stat-alertas').textContent =
-        dados.total_alertas_abertos ?? '—';
-      document.getElementById('stat-prioridades').textContent =
-        dados.resumo_tarefas?.pendentes ?? '—';
-      const total = dados.resumo_tarefas?.total || 0;
-      const concluidas = dados.resumo_tarefas?.concluidas || 0;
-      const evolucao = total > 0 ? Math.round((concluidas / total) * 100) : 0;
-      document.getElementById('stat-evolucao').textContent = evolucao + '%';
-
-      // Gráfico de barras — alertas abertos agrupados por retiro, ordem decrescente
-      const alertas = dados.alertas_abertos || [];
-      const contagemPorRetiro = alertas.reduce(function (acc, a) {
-        const nome = a.retiro_nome || 'Sem retiro';
-        acc[nome] = (acc[nome] || 0) + 1;
-        return acc;
-      }, {});
-      const retirosSorted = Object.entries(contagemPorRetiro)
-        .sort(function (a, b) { return b[1] - a[1]; });
-      chartChamados.data.labels = retirosSorted.map(function (r) { return r[0]; });
-      chartChamados.data.datasets[0].data = retirosSorted.map(function (r) { return r[1]; });
-      chartChamados.update();
-
-      // Gráfico de rosca — distribuição por status
-      const resumo = dados.resumo_tarefas || {};
-      chartStatus.data.datasets[0].data = [
-        resumo.pendentes || 0,
-        resumo.em_andamento || 0,
-        resumo.concluidas || 0,
-      ];
-      chartStatus.update();
-    } catch (err) {
-      console.error('[Dashboard] Erro ao carregar painel:', err);
-    } finally {
-      loaderChamados.remove();
-      loaderStatus.remove();
-    }
+  function carregarListaRetiros() {
+    var cont = document.getElementById('lista-retiros-dashboard');
+    fetch('/api/dashboard/retiros', { credentials: 'same-origin' })
+      .then(function (r) { return r.json(); })
+      .then(function (rows) {
+        // Popula o filtro de retiros (apenas os retiros que o usuário tem acesso)
+        var filtroSel = document.getElementById('filter-retiro');
+        if (filtroSel) {
+          filtroSel.innerHTML = '<option value="">Todos os meus retiros</option>';
+          (rows || []).forEach(function (r) {
+            filtroSel.insertAdjacentHTML('beforeend', '<option value="' + r.id + '">' + r.nome + '</option>');
+          });
+        }
+        if (!cont) return;
+        if (!rows || !rows.length) {
+          cont.innerHTML = '<p style="color:#8A8A7C; text-align:center;">Nenhum retiro cadastrado.</p>';
+          return;
+        }
+        cont.innerHTML = rows.map(function (r) {
+          return '<div class="retiro-card-dash">' +
+            '<div class="retiro-dash-nome">🏠 <strong>' + r.nome + '</strong>' +
+              (r.numero ? ' (' + r.numero + ')' : '') + '</div>' +
+            '<div class="retiro-dash-info">' +
+              '<span>👷 ' + (r.capataz_nome || '—') + '</span>' +
+              '<span>📋 ' + (r.coordenador_nome || '—') + '</span>' +
+            '</div>' +
+            '<div class="retiro-dash-stats">' +
+              '<span class="dash-pill">📝 ' + r.total_boletas + ' boletas</span>' +
+              '<span class="dash-pill alert">⚠️ ' + r.chamados_abertos + ' chamados</span>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+      });
   }
-
-  criarGraficos();
-  renderizarGraficos();
 })();

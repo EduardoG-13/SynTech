@@ -12,7 +12,7 @@
       <div class="sub"><%= perfil %></div>
     </div>
 
-    <main class="layout" style="padding: 0;">
+    <main class="dashboard-main">
 
       <div class="card" style="margin-bottom: 1rem; padding: 1rem;">
         <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
@@ -46,12 +46,17 @@
       </div>
 
       <div class="card" style="margin-bottom: 1rem; padding: 1rem;">
-        <h3>Tarefas por status</h3>
+        <h3>Chamados por status</h3>
         <div style="position: relative; height: 250px;">
           <canvas id="chart-status"></canvas>
         </div>
       </div>
 
+      <!-- Lista de retiros: status operacional -->
+      <div class="card" style="margin-bottom: 1rem; padding: 1rem;">
+        <h3>🏠 Retiros da fazenda</h3>
+        <div id="lista-retiros-dashboard" class="retiros-grid"></div>
+      </div>
 
     </main>
 

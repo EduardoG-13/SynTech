@@ -1,0 +1,136 @@
+/* =========================================================
+   infraestrutura.css — Painel de chamados (Infra / Gerente)
+   ========================================================= */
+
+.infra-main {
+  display: block;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* Filtros de categoria (hidráulica/cerca/elétrica) */
+.infra-main .filter-pills {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.infra-main .filter-pills .pill {
+  background: #fff;
+  border: 2px solid #d7dfd3;
+  color: #1B1B1B;
+  border-radius: 999px;
+  padding: 0.5rem 1.25rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: auto;
+}
+.infra-main .filter-pills .pill:hover { border-color: #1A4D2E; }
+.infra-main .filter-pills .pill.active {
+  background: #1A4D2E;
+  color: #fff;
+  border-color: #1A4D2E;
+}
+
+/* Cards de status (Abertos / Em andamento / Fechados) */
+.chamados-resumo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.chamado-status-card {
+  background: #fff;
+  border: 1px solid #d7dfd3;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.chamado-status-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(26, 77, 46, 0.1);
+}
+
+.chamado-status-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+.chamado-status-icon.aberto { background: #FFF4E5; }
+.chamado-status-icon.andamento { background: #FFE9D6; }
+.chamado-status-icon.fechado { background: #E6F3EB; }
+
+.chamado-status-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.chamado-status-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1B1B1B;
+}
+.chamado-status-sub {
+  font-size: 0.75rem;
+  color: #8A8A7C;
+}
+
+.chamado-status-count {
+  font-family: 'Inter', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1A4D2E;
+  flex-shrink: 0;
+}
+
+/* Lista de chamados (reusa estilos de .tarefa-card de tarefas.css) */
+.chamados-lista {
+  margin-top: 1.5rem;
+}
+
+/* Botão Novo Chamado */
+.infra-main .btn-primario {
+  width: 100%;
+  background: #1A4D2E;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  min-height: 56px;
+  margin-top: 1rem;
+}
+.infra-main .btn-primario:hover { background: #2E7D52; }
+
+/* Responsivo */
+@media (max-width: 600px) {
+  .chamados-resumo {
+    grid-template-columns: 1fr;
+  }
+  .chamado-status-card {
+    padding: 0.85rem 1rem;
+  }
+  .chamado-status-count {
+    font-size: 1.5rem;
+  }
+}
