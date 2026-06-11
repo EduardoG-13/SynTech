@@ -638,3 +638,101 @@ th {
   object-fit: contain;
   vertical-align: middle;
 }
+
+/* =========================================================
+   ACESSIBILIDADE DE CAMPO — APENAS PARA CAPATAZ
+   Fontes maiores + UPPERCASE para uso em campo
+   (sol forte, dedos sujos, baixo letramento digital).
+   Os outros perfis (Gerente, Coordenador, Infra) mantêm o tamanho normal.
+   ========================================================= */
+
+body[data-perfil="Capataz"] #device.logged {
+  font-size: 1.15rem;
+}
+body[data-perfil="Capataz"] #device.logged .header-bar h1 {
+  font-size: 2.3rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+body[data-perfil="Capataz"] #device.logged .header-bar .sub {
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+body[data-perfil="Capataz"] #device.logged h2,
+body[data-perfil="Capataz"] #device.logged h3 {
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+body[data-perfil="Capataz"] #device.logged label,
+body[data-perfil="Capataz"] #device.logged .label-bold,
+body[data-perfil="Capataz"] #device.logged .card.campo label {
+  font-size: 1.15rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-weight: 700;
+}
+body[data-perfil="Capataz"] #device.logged .filter-pills .pill,
+body[data-perfil="Capataz"] #device.logged .toggle-pills .pill {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  padding: 0.85rem 1.5rem;
+}
+body[data-perfil="Capataz"] #device.logged button,
+body[data-perfil="Capataz"] #device.logged .btn,
+body[data-perfil="Capataz"] #device.logged .btn-primario,
+body[data-perfil="Capataz"] #device.logged .btn-salvar,
+body[data-perfil="Capataz"] #device.logged .btn-enviar,
+body[data-perfil="Capataz"] #device.logged .btn-enviar-detalhe,
+body[data-perfil="Capataz"] #device.logged .btn-primario-grande,
+body[data-perfil="Capataz"] #device.logged .btn-login,
+body[data-perfil="Capataz"] #device.logged .btn-audio {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  min-height: 64px;
+  padding: 1.1rem 1.25rem;
+}
+body[data-perfil="Capataz"] #device.logged .tarefa-card .titulo {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+body[data-perfil="Capataz"] #device.logged .tarefa-card .descricao { font-size: 1rem; }
+body[data-perfil="Capataz"] #device.logged .tarefa-card .meta { font-size: 0.9rem; }
+body[data-perfil="Capataz"] #device.logged .badge {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.45rem 0.95rem;
+}
+body[data-perfil="Capataz"] #sidebar #side-nav button,
+body[data-perfil="Capataz"] #sidebar .side-config,
+body[data-perfil="Capataz"] #sidebar .side-logout {
+  font-size: 1.1rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-weight: 700;
+}
+body[data-perfil="Capataz"] #device.logged input[type="text"],
+body[data-perfil="Capataz"] #device.logged input[type="number"],
+body[data-perfil="Capataz"] #device.logged input[type="date"],
+body[data-perfil="Capataz"] #device.logged input[type="password"],
+body[data-perfil="Capataz"] #device.logged select,
+body[data-perfil="Capataz"] #device.logged textarea {
+  font-size: 1.15rem;
+  min-height: 60px;
+  padding: 0.95rem 1rem;
+}
+body[data-perfil="Capataz"] .bottom-nav button {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+}
+/* fim do bloco específico do Capataz */
+
