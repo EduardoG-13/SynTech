@@ -165,9 +165,9 @@
           <div class="upload-foto">
             <label for="os-foto" class="upload-label">
               <img class="upload-icon-img" src="/public/Icons/tira_foto.ico" alt="" />
-              <span id="foto-label-txt">Tirar foto agora</span>
+              <span id="foto-label-txt">📷 Tirar foto ou escolher do celular</span>
             </label>
-            <input type="file" id="os-foto" accept="image/*" capture="environment" />
+            <input type="file" id="os-foto" accept="image/*" />
           </div>
         </div>
 
@@ -177,9 +177,9 @@
           <div class="upload-foto">
             <label for="os-foto-manejo" class="upload-label">
               <img class="upload-icon-img" src="/public/Icons/tira_foto.ico" alt="" />
-              <span id="foto-manejo-txt">Tirar foto da atividade</span>
+              <span id="foto-manejo-txt">📷 Tirar foto ou escolher do celular</span>
             </label>
-            <input type="file" id="os-foto-manejo" accept="image/*" capture="environment" />
+            <input type="file" id="os-foto-manejo" accept="image/*" />
           </div>
         </div>
 
@@ -227,22 +227,32 @@
   });
 
   function preencherParaEdicao(id) {
-    var lista = [];
-    try { lista = JSON.parse(localStorage.getItem('brpec_registros') || '[]'); } catch(e){}
-    var reg = lista.find(function(r) { return String(r.id) === String(id); });
-    if (!reg) {
-      mostrarMsg('⚠️ Registro não encontrado para edição.', 'erro');
-      return;
-    }
-    // Janela de 30 dias: bloqueia edição se já passou
-    if (reg.criadoEm) {
-      var dias = (Date.now() - new Date(reg.criadoEm).getTime()) / (1000 * 60 * 60 * 24);
-      if (dias > 30) {
-        mostrarMsg('🔒 Esta boleta tem mais de 30 dias e não pode mais ser editada.', 'erro');
-        setTimeout(function() { window.location.href = '/boleta/' + id; }, 2000);
-        return;
-      }
-    }
+    fetch('/api/boletas/' + encodeURIComponent(id), { credentials: 'same-origin' })
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(reg) {
+        if (!reg) {
+          mostrarMsg('⚠️ Boleta não encontrada para edição.', 'erro');
+          return;
+        }
+        if (reg.criadoEm) {
+          var dias = (Date.now() - new Date(reg.criadoEm).getTime()) / (1000 * 60 * 60 * 24);
+          if (dias > 30) {
+            mostrarMsg('🔒 Esta boleta tem mais de 30 dias e não pode mais ser editada.', 'erro');
+            setTimeout(function() { window.location.href = '/boleta/' + id; }, 2000);
+            return;
+          }
+        }
+        if (reg.aprovada) {
+          mostrarMsg('🔒 Boleta já aprovada pelo Coordenador, não pode mais ser editada.', 'erro');
+          setTimeout(function() { window.location.href = '/boleta/' + id; }, 2000);
+          return;
+        }
+        preencherCamposEdicao(reg);
+      })
+      .catch(function() { mostrarMsg('❌ Erro ao carregar boleta.', 'erro'); });
+  }
+
+  function preencherCamposEdicao(reg) {
 
     // Operação dispara o show dos campos certos
     var selOp = document.getElementById('os-operacao');
@@ -611,17 +621,33 @@
     payload.observacoes_audio = audioBase64 || ''; // áudio em base64 (data URL) para salvar no banco
 
     console.log('Payload da boleta:', payload);
-    // Persiste o registro localmente (lista do histórico + último para a tela de sucesso)
-    try {
-      var lista = JSON.parse(localStorage.getItem('brpec_registros') || '[]');
-      var registro = Object.assign({ id: Date.now(), criadoEm: new Date().toISOString() }, payload);
-      lista.unshift(registro);
-      localStorage.setItem('brpec_registros', JSON.stringify(lista));
-      localStorage.setItem('brpec_ultimo_registro', JSON.stringify(registro));
-    } catch(e) {}
+    // Salva no banco (POST /api/boletas). Se houver editId, faz PUT no grupo.
+    var editId = new URLSearchParams(window.location.search).get('edit');
+    var url = editId ? '/api/boletas/' + encodeURIComponent(editId) : '/api/boletas';
+    var metodo = editId ? 'PUT' : 'POST';
 
-    // Vai para a tela de sucesso
-    window.location.href = '/sucesso';
+    fetch(url, {
+      method: metodo,
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify(payload),
+    })
+    .then(function(r) { return r.json().then(function(d){ return { ok: r.ok, data: d }; }); })
+    .then(function(res) {
+      if (!res.ok) {
+        mostrarMsg('❌ ' + (res.data.erro || 'Erro ao salvar boleta.'), 'erro');
+        return;
+      }
+      // Guarda no localStorage só pra tela de sucesso mostrar o resumo
+      try {
+        var resumo = Object.assign({ id: res.data.grupo_id, criadoEm: new Date().toISOString() }, payload);
+        localStorage.setItem('brpec_ultimo_registro', JSON.stringify(resumo));
+      } catch(e) {}
+      window.location.href = '/sucesso';
+    })
+    .catch(function() {
+      mostrarMsg('❌ Erro de conexão. Tente novamente.', 'erro');
+    });
   });
 </script>
 <script type="module" src="/public/js/nova-os-handler.js"></script>

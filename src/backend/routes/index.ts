@@ -15,6 +15,9 @@ import exportacaoRoutes from './exportacaoRoutes';
 import dadosRoutes from './dadosRoutes';
 import adminRoutes from './adminRoutes';
 import coordenadorRoutes from './coordenadorRoutes';
+import boletaRoutes from './boletaRoutes';
+import dashboardRoutes from './dashboardRoutes';
+import historicoRoutes from './historicoRoutes';
 
 // Health-check
 router.get('/health', healthController.verificarSaude);
@@ -27,6 +30,15 @@ router.use('/admin', adminRoutes);
 
 // Coordenador: aprovar boletas + exportar CSV
 router.use('/coordenador', coordenadorRoutes);
+
+// Boletas (Capataz cria/edita/lista; Coordenador/Gerente leem)
+router.use('/boletas', boletaRoutes);
+
+// Dashboard (Gerente / Coordenador)
+router.use('/dashboard', dashboardRoutes);
+
+// Histórico unificado (todos os perfis, com filtros automáticos)
+router.use('/historico', historicoRoutes);
 
 // Tarefas
 router.use('/tarefas', tarefaRoutes);

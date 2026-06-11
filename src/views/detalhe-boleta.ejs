@@ -146,36 +146,42 @@
     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
-  // Janela de edição: até 30 dias após criação. Depois disso o Coordenador já fechou.
+  // Janela de edição: até 30 dias após criação. Também bloqueia se já aprovada.
   function verificarJanelaEdicao(btnEditar, bloqueio) {
-    var lista = [];
-    try { lista = JSON.parse(localStorage.getItem('brpec_registros') || '[]'); } catch(e){}
-    var reg = lista.find(function(r) { return String(r.id) === String(BOLETA_ID); });
-    if (!reg || !reg.criadoEm) return; // sem data, deixa editar
-    var diff = Date.now() - new Date(reg.criadoEm).getTime();
-    var dias = diff / (1000 * 60 * 60 * 24);
-    if (dias > 30) {
-      btnEditar.style.display = 'none';
-      if (bloqueio) bloqueio.style.display = 'block';
-    }
+    fetch('/api/boletas/' + encodeURIComponent(BOLETA_ID), { credentials: 'same-origin' })
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(reg) {
+        if (!reg || !reg.criadoEm) return;
+        var bloqueada = false;
+        if (reg.aprovada) bloqueada = true;
+        var diff = Date.now() - new Date(reg.criadoEm).getTime();
+        var dias = diff / (1000 * 60 * 60 * 24);
+        if (dias > 30) bloqueada = true;
+        if (bloqueada) {
+          btnEditar.style.display = 'none';
+          if (bloqueio) bloqueio.style.display = 'block';
+          if (reg.aprovada && bloqueio) bloqueio.textContent = '🔒 Boleta já aprovada pelo Coordenador.';
+        }
+      });
   }
 
   function carregarBoleta() {
-    var lista = [];
-    try { lista = JSON.parse(localStorage.getItem('brpec_registros') || '[]'); } catch(e){}
-    var reg = lista.find(function(r) { return String(r.id) === String(BOLETA_ID); });
+    fetch('/api/boletas/' + encodeURIComponent(BOLETA_ID), { credentials: 'same-origin' })
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(reg) {
+        if (!reg) {
+          document.getElementById('bol-tipo').textContent = 'Boleta não encontrada';
+          document.getElementById('bol-status').textContent = '—';
+          return;
+        }
+        renderBoleta(reg);
+      })
+      .catch(function() {
+        document.getElementById('bol-tipo').textContent = 'Erro ao carregar';
+      });
+  }
 
-    // Fallback: se id não bateu, usa o último registrado (vindo da tela de sucesso)
-    if (!reg) {
-      try { reg = JSON.parse(localStorage.getItem('brpec_ultimo_registro') || 'null'); } catch(e){}
-    }
-
-    if (!reg) {
-      document.getElementById('bol-tipo').textContent = 'Boleta não encontrada';
-      document.getElementById('bol-status').textContent = '—';
-      return;
-    }
-
+  function renderBoleta(reg) {
     var RANKS = {
       'nascimento': { ico: 'nascimento', label: 'Nascimento' },
       'obito': { ico: 'obto', label: 'Óbito' },

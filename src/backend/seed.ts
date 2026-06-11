@@ -84,8 +84,19 @@ try {
   for (const c of capatazes) {
     db.prepare(`INSERT OR IGNORE INTO usuarios (id, nome, senha, perfil, retiro_id) VALUES (?, ?, ?, ?, ?)`)
       .run(c.id, c.nome, senhaHash, 'Capataz', c.retiro);
-    // Vincula o capataz ao retiro também pelo lado do retiro (retiros.capataz_id)
     db.prepare(`UPDATE retiros SET capataz_id = ? WHERE id = ?`).run(c.id, c.retiro);
+  }
+
+  // ==================== INFRA (3 equipes técnicas) ====================
+  // O login simplificado da Infra usa esses IDs (tecnico-hidraulica, etc.)
+  const equipesInfra = [
+    { id: 'tecnico-hidraulica', nome: 'Equipe Hidráulica' },
+    { id: 'tecnico-eletrica',   nome: 'Equipe Elétrica' },
+    { id: 'tecnico-cerca',      nome: 'Equipe Cerca' },
+  ];
+  for (const t of equipesInfra) {
+    db.prepare(`INSERT OR IGNORE INTO usuarios (id, nome, senha, perfil, retiro_id) VALUES (?, ?, ?, ?, NULL)`)
+      .run(t.id, t.nome, senhaHash, 'Tecnico');
   }
 
   console.log('[seed] Seed concluído com sucesso!');

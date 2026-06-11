@@ -29,8 +29,8 @@
           <button class="btn-secundario" id="btn-historico">
             🕓 Ver histórico
           </button>
-          <button class="btn-primario-grande" id="btn-novo">
-            <img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Registrar outra
+          <button class="btn-primario-grande" id="btn-inicio">
+            ⬅️ Voltar ao início
           </button>
         </div>
       </div>
@@ -60,9 +60,12 @@
       if (PERFIL === 'Infraestrutura') window.location.href = '/historico';
       else window.location.href = '/tarefas';
     });
-    document.getElementById('btn-novo').addEventListener('click', function() {
-      if (PERFIL === 'Infraestrutura') window.location.href = '/infraestrutura';
-      else window.location.href = '/nova-os';
+    document.getElementById('btn-inicio').addEventListener('click', function() {
+      // Cada perfil tem sua home
+      if (PERFIL === 'Capataz') window.location.href = '/tarefas';
+      else if (PERFIL === 'Infraestrutura') window.location.href = '/infraestrutura';
+      else if (PERFIL === 'Gerente' || PERFIL === 'Coordenador') window.location.href = '/dashboard';
+      else window.location.href = '/';
     });
 
     // Simula confirmação de sync após 2s (vai ser real quando integração estiver pronta)
