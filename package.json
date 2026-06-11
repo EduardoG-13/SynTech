@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "prepare": "husky",
+    "prepare": "node -e \"try { require('child_process').execSync('husky', { stdio: 'inherit' }); } catch (e) { console.log('[prepare] husky indisponivel (ok em producao):', e.message); }\"",
     "test": "jest --forceExit",
     "dev": "nodemon --exec ts-node src/backend/server.ts",
     "start": "ts-node src/backend/server.ts",
@@ -48,6 +48,6 @@
     "typescript": "^6.0.3"
   },
   "engines": {
-    "node": ">=22.5.0"
+    "node": "22.x"
   }
 }
