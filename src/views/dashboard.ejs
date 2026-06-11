@@ -23,32 +23,33 @@
         </div>
       </div>
 
-      <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
-        <div class="card" style="flex: 1; text-align: center; padding: 1rem; min-width: 100px;">
-          <span style="font-size: 2rem; font-weight: 700; color: #1A4D2E;" id="stat-alertas">—</span>
-          <p style="font-size: 0.8rem; color: #8A8A7C;">Alertas em aberto</p>
+      <div class="db-stats" style="margin-bottom: 1rem;">
+        <div class="card db-stat-card" style="padding: 1rem;">
+          <p class="db-stat-card__label">Alertas em aberto</p>
+          <div class="db-stat-card__value" id="stat-alertas">—</div>
         </div>
-        <div class="card" style="flex: 1; text-align: center; padding: 1rem; min-width: 100px;">
-          <span style="font-size: 2rem; font-weight: 700; color: #1A4D2E;" id="stat-prioridades">—</span>
-          <p style="font-size: 0.8rem; color: #8A8A7C;">Prioridades</p>
+        <div class="card db-stat-card" style="padding: 1rem;">
+          <p class="db-stat-card__label">Prioridades</p>
+          <div class="db-stat-card__value" id="stat-prioridades">—</div>
         </div>
-        <div class="card" style="flex: 1; text-align: center; padding: 1rem; min-width: 100px;">
-          <span style="font-size: 2rem; font-weight: 700; color: #1A4D2E;" id="stat-evolucao">—%</span>
-          <p style="font-size: 0.8rem; color: #8A8A7C;">Evolução</p>
-        </div>
-      </div>
-
-      <div class="card" style="margin-bottom: 1rem; padding: 1rem;">
-        <h3>Chamados por retiro</h3>
-        <div style="position: relative; height: 250px;">
-          <canvas id="chart-chamados"></canvas>
+        <div class="card db-stat-card" style="padding: 1rem;">
+          <p class="db-stat-card__label">Evolução</p>
+          <div class="db-stat-card__value" id="stat-evolucao">—%</div>
         </div>
       </div>
 
-      <div class="card" style="margin-bottom: 1rem; padding: 1rem;">
-        <h3>Chamados por status</h3>
-        <div style="position: relative; height: 250px;">
-          <canvas id="chart-status"></canvas>
+      <div class="db-charts" style="margin-bottom: 1rem;">
+        <div class="card" style="padding: 1rem;">
+          <h3>Chamados por retiro</h3>
+          <div class="db-chart-wrap">
+            <canvas id="chart-chamados" role="img" aria-label="Gráfico de barras: chamados em aberto por retiro"></canvas>
+          </div>
+        </div>
+        <div class="card" style="padding: 1rem;">
+          <h3>Chamados por status</h3>
+          <div class="db-chart-wrap db-chart-wrap--donut">
+            <canvas id="chart-status" role="img" aria-label="Gráfico de rosca: chamados por status"></canvas>
+          </div>
         </div>
       </div>
 
