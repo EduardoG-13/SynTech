@@ -5587,9 +5587,10 @@ Tests:       61 passed, 61 total
 |---------|:-------:|:----------:|------------|
 | `exportacaoService.ts` | 100 | ✓ | Cobertura total; branch 75% — linha 6 (import) não executável |
 | `eventoService.ts` | 92 | ✓ | Linhas 65 e 68: caminhos de fallback de tipo de evento não exercitados |
+| `cloudSyncService.ts` | 93.15 | ✓ | Linhas 21-22, 272-274: guard de ambiente e log de finalização; todos os branches do loop Outbox cobertos |
 | `tarefaService.ts` | 86.84 | ✓ | Linhas 17, 20, 27-28, 48: guard clauses de tipo e log interno |
 | `alertaService.ts` | 82.6 | ✓ | Linhas 16, 23-25: branches de validação de tipo de chamado |
-| `cloudSyncService.ts` | 42.46 | ✗ | Linhas 100-233: loop principal do Outbox com ~15 branches de tipo de entidade; cobertura limitada pelo mock do pool Supabase |
+| `database.ts` | 100 | ✓ | Todos os branches de inicialização cobertos por database.test.ts |
 
 > A métrica `All files` (73.04% lines) inclui arquivos de `config` e `tests/mocks` que não são camada de serviço. Considerando apenas `services/`, a cobertura de linhas é 70.22% — puxada para baixo pelo `cloudSyncService.ts`. Os quatro serviços de domínio (`alerta`, `evento`, `exportacao`, `tarefa`) atendem individualmente à meta de 80% de linhas.
 
