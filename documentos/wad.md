@@ -4893,51 +4893,59 @@ A resiliência de rede é um pilar crítico no BrPec. Utiliza-se um mecanismo de
 
 ## 3.9. Matriz de Rastreabilidade (RTM) (sprints 3 a 5)
 
-A matriz a seguir consolida a rastreabilidade entre Requisitos Funcionais (RF),
+A matriz a seguir consolida a rastreabilidade entre User Stories (US), Requisitos Funcionais (RF),
 Regras de Negócio (RN) e a implementação correspondente no backend da BrPec.
-Uma linha por combinação RF + RN, sem células vazias na trilha principal.
+Uma linha por combinação RF + RN; onde não existe RN dedicada para o RF na seção 3.1.2, o campo exibe "—".
 
 <div align="center">
-  <p><strong>Tabela 19</strong> — Matriz RTM BrPec</p>
+  <p><strong>Tabela 20</strong> — Matriz RTM BrPec</p>
 </div>
 
-| Persona     | Necessidade                                              | RN    | RF    | Implementação                                                                          | Evidência                                                                        |
-|-------------|----------------------------------------------------------|-------|-------|----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
-| Gerente     | Criar tarefa e associar a um retiro                      | RN01  | RF001 | `POST /tarefas` · `src/controllers/tarefaController.js` · `create()`                  | `test/tarefas.test.js` · `it('cria tarefa vinculada a retiro')` · Network 201    |
-| Capataz     | Visualizar tarefas do dia sem internet                   | RN02  | RF002 | `GET /tarefas/hoje` · `src/controllers/tarefaController.js` · `getHoje()`             | `test/tarefas.test.js` · `it('retorna tarefas do dia')` · Network 200            |
-| Capataz     | Ver apenas tarefas do seu retiro                         | RN05  | RF002 | `GET /tarefas/hoje` · filtro por `capataz_id` no Repository                           | `test/tarefas.test.js` · `it('filtra por retiro do capataz')` · Network 200      |
-| Capataz     | Acessar tarefas previamente sincronizadas offline        | RN06  | RF002 | IndexedDB (Local) · `src/service-worker.js` · `cacheFirst()`                          | `test/offline.test.js` · `it('acessa tarefas offline')` · cache hit              |
-| Capataz     | Tarefas do dia disponíveis após sincronia prévia         | RN07  | RF002 | IndexedDB (Local) · `src/service-worker.js` · `cacheFirst()`                          | `test/offline.test.js` · `it('tarefas disponiveis apos sincronia')` · cache hit  |
-| Capataz     | Interface simples com botões visíveis                    | RN12  | RF002 | IndexedDB (Local) · componentes CSS em `src/frontend/capataz/`                        | `test/ui.test.js` · `it('exibe botoes visiveis ao capataz')` · screenshot        |
-| Capataz     | Armazenar tarefas localmente após sincronização          | RN03  | RF003 | IndexedDB (Local) · `src/sync/syncService.js` · `salvarLocal()`                       | `test/sync.test.js` · `it('armazena tarefas localmente')` · IndexedDB populated  |
-| Capataz     | Salvar conclusão offline até próxima sincronização       | RN08  | RF003 | `PATCH /tarefas/:id/concluir` · `src/controllers/tarefaController.js`                 | `test/tarefas.test.js` · `it('conclui tarefa com timestamp')` · Network 200      |
-| Gerente     | Ver status atualizado após sincronização                 | RN09  | RF003 | `PATCH /tarefas/:id/concluir` · `src/repositories/tarefaRepository.js`                | `test/tarefas.test.js` · `it('atualiza status para gerente')` · Network 200      |
-| Capataz     | Ver mensagem quando não houver tarefas offline           | RN04  | RF004 | IndexedDB (Local) · `src/frontend/capataz/tarefas.js` · estado vazio                  | `test/ui.test.js` · `it('exibe mensagem sem tarefas offline')` · screenshot      |
-| Capataz     | Fotos vinculadas à tarefa correspondente                 | RN10  | RF004 | IndexedDB (Local) · `src/sync/syncService.js` · `salvarLocal()`                       | `test/sync.test.js` · `it('vincula foto a tarefa')` · IndexedDB populated        |
-| Capataz     | Fotos offline enviadas ao reconectar                     | RN11  | RF004 | IndexedDB (Local) · `src/sync/syncService.js` · `drenarFila()`                        | `test/sync.test.js` · `it('envia fotos ao reconectar')` · Network 201            |
-| Capataz     | Interface simples para anexar fotos                      | RN12  | RF004 | IndexedDB (Local) · `src/frontend/capataz/tarefas.js` · botão upload                  | `test/ui.test.js` · `it('exibe botao de foto visivel')` · screenshot             |
-| Capataz     | Áudio vinculado a uma tarefa existente                   | RN13  | RF005 | `POST /tarefas/:id/evidencias` · `src/controllers/evidenciaController.js`             | `test/evidencias.test.js` · `it('anexa audio base64')` · Network 201             |
-| Capataz     | Gravar áudio curto para complementar tarefa              | RN14  | RF005 | `POST /tarefas/:id/evidencias` · `src/controllers/evidenciaController.js`             | `test/evidencias.test.js` · `it('grava audio curto')` · Network 201              |
-| Capataz     | Armazenar áudio localmente quando offline                | RN15  | RF005 | IndexedDB (Local) · `src/sync/syncService.js` · `salvarLocal()`                       | `test/sync.test.js` · `it('armazena audio offline')` · IndexedDB populated       |
-| Capataz     | Enviar áudio ao reconectar                               | RN16  | RF005 | IndexedDB (Local) · `src/sync/syncService.js` · `drenarFila()`                        | `test/sync.test.js` · `it('envia audio ao reconectar')` · Network 201            |
-| Capataz     | Confirmação após áudio salvo ou sincronizado             | RN17  | RF005 | IndexedDB (Local) · `src/frontend/capataz/tarefas.js` · toast de confirmação          | `test/ui.test.js` · `it('exibe toast apos audio salvo')` · screenshot            |
-| Capataz     | Áudio disponível nos detalhes da tarefa                  | RN18  | RF005 | `GET /tarefas/hoje` · `src/repositories/tarefaRepository.js` · join evidências        | `test/tarefas.test.js` · `it('retorna audio nos detalhes')` · Network 200        |
-| Capataz     | GPS capturado automaticamente ao criar alerta            | RN19  | RF006 | `POST /chamados` · `src/controllers/alertaController.js` · `create()`                 | `test/chamados.test.js` · `it('captura GPS no alerta')` · Network 201            |
-| Capataz     | Alerta enviado imediatamente se há conexão               | RN20  | RF006 | `POST /chamados` · `src/controllers/alertaController.js` · `create()`                 | `test/chamados.test.js` · `it('envia alerta com conexao')` · Network 201         |
-| Capataz     | Alerta salvo localmente se sem conexão                   | RN21  | RF006 | IndexedDB (Local) · `src/sync/syncService.js` · `salvarLocal()`                       | `test/sync.test.js` · `it('salva alerta offline')` · IndexedDB populated         |
-| Capataz     | Confirmação após envio bem-sucedido do alerta            | RN22  | RF006 | `src/frontend/capataz/chamados.js` · toast confirmação                                | `test/ui.test.js` · `it('exibe confirmacao apos alerta enviado')` · screenshot   |
-| Capataz     | Informado que alerta foi salvo localmente                | RN23  | RF006 | `src/frontend/capataz/chamados.js` · estado offline                                   | `test/ui.test.js` · `it('informa salvo localmente')` · screenshot                |
-| Capataz     | Coordenadas GPS imutáveis após registro                  | RN24  | RF006 | `POST /chamados` · campo `coordenadas` somente leitura no Repository                  | `test/chamados.test.js` · `it('coordenadas imutaveis')` · Network 201            |
-| Capataz     | Data e hora exatas registradas no alerta                 | RN25  | RF006 | `POST /chamados` · `CURRENT_TIMESTAMP` no SQLite · `src/repositories/alertaRepository.js` | `test/chamados.test.js` · `it('registra timestamp')` · Network 201          |
-| Capataz     | Alerta associado ao retiro do capataz                    | RN26  | RF006 | `POST /chamados` · `retiro_id` obrigatório · `src/controllers/alertaController.js`    | `test/chamados.test.js` · `it('vincula alerta ao retiro')` · Network 201         |
-| Gerente     | Painel com status de tarefas por retiro                  | RN08  | RF007 | `GET /painel-gerencial` · `src/controllers/painelController.js` · `getMetricas()`     | `test/painel.test.js` · `it('retorna metricas por retiro')` · Network 200        |
-| Gerente     | Status atualizado após sincronização no painel           | RN09  | RF007 | `GET /painel-gerencial` · `src/repositories/painelRepository.js` · agregação          | `test/painel.test.js` · `it('painel reflete status atualizado')`
-| Coordenador | Visualizar movimentações sincronizadas por retiro         | RN28  | RF014 | `GET /eventos-zootecnicos` · `src/controllers/eventoController.js` · `listar()` | `test/eventos.test.js` · `it('lista movimentacoes por retiro')` · Network 200     |
-| Coordenador | Filtrar movimentações por retiro ou tipo de evento        | RN28  | RF014 | `GET /eventos-zootecnicos` · filtro por `retiro_id` e `tipo` no Repository      | `test/eventos.test.js` · `it('filtra por retiro e tipo')` · Network 200           |
-| Coordenador | Ver detalhes e fotos de uma movimentação específica       | RN10  | RF014 | `GET /eventos-zootecnicos` · join com tabela `evidencias` no Repository          | `test/eventos.test.js` · `it('retorna detalhes com foto')` · Network 200          |
-| Coordenador | Ver óbito vinculado ao retiro do capataz após sincronia   | RN09  | RF014 | `GET /eventos-zootecnicos` · `src/controllers/eventoController.js`               | `test/eventos.test.js` · `it('lista eventos no painel')` · Network 200            |
-| Coordenador | Exportar movimentações filtradas por data e retiro em CSV | RN28  | RF015 | `GET /exportacao/csv` · `src/controllers/exportacaoController.js` · RFC 4180    | `test/exportacao.test.js` · `it('gera csv com filtro de data e retiro')` · Network 200 · arquivo .csv |
-| Coordenador | Arquivo CSV com acentuação e formatação compatível        | RN28  | RF015 | `GET /exportacao/csv` · encoding Windows-1252 · `src/services/exportacaoService.js` | `test/exportacao.test.js` · `it('gera csv valido RFC 4180')` · Network 200 · arquivo .csv |
+| US    | Persona     | Necessidade                                               | RN    | RF    | Implementação                                                                                                                                         | Evidência                                                                                                                                                             |
+|-------|-------------|-----------------------------------------------------------|-------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| US01  | Gerente     | Criar tarefa e associar a um retiro                       | RN01  | RF001 | `POST /api/tarefas` · `src/backend/controllers/tarefaController.ts` · `create()`                                                                     | `tests/endpoints.test.ts` · `POST /api/tarefas` · `it('201 — cria tarefa com dados válidos')` · HTTP 201                                                             |
+| US02  | Capataz     | Visualizar tarefas do dia sem internet                    | RN02  | RF002 | `GET /api/tarefas/hoje` · `src/backend/controllers/tarefaController.ts` · `getHoje()`                                                                | `tests/tarefaIntegration.test.ts` · `GET /api/tarefas/hoje` · `it('200 — retorna body com tarefas e campo modo')` · HTTP 200                                          |
+| US02  | Capataz     | Ver apenas tarefas do seu retiro                          | RN05  | RF002 | `GET /api/tarefas/hoje` · filtro por `capataz_id` em `src/backend/repositories/tarefaRepository.ts`                                                  | `tests/tarefaIntegration.test.ts` · `GET /api/tarefas/hoje` · `it('200 — retorna apenas tarefas do capataz logado (RN03)')` · HTTP 200                                |
+| US02  | Capataz     | Acessar tarefas previamente sincronizadas offline         | RN06  | RF002 | IndexedDB · `src/public/js/db.js` · `salvarFila()` · `src/public/sw.js`                                                                              | `tests/frontend.test.ts` · `it('serve o script que inicializa o banco local brpec_local')` · HTTP 200                                                                 |
+| US02  | Capataz     | Tarefas do dia disponíveis após sincronia prévia          | RN07  | RF002 | IndexedDB · `src/public/js/db.js` · `salvarFila()` · `src/public/sw.js`                                                                              | `tests/offline-operations.test.ts` · `it('db.js possui todas as funções necessárias')` · HTTP 200                                                                     |
+| US02  | Capataz     | Interface simples com botões visíveis                     | RN12  | RF002 | `src/public/js/nova-os-handler.js` · componentes em `src/public/js/`                                                                                 | `tests/offline-operations.test.ts` · `it('serve o handler para nova-os')` · HTTP 200                                                                                  |
+| US03  | Capataz     | Armazenar tarefas localmente após sincronização           | RN03  | RF003 | IndexedDB · `src/public/js/db.js` · `salvarFila()`                                                                                                   | `tests/frontend.test.ts` · `it('serve a funcao salvarFila para registrar operacoes offline pendentes')` · HTTP 200                                                    |
+| US03  | Capataz     | Salvar conclusão offline até próxima sincronização        | RN08  | RF003 | `PATCH /api/tarefas/:id/concluir` · `src/backend/controllers/tarefaController.ts`                                                                    | `tests/tarefaIntegration.test.ts` · `PATCH /api/tarefas/:id/concluir` · `it('200 — altera status para CONCLUIDA no banco')` · HTTP 200                                |
+| US03  | Gerente     | Ver status atualizado após sincronização                  | RN09  | RF003 | `PATCH /api/tarefas/:id/concluir` · `src/backend/repositories/tarefaRepository.ts`                                                                   | `tests/tarefaIntegration.test.ts` · `PATCH /api/tarefas/:id/concluir` · `it('200 — altera status para CONCLUIDA no banco')` · HTTP 200                                |
+| US03  | Capataz     | Interface simples para concluir tarefas                   | RN12  | RF003 | `src/public/js/nova-os-handler.js` · componentes em `src/public/js/`                                                                                 | `tests/offline-operations.test.ts` · `it('serve o handler para nova-os')` · HTTP 200                                                                                  |
+| US02  | Capataz     | Ver mensagem quando não houver tarefas offline            | RN04  | RF004 | IndexedDB · `src/public/js/db.js` · estado vazio                                                                                                     | `tests/frontend.test.ts` · `it('serve a funcao salvarFila para registrar operacoes offline pendentes')` · HTTP 200                                                    |
+| US04  | Capataz     | Fotos vinculadas à tarefa correspondente                  | RN10  | RF004 | `POST /api/tarefas/:id/evidencias` · `src/backend/controllers/tarefaController.ts`                                                                   | `tests/endpoints.test.ts` · `POST /api/tarefas/:id/evidencias` · `it('201 — anexa evidência à tarefa')` · HTTP 201                                                    |
+| US04  | Capataz     | Fotos offline enviadas ao reconectar                      | RN11  | RF004 | `src/public/js/sync.js` · `processarFilaSincronizacao()`                                                                                             | `tests/offline-operations.test.ts` · `it('serve o script sync.js para sincronização em lote')` · HTTP 200                                                            |
+| US04  | Capataz     | Interface simples para anexar fotos                       | RN12  | RF004 | `src/public/js/nova-os-handler.js` · botão upload                                                                                                    | `tests/offline-operations.test.ts` · `it('serve o handler para nova-os')` · HTTP 200                                                                                  |
+| US05  | Capataz     | Áudio vinculado a uma tarefa existente                    | RN13  | RF005 | `POST /api/tarefas/:id/evidencias` · `src/backend/controllers/tarefaController.ts`                                                                   | `tests/endpoints.test.ts` · `POST /api/tarefas/:id/evidencias` · `it('201 — anexa evidência à tarefa')` · HTTP 201                                                    |
+| US05  | Capataz     | Gravar áudio curto para complementar tarefa               | RN14  | RF005 | `POST /api/tarefas/:id/evidencias` · `src/backend/controllers/tarefaController.ts`                                                                   | `tests/endpoints.test.ts` · `POST /api/tarefas/:id/evidencias` · `it('201 — anexa evidência à tarefa')` · HTTP 201                                                    |
+| US05  | Capataz     | Armazenar áudio localmente quando offline                 | RN15  | RF005 | IndexedDB · `src/public/js/db.js` · `salvarFila()`                                                                                                   | `tests/frontend.test.ts` · `it('serve a funcao salvarFila para registrar operacoes offline pendentes')` · HTTP 200                                                    |
+| US05  | Capataz     | Enviar áudio ao reconectar                                | RN16  | RF005 | `src/public/js/sync.js` · `processarFilaSincronizacao()`                                                                                             | `tests/offline-operations.test.ts` · `it('serve o script sync.js para sincronização em lote')` · HTTP 200                                                            |
+| US05  | Capataz     | Confirmação após áudio salvo ou sincronizado              | RN17  | RF005 | `src/public/js/sync.js` · toast de confirmação                                                                                                       | `tests/sincronizacaoIntegration.test.ts` · `POST /api/sincronizacao/lote` · `it('200 — processa lote misto e retorna totais corretos (RF011)')` · HTTP 200            |
+| US05  | Capataz     | Áudio disponível nos detalhes da tarefa                   | RN18  | RF005 | `GET /api/tarefas/hoje` · `src/backend/repositories/tarefaRepository.ts` · join evidências                                                           | `tests/tarefaIntegration.test.ts` · `GET /api/tarefas/hoje` · `it('200 — cada tarefa contém os campos obrigatórios')` · HTTP 200                                     |
+| US06  | Capataz     | GPS capturado automaticamente ao criar alerta             | RN19  | RF006 | `POST /api/chamados` · `src/backend/controllers/alertaController.ts` · `create()`                                                                    | `tests/alertaIntegration.test.ts` · `POST /api/chamados` · `it('201 — cria chamado com payload válido completo (RF006)')` · HTTP 201                                  |
+| US06  | Capataz     | Alerta enviado imediatamente se há conexão                | RN20  | RF006 | `POST /api/chamados` · `src/backend/controllers/alertaController.ts` · `create()`                                                                    | `tests/alertaIntegration.test.ts` · `POST /api/chamados` · `it('201 — cria chamado com payload válido completo (RF006)')` · HTTP 201                                  |
+| US06  | Capataz     | Alerta salvo localmente se sem conexão                    | RN21  | RF006 | IndexedDB · `src/public/js/db.js` · `salvarFila()`                                                                                                   | `tests/frontend.test.ts` · `it('serve a funcao salvarFila para registrar operacoes offline pendentes')` · HTTP 200                                                    |
+| US06  | Capataz     | Confirmação após envio bem-sucedido do alerta             | RN22  | RF006 | `src/public/js/chamados.js` · toast confirmação                                                                                                      | `tests/offline-operations.test.ts` · `it('serve o handler para resolver chamado')` · HTTP 200                                                                         |
+| US06  | Capataz     | Informado que alerta foi salvo localmente                 | RN23  | RF006 | `src/public/js/offline-interceptor.js` · estado offline                                                                                              | `tests/offline-operations.test.ts` · `it('serve o script de interceptação offline')` · HTTP 200                                                                       |
+| US06  | Capataz     | Coordenadas GPS imutáveis após registro                   | RN24  | RF006 | `POST /api/chamados` · `latitude`/`longitude` em `src/backend/repositories/alertaRepository.ts`                                                      | `tests/alertaIntegration.test.ts` · `POST /api/chamados` · `it('201 — alerta retornado contém campos obrigatórios')` · HTTP 201                                      |
+| US06  | Capataz     | Data e hora exatas registradas no alerta                  | RN25  | RF006 | `POST /api/chamados` · `CURRENT_TIMESTAMP` no SQLite · `src/backend/repositories/alertaRepository.ts`                                                | `tests/alertaIntegration.test.ts` · `POST /api/chamados` · `it('201 — alerta retornado contém campos obrigatórios')` · HTTP 201                                      |
+| US06  | Capataz     | Alerta associado ao retiro do capataz                     | RN26  | RF006 | `POST /api/chamados` · `retiro_id` obrigatório · `src/backend/controllers/alertaController.ts`                                                        | `tests/alertaIntegration.test.ts` · `POST /api/chamados` · `it('201 — alerta retornado contém campos obrigatórios')` · HTTP 201                                      |
+| US07  | Gerente     | Painel com status de tarefas por retiro                   | —     | RF007 | `GET /api/painel-gerencial` · `src/backend/controllers/painelController.ts` · `getMetricas()`                                                         | `tests/sincronizacaoIntegration.test.ts` · `GET /api/painel-gerencial` · `it('200 — retorna estrutura completa do painel (RF007)')` · HTTP 200                        |
+| US07  | Gerente     | Status atualizado após sincronização no painel            | —     | RF007 | `GET /api/painel-gerencial` · `src/backend/repositories/painelRepository.ts` · agregação                                                              | `tests/sincronizacaoIntegration.test.ts` · `GET /api/painel-gerencial` · `it('200 — resumo_tarefas reflete as 4 tarefas inseridas')` · HTTP 200                       |
+| US08  | Capataz     | Registrar nascimento de bezerros offline                  | RN27  | RF008 | `POST /api/eventos-zootecnicos/nascimentos` · `src/backend/controllers/eventoController.ts`                                                           | `tests/eventoIntegration.test.ts` · `POST /api/eventos-zootecnicos/nascimentos` · `it('201 — cria nascimento com payload válido completo (RF008)')` · HTTP 201         |
+| US09  | Capataz     | Preencher formulário de óbito sem conexão                 | —     | RF009 | IndexedDB · `src/public/js/db.js` · `salvarFila()` · `POST /api/eventos-zootecnicos/obitos` · `src/backend/controllers/eventoController.ts`           | `tests/eventoIntegration.test.ts` · `POST /api/eventos-zootecnicos/obitos` · `it('201 — cria óbito com payload válido completo (RF009, RN07)')` · HTTP 201            |
+| US09  | Capataz     | Detectar reconexão e sincronizar automaticamente          | —     | RF010 | `POST /api/sincronizacao/lote` · `src/backend/controllers/sincronizacaoController.ts` · `src/public/js/sync.js`                                      | `tests/offline-operations.test.ts` · `it('serve o script sync.js para sincronização em lote')` · HTTP 200                                                            |
+| US09  | Capataz     | Confirmação visual após sincronização bem-sucedida        | —     | RF011 | `src/public/js/sync.js` · toast de sincronização                                                                                                     | `tests/sincronizacaoIntegration.test.ts` · `POST /api/sincronizacao/lote` · `it('200 — processa lote misto e retorna totais corretos (RF011)')` · HTTP 200            |
+| US09  | Capataz     | Reenvio automático em cada nova conexão disponível        | —     | RF012 | `src/public/js/sync.js` · `processarFilaSincronizacao()` · retry loop                                                                                | `tests/offline-operations.test.ts` · `it('endpoint POST /api/sincronizacao/lote existe para processar fila')` · HTTP 200                                              |
+| US09  | Capataz     | Validar campos obrigatórios antes de salvar óbito local   | —     | RF013 | `src/backend/controllers/eventoController.ts` · validação campos obrigatórios                                                                         | `tests/eventoIntegration.test.ts` · `POST /api/eventos-zootecnicos/obitos` · `it('400 — sem identificacao_animal (RF013)')` · HTTP 400                                |
+| US10  | Capataz     | Foto georreferenciada obrigatória no registro de óbito    | —     | RF013 | `src/backend/controllers/eventoController.ts` · validação campo `foto_base64`                                                                         | `tests/eventoIntegration.test.ts` · `POST /api/eventos-zootecnicos/obitos` · `it('400 — sem foto_base64: evidência obrigatória para óbito (RN07)')` · HTTP 400        |
+| US11  | Coordenador | Visualizar movimentações sincronizadas por retiro         | —     | RF014 | `GET /api/eventos-zootecnicos` · `src/backend/controllers/eventoController.ts` · `listar()`                                                           | `tests/eventoIntegration.test.ts` · `POST /api/eventos-zootecnicos/obitos — persistência` · `it('movimentacao é registrada no inventário com quantidade e categoria corretos')` · HTTP 201 |
+| US11  | Coordenador | Filtrar movimentações por retiro ou tipo de evento        | —     | RF014 | `GET /api/eventos-zootecnicos` · filtro por `retiro_id` e `tipo` em `src/backend/repositories/eventoRepository.ts`                                   | `tests/eventoIntegration.test.ts` · `POST /api/eventos-zootecnicos/obitos — persistência` · `it('movimentacao é registrada no inventário com quantidade e categoria corretos')` · HTTP 201 |
+| US11  | Coordenador | Ver detalhes e fotos de uma movimentação específica       | —     | RF014 | `GET /api/eventos-zootecnicos` · join com tabela `evidencias` em `src/backend/repositories/eventoRepository.ts`                                       | `tests/eventoIntegration.test.ts` · `POST /api/eventos-zootecnicos/obitos — persistência` · `it('foto Base64 é persistida na tabela evidencias (RN07)')` · HTTP 201   |
+| US11  | Coordenador | Ver óbito vinculado ao retiro do capataz após sincronia   | —     | RF014 | `GET /api/eventos-zootecnicos` · `src/backend/controllers/eventoController.ts`                                                                        | `tests/eventoIntegration.test.ts` · `POST /api/eventos-zootecnicos/obitos — persistência` · `it('registro de obito vincula corretamente movimentacao, foto e causa_morte')` · HTTP 201 |
+| US12  | Coordenador | Exportar movimentações filtradas por data e retiro em CSV | RN28  | RF015 | `GET /api/exportacao/csv` · `src/backend/controllers/exportacaoController.ts` · RFC 4180                                                              | `tests/unit/exportacaoService.test.ts` · `ExportacaoService — exportarCsv` · `it('deve retornar total_registros igual ao número de linhas consultadas')`              |
+| US12  | Coordenador | Arquivo CSV com acentuação e formatação compatível        | RN28  | RF015 | `GET /api/exportacao/csv` · UTF-8 com BOM · `src/backend/services/exportacaoService.ts`                                                              | `tests/unit/exportacaoService.test.ts` · `ExportacaoService — exportarCsv` · `it('deve gerar CSV com cabeçalhos separados por ponto-e-vírgula')`                      |
 
 # <a name="c4"></a>4. Desenvolvimento da Aplicação Web
 
@@ -5185,7 +5193,174 @@ A suíte de testes automatizados utiliza Jest 29 + ts-jest + Supertest sobre ban
 
 ## 4.2. Segunda versão da aplicação web (sprint 4)
 
-_Descreva e ilustre aqui o desenvolvimento da segunda versão do sistema web, com foco no que foi consolidado entre a primeira versão funcional e o sistema operacional integrado. Utilize prints de tela para ilustrar. Indique obrigatoriamente: (a) o que foi implementado, (b) o que não foi concluído, (c) dificuldades técnicas enfrentadas e próximos passos._
+A segunda versão da BrPec foi desenvolvida ao longo da sprint 4, consolidando a integração entre o frontend e o backend REST estabelecido na sprint 3. O sistema evoluiu em duas frentes principais: no frontend, os formulários e telas foram conectados à API real e ganhou a arquitetura offline-first (Service Worker + IndexedDB + sincronização em lote); no backend, foram adicionadas rotas de autenticação JWT, dashboard e renderização server-side via EJS, além de uma significativa expansão da suíte de testes.
+
+### (a) O que foi implementado
+
+#### Frontend — Integração com Backend e Offline-First
+
+O frontend foi refatorado para consumir a API REST real, substituindo os dados estáticos (mock data) por chamadas `fetch()` aos endpoints documentados na seção 3.7. Paralelamente, foi implementada a camada offline-first composta por Service Worker (`src/public/sw.js`), banco local IndexedDB (`src/public/js/db.js`) e interceptador de requisições (`src/public/js/offline-interceptor.js`). Um badge de conectividade (`#onlineStatus`) foi adicionado ao rodapé de todas as telas, exibindo o estado online/offline em tempo real.
+
+**Fluxo de Autenticação:**
+
+- **Tela de login com JWT** — a seleção de perfil agora dispara `POST /api/auth/login`, que retorna um access token (armazenado via `src/public/js/auth-client.js`) e um refresh token em cookie `HttpOnly`. Após o login, o Service Worker recebe uma `postMessage` com o perfil do usuário e pré-cacheia as rotas específicas daquele perfil para funcionamento offline.
+
+<center>
+  <p><strong>Figura 35</strong> — Segunda versão: Tela de login com autenticação JWT real</p>
+  <img src="./assets/image-login-gerente.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+**Fluxo do Capataz (US02 → US03 → US06):**
+
+- **Tela de lista de tarefas (US02) com dados reais** — os cards de tarefas passaram a ser populados com dados reais consumidos de `GET /api/tarefas/hoje?capataz_id=...`. O badge de conectividade no rodapé exibe o estado da rede, e ao voltar online a fila de operações pendentes é sincronizada automaticamente.
+
+<center>
+  <p><strong>Figura 36</strong> — Segunda versão: Tela de tarefas com dados reais e badge de conectividade</p>
+  <img src="./assets/image-lista-de-tarefas-capataz.png" width="800"/>
+  <p>Fonte: Próprios autores (2026)</p>
+</center>
+
+- **Tela de Nova O.S. com suporte offline (US01/RF001)** — o formulário de criação de tarefa agora submete para `POST /api/tarefas` via `fazerRequisicaoComOffline()`. Quando online, retorna HTTP 201 e exibe confirmação. Quando offline, salva automaticamente na store `sync_queue` do IndexedDB com `status: 'PENDENTE'` e exibe feedback "Salvo localmente".
+
+<center>
+  <p><strong>Figura 37</strong> — Segunda versão: Nova O.S. submetendo para backend real (POST /api/tarefas → 201)</p>
+  <img src="./assets/image-nova-os.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+- **Tela de chamados com dados reais (US06/RF006)** — a listagem de chamados passou a consumir `GET /api/chamados`, e o formulário de novo chamado (`src/public/js/novo-chamado-handler.js`) captura GPS via `navigator.geolocation` e submete para `POST /api/chamados`. A resolução de chamados (`src/public/js/chamado-resolver-handler.js`) submete para `PUT /api/chamados/:id/resolver`.
+
+<center>
+  <p><strong>Figura 38</strong> — Segunda versão: Tela de chamados com dados reais do banco</p>
+  <img src="./assets/image-abrir-chamado-capataz.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+**Fluxo do Gerente/Coordenador (US07/RF007):**
+
+- **Dashboard com gráficos Chart.js dinâmicos** — os gráficos de barras ("Chamados por retiro") e rosca ("Tarefas por status"), que na sprint 3 eram renderizados com CSS estático, passaram a ser gerados com a biblioteca **Chart.js** consumindo `GET /api/dashboard/resumo` e `GET /api/dashboard/retiros`. Os filtros de retiro e data disparam novas chamadas à API e atualizam os gráficos em tempo real.
+
+<center>
+  <p><strong>Figura 39</strong> — Segunda versão: Dashboard com gráficos Chart.js populados com dados reais</p>
+  <img src="./assets/prints-v2/05-dashboard-charts.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+<center>
+  <p><strong>Figura 39</strong> — Segunda versão: Dashboard com gráficos Chart.js populados com dados reais - Parte 2</p>
+  <img src="./assets/image-dashboard-gerente-parte2.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+**Elementos transversais:**
+
+- **Service Worker (`src/public/sw.js` — `CACHE_NAME: 'brpec-v4'`)** — registrado globalmente, aplica estratégia network-first com fallback para cache em todas as requisições GET. Na instalação, pré-cacheia assets estáticos (CSS, JS, ícones, `manifest.json`). No evento `activate`, limpa caches de versões anteriores.
+- **IndexedDB (`src/public/js/db.js`)** — banco local `brpec_local` com store `sync_queue`, expondo `salvarFila()`, `listarFila()`, `atualizarFila()`, `removerFila()` e `buscarFilaPorId()` para os tipos `tarefa`, `obito`, `nascimento` e `chamado`.
+- **Renderização server-side (EJS)** — as páginas passaram a ser renderizadas no servidor via templates EJS (`src/backend/routes/viewRoutes.ts`), com dados iniciais injetados via `res.render()`, reduzindo o número de chamadas à API na carga inicial.
+
+<center>
+  <p><strong>Figura 40</strong> — Service Worker <code>sw.js</code> registrado e ativo no navegador (DevTools → Application → Service Workers)</p>
+  <img src="./assets/image-service-workers.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+#### Backend — Expansão de Rotas e Autenticação JWT
+
+O backend foi expandido com novos módulos que cobrem autenticação, dashboard, administração e rotas de visualização. A estrutura de pastas passou a ser:
+
+```
+src/backend/
+├── config/          # database.ts, initDb.ts, supabasePool.ts
+├── controllers/     # 9 controllers implementados
+├── services/        # 8 services implementados
+├── repositories/    # 9 repositories implementados
+├── models/          # 7 models implementados
+├── routes/          # 15 arquivos de rotas + index.ts
+├── database/        # migration.sql atualizado (tabela refresh_tokens)
+├── tests/           # 16 suítes de testes automatizados
+└── views/           # templates EJS por perfil
+```
+
+**Estado atual de cada camada após a sprint 4:**
+
+<center>
+  <p><strong>Tabela 21</strong> — Estado da implementação das camadas arquiteturais (sprint 4)</p>
+</center>
+
+| Camada | Adicionado na sprint 4 | Status |
+| --- | --- | --- |
+| Routes | `authRoutes.ts`, `dashboardRoutes.ts`, `adminRoutes.ts`, `boletaRoutes.ts`, `coordenadorRoutes.ts`, `dadosRoutes.ts`, `historicoRoutes.ts`, `viewRoutes.ts` | ✅ Implementada |
+| Controllers | `authController.ts`, `dashboardController.ts` | ✅ Implementada |
+| Services | `authService.ts`, `dashboardService.ts` | ✅ Implementada |
+| Repositories | `usuarioRepository.ts` (expandido com autenticação) | ✅ Implementada |
+| Database | Tabela `refresh_tokens` adicionada ao `migration.sql` | ✅ Implementada |
+| Frontend JS | `auth-client.js`, `dashboard.js`, `chamados.js`, `novo-chamado-handler.js`, `chamado-resolver-handler.js`, `nova-os-handler.js`, `offline-interceptor.js`, `sync.js`, `db.js`, `sw.js` | ✅ Implementada |
+| Testes | 14 novas suítes adicionadas | ✅ Expandida |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+Os endpoints adicionados na sprint 4 complementam os da sprint 3:
+- `POST /api/auth/login` — autenticação JWT com bcrypt + cookie refresh token `HttpOnly`
+- `POST /api/auth/refresh` — rotação de refresh token
+- `GET /api/dashboard/resumo` — dados consolidados para gráficos (tarefas por status, chamados por retiro)
+- `GET /api/dashboard/retiros` — lista de retiros para filtro do dashboard
+- `POST /api/eventos-zootecnicos/obitos` — registro de óbito com foto Base64 obrigatória (RN07)
+- `POST /api/sincronizacao/lote` — processamento de fila offline em lote (RF011)
+- `GET /api/painel-gerencial` — métricas consolidadas por retiro (RF007)
+
+#### Testes Automatizados
+
+A suíte de testes cresceu de 2 arquivos com 19 casos (sprint 3) para **16 arquivos** com mais de 70 casos, utilizando Jest 29 + ts-jest + Supertest sobre banco SQLite em memória. As principais suítes adicionadas cobrem integração ponta a ponta de cada domínio, autenticação JWT e funcionamento dos scripts frontend:
+
+```bash
+PASS tests/tarefaIntegration.test.ts        (7 casos — GET /api/tarefas/hoje, PATCH concluir)
+PASS tests/alertaIntegration.test.ts        (3 casos — POST /api/chamados)
+PASS tests/eventoIntegration.test.ts        (8 casos — nascimento, óbito, persistência)
+PASS tests/sincronizacaoIntegration.test.ts (9 casos — lote, painel-gerencial)
+PASS tests/offline-operations.test.ts       (6 casos — scripts SW, sync.js, db.js)
+PASS tests/frontend.test.ts                 (2 casos — brpec_local, salvarFila)
+PASS tests/auth-jwt.test.ts                 (4 casos — login, refresh, rota protegida)
+PASS tests/unit/exportacaoService.test.ts   (3 casos — acesso, CSV, total_registros)
+```
+
+<center>
+  <p><strong>Figura 41</strong> — Resultado da execução da suíte de testes completa (sprint 4)</p>
+  <img src="./assets/image-npm-test-passed.png" width="800"/>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+### (b) O que não foi concluído
+
+1. **Captura real de câmera e microfone:** Os campos de foto e áudio nos formulários de Nova O.S., óbito e chamado ainda não acionam a câmera ou microfone do dispositivo via `getUserMedia`. A foto é enviada como Base64 estático ou omitida; o áudio permanece como placeholder visual.
+
+2. **Autenticação forçada em produção:** A flag `AUTH_ENFORCE_IN_TEST` permite desabilitar a verificação de JWT durante os testes. Em produção, o middleware de autenticação precisa ser habilitado globalmente com tratamento de expiração e logout.
+
+3. **Sincronização offline para óbito e nascimento:** O módulo `sync.js` envia a fila ao endpoint `/api/sincronizacao/lote`, mas o processador do lote ainda não trata os tipos `obito` e `nascimento` com o mesmo nível de validação que `tarefa` e `alerta`, podendo retornar `status: 'ERRO'` mesmo com payload correto.
+
+4. **Painel do Coordenador:** As rotas `coordenadorRoutes.ts` e `boletaRoutes.ts` foram criadas, mas a tela de boletas e o painel do coordenador ainda consomem dados parcialmente estáticos — os filtros por retiro e período não estão conectados ao backend.
+
+5. **Gráficos no painel de infraestrutura:** O painel de chamados da Infraestrutura ainda usa contadores CSS estáticos da sprint 3, sem integração com os dados reais do banco.
+
+### (c) Dificuldades técnicas enfrentadas
+
+1. **Versionamento do cache do Service Worker:** Cada mudança nos assets estáticos exigiu incremento manual do `CACHE_NAME` (atualmente `brpec-v4`) e limpeza do cache anterior no evento `activate`. Sem essa limpeza, o navegador continuava servindo arquivos desatualizados, gerando comportamentos divergentes entre dispositivos.
+
+2. **Escopo de módulos ES no Service Worker:** O SW não suporta `import/export` ES modules nativos. As funções do `sync.js` e `db.js` precisaram ser expostas globalmente via `window.brpecIndexedDb` para serem acessíveis tanto no contexto do SW quanto nos handlers de formulário, criando um acoplamento explícito entre módulos.
+
+3. **Isolamento de banco nos testes de autenticação:** Os testes JWT exigem que a tabela `refresh_tokens` esteja limpa entre casos para garantir determinismo. A solução foi adicionar `db.exec('DELETE FROM refresh_tokens')` no `beforeEach`, o que aumentou a complexidade do setup das suítes.
+
+4. **Migração de SPA para EJS:** A refatoração da renderização client-side para server-side exigiu a reescrita dos templates de página e a criação das view routes. Partes da lógica de estado global que estavam em `app.js` precisaram ser movidas para o servidor, com dados iniciais injetados nos templates via `res.render()`.
+
+### Próximos passos (sprint 5)
+
+- Implementar captura de foto via `<input type="file" accept="image/*" capture="environment">` e conversão para Base64 nos formulários de evidência
+- Ativar `AUTH_ENFORCE_IN_TEST = true` por padrão e implementar renovação automática de token no cliente
+- Completar o processador de lote para os tipos `obito` e `nascimento` com validações equivalentes às de `tarefa`
+- Conectar o painel do Coordenador ao backend real com filtros funcionais por retiro e período
+- Implementar os gráficos dinâmicos no painel de infraestrutura.
 
 ## 4.3. Versão final da aplicação web (sprint 5)
 
