@@ -33,8 +33,11 @@ describe('CloudSyncService', () => {
       DELETE FROM sincronizacoes;
       DELETE FROM tarefas;
       DELETE FROM alertas;
-      DELETE FROM movimentacoes;
+      DELETE FROM compravendas;
+      DELETE FROM transferencias;
+      DELETE FROM obitos;
       DELETE FROM nascimentos;
+      DELETE FROM movimentacoes;
       DELETE FROM evidencias;
       DELETE FROM usuarios;
       DELETE FROM retiros;
@@ -164,5 +167,177 @@ describe('CloudSyncService', () => {
 
     const localAlerta = db.prepare('SELECT * FROM alertas WHERE id = ?').get(alerta_id) as any;
     expect(localAlerta.sincronizado).toBe(1);
+  });
+
+  describe('movimentacao', () => {
+    let mockClient: { query: jest.Mock; release: jest.Mock };
+
+    beforeEach(() => {
+      mockPool.connect.mockReset();
+      mockClient = {
+        query: jest.fn().mockResolvedValue({ rows: [], rowCount: 0 }),
+        release: jest.fn(),
+      };
+    });
+
+    test('Deve sincronizar movimentação com nascimento via transação com COMMIT', async () => {
+      mockPool.query.mockResolvedValueOnce({ rows: [{ '?column?': 1 }] } as any);
+      mockPool.connect.mockResolvedValueOnce(mockClient);
+
+      const job_id = uuidv7();
+      const mov_id = uuidv7();
+      const nas_id = uuidv7();
+
+      db.prepare(`
+        INSERT INTO movimentacoes (id, capataz_id, retiro_id, data, categoria, quantidade, sincronizado, validado, criado_em)
+        VALUES (?, ?, ?, '2026-06-12', 'NASCIMENTO', 5, 0, 0, datetime('now'))
+      `).run(mov_id, CAPATAZ_ID, RETIRO_ID);
+      db.prepare(`INSERT INTO nascimentos (id, movimentacao_id) VALUES (?, ?)`).run(nas_id, mov_id);
+      db.prepare(`
+        INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas)
+        VALUES (?, 'movimentacao', ?, 'PENDENTE', 0)
+      `).run(job_id, mov_id);
+
+      await cloudSyncService.sincronizar();
+
+      const syncItem = db.prepare('SELECT * FROM sincronizacoes WHERE id = ?').get(job_id) as any;
+      expect(syncItem.status_envio).toBe('SINCRONIZADO');
+      expect(syncItem.tentativas).toBe(1);
+      expect((db.prepare('SELECT sincronizado FROM movimentacoes WHERE id = ?').get(mov_id) as any).sincronizado).toBe(1);
+
+      const calls = mockClient.query.mock.calls.map((c: any[]) => c[0]);
+      expect(calls[0]).toBe('BEGIN');
+      expect(calls[calls.length - 1]).toBe('COMMIT');
+      expect(mockClient.release).toHaveBeenCalledTimes(1);
+    });
+
+    test('Deve sincronizar movimentação com óbito', async () => {
+      mockPool.query.mockResolvedValueOnce({ rows: [{ '?column?': 1 }] } as any);
+      mockPool.connect.mockResolvedValueOnce(mockClient);
+
+      const job_id = uuidv7();
+      const mov_id = uuidv7();
+      const ob_id = uuidv7();
+
+      const foto_id = uuidv7();
+      db.prepare(`INSERT INTO evidencias (id, tipo) VALUES (?, 'FOTO')`).run(foto_id);
+      db.prepare(`
+        INSERT INTO movimentacoes (id, capataz_id, retiro_id, data, categoria, quantidade, sincronizado, validado, criado_em)
+        VALUES (?, ?, ?, '2026-06-12', 'OBITO', 1, 0, 0, datetime('now'))
+      `).run(mov_id, CAPATAZ_ID, RETIRO_ID);
+      db.prepare(`
+        INSERT INTO obitos (id, movimentacao_id, identificacao_animal, causa_morte, foto_id)
+        VALUES (?, ?, ?, ?, ?)
+      `).run(ob_id, mov_id, 'Boi-042', 'Doença respiratória', foto_id);
+      db.prepare(`
+        INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas)
+        VALUES (?, 'movimentacao', ?, 'PENDENTE', 0)
+      `).run(job_id, mov_id);
+
+      await cloudSyncService.sincronizar();
+
+      const syncItem = db.prepare('SELECT * FROM sincronizacoes WHERE id = ?').get(job_id) as any;
+      expect(syncItem.status_envio).toBe('SINCRONIZADO');
+      expect((db.prepare('SELECT sincronizado FROM movimentacoes WHERE id = ?').get(mov_id) as any).sincronizado).toBe(1);
+
+      const calls = mockClient.query.mock.calls.map((c: any[]) => c[0]);
+      expect(calls[0]).toBe('BEGIN');
+      expect(calls[calls.length - 1]).toBe('COMMIT');
+    });
+
+    test('Deve sincronizar movimentação com transferência', async () => {
+      mockPool.query.mockResolvedValueOnce({ rows: [{ '?column?': 1 }] } as any);
+      mockPool.connect.mockResolvedValueOnce(mockClient);
+
+      const RETIRO_DESTINO_ID = uuidv7();
+      const job_id = uuidv7();
+      const mov_id = uuidv7();
+      const tr_id = uuidv7();
+
+      db.prepare('INSERT INTO retiros (id, nome, localizacao, coordenador_id) VALUES (?, ?, ?, ?)').run(RETIRO_DESTINO_ID, 'Retiro Destino', 'Norte', GERENTE_ID);
+      db.prepare(`
+        INSERT INTO movimentacoes (id, capataz_id, retiro_id, data, categoria, quantidade, sincronizado, validado, criado_em)
+        VALUES (?, ?, ?, '2026-06-12', 'TRANSFERENCIA', 10, 0, 0, datetime('now'))
+      `).run(mov_id, CAPATAZ_ID, RETIRO_ID);
+      db.prepare(`
+        INSERT INTO transferencias (id, movimentacao_id, retiro_origem_id, retiro_destino_id)
+        VALUES (?, ?, ?, ?)
+      `).run(tr_id, mov_id, RETIRO_ID, RETIRO_DESTINO_ID);
+      db.prepare(`
+        INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas)
+        VALUES (?, 'movimentacao', ?, 'PENDENTE', 0)
+      `).run(job_id, mov_id);
+
+      await cloudSyncService.sincronizar();
+
+      expect((db.prepare('SELECT status_envio FROM sincronizacoes WHERE id = ?').get(job_id) as any).status_envio).toBe('SINCRONIZADO');
+      expect((db.prepare('SELECT sincronizado FROM movimentacoes WHERE id = ?').get(mov_id) as any).sincronizado).toBe(1);
+
+      const calls = mockClient.query.mock.calls.map((c: any[]) => c[0]);
+      expect(calls[0]).toBe('BEGIN');
+      expect(calls[calls.length - 1]).toBe('COMMIT');
+    });
+
+    test('Deve sincronizar movimentação com compravenda', async () => {
+      mockPool.query.mockResolvedValueOnce({ rows: [{ '?column?': 1 }] } as any);
+      mockPool.connect.mockResolvedValueOnce(mockClient);
+
+      const job_id = uuidv7();
+      const mov_id = uuidv7();
+      const cv_id = uuidv7();
+
+      db.prepare(`
+        INSERT INTO movimentacoes (id, capataz_id, retiro_id, data, categoria, quantidade, sincronizado, validado, criado_em)
+        VALUES (?, ?, ?, '2026-06-12', 'COMPRAVENDA', 20, 0, 0, datetime('now'))
+      `).run(mov_id, CAPATAZ_ID, RETIRO_ID);
+      db.prepare(`
+        INSERT INTO compravendas (id, movimentacao_id, tipo_negocio, valor_financeiro)
+        VALUES (?, ?, ?, ?)
+      `).run(cv_id, mov_id, 'COMPRA', 150000.00);
+      db.prepare(`
+        INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas)
+        VALUES (?, 'movimentacao', ?, 'PENDENTE', 0)
+      `).run(job_id, mov_id);
+
+      await cloudSyncService.sincronizar();
+
+      expect((db.prepare('SELECT status_envio FROM sincronizacoes WHERE id = ?').get(job_id) as any).status_envio).toBe('SINCRONIZADO');
+      expect((db.prepare('SELECT sincronizado FROM movimentacoes WHERE id = ?').get(mov_id) as any).sincronizado).toBe(1);
+
+      const calls = mockClient.query.mock.calls.map((c: any[]) => c[0]);
+      expect(calls[0]).toBe('BEGIN');
+      expect(calls[calls.length - 1]).toBe('COMMIT');
+    });
+
+    test('Deve executar ROLLBACK e marcar status ERRO quando a transação falhar', async () => {
+      mockPool.query.mockResolvedValueOnce({ rows: [{ '?column?': 1 }] } as any);
+      mockClient.query
+        .mockResolvedValueOnce({ rows: [] }) // BEGIN
+        .mockRejectedValueOnce(new Error('Supabase constraint violation')); // INSERT movimentacoes fails
+      mockPool.connect.mockResolvedValueOnce(mockClient);
+
+      const job_id = uuidv7();
+      const mov_id = uuidv7();
+
+      db.prepare(`
+        INSERT INTO movimentacoes (id, capataz_id, retiro_id, data, categoria, quantidade, sincronizado, validado, criado_em)
+        VALUES (?, ?, ?, '2026-06-12', 'NASCIMENTO', 3, 0, 0, datetime('now'))
+      `).run(mov_id, CAPATAZ_ID, RETIRO_ID);
+      db.prepare(`
+        INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas)
+        VALUES (?, 'movimentacao', ?, 'PENDENTE', 0)
+      `).run(job_id, mov_id);
+
+      await cloudSyncService.sincronizar();
+
+      const syncItem = db.prepare('SELECT * FROM sincronizacoes WHERE id = ?').get(job_id) as any;
+      expect(syncItem.status_envio).toBe('ERRO');
+      expect(syncItem.tentativas).toBe(1);
+      expect((db.prepare('SELECT sincronizado FROM movimentacoes WHERE id = ?').get(mov_id) as any).sincronizado).toBe(0);
+
+      const calls = mockClient.query.mock.calls.map((c: any[]) => c[0]);
+      expect(calls).toContain('ROLLBACK');
+      expect(mockClient.release).toHaveBeenCalledTimes(1);
+    });
   });
 });
