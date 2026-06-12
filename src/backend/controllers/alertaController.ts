@@ -24,7 +24,7 @@ class AlertaController {
 
     if (!descricao || descricao.trim().length <= 10) {
       return res.status(400).json({
-        erro: 'RN06: descrição deve ter mais de 10 caracteres'
+        erro: 'RN-ALERTA: descrição deve ter mais de 10 caracteres'
       });
     }
 
