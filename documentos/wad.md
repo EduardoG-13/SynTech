@@ -5329,30 +5329,44 @@ test('Deve suspender a sincronização se não houver conexão com o Supabase (o
 
 | Código CT | Método testado | RF | RN | Status |
 |-----------|---------------|:--:|:--:|:------:|
+| CT-UT11 | `TarefaService.criarTarefa` — sucesso | RF001 | RN01 | PASS |
+| CT-UT03 | `TarefaService.concluirTarefa` — capataz incorreto | RF002 | RN05 | PASS |
+| CT-UT05 | `TarefaService.anexarEvidencia` — capataz incorreto | RF005 | RN05 | PASS |
+| CT-UT04 | `TarefaService.anexarEvidencia` — sucesso | RF005 | RN13 | PASS |
+| CT-UA01 | `AlertaService.criarAlerta` — sucesso | RF006 | RN19, RN26 | PASS |
+| CT-UA05 | `AlertaService.criarAlerta` — latitude ausente | RF006 | RN19 | PASS |
+| CT-UA06 | `AlertaService.criarAlerta` — longitude ausente | RF006 | RN19 | PASS |
+| CT-NA01 | `EventoService.registrarNascimento` — sucesso | RF008 | RN27 | PASS |
+| CT-NA06 | `EventoService.registrarNascimento` — data futura | RF008 | RN27 | PASS |
+| CT-EX01 | `ExportacaoService.exportarCsv` — ACESSO_NEGADO (Capataz) | RF015 | RN28 | PASS |
+| CT-EX02 | `ExportacaoService.exportarCsv` — usuário não encontrado | RF015 | RN28 | PASS |
+| CT-EX03 | `ExportacaoService.exportarCsv` — cabeçalhos CSV corretos | RF015 | RN28 | PASS |
+| CT-EX04 | `ExportacaoService.exportarCsv` — total_registros correto | RF015 | RN28 | PASS |
+| CT-UT12 | `TarefaService.criarTarefa` — data retroativa | RF001 | ¹ | PASS |
+| CT-UT13 | `TarefaService.criarTarefa` — descrição em branco | RF001 | ¹ | PASS |
+| CT-UA02 | `AlertaService.criarAlerta` — descrição muito curta | RF006 | ² | PASS |
+| CT-UA03 | `AlertaService.criarAlerta` — descrição em branco | RF006 | ² | PASS |
+| CT-UA04 | `AlertaService.criarAlerta` — descrição ausente | RF006 | ² | PASS |
+| CT-UA07 | `AlertaService.resolverChamado` — sucesso (Técnico) | RF006 | ³ | PASS |
+| CT-UA08 | `AlertaService.resolverChamado` — perfil incorreto | RF006 | ³ | PASS |
+| CT-UA09 | `AlertaService.resolverChamado` — usuário não encontrado | RF006 | ³ | PASS |
+| CT-UA11 | `AlertaService.resolverChamado` — chamado já resolvido | RF006 | ³ | PASS |
+| CT-NA02 | `EventoService.registrarNascimento` — peso zero | RF008 | ⁴ | PASS |
+| CT-NA03 | `EventoService.registrarNascimento` — peso negativo | RF008 | ⁴ | PASS |
+| CT-NA04 | `EventoService.registrarNascimento` — identificacao_mae vazia | RF008 | ⁴ | PASS |
+| CT-NA05 | `EventoService.registrarNascimento` — sexo vazio | RF008 | ⁴ | PASS |
+| CT-OB02 | `EventoService.registrarObito` — foto_base64 vazia | RF009 | ⁵ | PASS |
+| CT-OB03 | `EventoService.registrarObito` — causa_morte vazia | RF009 | ⁵ | PASS |
+| CT-OB04 | `EventoService.registrarObito` — identificacao_animal vazia | RF009 | ⁵ | PASS |
 | CT-UT01 | `TarefaService.concluirTarefa` — sucesso | RF002 | — | PASS |
 | CT-UT02 | `TarefaService.concluirTarefa` — tarefa já concluída | RF002 | — | PASS |
-| CT-UT03 | `TarefaService.concluirTarefa` — capataz incorreto | RF002 | RN05 | PASS |
-| CT-UT04 | `TarefaService.anexarEvidencia` — sucesso | RF005 | RN13 | PASS |
-| CT-UT05 | `TarefaService.anexarEvidencia` — capataz incorreto | RF005 | RN05 | PASS |
 | CT-UT06 | `TarefaService.anexarEvidencia` — arquivo > 5 MB | RF005 | — | PASS |
 | CT-UT07 | `TarefaService.anexarEvidencia` — base64 inválido | RF005 | — | PASS |
 | CT-UT08 | `TarefaService.anexarEvidencia` — normalizar data URI | RF005 | — | PASS |
 | CT-UT09 | `TarefaService.anexarEvidencia` — base64 vazio | RF005 | — | PASS |
 | CT-UT10 | `TarefaService.anexarEvidencia` — evidência TEXTO | RF005 | — | PASS |
-| CT-UT11 | `TarefaService.criarTarefa` — sucesso | RF001 | RN01 | PASS |
-| CT-UT12 | `TarefaService.criarTarefa` — data retroativa | RF001 | ¹ | PASS |
-| CT-UT13 | `TarefaService.criarTarefa` — descrição em branco | RF001 | ¹ | PASS |
-| CT-UA01 | `AlertaService.criarAlerta` — sucesso | RF006 | RN19, RN26 | PASS |
-| CT-UA02 | `AlertaService.criarAlerta` — descrição muito curta | RF006 | ² | PASS |
-| CT-UA03 | `AlertaService.criarAlerta` — descrição em branco | RF006 | ² | PASS |
-| CT-UA04 | `AlertaService.criarAlerta` — descrição ausente | RF006 | ² | PASS |
-| CT-UA05 | `AlertaService.criarAlerta` — latitude ausente | RF006 | RN19 | PASS |
-| CT-UA06 | `AlertaService.criarAlerta` — longitude ausente | RF006 | RN19 | PASS |
-| CT-UA07 | `AlertaService.resolverChamado` — sucesso (Técnico) | RF006 | ³ | PASS |
-| CT-UA08 | `AlertaService.resolverChamado` — perfil incorreto | RF006 | ³ | PASS |
-| CT-UA09 | `AlertaService.resolverChamado` — usuário não encontrado | RF006 | ³ | PASS |
 | CT-UA10 | `AlertaService.resolverChamado` — chamado não encontrado | RF006 | — | PASS |
-| CT-UA11 | `AlertaService.resolverChamado` — chamado já resolvido | RF006 | ³ | PASS |
+| CT-OB01 | `EventoService.registrarObito` — sucesso | RF009 | — | PASS |
 | CT-CS01 | `CloudSyncService.sincronizar` — offline (suspenso) | RF010 | — | PASS |
 | CT-CS02 | `CloudSyncService.sincronizar` — tarefa online | RF010 | — | PASS |
 | CT-CS03 | `CloudSyncService.sincronizar` — erro de upsert | RF010 | — | PASS |
@@ -5361,20 +5375,6 @@ test('Deve suspender a sincronização se não houver conexão com o Supabase (o
 | CT-EV02 | `EventoService.listarEventos` — filtro por retiro_id | RF014 | — | PASS |
 | CT-EV03 | `EventoService.listarEventos` — retiro sem eventos | RF014 | — | PASS |
 | CT-EV04 | `EventoService.listarEventos` — filtro por tipo | RF014 | — | PASS |
-| CT-EX01 | `ExportacaoService.exportarCsv` — ACESSO_NEGADO (Capataz) | RF015 | RN28 | PASS |
-| CT-EX02 | `ExportacaoService.exportarCsv` — usuário não encontrado | RF015 | RN28 | PASS |
-| CT-EX03 | `ExportacaoService.exportarCsv` — cabeçalhos CSV corretos | RF015 | RN28 | PASS |
-| CT-EX04 | `ExportacaoService.exportarCsv` — total_registros correto | RF015 | RN28 | PASS |
-| CT-NA01 | `EventoService.registrarNascimento` — sucesso | RF008 | RN27 | PASS |
-| CT-NA02 | `EventoService.registrarNascimento` — peso zero | RF008 | ⁴ | PASS |
-| CT-NA03 | `EventoService.registrarNascimento` — peso negativo | RF008 | ⁴ | PASS |
-| CT-NA04 | `EventoService.registrarNascimento` — identificacao_mae vazia | RF008 | ⁴ | PASS |
-| CT-NA05 | `EventoService.registrarNascimento` — sexo vazio | RF008 | ⁴ | PASS |
-| CT-NA06 | `EventoService.registrarNascimento` — data futura | RF008 | RN27 | PASS |
-| CT-OB01 | `EventoService.registrarObito` — sucesso | RF009 | — | PASS |
-| CT-OB02 | `EventoService.registrarObito` — foto_base64 vazia | RF009 | ⁵ | PASS |
-| CT-OB03 | `EventoService.registrarObito` — causa_morte vazia | RF009 | ⁵ | PASS |
-| CT-OB04 | `EventoService.registrarObito` — identificacao_animal vazia | RF009 | ⁵ | PASS |
 
 > ¹ Validações de data retroativa e descrição em branco são regras internas do `TarefaService` sem código formal na tabela RN da seção 3.1.2.
 >
