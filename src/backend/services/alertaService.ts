@@ -4,12 +4,12 @@ import { Alerta } from '../models/Alerta';
 class AlertaService {
   async criarAlerta(dados: Partial<Alerta>) {
     if (!dados.descricao || dados.descricao.trim().length <= 10) {
-      throw new Error('A descrição precisa ter mais de 10 caracteres.');
+      throw new Error('RN-ALERTA: descrição deve ter mais de 10 caracteres');
     }
 
     if (dados.latitude === undefined || dados.latitude === null ||
         dados.longitude === undefined || dados.longitude === null) {
-      throw new Error('As coordenadas GPS são obrigatórias.');
+      throw new Error('RN-ALERTA: coordenadas GPS são obrigatórias');
     }
 
     if (dados.foto_base64 != null && typeof dados.foto_base64 !== 'string') {

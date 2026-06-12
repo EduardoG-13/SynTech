@@ -4,7 +4,7 @@
  * Suite de testes unitários — EventoService.registrarNascimento
  *
  * Regras de negócio cobertas:
- *   RF013 — Validação de campos obrigatórios (peso, identificacao_mae, sexo)
+ *   RF008 — Validação de campos obrigatórios (peso, identificacao_mae, sexo)
  *   RN27  — Data de nascimento não pode ser futura
  *
  * Padrão de estruturação: AAA (Arrange · Act · Assert)
@@ -45,7 +45,7 @@ describe('EventoService — registrarNascimento', () => {
     mockEventoRepo.criarNascimento.mockImplementation(() => Promise.resolve(movimentacaoFixture()));
   });
 
-  it('deve salvar e retornar o registro quando todos os dados são válidos', async () => {
+  it('[CT-NA01] deve salvar e retornar o registro quando todos os dados são válidos', async () => {
     // Act
     const resultado = await eventoService.registrarNascimento({ ...dadosBase });
 
@@ -55,7 +55,7 @@ describe('EventoService — registrarNascimento', () => {
   });
 
   describe('validação de peso_nascimento', () => {
-    it('deve lançar erro e não persistir quando o peso for zero', async () => {
+    it('[CT-NA02] deve lançar erro e não persistir quando o peso for zero', async () => {
       // Arrange
       const dados = { ...dadosBase, peso_nascimento: 0 };
 
@@ -65,7 +65,7 @@ describe('EventoService — registrarNascimento', () => {
       expect(mockEventoRepo.criarNascimento).not.toHaveBeenCalled();
     });
 
-    it('deve lançar erro e não persistir quando o peso for negativo', async () => {
+    it('[CT-NA03] deve lançar erro e não persistir quando o peso for negativo', async () => {
       // Arrange
       const dados = { ...dadosBase, peso_nascimento: -10 };
 
@@ -77,7 +77,7 @@ describe('EventoService — registrarNascimento', () => {
   });
 
   describe('validação de identificacao_mae', () => {
-    it('deve lançar erro e não persistir quando identificacao_mae estiver vazia', async () => {
+    it('[CT-NA04] deve lançar erro e não persistir quando identificacao_mae estiver vazia', async () => {
       // Arrange
       const dados = { ...dadosBase, identificacao_mae: '' };
 
@@ -89,7 +89,7 @@ describe('EventoService — registrarNascimento', () => {
   });
 
   describe('validação de sexo', () => {
-    it('deve lançar erro e não persistir quando sexo estiver vazio', async () => {
+    it('[CT-NA05] deve lançar erro e não persistir quando sexo estiver vazio', async () => {
       // Arrange
       const dados = { ...dadosBase, sexo: '' };
 
@@ -101,7 +101,7 @@ describe('EventoService — registrarNascimento', () => {
   });
 
   describe('validação de data', () => {
-    it('deve lançar erro e não persistir quando a data de nascimento for futura', async () => {
+    it('[CT-NA06] deve lançar erro e não persistir quando a data de nascimento for futura', async () => {
       // Arrange
       const dados = { ...dadosBase, data: DATA_FUTURA };
 

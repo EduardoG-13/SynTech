@@ -107,6 +107,24 @@ describe('AL — POST /api/chamados (Criar Alerta)', () => {
     expect(res.body).toHaveProperty('erro');
     expect(res.body.erro).toMatch(/Campos obrigatórios não preenchidos/);
   });
+
+  test('AL3. Regra de negócio — descrição com 10 caracteres ou menos retorna erro 4xx (RF006)', async () => {
+    // Arrange — todos os campos obrigatórios presentes; descrição exatamente no limite (inválido)
+    const res = await request(app)
+      .post('/api/chamados')
+      .send({
+        tipo: 'cerca',
+        descricao: '1234567890', // exatamente 10 chars — limite não satisfeito (> 10 exigido)
+        capataz_id: CAPATAZ_A,
+        retiro_id: RETIRO_A,
+        latitude: -23.5505,
+        longitude: -46.6333,
+      });
+
+    // Assert — controller valida descrição antes de chamar o service → 400
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('erro');
+  });
 });
 
 // ── N — POST /api/eventos-zootecnicos/nascimentos (Registrar Nascimento) ──────
@@ -152,5 +170,26 @@ describe('N — POST /api/eventos-zootecnicos/nascimentos (Registrar Nascimento)
     expect(res.status).toBe(400);
     expect(res.body).toHaveProperty('erro');
     expect(res.body.erro).toMatch(/Campos obrigatórios não preenchidos/);
+  });
+
+  test('N3. Regra de negócio (RN27) — data de nascimento futura retorna erro 4xx', async () => {
+    // Arrange — todos os campos válidos; apenas a data está no futuro
+    const DATA_FUTURA = new Date(Date.now() + 86_400_000).toISOString().split('T')[0];
+    const res = await request(app)
+      .post('/api/eventos-zootecnicos/nascimentos')
+      .send({
+        data: DATA_FUTURA,
+        retiro_id: RETIRO_A,
+        categoria: 'bezerro',
+        quantidade: 3,
+        capataz_id: CAPATAZ_A,
+        identificacao_mae: 'MAE-TEST',
+        sexo: 'Macho',
+        peso_nascimento: 32,
+      });
+
+    // Assert — eventoController captura RN27 e retorna 422 (regra de negócio violada)
+    expect(res.status).toBe(422);
+    expect(res.body).toHaveProperty('erro');
   });
 });

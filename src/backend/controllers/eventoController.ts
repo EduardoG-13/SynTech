@@ -29,7 +29,11 @@ class EventoController {
         mensagem: 'Registro de nascimento criado com sucesso',
         registro: nascimento
       });
-    } catch (erro) {
+    } catch (erro: any) {
+      if (erro.message?.includes('RN27') || erro.message?.includes('RF013')) {
+        res.status(422).json({ erro: erro.message });
+        return;
+      }
       next(erro);
     }
   }

@@ -58,14 +58,8 @@ describe('TarefaService', () => {
       });
     });
 
-    it('deve concluir a tarefa e retornar o registro atualizado quando os dados são válidos', async () => {
-      // Arrange
-      const tarefaConcluida = {
-        ...tarefaFixture(),
-        status: 'CONCLUIDA' as const,
-        concluida_em: new Date().toISOString(),
-      };
-      mockTarefaRepo.concluir.mockResolvedValue(tarefaConcluida);
+    it('[CT-UT01] deve concluir a tarefa e retornar o registro atualizado quando os dados são válidos', async () => {
+      // Arrange — beforeEach configura buscarPorId e concluir com fixture CONCLUIDA
 
       // Act
       const resultado = await tarefaService.concluirTarefa(
@@ -78,7 +72,7 @@ describe('TarefaService', () => {
       expect(resultado.status).toBe('CONCLUIDA');
     });
 
-    it('deve lançar erro e não atualizar quando a tarefa já está concluída', async () => {
+    it('[CT-UT02] deve lançar erro e não atualizar quando a tarefa já está concluída', async () => {
       // Arrange — repositório retorna tarefa com status CONCLUIDA
       mockTarefaRepo.buscarPorId.mockResolvedValue({
         ...tarefaFixture(),
@@ -93,7 +87,7 @@ describe('TarefaService', () => {
       expect(mockTarefaRepo.concluir).not.toHaveBeenCalled();
     });
 
-    it('deve lançar erro quando a tarefa não pertence ao capataz', async () => {
+    it('[CT-UT03] deve lançar erro quando a tarefa não pertence ao capataz', async () => {
       // Arrange — tarefa atribuída a outro capataz (pertence a outro retiro)
       mockTarefaRepo.buscarPorId.mockResolvedValue({
         ...tarefaFixture(),
@@ -119,7 +113,7 @@ describe('TarefaService', () => {
       mockTarefaRepo.salvarEvidencia.mockResolvedValue('mock-evidencia-id-0001');
     });
 
-    it('deve salvar a evidência e retornar evidencia_id quando os dados são válidos', async () => {
+    it('[CT-UT04] deve salvar a evidência e retornar evidencia_id quando os dados são válidos', async () => {
       // Arrange
       const dados = { tipo: 'FOTO', arquivo_base64: BASE64_VALIDO, geolocalizacao: null };
 
@@ -131,7 +125,7 @@ describe('TarefaService', () => {
       expect(resultado.evidencia_id).toBe('mock-evidencia-id-0001');
     });
 
-    it('deve lançar erro e não salvar quando a tarefa não pertence ao capataz', async () => {
+    it('[CT-UT05] deve lançar erro e não salvar quando a tarefa não pertence ao capataz', async () => {
       // Arrange — tarefa atribuída a outro capataz
       mockTarefaRepo.buscarPorId.mockResolvedValue({
         ...tarefaFixture(),
@@ -145,7 +139,7 @@ describe('TarefaService', () => {
       expect(mockTarefaRepo.salvarEvidencia).not.toHaveBeenCalled();
     });
 
-    it('deve lançar erro e não salvar quando arquivo_base64 excede 5 MB', async () => {
+    it('[CT-UT06] deve lançar erro e não salvar quando arquivo_base64 excede 5 MB', async () => {
       // Arrange — string que ultrapassa 6 990 507 caracteres (limite ~5 MB binário)
       const base64GrandeValido = 'A'.repeat(6_990_508);
       const dados = { tipo: 'FOTO', arquivo_base64: base64GrandeValido, geolocalizacao: null };
@@ -157,7 +151,7 @@ describe('TarefaService', () => {
       expect(mockTarefaRepo.salvarEvidencia).not.toHaveBeenCalled();
     });
 
-    it('deve lançar erro e não salvar quando arquivo_base64 contém caracteres inválidos', async () => {
+    it('[CT-UT07] deve lançar erro e não salvar quando arquivo_base64 contém caracteres inválidos', async () => {
       // Arrange — string com caracteres fora do alfabeto base64
       const base64Invalido = 'não-é-base64!@#$%';
       const dados = { tipo: 'FOTO', arquivo_base64: base64Invalido, geolocalizacao: null };
@@ -169,7 +163,7 @@ describe('TarefaService', () => {
       expect(mockTarefaRepo.salvarEvidencia).not.toHaveBeenCalled();
     });
 
-    it('deve aceitar e normalizar base64 com prefixo data URI do navegador', async () => {
+    it('[CT-UT08] deve aceitar e normalizar base64 com prefixo data URI do navegador', async () => {
       // Arrange — formato enviado pelo browser: "data:image/png;base64,<dados>"
       const dados = {
         tipo: 'FOTO',
@@ -190,7 +184,7 @@ describe('TarefaService', () => {
       expect(resultado.evidencia_id).toBe('mock-evidencia-id-0001');
     });
 
-    it('deve lançar erro quando arquivo_base64 é string vazia', async () => {
+    it('[CT-UT09] deve lançar erro quando arquivo_base64 é string vazia', async () => {
       // Arrange
       const dados = { tipo: 'FOTO', arquivo_base64: '', geolocalizacao: null };
 
@@ -201,7 +195,7 @@ describe('TarefaService', () => {
       expect(mockTarefaRepo.salvarEvidencia).not.toHaveBeenCalled();
     });
 
-    it('deve salvar evidência de texto sem arquivo_base64', async () => {
+    it('[CT-UT10] deve salvar evidência de texto sem arquivo_base64', async () => {
       // Arrange — tipo TEXTO não exige arquivo_base64
       const dados = { tipo: 'TEXTO', arquivo_base64: undefined, geolocalizacao: null };
 
@@ -230,7 +224,7 @@ describe('TarefaService', () => {
       mockTarefaRepo.criar.mockResolvedValue(tarefaFixture());
     });
 
-    it('deve criar a tarefa e retornar o registro persistido quando os dados são válidos', async () => {
+    it('[CT-UT11] deve criar a tarefa e retornar o registro persistido quando os dados são válidos', async () => {
       // Arrange
       const tarefaEsperada = tarefaFixture();
       mockTarefaRepo.criar.mockResolvedValue(tarefaEsperada);
@@ -243,7 +237,7 @@ describe('TarefaService', () => {
       expect(resultado).toEqual(tarefaEsperada);
     });
 
-    it('deve lançar erro e não persistir quando a data de agendamento for retroativa', async () => {
+    it('[CT-UT12] deve lançar erro e não persistir quando a data de agendamento for retroativa', async () => {
       // Arrange
       const dados = { ...dadosBase, data_execucao: DATA_PASSADA };
 
@@ -254,7 +248,7 @@ describe('TarefaService', () => {
       expect(mockTarefaRepo.criar).not.toHaveBeenCalled();
     });
 
-    it('deve lançar erro e não persistir quando a descrição for fornecida em branco', async () => {
+    it('[CT-UT13] deve lançar erro e não persistir quando a descrição for fornecida em branco', async () => {
       // Arrange
       const dados = { ...dadosBase, descricao: '   ' };
 
