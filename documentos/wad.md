@@ -5607,7 +5607,8 @@ A tabela abaixo é coerente com a Matriz RF → RN → Endpoint (seção 3.1.4) 
 | AL1, AL2, CT-UA01 – CT-UA11 | RN19, RN26 | RF006 | `POST /api/chamados` |
 | N1, N2, CT-NA01 – CT-NA06 | RN27 | RF008 | `POST /api/eventos-zootecnicos/nascimentos` |
 | CT-OB01 – CT-OB04 | — | RF009 | `POST /api/eventos-zootecnicos/obitos` |
-| CT-CS01 – CT-CS04 | — | RF010 | `POST /sincronizacao/lote` |
+| CT-CS01 – CT-CS15 | — | RF010 | `POST /sincronizacao/lote` |
+| CT-DB01 – CT-DB04 | — | — | `config/database.ts` (inicialização) |
 | CT-EV01 – CT-EV04 | — | RF014 | `GET /api/eventos-zootecnicos` |
 | CT-EX01 – CT-EX04 | RN28 | RF015 | `GET /api/exportacao/csv` |
 
