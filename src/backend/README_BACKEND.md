@@ -243,3 +243,33 @@ O desenvolvimento, a manutenção e a execução de testes automatizados e de in
 
 > [!IMPORTANT]
 > **RESTRIÇÃO DE ESCOPO:** Os testes formais (utilizando Jest e Supertest) são de responsabilidade exclusiva da equipe de QA. Desenvolvedores do backend não devem criar, alterar ou interagir com os arquivos de testes no diretório `__tests__/` sem coordenação explícita do time de qualidade.
+
+---
+
+## 10. Segurança e Validações Executadas
+
+Como parte das entregas de segurança do backend, foram adotadas as seguintes medidas:
+
+- Autenticação com JWT em dois níveis, usando `accessToken` de curta duração e `refreshToken` persistido para renovação controlada.
+- Armazenamento do `refreshToken` em cookie `httpOnly`, com `sameSite: 'strict'` e `secure` em produção, reduzindo exposição a acesso via JavaScript e ataques de CSRF.
+- Revogação de refresh tokens no logout e rotação do token a cada renovação.
+- Persistência de sessão do usuário no servidor para reforçar o controle de autenticação no fluxo de login.
+- Middleware de proteção por perfil e acesso a rotas sensíveis somente após autenticação.
+
+### Verificação realizada no terminal
+
+Foi executada uma auditoria de dependências no terminal para verificar vulnerabilidades conhecidas no ecossistema Node.js do projeto:
+
+```bash
+npm audit --audit-level=high
+```
+
+![Evidencia do npm audit](../../documentos/evidencias/npm-audit-2026-06-12.svg)
+
+Resultado obtido:
+
+```text
+found 0 vulnerabilities
+```
+
+Essa validação não substitui um pentest completo, mas registra uma checagem objetiva de segurança aplicada ao projeto e evidencia que, no estado atual das dependências instaladas, não há vulnerabilidades conhecidas reportadas pelo `npm audit` em nível alto ou superior.
