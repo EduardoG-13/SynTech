@@ -5549,7 +5549,42 @@ Ran all test suites matching /tests\unit/i.
 
 > Os `console.log` exibidos pelo Jest durante a execução do `cloudSyncService.test.ts` (mensagens `[database]`, `[initDb]`, `[cloudSync]`) são logs operacionais esperados da própria implementação do serviço — não indicam falha. O `console.error` de CT-CS03 é intencional: o serviço registra a falha de upsert antes de gravar `status_envio = 'ERRO'` na fila.
 
-O relatório de cobertura por camada (`% Stmts | % Branch | % Funcs | % Lines`) é gerado com `npm test -- --coverage` e salvo em `coverage/lcov-report/index.html`.
+**Relatório de cobertura (`npm test -- --coverage`, camada `services`):**
+
+```
+--------------------------|---------|----------|---------|---------|-----------------------
+File                      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+--------------------------|---------|----------|---------|---------|-----------------------
+All files                 |   70.47 |    55.35 |   54.28 |   73.04 |
+ config                   |   78.18 |       50 |     100 |   77.77 |
+  database.ts             |   84.61 |       40 |     100 |   84.61 | 17-18
+  initDb.ts               |   76.19 |    66.66 |     100 |    75.6 | 41-42,65-69,97-104
+ services                 |   68.68 |    61.05 |   72.22 |   70.22 |
+  alertaService.ts        |      76 |    77.27 |   66.66 |    82.6 | 16,23-25
+  cloudSyncService.ts     |   41.33 |    16.12 |      25 |   42.46 | 21-22,100-233,272-274
+  eventoService.ts        |      92 |    86.66 |     100 |      92 | 65,68
+  exportacaoService.ts    |     100 |       75 |     100 |     100 | 6
+  tarefaService.ts        |   86.84 |    86.95 |      75 |   86.84 | 17,20,27-28,48
+ tests/mocks              |   67.64 |        0 |   21.42 |   83.33 |
+  mockAlertaRepository.ts |      75 |        0 |   33.33 |     100 | 24
+  mockEventoRepository.ts |   66.66 |        0 |      20 |    87.5 | 51
+  mockTarefaRepository.ts |   64.28 |        0 |   16.66 |   72.72 | 36,42,57
+--------------------------|---------|----------|---------|---------|-----------------------
+Test Suites: 7 passed, 7 total
+Tests:       46 passed, 46 total
+```
+
+**Análise por arquivo de serviço:**
+
+| Serviço | % Lines | Meta ≥ 80% | Observação |
+|---------|:-------:|:----------:|------------|
+| `exportacaoService.ts` | 100 | ✓ | Cobertura total; branch 75% — linha 6 (import) não executável |
+| `eventoService.ts` | 92 | ✓ | Linhas 65 e 68: caminhos de fallback de tipo de evento não exercitados |
+| `tarefaService.ts` | 86.84 | ✓ | Linhas 17, 20, 27-28, 48: guard clauses de tipo e log interno |
+| `alertaService.ts` | 82.6 | ✓ | Linhas 16, 23-25: branches de validação de tipo de chamado |
+| `cloudSyncService.ts` | 42.46 | ✗ | Linhas 100-233: loop principal do Outbox com ~15 branches de tipo de entidade; cobertura limitada pelo mock do pool Supabase |
+
+> A métrica `All files` (73.04% lines) inclui arquivos de `config` e `tests/mocks` que não são camada de serviço. Considerando apenas `services/`, a cobertura de linhas é 70.22% — puxada para baixo pelo `cloudSyncService.ts`. Os quatro serviços de domínio (`alerta`, `evento`, `exportacao`, `tarefa`) atendem individualmente à meta de 80% de linhas.
 
 **Mapeamento CT → RN → RF (rastreabilidade consolidada):**
 
