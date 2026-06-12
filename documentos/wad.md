@@ -5403,6 +5403,8 @@ Para cada endpoint o objetivo é cobrir quatro cenários: **sucesso (200/201)**,
 | `/api/tarefas/:id/evidencias` | POST | E1, E4 | E3 | E2 (RN05 → 404) | E2 |
 | `/api/chamados` | POST | AL1 | AL2 | — ⚠ | — ⚠ |
 | `/api/eventos-zootecnicos/nascimentos` | POST | N1 | N2 | — ⚠ | — ⚠ |
+| `/api/auth/login` | POST | AJ1 | — | AJ3 (sem token → 401) | — |
+| `/api/auth/refresh` | POST | AJ2 | — | — | — |
 
 > ⚠ Lacuna de cobertura: `/api/chamados` e `/api/eventos-zootecnicos/nascimentos` não possuem casos que verifiquem violação explícita de RN nem recurso não encontrado. Candidatos para sprint seguinte: GPS ausente para `chamados` (RN19), `quantidade` inválida para `nascimentos` (RN27).
 
@@ -5556,6 +5558,25 @@ Ran all test suites matching /tests\unit/i.
 
 > Os `console.log` exibidos pelo Jest durante a execução do `cloudSyncService.test.ts` (mensagens `[database]`, `[initDb]`, `[cloudSync]`) são logs operacionais esperados da própria implementação do serviço — não indicam falha. O `console.error` de CT-CS03 é intencional: o serviço registra a falha de upsert antes de gravar `status_envio = 'ERRO'` na fila.
 
+**Output de `npx jest tests/auth-jwt --verbose` (autenticação JWT):**
+
+```
+PASS tests/auth-jwt.test.ts (7.159 s)
+  Autenticacao JWT
+    ✓ login retorna access token e define refresh token em cookie httpOnly (408 ms)
+    ✓ refresh emite novo access token quando o refresh token e valido (311 ms)
+    ✓ rota protegida rejeita requisicao sem access token quando autenticacao esta ativa (152 ms)
+    ✓ rota protegida aceita access token valido quando autenticacao esta ativa (305 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       4 passed, 4 total
+Snapshots:   0 total
+Time:        7.737 s
+Ran all test suites matching /tests\/auth-jwt/i.
+```
+
+> Os `console.log` de `[database]` e `[initDb]` exibidos durante `auth-jwt.test.ts` são os mesmos logs operacionais da inicialização do SQLite `:memory:` — não indicam falha.
+
 **Relatório de cobertura (`npm test -- --coverage`, camada `services`):**
 
 ```
@@ -5577,8 +5598,8 @@ All files                 |   84.87 |    78.57 |   54.28 |   88.28 |
   mockEventoRepository.ts |   66.66 |        0 |      20 |    87.5 | 51
   mockTarefaRepository.ts |   64.28 |        0 |   16.66 |   72.72 | 36,42,57
 --------------------------|---------|----------|---------|---------|--------------------
-Test Suites: 8 passed, 8 total
-Tests:       61 passed, 61 total
+Test Suites: 9 passed, 9 total
+Tests:       65 passed, 65 total
 ```
 
 **Análise por arquivo de serviço:**
@@ -5609,6 +5630,7 @@ A tabela abaixo é coerente com a Matriz RF → RN → Endpoint (seção 3.1.4) 
 | CT-OB01 – CT-OB04 | — | RF009 | `POST /api/eventos-zootecnicos/obitos` |
 | CT-CS01 – CT-CS15 | — | RF010 | `POST /sincronizacao/lote` |
 | CT-DB01 – CT-DB04 | — | — | `config/database.ts` (inicialização) |
+| AJ1, AJ2, AJ3, AJ4 | — | — | `POST /api/auth/login`, `POST /api/auth/refresh` |
 | CT-EV01 – CT-EV04 | — | RF014 | `GET /api/eventos-zootecnicos` |
 | CT-EX01 – CT-EX04 | RN28 | RF015 | `GET /api/exportacao/csv` |
 
