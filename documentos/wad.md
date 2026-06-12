@@ -5351,12 +5351,34 @@ test('Deve suspender a sincronização se não houver conexão com o Supabase (o
 | CT-CS02 | `CloudSyncService.sincronizar` — tarefa online | RF010 | — | PASS |
 | CT-CS03 | `CloudSyncService.sincronizar` — erro de upsert | RF010 | — | PASS |
 | CT-CS04 | `CloudSyncService.sincronizar` — alerta online | RF010 | — | PASS |
+| CT-EV01 | `EventoService.listarEventos` — sucesso sem filtros | RF014 | — | PASS |
+| CT-EV02 | `EventoService.listarEventos` — filtro por retiro_id | RF014 | — | PASS |
+| CT-EV03 | `EventoService.listarEventos` — retiro sem eventos | RF014 | — | PASS |
+| CT-EV04 | `EventoService.listarEventos` — filtro por tipo | RF014 | — | PASS |
+| CT-EX01 | `ExportacaoService.exportarCsv` — ACESSO_NEGADO (Capataz) | RF015 | RN28 | PASS |
+| CT-EX02 | `ExportacaoService.exportarCsv` — usuário não encontrado | RF015 | RN28 | PASS |
+| CT-EX03 | `ExportacaoService.exportarCsv` — cabeçalhos CSV corretos | RF015 | RN28 | PASS |
+| CT-EX04 | `ExportacaoService.exportarCsv` — total_registros correto | RF015 | RN28 | PASS |
+| CT-NA01 | `EventoService.registrarNascimento` — sucesso | RF008 | RN27 | PASS |
+| CT-NA02 | `EventoService.registrarNascimento` — peso zero | RF008 | ⁴ | PASS |
+| CT-NA03 | `EventoService.registrarNascimento` — peso negativo | RF008 | ⁴ | PASS |
+| CT-NA04 | `EventoService.registrarNascimento` — identificacao_mae vazia | RF008 | ⁴ | PASS |
+| CT-NA05 | `EventoService.registrarNascimento` — sexo vazio | RF008 | ⁴ | PASS |
+| CT-NA06 | `EventoService.registrarNascimento` — data futura | RF008 | RN27 | PASS |
+| CT-OB01 | `EventoService.registrarObito` — sucesso | RF009 | — | PASS |
+| CT-OB02 | `EventoService.registrarObito` — foto_base64 vazia | RF009 | ⁵ | PASS |
+| CT-OB03 | `EventoService.registrarObito` — causa_morte vazia | RF009 | ⁵ | PASS |
+| CT-OB04 | `EventoService.registrarObito` — identificacao_animal vazia | RF009 | ⁵ | PASS |
 
 > ¹ Validações de data retroativa e descrição em branco são regras internas do `TarefaService` sem código formal na tabela RN da seção 3.1.2.
 >
 > ² A restrição "descrição > 10 chars + GPS obrigatório" é enforced no `AlertaService` com a mensagem de erro `'RN06'`. Há conflito de nomenclatura: na seção 3.1.2, RN06 refere-se ao acesso offline de tarefas (RF002). Esses casos testam a validação real do serviço, não a RN06 formal.
 >
 > ³ As regras "apenas Técnico pode resolver chamado" e "chamado já resolvido não pode ser re-resolvido" são regras de domínio do `AlertaService` não catalogadas na seção 3.1.2.
+>
+> ⁴ As validações de `peso`, `identificacao_mae` e `sexo` em `registrarNascimento` são regras internas do serviço. O arquivo de teste as associa a RF013, que na seção 3.1.4 não está listado como endpoint de backend; o RF formal para nascimentos é RF008.
+>
+> ⁵ O arquivo `obitoService.test.ts` usa a notação `RN07` para "foto e causa obrigatórias no óbito". Há conflito de nomenclatura: na seção 3.1.2, RN07 refere-se à disponibilidade offline de tarefas (RF002). Esses casos testam validações internas do serviço de óbito.
 
 ### 5.1.3. Testes de Integração de Endpoints (black-box)
 
@@ -5431,7 +5453,103 @@ Time:        1.373 s
 Ran all test suites.
 ```
 
-O log completo dos testes unitários (`npx jest tests/unit --verbose`) e o relatório de cobertura constam no arquivo [evidencias/jest-testes-endpoints.md](evidencias/jest-testes-endpoints.md). O relatório de cobertura por camada (`% Stmts | % Branch | % Funcs | % Lines`) é gerado com `npm test -- --coverage` e salvo em `coverage/lcov-report/index.html`.
+**Output de `npx jest tests/unit --verbose` (execução real):**
+
+```
+PASS tests/unit/eventoService.test.ts
+  EventoService — listarEventos
+    sem filtros
+      ✓ deve retornar todos os eventos e repassar objeto vazio ao repositório (3 ms)
+    filtro por retiro_id
+      ✓ deve retornar apenas os eventos do retiro filtrado (1 ms)
+      ✓ deve retornar lista vazia quando o retiro não possui eventos
+    filtro por tipo
+      ✓ deve repassar o filtro de tipo ao repositório e retornar apenas eventos do tipo solicitado (1 ms)
+
+PASS tests/unit/exportacaoService.test.ts
+  ExportacaoService — exportarCsv
+    controle de acesso
+      ✓ deve lançar ACESSO_NEGADO quando o perfil do usuário for Capataz (6 ms)
+      ✓ deve lançar erro quando o usuário não for encontrado
+    formatação do CSV
+      ✓ deve gerar CSV com cabeçalhos separados por ponto-e-vírgula (1 ms)
+      ✓ deve retornar total_registros igual ao número de linhas consultadas
+
+PASS tests/unit/nascimentoService.test.ts
+  EventoService — registrarNascimento
+    ✓ deve salvar e retornar o registro quando todos os dados são válidos (1 ms)
+    validação de peso_nascimento
+      ✓ deve lançar erro e não persistir quando o peso for zero (4 ms)
+      ✓ deve lançar erro e não persistir quando o peso for negativo
+    validação de identificacao_mae
+      ✓ deve lançar erro e não persistir quando identificacao_mae estiver vazia (1 ms)
+    validação de sexo
+      ✓ deve lançar erro e não persistir quando sexo estiver vazio
+    validação de data
+      ✓ deve lançar erro e não persistir quando a data de nascimento for futura (1 ms)
+
+PASS tests/unit/obitoService.test.ts
+  EventoService — registrarObito
+    ✓ deve salvar e retornar o registro quando todos os dados são válidos
+    validação de foto_base64 (RN07)
+      ✓ deve lançar erro e não persistir quando foto_base64 estiver vazia (4 ms)
+    validação de causa_morte
+      ✓ deve lançar erro e não persistir quando causa_morte estiver vazia
+    validação de identificacao_animal
+      ✓ deve lançar erro e não persistir quando identificacao_animal estiver vazia (1 ms)
+
+PASS tests/unit/cloudSyncService.test.ts
+  CloudSyncService
+    ✓ Deve suspender a sincronização se não houver conexão com o Supabase (offline) (3 ms)
+    ✓ Deve processar e sincronizar tarefas com sucesso quando online (1 ms)
+    ✓ Deve incrementar tentativas e registrar status ERRO se falhar ao upsertar um item específico (4 ms)
+    ✓ Deve sincronizar alertas com sucesso (1 ms)
+
+PASS tests/unit/alertaService.test.ts
+  AlertaService
+    criarAlerta — RN06
+      ✓ deve criar o chamado e retornar o registro persistido quando os dados são válidos (1 ms)
+      ✓ deve lançar erro e não persistir quando a descrição for muito curta (≤ 10 caracteres) (4 ms)
+      ✓ deve lançar erro e não persistir quando a descrição estiver em branco
+      ✓ deve lançar erro e não persistir quando a descrição estiver ausente (1 ms)
+      ✓ deve lançar erro e não persistir quando a latitude estiver ausente
+      ✓ deve lançar erro e não persistir quando a longitude estiver ausente (1 ms)
+    resolverChamado
+      ✓ deve resolver o chamado quando os dados são válidos e o usuário é Tecnico
+      ✓ deve lançar ACESSO_NEGADO e não resolver quando o usuário não tiver perfil Tecnico
+      ✓ deve lançar ACESSO_NEGADO e não resolver quando o usuário não for encontrado (1 ms)
+      ✓ deve lançar CHAMADO_NAO_ENCONTRADO quando o chamado não existir
+      ✓ deve lançar CHAMADO_JA_RESOLVIDO e não atualizar quando o chamado já foi resolvido
+
+PASS tests/unit/tarefaService.test.ts
+  TarefaService
+    concluirTarefa
+      ✓ deve concluir a tarefa e retornar o registro atualizado quando os dados são válidos
+      ✓ deve lançar erro e não atualizar quando a tarefa já está concluída (4 ms)
+      ✓ deve lançar erro quando a tarefa não pertence ao capataz
+    anexarEvidencia
+      ✓ deve salvar a evidência e retornar evidencia_id quando os dados são válidos
+      ✓ deve lançar erro e não salvar quando a tarefa não pertence ao capataz (1 ms)
+      ✓ deve lançar erro e não salvar quando arquivo_base64 excede 5 MB (6 ms)
+      ✓ deve lançar erro e não salvar quando arquivo_base64 contém caracteres inválidos
+      ✓ deve aceitar e normalizar base64 com prefixo data URI do navegador
+      ✓ deve lançar erro quando arquivo_base64 é string vazia
+      ✓ deve salvar evidência de texto sem arquivo_base64 (1 ms)
+    criarTarefa
+      ✓ deve criar a tarefa e retornar o registro persistido quando os dados são válidos
+      ✓ deve lançar erro e não persistir quando a data de agendamento for retroativa (1 ms)
+      ✓ deve lançar erro e não persistir quando a descrição for fornecida em branco
+
+Test Suites: 7 passed, 7 total
+Tests:       46 passed, 46 total
+Snapshots:   0 total
+Time:        2.822 s
+Ran all test suites matching /tests\unit/i.
+```
+
+> Os `console.log` exibidos pelo Jest durante a execução do `cloudSyncService.test.ts` (mensagens `[database]`, `[initDb]`, `[cloudSync]`) são logs operacionais esperados da própria implementação do serviço — não indicam falha. O `console.error` de CT-CS03 é intencional: o serviço registra a falha de upsert antes de gravar `status_envio = 'ERRO'` na fila.
+
+O relatório de cobertura por camada (`% Stmts | % Branch | % Funcs | % Lines`) é gerado com `npm test -- --coverage` e salvo em `coverage/lcov-report/index.html`.
 
 **Mapeamento CT → RN → RF (rastreabilidade consolidada):**
 
@@ -5444,8 +5562,11 @@ A tabela abaixo é coerente com a Matriz RF → RN → Endpoint (seção 3.1.4) 
 | K1, K2, K3, CT-UT01, CT-UT02, CT-UT03 | RN05 | RF002 | `PATCH /api/tarefas/:id/concluir` |
 | E1, E2, E3, E4, CT-UT04 – CT-UT10 | RN05, RN13 | RF005 | `POST /api/tarefas/:id/evidencias` |
 | AL1, AL2, CT-UA01 – CT-UA11 | RN19, RN26 | RF006 | `POST /api/chamados` |
-| N1, N2 | RN27 | RF008 | `POST /api/eventos-zootecnicos/nascimentos` |
+| N1, N2, CT-NA01 – CT-NA06 | RN27 | RF008 | `POST /api/eventos-zootecnicos/nascimentos` |
+| CT-OB01 – CT-OB04 | — | RF009 | `POST /api/eventos-zootecnicos/obitos` |
 | CT-CS01 – CT-CS04 | — | RF010 | `POST /sincronizacao/lote` |
+| CT-EV01 – CT-EV04 | — | RF014 | `GET /api/eventos-zootecnicos` |
+| CT-EX01 – CT-EX04 | RN28 | RF015 | `GET /api/exportacao/csv` |
 
 ## 5.2. Testes de usabilidade (sprint 5)
 
