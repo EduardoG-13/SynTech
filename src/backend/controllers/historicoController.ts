@@ -49,10 +49,17 @@ export function listarBoletas(req: Request, res: Response) {
   }
 
   // Filtros adicionais (query string)
-  if (req.query.retiro_id) { conds.push('m.retiro_id = ?'); params.push(String(req.query.retiro_id)); }
+  // Retiro: cobre transferências (origem/destino) também
+  if (req.query.retiro_id) {
+    conds.push('(m.retiro_id = ? OR m.retiro_origem_id = ? OR m.retiro_destino_id = ?)');
+    const v = String(req.query.retiro_id);
+    params.push(v, v, v);
+  }
   if (req.query.tipo)      { conds.push('m.tipo_operacao = ?'); params.push(String(req.query.tipo)); }
   if (req.query.data_inicio) { conds.push('m.data >= ?'); params.push(String(req.query.data_inicio)); }
   if (req.query.data_fim)    { conds.push('m.data <= ?'); params.push(String(req.query.data_fim)); }
+  if (req.query.status === 'aprovada')  conds.push('m.aprovado_por_coordenador_id IS NOT NULL');
+  if (req.query.status === 'pendente')  conds.push('m.aprovado_por_coordenador_id IS NULL');
 
   const where = conds.length ? 'WHERE ' + conds.join(' AND ') : '';
   const rows = db.prepare(`

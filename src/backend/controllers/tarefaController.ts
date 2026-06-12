@@ -20,7 +20,7 @@ class TarefaController {
 
       return res.status(201).json({ id: tarefa.id, mensagem: 'Tarefa criada com sucesso', tarefa });
     } catch (erro) {
-      if (erro.message.includes('RN01')) {
+      if (erro.message.includes('não pertence ao retiro')) {
         return res.status(422).json({ erro: erro.message });
       }
       next(erro);
@@ -78,7 +78,11 @@ class TarefaController {
 
       return res.status(201).json({ mensagem: 'Evidência salva com sucesso', evidencia_id: result.evidencia_id });
     } catch (erro) {
-      if (erro.message.includes('RN05')) {
+      if (erro.message && (
+        erro.message.includes('não encontrada') ||
+        erro.message.includes('formato válido') ||
+        erro.message.includes('muito grande')
+      )) {
         return res.status(404).json({ erro: erro.message });
       }
       next(erro);

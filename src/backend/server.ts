@@ -11,9 +11,25 @@ require('dotenv').config({ path: path.resolve(__dirname, '../../.env') }); // fa
 import app from './app';
 import { inicializarBanco } from './config/initDb';
 import cloudSyncService from './services/cloudSyncService';
+import db from './config/database';
 
 // Inicializa o banco de dados (cria tabelas se necessário)
 inicializarBanco();
+
+// Auto-seed: se o banco estiver vazio (sem usuários), popula com retiros/usuários padrão.
+// Garante que a primeira subida em Render/Railway/Fly não exija comando manual.
+try {
+  const totalUsuarios = (db.prepare('SELECT COUNT(*) AS n FROM usuarios').get() as any).n;
+  if (totalUsuarios === 0) {
+    console.log('[server] Banco vazio detectado — rodando seed inicial...');
+    // Import dinâmico pra não rodar o IIFE do arquivo no caso normal
+    require('./seed');
+  } else {
+    console.log(`[server] Banco já populado (${totalUsuarios} usuário(s)) — pulando seed.`);
+  }
+} catch (err: any) {
+  console.error('[server] Falha ao verificar/popular seed:', err.message);
+}
 
 const PORT = process.env.PORT || 3000;
 

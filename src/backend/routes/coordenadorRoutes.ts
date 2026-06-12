@@ -1,12 +1,13 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { listarBoletasPendentes, aprovarBoleta, exportarCsv } from '../controllers/coordenadorController';
+import {
+  listarBoletasPendentes,
+  aprovarBoleta,
+  exportarCsv,
+  exportarBoletaPdf,
+} from '../controllers/coordenadorController';
 
 const router = Router();
 
-/**
- * Middleware: só Coordenador (ou Gerente) acessa.
- * Gerente pode visualizar exportação como fallback de auditoria.
- */
 function apenasCoordenador(req: Request, res: Response, next: NextFunction) {
   const usuario = (req.session as any)?.usuario;
   if (!usuario) return res.status(401).json({ erro: 'Não autenticado.' });
@@ -21,5 +22,6 @@ router.use(apenasCoordenador);
 router.get('/boletas-pendentes', listarBoletasPendentes);
 router.post('/boletas/:id/aprovar', aprovarBoleta);
 router.get('/exportar', exportarCsv);
+router.get('/boleta/:grupo_id/pdf', exportarBoletaPdf);
 
 export default router;

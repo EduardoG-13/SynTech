@@ -1,16 +1,34 @@
+/* ============================================================
+   Paleta BRPec / Syntech — baseada nos mockups de alta fidelidade
+   - Verde escuro (sidebar/headers): #1A4D2E
+   - Cream/bege (background): #F4EEDE
+   - Verde médio (acentos/gráficos): #2E7D52
+   - Laranja (status "em andamento"): #ED9024
+   ============================================================ */
 :root {
   color-scheme: light;
-  --bg: #f4f7f1;
-  --surface: #ffffff;
-  --surface-muted: #edf3e8;
-  --text: #172018;
-  --muted: #5c6b5d;
-  --line: #d7dfd3;
-  --primary: #286140;
-  --primary-dark: #18462d;
-  --danger: #9d2f2f;
-  --warning: #946510;
-  --success: #1f6a45;
+  /* Backgrounds */
+  --bg: #F4EEDE;             /* cream do corpo */
+  --bg-strong: #EAE2CC;       /* tonalidade mais escura do cream pra dividers */
+  --surface: #FFFFFF;         /* cards */
+  --surface-muted: #FAF5E8;   /* zebra/hover sobre cream */
+  /* Brand */
+  --primary: #1A4D2E;         /* verde Syntech (sidebar, header, botões) */
+  --primary-dark: #0F2F1B;    /* hover/active */
+  --primary-light: #2E7D52;   /* acento, gráficos */
+  --primary-pale: #E6F3EB;    /* fundo claro de hover */
+  /* Texto */
+  --text: #1B1B1B;            /* texto principal */
+  --muted: #5C6B5D;           /* labels secundárias */
+  --muted-2: #8A8A7C;         /* texto desabilitado */
+  /* Linhas */
+  --line: #D7DFD3;            /* bordas suaves */
+  --line-strong: #C8D3C3;     /* bordas focadas */
+  /* Status */
+  --danger: #D32F2F;
+  --warning: #ED9024;         /* "Em andamento" do mockup */
+  --success: #2E7D52;
+  --info: #1A4D2E;
 }
 
 * {
@@ -213,7 +231,6 @@ pre {
 
 table {
   border-collapse: collapse;
-  min-width: 760px;
   width: 100%;
 }
 
@@ -275,7 +292,7 @@ th {
   top: 1rem;
   left: 1rem;
   z-index: 1001;
-  background: #0f172a;
+  background: var(--primary);
   border: none;
   border-radius: 8px;
   padding: 10px;
@@ -308,56 +325,68 @@ th {
   display: block;
 }
 
-/* Sidebar Vertical */
+/* Sidebar Vertical — verde Syntech do mockup */
 #sidebar {
-  background-color: #0f172a;
-  color: white;
+  background-color: var(--primary);
+  color: #fff;
   display: flex;
   flex-direction: column;
   height: 100vh;
-  padding: 1.5rem;
-  border-right: 3px solid #2ecc71;
+  padding: 1.5rem 1.25rem;
   position: sticky;
   top: 0;
 }
 
 .side-logo {
-  font-size: 1.5rem;
-  font-weight: bold;
   margin-bottom: 2rem;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  padding: 0.25rem 0;
+}
+.side-logo img {
+  max-width: 160px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
 }
 
 #side-nav {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
   flex-grow: 1;
-  /* Faz o menu crescer e empurrar o config para a base */
 }
 
 #side-nav button,
 .side-config {
   background: none;
   border: none;
-  color: #cbd5e1;
+  color: rgba(255, 255, 255, 0.85);
   text-align: left;
-  padding: 12px;
+  padding: 12px 14px;
   font-size: 1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 10px;
-  border-radius: 6px;
+  gap: 12px;
+  border-radius: 8px;
   width: 100%;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
 }
 
 #side-nav button:hover,
+.side-config:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
 #side-nav button.active {
-  background-color: #1e293b;
-  color: #2ecc71;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-weight: 600;
 }
 
 /* Rodapé da sidebar (Configurações + Sair) */
@@ -365,37 +394,38 @@ th {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  border-top: 1px solid #1e293b;
-  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: 12px;
+  margin-top: 12px;
 }
 
 .side-logout {
   background: none;
   border: none;
-  color: #f3a3a3;
+  color: rgba(255, 255, 255, 0.85);
   text-align: left;
-  padding: 12px;
+  padding: 12px 14px;
   font-size: 1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 10px;
-  border-radius: 6px;
+  gap: 12px;
+  border-radius: 8px;
   width: 100%;
+  font-weight: 500;
 }
 
 .side-logout:hover {
-  background-color: #3b1e1e;
-  color: #ff6b6b;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
 }
 
 /* Área Principal */
 #app {
   height: 100vh;
   overflow-y: auto;
-  /* Permite scroll no conteúdo da tela */
   padding: 2rem;
-  background-color: #f8fafc;
+  background-color: var(--bg);
 }
 
 
@@ -629,6 +659,73 @@ th {
   vertical-align: middle;
   margin-right: 4px;
   display: inline-block;
+  flex-shrink: 0;
+}
+
+/* Ícone pequeno (acompanha texto em pílulas/badges/inputs) */
+.ico-sm {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin-right: 3px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* Ícone médio (botões secundários, dropdowns) */
+.ico-md {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  vertical-align: middle;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* Ícone do menu lateral — sempre o mesmo tamanho */
+#sidebar nav button span img,
+.side-config img,
+.side-logout img {
+  width: 22px !important;
+  height: 22px !important;
+  object-fit: contain;
+}
+
+/* Pílulas/badges: ícones inline menores para não passar do height da pill */
+.pill .label-ico,
+.pill .ico-md,
+.badge .label-ico,
+.toggle-pills .pill img {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+}
+
+/* Pílulas em filtros (fixed pequeno) */
+.filter-pills .pill .label-ico,
+.filter-pills .pill .ico-md {
+  width: 14px;
+  height: 14px;
+}
+
+/* Resumo/sucesso: alinha ícones inline no texto */
+.resumo-linha .label-ico,
+.resumo-linha .ico-sm { vertical-align: middle; margin-right: 4px; }
+
+/* Botões de ação grandes: ícone proporcional */
+.btn-salvar .label-ico,
+.btn-enviar .label-ico,
+.btn-enviar-detalhe .label-ico,
+.btn-baixar .label-ico,
+.btn-primario-grande .label-ico,
+.btn-primario .label-ico,
+.btn-secundario-laranja .label-ico,
+.btn-login .label-ico {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  margin-right: 6px;
 }
 
 /* Avatar do header-bar — força tamanho consistente do .ico interno */

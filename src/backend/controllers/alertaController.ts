@@ -24,7 +24,7 @@ class AlertaController {
 
     if (!descricao || descricao.trim().length <= 10) {
       return res.status(400).json({
-        erro: 'RN06: descrição deve ter mais de 10 caracteres'
+        erro: 'A descrição precisa ter mais de 10 caracteres.'
       });
     }
 
@@ -68,8 +68,8 @@ class AlertaController {
 
   async obterChamado(req, res, next) {
     try {
-      const chamado = await alertaService.listarChamados({ status: undefined } as any);
-      const c = (chamado as any[]).find((x) => x.id === req.params.id);
+      // Usa buscarPorId — traz a foto anexada pelo capataz, áudio, retiro_nome, capataz_nome etc.
+      const c = await alertaService.obterPorId(req.params.id);
       if (!c) return res.status(404).json({ erro: 'Chamado não encontrado.' });
       return res.json(c);
     } catch (erro) {

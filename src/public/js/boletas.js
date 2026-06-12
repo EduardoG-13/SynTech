@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (!fotoInput?.files?.length) {
-        alert('É obrigatório anexar uma foto para registrar um óbito (RN07).');
+        alert('É obrigatório anexar uma foto para registrar um óbito.');
         return;
       }
 

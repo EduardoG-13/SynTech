@@ -220,19 +220,39 @@ document.addEventListener('DOMContentLoaded', () => {
       resultado = { sucesso: false, offline: true, mensagem: erro.message || 'Erro de rede' };
     }
 
+    function irParaSucesso(textoMsg) {
+      // Guarda resumo do chamado pra tela /sucesso exibir
+      try {
+        var resumo = {
+          operacao: 'chamado',
+          data: new Date().toISOString().slice(0, 10),
+          retiro: payload.retiro_id || '',
+          observacoes: payload.descricao,
+          tem_foto: !!payload.foto_base64,
+          tipo: payload.tipo,
+          criadoEm: new Date().toISOString(),
+        };
+        localStorage.setItem('brpec_ultimo_registro', JSON.stringify(resumo));
+      } catch (_) {}
+      // Mostra mensagem rápida e redireciona
+      var msgEl = document.getElementById('novo-msg');
+      if (msgEl) {
+        msgEl.textContent = textoMsg;
+        msgEl.className = 'form-msg sucesso';
+        msgEl.style.display = 'block';
+      }
+      setTimeout(function() { window.location.href = '/sucesso'; }, 800);
+    }
+
     if (resultado.sucesso) {
-      alert('✅ Chamado enviado com sucesso!');
-      form.reset();
-      resetFileLabel();
+      irParaSucesso('✅ Chamado enviado com sucesso!');
       return;
     }
 
     if (resultado.offline) {
       try {
         await salvarOffline(payload);
-        alert('✅ Chamado salvo localmente. Será sincronizado quando a conexão retornar.');
-        form.reset();
-        resetFileLabel();
+        irParaSucesso('✅ Chamado salvo localmente. Será sincronizado quando voltar a conexão.');
       } catch (erro) {
         console.error('Erro ao salvar chamado localmente:', erro);
         alert('Ocorreu um erro ao salvar o chamado localmente. Tente novamente.');
@@ -243,9 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (resultado.mensagem && resultado.mensagem.toLowerCase().includes('network')) {
       try {
         await salvarOffline(payload);
-        alert('✅ Chamado salvo localmente devido a falha de rede. Será sincronizado quando a conexão retornar.');
-        form.reset();
-        resetFileLabel();
+        irParaSucesso('✅ Chamado salvo localmente. Será sincronizado quando voltar a conexão.');
         return;
       } catch (erro) {
         console.error('Erro ao salvar chamado localmente após falha de rede:', erro);

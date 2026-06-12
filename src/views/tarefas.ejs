@@ -9,114 +9,159 @@
 
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
       <div class="user-avatar"><img src="/public/Icons/capataz.ico" alt="Capataz" style="width:32px;height:32px;object-fit:contain;" /></div>
-      <h1>Histórico de Registros</h1>
-      <div class="sub"><%= retiro %> (<%= perfil %>)</div>
+      <h1>Minhas Tarefas</h1>
+      <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %> · <%= retiro %></div>
     </div>
 
     <main class="tarefas-main">
 
-      <!-- Filtro por tipo de boleta (ajuda a achar registros) -->
+      <!-- Filtros: Abertas / Concluídas -->
       <div class="filter-pills" id="filtros-tarefas">
-        <button class="pill active" data-filtro="todas">Todas</button>
-        <button class="pill" data-filtro="movimentacao"><img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Movimentação</button>
-        <button class="pill" data-filtro="nascimento"><img class="label-ico" src="/public/Icons/nascimento.ico" alt="" /> Nascimento</button>
-        <button class="pill" data-filtro="obito"><img class="label-ico" src="/public/Icons/obto.ico" alt="" /> Óbito</button>
+        <button class="pill active" data-filtro="ABERTA">
+          <img class="ico-md" src="/public/Icons/pendente.ico" alt="" /> Abertas
+          <span class="contador" id="cnt-abertas">0</span>
+        </button>
+        <button class="pill" data-filtro="CONCLUIDA">
+          <img class="ico-md" src="/public/Icons/concluido.ico" alt="" /> Concluídas
+          <span class="contador" id="cnt-concluidas">0</span>
+        </button>
       </div>
 
-      <!-- Lista de boletas criadas pelo capataz (lidas do localStorage) -->
-      <div class="tarefas-lista" id="tarefas-lista"></div>
-
-      <div class="tarefas-vazio" id="tarefas-vazio" style="display: none;">
-        <p>Nenhuma boleta encontrada.</p>
+      <div class="tarefas-lista" id="tarefas-lista">
+        <p style="text-align:center; color:#8A8A7C; padding:1rem;">Carregando...</p>
       </div>
 
-      <button class="btn btn-primario" style="width: 100%; margin-top: 1.5rem;" onclick="window.location.href='/nova-os?perfil=<%= perfil %>&retiro=<%= retiro %>'">
-        ➕ Nova Boleta
+      <div class="tarefas-vazio" id="tarefas-vazio" style="display:none;">
+        <p>📭 Nenhuma tarefa por aqui.</p>
+      </div>
+
+      <!-- FAB Nova Boleta livre -->
+      <button class="btn btn-primario" style="width:100%; margin-top:1.5rem;" onclick="window.location.href='/nova-os'">
+        <img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Nova Boleta
       </button>
 
     </main>
-
   </div>
 </div>
 
+<style>
+  .filter-pills .pill .contador {
+    background: rgba(255,255,255,0.25);
+    padding: 1px 8px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    margin-left: 0.4rem;
+  }
+  .filter-pills .pill:not(.active) .contador {
+    background: #f0f0eb;
+    color: #5c6b5d;
+  }
+  .badge.nova {
+    background: #D32F2F;
+    color: #fff;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-left: 0.4rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .badge.nova img { filter: brightness(0) invert(1); }
+</style>
+
 <script>
-  (function() {
-    var ICONES = {
-      'movimentacao': 'movimentacao', 'transferencia': 'movimentacao',
-      'nascimento': 'nascimento', 'obito': 'obto',
-      'compravenda': 'movimentacao', 'evolucao': 'movimentacao', 'manejo': 'tarefas'
-    };
-    var ROTULOS = {
-      'movimentacao': 'Movimentação', 'transferencia': 'Transferência',
-      'nascimento': 'Nascimento', 'obito': 'Óbito',
-      'compravenda': 'Compra/Venda', 'evolucao': 'Evolução', 'manejo': 'Manejo'
-    };
+  var FILTRO = 'ABERTA';
+  var ABERTAS = [];
+  var CONCLUIDAS = [];
 
-    var lista = [];
-    var cont = document.getElementById('tarefas-lista');
-    var vazio = document.getElementById('tarefas-vazio');
+  var ICO_TIPO = {
+    nascimento: 'nascimento',
+    obito: 'obto',
+    transferencia: 'movimentacao',
+    compravenda: 'cedula_dinheiro_bovino',
+    evolucao: 'evolucao',
+    manejo: 'tarefas',
+  };
+  var ROT_TIPO = {
+    nascimento: 'Nascimento',
+    obito: 'Óbito',
+    transferencia: 'Transferência',
+    compravenda: 'Compra/Venda',
+    evolucao: 'Evolução',
+    manejo: 'Manejo',
+  };
 
-    cont.innerHTML = '<p style="text-align:center; color:#8A8A7C; padding:1rem;">Carregando boletas...</p>';
-
-    fetch('/api/boletas/minhas', { credentials: 'same-origin' })
-      .then(function(r) { return r.json(); })
-      .then(function(rows) {
-        lista = rows || [];
-        render('todas');
-      })
-      .catch(function() {
-        cont.innerHTML = '<p style="color:#D32F2F; text-align:center;">Erro ao carregar boletas.</p>';
-      });
-
-    function render(filtro) {
-      cont.innerHTML = '';
-      var visiveis = 0;
-      lista.forEach(function(r) {
-        var tipo = r.operacao || 'manejo';
-        // Filtro "obito"/"nascimento"/"movimentacao" — "movimentacao" engloba transferencia/compravenda/evolucao
-        var grupo = (tipo === 'transferencia' || tipo === 'compravenda' || tipo === 'evolucao') ? 'movimentacao' : tipo;
-        if (filtro !== 'todas' && grupo !== filtro) return;
-
-        var ico = ICONES[tipo] || 'tarefas';
-        var rotulo = ROTULOS[tipo] || 'Registro';
-        var total = (r.animais || []).reduce(function(s,a){return s+(parseInt(a.quantidade)||0);},0);
-        var desc = total ? (total + ' cabeças') : (r.titulo || r.causa || '');
-        var data = r.data || (r.criadoEm || '').slice(0,10);
-        var statusBadge = r.aprovada
-          ? '<span class="badge concluida">✅ Aprovada</span>'
-          : '<span class="badge pendente">⏳ Aguardando coordenador</span>';
-
-        var card = document.createElement('div');
-        card.className = 'card tarefa-card';
-        card.dataset.tipo = grupo;
-        card.onclick = function() { window.location.href = '/boleta/' + r.id; };
-        card.innerHTML =
-          '<div class="bar-lateral ' + (r.aprovada ? 'concluida' : 'pendente') + '"></div>' +
-          '<div class="body">' +
-            '<div class="info">' +
-              '<span class="titulo"><img class="label-ico" src="/public/Icons/' + ico + '.ico" alt="" /> ' + rotulo + '</span>' +
-              '<span class="descricao">' + desc + '</span>' +
-              '<div class="meta"><span class="retiro-tag">📅 ' + data + '</span></div>' +
-            '</div>' +
-            '<div class="status-area">' +
-              statusBadge +
-              '<span class="arrow">›</span>' +
-            '</div>' +
-          '</div>';
-        cont.appendChild(card);
-        visiveis++;
-      });
-      vazio.style.display = visiveis === 0 ? 'block' : 'none';
-    }
-
+  document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('#filtros-tarefas .pill').forEach(function(btn) {
       btn.addEventListener('click', function() {
-        document.querySelectorAll('#filtros-tarefas .pill').forEach(function(b){b.classList.remove('active');});
+        document.querySelectorAll('#filtros-tarefas .pill').forEach(function(b) { b.classList.remove('active'); });
         btn.classList.add('active');
-        render(btn.dataset.filtro);
+        FILTRO = btn.dataset.filtro;
+        renderizar();
       });
     });
-  })();
+    carregar();
+  });
+
+  function carregar() {
+    Promise.all([
+      fetch('/api/tarefas?status=ABERTA', { credentials: 'same-origin' }).then(function(r) { return r.json(); }),
+      fetch('/api/tarefas?status=CONCLUIDA', { credentials: 'same-origin' }).then(function(r) { return r.json(); }),
+    ])
+    .then(function(arr) {
+      ABERTAS = (arr[0] && arr[0].tarefas) || [];
+      CONCLUIDAS = (arr[1] && arr[1].tarefas) || [];
+      document.getElementById('cnt-abertas').textContent = ABERTAS.length;
+      document.getElementById('cnt-concluidas').textContent = CONCLUIDAS.length;
+      renderizar();
+    })
+    .catch(function() {
+      document.getElementById('tarefas-lista').innerHTML =
+        '<p style="color:#D32F2F; text-align:center;">Erro ao carregar tarefas.</p>';
+    });
+  }
+
+  function renderizar() {
+    var lista = FILTRO === 'CONCLUIDA' ? CONCLUIDAS : ABERTAS;
+    var cont = document.getElementById('tarefas-lista');
+    var vazio = document.getElementById('tarefas-vazio');
+    if (!lista.length) {
+      cont.innerHTML = '';
+      vazio.style.display = 'block';
+      vazio.firstElementChild.textContent = FILTRO === 'CONCLUIDA' ? '📭 Sem tarefas concluídas ainda.' : '📭 Sem tarefas abertas no momento.';
+      return;
+    }
+    vazio.style.display = 'none';
+    cont.innerHTML = lista.map(function(t) {
+      var ico = ICO_TIPO[t.tipo_operacao] || 'tarefas';
+      var rotulo = ROT_TIPO[t.tipo_operacao] || t.tipo_operacao || 'Tarefa';
+      var ehNova = (t.gerente_id && !t.vista_em && t.status !== 'CONCLUIDA');
+      var badgeStatus = t.status === 'CONCLUIDA'
+        ? '<span class="badge concluida">✓ Concluída</span>'
+        : '<span class="badge pendente">⏳ ' + (t.status === 'EM_ANDAMENTO' ? 'Em andamento' : 'Pendente') + '</span>';
+      var badgeNova = ehNova
+        ? '<span class="badge nova"><img class="ico-sm" src="/public/Icons/notificacao_dispositivo_movel.ico" alt="" /> NOVA</span>'
+        : '';
+      var prio = t.prioridade ? '<span class="prioridade ' + t.prioridade + '">● ' + t.prioridade.toUpperCase() + '</span>' : '';
+      return '<div class="card tarefa-card" onclick="window.location.href=\'/tarefa/' + t.id + '\'">' +
+        '<div class="bar-lateral ' + (t.status === 'CONCLUIDA' ? 'concluida' : 'pendente') + '"></div>' +
+        '<div class="body">' +
+          '<div class="info">' +
+            '<span class="titulo"><img class="label-ico" src="/public/Icons/' + ico + '.ico" alt="" /> ' + (t.titulo || rotulo) + ' ' + badgeNova + '</span>' +
+            '<span class="descricao">' + rotulo + ' · ' + (t.retiro_nome || '') + '</span>' +
+            '<div class="meta">' +
+              '<span class="retiro-tag"><img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> ' + (t.data_execucao || '') + '</span>' +
+              prio +
+            '</div>' +
+          '</div>' +
+          '<div class="status-area">' + badgeStatus + '<span class="arrow">›</span></div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
 </script>
 
 <%- include('partials/footer') %>

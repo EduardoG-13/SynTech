@@ -63,7 +63,7 @@ describe('EventoService — registrarObito', () => {
 
       // Act & Assert
       await expect(eventoService.registrarObito(dados))
-        .rejects.toThrow('Foto');
+        .rejects.toThrow(/foto da carcaça/i);
       expect(mockEventoRepo.criarObito).not.toHaveBeenCalled();
     });
   });
@@ -75,7 +75,7 @@ describe('EventoService — registrarObito', () => {
 
       // Act & Assert
       await expect(eventoService.registrarObito(dados))
-        .rejects.toThrow('causa_morte');
+        .rejects.toThrow(/causa da morte/i);
       expect(mockEventoRepo.criarObito).not.toHaveBeenCalled();
     });
   });
@@ -87,7 +87,7 @@ describe('EventoService — registrarObito', () => {
 
       // Act & Assert
       await expect(eventoService.registrarObito(dados))
-        .rejects.toThrow('identificacao_animal');
+        .rejects.toThrow(/identificação do animal/i);
       expect(mockEventoRepo.criarObito).not.toHaveBeenCalled();
     });
   });

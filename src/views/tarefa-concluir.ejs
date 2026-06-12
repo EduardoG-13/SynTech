@@ -7,7 +7,7 @@
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
       <div class="user-avatar"><img src="/public/Icons/capataz.ico" alt="Capataz" style="width:32px;height:32px;object-fit:contain;" /></div>
       <h1>Concluir Tarefa</h1>
-      <div class="sub"><%= retiro %> (<%= perfil %>)</div>
+      <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %> · <%= retiro %></div>
     </div>
 
     <main class="layout" style="padding: 0;">

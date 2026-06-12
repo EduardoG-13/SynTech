@@ -8,7 +8,7 @@
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
       <div class="user-avatar"><img src="/public/Icons/infra.ico" alt="Infra" style="width:32px;height:32px;object-fit:contain;" /></div>
       <h1>Resolver Chamado</h1>
-      <div class="sub"><%= perfil %></div>
+      <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %></div>
     </div>
 
     <main class="chamado-main">
@@ -27,12 +27,22 @@
           </div>
         </div>
         <div class="card-chamado-meta">
-          <div><strong>📍 Retiro:</strong> <span id="chamado-retiro">—</span></div>
-          <div><strong>📅 Aberto em:</strong> <span id="chamado-data">—</span></div>
-          <div><strong>📝 Descrição:</strong> <span id="chamado-descricao">—</span></div>
-          <div id="chamado-gps-box" style="display:none;"><strong>🛰️ GPS:</strong> <span id="chamado-gps">—</span></div>
+          <div><strong><img class="ico-sm" src="/public/Icons/localizacao.ico" alt="" /> Retiro:</strong> <span id="chamado-retiro">—</span></div>
+          <div><strong><img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> Aberto em:</strong> <span id="chamado-data">—</span></div>
+          <div><strong><img class="ico-sm" src="/public/Icons/capataz.ico" alt="" /> Capataz:</strong> <span id="chamado-capataz">—</span></div>
+          <div><strong><img class="ico-sm" src="/public/Icons/editar.ico" alt="" /> Descrição:</strong> <span id="chamado-descricao">—</span></div>
+          <div id="chamado-gps-box" style="display:none;"><strong><img class="ico-sm" src="/public/Icons/GPS.ico" alt="" /> GPS:</strong> <span id="chamado-gps">—</span></div>
+          <div id="chamado-local-box" style="display:none;"><strong><img class="ico-sm" src="/public/Icons/bussola_direcao_guia.ico" alt="" /> Local (referência):</strong> <span id="chamado-local">—</span></div>
         </div>
-        <img id="chamado-foto" class="chamado-foto" style="display:none;" />
+        <div id="chamado-audio-box" style="display:none; margin-top:0.75rem;">
+          <p class="ajuda" style="margin-bottom:0.25rem;"><img class="ico-sm" src="/public/Icons/grava_audio.ico" alt="" /> Áudio enviado pelo capataz:</p>
+          <audio controls id="chamado-audio" style="width:100%;"></audio>
+        </div>
+        <div id="chamado-foto-box" style="display:none; margin-top:0.75rem;">
+          <p class="ajuda" style="margin-bottom:0.25rem;"><img class="ico-sm" src="/public/Icons/tira_foto.ico" alt="" /> Foto enviada pelo capataz:</p>
+          <img id="chamado-foto" class="chamado-foto" alt="Foto do problema" style="max-width:100%; border-radius:10px;" />
+          <a id="chamado-foto-link" href="#" target="_blank" rel="noopener" style="display:inline-block; margin-top:0.4rem; color:#1A4D2E; font-size:0.85rem; text-decoration:underline;">🔍 Abrir foto em tela cheia</a>
+        </div>
       </div>
 
       <!-- Formulário de resolução -->
@@ -40,13 +50,13 @@
         <input type="hidden" id="chamado-id" value="<%= typeof chamadoId !== 'undefined' ? chamadoId : '' %>" />
 
         <div class="card-resolucao">
-          <label class="label-bold">🛠️ Descrição da Solução</label>
+          <label class="label-bold"><img class="label-ico" src="/public/Icons/editar.ico" alt="" /> Descrição da Solução</label>
           <textarea id="descricao-solucao" rows="5" maxlength="500" placeholder="Descreva o que foi feito para resolver o problema..."></textarea>
           <div class="char-counter"><span id="char-count">0</span>/500</div>
         </div>
 
         <div class="card-resolucao">
-          <label class="label-bold">🎙️ Gravar áudio (opcional)</label>
+          <label class="label-bold"><img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" /> Gravar áudio (opcional)</label>
           <p class="ajuda">Se preferir, grave um áudio explicando a resolução.</p>
           <button type="button" class="btn-audio" id="btn-gravar-audio">
             <img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" />
@@ -57,7 +67,7 @@
         </div>
 
         <div class="card-resolucao">
-          <label class="label-bold">📷 Foto da resolução (opcional)</label>
+          <label class="label-bold"><img class="label-ico" src="/public/Icons/tira_foto.ico" alt="" /> Foto da resolução (opcional)</label>
           <p class="ajuda">Tire foto ou escolha do celular.</p>
           <div class="upload-foto">
             <label for="input-foto-resolucao" class="upload-label">
@@ -105,7 +115,8 @@
         var cat = document.getElementById('chamado-categoria');
         cat.textContent = (c.tipo || '').toUpperCase();
         cat.className = 'badge ' + (c.status === 'RESOLVIDO' ? 'concluida' : (c.status === 'EM_ANDAMENTO' ? 'andamento' : 'pendente'));
-        document.getElementById('chamado-retiro').textContent = c.retiro_id || '—';
+        document.getElementById('chamado-retiro').textContent = c.retiro_nome || c.retiro_id || '—';
+        document.getElementById('chamado-capataz').textContent = c.capataz_nome || '—';
         document.getElementById('chamado-data').textContent = (c.criado_em || '').slice(0, 16).replace('T', ' ');
         document.getElementById('chamado-descricao').textContent = c.descricao || '—';
         if (c.latitude && c.longitude) {
@@ -120,6 +131,20 @@
           link.style.color = '#1A4D2E'; link.style.textDecoration = 'underline';
           var span = document.getElementById('chamado-gps');
           span.textContent = ''; span.appendChild(link);
+        }
+        if (c.local_referencia) {
+          document.getElementById('chamado-local-box').style.display = 'block';
+          document.getElementById('chamado-local').textContent = c.local_referencia;
+        }
+        if (c.audio_base64) {
+          document.getElementById('chamado-audio-box').style.display = 'block';
+          document.getElementById('chamado-audio').src = c.audio_base64;
+        }
+        if (c.foto_base64) {
+          document.getElementById('chamado-foto-box').style.display = 'block';
+          var src = c.foto_base64.indexOf('data:') === 0 ? c.foto_base64 : ('data:image/jpeg;base64,' + c.foto_base64);
+          document.getElementById('chamado-foto').src = src;
+          document.getElementById('chamado-foto-link').href = src;
         }
 
         // Se já resolvido, bloqueia edição e mostra a resolução existente

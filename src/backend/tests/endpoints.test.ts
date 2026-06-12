@@ -88,7 +88,7 @@ describe('POST /api/tarefas', () => {
     expect(res.body).toHaveProperty('erro');
   });
 
-  it('422 — capataz não pertence ao retiro informado (RN01)', async () => {
+  it('422 — capataz não pertence ao retiro informado', async () => {
     const res = await request(app)
       .post('/api/tarefas')
       .send({
@@ -100,7 +100,7 @@ describe('POST /api/tarefas', () => {
       });
 
     expect(res.status).toBe(422);
-    expect(res.body.erro).toMatch(/RN01/);
+    expect(res.body.erro).toMatch(/não pertence ao retiro/i);
   });
 });
 
@@ -186,7 +186,7 @@ describe('POST /api/tarefas/:id/evidencias', () => {
     expect(res.body).toHaveProperty('erro');
   });
 
-  it('404 — tarefa inexistente (RN05)', async () => {
+  it('404 — tarefa inexistente', async () => {
     const res = await request(app)
       .post('/api/tarefas/id-inexistente/evidencias')
       .send({
@@ -196,7 +196,7 @@ describe('POST /api/tarefas/:id/evidencias', () => {
       });
 
     expect(res.status).toBe(404);
-    expect(res.body.erro).toMatch(/RN05/);
+    expect(res.body.erro).toMatch(/não encontrada|inválido|grande/i);
   });
 });
 
