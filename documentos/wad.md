@@ -5192,7 +5192,7 @@ A suite automatizada cobre a camada de serviços e os endpoints REST do BrPec em
 **Determinismo.** A suite não depende de ordem de execução, relógio fixo ou dados residuais:
 
 - `DATA_FUTURA` e `DATA_PASSADA` são calculadas em runtime (`Date.now() ± 86400000`), eliminando acoplamento a datas hardcoded.
-- Testes de integração fazem `DELETE` em todas as tabelas no `beforeEach`, garantindo estado limpo a cada caso.
+- O isolamento entre arquivos de teste é garantido pela arquitetura de workers paralelos do Jest: cada arquivo é executado em um processo Node.js independente, de forma que o singleton `db` (SQLite `:memory:`) é reiniciado por arquivo. Dentro de um mesmo arquivo, a independência entre testes é preservada pelo design dos casos — cada `it()` cria ou consulta entidades com IDs únicos e sem dependência de estado acumulado dos casos anteriores. O arquivo `cloudSyncService.test.ts` adiciona `DELETE` explícito no `beforeEach` por operar um ciclo de leitura-escrita-leitura sobre a fila de sincronização, situação que exige estado limpo por caso.
 - Testes unitários usam `jest.clearAllMocks()` no `beforeEach`, evitando que contadores e valores de mocks de um caso contaminem o próximo.
 
 **Cobertura mínima exigida.** A camada Service deve atingir cobertura de linhas ≥ 80%, verificada com `npm test -- --coverage`. O relatório HTML gerado em `coverage/lcov-report/index.html` é a evidência formal.
