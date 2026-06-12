@@ -5194,7 +5194,7 @@ O frontend foi refatorado para consumir a API REST real, substituindo os dados e
 <center>
   <p><strong>Figura 36</strong> — Segunda versão: Tela de tarefas com dados reais e badge de conectividade</p>
   <img src="./assets/image-lista-de-tarefas-capataz.png" width="800"/>
-  <p>Fonte: Próprios autores (2026).</p>
+  <p>Fonte: Próprios autores (2026)</p>
 </center>
 
 - **Tela de Nova O.S. com suporte offline (US01/RF001)** — o formulário de criação de tarefa agora submete para `POST /api/tarefas` via `fazerRequisicaoComOffline()`. Quando online, retorna HTTP 201 e exibe confirmação. Quando offline, salva automaticamente na store `sync_queue` do IndexedDB com `status: 'PENDENTE'` e exibe feedback "Salvo localmente".
