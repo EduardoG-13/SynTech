@@ -52,6 +52,7 @@
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (data.sucesso) {
+        window.authClient.setAccessToken(data.accessToken);
         // Cache local pra UX (auto-redirect na próxima abertura)
         localStorage.setItem('brpec_sessao', JSON.stringify({
           perfil: 'Capataz', retiro: nome, retiro_id: retiroId,

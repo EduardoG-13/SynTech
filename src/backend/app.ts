@@ -3,6 +3,7 @@ import swaggerDocument from './config/swagger.json';
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
+import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import { Request, Response, NextFunction } from 'express';
 import db from './config/database';
@@ -10,6 +11,7 @@ import { RETIROS } from './config/retiros';
 import routes from './routes/index';
 import viewRoutes from './routes/viewRoutes';
 import authRoutes from './routes/authRoutes';
+import { autenticarJWT } from './middleware/authMiddleware';
 import { requireLogin } from './middlewares/authView';
 
 const app = express();
@@ -26,9 +28,10 @@ app.use(cors());
 // Limite aumentado para 25MB para suportar foto + áudio em base64 (boletas e resoluções)
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ extended: true, limit: '25mb' }));
+app.use(cookieParser());
 app.use('/public', express.static(path.join(projectRoot, 'src/public')));
 app.use(session({
-  secret: 'brpec-syntech-2026',
+  secret: process.env.SESSION_SECRET || 'brpec-syntech-2026',
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 365 * 24 * 60 * 60 * 1000 }
@@ -134,7 +137,7 @@ app.get('/sw.js', (_req: Request, res: Response) => {
 });
 
 // Rotas da API
-app.use('/api', routes);
+app.use('/api', autenticarJWT, routes);
 
 // Rotas de views adicionais
 app.use('/', viewRoutes);

@@ -71,7 +71,7 @@
 
   <script>
     function fazerLogout() {
-      localStorage.removeItem('brpec_sessao');
+      window.authClient.clearSession();
       fetch('/api/auth/logout', { method: 'POST' }).finally(function () {
         window.location.href = '/';
       });

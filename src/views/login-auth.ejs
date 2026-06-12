@@ -49,9 +49,11 @@
     .then(function(res) { return res.json(); })
     .then(function(data) {
       if (data.sucesso) {
+        window.authClient.setAccessToken(data.accessToken);
         localStorage.setItem('brpec_sessao', JSON.stringify({
           perfil: PERFIL,
           usuario: usuario,
+          usuarioId: data.usuario && data.usuario.id,
           logadoEm: new Date().toISOString()
         }));
         // Cada perfil tem sua home dedicada

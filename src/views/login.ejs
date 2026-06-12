@@ -42,25 +42,37 @@
   // Auto-redirect SÓ se houver sessão VÁLIDA no servidor (cookie ativo).
   // Antes redirecionava só pelo localStorage e quando o cookie expirava dava loop.
   (function() {
-    fetch('/api/auth/me', { credentials: 'same-origin' })
+    function redirecionar(usuario) {
+      var perfil = usuario.perfil;
+      if (perfil === 'Capataz') {
+        window.location.href = '/tarefas';
+      } else if (perfil === 'Infraestrutura') {
+        window.location.href = '/infraestrutura';
+      } else if (perfil === 'Gerente' || perfil === 'Coordenador') {
+        window.location.href = '/dashboard';
+      }
+    }
+
+    function verificarSessao() {
+      return fetch('/api/auth/me', { credentials: 'same-origin' })
       .then(function(r) { return r.json(); })
       .then(function(data) {
         if (!data.usuario) {
-          // Sessão do servidor não existe — limpa o localStorage stale e fica na tela de login
-          localStorage.removeItem('brpec_sessao');
-          return;
+          return false;
         }
-        var perfil = data.usuario.perfil;
-        if (perfil === 'Capataz') {
-          window.location.href = '/tarefas';
-        } else if (perfil === 'Infraestrutura') {
-          window.location.href = '/infraestrutura';
-        } else if (perfil === 'Gerente' || perfil === 'Coordenador') {
-          window.location.href = '/dashboard';
-        }
+        redirecionar(data.usuario);
+        return true;
+      });
+    }
+
+    verificarSessao()
+      .then(function(logado) {
+        if (logado || !window.authClient.getAccessToken()) return;
+        return window.authClient.refreshAccessToken().then(verificarSessao);
       })
       .catch(function() {
         // Sem conexão — limpa cache de sessão local pra não criar loop
+        window.authClient.clearSession();
         localStorage.removeItem('brpec_sessao');
       });
   })();

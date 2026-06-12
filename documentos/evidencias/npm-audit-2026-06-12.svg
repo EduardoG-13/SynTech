@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Evidencia de seguranca - npm audit</title>
+  <desc id="desc">Captura em estilo de terminal mostrando o resultado do comando npm audit --audit-level=high com zero vulnerabilidades encontradas.</desc>
+  <rect width="1280" height="720" rx="24" fill="#0b1020"/>
+  <rect x="48" y="48" width="1184" height="624" rx="20" fill="#111827" stroke="#334155" stroke-width="2"/>
+  <circle cx="86" cy="84" r="8" fill="#ef4444"/>
+  <circle cx="116" cy="84" r="8" fill="#f59e0b"/>
+  <circle cx="146" cy="84" r="8" fill="#22c55e"/>
+  <text x="188" y="92" fill="#e5e7eb" font-family="Menlo, Monaco, Consolas, monospace" font-size="22">zsh</text>
+
+  <text x="88" y="170" fill="#93c5fd" font-family="Menlo, Monaco, Consolas, monospace" font-size="24">laizafernandesguimaraes@MacBook-Air-de-Laiza g03-main %</text>
+  <text x="88" y="212" fill="#e5e7eb" font-family="Menlo, Monaco, Consolas, monospace" font-size="24">npm audit --audit-level=high</text>
+
+  <text x="88" y="294" fill="#cbd5e1" font-family="Menlo, Monaco, Consolas, monospace" font-size="24">found 0 vulnerabilities</text>
+
+  <rect x="88" y="352" width="1104" height="216" rx="16" fill="#0f172a" stroke="#1f2937" stroke-width="2"/>
+  <text x="120" y="402" fill="#22c55e" font-family="Menlo, Monaco, Consolas, monospace" font-size="22">Resultado registrado para a documentacao de seguranca.</text>
+  <text x="120" y="446" fill="#cbd5e1" font-family="Menlo, Monaco, Consolas, monospace" font-size="22">Comando executado no terminal:</text>
+  <text x="120" y="490" fill="#e5e7eb" font-family="Menlo, Monaco, Consolas, monospace" font-size="22">npm audit --audit-level=high</text>
+  <text x="120" y="534" fill="#94a3b8" font-family="Menlo, Monaco, Consolas, monospace" font-size="20">Evidencia gerada em 2026-06-12</text>
+</svg>
