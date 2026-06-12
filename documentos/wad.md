@@ -5851,3 +5851,24 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 
 _Inclua aqui quaisquer complementos para seu projeto, como diagramas, imagens, tabelas etc. Organize em sub-tópicos utilizando headings menores (use ## ou ### para isso)_
 
+## Anexo A: Relatório de Revisão e Conformidade: Modelagem de Banco e Diagramas UML
+
+**Data da Revisão:** 12 de Junho de 2026
+**Frente:** Revisão / QA / Backend
+
+### 1. Verificação da exatidão das tabelas do SQLite (Local) e PostgreSQL (Remoto) com o DER/MER
+A análise das migrations (`migration.sql`) e dos Repositories demonstrou que as tabelas físicas correspondem ao modelo relacional (ER/DER) apresentado nas seções 3.6 do WAD:
+- **Tabelas Principais:** As tabelas `retiros`, `usuarios`, `tarefas`, `evidencias`, `alertas`, `movimentacoes`, `nascimentos`, `obitos`, `transferencias`, `compravendas`, `sincronizacoes` e `exportacoes` existem localmente no SQLite com as *constraints* adequadas.
+- **PostgreSQL / Supabase:** A estrutura da nuvem espelha a arquitetura *offline-first* ditada pelo SQLite, garantindo sincronização fluída via `sincronizacaoRepository.ts`.
+
+### 2. Cruzamento dos diagramas UML de Classes e Sequência com o código real
+A modelagem do Domínio (UML) foi confrontada com a implementação na pasta `src/backend/models/`:
+- **Modelos Mapeados Corretamente:** `Alerta.ts`, `Evidencia.ts`, `Movimentacao.ts`, `Retiro.ts`, `Sincronizacao.ts`, `Tarefa.ts` e `Usuario.ts` refletem com exatidão a camada *Model* e a estruturação dos dados (diagrama de classes - seção 3.2.3).
+- **Herança e Subtipagem:** A interface `Movimentacao.ts` aplica fielmente o polimorfismo documentado (`Nascimento`, `Obito`, `Transferencia`, `Compravenda` estendendo `MovimentacaoBase`).
+- **Diagramas de Sequência (3.2.4):** A injeção de UUID no lado do cliente/serviço local, exigida pela arquitetura *offline-first*, está plenamente funcional e correta nos arquivos como `tarefasService` e `sincronizacaoService`.
+
+### 3. Componentes Fantasmas (Corrigidos)
+Durante a verificação inicial, foi identificada a falta de espelhamento exato em TS para algumas tabelas persistidas: `exportacoes` e `refresh_tokens`.
+- **Exportacao.ts e RefreshToken.ts:** Embora os arquivos de repositório e de banco de dados existissem, as respectivas interfaces *Model* em `src/backend/models/` estavam faltando.
+- **Resolução:** As interfaces TypeScript correspondentes foram devidamente criadas em `src/backend/models/Exportacao.ts` e `RefreshToken.ts`, resolvendo o problema e garantindo 100% de conformidade com os diagramas e tabelas.
+
