@@ -5330,7 +5330,7 @@ PASS tests/unit/exportacaoService.test.ts   (3 casos — acesso, CSV, total_regi
 - Ativar `AUTH_ENFORCE_IN_TEST = true` por padrão e implementar renovação automática de token no cliente
 - Completar o processador de lote para os tipos `obito` e `nascimento` com validações equivalentes às de `tarefa`
 - Conectar o painel do Coordenador ao backend real com filtros funcionais por retiro e período
-- Implementar os gráficos dinâmicos no painel de infraestrutura
+- Implementar os gráficos dinâmicos no painel de infraestrutura.
 
 ## 4.3. Versão final da aplicação web (sprint 5)
 
