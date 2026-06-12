@@ -401,4 +401,43 @@ describe('CloudSyncService', () => {
       expect((db.prepare('SELECT sincronizada FROM evidencias WHERE id = ?').get(ev_id) as any).sincronizada).toBe(0);
     });
   });
+
+  describe('retiro', () => {
+    test('Deve sincronizar retiro com sucesso', async () => {
+      mockPool.query
+        .mockResolvedValueOnce({ rows: [{ '?column?': 1 }] } as any) // SELECT 1
+        .mockResolvedValueOnce({ rowCount: 1, rows: [] } as any);    // upsert
+
+      const job_id = uuidv7();
+      db.prepare(`
+        INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas)
+        VALUES (?, 'retiro', ?, 'PENDENTE', 0)
+      `).run(job_id, RETIRO_ID);
+
+      await cloudSyncService.sincronizar();
+
+      const syncItem = db.prepare('SELECT * FROM sincronizacoes WHERE id = ?').get(job_id) as any;
+      expect(syncItem.status_envio).toBe('SINCRONIZADO');
+      expect(syncItem.tentativas).toBe(1);
+      expect(mockPool.query).toHaveBeenCalledTimes(2);
+    });
+
+    test('Deve marcar ERRO se o upsert falhar', async () => {
+      mockPool.query
+        .mockResolvedValueOnce({ rows: [{ '?column?': 1 }] } as any) // SELECT 1
+        .mockRejectedValueOnce(new Error('Supabase network error'));   // upsert fails
+
+      const job_id = uuidv7();
+      db.prepare(`
+        INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas)
+        VALUES (?, 'retiro', ?, 'PENDENTE', 0)
+      `).run(job_id, RETIRO_ID);
+
+      await cloudSyncService.sincronizar();
+
+      const syncItem = db.prepare('SELECT * FROM sincronizacoes WHERE id = ?').get(job_id) as any;
+      expect(syncItem.status_envio).toBe('ERRO');
+      expect(syncItem.tentativas).toBe(1);
+    });
+  });
 });
