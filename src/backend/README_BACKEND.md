@@ -46,8 +46,67 @@ A stack de desenvolvimento foi enxuta para garantir máxima eficiência no ambie
 
 ## 3. Decisões Arquiteturais Críticas
 
-### 3.1. Zero Autenticação (Sem JWT)
-Como parte do design de simplicidade operacional e suporte a cenários offline sem dependência de serviços centrais de identidade, **não há mecanismos de autenticação (JWT, cookies de sessão, OAuth) implementados no backend**. Todos os endpoints são abertos e confiam na identificação contida nos dados enviados. Não implemente nem mencione autenticação por tokens em futuras alterações de controladores.
+### 3.1. Autenticação com JWT
+O backend utiliza autenticação baseada em JWT para manter a sessão do usuário sem exigir login a cada acesso. Após o login inicial, a API emite:
+
+- `accessToken`: token de curta duração, enviado pelo frontend no header `Authorization: Bearer <token>`.
+- `refreshToken`: token de maior duração, armazenado em cookie `httpOnly` e usado pela rota `/api/auth/refresh` para renovar a sessão.
+
+O banco possui a tabela `refresh_tokens`, que guarda uma chave de sessão do refresh token em formato hash (`token_hash`). Isso permite validar, expirar e revogar sessões sem salvar o token em texto puro.
+
+Em produção, as variáveis `JWT_ACCESS_SECRET` e `JWT_REFRESH_SECRET` devem ser configuradas com chaves fortes e diferentes. O `accessToken` expira em `15m` por padrão, e o `refreshToken` em `7d`.
+
+#### Passo a passo de instalação e uso
+
+1. Configure o arquivo `.env`:
+   ```env
+   PORT=3000
+   SQLITE_DATABASE_PATH=.data/brpec.sqlite
+   NODE_ENV=development
+   JWT_ACCESS_SECRET=troque_por_uma_chave_forte_access
+   JWT_REFRESH_SECRET=troque_por_uma_chave_forte_refresh
+   ACCESS_TOKEN_EXPIRES_IN=15m
+   REFRESH_TOKEN_EXPIRES_IN=7d
+   ```
+
+2. Instale as dependências:
+   ```bash
+   npm install
+   ```
+
+3. Inicie a aplicação:
+   ```bash
+   npm run dev
+   ```
+
+4. No primeiro boot, o backend executa as migrations pendentes. A migration `001_create_refresh_tokens.sql` cria a tabela de controle dos refresh tokens.
+
+5. Faça login pela tela `/login-auth` ou pela API:
+   ```bash
+   curl -i -X POST http://localhost:3000/api/auth/login \
+     -H "Content-Type: application/json" \
+     -d '{"usuario":"admin","senha":"123456","perfil":"Gerente"}'
+   ```
+
+6. A resposta inclui o `accessToken`. Use-o nas rotas autenticadas:
+   ```bash
+   curl http://localhost:3000/api/tarefas/hoje?capataz_id=cap-rogerio \
+     -H "Authorization: Bearer SEU_ACCESS_TOKEN"
+   ```
+
+7. Quando o `accessToken` expirar, chame `/api/auth/refresh`. O cookie `refreshToken` precisa acompanhar a requisição. No navegador isso acontece automaticamente:
+   ```bash
+   curl -i -X POST http://localhost:3000/api/auth/refresh \
+     -b "refreshToken=SEU_COOKIE_REFRESH_TOKEN"
+   ```
+
+8. Para sair, chame logout. O backend revoga a sessão salva em `refresh_tokens` e limpa o cookie:
+   ```bash
+   curl -i -X POST http://localhost:3000/api/auth/logout \
+     -b "refreshToken=SEU_COOKIE_REFRESH_TOKEN"
+   ```
+
+9. No frontend, o arquivo `/public/js/auth-client.js` automatiza o fluxo: salva o `accessToken`, adiciona o header `Authorization`, tenta renovar a sessão ao receber `401` e redireciona para login se o refresh falhar.
 
 ### 3.2. SQLite Nativo (`node:sqlite`)
 Para evitar problemas de compilação de binários nativos no setup do desenvolvedor (comuns em libs como `better-sqlite3` ou `sqlite3`), o projeto utiliza exclusivamente a classe `DatabaseSync` do módulo embutido do Node.js: `node:sqlite`.
