@@ -4,7 +4,7 @@
  * Suite de testes unitários — AlertaService
  *
  * Regras de negócio cobertas:
- *   RN06 — chamado deve ter descrição com mais de 10 caracteres e coordenadas GPS
+ *   RN-ALERTA — chamado deve ter coordenadas GPS obrigatórias
  *   RN-TECNICO    — apenas usuários com perfil Tecnico podem resolver chamados
  *   RN-STATUS     — chamado já resolvido não pode ser resolvido novamente
  *
@@ -57,33 +57,6 @@ describe('AlertaService', () => {
       // Assert
       expect(mockAlertaRepo.criar).toHaveBeenCalledTimes(1);
       expect(resultado).toEqual(alertaEsperado);
-    });
-
-    it('[CT-UA02] deve lançar erro e não persistir quando a descrição for muito curta (≤ 10 caracteres)', async () => {
-      // Arrange — exatamente 10 caracteres (limite não satisfeito)
-      const dados = { ...dadosBase, descricao: '1234567890' };
-
-      // Act & Assert
-      await expect(alertaService.criarAlerta(dados)).rejects.toThrow('RN-ALERTA');
-      expect(mockAlertaRepo.criar).not.toHaveBeenCalled();
-    });
-
-    it('[CT-UA03] deve lançar erro e não persistir quando a descrição estiver em branco', async () => {
-      // Arrange
-      const dados = { ...dadosBase, descricao: '   ' };
-
-      // Act & Assert
-      await expect(alertaService.criarAlerta(dados)).rejects.toThrow('RN-ALERTA');
-      expect(mockAlertaRepo.criar).not.toHaveBeenCalled();
-    });
-
-    it('[CT-UA04] deve lançar erro e não persistir quando a descrição estiver ausente', async () => {
-      // Arrange
-      const { descricao: _, ...dadosSemDescricao } = dadosBase;
-
-      // Act & Assert
-      await expect(alertaService.criarAlerta(dadosSemDescricao)).rejects.toThrow('RN-ALERTA');
-      expect(mockAlertaRepo.criar).not.toHaveBeenCalled();
     });
 
     it('[CT-UA05] deve lançar erro e não persistir quando a latitude estiver ausente', async () => {
