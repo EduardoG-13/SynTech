@@ -2493,7 +2493,7 @@ sequenceDiagram
     actor C as Capataz
     participant PWA as Cliente (PWA)
     participant CS as Cache Storage (Browser)
-    participant LS as IndexedDB (sincronizacoes)
+    participant LS as IndexedDB brpec_local (sync_queue)
     participant CTR as TarefaController
     participant SRV as TarefaService
     participant TREP as TarefaRepository
@@ -2585,7 +2585,7 @@ sequenceDiagram
     autonumber
     actor C as Capataz
     participant PWA as Cliente (PWA)
-    participant LS as IndexedDB (sincronizacoes)
+    participant LS as IndexedDB brpec_local (sync_queue)
     participant CTR as TarefaController
     participant SRV as TarefaService
     participant TREP as TarefaRepository
@@ -2640,7 +2640,7 @@ sequenceDiagram
 
 **Descrição das camadas:**
 
-- **Cliente PWA (`Cliente`):** captura a ação do Capataz offline, salvando o payload em seu IndexedDB local (`sincronizacoes`) com status `'PENDENTE'`. Ao detectar sinal de rede, recupera a fila e dispara o envio HTTP ao servidor.
+- **Cliente PWA (`Cliente`):** captura a ação do Capataz offline, salvando o payload no store `sync_queue` do IndexedDB local (`brpec_local`) com status `'PENDENTE'`. Ao detectar sinal de rede, recupera a fila e dispara o envio HTTP ao servidor.
 - **Controller (`TarefaController`):** exposto sob `/api/tarefas/:id/concluir`, valida a requisição e delega as regras de negócio para a camada de serviço.
 - **Service (`TarefaService`):** orquestra o processo de conclusão da tarefa e valida se a operação atende aos requisitos do domínio.
 - **Repository (`TarefaRepository`):** executa transação SQLite atômica (`BEGIN TRANSACTION`/`COMMIT`), atualizando a tarefa e inserindo um registro na tabela de sincronização de nuvem (`sincronizacoes`).
@@ -2693,7 +2693,7 @@ sequenceDiagram
     autonumber
     actor C as Capataz
     participant PWA as Cliente (PWA)
-    participant LS as IndexedDB (sincronizacoes)
+    participant LS as IndexedDB brpec_local (sync_queue)
     participant CTR as TarefaController
     participant SRV as TarefaService
     participant TREP as TarefaRepository
@@ -2750,7 +2750,7 @@ sequenceDiagram
 
 **Descrição das camadas:**
 
-- **Cliente PWA (`Cliente`):** aciona a câmera nativa do dispositivo, salva a foto offline codificada em base64 e os metadados de geolocalização no IndexedDB (`sincronizacoes`), e envia a requisição HTTP automaticamente via reconexão.
+- **Cliente PWA (`Cliente`):** aciona a câmera nativa do dispositivo, salva a foto offline codificada em base64 e os metadados de geolocalização no store `sync_queue` do IndexedDB (`brpec_local`), e envia a requisição HTTP automaticamente via reconexão.
 - **Controller (`TarefaController`):** exposto sob `/api/tarefas/:id/evidencias`, valida a presença da evidência (tipo e arquivo base64) e do identificador do capataz.
 - **Service (`TarefaService`):** executa validação da regra RN05, garantindo que o capataz seja de fato o executor daquela tarefa.
 - **Repository (`TarefaRepository`):** realiza transação atômica inserindo a evidência no banco de dados SQLite local do servidor e registrando a outbox correspondente na tabela `sincronizacoes`.
@@ -2804,7 +2804,7 @@ sequenceDiagram
     autonumber
     actor C as Capataz
     participant PWA as Cliente (PWA)
-    participant LS as IndexedDB (sincronizacoes)
+    participant LS as IndexedDB brpec_local (sync_queue)
     participant CTR as EventoController
     participant SRV as EventoService
     participant REP as EventoRepository
@@ -5868,7 +5868,7 @@ src/backend/
 | Services | `tarefaService.ts`, `alertaService.ts`, `eventoService.ts`, `exportacaoService.ts`, `healthService.ts`, `painelService.ts`, `sincronizacaoService.ts` | ✅ Implementada |
 | Repositories | `tarefaRepository.ts`, `alertaRepository.ts`, `eventoRepository.ts`, `exportacaoRepository.ts`, `healthRepository.ts`, `painelRepository.ts`, `sincronizacaoRepository.ts`, `usuarioRepository.ts` | ✅ Implementada |
 | Models | `Tarefa.ts`, `Alerta.ts`, `Movimentacao.ts`, `Evidencia.ts`, `Retiro.ts`, `Sincronizacao.ts`, `Usuario.ts` | ✅ Implementada |
-| Database | `migration.sql` com DDL completo (11 tabelas) | ✅ Implementada |
+| Database | `migration.sql` com DDL completo (12 tabelas: `retiros`, `usuarios`, `tarefas`, `evidencias`, `alertas`, `movimentacoes`, `nascimentos`, `obitos`, `transferencias`, `compravendas`, `sincronizacoes`, `exportacoes`) | ✅ Implementada |
 | Testes | `uc01-planejar-tarefas.test.ts` (14 casos), `outros-endpoints.test.ts` (5 casos) | ✅ 19/19 passando |
 
 <center>
@@ -6014,7 +6014,7 @@ src/backend/
 ├── repositories/    # 9 repositories implementados
 ├── models/          # 7 models implementados
 ├── routes/          # 15 arquivos de rotas + index.ts
-├── database/        # migration.sql atualizado (tabela refresh_tokens)
+├── database/        # migration.sql (schema base) + migrations/001_create_refresh_tokens.sql + 002_gerente_admin.sql
 ├── tests/           # 16 suítes de testes automatizados
 └── views/           # templates EJS por perfil
 ```
@@ -6031,7 +6031,7 @@ src/backend/
 | Controllers | `authController.ts`, `dashboardController.ts` | ✅ Implementada |
 | Services | `authService.ts`, `dashboardService.ts` | ✅ Implementada |
 | Repositories | `usuarioRepository.ts` (expandido com autenticação) | ✅ Implementada |
-| Database | Tabela `refresh_tokens` adicionada ao `migration.sql` | ✅ Implementada |
+| Database | Tabela `refresh_tokens` adicionada via `migrations/001_create_refresh_tokens.sql`; coluna `is_admin` em `usuarios` via `migrations/002_gerente_admin.sql` | ✅ Implementada |
 | Frontend JS | `auth-client.js`, `dashboard.js`, `chamados.js`, `novo-chamado-handler.js`, `chamado-resolver-handler.js`, `nova-os-handler.js`, `offline-interceptor.js`, `sync.js`, `db.js`, `sw.js` | ✅ Implementada |
 | Testes | 14 novas suítes adicionadas | ✅ Expandida |
 
@@ -6227,7 +6227,7 @@ it('deve lançar erro quando a tarefa não pertence ao capataz', async () => {
 
 ```typescript
 it('deve criar o chamado e retornar o registro persistido quando os dados são válidos', async () => {
-  // Arrange — todos os campos obrigatórios presentes (descrição > 10 chars, lat/lng, retiro_id)
+  // Arrange — todos os campos obrigatórios presentes (lat/lng, retiro_id)
   mockAlertaRepo.criar.mockResolvedValue(alertaFixture());
   // Act
   const resultado = await alertaService.criarAlerta({ ...dadosBase });
@@ -6237,7 +6237,7 @@ it('deve criar o chamado e retornar o registro persistido quando os dados são v
 });
 ```
 
-*RNs cobertas*: RN19 (GPS obrigatório) e RN26 (alerta vinculado ao retiro) são verificadas indiretamente pela presença de `latitude`, `longitude` e `retiro_id` no `dadosBase`. A ausência individual de cada campo é testada em CT-UA05 e CT-UA06.
+*RNs cobertas*: RN19 (GPS obrigatório) e RN26 (alerta vinculado ao retiro) são verificadas indiretamente pela presença de `latitude`, `longitude` e `retiro_id` no `dadosBase`. A ausência individual de cada coordenada é testada em CT-UA05 e CT-UA06.
 
 *Determinismo*: `dadosBase` é um objeto literal declarado no escopo do `describe`, sem nenhum campo calculado em runtime. O `mockResolvedValue(alertaFixture())` é redefinido no `beforeEach` antes de cada caso, de forma que o valor de retorno configurado aqui não interfere nos cenários de falha seguintes.
 
@@ -6282,20 +6282,13 @@ test('Deve suspender a sincronização se não houver conexão com o Supabase (o
 | CT-EX04 | `ExportacaoService.exportarCsv` — total_registros correto | RF015 | RN28 | PASS |
 | CT-UT12 | `TarefaService.criarTarefa` — data retroativa | RF001 | ¹ | PASS |
 | CT-UT13 | `TarefaService.criarTarefa` — descrição em branco | RF001 | ¹ | PASS |
-| CT-UA02 | `AlertaService.criarAlerta` — descrição muito curta | RF006 | ² | PASS |
-| CT-UA03 | `AlertaService.criarAlerta` — descrição em branco | RF006 | ² | PASS |
-| CT-UA04 | `AlertaService.criarAlerta` — descrição ausente | RF006 | ² | PASS |
-| CT-UA07 | `AlertaService.resolverChamado` — sucesso (Técnico) | RF006 | ³ | PASS |
-| CT-UA08 | `AlertaService.resolverChamado` — perfil incorreto | RF006 | ³ | PASS |
-| CT-UA09 | `AlertaService.resolverChamado` — usuário não encontrado | RF006 | ³ | PASS |
-| CT-UA11 | `AlertaService.resolverChamado` — chamado já resolvido | RF006 | ³ | PASS |
-| CT-NA02 | `EventoService.registrarNascimento` — peso zero | RF008 | ⁴ | PASS |
-| CT-NA03 | `EventoService.registrarNascimento` — peso negativo | RF008 | ⁴ | PASS |
-| CT-NA04 | `EventoService.registrarNascimento` — identificacao_mae vazia | RF008 | ⁴ | PASS |
-| CT-NA05 | `EventoService.registrarNascimento` — sexo vazio | RF008 | ⁴ | PASS |
-| CT-OB02 | `EventoService.registrarObito` — foto_base64 vazia | RF009 | ⁵ | PASS |
-| CT-OB03 | `EventoService.registrarObito` — causa_morte vazia | RF009 | ⁵ | PASS |
-| CT-OB04 | `EventoService.registrarObito` — identificacao_animal vazia | RF009 | ⁵ | PASS |
+| CT-UA07 | `AlertaService.resolverChamado` — sucesso (Técnico) | RF006 | ² | PASS |
+| CT-UA08 | `AlertaService.resolverChamado` — perfil incorreto | RF006 | ² | PASS |
+| CT-UA09 | `AlertaService.resolverChamado` — usuário não encontrado | RF006 | ² | PASS |
+| CT-UA11 | `AlertaService.resolverChamado` — chamado já resolvido | RF006 | ² | PASS |
+| CT-OB02 | `EventoService.registrarObito` — foto_base64 vazia | RF009 | ³ | PASS |
+| CT-OB03 | `EventoService.registrarObito` — causa_morte vazia | RF009 | ³ | PASS |
+| CT-OB04 | `EventoService.registrarObito` — identificacao_animal vazia | RF009 | ³ | PASS |
 | CT-UT01 | `TarefaService.concluirTarefa` — sucesso | RF002 | — | PASS |
 | CT-UT02 | `TarefaService.concluirTarefa` — tarefa já concluída | RF002 | — | PASS |
 | CT-UT06 | `TarefaService.anexarEvidencia` — arquivo > 5 MB | RF005 | — | PASS |
@@ -6303,7 +6296,7 @@ test('Deve suspender a sincronização se não houver conexão com o Supabase (o
 | CT-UT08 | `TarefaService.anexarEvidencia` — normalizar data URI | RF005 | — | PASS |
 | CT-UT09 | `TarefaService.anexarEvidencia` — base64 vazio | RF005 | — | PASS |
 | CT-UT10 | `TarefaService.anexarEvidencia` — evidência TEXTO | RF005 | — | PASS |
-| CT-UA10 | `AlertaService.resolverChamado` — chamado não encontrado | RF006 | ³ | PASS |
+| CT-UA10 | `AlertaService.resolverChamado` — chamado não encontrado | RF006 | ² | PASS |
 | CT-OB01 | `EventoService.registrarObito` — sucesso | RF009 | — | PASS |
 | CT-CS01 | `CloudSyncService.sincronizar` — offline (suspenso) | RF010 | — | PASS |
 | CT-CS02 | `CloudSyncService.sincronizar` — tarefa online | RF010 | — | PASS |
@@ -6331,13 +6324,9 @@ test('Deve suspender a sincronização se não houver conexão com o Supabase (o
 
 > ¹ Validações de data retroativa e descrição em branco são regras internas do `TarefaService` sem código formal na tabela RN da seção 3.1.2.
 >
-> ² A restrição "descrição > 10 chars + GPS obrigatório" era enforced no `AlertaService` com o código `'RN06'`, que conflitava com a definição formal (RN06 = acesso offline de tarefas, RF002). **Conflito resolvido:** o código de erro foi renomeado para `'RN-ALERTA'` em `alertaService.ts` e `alertaController.ts`, e as assertivas dos testes atualizadas para `.rejects.toThrow('RN-ALERTA')`.
+> ² As regras "apenas Técnico pode resolver chamado" e "chamado já resolvido não pode ser re-resolvido" são regras de domínio do `AlertaService` não catalogadas na seção 3.1.2.
 >
-> ³ As regras "apenas Técnico pode resolver chamado" e "chamado já resolvido não pode ser re-resolvido" são regras de domínio do `AlertaService` não catalogadas na seção 3.1.2.
->
-> ⁴ As validações de `peso`, `identificacao_mae` e `sexo` em `registrarNascimento` são regras internas do serviço. O arquivo de teste as associa a RF013, que na seção 3.1.4 não está listado como endpoint de backend; o RF formal para nascimentos é RF008.
->
-> ⁵ A validação de campos obrigatórios no óbito (`foto_base64`, `causa_morte`, `identificacao_animal`) utiliza o código `'RF013'` no serviço. O describe de `obitoService.test.ts` foi atualizado para `(RF009)` — RF009 é o requisito formal de registro de óbito, eliminando a ambiguidade anterior com RN07.
+> ³ A validação de campos obrigatórios no óbito (`foto_base64`, `causa_morte`, `identificacao_animal`) é enforced na camada Service (RF009/RF013). O Controller retorna **422** quando esses campos RF013 estão ausentes e **400** para os demais campos gerais (`capataz_id`, `retiro_id`, `data`, `categoria`, `quantidade`), conforme contrato do WAD seção 3.1.4.
 
 ### 5.1.3. Testes de Integração de Endpoints (black-box)
 
@@ -6354,15 +6343,18 @@ Para cada endpoint o objetivo é cobrir quatro cenários: **sucesso (200/201)**,
 | `/api/tarefas/hoje` | GET | H1, H2 | H3 | — | — |
 | `/api/tarefas/:id/concluir` | PATCH | K1, K3 | K4 | K2 (RN05 → 404) | K2 |
 | `/api/tarefas/:id/evidencias` | POST | E1, E4 | E3 | E2 (RN05 → 404) | E2 |
-| `/api/chamados` | POST | AL1, AI1, AI2, AI3 | AL2, AI4, AI5, AI6, AI7 | AL3 (RF006 → 4xx) | — |
+| `/api/chamados` | POST | AL1, AI1, AI2 | AL2, AI4, AI5, AI6 | — | — |
 | `/api/chamados` | GET | — | — | — | — |
 | `/api/chamados/:id` | GET | — | — | — | — |
 | `/api/chamados/:id/resolver` | PATCH | — | — | — | — |
 | `/api/eventos-zootecnicos/nascimentos` | POST | N1 | N2 | N3 (RN27 → 4xx) | — |
+| `/api/eventos-zootecnicos/obitos` | POST | OB1, OB2, OB3 | OB4 (400 campos gerais) | OB5, OB6, OB7 (RF013 → 422) | — |
 | `/api/auth/login` | POST | AJ1 | — | AJ3 (sem token → 401) | — |
 | `/api/auth/refresh` | POST | AJ2 | — | — | — |
 
-> **Legenda AI:** casos da suite `alertaIntegration.test.ts` — AI1 (201 payload válido), AI2 (201 campos obrigatórios presentes na resposta), AI3 (201 com foto e geração de evidência), AI4 (400 payload vazio), AI5 (400 sem capataz_id), AI6 (400 sem coordenadas GPS), AI7 (400 descrição ≤ 10 chars).
+> **Legenda AI:** casos da suite `alertaIntegration.test.ts` — AI1 (201 payload válido), AI2 (201 campos obrigatórios presentes na resposta), AI4 (400 payload vazio), AI5 (400 sem capataz_id), AI6 (400 sem coordenadas GPS).
+>
+> **Legenda OB:** casos da suite `eventoIntegration.test.ts` — OB1 (201 óbito válido completo), OB2 (201 campos movimentacao_id/obito_id/foto_id), OB3 (201 persistência foto e movimentação no banco), OB4 (400 payload vazio ou campo geral ausente), OB5 (422 sem identificacao_animal), OB6 (422 sem causa_morte), OB7 (422 sem foto_base64).
 >
 > ⚠ Lacunas: `GET /api/chamados`, `GET /api/chamados/:id` e `PATCH /api/chamados/:id/resolver` não possuem casos de integração. Os endpoints existem no `alertaController.ts` mas a cobertura de integração black-box é candidata para a sprint seguinte.
 
@@ -6388,7 +6380,6 @@ PASS tests/outros-endpoints.test.ts
   AL — POST /api/chamados (Criar Alerta)
     ✓ AL1. Sucesso — cria alerta com dados válidos e retorna HTTP 201 (29 ms)
     ✓ AL2. Payload inválido — campos obrigatórios ausentes retorna HTTP 400 (37 ms)
-    ✓ AL3. Regra de negócio — descrição com 10 caracteres ou menos retorna erro 4xx (RF006) (46 ms)
   N — POST /api/eventos-zootecnicos/nascimentos (Registrar Nascimento)
     ✓ N1. Sucesso — registra nascimento animal com sucesso e retorna HTTP 201 (45 ms)
     ✓ N2. Payload inválido — campos obrigatórios ausentes retorna HTTP 400 (37 ms)
@@ -6447,13 +6438,6 @@ PASS tests/unit/exportacaoService.test.ts
 PASS tests/unit/nascimentoService.test.ts
   EventoService — registrarNascimento
     ✓ [CT-NA01] deve salvar e retornar o registro quando todos os dados são válidos (1 ms)
-    validação de peso_nascimento
-      ✓ [CT-NA02] deve lançar erro e não persistir quando o peso for zero (4 ms)
-      ✓ [CT-NA03] deve lançar erro e não persistir quando o peso for negativo
-    validação de identificacao_mae
-      ✓ [CT-NA04] deve lançar erro e não persistir quando identificacao_mae estiver vazia (1 ms)
-    validação de sexo
-      ✓ [CT-NA05] deve lançar erro e não persistir quando sexo estiver vazio
     validação de data
       ✓ [CT-NA06] deve lançar erro e não persistir quando a data de nascimento for futura (1 ms)
 
@@ -6494,9 +6478,6 @@ PASS tests/unit/alertaService.test.ts
   AlertaService
     criarAlerta — validações de payload RN-ALERTA (RF006)
       ✓ [CT-UA01] deve criar o chamado e retornar o registro persistido quando os dados são válidos (4 ms)
-      ✓ [CT-UA02] deve lançar erro e não persistir quando a descrição for muito curta (≤ 10 caracteres) (18 ms)
-      ✓ [CT-UA03] deve lançar erro e não persistir quando a descrição estiver em branco (5 ms)
-      ✓ [CT-UA04] deve lançar erro e não persistir quando a descrição estiver ausente (5 ms)
       ✓ [CT-UA05] deve lançar erro e não persistir quando a latitude estiver ausente (5 ms)
       ✓ [CT-UA06] deve lançar erro e não persistir quando a longitude estiver ausente (4 ms)
     resolverChamado
@@ -6541,13 +6522,13 @@ PASS tests/unit/healthService.test.ts
       ✓ [CT-HS04] deve sempre incluir timestamp e uptime no resultado (1 ms)
 
 Test Suites: 9 passed, 9 total
-Tests:       65 passed, 65 total
+Tests:       58 passed, 58 total
 Snapshots:   0 total
 Time:        10.861 s
 Ran all test suites matching /tests\/unit/i.
 ```
 
-> **Nota sobre os outputs acima:** os snippets representam execuções parciais por camada (`tests/unit` e testes de integração). O comando `npm test` (sem filtro) executa as 24 suites e 202 testes em sequência — o total consolidado é evidenciado pelo relatório de cobertura na seção seguinte. Os outputs parciais foram separados para facilitar a leitura e identificação de cada camada.
+> **Nota sobre os outputs acima:** os snippets representam execuções parciais por camada (`tests/unit` e testes de integração). O comando `npm test` (sem filtro) executa as 24 suites e 191 testes em sequência — o total consolidado é evidenciado pelo relatório de cobertura na seção seguinte. Os outputs parciais foram separados para facilitar a leitura e identificação de cada camada.
 
 > Os `console.log` exibidos pelo Jest durante a execução do `cloudSyncService.test.ts` (mensagens `[database]`, `[initDb]`, `[cloudSync]`) são logs operacionais esperados da própria implementação do serviço — não indicam falha. O `console.error` de CT-CS03 é intencional: o serviço registra a falha de upsert antes de gravar `status_envio = 'ERRO'` na fila.
 
@@ -6587,7 +6568,7 @@ All files                |   86.25 |    73.79 |      84 |   92.16 |
  tarefaService.ts        |   94.73 |     91.3 |     100 |   94.73 | 17,48
 -------------------------|---------|----------|---------|---------|------------------------
 Test Suites: 24 passed, 24 total
-Tests:       202 passed, 202 total
+Tests:       191 passed, 191 total
 ```
 
 **Análise por arquivo de serviço:**
@@ -6616,9 +6597,9 @@ A tabela abaixo é coerente com a Matriz RF → RN → Endpoint (seção 3.1.4) 
 | H1, H2, H3 | RN02, RN05 | RF002 | `GET /api/tarefas/hoje` |
 | K1, K2, K3, CT-UT01, CT-UT02, CT-UT03 | RN01 | RF001 | `PATCH /api/tarefas/:id/concluir` |
 | E1, E2, E3, E4, CT-UT04 – CT-UT10 | RN05, RN13 | RF005 | `POST /api/tarefas/:id/evidencias` |
-| AL1, AL2, CT-UA01 – CT-UA11 | RN19, RN26 | RF006 | `POST /api/chamados` |
-| N1, N2, CT-NA01 – CT-NA06 | RN27 | RF008 | `POST /api/eventos-zootecnicos/nascimentos` |
-| CT-OB01 – CT-OB04 | — | RF009 | `POST /api/eventos-zootecnicos/obitos` |
+| AL1, AL2, CT-UA01, CT-UA05, CT-UA06 | RN19, RN26 | RF006 | `POST /api/chamados` |
+| N1, N2, CT-NA01, CT-NA06 | RN27 | RF008 | `POST /api/eventos-zootecnicos/nascimentos` |
+| CT-OB01 – CT-OB04 | RF013 | RF009 | `POST /api/eventos-zootecnicos/obitos` |
 | CT-CS01 – CT-CS15 | — | RF010 | `POST /sincronizacao/lote` |
 | CT-DB01 – CT-DB04 | — | — | `config/database.ts` (inicialização) |
 | AJ1, AJ2, AJ3, AJ4 | — | — | `POST /api/auth/login`, `POST /api/auth/refresh` |

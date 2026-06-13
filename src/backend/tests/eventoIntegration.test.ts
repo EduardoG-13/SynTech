@@ -32,10 +32,7 @@ describe('POST /api/eventos-zootecnicos/nascimentos', () => {
         retiro_id:  RETIRO_ID,
         categoria:  'BOVINO',
         quantidade: 3,
-        capataz_id: CAPATAZ_ID,
-        identificacao_mae: 'MAE-001',
-        sexo: 'Macho',
-        peso_nascimento: 30
+        capataz_id: CAPATAZ_ID
       });
 
     expect(res.status).toBe(201);
@@ -52,10 +49,7 @@ describe('POST /api/eventos-zootecnicos/nascimentos', () => {
         retiro_id:  RETIRO_ID,
         categoria:  'OVINO',
         quantidade: 5,
-        capataz_id: CAPATAZ_ID,
-        identificacao_mae: 'MAE-002',
-        sexo: 'Fêmea',
-        peso_nascimento: 5
+        capataz_id: CAPATAZ_ID
       });
 
     expect(res.status).toBe(201);
@@ -80,13 +74,9 @@ describe('POST /api/eventos-zootecnicos/nascimentos', () => {
     const res = await request(app)
       .post('/api/eventos-zootecnicos/nascimentos')
       .send({
-        data:       '2026-06-10',
         categoria:  'BOVINO',
         quantidade: 2,
-        capataz_id: CAPATAZ_ID,
-        identificacao_mae: 'MAE-002',
-        sexo: 'Fêmea',
-        peso_nascimento: 5
+        capataz_id: CAPATAZ_ID
       });
 
     expect(res.status).toBe(400);
@@ -100,10 +90,7 @@ describe('POST /api/eventos-zootecnicos/nascimentos', () => {
         data:       '2026-06-10',
         categoria:  'BOVINO',
         quantidade: 2,
-        capataz_id: CAPATAZ_ID,
-        identificacao_mae: 'MAE-002',
-        sexo: 'Fêmea',
-        peso_nascimento: 5
+        capataz_id: CAPATAZ_ID
       });
 
     expect(res.status).toBe(400);
@@ -117,10 +104,7 @@ describe('POST /api/eventos-zootecnicos/nascimentos', () => {
         data:       '2026-06-10',
         retiro_id:  RETIRO_ID,
         quantidade: 2,
-        capataz_id: CAPATAZ_ID,
-        identificacao_mae: 'MAE-002',
-        sexo: 'Fêmea',
-        peso_nascimento: 5
+        capataz_id: CAPATAZ_ID
       });
 
     expect(res.status).toBe(400);
@@ -134,10 +118,7 @@ describe('POST /api/eventos-zootecnicos/nascimentos', () => {
         data:       '2026-06-10',
         retiro_id:  RETIRO_ID,
         categoria:  'BOVINO',
-        capataz_id: CAPATAZ_ID,
-        identificacao_mae: 'MAE-002',
-        sexo: 'Fêmea',
-        peso_nascimento: 5
+        capataz_id: CAPATAZ_ID
       });
 
     expect(res.status).toBe(400);
@@ -151,10 +132,7 @@ describe('POST /api/eventos-zootecnicos/nascimentos', () => {
         data:       '2026-06-10',
         retiro_id:  RETIRO_ID,
         categoria:  'BOVINO',
-        quantidade: 2,
-        identificacao_mae: 'MAE-002',
-        sexo: 'Fêmea',
-        peso_nascimento: 5
+        quantidade: 2
       });
 
     expect(res.status).toBe(400);
@@ -209,7 +187,7 @@ describe('POST /api/eventos-zootecnicos/obitos', () => {
     expect(registro).toHaveProperty('foto_id');
   });
 
-  it('400 — sem foto_base64: evidência obrigatória para óbito (RN07)', async () => {
+  it('422 — sem foto_base64: evidência obrigatória para óbito (RN07)', async () => {
     const res = await request(app)
       .post('/api/eventos-zootecnicos/obitos')
       .send({
@@ -222,7 +200,7 @@ describe('POST /api/eventos-zootecnicos/obitos', () => {
         causa_morte:          'Acidente',
       });
 
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(422);
     expect(res.body).toHaveProperty('erro');
     expect(res.body.campos_faltantes).toContain('foto_base64');
   });
@@ -236,7 +214,7 @@ describe('POST /api/eventos-zootecnicos/obitos', () => {
     expect(res.body).toHaveProperty('erro');
   });
 
-  it('400 — sem identificacao_animal (RF013)', async () => {
+  it('422 — sem identificacao_animal (RF013)', async () => {
     const res = await request(app)
       .post('/api/eventos-zootecnicos/obitos')
       .send({
@@ -249,12 +227,12 @@ describe('POST /api/eventos-zootecnicos/obitos', () => {
         foto_base64: FOTO_BASE64,
       });
 
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(422);
     expect(res.body).toHaveProperty('erro');
     expect(res.body.campos_faltantes).toContain('identificacao_animal');
   });
 
-  it('400 — sem causa_morte (RF013)', async () => {
+  it('422 — sem causa_morte (RF013)', async () => {
     const res = await request(app)
       .post('/api/eventos-zootecnicos/obitos')
       .send({
@@ -267,7 +245,7 @@ describe('POST /api/eventos-zootecnicos/obitos', () => {
         foto_base64:          FOTO_BASE64,
       });
 
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(422);
     expect(res.body).toHaveProperty('erro');
     expect(res.body.campos_faltantes).toContain('causa_morte');
   });

@@ -3,26 +3,12 @@ import { MovimentacaoBase } from '../models/Movimentacao';
 
 class EventoService {
   async registrarNascimento(dados: {
-    capataz_id: string;
-    retiro_id: string;
     data: string;
+    retiro_id: string;
     categoria: string;
     quantidade: number;
-    peso_nascimento?: number;
-    identificacao_mae?: string;
-    sexo?: string;
-    geolocalizacao?: string;
+    capataz_id: string;
   }) {
-    // RF013: Validação de campos obrigatórios
-    if (!dados.identificacao_mae || dados.identificacao_mae.trim() === '') {
-      throw new Error('RF013: Campo obrigatório ausente: identificacao_mae');
-    }
-    if (!dados.sexo || dados.sexo.trim() === '') {
-      throw new Error('RF013: Campo obrigatório ausente: sexo');
-    }
-    if (!dados.peso_nascimento || dados.peso_nascimento <= 0) {
-      throw new Error('RF013: peso_nascimento deve ser um valor positivo');
-    }
     // RN27: Data de nascimento não pode ser futura
     const hoje = new Date();
     hoje.setHours(23, 59, 59, 999);

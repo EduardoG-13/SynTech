@@ -3,11 +3,6 @@ import alertaService from '../services/alertaService';
 class AlertaController {
   async criarAlerta(req, res, next) {
     const { tipo, descricao, capataz_id, retiro_id, latitude, longitude, foto_base64, local_referencia, audio_base64 } = req.body;
-    console.log('[criarAlerta] body recebido:', {
-      tipo, descricao_len: descricao?.length,
-      capataz_id, retiro_id, latitude, longitude,
-      foto_size: foto_base64 ? foto_base64.length : 0,
-    });
 
     const faltando: string[] = [];
     if (!tipo) faltando.push('tipo');
