@@ -1389,9 +1389,9 @@ A solução é composta por **cinco camadas lógicas** no backend, implementadas
 
 **1. Routes (Camada de Rotas)**
 - **Responsabilidade:** definir os endpoints HTTP expostos pela API, associando cada método/URL ao seu respectivo handler na camada Controller. **Não** contém lógica de negócio nem manipula req/res além do roteamento.
-- **Localização:** `g03/src/backend/routes/` (ex.: `routes/index.js`).
+- **Localização:** `src/backend/routes/` (ex.: `routes/index.ts`).
 - **Quem chama / chama quem:** recebe requisições do cliente (frontend mobile/web ou ferramentas externas) e delega para a camada Controller.
-- **Implementação:** Express Router. Hoje já existe `routes/index.js` registrando `GET /health → healthController.getHealth`.
+- **Implementação:** Express Router. Hoje já existe `routes/index.ts` registrando `GET /health → healthController.getHealth`.
 
 **2. Controller (Camada de Apresentação)**
 - **Responsabilidade:** traduzir a requisição HTTP em uma chamada à camada de Service, validar o formato do payload (presença e tipo dos campos), e formatar a resposta (status code, JSON de retorno, mensagens de erro). **Não** acessa o banco de dados nem implementa regras de negócio.
@@ -1399,8 +1399,8 @@ A solução é composta por **cinco camadas lógicas** no backend, implementadas
 - **Quem chama / chama quem:** chamado pelas Routes, chama a camada de Service.
 
 **3. Service (Camada de Regras de Negócio)**
-- **Responsabilidade:** concentrar a lógica de negócio do domínio pecuário — orquestrar operações, aplicar validações de regra (ex.: usuário tem permissão para criar tarefa em determinado retiro?), gerar identificadores offline (UUID), montar entradas para a `sync_queue` e coordenar chamadas a um ou mais repositórios. **Não** conhece HTTP nem detalhes do dialeto SQL.
-- **Localização:** `g03/src/backend/services/` (ex.: [healthService.js](g03/src/backend/services/healthService.js) já implementado como referência da camada).
+- **Responsabilidade:** concentrar a lógica de negócio do domínio pecuário — orquestrar operações, aplicar validações de regra (ex.: usuário tem permissão para criar tarefa em determinado retiro?), gerar identificadores offline (UUID), montar entradas para a `sincronizacoes` e coordenar chamadas a um ou mais repositórios. **Não** conhece HTTP nem detalhes do dialeto SQL.
+- **Localização:** `src/backend/services/` (ex.: `services/healthService.ts` já implementado como referência da camada).
 - **Quem chama / chama quem:** chamado pelos Controllers, chama um ou mais Repositories.
 
 **4. Repository (Camada de Acesso a Dados)**
@@ -1410,7 +1410,7 @@ A solução é composta por **cinco camadas lógicas** no backend, implementadas
 
 **5. Model (Camada de Entidades de Domínio)**
 - **Responsabilidade:** representar as entidades do domínio em código (Tarefa, Retiro, Usuário, Movimentação, Alerta, etc.), refletindo o modelo ER descrito na seção 3.6. Define a forma dos dados que trafegam entre as camadas, sem comportamento de persistência.
-- **Localização:** `g03/src/backend/models/` (pasta criada, implementação prevista para as sprints 3 e 4).
+- **Localização:** `src/backend/models/` (ex.: `models/Tarefa.ts`, `models/Usuario.ts`).
 - **Quem chama / chama quem:** instanciado e consumido pelas camadas Repository e Service.
 
 #### Fluxo de dependência (unidirecional)
@@ -1425,11 +1425,11 @@ Cada camada conhece apenas a imediatamente inferior — uma Route não chama um 
 
 | Camada      | Pasta                         | Responsabilidade                                  | Pode chamar     | Exemplo de arquivo                                       |
 |-------------|-------------------------------|---------------------------------------------------|-----------------|----------------------------------------------------------|
-| Routes      | `src/backend/routes/`         | Mapear URL/método para o handler                  | Controller      | `routes/index.js`                                        |
-| Controller  | `src/backend/controllers/`    | Validar payload, traduzir HTTP Service          | Service         | `controllers/tarefasController.js` (planejado)           |
-| Service     | `src/backend/services/`       | Regras de negócio do domínio pecuário             | Repository      | `services/healthService.js` · `services/tarefasService.js` (planejado) |
-| Repository  | `src/backend/repositories/`   | Acesso a dados (SQL / Supabase client)            | Driver do banco | `repositories/tarefasRepository.js` (planejado)          |
-| Model       | `src/backend/models/`         | Representar entidade de domínio                   | —               | `models/Tarefa.js` (planejado)                           |
+| Routes      | `src/backend/routes/`         | Mapear URL/método para o handler                  | Controller      | `routes/index.ts`                                        |
+| Controller  | `src/backend/controllers/`    | Validar payload, traduzir HTTP → Service          | Service         | `controllers/tarefaController.ts`                        |
+| Service     | `src/backend/services/`       | Regras de negócio do domínio pecuário             | Repository      | `services/tarefaService.ts` · `services/cloudSyncService.ts` |
+| Repository  | `src/backend/repositories/`   | Acesso a dados (SQL / Supabase client)            | Driver do banco | `repositories/tarefaRepository.ts`                      |
+| Model       | `src/backend/models/`         | Representar entidade de domínio                   | —               | `models/Tarefa.ts`                                       |
 
 <center>
   <p><strong>Tabela 20</strong> — Arquitetura</p>
@@ -1440,23 +1440,23 @@ Cada camada conhece apenas a imediatamente inferior — uma Route não chama um 
 
 Para ilustrar como uma requisição atravessa as camadas, considere a **US01** (seção 2.3): "Como Gerente geral, posso criar tarefas e atribuí-las a um retiro específico". O fluxo previsto para a requisição `POST /tarefas` é:
 
-1. **Routes** (`routes/tarefas.js`) recebe a requisição HTTP e delega:
-   ```js
-   router.post('/tarefas', tarefasController.criar);
+1. **Routes** (`routes/tarefaRoutes.ts`) recebe a requisição HTTP e delega:
+   ```ts
+   router.post('/tarefas', tarefaController.criarTarefa);
    ```
-2. **Controller** (`controllers/tarefasController.js`) valida o payload (campos obrigatórios: `titulo`, `retiro_id`, `prazo`), extrai o usuário autenticado e chama o service:
-   ```js
-   const tarefa = await tarefasService.criarTarefa(req.body, req.user);
-   res.status(201).json(tarefa);
+2. **Controller** (`controllers/tarefaController.ts`) valida o payload (campos obrigatórios: `titulo`, `retiro_id`, `capataz_id`, `data_execucao`, `gerente_id`), extrai o usuário autenticado e chama o service:
+   ```ts
+   const tarefa = await tarefaService.criarTarefa(req.body);
+   res.status(201).json({ id: tarefa.id, mensagem: 'Tarefa criada com sucesso', tarefa });
    ```
-3. **Service** (`services/tarefasService.js`) aplica as regras de negócio: gera o UUID localmente (estratégia offline-first descrita na seção 3.6.4), verifica se o `retiro_id` pertence à fazenda do usuário, registra a operação na `sync_queue` e chama o repositório:
-   ```js
-   const novaTarefa = new Tarefa({ id: uuidv7(), ...dados, autor: usuario.id });
-   await tarefasRepository.inserir(novaTarefa);
-   await syncQueueRepository.enfileirar('INSERT', 'tarefas', novaTarefa);
+3. **Service** (`services/tarefaService.ts`) aplica as regras de negócio: valida se o capataz pertence ao retiro, gera o UUID v7 localmente, registra a operação na `sincronizacoes` e chama o repositório:
+   ```ts
+   const novaTarefa = { id: uuidv7(), ...dados };
+   await tarefaRepository.inserir(novaTarefa);
+   db.prepare("INSERT INTO sincronizacoes (entidade_tipo, entidade_id, status_envio) VALUES ('tarefa', ?, 'PENDENTE')").run(novaTarefa.id);
    ```
-4. **Repository** (`repositories/tarefasRepository.js`) executa o `INSERT` na tabela `tarefas` via cliente `pg` ou `@supabase/supabase-js`, sem conhecer regras de negócio.
-5. **Model** (`models/Tarefa.js`) é a classe/objeto que representa a entidade Tarefa, garantindo a forma dos dados trafegados entre Service e Repository.
+4. **Repository** (`repositories/tarefaRepository.ts`) executa o `INSERT` na tabela `tarefas` via `node:sqlite`, sem conhecer regras de negócio. O espelho no Supabase é feito pelo `cloudSyncService.ts` em background.
+5. **Model** (`models/Tarefa.ts`) é a interface TypeScript que representa a entidade Tarefa, garantindo a forma dos dados trafegados entre Service e Repository.
 
 A resposta percorre o caminho inverso (Repository → Service → Controller → Routes → Cliente), atendendo aos critérios de aceite CR1 (tarefa vinculada ao retiro) e CR2 (disponibilidade após sincronização).
 
@@ -1464,13 +1464,13 @@ A resposta percorre o caminho inverso (Repository → Service → Controller →
 
 A arquitetura descrita acima é a **arquitetura-alvo** do projeto. O estado da implementação ao final desta sprint é:
 
-| Camada       | Status                                                                                  |
-|--------------|-----------------------------------------------------------------------------------------|
-| Routes       | Implementada (estrutura inicial em [routes/index.js](g03/src/backend/routes/index.js)) |
-| Controllers  | Pasta criada, primeiros controllers a serem implementados na sprint 3                  |
-| Services     | Camada validada com [healthService.js](g03/src/backend/services/healthService.js); demais services seguirão o mesmo padrão |
-| Repositories | Pasta criada, implementação prevista para a sprint 3                                  |
-| Models       | Pasta criada, implementação prevista para a sprint 3                                  |
+| Camada       | Status atual (sprint 5)                                                                                       |
+|--------------|---------------------------------------------------------------------------------------------------------------|
+| Routes       | ✅ Implementada — `src/backend/routes/` (15 arquivos `.ts`, incluindo `index.ts`, `authRoutes.ts`, `viewRoutes.ts`, `dadosRoutes.ts` e demais módulos funcionais) |
+| Controllers  | ✅ Implementada — `src/backend/controllers/` (14 arquivos `.ts`: `tarefaController`, `alertaController`, `boletaController`, `authController`, `adminController`, `coordenadorController`, `dashboardController`, `historicoController`, `eventoController`, `exportacaoController`, `painelController`, `sincronizacaoController`, `dadosController`, `healthController`) |
+| Services     | ✅ Implementada — `src/backend/services/` (8 arquivos `.ts`: `tarefaService`, `alertaService`, `eventoService`, `exportacaoService`, `cloudSyncService`, `sincronizacaoService`, `painelService`, `healthService`) |
+| Repositories | ✅ Implementada — `src/backend/repositories/` (10 arquivos `.ts` + `pg/tarefaPgRepository.ts` para o Supabase) |
+| Models       | ✅ Implementada — `src/backend/models/` (9 arquivos `.ts`: `Tarefa`, `Alerta`, `Evidencia`, `Exportacao`, `Movimentacao`, `RefreshToken`, `Retiro`, `Sincronizacao`, `Usuario`) |
 
 <center>
   <p><strong>Tabela 21</strong> — Status de implementação da arquitetura</p>
@@ -1682,15 +1682,29 @@ classDiagram
     +String senha
     +String perfil
     +String retiro_id
+    +Boolean/Number is_admin
     +String criado_em
     +autenticar()
+  }
+
+  class RefreshToken {
+    +String id
+    +String usuario_id
+    +String token_hash
+    +String expires_at
+    +String revoked_at
+    +String criado_em
+    +String atualizado_em
+    +revogar()
   }
 
   class Retiro {
     +String id
     +String nome
+    +Number numero
     +String localizacao
     +String coordenador_id
+    +String capataz_id
     +String criado_em
     +obterDadosConsolidados()
   }
@@ -1819,9 +1833,10 @@ classDiagram
   Usuario "1" --> "*" Tarefa : executa
   Usuario "1" --> "*" Exportacao : solicita
 
-  Tarefa "1" --> "0..1" Evidencia : possui
-  Alerta "1" --> "0..1" Evidencia : contem
+  Tarefa "1" --> "0..*" Evidencia : possui
+  Alerta "1" --> "0..*" Evidencia : contem
   MovimentacaoBase "1" --> "0..*" Evidencia : anexa
+  Usuario "1" --> "0..*" RefreshToken : emite
 
   %% Herança (Superclasse <|-- Subclasse)
   MovimentacaoBase <|-- Nascimento : herança
@@ -2159,11 +2174,17 @@ flowchart TD
         classDef route fill:#ecfeff,stroke:#22d3ee,color:#036672,font-family:sans-serif;
         HealthRoutes["HealthRoutes<br/>GET /health"]:::route
         TarefaRoutes["TarefaRoutes<br/>POST /tarefas<br/>GET /tarefas/hoje<br/>PATCH /tarefas/:id/concluir<br/>POST /tarefas/:id/evidencias"]:::route
-        AlertaRoutes["AlertaRoutes<br/>POST /chamados"]:::route
+        AlertaRoutes["AlertaRoutes<br/>POST /chamados<br/>GET /chamados<br/>GET /chamados/:id<br/>PATCH /chamados/:id/resolver<br/>PUT /chamados/:id/resolver"]:::route
         EventoRoutes["EventoRoutes<br/>GET /eventos-zootecnicos<br/>POST /eventos-zootecnicos/nascimentos<br/>POST /eventos-zootecnicos/obitos"]:::route
         SincronizacaoRoutes["SincronizacaoRoutes<br/>POST /sincronizacao/lote"]:::route
         ExportacaoRoutes["ExportacaoRoutes<br/>GET /exportacao/csv"]:::route
         PainelRoutes["PainelRoutes<br/>GET /painel-gerencial"]:::route
+        AuthRoutes["AuthRoutes<br/>POST /auth/login<br/>POST /auth/login-capataz<br/>POST /auth/login-infra<br/>POST /auth/refresh<br/>POST /auth/logout<br/>GET /auth/me"]:::route
+        AdminRoutes["AdminRoutes<br/>GET/POST /admin/retiros<br/>PUT/DELETE /admin/retiros/:id<br/>GET/POST /admin/usuarios<br/>PUT/DELETE /admin/usuarios/:id<br/>DELETE /admin/boletas/:grupo_id<br/>DELETE /admin/chamados/:id<br/>DELETE /admin/tarefas/:id"]:::route
+        CoordenadorRoutes["CoordenadorRoutes<br/>GET /coordenador/boletas-pendentes<br/>POST /coordenador/boletas/:id/aprovar<br/>GET /coordenador/exportar<br/>GET /coordenador/boleta/:grupo_id/pdf"]:::route
+        BoletaRoutes["BoletaRoutes<br/>POST /boletas<br/>PUT /boletas/:grupo_id<br/>GET /boletas/minhas<br/>GET /boletas/:grupo_id"]:::route
+        DashboardRoutes["DashboardRoutes<br/>GET /dashboard/resumo<br/>GET /dashboard/retiros"]:::route
+        HistoricoRoutes["HistoricoRoutes<br/>GET /historico/boletas<br/>GET /historico/chamados"]:::route
     end
 
     %% CAMADA DE CONTROLLERS
@@ -2171,12 +2192,18 @@ flowchart TD
         direction LR
         classDef controller fill:#f5f3ff,stroke:#a78bfa,color:#5b21b6,font-family:sans-serif;
         HealthController["HealthController<br/>+getHealth()"]:::controller
-        TarefaController["TarefaController<br/>+criarTarefa()<br/>+buscarTarefasHoje()<br/>+concluirTarefa()<br/>+anexarEvidencias()"]:::controller
-        AlertaController["AlertaController<br/>+criarAlerta()"]:::controller
+        TarefaController["TarefaController<br/>+criarTarefa()<br/>+buscarTarefasHoje()<br/>+concluirTarefa()<br/>+anexarEvidencia()"]:::controller
+        AlertaController["AlertaController<br/>+criarAlerta()<br/>+listarChamados()<br/>+obterChamado()<br/>+resolverChamado()"]:::controller
         EventoController["EventoController<br/>+registrarNascimento()<br/>+registrarObito()<br/>+listarEventos()"]:::controller
         SincronizacaoController["SincronizacaoController<br/>+processarLote()"]:::controller
         ExportacaoController["ExportacaoController<br/>+exportarCsv()"]:::controller
         PainelController["PainelController<br/>+obterPainel()"]:::controller
+        AuthController["AuthController<br/>+login()<br/>+loginCapataz()<br/>+loginInfraestrutura()<br/>+refresh()<br/>+logout()<br/>+me()"]:::controller
+        AdminController["AdminController<br/>+listarRetiros()<br/>+criarRetiro()<br/>+atualizarRetiro()<br/>+excluirRetiro()<br/>+listarUsuarios()<br/>+criarUsuario()<br/>+atualizarUsuario()<br/>+excluirUsuario()<br/>+excluirBoleta()<br/>+excluirChamado()<br/>+excluirTarefa()"]:::controller
+        CoordenadorController["CoordenadorController<br/>+listarBoletasPendentes()<br/>+aprovarBoleta()<br/>+exportarCsv()<br/>+exportarBoletaPdf()"]:::controller
+        BoletaController["BoletaController<br/>+criarBoleta()<br/>+atualizarBoleta()<br/>+listarMinhas()<br/>+obterBoleta()"]:::controller
+        DashboardController["DashboardController<br/>+obterResumo()<br/>+listarRetirosDashboard()"]:::controller
+        HistoricoController["HistoricoController<br/>+listarBoletas()<br/>+listarChamados()"]:::controller
     end
 
     %% CAMADA DE SERVICES
@@ -2185,11 +2212,17 @@ flowchart TD
         classDef service fill:#f0fdf4,stroke:#4ade80,color:#166534,font-family:sans-serif;
         HealthService["HealthService<br/>+verificarSaude()"]:::service
         TarefaService["TarefaService<br/>+criarTarefa()<br/>+buscarTarefasHoje()<br/>+concluirTarefa()<br/>+anexarEvidencia()"]:::service
-        AlertaService["AlertaService<br/>+criarAlerta()"]:::service
+        AlertaService["AlertaService<br/>+criarAlerta()<br/>+listarChamados()<br/>+obterPorId()<br/>+resolverChamado()"]:::service
         EventoService["EventoService<br/>+registrarNascimento()<br/>+registrarObito()<br/>+listarEventos()"]:::service
         SincronizacaoService["SincronizacaoService<br/>+processarLote()"]:::service
         ExportacaoService["ExportacaoService<br/>+exportarCsv()"]:::service
         PainelService["PainelService<br/>+obterPainel()"]:::service
+        AuthService["AuthController<br/>(auth inline — sem authService.ts)"]:::service
+        AdminService["AdminService<br/>(lógica inline no controller)"]:::service
+        CoordenadorService["CoordenadorService<br/>(lógica inline no controller)"]:::service
+        BoletaService["BoletaService<br/>(lógica inline no controller)"]:::service
+        DashboardService["DashboardController<br/>(lógica inline no controller)"]:::service
+        HistoricoService["HistoricoService<br/>(lógica inline no controller)"]:::service
     end
 
     %% CAMADA DE REPOSITÓRIOS (INTERFACES)
@@ -2231,9 +2264,9 @@ flowchart TD
     end
 
     %% Layout horizontal interno (força alinhamento lado a lado)
-    HealthRoutes ~~~ TarefaRoutes ~~~ AlertaRoutes ~~~ EventoRoutes ~~~ SincronizacaoRoutes ~~~ ExportacaoRoutes ~~~ PainelRoutes
-    HealthController ~~~ TarefaController ~~~ AlertaController ~~~ EventoController ~~~ SincronizacaoController ~~~ ExportacaoController ~~~ PainelController
-    HealthService ~~~ TarefaService ~~~ AlertaService ~~~ EventoService ~~~ SincronizacaoService ~~~ ExportacaoService ~~~ PainelService
+    HealthRoutes ~~~ TarefaRoutes ~~~ AlertaRoutes ~~~ EventoRoutes ~~~ SincronizacaoRoutes ~~~ ExportacaoRoutes ~~~ PainelRoutes ~~~ AuthRoutes ~~~ AdminRoutes ~~~ CoordenadorRoutes ~~~ BoletaRoutes ~~~ DashboardRoutes ~~~ HistoricoRoutes
+    HealthController ~~~ TarefaController ~~~ AlertaController ~~~ EventoController ~~~ SincronizacaoController ~~~ ExportacaoController ~~~ PainelController ~~~ AuthController ~~~ AdminController ~~~ CoordenadorController ~~~ BoletaController ~~~ DashboardController ~~~ HistoricoController
+    HealthService ~~~ TarefaService ~~~ AlertaService ~~~ EventoService ~~~ SincronizacaoService ~~~ ExportacaoService ~~~ PainelService ~~~ AuthService ~~~ AdminService ~~~ CoordenadorService ~~~ BoletaService ~~~ DashboardService ~~~ HistoricoService
     IHealthRepository ~~~ ITarefaRepository ~~~ ITarefaPgRepository ~~~ IAlertaRepository ~~~ IEventoRepository ~~~ ISincronizacaoRepository ~~~ IExportacaoRepository ~~~ IUsuarioRepository ~~~ IPainelRepository
     HealthRepository ~~~ TarefaRepository ~~~ TarefaPgRepository ~~~ AlertaRepository ~~~ EventoRepository ~~~ SincronizacaoRepository ~~~ ExportacaoRepository ~~~ PainelRepository ~~~ UsuarioRepository
     SQLiteDB ~~~ PostgresDB
@@ -2246,6 +2279,12 @@ flowchart TD
     SincronizacaoRoutes --> SincronizacaoController
     ExportacaoRoutes --> ExportacaoController
     PainelRoutes --> PainelController
+    AuthRoutes --> AuthController
+    AdminRoutes --> AdminController
+    CoordenadorRoutes --> CoordenadorController
+    BoletaRoutes --> BoletaController
+    DashboardRoutes --> DashboardController
+    HistoricoRoutes --> HistoricoController
 
     %% Conexões de Controllers para Services (Dependência de Injeção)
     HealthController --> HealthService
@@ -2255,6 +2294,12 @@ flowchart TD
     SincronizacaoController --> SincronizacaoService
     ExportacaoController --> ExportacaoService
     PainelController --> PainelService
+    AuthController --> AuthService
+    AdminController --> AdminService
+    CoordenadorController --> CoordenadorService
+    BoletaController --> BoletaService
+    DashboardController --> DashboardService
+    HistoricoController --> HistoricoService
 
     %% Conexões de Services para Repositories / Interfaces (Dependência de Injeção)
     HealthService --> IHealthRepository
@@ -2407,7 +2452,7 @@ sequenceDiagram
 - **Controller (`TarefaController`):** recebe a requisição HTTP do Gerente, valida a presença dos campos obrigatórios e delega a lógica de negócio ao Service. Não acessa o banco diretamente.
 - **Service (`TarefaService`):** consulta o `UsuarioRepository` para obter os dados do Capataz e aplica a RN01 — impede atribuição a Capataz que não pertence ao retiro informado. Em caso de aprovação, delega a inserção ao `TarefaRepository`.
 - **UsuarioRepository:** executa `SELECT` na tabela `usuarios` e retorna a entidade com `perfil` e `retiro_id` para validação da RN01.
-- **TarefaRepository (`TarefaRepository`):** gera UUID v7, executa o `INSERT INTO tarefas` com `status = 'PENDENTE'` e `sincronizada = 1`, e retorna a tarefa criada.
+- **TarefaRepository (`TarefaRepository`):** recebe a entidade já montada pelo Service (incluindo o UUID v7 gerado pela camada de negócio), executa o `INSERT INTO tarefas` com `status = 'PENDENTE'` e `sincronizada = 0` (campo nasce como não sincronizado — a replicação para o Supabase ocorre em background via `cloudSyncService`), e retorna a tarefa criada.
 - **Banco (`SQLite`):** persiste o registro e retorna o `rowid` da nova linha.
 
 **Fluxos cobertos:**
@@ -2448,7 +2493,7 @@ sequenceDiagram
     actor C as Capataz
     participant PWA as Cliente (PWA)
     participant CS as Cache Storage (Browser)
-    participant LS as IndexedDB (sync_queue)
+    participant LS as IndexedDB (sincronizacoes)
     participant CTR as TarefaController
     participant SRV as TarefaService
     participant TREP as TarefaRepository
@@ -2540,7 +2585,7 @@ sequenceDiagram
     autonumber
     actor C as Capataz
     participant PWA as Cliente (PWA)
-    participant LS as IndexedDB (sync_queue)
+    participant LS as IndexedDB (sincronizacoes)
     participant CTR as TarefaController
     participant SRV as TarefaService
     participant TREP as TarefaRepository
@@ -2595,7 +2640,7 @@ sequenceDiagram
 
 **Descrição das camadas:**
 
-- **Cliente PWA (`Cliente`):** captura a ação do Capataz offline, salvando o payload em seu IndexedDB local (`sync_queue`) com status `'PENDENTE'`. Ao detectar sinal de rede, recupera a fila e dispara o envio HTTP ao servidor.
+- **Cliente PWA (`Cliente`):** captura a ação do Capataz offline, salvando o payload em seu IndexedDB local (`sincronizacoes`) com status `'PENDENTE'`. Ao detectar sinal de rede, recupera a fila e dispara o envio HTTP ao servidor.
 - **Controller (`TarefaController`):** exposto sob `/api/tarefas/:id/concluir`, valida a requisição e delega as regras de negócio para a camada de serviço.
 - **Service (`TarefaService`):** orquestra o processo de conclusão da tarefa e valida se a operação atende aos requisitos do domínio.
 - **Repository (`TarefaRepository`):** executa transação SQLite atômica (`BEGIN TRANSACTION`/`COMMIT`), atualizando a tarefa e inserindo um registro na tabela de sincronização de nuvem (`sincronizacoes`).
@@ -2648,7 +2693,7 @@ sequenceDiagram
     autonumber
     actor C as Capataz
     participant PWA as Cliente (PWA)
-    participant LS as IndexedDB (sync_queue)
+    participant LS as IndexedDB (sincronizacoes)
     participant CTR as TarefaController
     participant SRV as TarefaService
     participant TREP as TarefaRepository
@@ -2705,7 +2750,7 @@ sequenceDiagram
 
 **Descrição das camadas:**
 
-- **Cliente PWA (`Cliente`):** aciona a câmera nativa do dispositivo, salva a foto offline codificada em base64 e os metadados de geolocalização no IndexedDB (`sync_queue`), e envia a requisição HTTP automaticamente via reconexão.
+- **Cliente PWA (`Cliente`):** aciona a câmera nativa do dispositivo, salva a foto offline codificada em base64 e os metadados de geolocalização no IndexedDB (`sincronizacoes`), e envia a requisição HTTP automaticamente via reconexão.
 - **Controller (`TarefaController`):** exposto sob `/api/tarefas/:id/evidencias`, valida a presença da evidência (tipo e arquivo base64) e do identificador do capataz.
 - **Service (`TarefaService`):** executa validação da regra RN05, garantindo que o capataz seja de fato o executor daquela tarefa.
 - **Repository (`TarefaRepository`):** realiza transação atômica inserindo a evidência no banco de dados SQLite local do servidor e registrando a outbox correspondente na tabela `sincronizacoes`.
@@ -2759,7 +2804,7 @@ sequenceDiagram
     autonumber
     actor C as Capataz
     participant PWA as Cliente (PWA)
-    participant LS as IndexedDB (sync_queue)
+    participant LS as IndexedDB (sincronizacoes)
     participant CTR as EventoController
     participant SRV as EventoService
     participant REP as EventoRepository
@@ -2958,7 +3003,7 @@ Para garantir a operação contínua e mitigar riscos de perda de dados sob cone
 
 ### 3.2.7. Padrões de Projeto Aplicados (sprints 3 a 5)
 
-O Sistema BrPec aplica padrões de projeto motivados por **três restrições estruturais** documentadas neste WAD: (i) a **conectividade satelital intermitente** via Starlink, que impõe arquitetura offline-first (seções 1 e 3.1.3); (ii) os **quatro perfis distintos de usuário** — Gerente, Coordenador, Capataz e Técnico — com regras de operação diferentes (seção 2.2); e (iii) a possibilidade de **evolução da camada de persistência**, hoje implementada com `better-sqlite3` para o cache local e `@supabase/supabase-js` para o servidor central (seção 3.2.1). Cada padrão a seguir é apresentado com categoria GoF [15], localização no repositório, necessidade de negócio que atende e princípios SOLID materializados [27].
+O Sistema BrPec aplica padrões de projeto motivados por **três restrições estruturais** documentadas neste WAD: (i) a **conectividade satelital intermitente** via Starlink, que impõe arquitetura offline-first (seções 1 e 3.1.3); (ii) os **quatro perfis distintos de usuário** — Gerente, Coordenador, Capataz e Técnico — com regras de operação diferentes (seção 2.2); e (iii) a possibilidade de **evolução da camada de persistência**, hoje implementada com o módulo nativo `node:sqlite` (Node.js 22+) para o cache local e `pg` (driver PostgreSQL) para o servidor central (seção 3.2.1). Cada padrão a seguir é apresentado com categoria GoF [15], localização no repositório, necessidade de negócio que atende e princípios SOLID materializados [27].
 
 A tabela a seguir consolida os quatro padrões adotados nesta sprint, indicando para cada um a categoria GoF, a pasta/arquivo correspondente no repositório, a necessidade de negócio atendida e os princípios SOLID materializados. O padrão com status "previsto" está planejado para sprint posterior e será implementado conforme as funcionalidades correspondentes forem desenvolvidas.
 
@@ -2972,13 +3017,15 @@ A tabela a seguir consolida os quatro padrões adotados nesta sprint, indicando 
 | 2 | Repository          | Estrutural        | `src/backend/repositories/` (ex.: `tarefaRepository.ts`)                                         | Isolar a troca de driver/ORM da camada de persistência  | S, D  |
 | 3 | Outbox (Sync Queue) | Arquitetural [16] | Tabela `sincronizacoes` (migration.sql) + `src/backend/services/sincronizacaoService.ts`          | Offline-first: 0% de perda de dados em falha de rede   | S, O  |
 | 4 | Singleton           | Criacional        | `src/backend/config/database.ts` e `src/backend/config/supabasePool.ts`                           | Reuso de conexões únicas e pooling com banco de dados   | D     |
-| 5 | Strategy            | Comportamental    | `src/backend/middlewares/permissions/` (previsto para a sprint 5)                                 | Regras de autorização distintas por perfil de usuário   | O, L  |
+| 5 | Strategy            | Comportamental    | `src/backend/middleware/authMiddleware.ts` + `src/backend/middlewares/authView.ts` (função `requireLogin(perfisPermitidos[])`) | Regras de autorização distintas por perfil de usuário   | O, L  |
+| 6 | DTO (Data Transfer Object) | Estrutural  | Implícito nos `req.body` / `res.json()` de cada controller (ex.: `tarefaController.ts`)          | Separar formato de entrada/saída da entidade de domínio | S, I  |
+| 7 | Middleware Chain    | Comportamental    | `src/backend/middlewares/` + `app.ts` (pipeline `requireAuth → requerPerfil → controller`)       | Composição de autenticação, autorização e validação     | S, O  |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-Os padrões 1, 2, 3 e 4 já possuem implementação no repositório, validando a arquitetura proposta. O padrão 5 está planejado para a sprint 5, conforme o cronograma de implementação do controle de autorização. O detalhamento de cada padrão, com sua justificativa de negócio e princípios SOLID associados, é apresentado nas subseções seguintes.
+Todos os sete padrões possuem implementação no repositório. O detalhamento de cada padrão, com sua justificativa de negócio e princípios SOLID associados, é apresentado nas subseções seguintes.
 
 #### 1. MVC (Model-View-Controller) *(arquitetural)*
 
@@ -3013,11 +3060,32 @@ Organiza o fluxo de interação dividindo o sistema em três componentes com res
 
 **Princípios SOLID:** **S** — a fila tem uma única responsabilidade (garantir entrega eventual); **O** — novos tipos de operação (`INSERT`, `UPDATE`, `DELETE`, futuramente `MERGE`) podem ser adicionados sem alterar o processador.
 
-#### DTO (Data Transfer Object) *(estrutural — não implementado na sprint 3)*
+#### 4. Singleton *(criacional)*
 
-**Localização planejada:** `src/backend/dtos/` (ex.: `CriarTarefaDTO.ts`, `TarefaResponseDTO.ts`), a implementar em sprints futuras conforme os endpoints forem evoluídos.
+**Localização:** na configuração do banco de dados relacional local [database.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/config/database.ts) e de nuvem [supabasePool.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/config/supabasePool.ts), bem como nas exportações de controladores (ex: [tarefaController.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/controllers/tarefaController.ts)).
 
-**Necessidade que atende:** existe uma diferença real entre o que o cliente envia, o que o banco persiste e o que a API devolve. Para a US01, o cliente envia `{titulo, retiro_id, prazo}`; o banco persiste `{id, titulo, retiro_id, autor_id, criado_em, sincronizado_em, deletado_em}` (Migration 003); e a resposta da API expõe `{id, titulo, retiro: {id, nome}, prazo, status}`, sem campos internos como `autor_id`. DTOs evitam que detalhes do schema vazem na API pública e protegem o backend de payloads mal formados, validando entrada na fronteira Controller → Service. O padrão segue a recomendação de Evans [12] de isolar o modelo de domínio da camada de apresentação.
+**Necessidade que atende:** O padrão garante que uma classe possua apenas uma única instância em todo o ciclo de vida do servidor Node.js. Para as conexões de banco de dados, o `database.ts` exporta diretamente a instância `db` do `DatabaseSync` (SQLite via `node:sqlite`), enquanto `supabasePool.ts` exporta a instância única `supabasePool` do Postgres. Isso evita inicializações redundantes, vazamentos de conexões e conflitos de leitura/escrita simultânea no arquivo SQLite. Adicionalmente, os controladores e repositórios são exportados como instâncias já instanciadas (ex.: `export default new TarefaController()`), compartilhando o mesmo estado e reduzindo o consumo de memória sob carga. Vale registrar a crítica de Fowler [13] e da comunidade DDD ao uso indiscriminado do padrão (acoplamento global, dificuldade de teste); aqui o uso é justificado por se tratar de um cliente de infraestrutura sem estado de negócio, e a injeção do cliente nos repositories preserva a testabilidade.
+
+**Princípios SOLID:**
+- **D — Dependency Inversion:** Os módulos dependem das instâncias injetadas ou importadas compartilhadas, mantendo o controle centralizado.
+
+#### 5. Strategy *(comportamental)*
+
+**Localização implementada:** `src/backend/middleware/authMiddleware.ts` e `src/backend/middlewares/authView.ts`. A função `requireLogin(perfisPermitidos?, opcoes?)` de `authView.ts` e o middleware `autenticarJWT` de `authMiddleware.ts` implementam a variação de comportamento por perfil de forma funcional: `requireLogin(['Gerente', 'Coordenador'])` seleciona em runtime o conjunto de permissões adequado ao perfil autenticado, aplicando a lógica estratégica sem hierarquia formal de classes.
+
+> **Nota de implementação:** o módulo `src/middlewares/permissions/` com classes `GerenteStrategy.ts`, `CoordenadorStrategy.ts` etc. não foi criado. A abordagem adotada substitui o Strategy clássico por funções de ordem superior parametrizadas, igualmente válidas sob o princípio OCP: adicionar um novo perfil requer apenas estender o array de perfis permitidos na chamada `requireLogin`, sem modificar o middleware base.
+
+**Necessidade que atende:** os quatro perfis do sistema têm regras de operação fundamentalmente diferentes — o Gerente cria tarefas para qualquer retiro (US01), o Capataz só visualiza tarefas do próprio retiro (US02), o Coordenador exporta dados consolidados (US12) e o Técnico fecha ordens de serviço (US06). Implementar essas regras com `if/else` aninhados no Controller tornaria a manutenção inviável conforme novos perfis ou novas permissões surgissem.
+
+**Princípios SOLID:** **O** — adicionar um perfil requer apenas estender a lista de permissões sem alterar os middlewares existentes; **L** — qualquer middleware que aceita `perfisPermitidos[]` é intercambiável pela mesma assinatura funcional.
+
+#### 6. DTO (Data Transfer Object) *(estrutural)*
+
+**Localização atual:** implícita nos `req.body` (entrada) e `res.json()` (saída) de cada controller, sem classes DTO dedicadas. A criação de classes DTO formais em `src/backend/dtos/` (ex.: `CriarTarefaDTO.ts`, `TarefaResponseDTO.ts`) está prevista para a sprint final para formalizar a separação de fronteiras.
+
+> **Pendente (sprint final):** criar módulo `src/backend/dtos/` com classes TypeScript explícitas para cada endpoint, substituindo o uso de `req.body` tipado inline.
+
+**Necessidade que atende:** existe uma diferença real entre o que o cliente envia, o que o banco persiste e o que a API devolve. Para a US01, o cliente envia `{titulo, retiro_id, descricao, capataz_id, data_execucao, gerente_id}`; o banco persiste `{id, titulo, descricao, retiro_id, capataz_id, gerente_id, data_execucao, status, criada_em, concluida_em, sincronizada}` (migration.sql); e a resposta da API expõe `{id, mensagem, tarefa: {id, titulo, status, data_execucao}}`, sem campos internos como `criada_em` e `sincronizada`. DTOs evitam que detalhes do schema vazem na API pública e protegem o backend de payloads mal formados, validando entrada na fronteira Controller → Service. O padrão segue a recomendação de Evans [12] de isolar o modelo de domínio da camada de apresentação.
 
 **Princípios SOLID:** **S** — separa "modelo de entrada da API" de "entidade de domínio"; **I** — clientes da API recebem apenas os campos que precisam, sem dependências desnecessárias.
 
@@ -3036,7 +3104,7 @@ Organiza o fluxo de interação dividindo o sistema em três componentes com res
 }
 ```
 
-Linha persistida em `tarefas` (Migration 003) — o que o banco efetivamente guarda, com campos internos adicionados pelo Service:
+Linha persistida em `tarefas` (migration.sql) — o que o banco efetivamente guarda, com campos internos adicionados pelo Service:
 
 ```json
 {
@@ -3047,11 +3115,10 @@ Linha persistida em `tarefas` (Migration 003) — o que o banco efetivamente gua
   "capataz_id": "a1b2-...",
   "gerente_id": "f9e8-...",
   "data_execucao": "2026-05-28",
-  "status": "pendente",
-  "criado_em": "2026-05-26T21:00:00Z",
-  "atualizado_em": "2026-05-26T21:00:00Z",
-  "sincronizado_em": null,
-  "deletado_em": null
+  "status": "PENDENTE",
+  "criada_em": "2026-05-26T21:00:00Z",
+  "concluida_em": null,
+  "sincronizada": 0
 }
 ```
 
@@ -3070,32 +3137,15 @@ Linha persistida em `tarefas` (Migration 003) — o que o banco efetivamente gua
 }
 ```
 
-Note que o response **omite** campos internos como `criado_em`, `sincronizado_em` e `deletado_em` (relevantes só para o backend) e simplifica a estrutura para o consumidor da API. Esse é exatamente o papel do DTO: nenhum dos três representa "a tarefa" sozinho — cada um é a forma apropriada da entidade para sua fronteira específica. Exemplos completos de request/response dos demais endpoints encontram-se na seção 3.1.4.
+Note que o response **omite** campos internos como `criada_em`, `concluida_em` e `sincronizada` (relevantes só para o backend) e simplifica a estrutura para o consumidor da API. Esse é exatamente o papel do DTO: nenhum dos três representa "a tarefa" sozinho — cada um é a forma apropriada da entidade para sua fronteira específica. Exemplos completos de request/response dos demais endpoints encontram-se na seção 3.1.4.
 
-#### 4. Singleton *(criacional)*
-
-**Localização:** na configuração do banco de dados relacional local [database.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/config/database.ts) e de nuvem [supabasePool.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/config/supabasePool.ts), bem como nas exportações de controladores (ex: [tarefaController.ts](file:///c:/Users/Inteli/OneDrive/Área%20de%20Trabalho/Modulo%20II/BRPec/V1.0/g03/src/backend/controllers/tarefaController.ts)).
-
-**Necessidade que atende:** O padrão garante que uma classe possua apenas uma única instância em todo o ciclo de vida do servidor Node.js. Para as conexões de banco de dados, o `database.ts` exporta diretamente a instância `db` do `DatabaseSync` (SQLite via `node:sqlite`), enquanto `supabasePool.ts` exporta a instância única `supabasePool` do Postgres. Isso evita inicializações redundantes, vazamentos de conexões e conflitos de leitura/escrita simultânea no arquivo SQLite. Adicionalmente, os controladores e repositórios são exportados como instâncias já instanciadas (ex.: `export default new TarefaController()`), compartilhando o mesmo estado e reduzindo o consumo de memória sob carga. Vale registrar a crítica de Fowler [13] e da comunidade DDD ao uso indiscriminado do padrão (acoplamento global, dificuldade de teste); aqui o uso é justificado por se tratar de um cliente de infraestrutura sem estado de negócio, e a injeção do cliente nos repositories preserva a testabilidade.
-
-**Princípios SOLID:**
-- **D — Dependency Inversion:** Os módulos dependem das instâncias injetadas ou importadas compartilhadas, mantendo o controle centralizado.
-
-#### 5. Middleware Chain (Chain of Responsibility) *(comportamental — planejado para as sprints 4-5)*
+#### 7. Middleware Chain (Chain of Responsibility) *(comportamental — planejado para as sprints 4-5)*
 
 **Localização planejada:** `src/backend/middlewares/` (autenticação, autorização, validação de payload, tratamento de erros), a implementar ao longo das sprints 4 a 5 conforme os requisitos da seção 3.8 forem desenvolvidos.
 
 **Necessidade que atende:** cada requisição ao backend precisa passar por uma sequência de verificações antes de chegar ao Controller — autenticar o usuário (seção 3.8.1), autorizar a operação (seção 3.8.3), validar o payload contra o DTO esperado e, ao final, tratar exceções de forma uniforme (seção 3.8.4). O Middleware Chain do Express materializa esse pipeline de forma plugável: cada novo cross-cutting concern (logging, métricas, rate-limiting) entra como um novo middleware sem alterar os existentes — instância concreta do padrão Chain of Responsibility [15].
 
 **Princípios SOLID:** **S** — cada middleware tem uma responsabilidade isolada; **O** — novos middlewares são plugados na cadeia sem modificar os anteriores.
-
-#### 6. Strategy *(comportamental — previsto para a sprint 5)*
-
-**Localização planejada:** `src/middlewares/permissions/` (ex.: `GerenteStrategy.ts`, `CoordenadorStrategy.ts`, `CapatazStrategy.ts`, `TecnicoStrategy.ts`), invocadas pelo middleware de autorização da seção 3.8.3.
-
-**Necessidade que atende:** os quatro perfis do sistema têm regras de operação fundamentalmente diferentes — o Gerente cria tarefas para qualquer retiro (US01), o Capataz só visualiza tarefas do próprio retiro (US02), o Coordenador exporta dados consolidados (US12) e o Técnico fecha ordens de serviço (US06). Implementar essas regras com `if/else` aninhados no Controller tornaria a manutenção inviável conforme novos perfis ou novas permissões surgissem. O Strategy [15] encapsula cada conjunto de regras em uma classe própria, selecionada em runtime pelo perfil do usuário autenticado.
-
-**Princípios SOLID:** **O** — adicionar um quinto perfil significa criar uma nova classe sem alterar o middleware; **L** — todas as strategies são intercambiáveis pela mesma interface (`podeExecutar(acao, recurso)`).
 
 
 #### Síntese SOLID
@@ -3735,6 +3785,8 @@ Dessa forma, o ER cobre os principais fluxos de dados do sistema: planejamento e
 
 ### 3.6.2. Diagrama Entidade-Relacionamento (DER) (sprint 2)
 
+> **Nota histórica:** este DER representa o modelo conceitual produzido na sprint 2. A entidade **Boleta** modelada neste diagrama **não existe no banco de dados real** (`migration.sql`). A evolução do design optou por substituí-la pelas entidades `movimentacoes`, `nascimentos`, `obitos`, `transferencias` e `compravendas`, que implementam os mesmos conceitos de forma normalizada. O DDL atualizado com o esquema vigente encontra-se na seção 3.6.3.
+
 O DER abaixo é a representação gráfica, na notação de Peter Chen (1976), da versão conceitual concebida durante a sprint 2. Entidades são representadas por retângulos, atributos por elipses e relacionamentos por losangos.
 
 Este diagrama registra a estrutura de dados concebida na sprint 2, com a Boleta como entidade central, concentrando os atributos comuns a todos os eventos zootécnicos (`tipo_boleta`, `data`, `RG/CPF`, `status`, `tipo_animal`, `tipo_transporte`, `quantidade_animal`, `georreferenciamento`). As especializações, Nascimento, Óbito, Transferência, Compra e Venda, conectam-se à Boleta pelo relacionamento detalha com cardinalidade (1,1) em ambos os lados, implementando herança por especialização total e disjunta: cada boleta corresponde a exatamente um tipo de evento, e cada evento pertence a exatamente uma boleta.
@@ -3763,19 +3815,21 @@ A evolução conceitual está apresentada nas seções 3.6.1 e 3.6.2. Nesta seç
 
 #### Modelo Relacional
 
-| Relação          | Chave primária | Chaves estrangeiras principais                             | Observação                                      |
-| ---------------- | -------------- | ---------------------------------------------------------- | ----------------------------------------------- |
-| `retiros`        | `id`           | —                                                          | Unidades operacionais da fazenda                |
-| `usuarios`       | `id`           | `retiro_id -> retiros(id)`                                 | `retiro_id` é obrigatório apenas para Capatazes |
-| `tarefas`        | `id`           | `retiro_id`, `criado_por_id`, `responsavel_id`             | Registra quem criou e quem executa a tarefa     |
-| `alertas`        | `id`           | `retiro_id`, `criado_por_id`, `tecnico_id`                 | Chamados com tipo, GPS e ciclo de resolução     |
-| `movimentacoes`  | `id`           | `retiro_id`, `responsavel_id`                              | Evento-base de manejo do rebanho                |
-| `evidencias`     | `id`           | `tarefa_id`, `alerta_id`, `movimentacao_id`                | Cada evidência pertence a exatamente uma origem |
-| `nascimentos`    | `id`           | `movimentacao_id -> movimentacoes(id)`                     | Especialização 1:1 de movimentação              |
-| `obitos`         | `id`           | `movimentacao_id -> movimentacoes(id)`                     | Especialização 1:1 com exigência de foto        |
-| `transferencias` | `id`           | `movimentacao_id`, `retiro_origem_id`, `retiro_destino_id` | Especialização 1:1 entre retiros distintos      |
-| `compravendas`   | `id`           | `movimentacao_id -> movimentacoes(id)`                     | Especialização 1:1 de compra ou venda           |
-| `sync_queue`     | `id`           | —                                                          | Fila técnica de sincronização offline-online    |
+| Relação              | Chave primária | Chaves estrangeiras principais                                          | Observação                                                         |
+| -------------------- | -------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `retiros`            | `id`           | —                                                                       | Campos: `nome`, `numero`, `localizacao`, `coordenador_id`, `capataz_id` |
+| `usuarios`           | `id`           | `retiro_id → retiros(id)`                                               | `perfil` CHECK: `'Gerente','Coordenador','Capataz','Tecnico'`; `is_admin` adicionado pela migration 002 |
+| `refresh_tokens`     | `id`           | `usuario_id → usuarios(id)`                                             | Tabela JWT — criada pela migration 001                             |
+| `tarefas`            | `id`           | `retiro_id`, `capataz_id`, `gerente_id` → `usuarios(id)`               | Usa `gerente_id` (criador) e `capataz_id` (executor)              |
+| `alertas`            | `id`           | `capataz_id`, `retiro_id`, `foto_id`, `tecnico_id`                     | GPS via `latitude`/`longitude`; status: `ABERTO`,`EM_ANDAMENTO`,`RESOLVIDO` |
+| `movimentacoes`      | `id`           | `capataz_id`, `retiro_id`, `coordenador_id`                             | +21 colunas adicionadas pelas migrations 003–006 (mig 003: +2, mig 004: +18, mig 006: +1) |
+| `evidencias`         | `id`           | `tarefa_id`, `alerta_id`, `movimentacao_id`                             | Polimórfico — cada evidência pertence a exatamente uma origem      |
+| `nascimentos`        | `id`           | `movimentacao_id → movimentacoes(id)`                                   | Especialização 1:1 de movimentação                                 |
+| `obitos`             | `id`           | `movimentacao_id → movimentacoes(id)`, `foto_id → evidencias(id)`      | Especialização 1:1; exige foto da carcaça                          |
+| `transferencias`     | `id`           | `movimentacao_id`, `retiro_origem_id`, `retiro_destino_id`              | Especialização 1:1 entre retiros distintos                         |
+| `compravendas`       | `id`           | `movimentacao_id → movimentacoes(id)`                                   | Especialização 1:1 de compra ou venda                              |
+| `sincronizacoes`     | `id`           | —                                                                       | Fila Outbox — campos: `entidade_tipo`, `entidade_id`, `status_envio`, `tentativas` |
+| `exportacoes`        | `id`           | `coordenador_id → usuarios(id)`                                         | Registro de exportações CSV geradas pelo Coordenador               |
 
 <center>
   <p><strong>Tabela 56</strong> — Modelo Relacional</p>
@@ -3785,286 +3839,332 @@ A evolução conceitual está apresentada nas seções 3.6.1 e 3.6.2. Nesta seç
 
 **Decisões de modelagem física:**
 
-- **SQLite local como fonte offline**: os registros são gravados localmente primeiro, com `sync_status` para indicar se ainda precisam ser enviados à API.
+- **SQLite local como fonte offline**: os registros são gravados localmente primeiro, com o campo `sincronizada` (Boolean 0/1 em `tarefas` e `evidencias`) ou `sincronizado` (Boolean em `alertas` e `movimentacoes`) para indicar se ainda precisam ser enviados à API.
+- **Atenção — `StatusTarefa` no model TypeScript vs DDL:** o arquivo `src/backend/models/Tarefa.ts` define o tipo `StatusTarefa` como `'PENDENTE' | 'EM_ANDAMENTO' | 'CONCLUIDA' | 'CANCELADA'`. Porém, o CHECK constraint da migration.sql restringe o campo a `('PENDENTE', 'EM_ANDAMENTO', 'CONCLUIDA')`. O valor `'CANCELADA'` nunca foi adicionado via migration e o banco rejeitaria qualquer INSERT com esse status. O type TypeScript deve ser corrigido para refletir os valores reais do banco, ou uma migration deve ser criada para adicionar `'CANCELADA'` ao CHECK constraint.
 - **UUID v7 em colunas `TEXT`**: o identificador é gerado no cliente, antes da conexão com o servidor, e armazenado como texto por compatibilidade com SQLite.
 - **`usuarios.retiro_id` opcional para perfis globais**: Capatazes devem estar vinculados a um retiro, mas Gerente, Coordenador e técnico de infraestrutura podem atuar em escopo mais amplo.
-- **`tarefas.criado_por_id` e `tarefas.responsavel_id`**: a primeira FK registra quem criou a tarefa; a segunda registra quem deve executá-la.
+- **`tarefas.gerente_id` e `tarefas.capataz_id`**: a primeira FK registra quem criou/atribuiu a tarefa (Gerente); a segunda registra quem deve executá-la (Capataz). Ambas referenciam `usuarios(id)`.
 - **`alertas.retiro_id` e `alertas.tipo`**: o chamado de infraestrutura fica vinculado ao retiro e ao tipo de problema exigidos nos requisitos.
 - **`evidencias` com vínculo polimórfico controlado por `CHECK`**: cada evidência pertence a exatamente uma tarefa, um alerta ou uma movimentação. Isso permite registrar fotos de óbito sem guardar o arquivo binário diretamente na tabela de óbitos.
-- **Mídias fora do banco relacional**: `arquivo_local_uri` guarda o caminho local antes da sincronização; `storage_key` e `url` guardam a referência remota após upload pela API; `conteudo_texto` cobre evidências textuais simples.
-- **Especialização de `movimentacoes`**: `nascimentos`, `obitos`, `transferencias` e `compravendas` detalham uma movimentação e usam `UNIQUE (movimentacao_id)` para evitar mais de um detalhe do mesmo tipo para o mesmo evento.
+- **Mídias no banco relacional (offline-first)**: `arquivo_base64` persiste o arquivo codificado em base64 diretamente no SQLite antes de qualquer upload; `url_arquivo` guarda a URL remota após sincronização com o servidor; `conteudo` cobre evidências textuais simples.
+- **Especialização de `movimentacoes`**: `nascimentos`, `obitos`, `transferencias` e `compravendas` detalham uma movimentação com relacionamento 1:1. A unicidade é garantida hoje pela camada de aplicação (Service/Repository), que só insere o detalhe compatível com `movimentacoes.tipo`.
+
+  > **Pendente (sprint final):** adicionar `UNIQUE (movimentacao_id)` nas tabelas especializadas via nova migration para formalizar a restrição no banco. Isso requer uma migration `007_unique_movimentacao.sql` com `CREATE UNIQUE INDEX` nas quatro tabelas.
 - **Atenção — campo `causa_morte` em duas tabelas:** O esquema base define `causa_morte TEXT NOT NULL` na tabela `obitos` (usada pelo fluxo `EventoController` → `eventoService`). A migration 004 adiciona `causa_morte TEXT` também em `movimentacoes` para o modelo de boleta digital (`boletaController`). As duas colunas coexistem; ao consultar óbitos criados pelo fluxo clássico, `obitos.causa_morte` é a coluna autoritativa. Ao consultar movimentações via boleta, `movimentacoes.causa_morte` é utilizada.
 - **Regra de totalidade e disjunção das especializações**: no modelo conceitual, cada movimentação pertence a exatamente um subtipo. No SQLite local, essa regra é apoiada por `movimentacoes.tipo`, pelas tabelas especializadas e pela camada de aplicação/sincronização, que só grava o detalhe compatível com o tipo do evento. Caso a validação precise ficar totalmente no banco, a regra pode ser reforçada por triggers.
 - **Timestamp de atualização nas especializações**: as tabelas especializadas não possuem `updated_at` próprio porque mudanças de estado do evento são rastreadas na tabela-mãe `movimentacoes`.
-- **`sync_queue`**: tabela técnica que registra operações pendentes (`insert`, `update`, `delete` ou `upload`) para a camada de sincronização executar quando houver conexão.
+- **`sincronizacoes`**: tabela técnica que registra operações pendentes (`insert`, `update`, `delete` ou `upload`) para a camada de sincronização executar quando houver conexão.
 
 #### Migrations DDL
 
-As migrations abaixo são reproduzíveis e idempotentes (`CREATE TABLE IF NOT EXISTS`). A ordem de execução respeita as dependências de chave estrangeira: primeiro tabelas-base, depois tabelas dependentes e, por fim, a fila de sincronização.
+> **Nota de sincronização (sprint 5):** O DDL apresentado nesta seção foi inteiramente revisado para refletir o código real executado no repositório. Versões anteriores deste documento apresentavam um esquema fictício com nomes de colunas diferentes dos implementados (`criado_por_id`, `responsavel_id`, `sync_status`, `senha_hash`, `email`, `sincronizacoes`, etc.) que nunca existiram em nenhum banco de dados do projeto. O schema correto, tanto do SQLite quanto do PostgreSQL/Supabase, é o descrito abaixo.
 
-> **Nota:** O DDL exibido abaixo reflete o esquema base (`src/backend/database/migration.sql`). Seis migrations adicionais em `src/backend/database/migrations/` estendem esse esquema de forma incremental e não estão refletidas no diagrama ER (seção 3.6.1) nem no modelo relacional (Tabela 56): `001_create_refresh_tokens.sql` (tabela `refresh_tokens` para JWT), `002_gerente_admin.sql` (campo de permissão admin em `usuarios`), `003_aprovacao_coordenador.sql` (coluna de aprovação do coordenador em `movimentacoes`), `004_boletas_completas.sql` (13 colunas extras em `movimentacoes` para o modelo de boleta digital), `005_chamado_local_e_audio.sql` (campos de chamado local e áudio em alertas) e `006_foto_boleta.sql` (coluna `foto_base64 TEXT` em `movimentacoes` para persistir a imagem da boleta digital). O diagrama ER e o modelo relacional representam a intenção de design da sprint 2; a implementação real deve ser consultada nos arquivos de migration.
-
-##### Migration 000 — ativação de chaves estrangeiras
+##### Schema Base — `src/backend/database/migration.sql`
 
 ```sql
 PRAGMA foreign_keys = ON;
-```
 
-##### Migration 001 — `retiros`
-
-```sql
+-- Tabela: retiros
 CREATE TABLE IF NOT EXISTS retiros (
-    id          TEXT PRIMARY KEY,
-    nome        TEXT NOT NULL,
+    id TEXT PRIMARY KEY NOT NULL,
+    nome TEXT NOT NULL,
+    numero TEXT,
     localizacao TEXT NOT NULL,
-    created_at  TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
-    updated_at  TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+    coordenador_id TEXT,
+    capataz_id TEXT,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-```
 
-##### Migration 002 — `usuarios`
-
-```sql
+-- Tabela: usuarios
 CREATE TABLE IF NOT EXISTS usuarios (
-    id         TEXT PRIMARY KEY,
-    retiro_id  TEXT REFERENCES retiros(id),
-    nome       TEXT NOT NULL,
-    email      TEXT NOT NULL UNIQUE,
-    senha_hash TEXT NOT NULL,
-    perfil     TEXT NOT NULL
-                   CHECK (perfil IN ('Gerente','Capataz','Coordenador','tecnico_infra')),
-    created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
-    updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
-    CHECK (perfil != 'Capataz' OR retiro_id IS NOT NULL)
+    id TEXT PRIMARY KEY NOT NULL,
+    nome TEXT NOT NULL,
+    senha TEXT NOT NULL,
+    perfil TEXT NOT NULL CHECK(perfil IN ('Gerente', 'Coordenador', 'Capataz', 'Tecnico')),
+    retiro_id TEXT,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (retiro_id) REFERENCES retiros(id)
 );
-CREATE INDEX IF NOT EXISTS idx_usuarios_retiro ON usuarios(retiro_id);
-CREATE INDEX IF NOT EXISTS idx_usuarios_perfil ON usuarios(perfil);
-```
 
-##### Migration 003 — `tarefas`
-
-```sql
+-- Tabela: tarefas
 CREATE TABLE IF NOT EXISTS tarefas (
-    id             TEXT PRIMARY KEY,
-    retiro_id      TEXT NOT NULL REFERENCES retiros(id),
-    criado_por_id  TEXT NOT NULL REFERENCES usuarios(id),
-    responsavel_id TEXT NOT NULL REFERENCES usuarios(id),
-    titulo         TEXT NOT NULL,
-    descricao      TEXT,
-    status         TEXT NOT NULL DEFAULT 'pendente'
-                       CHECK (status IN ('pendente','em_andamento','concluida','cancelada')),
-    data_prevista  TEXT NOT NULL,
-    data_conclusao TEXT,
-    sync_status    TEXT NOT NULL DEFAULT 'pendente'
-                       CHECK (sync_status IN ('pendente','sincronizado','erro')),
-    last_synced_at TEXT,
-    created_at     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
-    updated_at     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
-    CHECK (
-        (status = 'concluida' AND data_conclusao IS NOT NULL)
-        OR status != 'concluida'
-    )
+    id TEXT PRIMARY KEY NOT NULL,
+    titulo TEXT NOT NULL,
+    descricao TEXT,
+    status TEXT NOT NULL CHECK(status IN ('PENDENTE', 'EM_ANDAMENTO', 'CONCLUIDA')),
+    data_execucao DATE NOT NULL,
+    retiro_id TEXT NOT NULL,
+    capataz_id TEXT NOT NULL,
+    gerente_id TEXT NOT NULL,
+    criada_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+    concluida_em DATETIME,
+    sincronizada BOOLEAN DEFAULT 0,
+    FOREIGN KEY (retiro_id) REFERENCES retiros(id),
+    FOREIGN KEY (capataz_id) REFERENCES usuarios(id),
+    FOREIGN KEY (gerente_id) REFERENCES usuarios(id)
 );
-CREATE INDEX IF NOT EXISTS idx_tarefas_retiro      ON tarefas(retiro_id);
-CREATE INDEX IF NOT EXISTS idx_tarefas_criado_por  ON tarefas(criado_por_id);
-CREATE INDEX IF NOT EXISTS idx_tarefas_responsavel ON tarefas(responsavel_id);
-CREATE INDEX IF NOT EXISTS idx_tarefas_status      ON tarefas(status);
-CREATE INDEX IF NOT EXISTS idx_tarefas_sync        ON tarefas(sync_status);
-```
 
-##### Migration 004 — `alertas`
-
-```sql
-CREATE TABLE IF NOT EXISTS alertas (
-    id                  TEXT PRIMARY KEY,
-    retiro_id           TEXT NOT NULL REFERENCES retiros(id),
-    criado_por_id       TEXT NOT NULL REFERENCES usuarios(id),
-    tecnico_id          TEXT REFERENCES usuarios(id),
-    tipo                TEXT NOT NULL
-                            CHECK (tipo IN ('cerca','bebedouro','hidraulica','eletrica','infraestrutura','outro')),
-    titulo              TEXT NOT NULL,
-    descricao           TEXT NOT NULL,
-    status              TEXT NOT NULL DEFAULT 'aberto'
-                            CHECK (status IN ('aberto','em_andamento','fechado')),
-    localizacao_lat     REAL NOT NULL,
-    localizacao_lng     REAL NOT NULL,
-    data_resolucao      TEXT,
-    descricao_resolucao TEXT,
-    sync_status         TEXT NOT NULL DEFAULT 'pendente'
-                            CHECK (sync_status IN ('pendente','sincronizado','erro')),
-    last_synced_at      TEXT,
-    created_at          TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
-    updated_at          TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
-    CHECK (
-        (status = 'fechado' AND data_resolucao IS NOT NULL)
-        OR status != 'fechado'
-    )
-);
-CREATE INDEX IF NOT EXISTS idx_alertas_retiro     ON alertas(retiro_id);
-CREATE INDEX IF NOT EXISTS idx_alertas_status     ON alertas(status);
-CREATE INDEX IF NOT EXISTS idx_alertas_tipo       ON alertas(tipo);
-CREATE INDEX IF NOT EXISTS idx_alertas_criado_por ON alertas(criado_por_id);
-CREATE INDEX IF NOT EXISTS idx_alertas_tecnico    ON alertas(tecnico_id);
-CREATE INDEX IF NOT EXISTS idx_alertas_sync       ON alertas(sync_status);
-```
-
-##### Migration 005 — `movimentacoes`
-
-```sql
-CREATE TABLE IF NOT EXISTS movimentacoes (
-    id                TEXT PRIMARY KEY,
-    retiro_id         TEXT NOT NULL REFERENCES retiros(id),
-    responsavel_id    TEXT NOT NULL REFERENCES usuarios(id),
-    tipo              TEXT NOT NULL
-                          CHECK (tipo IN ('nascimento','obito','transferencia','compravenda')),
-    categoria         TEXT NOT NULL
-                          CHECK (categoria IN ('bezerro','garrote','boi_touro','bezerra','novilha','vaca')),
-    data_movimentacao TEXT NOT NULL,
-    observacoes       TEXT,
-    sync_status       TEXT NOT NULL DEFAULT 'pendente'
-                          CHECK (sync_status IN ('pendente','sincronizado','erro')),
-    last_synced_at    TEXT,
-    created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
-    updated_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
-);
-CREATE INDEX IF NOT EXISTS idx_movimentacoes_retiro      ON movimentacoes(retiro_id);
-CREATE INDEX IF NOT EXISTS idx_movimentacoes_responsavel ON movimentacoes(responsavel_id);
-CREATE INDEX IF NOT EXISTS idx_movimentacoes_tipo        ON movimentacoes(tipo);
-CREATE INDEX IF NOT EXISTS idx_movimentacoes_sync        ON movimentacoes(sync_status);
-```
-
-##### Migration 006 — `evidencias`
-
-```sql
+-- Tabela: evidencias
 CREATE TABLE IF NOT EXISTS evidencias (
-    id                TEXT PRIMARY KEY,
-    tarefa_id         TEXT REFERENCES tarefas(id),
-    alerta_id         TEXT REFERENCES alertas(id),
-    movimentacao_id   TEXT REFERENCES movimentacoes(id),
-    tipo              TEXT NOT NULL CHECK (tipo IN ('foto','audio','video','documento','texto')),
-    arquivo_local_uri TEXT,
-    storage_key       TEXT,
-    url               TEXT,
-    conteudo_texto    TEXT,
-    mime_type         TEXT,
-    tamanho_bytes     INTEGER CHECK (tamanho_bytes IS NULL OR tamanho_bytes >= 0),
-    sync_status       TEXT NOT NULL DEFAULT 'pendente'
-                          CHECK (sync_status IN ('pendente','sincronizado','erro')),
-    uploaded_at       TEXT,
-    created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
-    CHECK (
-        (tarefa_id IS NOT NULL AND alerta_id IS NULL AND movimentacao_id IS NULL)
-        OR (tarefa_id IS NULL AND alerta_id IS NOT NULL AND movimentacao_id IS NULL)
-        OR (tarefa_id IS NULL AND alerta_id IS NULL AND movimentacao_id IS NOT NULL)
-    ),
-    CHECK (
-        (tipo = 'texto' AND conteudo_texto IS NOT NULL)
-        OR (
-            tipo != 'texto'
-            AND (
-                arquivo_local_uri IS NOT NULL
-                OR storage_key IS NOT NULL
-                OR url IS NOT NULL
-            )
-        )
-    )
+    id TEXT PRIMARY KEY NOT NULL,
+    tarefa_id TEXT,
+    alerta_id TEXT,
+    movimentacao_id TEXT,
+    tipo TEXT NOT NULL,
+    arquivo_base64 TEXT,
+    url_arquivo TEXT,
+    geolocalizacao TEXT,
+    duracao_segundos INTEGER,
+    conteudo TEXT,
+    tamanho_bytes INTEGER,
+    criada_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+    sincronizada BOOLEAN DEFAULT 0,
+    FOREIGN KEY (tarefa_id) REFERENCES tarefas(id)
 );
-CREATE INDEX IF NOT EXISTS idx_evidencias_tarefa       ON evidencias(tarefa_id);
-CREATE INDEX IF NOT EXISTS idx_evidencias_alerta       ON evidencias(alerta_id);
-CREATE INDEX IF NOT EXISTS idx_evidencias_movimentacao ON evidencias(movimentacao_id);
-CREATE INDEX IF NOT EXISTS idx_evidencias_sync         ON evidencias(sync_status);
-```
 
-##### Migration 007 — `nascimentos`
+-- Tabela: alertas
+CREATE TABLE IF NOT EXISTS alertas (
+    id TEXT PRIMARY KEY NOT NULL,
+    tipo TEXT NOT NULL,
+    descricao TEXT,
+    status TEXT NOT NULL CHECK(status IN ('ABERTO', 'EM_ANDAMENTO', 'RESOLVIDO')),
+    capataz_id TEXT NOT NULL,
+    retiro_id TEXT NOT NULL,
+    latitude REAL NOT NULL,
+    longitude REAL NOT NULL,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+    sincronizado BOOLEAN DEFAULT 0,
+    foto_id TEXT,
+    tecnico_id TEXT,
+    solucao_resolucao TEXT,
+    resolvido_em DATETIME,
+    FOREIGN KEY (capataz_id) REFERENCES usuarios(id),
+    FOREIGN KEY (retiro_id) REFERENCES retiros(id),
+    FOREIGN KEY (foto_id) REFERENCES evidencias(id),
+    FOREIGN KEY (tecnico_id) REFERENCES usuarios(id)
+);
 
-```sql
+-- Tabela: movimentacoes
+CREATE TABLE IF NOT EXISTS movimentacoes (
+    id TEXT PRIMARY KEY NOT NULL,
+    capataz_id TEXT NOT NULL,
+    retiro_id TEXT NOT NULL,
+    data DATE NOT NULL,
+    categoria TEXT NOT NULL,
+    quantidade INTEGER NOT NULL,
+    sincronizado BOOLEAN DEFAULT 0,
+    validado BOOLEAN DEFAULT 0,
+    coordenador_id TEXT,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (capataz_id) REFERENCES usuarios(id),
+    FOREIGN KEY (retiro_id) REFERENCES retiros(id),
+    FOREIGN KEY (coordenador_id) REFERENCES usuarios(id)
+);
+
+-- Tabela: nascimentos (especialização de movimentacoes)
 CREATE TABLE IF NOT EXISTS nascimentos (
-    id              TEXT PRIMARY KEY,
-    movimentacao_id TEXT NOT NULL UNIQUE REFERENCES movimentacoes(id),
-    quantidade      INTEGER NOT NULL CHECK (quantidade > 0),
-    raca            TEXT,
-    created_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+    id TEXT PRIMARY KEY NOT NULL,
+    movimentacao_id TEXT NOT NULL,
+    FOREIGN KEY (movimentacao_id) REFERENCES movimentacoes(id)
 );
-CREATE INDEX IF NOT EXISTS idx_nascimentos_movimentacao ON nascimentos(movimentacao_id);
-```
 
-##### Migration 008 — `obitos`
-
-```sql
+-- Tabela: obitos (especialização de movimentacoes)
 CREATE TABLE IF NOT EXISTS obitos (
-    id                    TEXT PRIMARY KEY,
-    movimentacao_id        TEXT NOT NULL UNIQUE REFERENCES movimentacoes(id),
-    identificacao_animal   TEXT,
-    quantidade             INTEGER NOT NULL CHECK (quantidade > 0),
-    causa                  TEXT NOT NULL,
-    exige_evidencia_foto   INTEGER NOT NULL DEFAULT 1 CHECK (exige_evidencia_foto IN (0,1)),
-    created_at             TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+    id TEXT PRIMARY KEY NOT NULL,
+    movimentacao_id TEXT NOT NULL,
+    identificacao_animal TEXT NOT NULL,
+    causa_morte TEXT NOT NULL,
+    foto_id TEXT NOT NULL,
+    FOREIGN KEY (movimentacao_id) REFERENCES movimentacoes(id),
+    FOREIGN KEY (foto_id) REFERENCES evidencias(id)
 );
-CREATE INDEX IF NOT EXISTS idx_obitos_movimentacao ON obitos(movimentacao_id);
-```
 
-##### Migration 009 — `transferencias`
-
-```sql
+-- Tabela: transferencias (especialização de movimentacoes)
 CREATE TABLE IF NOT EXISTS transferencias (
-    id                TEXT PRIMARY KEY,
-    movimentacao_id   TEXT NOT NULL UNIQUE REFERENCES movimentacoes(id),
-    retiro_origem_id  TEXT NOT NULL REFERENCES retiros(id),
-    retiro_destino_id TEXT NOT NULL REFERENCES retiros(id),
-    quantidade        INTEGER NOT NULL CHECK (quantidade > 0),
-    created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
-    CHECK (retiro_origem_id != retiro_destino_id)
+    id TEXT PRIMARY KEY NOT NULL,
+    movimentacao_id TEXT NOT NULL,
+    retiro_origem_id TEXT NOT NULL,
+    retiro_destino_id TEXT NOT NULL,
+    FOREIGN KEY (movimentacao_id) REFERENCES movimentacoes(id),
+    FOREIGN KEY (retiro_origem_id) REFERENCES retiros(id),
+    FOREIGN KEY (retiro_destino_id) REFERENCES retiros(id)
 );
-CREATE INDEX IF NOT EXISTS idx_transferencias_movimentacao ON transferencias(movimentacao_id);
-CREATE INDEX IF NOT EXISTS idx_transferencias_origem       ON transferencias(retiro_origem_id);
-CREATE INDEX IF NOT EXISTS idx_transferencias_destino      ON transferencias(retiro_destino_id);
-```
 
-##### Migration 010 — `compravendas`
-
-```sql
+-- Tabela: compravendas (especialização de movimentacoes)
 CREATE TABLE IF NOT EXISTS compravendas (
-    id               TEXT PRIMARY KEY,
-    movimentacao_id  TEXT NOT NULL UNIQUE REFERENCES movimentacoes(id),
-    tipo_negocio     TEXT NOT NULL CHECK (tipo_negocio IN ('compra','venda')),
-    valor_financeiro REAL NOT NULL CHECK (valor_financeiro > 0),
-    quantidade       INTEGER NOT NULL CHECK (quantidade > 0),
-    created_at       TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+    id TEXT PRIMARY KEY NOT NULL,
+    movimentacao_id TEXT NOT NULL,
+    tipo_negocio TEXT NOT NULL,
+    valor_financeiro REAL NOT NULL,
+    FOREIGN KEY (movimentacao_id) REFERENCES movimentacoes(id)
 );
-CREATE INDEX IF NOT EXISTS idx_compravendas_movimentacao ON compravendas(movimentacao_id);
+
+-- Tabela: sincronizacoes (fila Outbox para sincronização offline → nuvem)
+CREATE TABLE IF NOT EXISTS sincronizacoes (
+    id TEXT PRIMARY KEY NOT NULL,
+    entidade_tipo TEXT NOT NULL,
+    entidade_id TEXT NOT NULL,
+    status_envio TEXT NOT NULL,
+    tentativas INTEGER DEFAULT 0,
+    ultima_tentativa DATETIME,
+    criada_em DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabela: exportacoes
+CREATE TABLE IF NOT EXISTS exportacoes (
+    id TEXT PRIMARY KEY NOT NULL,
+    coordenador_id TEXT NOT NULL,
+    formato TEXT NOT NULL,
+    filtro_retiro TEXT,
+    filtro_data_inicio DATE,
+    filtro_data_fim DATE,
+    gerada_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (coordenador_id) REFERENCES usuarios(id)
+);
 ```
 
-##### Migration 011 — `sync_queue`
+##### Migrations Incrementais — `src/backend/database/migrations/`
+
+As seis migrations abaixo estendem o schema base de forma cumulativa. Devem ser aplicadas em ordem numérica após o schema base.
+
+---
+
+###### Migration 001 — `001_create_refresh_tokens.sql` — Tabela de Refresh Tokens (JWT)
 
 ```sql
-CREATE TABLE IF NOT EXISTS sync_queue (
-    id             TEXT PRIMARY KEY,
-    tabela         TEXT NOT NULL,
-    registro_id    TEXT NOT NULL,
-    operacao       TEXT NOT NULL CHECK (operacao IN ('insert','update','delete','upload')),
-    payload_json   TEXT,
-    status         TEXT NOT NULL DEFAULT 'pendente'
-                       CHECK (status IN ('pendente','processando','sincronizado','erro')),
-    tentativas     INTEGER NOT NULL DEFAULT 0 CHECK (tentativas >= 0),
-    ultimo_erro    TEXT,
-    created_at     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
-    updated_at     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+CREATE TABLE IF NOT EXISTS refresh_tokens (
+    id TEXT PRIMARY KEY NOT NULL,
+    usuario_id TEXT NOT NULL,
+    token_hash TEXT NOT NULL UNIQUE,
+    expires_at DATETIME NOT NULL,
+    revoked_at DATETIME,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-CREATE INDEX IF NOT EXISTS idx_sync_queue_status ON sync_queue(status);
-CREATE INDEX IF NOT EXISTS idx_sync_queue_registro ON sync_queue(tabela, registro_id);
 
+CREATE INDEX IF NOT EXISTS idx_refresh_tokens_usuario_id ON refresh_tokens(usuario_id);
+CREATE INDEX IF NOT EXISTS idx_refresh_tokens_token_hash ON refresh_tokens(token_hash);
 ```
-As migrations foram organizadas em ordem explícita de execução para garantir reprodutibilidade do banco local. O arquivo `migration.sql` consolida a criação das tabelas respeitando as dependências de chave estrangeira: primeiro são criadas as tabelas-base (`retiros` e `usuarios`), depois as entidades operacionais (`tarefas`, `alertas`, `movimentacoes` e `evidencias`) e, por fim, as especializações zootécnicas e a fila técnica de sincronização (`sync_queue`). A ativação de `PRAGMA foreign_keys = ON` assegura que as restrições referenciais sejam aplicadas pelo SQLite durante a execução.
 
+###### Migration 002 — `002_gerente_admin.sql` — Distinção Gerente ADM
+
+```sql
+ALTER TABLE usuarios ADD COLUMN is_admin INTEGER DEFAULT 0;
+UPDATE usuarios SET is_admin = 1 WHERE id = 'gerente-1';
 ```
-Para reproduzir o banco em ambiente local, a execução deve seguir o comando:
 
-sqlite3 brpec.db < migration.sql
-````
+> Distingue o Gerente ADM (acesso a Configurações de sistema) do Gerente comum. Apenas o usuário `gerente-1` do seed inicial começa com `is_admin = 1`.
+
+###### Migration 003 — `003_aprovacao_coordenador.sql` — Rastreabilidade de Aprovação de Boletas
+
+```sql
+ALTER TABLE movimentacoes ADD COLUMN aprovado_por_coordenador_id TEXT;
+ALTER TABLE movimentacoes ADD COLUMN aprovado_em DATETIME;
+```
+
+> Registra qual Coordenador aprovou cada boleta e em que momento, atendendo ao fluxo de validação do `coordenadorController.ts`.
+
+###### Migration 004 — `004_boletas_completas.sql` — Modelo de Boleta Digital
+
+```sql
+ALTER TABLE movimentacoes ADD COLUMN tipo_operacao TEXT;
+ALTER TABLE movimentacoes ADD COLUMN grupo_id TEXT;
+ALTER TABLE movimentacoes ADD COLUMN pasto TEXT;
+ALTER TABLE movimentacoes ADD COLUMN observacoes TEXT;
+ALTER TABLE movimentacoes ADD COLUMN observacoes_audio_base64 TEXT;
+ALTER TABLE movimentacoes ADD COLUMN tem_foto INTEGER DEFAULT 0;
+ALTER TABLE movimentacoes ADD COLUMN raca TEXT;
+ALTER TABLE movimentacoes ADD COLUMN brinco TEXT;
+ALTER TABLE movimentacoes ADD COLUMN causa_morte TEXT;
+ALTER TABLE movimentacoes ADD COLUMN tipo_negocio TEXT;
+ALTER TABLE movimentacoes ADD COLUMN valor_financeiro REAL;
+ALTER TABLE movimentacoes ADD COLUMN retiro_origem_id TEXT;
+ALTER TABLE movimentacoes ADD COLUMN retiro_destino_id TEXT;
+ALTER TABLE movimentacoes ADD COLUMN tipo_transporte TEXT;
+ALTER TABLE movimentacoes ADD COLUMN motorista TEXT;
+ALTER TABLE movimentacoes ADD COLUMN rg_cpf_motorista TEXT;
+ALTER TABLE movimentacoes ADD COLUMN placa TEXT;
+ALTER TABLE movimentacoes ADD COLUMN titulo TEXT;
+
+CREATE INDEX IF NOT EXISTS idx_mov_grupo_id ON movimentacoes(grupo_id);
+CREATE INDEX IF NOT EXISTS idx_mov_capataz ON movimentacoes(capataz_id);
+CREATE INDEX IF NOT EXISTS idx_mov_aprovacao ON movimentacoes(aprovado_por_coordenador_id);
+```
+
+> Estende `movimentacoes` para suportar o modelo flexível de boleta digital: várias categorias de animais na mesma boleta compartilham o mesmo `grupo_id`. O campo `tipo_operacao` indica o tipo de evento no fluxo de boleta (valores: `nascimento`, `obito`, `transferencia`, `compravenda`, `evolucao`, `manejo`).
+
+> **Atenção — `causa_morte` em dois lugares:** o schema base define `causa_morte TEXT NOT NULL` na tabela `obitos` (fluxo clássico via `eventoController`). Esta migration adiciona `causa_morte TEXT` também em `movimentacoes` (fluxo de boleta via `boletaController`). A coluna autoritativa depende do fluxo que criou o registro.
+
+###### Migration 005 — `005_chamado_local_e_audio.sql` — Localização Textual e Áudio em Chamados
+
+```sql
+ALTER TABLE alertas ADD COLUMN local_referencia TEXT;
+ALTER TABLE alertas ADD COLUMN audio_base64 TEXT;
+ALTER TABLE alertas ADD COLUMN solucao_audio_base64 TEXT;
+```
+
+> Adiciona referência textual de localização (complemento ao GPS) e suporte a áudio na abertura e resolução de chamados de infraestrutura.
+
+###### Migration 006 — `006_foto_boleta.sql` — Foto Anexada à Boleta
+
+```sql
+ALTER TABLE movimentacoes ADD COLUMN foto_base64 TEXT;
+```
+
+> Persiste a imagem da boleta diretamente em `movimentacoes`. Antes desta migration, o campo `tem_foto` (migration 004) apenas sinalizava presença de foto, mas a imagem era perdida após o upload.
+
+---
+
+Para reproduzir o banco em ambiente local, execute os scripts na seguinte ordem:
+
+```bash
+sqlite3 brpec.sqlite < src/backend/database/migration.sql
+sqlite3 brpec.sqlite < src/backend/database/migrations/001_create_refresh_tokens.sql
+sqlite3 brpec.sqlite < src/backend/database/migrations/002_gerente_admin.sql
+sqlite3 brpec.sqlite < src/backend/database/migrations/003_aprovacao_coordenador.sql
+sqlite3 brpec.sqlite < src/backend/database/migrations/004_boletas_completas.sql
+sqlite3 brpec.sqlite < src/backend/database/migrations/005_chamado_local_e_audio.sql
+sqlite3 brpec.sqlite < src/backend/database/migrations/006_foto_boleta.sql
+```
+
+> Na prática, o servidor aplica estas migrations automaticamente via `src/backend/config/initDb.ts` na inicialização.
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
+
+### 3.6.3.2 Schema PostgreSQL (Supabase) e Decisão de Schemas Idênticos
+
+#### Decisão arquitetural: schemas espelhados (SQLite ↔ PostgreSQL)
+
+Por design explícito, o schema do banco SQLite local (`brpec.sqlite`) e o schema do PostgreSQL hospedado no Supabase são **idênticos em nomes de colunas, tipos de dados e estrutura de tabelas**. Essa decisão foi verificada diretamente no `src/backend/services/cloudSyncService.ts`, que executa UPSERT via `pg` mapeando os campos 1:1 do SQLite para o PostgreSQL sem nenhuma transformação de nomes.
+
+**Justificativa:** Schemas idênticos eliminam a necessidade de uma camada de mapeamento no serviço de sincronização — o mesmo objeto lido do SQLite é inserido diretamente no PostgreSQL. Isso reduz a complexidade do `cloudSyncService.ts` e elimina uma categoria inteira de bugs de mapeamento (ex.: campo renomeado em um banco mas não no outro).
+
+**Trade-off consciente:** a escolha renuncia a otimizações específicas do PostgreSQL como tipos nativos `UUID`, `BOOLEAN` real, `TIMESTAMPTZ`, `JSONB` e índices parciais — que não têm equivalência direta no SQLite. Essas diferenças de dialeto foram sacrificadas em favor da simplicidade e da confiabilidade da sincronização.
+
+#### Schema PostgreSQL confirmado — colunas por tabela
+
+A tabela abaixo documenta o schema PostgreSQL real, derivado das queries UPSERT executadas pelo `cloudSyncService.ts`:
+
+| Tabela | Colunas (PostgreSQL) |
+|---|---|
+| `retiros` | `id, nome, numero, localizacao, coordenador_id, capataz_id, criado_em` |
+| `usuarios` | `id, nome, senha, perfil, retiro_id, is_admin, criado_em` |
+| `tarefas` | `id, titulo, descricao, status, data_execucao, retiro_id, capataz_id, gerente_id, criada_em, concluida_em, sincronizada` |
+| `alertas` | `id, tipo, descricao, status, capataz_id, retiro_id, latitude, longitude, criado_em, sincronizado, foto_id, tecnico_id, solucao_resolucao, resolvido_em` *(base)* + `local_referencia, audio_base64, solucao_audio_base64` *(migration 005)* |
+| `movimentacoes` | `id, capataz_id, retiro_id, data, categoria, quantidade, sincronizado, validado, coordenador_id, criado_em` *(base)* + `aprovado_por_coordenador_id, aprovado_em` *(mig 003)* + `tipo_operacao, grupo_id, pasto, observacoes, observacoes_audio_base64, tem_foto, raca, brinco, causa_morte, tipo_negocio, valor_financeiro, retiro_origem_id, retiro_destino_id, tipo_transporte, motorista, rg_cpf_motorista, placa, titulo` *(mig 004)* + `foto_base64` *(mig 006)* |
+| `nascimentos` | `id, movimentacao_id` |
+| `obitos` | `id, movimentacao_id, identificacao_animal, causa_morte, foto_id` |
+| `transferencias` | `id, movimentacao_id, retiro_origem_id, retiro_destino_id` |
+| `compravendas` | `id, movimentacao_id, tipo_negocio, valor_financeiro` |
+| `evidencias` | `id, tarefa_id, alerta_id, movimentacao_id, tipo, arquivo_base64, url_arquivo, geolocalizacao, duracao_segundos, conteudo, tamanho_bytes, criada_em, sincronizada` |
+
+> **Nota:** A tabela acima reflete o schema completo incluindo todas as colunas adicionadas pelas migrations 001–006. As migrations do Supabase devem ser aplicadas manualmente via painel do Supabase ou via SQL Editor, pois o sistema não gerencia migrações automáticas no banco de nuvem. Para `alertas` e `movimentacoes`, as colunas são marcadas com a migration de origem para facilitar a rastreabilidade.
+
+> O `cloudSyncService.ts` usa o padrão `INSERT ... ON CONFLICT (id) DO UPDATE SET ...` (UPSERT), garantindo idempotência: sincronizar o mesmo registro duas vezes produz o mesmo resultado, sem duplicatas.
+
+---
 
 <h3>Nota Técnica — Estratégia de UUID para criação e atualização offline</h3>
 
@@ -4120,27 +4220,27 @@ SELECT
     t.id,
     t.titulo,
     t.descricao,
-    t.data_prevista,
+    t.data_execucao,
     u.nome AS capataz,
     r.nome AS retiro
 FROM tarefas t
-JOIN usuarios u ON t.responsavel_id = u.id
+JOIN usuarios u ON t.capataz_id = u.id
 JOIN retiros r ON t.retiro_id = r.id
-WHERE t.status = 'pendente'
-  AND u.perfil = 'capataz';
+WHERE t.status = 'PENDENTE'
+  AND u.perfil = 'Capataz';
 ```
 ### Proposições Atômicas
 
-A: a tarefa está com status pendente (t.status = 'pendente');
+A: a tarefa está com status pendente (t.status = 'PENDENTE');
 
-B: o usuário responsável possui perfil de capataz (u.perfil = 'capataz').
+B: o usuário responsável possui perfil de capataz (u.perfil = 'Capataz').
 
 Expressão Lógica Proposicional
 $A \land B$
 
 ### Leitura Lógica
 
-A consulta retorna apenas as tarefas em que a tarefa está pendente e o responsável é um usuário com perfil de capataz.
+A consulta retorna apenas as tarefas em que a tarefa está pendente e o responsável é um usuário com perfil de capataz. Os valores `'PENDENTE'` e `'Capataz'` devem ser grafados exatamente como definidos nos CHECK constraints da migration.sql.
 
 ### Tabela-Verdade
 | A | B | A ∧ B |
@@ -4181,12 +4281,12 @@ Com o objetivo de garantir rastreabilidade entre as regras de negócio definidas
 | RN01 — Toda tarefa deve estar vinculada a um retiro | Tarefa / Retiro | `tarefas` | `retiro_id TEXT NOT NULL REFERENCES retiros(id)` |
 | RN02 — Apenas tarefas do dia atual devem ser exibidas | Tarefa | `tarefas` | Consulta filtrada por `data_prevista` |
 | RN05 — Apenas tarefas do retiro do Capataz devem ser exibidas | Usuario / Tarefa / Retiro | `usuarios`, `tarefas`, `retiros` | Relação por `responsavel_id` e `retiro_id` |
-| RN08 — Conclusão offline deve ser armazenada localmente | Tarefa / Sincronizacao | `tarefas`, `sync_queue` | `sync_status` e registro pendente na fila |
+| RN08 — Conclusão offline deve ser armazenada localmente | Tarefa / Sincronizacao | `tarefas`, `sincronizacoes` | `sync_status` e registro pendente na fila |
 | RN10 — Fotos devem estar vinculadas à tarefa correspondente | Evidencia / Tarefa | `evidencias`, `tarefas` | `tarefa_id REFERENCES tarefas(id)` |
 | RN19 — Alerta deve capturar localização | AlertaInfraestrutura | `alertas` | `localizacao_lat REAL NOT NULL` e `localizacao_lng REAL NOT NULL` |
 | RN26 — Alerta deve estar associado a um retiro | AlertaInfraestrutura / Retiro | `alertas`, `retiros` | `retiro_id TEXT NOT NULL REFERENCES retiros(id)` |
 | RN27 — Nascimento deve registrar data, retiro, categoria e quantidade | Movimentacao / Nascimento | `movimentacoes`, `nascimentos` | `tipo = 'nascimento'`, `categoria`, `data_movimentacao`, `quantidade` |
-| RN28 — Exportação deve refletir dados validados | Movimentacao / Exportacao | `movimentacoes`, `sync_queue` | Uso de registros sincronizados e validados antes da exportação |
+| RN28 — Exportação deve refletir dados validados | Movimentacao / Exportacao | `movimentacoes`, `sincronizacoes` | Uso de registros sincronizados e validados antes da exportação |
 
 <center>
   <p><strong>Tabela 59</strong> — Matriz de Rastreabilidade</p>
@@ -4265,7 +4365,7 @@ SELECT
     tentativas,
     ultimo_erro,
     created_at
-FROM sync_queue
+FROM sincronizacoes
 WHERE status IN ('pendente', 'erro');
 ```
 
@@ -4293,12 +4393,12 @@ A consulta retorna registros que precisam de atenção da rotina de sincronizaç
 </center>
 
 ### Descrição Técnica
-A consulta utiliza a tabela sync_queue, responsável pelo gerenciamento das operações executadas localmente em modo offline. Sua função é monitorar registros pendentes de sincronização ou operações que falharam devido à ausência de conectividade.
+A consulta utiliza a tabela sincronizacoes, responsável pelo gerenciamento das operações executadas localmente em modo offline. Sua função é monitorar registros pendentes de sincronização ou operações que falharam devido à ausência de conectividade.
 
 ### Tabelas Relacionadas
 | Tabela       | Função                                                       |
 | ------------ | ------------------------------------------------------------ |
-| `sync_queue` | Controla a fila de registros locais aguardando sincronização |
+| `sincronizacoes` | Controla a fila de registros locais aguardando sincronização |
 
 <center>
   <p><strong>Tabela 63</strong> — Tabelas Relacionadas</p>
@@ -4315,7 +4415,7 @@ Atualizar registros da fila de sincronização que apresentaram erro, incrementa
 #### Código SQL
 
 ```sql
-UPDATE sync_queue
+UPDATE sincronizacoes
 SET 
     tentativas = tentativas + 1,
     status = 'erro',
@@ -4362,9 +4462,9 @@ Além de atenderem necessidades práticas do domínio do negócio, essas consult
 ---
 ## 3.7. WebAPI e endpoints (sprints 3 e 4)
 
-A arquitetura da WebAPI do BrPec Agropecuária segue o padrão RESTful, expondo serviços estruturados sob o prefixo `/api` para comunicação síncrona e eficiente com o banco local gerenciado pelo módulo embutido `node:sqlite`. 
+A arquitetura da WebAPI do BrPec Agropecuária segue o padrão RESTful, expondo serviços estruturados sob o prefixo `/api` para comunicação síncrona e eficiente com o banco local gerenciado pelo módulo embutido `node:sqlite`.
 
-Como decisão estratégica para viabilizar a arquitetura offline-first em fazendas no Pantanal com conectividade limitada, o sistema adota um modelo de **Zero Autenticação (Sem JWT)**. A identificação e a responsabilização dos operadores (Capatazes, Gerentes, Coordenadores) são tratadas por meio da passagem explícita de identificadores diretos nos corpos (`body`) ou parâmetros de consulta (`query`) das requisições HTTP, eliminando a dependência de tokens de sessão.
+O sistema adota **autenticação híbrida**, implementada a partir do sprint 4: **JWT (Access Token)** com validade curta transmitido no header `Authorization: Bearer <token>`, combinado com **Refresh Token** em cookie `HttpOnly` (`brpec_rt`) para renovação silenciosa, e sessão server-side via `express-session` para rotas de view. Os endpoints do sprint 3 (tarefas, eventos, chamados, painel, sincronização, exportação) passaram a exigir sessão ativa após a integração de autenticação no sprint 4. Os endpoints de dados públicos (`/api/dados/*`) permanecem sem autenticação por fornecerem apenas dados de domínio para formulários. As rotas de autenticação (`/api/auth/*`) são registradas diretamente em `src/backend/app.ts`, fora do agregador `src/backend/routes/index.ts`, pois precisam ser carregadas antes de qualquer middleware de sessão ou proteção de rota.
 
 Abaixo é apresentada a especificação completa de cada endpoint ativo, incluindo método, URI, cabeçalhos, payloads de envio, corpos de resposta e status HTTP possíveis.
 
@@ -4435,21 +4535,20 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
 - **Resposta (422 Unprocessable Entity)**:
   ```json
   {
-    "erro": "RN01: Capataz não pertence ao retiro informado."
+    "erro": "O capataz não pertence ao retiro informado."
   }
   ```
 - **Resposta (500 Internal Server Error)**:
   ```json
   {
-    "erro": "Erro interno do servidor",
-    "detalhe": "Erro message details"
+    "erro": "Erro interno do servidor"
   }
   ```
 - **Status Codes**:
   - `201 Created`: Tarefa criada com sucesso.
-  - `400 Bad Request`: Campos obrigatórios ausentes.
+  - `400 Bad Request`: Campos obrigatórios ausentes (`titulo`, `retiro_id`, `capataz_id`, `data_execucao` ou `gerente_id`). Também retornado pela camada de serviço quando `data_execucao` é retroativa ou `descricao` está em branco.
   - `422 Unprocessable Entity`: Violação de regra de negócio (`RN01`) — Capataz não pertence ao retiro informado.
-  - `500 Internal Server Error`: Falha na persistência de dados ou erro de servidor.
+  - `500 Internal Server Error`: Falha na persistência de dados ou erro inesperado do servidor.
 
 #### 3. Buscar Tarefas de Hoje (RF002 / RN02, RN05)
 - **Endpoint**: `GET /api/tarefas/hoje`
@@ -4477,12 +4576,12 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
 - **Resposta (500 Internal Server Error)**:
   ```json
   {
-    "erro": "Erro ao buscar tarefas"
+    "erro": "Erro interno do servidor"
   }
   ```
 - **Status Codes**:
   - `200 OK`: Lista retornada com sucesso (ou array vazio se sem tarefas).
-  - `400 Bad Request`: Parâmetro `capataz_id` ausente.
+  - `400 Bad Request`: Parâmetro `capataz_id` ausente (aceito via query string `?capataz_id=` ou body JSON).
   - `500 Internal Server Error`: Erro de busca no banco de dados.
 
 #### 4. Concluir Tarefa (RF002 / RN02, RN05)
@@ -4525,17 +4624,24 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
     "erro": "Tarefa não encontrada ou não pertence ao capataz."
   }
   ```
+- **Resposta (409 Conflict)** — tarefa já concluída:
+  ```json
+  {
+    "erro": "Tarefa já está concluída."
+  }
+  ```
 - **Resposta (500 Internal Server Error)**:
   ```json
   {
-    "erro": "Erro de processamento interno"
+    "erro": "Erro interno do servidor"
   }
   ```
 - **Status Codes**:
   - `200 OK`: Tarefa concluída com sucesso.
   - `400 Bad Request`: `id` da tarefa (path) ou `capataz_id` (body) ausente.
   - `404 Not Found`: Tarefa inexistente ou que não pertence ao capataz informado.
-  - `500 Internal Server Error`: Erro de atualização.
+  - `409 Conflict`: Tarefa já se encontra com status `CONCLUIDA` (lançado pelo service antes de tentar atualizar).
+  - `500 Internal Server Error`: Erro de atualização inesperado.
 
 #### 5. Anexar Evidência (RF005 / RN13, RN15)
 - **Endpoint**: `POST /api/tarefas/:id/evidencias`
@@ -4563,38 +4669,58 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
     "erro": "campos obrigatórios não preenchidos"
   }
   ```
-- **Resposta (404 Not Found)**:
+- **Resposta (404 Not Found)** — tarefa não encontrada:
   ```json
   {
-    "erro": "RN05: Tarefa não encontrada ou não pertence ao capataz."
+    "erro": "Tarefa não encontrada ou não pertence ao capataz."
+  }
+  ```
+- **Resposta (400 Bad Request)** — arquivo em formato inválido:
+  ```json
+  {
+    "erro": "O arquivo enviado não está em formato válido."
+  }
+  ```
+- **Resposta (413 Payload Too Large)** — arquivo excede o limite:
+  ```json
+  {
+    "erro": "O arquivo enviado é muito grande."
   }
   ```
 - **Resposta (500 Internal Server Error)**:
   ```json
   {
-    "erro": "Erro interno de escrita"
+    "erro": "Erro interno do servidor"
   }
   ```
 - **Status Codes**:
   - `201 Created`: Evidência gravada e associada com sucesso.
-  - `400 Bad Request`: Campos obrigatórios inválidos ou ausentes.
-  - `404 Not Found`: Violação de regra de negócio (`RN05`) — Tarefa inexistente ou que não pertence ao capataz.
-  - `500 Internal Server Error`: Erro de escrita.
+  - `400 Bad Request`: Campos obrigatórios ausentes (`id` path, `tipo`, `capataz_id`; `arquivo_base64` obrigatório salvo quando `tipo` = `"TEXTO"`); também retornado quando `arquivo_base64` não está em formato base64 válido.
+  - `404 Not Found`: Tarefa inexistente ou que não pertence ao capataz (`RN05`).
+  - `413 Payload Too Large`: `arquivo_base64` excede o limite de tamanho permitido.
+  - `500 Internal Server Error`: Erro de escrita ou falha inesperada.
 
 #### 6. Registrar Chamado de Infraestrutura (RF006 / RN19, RN21, RN26)
 - **Endpoint**: `POST /api/chamados`
+- **Alias**: `POST /api/alertas` (rota alternativa registrada em `routes/index.ts` apontando para o mesmo controller; ambas são funcionalmente equivalentes)
 - **Headers**: `Content-Type: application/json`
 - **Payload (Body)**:
   ```json
   {
     "tipo": "cerca",
-    "descricao": "Cerca do piquete 3 caída",
+    "descricao": "Cerca do piquete 3 caída na divisa sul",
     "capataz_id": "capataz-1",
     "retiro_id": "retiro-1",
     "latitude": -23.5505,
-    "longitude": -46.6333
+    "longitude": -46.6333,
+    "foto_base64": "data:image/png;base64,...",
+    "local_referencia": "Porteira norte, km 12",
+    "audio_base64": "data:audio/mp3;base64,..."
   }
   ```
+  > Campos obrigatórios: `tipo`, `capataz_id`, `retiro_id`, `latitude`, `longitude`, `descricao` (> 10 caracteres). Campos `foto_base64`, `local_referencia` e `audio_base64` são opcionais.
+  >
+  > **Nota de persistência de `foto_base64`:** a tabela `alertas` não possui coluna `foto_base64`. Quando o controller recebe esse campo, ele cria um registro em `evidencias` com `tipo = 'FOTO'` e `arquivo_base64` preenchido, e armazena a referência em `alertas.foto_id`. Os campos `audio_base64` e `local_referencia` são persistidos diretamente em `alertas` (adicionados pela migration 005).
 - **Resposta (201 Created)**:
   ```json
   {
@@ -4609,22 +4735,34 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
     }
   }
   ```
-- **Resposta (400 Bad Request)**:
+- **Resposta (400 Bad Request)** — campos obrigatórios ausentes:
   ```json
   {
-    "erro": "Campos obrigatórios não preenchidos: tipo, capataz_id, retiro_id, latitude, longitude"
+    "erro": "Campos obrigatórios não preenchidos: tipo, capataz_id, retiro_id, latitude, longitude",
+    "recebido": {
+      "tipo": null,
+      "capataz_id": null,
+      "retiro_id": null,
+      "latitude": null,
+      "longitude": null
+    }
+  }
+  ```
+- **Resposta (400 Bad Request)** — descrição inválida (≤ 10 caracteres):
+  ```json
+  {
+    "erro": "RN-ALERTA: descrição deve ter mais de 10 caracteres"
   }
   ```
 - **Resposta (500 Internal Server Error)**:
   ```json
   {
-    "erro": "Erro ao criar alerta",
-    "detalhe": "Erro details"
+    "erro": "Erro interno do servidor"
   }
   ```
 - **Status Codes**:
   - `201 Created`: Alerta registrado com sucesso no banco.
-  - `400 Bad Request`: Parâmetros obrigatórios ausentes.
+  - `400 Bad Request`: Campos obrigatórios ausentes (retorna campo `recebido` com os valores recebidos) **ou** `descricao` com 10 caracteres ou menos.
   - `500 Internal Server Error`: Falha de gravação.
 
 #### 7. Registrar Nascimento (RF008 / RN27)
@@ -4637,9 +4775,14 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
     "retiro_id": "retiro-1",
     "categoria": "bezerro",
     "quantidade": 3,
-    "capataz_id": "capataz-1"
+    "capataz_id": "capataz-1",
+    "identificacao_mae": "BR-001",
+    "sexo": "M",
+    "peso_nascimento": 32.5,
+    "geolocalizacao": "-23.5505,-46.6333"
   }
   ```
+  > Campos obrigatórios: `data`, `retiro_id`, `categoria`, `quantidade`, `capataz_id`. Campos `identificacao_mae`, `sexo`, `peso_nascimento` e `geolocalizacao` são opcionais.
 - **Resposta (201 Created)**:
   ```json
   {
@@ -4662,16 +4805,22 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
     "erro": "Campos obrigatórios não preenchidos: data, retiro_id, categoria, quantidade, capataz_id"
   }
   ```
+- **Resposta (422 Unprocessable Entity)**:
+  ```json
+  {
+    "erro": "RN27: Mensagem de violação de regra de negócio"
+  }
+  ```
 - **Resposta (500 Internal Server Error)**:
   ```json
   {
-    "erro": "Erro ao criar registro",
-    "detalhe": "Erro details"
+    "erro": "Erro interno do servidor"
   }
   ```
 - **Status Codes**:
-  - `201 Created`: Nascimento registrado nas tabelas `movimentacoes` e `nascimentos` (via transação síncrona).
-  - `400 Bad Request`: Validação incorreta de campos.
+  - `201 Created`: Nascimento registrado com sucesso.
+  - `400 Bad Request`: Campos obrigatórios ausentes.
+  - `422 Unprocessable Entity`: Violação de regra de negócio na camada de serviço (`RN27` ou `RF013`).
   - `500 Internal Server Error`: Erro no banco de dados.
 
 #### 8. Registrar Óbito (RF009 / RF013)
@@ -4703,10 +4852,23 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
     }
   }
   ```
+- **Resposta (400 Bad Request)**:
+  ```json
+  {
+    "erro": "Campos obrigatórios não preenchidos",
+    "campos_faltantes": ["foto_base64", "identificacao_animal"]
+  }
+  ```
+- **Resposta (422 Unprocessable Entity)**:
+  ```json
+  {
+    "erro": "Mensagem de violação de regra de negócio da camada de serviço"
+  }
+  ```
 - **Status Codes**:
-  - `201 Created`: Óbito registrado nas tabelas `movimentacoes` e `obitos` com sucesso.
-  - `400 Bad Request`: Campos obrigatórios ausentes.
-  - `422 Unprocessable Entity`: Campos obrigatórios violados na camada de serviço (violação da regra de negócio `RF013` — foto, identificação ou causa da morte ausentes).
+  - `201 Created`: Óbito registrado com sucesso.
+  - `400 Bad Request`: Campos obrigatórios ausentes. A resposta inclui `campos_faltantes` listando quais campos estão faltando. Campos obrigatórios: `capataz_id`, `retiro_id`, `data`, `categoria`, `quantidade`, `identificacao_animal`, `causa_morte`, `foto_base64`.
+  - `422 Unprocessable Entity`: Violação de regra de negócio na camada de serviço (ex.: mensagens de validação amigáveis sobre foto da carcaça, identificação ou causa da morte).
   - `500 Internal Server Error`: Falha técnica no servidor.
 
 #### 9. Listar Eventos Zootécnicos (RF014 / US11)
@@ -4746,8 +4908,10 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
 
 #### 10. Painel Gerencial (RF007)
 - **Endpoint**: `GET /api/painel-gerencial`
-- **Headers**: `Accept: application/json`
-- **Parâmetros (Query)**: `?gerente_id=gerente-1` _(obrigatório)_
+- **Headers**: `Accept: application/json`, `Authorization: Bearer <access_token>` (requerido a partir do sprint 4)
+- **Parâmetros (Query)**: nenhum parâmetro obrigatório — a identidade do Gerente é extraída da sessão ativa ou do JWT. O parâmetro `?gerente_id=` era utilizado no sprint 3 antes da autenticação ser implementada e não deve ser mais utilizado.
+
+  > **Nota de evolução:** versões anteriores desta documentação descreviam `?gerente_id=gerente-1` como parâmetro obrigatório. Com a implementação do JWT no sprint 4, o endpoint passa a identificar o usuário pelo token, dispensando o ID explícito na query string.
 - **Resposta (200 OK)**:
   ```json
   {
@@ -4783,9 +4947,8 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
   ```
 - **Status Codes**:
   - `200 OK`: Métricas calculadas e consolidadas com sucesso.
-  - `400 Bad Request`: `gerente_id` ausente nos parâmetros de consulta.
-  - `403 Forbidden`: O usuário informado não possui perfil de Gerente (`ACESSO_NEGADO`).
-  - `404 Not Found`: Gerente inexistente no banco.
+  - `401 Unauthorized`: Sessão ausente ou token inválido.
+  - `403 Forbidden`: O usuário autenticado não possui perfil de Gerente (`ACESSO_NEGADO`).
   - `500 Internal Server Error`: Erro de processamento.
 
 #### 11. Sincronização em Lote (RF010 / RF011 / RF012)
@@ -4814,17 +4977,47 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
   {
     "mensagem": "Lote de sincronização processado",
     "processados": 1,
-    "falhas": 0,
-    "detalhes": []
+    "sucessos": 1,
+    "erros": 0,
+    "resultados": [
+      {
+        "entidade_tipo": "tarefa",
+        "entidade_id": "uuid-tarefa-offline",
+        "status": "SINCRONIZADO"
+      }
+    ]
+  }
+  ```
+  > Em caso de erro individual, o item aparece em `resultados` com `"status": "ERRO"` e campo `"erro"` descrevendo a falha. O HTTP permanece `200` pois o lote foi processado.
+- **Resposta (400 Bad Request)** — payload inválido:
+  ```json
+  {
+    "erro": "Payload inválido: esperado { itens: [...] } com array de entidades"
+  }
+  ```
+- **Resposta (400 Bad Request)** — array vazio:
+  ```json
+  {
+    "erro": "O array de itens não pode estar vazio"
+  }
+  ```
+- **Resposta (413 Payload Too Large)**:
+  ```json
+  {
+    "erro": "Limite excedido: máximo de 500 itens por lote de sincronização",
+    "itens_recebidos": 750
   }
   ```
 - **Status Codes**:
-  - `200 OK`: Lote processado, mesmo que contenha conflitos ou erros individuais nas entidades (detalhados no corpo).
-  - `400 Bad Request`: Estrutura do lote inválida ou array vazio.
-  - `413 Payload Too Large`: Quantidade de itens excede o limite máximo de 500 registros por lote.
+  - `200 OK`: Lote recebido e processado. Erros individuais de entidade ficam dentro do array `resultados` com `"status": "ERRO"` — o HTTP 200 não implica sucesso total.
+  - `400 Bad Request`: Payload não segue a estrutura `{ itens: [...] }`, ou o array `itens` está vazio.
+  - `413 Payload Too Large`: Quantidade de itens excede 500 (campo `itens_recebidos` retorna o total enviado).
   - `500 Internal Server Error`: Falha interna de sincronização.
 
 #### 12. Exportação de Dados em CSV (RF015)
+
+> **Distinção em relação ao endpoint D3 (`GET /api/coordenador/exportar`):** O sistema possui dois endpoints de exportação com propósitos distintos. O presente endpoint (`GET /api/exportacao/csv`, implementado em `ExportacaoController`) exporta movimentações consolidadas em formato CSV simples, valida o perfil via `coordenador_id` na query string e registra metadados na tabela `exportacoes`. O endpoint D3 (`GET /api/coordenador/exportar`, implementado em `CoordenadorController`) exporta **boletas completas** com suporte a XLSX e CSV, opera via sessão autenticada (sem `coordenador_id` explícito), aceita filtros avançados (`tipos`, `ids`, `somente_aprovadas`) e produz relatórios estilizados com ExcelJS. Ambos são funcionais; o endpoint D3 é o canal preferencial para uso via interface web, enquanto o endpoint 12 é voltado a integrações diretas com a API.
+
 - **Endpoint**: `GET /api/exportacao/csv`
 - **Headers**: `Accept: text/csv`
 - **Parâmetros (Query)**:
@@ -4832,17 +5025,44 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
   - `retiro_id` _(opcional)_ — filtra os dados de um retiro específico
   - `data_inicio` _(opcional)_ — data de início do intervalo a exportar (formato `YYYY-MM-DD`)
   - `data_fim` _(opcional)_ — data de fim do intervalo a exportar (formato `YYYY-MM-DD`)
-- **Resposta (200 OK)**: Retorna o corpo binário ou texto plano com os dados em formato CSV delimitado por vírgulas, com cabeçalhos personalizados:
+- **Resposta (200 OK)**: Retorna o arquivo CSV com as movimentações consolidadas. O arquivo usa **ponto-e-vírgula** (`;`) como delimitador de campos (formato compatível com Excel pt-BR) e inclui BOM UTF-8 (`﻿`) no início para detecção automática de encoding. Cabeçalhos de resposta HTTP:
   - `Content-Type: text/csv; charset=utf-8`
   - `Content-Disposition: attachment; filename="movimentacoes_2026-05-26.csv"`
   - `X-Exportacao-Id: uuid-registro-exportacao`
   - `X-Total-Registros: 15`
+  
+  Colunas do CSV: `data`, `retiro`, `tipo_evento`, `categoria`, `quantidade`, `capataz_responsavel`, `criado_em`.
+- **Resposta (400 Bad Request)**:
+  ```json
+  {
+    "erro": "Parâmetro obrigatório ausente: coordenador_id (query string)"
+  }
+  ```
+- **Resposta (403 Forbidden)**:
+  ```json
+  {
+    "erro": "ACESSO_NEGADO: Apenas usuários com perfil Coordenador podem exportar dados."
+  }
+  ```
+- **Resposta (404 Not Found)**:
+  ```json
+  {
+    "erro": "Usuário não encontrado."
+  }
+  ```
+- **Resposta (500 Internal Server Error)**:
+  ```json
+  {
+    "erro": "Erro ao exportar dados",
+    "detalhe": "Mensagem de erro interno"
+  }
+  ```
 - **Status Codes**:
   - `200 OK`: Download do arquivo iniciado com sucesso.
   - `400 Bad Request`: `coordenador_id` ausente nos parâmetros de consulta.
-  - `403 Forbidden`: O usuário informado não possui perfil de Coordenador (`ACESSO_NEGADO`).
-  - `404 Not Found`: Coordenador inexistente.
-  - `500 Internal Server Error`: Erro de geração do arquivo CSV.
+  - `403 Forbidden`: Usuário informado não possui perfil `Coordenador` (`ACESSO_NEGADO`).
+  - `404 Not Found`: Coordenador inexistente no banco de dados.
+  - `500 Internal Server Error`: Falha na geração do arquivo CSV (retorna JSON com campos `erro` e `detalhe`).
 
 ### 3.7.2. Artefato 08 — Evidência de Funcionamento dos Endpoints (WebAPI)
 
@@ -4854,26 +5074,543 @@ Os recursos comprobatórios da execução estão disponíveis nos seguintes link
 - **Suíte de Testes Executável**: [src/backend/tests/outros-endpoints.test.ts](src/backend/tests/outros-endpoints.test.ts), [src/backend/tests/uc01-planejar-tarefas.test.ts](src/backend/tests/uc01-planejar-tarefas.test.ts)
 - **Relatório Técnico de Evidências (PASS)**: [documentos/evidencias/jest-testes-endpoints.md](documentos/evidencias/jest-testes-endpoints.md)
 
+### 3.7.3. Endpoints Implementados no Sprint 4
+
+O sprint 4 expandiu substancialmente a WebAPI com os módulos de **Autenticação JWT**, **Administração**, **Coordenação**, **Boletas**, **Dashboard** e **Histórico**. Todos os endpoints abaixo operam sob prefixo `/api` e requerem sessão ativa (exceto os endpoints de autenticação).
+
+O sistema adota autenticação híbrida: **JWT (Access Token)** com validade curta transmitido no cabeçalho `Authorization: Bearer <token>`, e **Refresh Token** armazenado em cookie `HttpOnly` (`brpec_rt`) para renovação silenciosa. A sessão server-side (`express-session`) complementa o mecanismo para rotas que dependem de `req.session.usuario`.
+
+---
+
+#### Grupo A — Autenticação (`/api/auth`)
+
+##### A1. Login Geral (Gerente / Coordenador)
+- **Endpoint**: `POST /api/auth/login`
+- **Headers**: `Content-Type: application/json`
+- **Payload (Body)**:
+  ```json
+  {
+    "usuario": "gerente-padrao",
+    "senha": "senha123",
+    "perfil": "Gerente"
+  }
+  ```
+- **Resposta (200 OK)**:
+  ```json
+  {
+    "sucesso": true,
+    "perfil": "Gerente",
+    "is_admin": true,
+    "usuario": {
+      "id": "uuid-gerente",
+      "nome": "gerente-padrao",
+      "perfil": "Gerente",
+      "retiro_id": null,
+      "is_admin": true
+    },
+    "accessToken": "eyJhbGci..."
+  }
+  ```
+  > O Refresh Token é definido automaticamente no cookie `brpec_rt` (HttpOnly, SameSite=Strict).
+- **Resposta (400 Bad Request)**:
+  ```json
+  { "sucesso": false, "erro": "Campos obrigatórios não preenchidos." }
+  ```
+- **Resposta (401 Unauthorized)**:
+  ```json
+  { "sucesso": false, "erro": "Usuário não encontrado." }
+  ```
+  ou
+  ```json
+  { "sucesso": false, "erro": "Senha incorreta." }
+  ```
+- **Status Codes**: `200 OK` | `400 Bad Request` | `401 Unauthorized`
+
+##### A2. Login Capataz (por Retiro)
+- **Endpoint**: `POST /api/auth/login-capataz`
+- **Headers**: `Content-Type: application/json`
+- **Payload (Body)**:
+  ```json
+  { "retiro_id": "retiro-1" }
+  ```
+- **Resposta (200 OK)**:
+  ```json
+  {
+    "sucesso": true,
+    "perfil": "Capataz",
+    "retiro_id": "retiro-1",
+    "usuario": { "id": "uuid-capataz", "nome": "João", "perfil": "Capataz", "retiro_id": "retiro-1" },
+    "accessToken": "eyJhbGci..."
+  }
+  ```
+- **Resposta (400 Bad Request)**:
+  ```json
+  { "sucesso": false, "erro": "retiro_id obrigatório" }
+  ```
+- **Resposta (404 Not Found)**:
+  ```json
+  { "sucesso": false, "erro": "Nenhum capataz vinculado a este retiro." }
+  ```
+- **Status Codes**: `200 OK` | `400 Bad Request` | `404 Not Found`
+
+##### A3. Login Infraestrutura (por Categoria)
+- **Endpoint**: `POST /api/auth/login-infra`
+- **Headers**: `Content-Type: application/json`
+- **Payload (Body)**:
+  ```json
+  { "categoria": "hidráulica" }
+  ```
+- **Resposta (200 OK)**:
+  ```json
+  {
+    "sucesso": true,
+    "perfil": "Infraestrutura",
+    "categoria": "hidráulica",
+    "usuario": { "id": "tecnico-hidráulica", "nome": "Técnico hidráulica", "perfil": "Infraestrutura", "retiro_id": null, "categoria": "hidráulica" },
+    "accessToken": "eyJhbGci..."
+  }
+  ```
+  > **Nota de implementação:** o valor `"perfil": "Infraestrutura"` existe **exclusivamente na camada de sessão** (`UsuarioSessao` em `authView.ts`) e no payload do JWT. Não corresponde a nenhum registro persistido na tabela `usuarios` do banco — o CHECK constraint da migration.sql restringe `perfil` a `('Gerente', 'Coordenador', 'Capataz', 'Tecnico')`. O login-infra cria um usuário virtual de sessão sem INSERT no banco, identificado apenas pela `categoria` selecionada.
+- **Resposta (400 Bad Request)**:
+  ```json
+  { "sucesso": false, "erro": "categoria obrigatória" }
+  ```
+- **Status Codes**: `200 OK` | `400 Bad Request`
+
+##### A4. Renovar Access Token (Refresh)
+- **Endpoint**: `POST /api/auth/refresh`
+- **Cookie Obrigatório**: `brpec_rt=<refresh_token>`
+- **Resposta (200 OK)**:
+  ```json
+  {
+    "sucesso": true,
+    "accessToken": "eyJhbGci...",
+    "usuario": { "id": "uuid", "nome": "...", "perfil": "Gerente", "retiro_id": null, "is_admin": true }
+  }
+  ```
+- **Resposta (401 Unauthorized)**:
+  ```json
+  { "sucesso": false, "erro": "Refresh token ausente." }
+  ```
+- **Status Codes**: `200 OK` | `401 Unauthorized`
+
+##### A5. Logout
+- **Endpoint**: `POST /api/auth/logout`
+- **Resposta (200 OK)**:
+  ```json
+  { "sucesso": true }
+  ```
+  > O cookie `brpec_rt` é revogado e a sessão server-side é destruída.
+- **Status Codes**: `200 OK`
+
+##### A6. Sessão Atual
+- **Endpoint**: `GET /api/auth/me`
+- **Resposta (200 OK)** — com sessão ativa:
+  ```json
+  {
+    "usuario": { "id": "uuid", "nome": "...", "perfil": "Gerente", "retiro_id": null, "is_admin": true }
+  }
+  ```
+- **Resposta (200 OK)** — sem sessão:
+  ```json
+  { "usuario": null }
+  ```
+- **Status Codes**: `200 OK` (sempre, independente de sessão)
+
+---
+
+#### Grupo B — Dados de Apoio para Formulários (`/api/dados`)
+
+> Endpoints públicos (sem autenticação) que fornecem dados de domínio para popular formulários do frontend.
+
+##### B1. Listar Retiros
+- **Endpoint**: `GET /api/dados/retiros`
+- **Resposta (200 OK)**:
+  ```json
+  [
+    { "id": "retiro-1", "nome": "Retiro Central", "localizacao": "Pantanal Norte" }
+  ]
+  ```
+
+##### B2. Listar Capatazes
+- **Endpoint**: `GET /api/dados/capatazes`
+- **Resposta (200 OK)**:
+  ```json
+  [
+    { "id": "capataz-1", "nome": "João Silva", "retiro_id": "retiro-1" }
+  ]
+  ```
+
+##### B3. Dados do Formulário Nova O.S.
+- **Endpoint**: `GET /api/dados/form-nova-os`
+- **Resposta (200 OK)**:
+  ```json
+  {
+    "retiros": [{ "id": "retiro-1", "nome": "Retiro Central" }],
+    "capatazes": [{ "id": "capataz-1", "nome": "João", "retiro_id": "retiro-1" }],
+    "categorias": ["Bezerra 0 a 7 meses", "Bezerro 0 a 7 meses", "..."],
+    "tiposMorte": ["Acidente", "Atolado", "Cobra", "..."],
+    "operacoes": [
+      { "valor": "nascimento", "label": "Nascimento" },
+      { "valor": "obito", "label": "Óbito / Morte" }
+    ]
+  }
+  ```
+
+---
+
+#### Grupo C — Administração (`/api/admin`)
+
+> Todos os endpoints deste grupo exigem sessão com perfil `Gerente` **e** `is_admin = true`. Qualquer outro perfil recebe `403 Forbidden`.
+
+##### C1–C4. CRUD de Retiros
+| Método | Endpoint | Descrição |
+|---|---|---|
+| `GET` | `/api/admin/retiros` | Lista todos os retiros com nomes de coordenador e capataz |
+| `POST` | `/api/admin/retiros` | Cria novo retiro (`nome` obrigatório) |
+| `PUT` | `/api/admin/retiros/:id` | Atualiza retiro existente |
+| `DELETE` | `/api/admin/retiros/:id` | Exclui retiro |
+
+- **POST Body**:
+  ```json
+  { "nome": "Retiro Sul", "numero": "003", "localizacao": "Pantanal Sul", "coordenador_id": "uuid", "capataz_id": "uuid" }
+  ```
+- **Resposta POST (201)**: `{ "id": "uuid", "mensagem": "Retiro criado com sucesso." }`
+- **Resposta PUT (200)**: `{ "mensagem": "Retiro atualizado com sucesso." }`
+- **Resposta DELETE (200)**: `{ "mensagem": "Retiro excluído com sucesso." }`
+- **Status Codes**: `200/201 OK/Created` | `400 Bad Request` (nome ausente) | `403 Forbidden` (sem permissão) | `404 Not Found` (retiro inexistente)
+
+##### C5–C8. CRUD de Usuários
+| Método | Endpoint | Descrição |
+|---|---|---|
+| `GET` | `/api/admin/usuarios` | Lista usuários (aceita `?perfil=Capataz`) |
+| `POST` | `/api/admin/usuarios` | Cria novo usuário (senha hasheada com bcrypt) |
+| `PUT` | `/api/admin/usuarios/:id` | Atualiza usuário |
+| `DELETE` | `/api/admin/usuarios/:id` | Exclui usuário |
+
+- **POST Body**:
+  ```json
+  { "nome": "capataz-novo", "senha": "senhaSegura", "perfil": "Capataz", "retiro_id": "retiro-1", "is_admin": false }
+  ```
+  > Perfis válidos: `Gerente`, `Coordenador`, `Capataz`, `Tecnico`. `is_admin` só é aplicável ao perfil `Gerente`.
+- **Resposta POST (201)**: `{ "id": "uuid", "mensagem": "Usuário criado com sucesso." }`
+- **Resposta PUT (200)**: `{ "mensagem": "Usuário atualizado com sucesso." }`
+- **Resposta DELETE (200)**: `{ "mensagem": "Usuário excluído com sucesso." }`
+- **Status Codes**: `200/201` | `400` (campos inválidos) | `403` (sem permissão) | `404` (não encontrado) | `409 Conflict` (nome+perfil duplicado) | `422 Unprocessable Entity` (tentativa de remover único Gerente ADM ou único Gerente)
+
+##### C9–C11. Exclusão de Registros (Admin Only)
+| Método | Endpoint | Descrição |
+|---|---|---|
+| `DELETE` | `/api/admin/boletas/:grupo_id` | Exclui todas as rows da boleta pelo `grupo_id` |
+| `DELETE` | `/api/admin/chamados/:id` | Exclui um chamado/alerta |
+| `DELETE` | `/api/admin/tarefas/:id` | Exclui uma tarefa |
+
+- **Resposta (200 OK)**: `{ "mensagem": "Boleta excluída com sucesso.", "linhas_apagadas": 3 }` (boleta); `{ "mensagem": "Chamado excluído com sucesso." }` (chamado/tarefa)
+- **Status Codes**: `200 OK` | `403 Forbidden` | `404 Not Found`
+
+---
+
+#### Grupo D — Coordenação (`/api/coordenador`)
+
+> Todos os endpoints exigem sessão com perfil `Coordenador` ou `Gerente`. Retorna `401` se não autenticado, `403` se perfil inválido.
+
+##### D1. Listar Boletas Pendentes de Aprovação
+- **Endpoint**: `GET /api/coordenador/boletas-pendentes`
+- **Resposta (200 OK)**: Array de objetos boleta agrupados por `grupo_id`, filtrando apenas boletas sem `aprovado_por_coordenador_id`. Coordenador vê apenas seus retiros; Gerente vê todos.
+  ```json
+  [
+    {
+      "id": "grupo-uuid",
+      "grupo_id": "grupo-uuid",
+      "capataz_nome": "João",
+      "retiro_nome": "Retiro Central",
+      "animais": [{ "categoria": "Bezerro 0 a 7 meses", "quantidade": 3 }]
+    }
+  ]
+  ```
+- **Status Codes**: `200 OK` | `401 Unauthorized`
+
+##### D2. Aprovar Boleta
+- **Endpoint**: `POST /api/coordenador/boletas/:id/aprovar`
+- **Path Parameter**: `id` — `grupo_id` ou `id` de uma row da boleta
+- **Resposta (200 OK)**:
+  ```json
+  { "mensagem": "Boleta aprovada.", "linhas_atualizadas": 2 }
+  ```
+- **Status Codes**: `200 OK` | `401 Unauthorized` | `403 Forbidden` (retiro fora do escopo do coordenador) | `404 Not Found`
+
+##### D3. Exportar Boletas (XLSX / CSV)
+- **Endpoint**: `GET /api/coordenador/exportar`
+- **Parâmetros (Query)**:
+  - `formato` _(opcional)_ — `xlsx` (padrão) ou `csv`
+  - `retiro_id` _(opcional)_ — filtra por retiro
+  - `data_inicio` _(opcional)_ — formato `YYYY-MM-DD`
+  - `data_fim` _(opcional)_ — formato `YYYY-MM-DD`
+  - `tipos` _(opcional)_ — tipos de operação separados por vírgula (ex.: `nascimento,obito`)
+  - `ids` _(opcional)_ — IDs específicos separados por vírgula
+  - `somente_aprovadas` _(opcional)_ — `1` para filtrar apenas aprovadas
+- **Resposta (200 OK) — XLSX**: `Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` — arquivo Excel estilizado com cabeçalho BRPec, dados zebrados e totalizador.
+- **Resposta (200 OK) — CSV**: `Content-Type: text/csv; charset=utf-8` — CSV com vírgula como delimitador e BOM UTF-8. Colunas: `Retiro`, `Data`, `Tipo`, `Categoria`, `Quantidade`, `Origem`, `Destino`, `Mês-Ano`, `Ano`, `Mês`, `Causa Morte`, `Obs`, `Fazenda`.
+- **Status Codes**: `200 OK` | `401 Unauthorized`
+
+##### D4. Exportar Boleta Individual em PDF
+- **Endpoint**: `GET /api/coordenador/boleta/:grupo_id/pdf`
+- **Path Parameter**: `grupo_id` — identificador da boleta
+- **Resposta (200 OK)**: `Content-Type: application/pdf` — PDF estilizado com cabeçalho BRPec, tabela de animais, foto anexada (se houver) e status de validação.
+- **Status Codes**: `200 OK` | `401 Unauthorized` | `403 Forbidden` (retiro fora do escopo) | `404 Not Found`
+
+---
+
+#### Grupo E — Boletas (`/api/boletas`)
+
+> Todos os endpoints exigem sessão ativa. Retorna `401` se não autenticado.
+
+##### E1. Criar Boleta
+- **Endpoint**: `POST /api/boletas`
+- **Payload (Body)**:
+  ```json
+  {
+    "operacao": "nascimento",
+    "data": "2026-06-12",
+    "retiro": "retiro-1",
+    "animais": [
+      { "categoria": "Bezerro 0 a 7 meses", "quantidade": 3 }
+    ],
+    "pasto": "Piquete 2",
+    "observacoes": "Parto sem complicações",
+    "foto_base64": "data:image/jpeg;base64,...",
+    "tem_foto": true
+  }
+  ```
+  > Campo obrigatório: `operacao`. Para operações `nascimento`, `obito`, `transferencia` e `compravenda`, `animais` é obrigatório. Para `obito`, `tem_foto` deve ser `true`.
+- **Resposta (201 Created)**:
+  ```json
+  { "grupo_id": "uuid-grupo", "ids": ["uuid-row1", "uuid-row2"], "mensagem": "Boleta registrada." }
+  ```
+- **Status Codes**: `201 Created` | `400 Bad Request` | `401 Unauthorized` | `422 Unprocessable Entity` (obito sem foto)
+
+##### E2. Atualizar Boleta
+- **Endpoint**: `PUT /api/boletas/:grupo_id`
+- **Path Parameter**: `grupo_id` — identificador do grupo de boleta
+- **Payload (Body)**: mesmos campos de `POST /api/boletas`
+- **Resposta (200 OK)**:
+  ```json
+  { "grupo_id": "uuid-grupo", "mensagem": "Boleta atualizada." }
+  ```
+- **Status Codes**: `200 OK` | `401 Unauthorized` | `404 Not Found` | `422 Unprocessable Entity` (boleta > 30 dias ou já aprovada)
+
+##### E3. Listar Minhas Boletas
+- **Endpoint**: `GET /api/boletas/minhas`
+- **Resposta (200 OK)**: Array de boletas agrupadas por `grupo_id` pertencentes ao capataz da sessão.
+  ```json
+  [
+    {
+      "id": "grupo-uuid",
+      "operacao": "nascimento",
+      "data": "2026-06-12",
+      "retiro_nome": "Retiro Central",
+      "animais": [{ "categoria": "Bezerro 0 a 7 meses", "quantidade": 3 }],
+      "aprovada": false,
+      "criadoEm": "2026-06-12T10:00:00.000Z"
+    }
+  ]
+  ```
+- **Status Codes**: `200 OK` | `401 Unauthorized`
+
+##### E4. Detalhe de Boleta
+- **Endpoint**: `GET /api/boletas/:grupo_id`
+- **Path Parameter**: `grupo_id` — identificador do grupo de boleta
+- **Resposta (200 OK)**:
+  ```json
+  {
+    "id": "grupo-uuid",
+    "operacao": "nascimento",
+    "data": "2026-06-12",
+    "retiro": "retiro-1",
+    "retiro_nome": "Retiro Central",
+    "capataz_id": "capataz-1",
+    "capataz_nome": "João",
+    "aprovada": false,
+    "aprovado_em": null,
+    "aprovado_por_nome": null,
+    "animais": [{ "categoria": "Bezerro 0 a 7 meses", "quantidade": 3 }]
+  }
+  ```
+- **Status Codes**: `200 OK` | `401 Unauthorized` | `404 Not Found`
+
+---
+
+#### Grupo F — Dashboard (`/api/dashboard`)
+
+> Exige sessão com perfil `Gerente` ou `Coordenador`. Retorna `401` se não autenticado, `403` se outro perfil.
+
+##### F1. Resumo do Dashboard
+- **Endpoint**: `GET /api/dashboard/resumo`
+- **Parâmetros (Query)**: `data` _(opcional)_ — filtra por data específica (`YYYY-MM-DD`)
+- **Resposta (200 OK)**:
+  ```json
+  {
+    "chamadosPorRetiro": [{ "retiro": "Retiro Central", "total": 3 }],
+    "boletas": { "pendentes": 5, "aprovadas": 12, "total": 17 },
+    "chamados": { "abertos": 2, "andamento": 1, "resolvidos": 10 },
+    "totais": { "retiros": 4, "capatazes": 4 },
+    "escopo": "todos"
+  }
+  ```
+  > Coordenador vê `"escopo": "meus-retiros"` com dados filtrados. Gerente vê `"escopo": "todos"`.
+- **Status Codes**: `200 OK` | `401 Unauthorized` | `403 Forbidden`
+
+##### F2. Listar Retiros (Dashboard)
+- **Endpoint**: `GET /api/dashboard/retiros`
+- **Resposta (200 OK)**:
+  ```json
+  [
+    {
+      "id": "retiro-1",
+      "nome": "Retiro Central",
+      "numero": "001",
+      "coordenador_nome": "Ana",
+      "capataz_nome": "João",
+      "total_boletas": 15,
+      "chamados_abertos": 2
+    }
+  ]
+  ```
+- **Status Codes**: `200 OK` | `401 Unauthorized` | `403 Forbidden`
+
+---
+
+#### Grupo G — Histórico (`/api/historico`)
+
+> Exige sessão ativa. O escopo dos dados é filtrado automaticamente pelo perfil: Gerente vê tudo, Coordenador vê seus retiros, Capataz vê apenas o seu, Infraestrutura vê apenas chamados da sua categoria.
+
+##### G1. Histórico de Boletas
+- **Endpoint**: `GET /api/historico/boletas`
+- **Parâmetros (Query)** — todos opcionais:
+  - `retiro_id` — filtra por retiro
+  - `tipo` — tipo de operação (`nascimento`, `obito`, `transferencia`, etc.)
+  - `data_inicio` / `data_fim` — intervalo de datas (`YYYY-MM-DD`)
+  - `status` — `aprovada` ou `pendente`
+- **Resposta (200 OK)**: Array de boletas agrupadas por `grupo_id` (máximo 200 registros).
+  ```json
+  [
+    {
+      "id": "grupo-uuid",
+      "operacao": "nascimento",
+      "data": "2026-06-12",
+      "retiro_nome": "Retiro Central",
+      "capataz_nome": "João",
+      "aprovada": true,
+      "animais": [{ "categoria": "Bezerro 0 a 7 meses", "quantidade": 3 }]
+    }
+  ]
+  ```
+- **Status Codes**: `200 OK` | `401 Unauthorized`
+
+##### G2. Histórico de Chamados
+- **Endpoint**: `GET /api/historico/chamados`
+- **Parâmetros (Query)** — todos opcionais:
+  - `retiro_id` — filtra por retiro
+  - `status` — `ABERTO`, `EM_ANDAMENTO` ou `RESOLVIDO`
+  - `tipo` — tipo de chamado (`cerca`, `hidráulica`, etc.)
+- **Resposta (200 OK)**: Array de chamados (máximo 200 registros) com campo `retiro_nome` enriquecido.
+  ```json
+  [
+    {
+      "id": "uuid-alerta",
+      "tipo": "cerca",
+      "status": "ABERTO",
+      "retiro_id": "retiro-1",
+      "retiro_nome": "Retiro Central",
+      "criado_em": "2026-06-12T10:00:00.000Z"
+    }
+  ]
+  ```
+- **Status Codes**: `200 OK` | `401 Unauthorized`
+
+---
+
+#### Grupo H — Chamados — Endpoints Adicionais (`/api/chamados`)
+
+> Além do `POST /api/chamados` documentado na seção 3.7.1, o módulo expõe os seguintes endpoints:
+
+##### H1. Listar Chamados
+- **Endpoint**: `GET /api/chamados`
+- **Parâmetros (Query)** — opcionais:
+  - `status` — filtra por status do chamado
+  - `tipo` — filtra por tipo; se o usuário da sessão for do perfil `Infraestrutura`, filtra automaticamente pela categoria da sessão
+- **Resposta (200 OK)**:
+  ```json
+  { "chamados": [{ "id": "uuid", "tipo": "cerca", "status": "ABERTO" }] }
+  ```
+- **Status Codes**: `200 OK`
+
+##### H2. Detalhe de Chamado
+- **Endpoint**: `GET /api/chamados/:id`
+- **Path Parameter**: `id` — UUID do chamado
+- **Resposta (200 OK)**: Objeto completo do chamado com foto, áudio, `retiro_nome`, `capataz_nome` e demais campos enriquecidos.
+- **Resposta (404 Not Found)**:
+  ```json
+  { "erro": "Chamado não encontrado." }
+  ```
+- **Status Codes**: `200 OK` | `404 Not Found`
+
+##### H3–H4. Resolver Chamado (PATCH e PUT)
+- **Endpoints**: `PATCH /api/chamados/:id/resolver` e `PUT /api/chamados/:id/resolver` (alias)
+- **Path Parameter**: `id` — UUID do chamado
+- **Payload (Body)**:
+  ```json
+  {
+    "tecnico_id": "uuid-tecnico",
+    "solucao": "Substituição do arame farpado no trecho afetado.",
+    "foto_base64": "data:image/jpeg;base64,..."
+  }
+  ```
+  > `tecnico_id` pode ser omitido se o usuário estiver autenticado (será lido da sessão). `foto_base64` é opcional.
+- **Resposta (200 OK)**:
+  ```json
+  { "mensagem": "Chamado resolvido com sucesso", "chamado": { "id": "uuid", "status": "RESOLVIDO" } }
+  ```
+- **Resposta (400 Bad Request)**:
+  ```json
+  { "erro": "Campos obrigatórios não preenchidos: solucao (e técnico via sessão)" }
+  ```
+- **Resposta (403 Forbidden)**:
+  ```json
+  { "erro": "ACESSO_NEGADO: ..." }
+  ```
+- **Resposta (404 Not Found)**:
+  ```json
+  { "erro": "CHAMADO_NAO_ENCONTRADO" }
+  ```
+- **Resposta (409 Conflict)**:
+  ```json
+  { "erro": "CHAMADO_JA_RESOLVIDO" }
+  ```
+- **Status Codes**: `200 OK` | `400 Bad Request` | `403 Forbidden` | `404 Not Found` | `409 Conflict`
+
 ## 3.8. Autenticação, Autorização e Resiliência (sprints 4 e 5)
 
 ### 3.8.1. Autenticação
 
 Para viabilizar o funcionamento offline-first nos retiros do Pantanal da BrPec, a autenticação local do aplicativo (PWA) confia no cadastro de usuários sincronizado localmente. No backend (sprint 3/4), as rotas operam de forma simplificada por razões de conectividade intermitente, associando as transações ao ID do usuário enviado no corpo da requisição (`capataz_id`, `gerente_id`). Para a versão final (sprint 5), as senhas são persistidas com o algoritmo hash `bcrypt` (fator de custo `saltRounds = 12`, otimizado para equilibrar segurança e desempenho em dispositivos de campo de baixo desempenho), impedindo o armazenamento de senhas em texto plano no banco de dados.
 
-**Endpoints de autenticação implementados (sprint 4/5).** O sistema expõe quatro rotas sob `/auth/`, implementadas em `src/backend/routes/authRoutes.ts`:
+**Endpoints de autenticação implementados (sprint 4/5).** O sistema expõe seis rotas sob `/api/auth/`, implementadas em `src/backend/routes/authRoutes.ts`:
 
-| Endpoint                  | Método | Descrição                                                                                          |
-|---------------------------|--------|----------------------------------------------------------------------------------------------------|
-| `/auth/login-capataz`     | POST   | Autentica capataz com e-mail e senha; retorna `access_token` (JWT, 15 min) e persiste `refresh_token` na tabela `refresh_tokens` (SQLite) |
-| `/auth/login-infra`       | POST   | Autentica técnico de infraestrutura (perfil `Tecnico`); mesmo fluxo JWT do capataz               |
-| `/auth/logout`            | POST   | Revoga o `refresh_token` do dispositivo via DELETE na tabela `refresh_tokens`                     |
-| `/auth/me`                | GET    | Retorna dados do usuário autenticado a partir do `access_token` Bearer (validação sem estado)     |
+| Endpoint                      | Método | Descrição                                                                                          |
+|-------------------------------|--------|----------------------------------------------------------------------------------------------------|
+| `/api/auth/login`             | POST   | Autentica Gerente ou Coordenador com nome de usuário, senha e perfil; retorna JWT + seta cookie RT |
+| `/api/auth/login-capataz`     | POST   | Autentica Capataz pelo `retiro_id`; retorna JWT sem necessidade de senha                           |
+| `/api/auth/login-infra`       | POST   | Autentica Técnico de Infraestrutura pela `categoria`; retorna JWT                                  |
+| `/api/auth/refresh`           | POST   | Renova o Access Token usando o Refresh Token armazenado no cookie `brpec_rt`                       |
+| `/api/auth/logout`            | POST   | Revoga o `refresh_token` e destrói a sessão server-side                                            |
+| `/api/auth/me`                | GET    | Retorna dados do usuário autenticado a partir do Access Token ou sessão ativa                      |
 
 O `refresh_token` é persistido em `refresh_tokens` (SQLite) para suportar revogação explícita e renovação do token em cenários offline; o `access_token` tem validade curta (15 min) e não é armazenado no servidor.
 
 ### 3.8.2. Controle de sessão
 
-O controle de sessão é gerenciado localmente pelo aplicativo cliente (PWA) no armazenamento do navegador (Local Storage / IndexedDB), contendo a identidade do usuário configurado. No backend centralizador, a validação de sessão é stateless para os fluxos operacionais, permitindo que requisições offline empilhadas em lote (`sync_queue`) sejam processadas de forma direta sem exigir tokens JWT ou IDs de sessão ativos e expiráveis que inviabilizariam o processamento de lotes acumulados por dias sem internet.
+O controle de sessão é gerenciado localmente pelo aplicativo cliente (PWA) no armazenamento do navegador (Local Storage / IndexedDB), contendo a identidade do usuário configurado. No backend centralizador, a validação de sessão é stateless para os fluxos operacionais, permitindo que requisições offline empilhadas em lote (`sincronizacoes`) sejam processadas de forma direta sem exigir tokens JWT ou IDs de sessão ativos e expiráveis que inviabilizariam o processamento de lotes acumulados por dias sem internet.
 
 ### 3.8.3. Autorização
 
@@ -4881,14 +5618,14 @@ A autorização é aplicada de maneira estrita na camada de banco de dados e con
 
 ### 3.8.4. Estratégias de Resiliência
 
-A resiliência de rede é um pilar crítico no BrPec. Utiliza-se um mecanismo de persistência local da fila de sincronização (`sync_queue` no cliente). As estratégias incluem:
+A resiliência de rede é um pilar crítico no BrPec. Utiliza-se um mecanismo de persistência local da fila de sincronização (`sincronizacoes` no cliente). As estratégias incluem:
 1. **Retries com Backoff Exponencial:** O sincronizador local tenta transmitir registros pendentes na fila; em caso de falha de conexão (detectada pelo Service Worker), as tentativas subsequentes ocorrem em intervalos crescentes para preservar a bateria do dispositivo.
 2. **Tratamento de Timeouts:** Limite de timeout de 15 segundos para requisições de rede.
 3. **Idempotência:** A sincronização utiliza identificadores únicos UUID v7 gerados na origem (dispositivo do Capataz). O backend usa cláusulas de inserção com controle de duplicidade (`INSERT OR IGNORE` ou `UPSERT` com base na PK UUID v7), garantindo que transmissões duplicadas devido a instabilidades de rede não causem inconsistência no banco de dados.
 
 **Fluxos de sincronização (Inbound e Outbound).** O BrPec opera com dois fluxos de sincronização distintos e complementares:
 
-- **Inbound (PWA → backend SQLite):** O PWA empilha registros pendentes na `sync_queue` (IndexedDB do navegador) e os transmite em lote ao reconectar via `POST /sincronizacao/lote`. O `sincronizacaoController` delega para o `sincronizacaoService`, que persiste cada registro no SQLite local (`src/backend/services/sincronizacaoService.ts`).
+- **Inbound (PWA → backend SQLite):** O PWA empilha registros pendentes na `sincronizacoes` (IndexedDB do navegador) e os transmite em lote ao reconectar via `POST /sincronizacao/lote`. O `sincronizacaoController` delega para o `sincronizacaoService`, que persiste cada registro no SQLite local (`src/backend/services/sincronizacaoService.ts`).
 - **Outbound (backend SQLite → Supabase PostgreSQL):** O `cloudSyncService` (`src/backend/services/cloudSyncService.ts`) executa periodicamente, lê a tabela `sincronizacoes` (SQLite) filtrando registros com `status_envio = 'PENDENTE'` e replica as entidades monitoradas — `movimentacoes`, `alertas` (chamados), `compravendas`, `transferencias`, `retiros` e `usuarios` — ao Supabase PostgreSQL por upsert. Ao final de cada lote, cada registro é marcado como `SINCRONIZADO` (sucesso) ou `ERRO` (falha de rede ou validação remota), implementando o padrão Outbox descrito na seção 3.2.7.
 
 ## 3.9. Matriz de Rastreabilidade (RTM) (sprints 3 a 5)
@@ -4903,8 +5640,8 @@ Uma linha por combinação RF + RN; onde não existe RN dedicada para o RF na se
 
 | US    | Persona     | Necessidade                                               | RN    | RF    | Implementação                                                                                                                                         | Evidência                                                                                                                                                             |
 |-------|-------------|-----------------------------------------------------------|-------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| US01  | Gerente     | Criar tarefa e associar a um retiro                       | RN01  | RF001 | `POST /api/tarefas` · `src/backend/controllers/tarefaController.ts` · `create()`                                                                     | `tests/endpoints.test.ts` · `POST /api/tarefas` · `it('201 — cria tarefa com dados válidos')` · HTTP 201                                                             |
-| US02  | Capataz     | Visualizar tarefas do dia sem internet                    | RN02  | RF002 | `GET /api/tarefas/hoje` · `src/backend/controllers/tarefaController.ts` · `getHoje()`                                                                | `tests/tarefaIntegration.test.ts` · `GET /api/tarefas/hoje` · `it('200 — retorna body com tarefas e campo modo')` · HTTP 200                                          |
+| US01  | Gerente     | Criar tarefa e associar a um retiro                       | RN01  | RF001 | `POST /api/tarefas` · `src/backend/controllers/tarefaController.ts` · `criarTarefa()`                                                                     | `tests/endpoints.test.ts` · `POST /api/tarefas` · `it('201 — cria tarefa com dados válidos')` · HTTP 201                                                             |
+| US02  | Capataz     | Visualizar tarefas do dia sem internet                    | RN02  | RF002 | `GET /api/tarefas/hoje` · `src/backend/controllers/tarefaController.ts` · `buscarTarefasHoje()`                                                                | `tests/tarefaIntegration.test.ts` · `GET /api/tarefas/hoje` · `it('200 — retorna body com tarefas e campo modo')` · HTTP 200                                          |
 | US02  | Capataz     | Ver apenas tarefas do seu retiro                          | RN05  | RF002 | `GET /api/tarefas/hoje` · filtro por `capataz_id` em `src/backend/repositories/tarefaRepository.ts`                                                  | `tests/tarefaIntegration.test.ts` · `GET /api/tarefas/hoje` · `it('200 — retorna apenas tarefas do capataz logado (RN03)')` · HTTP 200                                |
 | US02  | Capataz     | Acessar tarefas previamente sincronizadas offline         | RN06  | RF002 | IndexedDB · `src/public/js/db.js` · `salvarFila()` · `src/public/sw.js`                                                                              | `tests/frontend.test.ts` · `it('serve o script que inicializa o banco local brpec_local')` · HTTP 200                                                                 |
 | US02  | Capataz     | Tarefas do dia disponíveis após sincronia prévia          | RN07  | RF002 | IndexedDB · `src/public/js/db.js` · `salvarFila()` · `src/public/sw.js`                                                                              | `tests/offline-operations.test.ts` · `it('db.js possui todas as funções necessárias')` · HTTP 200                                                                     |
@@ -4923,8 +5660,8 @@ Uma linha por combinação RF + RN; onde não existe RN dedicada para o RF na se
 | US05  | Capataz     | Enviar áudio ao reconectar                                | RN16  | RF005 | `src/public/js/sync.js` · `processarFilaSincronizacao()`                                                                                             | `tests/offline-operations.test.ts` · `it('serve o script sync.js para sincronização em lote')` · HTTP 200                                                            |
 | US05  | Capataz     | Confirmação após áudio salvo ou sincronizado              | RN17  | RF005 | `src/public/js/sync.js` · toast de confirmação                                                                                                       | `tests/sincronizacaoIntegration.test.ts` · `POST /api/sincronizacao/lote` · `it('200 — processa lote misto e retorna totais corretos (RF011)')` · HTTP 200            |
 | US05  | Capataz     | Áudio disponível nos detalhes da tarefa                   | RN18  | RF005 | `GET /api/tarefas/hoje` · `src/backend/repositories/tarefaRepository.ts` · join evidências                                                           | `tests/tarefaIntegration.test.ts` · `GET /api/tarefas/hoje` · `it('200 — cada tarefa contém os campos obrigatórios')` · HTTP 200                                     |
-| US06  | Capataz     | GPS capturado automaticamente ao criar alerta             | RN19  | RF006 | `POST /api/chamados` · `src/backend/controllers/alertaController.ts` · `create()`                                                                    | `tests/alertaIntegration.test.ts` · `POST /api/chamados` · `it('201 — cria chamado com payload válido completo (RF006)')` · HTTP 201                                  |
-| US06  | Capataz     | Alerta enviado imediatamente se há conexão                | RN20  | RF006 | `POST /api/chamados` · `src/backend/controllers/alertaController.ts` · `create()`                                                                    | `tests/alertaIntegration.test.ts` · `POST /api/chamados` · `it('201 — cria chamado com payload válido completo (RF006)')` · HTTP 201                                  |
+| US06  | Capataz     | GPS capturado automaticamente ao criar alerta             | RN19  | RF006 | `POST /api/chamados` · `src/backend/controllers/alertaController.ts` · `criarAlerta()`                                                                    | `tests/alertaIntegration.test.ts` · `POST /api/chamados` · `it('201 — cria chamado com payload válido completo (RF006)')` · HTTP 201                                  |
+| US06  | Capataz     | Alerta enviado imediatamente se há conexão                | RN20  | RF006 | `POST /api/chamados` · `src/backend/controllers/alertaController.ts` · `criarAlerta()`                                                                    | `tests/alertaIntegration.test.ts` · `POST /api/chamados` · `it('201 — cria chamado com payload válido completo (RF006)')` · HTTP 201                                  |
 | US06  | Capataz     | Alerta salvo localmente se sem conexão                    | RN21  | RF006 | IndexedDB · `src/public/js/db.js` · `salvarFila()`                                                                                                   | `tests/frontend.test.ts` · `it('serve a funcao salvarFila para registrar operacoes offline pendentes')` · HTTP 200                                                    |
 | US06  | Capataz     | Confirmação após envio bem-sucedido do alerta             | RN22  | RF006 | `src/public/js/chamados.js` · toast confirmação                                                                                                      | `tests/offline-operations.test.ts` · `it('serve o handler para resolver chamado')` · HTTP 200                                                                         |
 | US06  | Capataz     | Informado que alerta foi salvo localmente                 | RN23  | RF006 | `src/public/js/offline-interceptor.js` · estado offline                                                                                              | `tests/offline-operations.test.ts` · `it('serve o script de interceptação offline')` · HTTP 200                                                                       |
@@ -5163,7 +5900,7 @@ A suíte de testes automatizados utiliza Jest 29 + ts-jest + Supertest sobre ban
 
 1. **Integração frontend ↔ backend:** O frontend opera com dados estáticos (mock data hardcoded em `js/app.js`) e ainda não consome a API REST do backend. Os dados dos retiros, tarefas e categorias estão duplicados entre o frontend e o backend. A integração será priorizada na sprint 4.
 
-2. **Funcionalidade offline-first (Service Workers):** Embora a tela de sucesso simule o comportamento offline ("1 registro na fila"), os Service Workers e o armazenamento local (IndexedDB/SQLite no cliente) ainda não foram implementados. O fluxo de sincronização existe apenas no backend (`sincronizacaoService.ts` e `sync_queue`).
+2. **Funcionalidade offline-first (Service Workers):** Embora a tela de sucesso simule o comportamento offline ("1 registro na fila"), os Service Workers e o armazenamento local (IndexedDB/SQLite no cliente) ainda não foram implementados. O fluxo de sincronização existe apenas no backend (`sincronizacaoService.ts` e `sincronizacoes`).
 
 3. **Autenticação e autorização:** O sistema opera sem autenticação. A identificação do usuário é feita por passagem explícita de IDs nas requisições, conforme decisão documentada na seção 3.7. A implementação de sessão e controle de acesso por perfil está planejada para a sprint 5.
 
@@ -5221,7 +5958,7 @@ O frontend foi refatorado para consumir a API REST real, substituindo os dados e
   <p>Fonte: Próprios autores (2026)</p>
 </center>
 
-- **Tela de Nova O.S. com suporte offline (US01/RF001)** — o formulário de criação de tarefa agora submete para `POST /api/tarefas` via `fazerRequisicaoComOffline()`. Quando online, retorna HTTP 201 e exibe confirmação. Quando offline, salva automaticamente na store `sync_queue` do IndexedDB com `status: 'PENDENTE'` e exibe feedback "Salvo localmente".
+- **Tela de Nova O.S. com suporte offline (US01/RF001)** — o formulário de criação de tarefa agora submete para `POST /api/tarefas` via `fazerRequisicaoComOffline()`. Quando online, retorna HTTP 201 e exibe confirmação. Quando offline, salva automaticamente na store `sincronizacoes` do IndexedDB com `status: 'PENDENTE'` e exibe feedback "Salvo localmente".
 
 <center>
   <p><strong>Figura 37</strong> — Segunda versão: Nova O.S. submetendo para backend real (POST /api/tarefas → 201)</p>
@@ -5256,7 +5993,7 @@ O frontend foi refatorado para consumir a API REST real, substituindo os dados e
 **Elementos transversais:**
 
 - **Service Worker (`src/public/sw.js` — `CACHE_NAME: 'brpec-v4'`)** — registrado globalmente, aplica estratégia network-first com fallback para cache em todas as requisições GET. Na instalação, pré-cacheia assets estáticos (CSS, JS, ícones, `manifest.json`). No evento `activate`, limpa caches de versões anteriores.
-- **IndexedDB (`src/public/js/db.js`)** — banco local `brpec_local` com store `sync_queue`, expondo `salvarFila()`, `listarFila()`, `atualizarFila()`, `removerFila()` e `buscarFilaPorId()` para os tipos `tarefa`, `obito`, `nascimento` e `chamado`.
+- **IndexedDB (`src/public/js/db.js`)** — banco local `brpec_local` com store `sincronizacoes`, expondo `salvarFila()`, `listarFila()`, `atualizarFila()`, `removerFila()` e `buscarFilaPorId()` para os tipos `tarefa`, `obito`, `nascimento` e `chamado`.
 - **Renderização server-side (EJS)** — as páginas passaram a ser renderizadas no servidor via templates EJS (`src/backend/routes/viewRoutes.ts`), com dados iniciais injetados via `res.render()`, reduzindo o número de chamadas à API na carga inicial.
 
 <center>
@@ -6068,7 +6805,7 @@ passos por tarefa e linguagem visual direta.
 
 O segundo diferencial é o **offline nativo via SQLite**. Os dados são gravados
 localmente no dispositivo durante o trabalho de campo e sincronizados automaticamente
-com o servidor — via fila de sincronização (sync_queue) — nas janelas de conectividade
+com o servidor — via fila de sincronização (sincronizacoes) — nas janelas de conectividade
 disponíveis. Não há dependência de conexão contínua em nenhuma etapa do registro.
 
 O terceiro diferencial é a **aderência ao modelo de retiros**. A arquitetura da solução
@@ -6182,7 +6919,7 @@ elimina a necessidade de adaptação do processo ao sistema.
 O segundo eixo é a **simplicidade como requisito técnico**. A interface não é simplificada por limitação, mas por decisão de projeto: cada tela foi desenhada para o perfil de menor familiaridade digital, garantindo que o usuário mais
 limitado consiga operar sem auxílio. Isso aumenta a taxa de adoção e reduz erros de preenchimento na origem.
 
-O terceiro eixo é a **arquitetura offline-first com SQLite**. Diferentemente de soluções que degradam funcionalidades sem internet, a aplicação opera com capacidade plena sem conexão. Os dados são gravados localmente e sincronizados via fila estruturada (sync_queue) nas janelas de Starlink, sem perda de registros e sem intervenção manual do usuário.
+O terceiro eixo é a **arquitetura offline-first com SQLite**. Diferentemente de soluções que degradam funcionalidades sem internet, a aplicação opera com capacidade plena sem conexão. Os dados são gravados localmente e sincronizados via fila estruturada (sincronizacoes) nas janelas de Starlink, sem perda de registros e sem intervenção manual do usuário.
 
 A combinação desses três eixos posiciona a solução não como uma alternativa
 genérica de gestão pecuária, mas como uma ferramenta construída especificamente
@@ -6200,7 +6937,7 @@ O Business Model Canvas abaixo sintetiza a estrutura de negócio da solução de
 | **Canais** | Venda direta B2B sem intermediários. Feiras agropecuárias regionais (Expogrande, Agrishow, Fenapec) com demonstração ao vivo em condições de campo. Marketing de conteúdo técnico em portais especializados (Canal Rural). Programa de indicação entre clientes ativos. |
 | **Relacionamento com Clientes** | Implementação assistida com visita técnica à propriedade. Treinamento presencial de capatazes e coordenadores. Suporte técnico contínuo pós-implantação. Acompanhamento do primeiro ciclo completo de sincronização. |
 | **Fontes de Receita** | Contrato SaaS anual por faixa de rebanho ativo: R$ 6.000–R$ 9.000 (até 5.000 cabeças), R$ 9.000–R$ 18.000 (5.001–20.000 cabeças), negociação enterprise acima de 20.000 cabeças. Serviços de implementação e treinamento cobrados pontualmente na contratação. |
-| **Recursos Principais** | Equipe de desenvolvimento e manutenção da PWA. Infraestrutura de servidor (banco de dados, API, fila de sincronização sync_queue). Conhecimento de domínio do setor pecuário. BrPec como cliente âncora e referência comercial para novas prospecções. |
+| **Recursos Principais** | Equipe de desenvolvimento e manutenção da PWA. Infraestrutura de servidor (banco de dados, API, fila de sincronização sincronizacoes). Conhecimento de domínio do setor pecuário. BrPec como cliente âncora e referência comercial para novas prospecções. |
 | **Atividades Principais** | Desenvolvimento e manutenção da PWA (módulo de campo e painel administrativo). Gestão e evolução da fila de sincronização. Implementação e onboarding presencial nas propriedades. Suporte técnico e atualização da solução conforme mudanças regulatórias (EUDR, PNIB). |
 | **Parcerias Principais** | BrPec Agropecuária S.A. (cliente âncora e validador em campo). Provedores de infraestrutura cloud (hospedagem e banco de dados). SpaceX/Starlink (conectividade dos retiros como infraestrutura de sincronização). MAPA, ABIEC e CNA para acompanhamento de exigências regulatórias. |
 | **Estrutura de Custos** | Desenvolvimento e manutenção de software (custo principal). Infraestrutura de servidores e banco de dados em nuvem. Equipe de implementação e suporte presencial em campo. Participação em feiras agropecuárias. Deslocamento para treinamento nas propriedades clientes. |
@@ -6218,7 +6955,7 @@ coordenadores e pelo gerente para acompanhamento consolidado das operações.
 
 O principal diferencial técnico é a arquitetura offline-first: o banco de dados
 local (SQLite) garante funcionamento pleno sem conexão, e os dados são
-sincronizados automaticamente com o servidor via fila estruturada (sync_queue)
+sincronizados automaticamente com o servidor via fila estruturada (sincronizacoes)
 nas janelas de conectividade disponíveis. Não há perda de registros nem
 necessidade de intervenção manual do usuário no processo de sincronização.
 
