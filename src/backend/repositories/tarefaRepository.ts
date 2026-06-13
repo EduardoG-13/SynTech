@@ -1,20 +1,20 @@
-import supabasePool from '../config/supabasePool';
+import db from '../config/database';
 import { v7 as uuidv7 } from 'uuid';
 
 class TarefaRepository {
   async criar(tarefa: any): Promise<any> {
     const id = uuidv7();
 
-    const result = await supabasePool.query(
-      `
-      INSERT INTO tarefas (
-        id, titulo, descricao, status, data_execucao,
-        retiro_id, capataz_id, gerente_id, sincronizada
-      )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-      RETURNING *
-      `,
-      [
+    db.exec('BEGIN TRANSACTION');
+    try {
+      const stmtInsert = db.prepare(`
+        INSERT INTO tarefas (
+          id, titulo, descricao, status, data_execucao,
+          retiro_id, capataz_id, gerente_id, sincronizada
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0)
+      `);
+      stmtInsert.run(
         id,
         tarefa.titulo,
         tarefa.descricao || null,
@@ -22,38 +22,42 @@ class TarefaRepository {
         tarefa.data_execucao,
         tarefa.retiro_id,
         tarefa.capataz_id,
-        tarefa.gerente_id,
-        1
-      ]
-    );
+        tarefa.gerente_id
+      );
 
-    return result.rows[0];
+      // Register outbox synchronization entry
+      const stmtSync = db.prepare(`
+        INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas, ultima_tentativa)
+        VALUES (?, 'tarefa', ?, 'PENDENTE', 0, null)
+      `);
+      stmtSync.run(uuidv7(), id);
+
+      db.exec('COMMIT');
+
+      return this.buscarPorId(id);
+    } catch (err) {
+      db.exec('ROLLBACK');
+      throw err;
+    }
   }
 
   async buscarPorId(id: string): Promise<any | null> {
-    const result = await supabasePool.query(
-      'SELECT * FROM tarefas WHERE id = $1',
-      [id]
-    );
-
-    return result.rows[0] || null;
+    const stmt = db.prepare('SELECT * FROM tarefas WHERE id = ?');
+    const row = stmt.get(id);
+    return row || null;
   }
 
   async buscarTarefasHoje(
     capataz_id: string,
     data_hoje: string
   ): Promise<any[]> {
-    const result = await supabasePool.query(
-      `
+    const stmt = db.prepare(`
       SELECT *
       FROM tarefas
-      WHERE capataz_id = $1
-      AND DATE(data_execucao) = DATE($2)
-      `,
-      [capataz_id, data_hoje]
-    );
-
-    return result.rows;
+      WHERE capataz_id = ?
+      AND DATE(data_execucao) = DATE(?)
+    `);
+    return stmt.all(capataz_id, data_hoje) as any[];
   }
 
   async concluir(
@@ -61,24 +65,37 @@ class TarefaRepository {
     capataz_id: string,
     data_conclusao: string
   ): Promise<any | false> {
-    const result = await supabasePool.query(
-      `
-      UPDATE tarefas
-      SET status = 'CONCLUIDA',
-          concluida_em = $1,
-          sincronizada = 1
-      WHERE id = $2
-      AND capataz_id = $3
-      RETURNING *
-      `,
-      [data_conclusao, id, capataz_id]
-    );
+    db.exec('BEGIN TRANSACTION');
+    try {
+      const stmtUpdate = db.prepare(`
+        UPDATE tarefas
+        SET status = 'CONCLUIDA',
+            concluida_em = ?,
+            sincronizada = 0
+        WHERE id = ?
+        AND capataz_id = ?
+      `);
+      const info = stmtUpdate.run(data_conclusao, id, capataz_id);
 
-    if (result.rowCount === 0) {
-      return false;
+      // info.changes represents rows affected in SQLite DatabaseSync
+      if ((info as any).changes === 0) {
+        db.exec('ROLLBACK');
+        return false;
+      }
+
+      // Register outbox update in sync queue
+      const stmtSync = db.prepare(`
+        INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas, ultima_tentativa)
+        VALUES (?, 'tarefa', ?, 'PENDENTE', 0, null)
+      `);
+      stmtSync.run(uuidv7(), id);
+
+      db.exec('COMMIT');
+      return this.buscarPorId(id);
+    } catch (err) {
+      db.exec('ROLLBACK');
+      throw err;
     }
-
-    return result.rows[0];
   }
 
   async salvarEvidencia(
@@ -89,17 +106,29 @@ class TarefaRepository {
   ): Promise<string> {
     const id = uuidv7();
 
-    await supabasePool.query(
-      `
-      INSERT INTO evidencias (
-        id, tarefa_id, tipo, arquivo_base64, geolocalizacao, sincronizada
-      )
-      VALUES ($1, $2, $3, $4, $5, 1)
-      `,
-      [id, tarefa_id, tipo, arquivo_base64, geolocalizacao]
-    );
+    db.exec('BEGIN TRANSACTION');
+    try {
+      const stmtInsert = db.prepare(`
+        INSERT INTO evidencias (
+          id, tarefa_id, tipo, arquivo_base64, geolocalizacao, sincronizada
+        )
+        VALUES (?, ?, ?, ?, ?, 0)
+      `);
+      stmtInsert.run(id, tarefa_id, tipo, arquivo_base64, geolocalizacao);
 
-    return id;
+      // Register in sync queue
+      const stmtSync = db.prepare(`
+        INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas, ultima_tentativa)
+        VALUES (?, 'evidencia', ?, 'PENDENTE', 0, null)
+      `);
+      stmtSync.run(uuidv7(), id);
+
+      db.exec('COMMIT');
+      return id;
+    } catch (err) {
+      db.exec('ROLLBACK');
+      throw err;
+    }
   }
 }
 

@@ -1,0 +1,285 @@
+<%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/chamado.css" />
+
+<div id="device" class="logged">
+  <%- include('partials/sidebar') %>
+
+  <div id="app">
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar"><img src="/public/Icons/infra.ico" alt="Infra" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <h1>Resolver Chamado</h1>
+      <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %></div>
+    </div>
+
+    <main class="chamado-main">
+
+      <button type="button" class="btn-voltar" onclick="window.history.back()">⬅️ Voltar</button>
+
+      <!-- Card do chamado -->
+      <div class="card-chamado">
+        <div class="card-chamado-header">
+          <div class="card-chamado-icone" id="chamado-icone">
+            <img src="/public/Icons/infra.ico" alt="" />
+          </div>
+          <div>
+            <h2 id="chamado-titulo">Carregando...</h2>
+            <span class="badge" id="chamado-categoria">—</span>
+          </div>
+        </div>
+        <div class="card-chamado-meta">
+          <div><strong><img class="ico-sm" src="/public/Icons/localizacao.ico" alt="" /> Retiro:</strong> <span id="chamado-retiro">—</span></div>
+          <div><strong><img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> Aberto em:</strong> <span id="chamado-data">—</span></div>
+          <div><strong><img class="ico-sm" src="/public/Icons/capataz.ico" alt="" /> Capataz:</strong> <span id="chamado-capataz">—</span></div>
+          <div><strong><img class="ico-sm" src="/public/Icons/editar.ico" alt="" /> Descrição:</strong> <span id="chamado-descricao">—</span></div>
+          <div id="chamado-gps-box" style="display:none;"><strong><img class="ico-sm" src="/public/Icons/GPS.ico" alt="" /> GPS:</strong> <span id="chamado-gps">—</span></div>
+          <div id="chamado-local-box" style="display:none;"><strong><img class="ico-sm" src="/public/Icons/bussola_direcao_guia.ico" alt="" /> Local (referência):</strong> <span id="chamado-local">—</span></div>
+        </div>
+        <div id="chamado-audio-box" style="display:none; margin-top:0.75rem;">
+          <p class="ajuda" style="margin-bottom:0.25rem;"><img class="ico-sm" src="/public/Icons/grava_audio.ico" alt="" /> Áudio enviado pelo capataz:</p>
+          <audio controls id="chamado-audio" style="width:100%;"></audio>
+        </div>
+        <div id="chamado-foto-box" style="display:none; margin-top:0.75rem;">
+          <p class="ajuda" style="margin-bottom:0.25rem;"><img class="ico-sm" src="/public/Icons/tira_foto.ico" alt="" /> Foto enviada pelo capataz:</p>
+          <img id="chamado-foto" class="chamado-foto" alt="Foto do problema" style="max-width:100%; border-radius:10px;" />
+          <a id="chamado-foto-link" href="#" target="_blank" rel="noopener" style="display:inline-block; margin-top:0.4rem; color:#1A4D2E; font-size:0.85rem; text-decoration:underline;">🔍 Abrir foto em tela cheia</a>
+        </div>
+      </div>
+
+      <!-- Formulário de resolução -->
+      <form id="form-resolver-chamado" class="form-resolucao">
+        <input type="hidden" id="chamado-id" value="<%= typeof chamadoId !== 'undefined' ? chamadoId : '' %>" />
+
+        <div class="card-resolucao">
+          <label class="label-bold"><img class="label-ico" src="/public/Icons/editar.ico" alt="" /> Descrição da Solução</label>
+          <textarea id="descricao-solucao" rows="5" maxlength="500" placeholder="Descreva o que foi feito para resolver o problema..."></textarea>
+          <div class="char-counter"><span id="char-count">0</span>/500</div>
+        </div>
+
+        <div class="card-resolucao">
+          <label class="label-bold"><img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" /> Gravar áudio (opcional)</label>
+          <p class="ajuda">Se preferir, grave um áudio explicando a resolução.</p>
+          <button type="button" class="btn-audio" id="btn-gravar-audio">
+            <img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" />
+            <span id="audio-btn-txt">Gravar áudio</span>
+          </button>
+          <audio id="audio-preview" controls style="display:none; width:100%; margin-top:0.5rem;"></audio>
+          <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;">🗑️ Apagar áudio</button>
+        </div>
+
+        <div class="card-resolucao">
+          <label class="label-bold"><img class="label-ico" src="/public/Icons/tira_foto.ico" alt="" /> Foto da resolução (opcional)</label>
+          <p class="ajuda">Tire foto ou escolha do celular.</p>
+          <div class="upload-foto">
+            <label for="input-foto-resolucao" class="upload-label">
+              <img class="upload-icon-img" src="/public/Icons/tira_foto.ico" alt="" />
+              <span id="foto-txt">📷 Tirar foto ou escolher do celular</span>
+            </label>
+            <input type="file" id="input-foto-resolucao" accept="image/*" style="display:none;" />
+          </div>
+          <img id="preview-foto-resolucao" src="" alt="" style="display:none; max-width:100%; border-radius:10px; margin-top:0.75rem;" />
+        </div>
+
+        <button type="submit" class="btn-salvar" id="btn-salvar-resolucao">
+          <img class="label-ico" src="/public/Icons/concluido.ico" alt="" /> Salvar Resolução
+        </button>
+
+        <p class="form-msg" id="resolver-msg" style="display:none;"></p>
+      </form>
+
+    </main>
+
+  </div>
+</div>
+
+<script>
+  var CHAMADO_ID = '<%= typeof chamadoId !== "undefined" ? chamadoId : "" %>';
+
+  document.addEventListener('DOMContentLoaded', function() {
+    carregarChamado();
+    configurarFoto();
+    configurarAudio();
+    configurarContador();
+
+    document.getElementById('form-resolver-chamado').addEventListener('submit', enviarResolucao);
+  });
+
+  function carregarChamado() {
+    fetch('/api/chamados/' + encodeURIComponent(CHAMADO_ID), { credentials: 'same-origin' })
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(c) {
+        if (!c) {
+          document.getElementById('chamado-titulo').textContent = 'Chamado não encontrado';
+          return;
+        }
+        document.getElementById('chamado-titulo').textContent = (c.descricao || '').slice(0, 60);
+        var cat = document.getElementById('chamado-categoria');
+        cat.textContent = (c.tipo || '').toUpperCase();
+        cat.className = 'badge ' + (c.status === 'RESOLVIDO' ? 'concluida' : (c.status === 'EM_ANDAMENTO' ? 'andamento' : 'pendente'));
+        document.getElementById('chamado-retiro').textContent = c.retiro_nome || c.retiro_id || '—';
+        document.getElementById('chamado-capataz').textContent = c.capataz_nome || '—';
+        document.getElementById('chamado-data').textContent = (c.criado_em || '').slice(0, 16).replace('T', ' ');
+        document.getElementById('chamado-descricao').textContent = c.descricao || '—';
+        if (c.latitude && c.longitude) {
+          document.getElementById('chamado-gps-box').style.display = 'block';
+          var ehMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+          var url = ehMobile
+            ? 'geo:' + c.latitude + ',' + c.longitude + '?q=' + c.latitude + ',' + c.longitude
+            : 'https://www.google.com/maps?q=' + c.latitude + ',' + c.longitude;
+          var link = document.createElement('a');
+          link.href = url; link.target = '_blank'; link.rel = 'noopener';
+          link.textContent = c.latitude + ', ' + c.longitude + ' (abrir no Maps)';
+          link.style.color = '#1A4D2E'; link.style.textDecoration = 'underline';
+          var span = document.getElementById('chamado-gps');
+          span.textContent = ''; span.appendChild(link);
+        }
+        if (c.local_referencia) {
+          document.getElementById('chamado-local-box').style.display = 'block';
+          document.getElementById('chamado-local').textContent = c.local_referencia;
+        }
+        if (c.audio_base64) {
+          document.getElementById('chamado-audio-box').style.display = 'block';
+          document.getElementById('chamado-audio').src = c.audio_base64;
+        }
+        if (c.foto_base64) {
+          document.getElementById('chamado-foto-box').style.display = 'block';
+          var src = c.foto_base64.indexOf('data:') === 0 ? c.foto_base64 : ('data:image/jpeg;base64,' + c.foto_base64);
+          document.getElementById('chamado-foto').src = src;
+          document.getElementById('chamado-foto-link').href = src;
+        }
+
+        // Se já resolvido, bloqueia edição e mostra a resolução existente
+        if (c.status === 'RESOLVIDO') {
+          bloquearEdicao(c);
+        }
+      });
+  }
+
+  function bloquearEdicao(c) {
+    document.getElementById('form-resolver-chamado').style.display = 'none';
+    var aviso = document.createElement('div');
+    aviso.className = 'card-resolucao';
+    aviso.innerHTML =
+      '<h3 style="color:#1A4D2E; margin-bottom:0.5rem;">✅ Resolução já registrada</h3>' +
+      '<div class="card-chamado-meta">' +
+        '<div><strong>📅 Resolvido em:</strong> ' + ((c.resolvido_em || '').slice(0,16).replace('T',' ') || '—') + '</div>' +
+        '<div><strong>🛠️ Solução:</strong> ' + (c.solucao_resolucao || '—') + '</div>' +
+      '</div>' +
+      '<p style="margin-top:0.75rem; color:#8A8A7C; font-size:0.85rem;">🔒 Não é possível alterar uma resolução já registrada.</p>';
+    document.querySelector('.chamado-main').appendChild(aviso);
+  }
+
+  function configurarFoto() {
+    var input = document.getElementById('input-foto-resolucao');
+    input.addEventListener('change', function() {
+      if (!input.files.length) return;
+      document.getElementById('foto-txt').textContent = '✅ ' + input.files[0].name;
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var img = document.getElementById('preview-foto-resolucao');
+        img.src = e.target.result;
+        img.style.display = 'block';
+      };
+      reader.readAsDataURL(input.files[0]);
+    });
+  }
+
+  function configurarContador() {
+    var ta = document.getElementById('descricao-solucao');
+    var counter = document.getElementById('char-count');
+    ta.addEventListener('input', function() { counter.textContent = ta.value.length; });
+  }
+
+  // === Áudio (gravação) ===
+  var mediaRecorder = null, audioChunks = [], audioBase64 = '', gravando = false;
+  function configurarAudio() {
+    var btn = document.getElementById('btn-gravar-audio');
+    var rem = document.getElementById('btn-remover-audio');
+    btn.addEventListener('click', function() {
+      if (!gravando) iniciarGravacao(); else pararGravacao();
+    });
+    rem.addEventListener('click', function() {
+      audioBase64 = '';
+      var p = document.getElementById('audio-preview');
+      p.src = ''; p.style.display = 'none';
+      rem.style.display = 'none';
+    });
+  }
+  function iniciarGravacao() {
+    if (!navigator.mediaDevices) { msg('🎙️ Navegador não suporta gravação.', 'erro'); return; }
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+      mediaRecorder = new MediaRecorder(stream);
+      audioChunks = [];
+      mediaRecorder.ondataavailable = function(e) { audioChunks.push(e.data); };
+      mediaRecorder.onstop = function() {
+        var blob = new Blob(audioChunks, { type: 'audio/webm' });
+        var r = new FileReader();
+        r.onloadend = function() {
+          audioBase64 = r.result;
+          var p = document.getElementById('audio-preview');
+          p.src = audioBase64; p.style.display = 'block';
+          document.getElementById('btn-remover-audio').style.display = 'inline-block';
+        };
+        r.readAsDataURL(blob);
+        stream.getTracks().forEach(function(t) { t.stop(); });
+      };
+      mediaRecorder.start();
+      gravando = true;
+      document.getElementById('audio-btn-txt').textContent = '⏹️ Parar gravação';
+      document.getElementById('btn-gravar-audio').classList.add('gravando');
+    }).catch(function() { msg('🎙️ Permissão de microfone negada.', 'erro'); });
+  }
+  function pararGravacao() {
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+    gravando = false;
+    document.getElementById('audio-btn-txt').textContent = 'Gravar novamente';
+    document.getElementById('btn-gravar-audio').classList.remove('gravando');
+  }
+
+  function msg(texto, tipo) {
+    var el = document.getElementById('resolver-msg');
+    el.textContent = texto;
+    el.className = 'form-msg ' + tipo;
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function enviarResolucao(e) {
+    e.preventDefault();
+    var descricao = document.getElementById('descricao-solucao').value.trim();
+    if (descricao.length < 5) {
+      msg('🛠️ Descreva a resolução (mínimo 5 caracteres).', 'erro');
+      return;
+    }
+    var foto = document.getElementById('input-foto-resolucao').files[0];
+    var lerFoto = foto
+      ? new Promise(function(resolve) {
+          var r = new FileReader();
+          r.onload = function() { resolve(r.result); };
+          r.readAsDataURL(foto);
+        })
+      : Promise.resolve('');
+
+    lerFoto.then(function(fotoBase64) {
+      var payload = {
+        solucao: descricao,
+        foto_base64: fotoBase64 || undefined,
+        audio_base64: audioBase64 || undefined,
+      };
+      fetch('/api/chamados/' + encodeURIComponent(CHAMADO_ID) + '/resolver', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify(payload),
+      })
+      .then(function(r) { return r.json().then(function(d){ return { ok: r.ok, data: d }; }); })
+      .then(function(res) {
+        if (!res.ok) { msg('❌ ' + (res.data.erro || 'Erro ao salvar.'), 'erro'); return; }
+        msg('✅ Resolução registrada com sucesso!', 'sucesso');
+        setTimeout(function() { window.location.href = '/infraestrutura'; }, 1500);
+      })
+      .catch(function() { msg('❌ Erro de conexão.', 'erro'); });
+    });
+  }
+</script>
+
+<%- include('partials/footer') %>

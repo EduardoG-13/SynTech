@@ -2,9 +2,21 @@ import eventoRepository from '../repositories/eventoRepository';
 import { MovimentacaoBase } from '../models/Movimentacao';
 
 class EventoService {
-  registrarNascimento(dados: Partial<MovimentacaoBase>) {
-    // RN27 e outras regras de domínio
-    return eventoRepository.criarNascimento(dados);
+  async registrarNascimento(dados: {
+    data: string;
+    retiro_id: string;
+    categoria: string;
+    quantidade: number;
+    capataz_id: string;
+  }) {
+    // RN27: Data de nascimento não pode ser futura
+    const hoje = new Date();
+    hoje.setHours(23, 59, 59, 999);
+    if (new Date(dados.data + 'T00:00:00') > hoje) {
+      throw new Error('RN27: Data de nascimento não pode ser futura');
+    }
+
+    return await eventoRepository.criarNascimento(dados);
   }
 
   /**
@@ -14,7 +26,7 @@ class EventoService {
    * RF013: Validação de campos obrigatórios (identificação, categoria, causa, data)
    * RN28: Foto obrigatória para auditoria sanitária
    */
-  registrarObito(dados: {
+  async registrarObito(dados: {
     capataz_id: string;
     retiro_id: string;
     data: string;
@@ -25,24 +37,24 @@ class EventoService {
     foto_base64: string;
     geolocalizacao?: string;
   }) {
-    // RF013: Validação de campos obrigatórios
+    // Validação de campos obrigatórios para óbito
     if (!dados.identificacao_animal) {
-      throw new Error('RF013: Campo obrigatório ausente: identificacao_animal');
+      throw new Error('Informe a identificação do animal.');
     }
     if (!dados.causa_morte) {
-      throw new Error('RF013: Campo obrigatório ausente: causa_morte');
+      throw new Error('Informe a causa da morte.');
     }
     if (!dados.foto_base64) {
-      throw new Error('RF013: Foto obrigatória para registro de óbito (evidência sanitária)');
+      throw new Error('Para registrar óbito é obrigatório anexar a foto da carcaça.');
     }
     if (!dados.data) {
-      throw new Error('RF013: Campo obrigatório ausente: data');
+      throw new Error('Informe a data do óbito.');
     }
     if (!dados.categoria) {
-      throw new Error('RF013: Campo obrigatório ausente: categoria');
+      throw new Error('Selecione a categoria do animal.');
     }
 
-    return eventoRepository.criarObito(dados);
+    return await eventoRepository.criarObito(dados);
   }
 
   /**
@@ -51,7 +63,7 @@ class EventoService {
    * RF014: Disponibilizar registros no painel do Coordenador
    * US11: Coordenador visualiza movimentações por retiro e tipo
    */
-  listarEventos(filtros: {
+  async listarEventos(filtros: {
     retiro_id?: string;
     categoria?: string;
     data_inicio?: string;
@@ -60,11 +72,8 @@ class EventoService {
     pagina?: number;
     limite?: number;
   }) {
-    return eventoRepository.listarTodos(filtros);
+    return await eventoRepository.listarTodos(filtros);
   }
 }
 
 export default new EventoService();
-
-
-

@@ -4,17 +4,19 @@
 <a href= "https://www.inteli.edu.br/"><img src="/assets/inteli.png" alt="Inteli - Instituto de Tecnologia e Liderança" border="0"></a>
 </p>
 
-# Nome do projeto
+# BRPec — Syntech
 
-## Nome do grupo
+> Sistema web PWA de gestão zootécnica e operacional para a BRPec Agropecuária S.A. — registro offline-first de boletas, chamados de infraestrutura e tarefas de campo, com sincronização automática e exportação para Excel/CSV/PDF.
+
+## Grupo 3 — Syntech
 
 ## :student: Integrantes: 
-- <a href="https://www.linkedin.com/in/filipe-salotti-9ab184310/">Arthur Morais </a>
-- <a href="https://www.linkedin.com/in/eduardo-gabriel-de-oliveira-1ab818220/">Eduardo Oliveira</a>
+- <a href="https://www.linkedin.com/in/arthurriscadomorais/">Arthur Morais </a>
+- <a href="https://www.linkedin.com/in/eduardo-oliveira05/">Eduardo Oliveira</a>
 - <a href="https://www.linkedin.com/in/enzo-santos-bezerra-1904403bb/">Enzo Santos Bezerra</a>
 - <a href="https://www.linkedin.com/in/guilherme-beltrame-18b1b429b/">Guilherme Munhoz Beltrame</a>
 - <a href="https://www.linkedin.com/in/laiza-guimar%C3%A3es-2748b2313/">Laiza Guimaraes</a>
-- <a href="https://www.linkedin.com/in/kaylan-alexandre/">Lorena Kopke</a>
+- <a href="https://www.linkedin.com/in/lorena-cordeiro-kopke/">Lorena Kopke</a>
 - <a href="https://www.linkedin.com/in/mateus-galatro/">Mateus Gongora Pereira Galatro</a>
 - <a href="https://www.linkedin.com/in/miguel-cristiano-costa-160b96320/">Miguel Cristiano Costa</a>
 
@@ -30,11 +32,25 @@
 
 ## 📝 Descrição
 
-_Descreva seu projeto (até 600 palavras)_
+A BRPec Agropecuária S.A. opera 14 retiros no Pantanal mato-grossense onde o fluxo de informações entre campo e escritório é manual — capatazes anotam boletas em papel, coordenadores transcrevem em planilhas Excel, e o gerente toma decisões com dados defasados. O **Syntech** é o sistema PWA que digitaliza esse fluxo na fonte, com foco em três realidades operacionais:
+
+1. **Conectividade intermitente** — capatazes registram tudo offline; ao reconectar, o app sincroniza via outbox SQLite.
+2. **Hierarquia de aprovação** — Capataz cria → Coordenador aprova → Gerente consolida → Gerente ADM administra usuários/retiros e pode excluir registros.
+3. **Variedade de evidências** — fotos, áudios, GPS e brincos de identificação são parte do registro.
+
+**Quatro perfis** com fluxos próprios:
+
+- **Capataz**: registra boletas (nascimento, óbito, transferência, compra/venda, evolução, manejo) e abre chamados de infraestrutura. Interface com fontes maiores e UPPERCASE para leitura em campo.
+- **Coordenador**: aprova boletas dos retiros sob sua responsabilidade, exporta XLSX/CSV/PDF estilizado.
+- **Gerente**: visão consolidada da fazenda em dashboards (chamados por retiro, evolução de demandas, tarefas por status).
+- **Infraestrutura**: recebe chamados filtrados pela categoria (hidráulica/elétrica/cerca), vê foto + áudio + GPS + local de referência enviados pelo capataz, e registra a solução.
+- **Gerente ADM** (variação): único perfil com permissão de excluir qualquer registro do sistema, gateado por `is_admin` em duas camadas (UI + backend).
+
+**Stack:** Node.js 22 + Express + EJS + `node:sqlite` embutido + Supabase para cloud sync + Service Worker + IndexedDB outbox. Exportação XLSX via `exceljs`, PDF via `pdfkit`.
 
 ## 📝 Link de demonstração
 
-_Coloque aqui o link para o vídeo de demonstração do projeto_
+_(adicionar link do vídeo após gravação)_
 
 ## 📁 Estrutura de pastas
 
@@ -160,16 +176,22 @@ Os seguintes arquivos e pastas estao no `.gitignore` e nao devem ser versionados
 
 ## 🗃 Histórico de lançamentos
 
-* 0.5.0 - XX/XX/2024
-    * 
-* 0.4.0 - XX/XX/2024
-    * 
-* 0.3.0 - XX/XX/2024
-    * 
-* 0.2.0 - XX/XX/2024
-    * 
-* 0.1.0 - XX/XX/2024
-    *
+* **0.5.0 - 01/06/2026**
+    * Configuração do motor de templates EJS e rotas de visualização (`/`, `/dashboard`, `/tasks`).
+    * Criação da tabela `schema_migrations` no script de inicialização do banco SQLite (`initDb.ts`).
+    * Finalização das seções de Autenticação, Autorização e Resiliência no WAD.
+* **0.4.0 - 18/05/2026**
+    * Implementação do mecanismo offline-first (IndexedDB no cliente e fila de sincronização `sync_queue` no SQLite).
+    * Criação do endpoint de sincronização em lote (`POST /api/sincronizacao/lote`).
+* **0.3.0 - 04/05/2026**
+    * Desenvolvimento da primeira versão da WebAPI REST (Node.js, Express, TypeScript e SQLite).
+    * Criação dos endpoints para CRUD de tarefas, chamados de infraestrutura e eventos de nascimento.
+    * Implementação da suite de testes de integração com Jest e Supertest.
+* **0.2.0 - 20/04/2026**
+    * Elaboração dos protótipos de alta fidelidade e definição da paleta de cores de alto contraste para o campo.
+    * Modelagem de banco de dados (DER/MR) e escrita dos scripts de migração DDL.
+* **0.1.0 - 06/04/2026**
+    * Definição de escopo, análise SWOT, matriz de riscos do projeto e especificação inicial das User Stories.
 
 ## 📋 Licença/License
 ```

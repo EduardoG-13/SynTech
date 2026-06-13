@@ -1,0 +1,68 @@
+<!-- Rodapé do Sistema -->
+ <footer class="app-footer">
+    <div class="footer-container">
+        <p>&copy; 2026 BrPec Agropecuária. Desenvolvido poelo Grupo 3 (syntech)</p> <!-- &copy; serve para colocar o símbolo de direitos autorais (copyright) © em páginas da web-->
+        <div class="footer-meta">
+            <span class="badge-offline" id="onlineStatus">Online</span>
+            <span class="app-version">v0.0 - Sprint 4</span>
+        </div>
+    </div>
+ </footer>
+
+ <!-- Script JS para Sincronização com o Banco de Dados local -->
+ <script type="module">
+   import { fazerRequisicaoComOffline, sincronizarFilaPendente } from '/public/js/offline-interceptor.js';
+   
+   // Expor globalmente para uso em templates inline
+   window.fazerRequisicaoComOffline = fazerRequisicaoComOffline;
+   window.sincronizarFilaPendente = sincronizarFilaPendente;
+ </script>
+ <script src="/public/app.js"></script>
+
+ <!-- Botão flutuante "Instalar app" — só aparece quando o browser permite -->
+ <button id="btn-instalar-pwa" class="pwa-install-btn" style="display:none;" onclick="instalarPWA()">
+   <img class="label-ico" src="/public/Icons/instalar_aplicativo_celular.ico" alt="" /> Instalar app
+ </button>
+
+ <!-- Registro do Service Worker + handler de instalação do PWA -->
+ <script>
+   if ('serviceWorker' in navigator) {
+     window.addEventListener('load', function () {
+       navigator.serviceWorker.register('/sw.js')
+         .then(function (reg) { console.log('[SW] Registrado:', reg.scope); })
+         .catch(function (err) { console.error('[SW] Falha:', err); });
+     });
+   }
+
+   // Captura o evento 'beforeinstallprompt' (Chrome/Edge/Android) e mostra o botão
+   var deferredInstallPrompt = null;
+   window.addEventListener('beforeinstallprompt', function (e) {
+     e.preventDefault();
+     deferredInstallPrompt = e;
+     var btn = document.getElementById('btn-instalar-pwa');
+     if (btn) btn.style.display = 'flex';
+   });
+
+   function instalarPWA() {
+     if (!deferredInstallPrompt) {
+       // iOS não dispara beforeinstallprompt — instruir o usuário
+       alert('Para instalar no iPhone:\n\n1. Toque no botão de compartilhar (□↑)\n2. Selecione "Adicionar à Tela de Início"');
+       return;
+     }
+     deferredInstallPrompt.prompt();
+     deferredInstallPrompt.userChoice.then(function () {
+       deferredInstallPrompt = null;
+       var btn = document.getElementById('btn-instalar-pwa');
+       if (btn) btn.style.display = 'none';
+     });
+   }
+
+   // Esconde o botão quando o app já está instalado
+   window.addEventListener('appinstalled', function () {
+     var btn = document.getElementById('btn-instalar-pwa');
+     if (btn) btn.style.display = 'none';
+   });
+ </script>
+
+</body>
+</html>

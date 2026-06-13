@@ -35,8 +35,8 @@ beforeEach(() => {
     DELETE FROM obitos;
     DELETE FROM nascimentos;
     DELETE FROM movimentacoes;
-    DELETE FROM evidencias;
     DELETE FROM alertas;
+    DELETE FROM evidencias;
     DELETE FROM tarefas;
     DELETE FROM usuarios;
     DELETE FROM retiros;
@@ -49,10 +49,10 @@ beforeEach(() => {
   db.prepare('INSERT INTO usuarios (id, nome, senha, perfil, retiro_id) VALUES (?, ?, ?, ?, ?)').run(CAPATAZ_B, 'Capataz Beta', 'senha123', 'Capataz', RETIRO_B);
 });
 
-// ── H — GET /api/health (Health check) ────────────────────────────────────────
+// ── HE — GET /api/health (Health check) ────────────────────────────────────────
 
-describe('H — GET /api/health (Health check)', () => {
-  test('H1. Sucesso — retorna status 200 com informações de saúde do servidor e banco', async () => {
+describe('HE — GET /api/health (Health check)', () => {
+  test('HE1. Sucesso — retorna status 200 com informações de saúde do servidor e banco', async () => {
     const res = await request(app).get('/api/health');
     
     expect(res.status).toBe(200);
@@ -65,10 +65,10 @@ describe('H — GET /api/health (Health check)', () => {
   });
 });
 
-// ── A — POST /api/chamados (Criar Alerta) ─────────────────────────────────────
+// ── AL — POST /api/chamados (Criar Alerta) ─────────────────────────────────────
 
-describe('A — POST /api/chamados (Criar Alerta)', () => {
-  test('A1. Sucesso — cria alerta com dados válidos e retorna HTTP 201', async () => {
+describe('AL — POST /api/chamados (Criar Alerta)', () => {
+  test('AL1. Sucesso — cria alerta com dados válidos e retorna HTTP 201', async () => {
     const res = await request(app)
       .post('/api/chamados')
       .send({
@@ -87,9 +87,14 @@ describe('A — POST /api/chamados (Criar Alerta)', () => {
     expect(res.body.alerta.status).toBe('ABERTO');
     expect(res.body.alerta.capataz_id).toBe(CAPATAZ_A);
     expect(res.body.alerta.retiro_id).toBe(RETIRO_A);
+
+    // Assert outbox queue registration (US09 / RF011)
+    const syncItem = db.prepare('SELECT * FROM sincronizacoes WHERE entidade_tipo = ? AND entidade_id = ?').get('alerta', res.body.id) as Record<string, unknown>;
+    expect(syncItem).toBeDefined();
+    expect(syncItem['status_envio']).toBe('PENDENTE');
   });
 
-  test('A2. Payload inválido — campos obrigatórios ausentes retorna HTTP 400', async () => {
+  test('AL2. Payload inválido — campos obrigatórios ausentes retorna HTTP 400', async () => {
     const res = await request(app)
       .post('/api/chamados')
       .send({
@@ -102,20 +107,24 @@ describe('A — POST /api/chamados (Criar Alerta)', () => {
     expect(res.body).toHaveProperty('erro');
     expect(res.body.erro).toMatch(/Campos obrigatórios não preenchidos/);
   });
+
 });
 
-// ── E — POST /api/eventos-zootecnicos/nascimentos (Registrar Nascimento) ──────
+// ── N — POST /api/eventos-zootecnicos/nascimentos (Registrar Nascimento) ──────
 
-describe('E — POST /api/eventos-zootecnicos/nascimentos (Registrar Nascimento)', () => {
-  test('E1. Sucesso — registra nascimento animal com sucesso e retorna HTTP 201', async () => {
+describe('N — POST /api/eventos-zootecnicos/nascimentos (Registrar Nascimento)', () => {
+  test('N1. Sucesso — registra nascimento animal com sucesso e retorna HTTP 201', async () => {
     const res = await request(app)
       .post('/api/eventos-zootecnicos/nascimentos')
       .send({
-        data: '2026-05-25',
+        data: '2026-06-10',
         retiro_id: RETIRO_A,
         categoria: 'bezerro',
         quantidade: 3,
-        capataz_id: CAPATAZ_A
+        capataz_id: CAPATAZ_A,
+        identificacao_mae: 'MAE-TEST',
+        sexo: 'Macho',
+        peso_nascimento: 32
       });
 
     expect(res.status).toBe(201);
@@ -125,9 +134,14 @@ describe('E — POST /api/eventos-zootecnicos/nascimentos (Registrar Nascimento)
     expect(res.body.registro.quantidade).toBe(3);
     expect(res.body.registro.retiro_id).toBe(RETIRO_A);
     expect(res.body.registro.capataz_id).toBe(CAPATAZ_A);
+
+    // Assert outbox queue registration (US09 / RF011)
+    const syncItem = db.prepare('SELECT * FROM sincronizacoes WHERE entidade_tipo = ? AND entidade_id = ?').get('movimentacao', res.body.id) as Record<string, unknown>;
+    expect(syncItem).toBeDefined();
+    expect(syncItem['status_envio']).toBe('PENDENTE');
   });
 
-  test('E2. Payload inválido — campos obrigatórios ausentes retorna HTTP 400', async () => {
+  test('N2. Payload inválido — campos obrigatórios ausentes retorna HTTP 400', async () => {
     const res = await request(app)
       .post('/api/eventos-zootecnicos/nascimentos')
       .send({
@@ -139,5 +153,26 @@ describe('E — POST /api/eventos-zootecnicos/nascimentos (Registrar Nascimento)
     expect(res.status).toBe(400);
     expect(res.body).toHaveProperty('erro');
     expect(res.body.erro).toMatch(/Campos obrigatórios não preenchidos/);
+  });
+
+  test('N3. Regra de negócio (RN27) — data de nascimento futura retorna erro 4xx', async () => {
+    // Arrange — todos os campos válidos; apenas a data está no futuro
+    const DATA_FUTURA = new Date(Date.now() + 86_400_000).toISOString().split('T')[0];
+    const res = await request(app)
+      .post('/api/eventos-zootecnicos/nascimentos')
+      .send({
+        data: DATA_FUTURA,
+        retiro_id: RETIRO_A,
+        categoria: 'bezerro',
+        quantidade: 3,
+        capataz_id: CAPATAZ_A,
+        identificacao_mae: 'MAE-TEST',
+        sexo: 'Macho',
+        peso_nascimento: 32,
+      });
+
+    // Assert — eventoController captura RN27 e retorna 422 (regra de negócio violada)
+    expect(res.status).toBe(422);
+    expect(res.body).toHaveProperty('erro');
   });
 });

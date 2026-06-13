@@ -1,15 +1,18 @@
 import eventoService from '../services/eventoService';
 
 class EventoController {
-  registrarNascimento(req, res) {
+  async registrarNascimento(req, res, next): Promise<void> {
+    const { data, retiro_id, categoria, quantidade, capataz_id } = req.body;
+
+    if (!data || !retiro_id || !categoria || !quantidade || !capataz_id) {
+      res.status(400).json({
+        erro: 'Campos obrigatórios não preenchidos: data, retiro_id, categoria, quantidade, capataz_id'
+      });
+      return;
+    }
+
     try {
-      const { data, retiro_id, categoria, quantidade, capataz_id } = req.body;
-
-      if (!data || !retiro_id || !categoria || !quantidade || !capataz_id) {
-        return res.status(400).json({ erro: 'Campos obrigatórios não preenchidos: data, retiro_id, categoria, quantidade, capataz_id' });
-      }
-
-      const nascimento = eventoService.registrarNascimento({
+      const nascimento = await eventoService.registrarNascimento({
         data,
         retiro_id,
         categoria,
@@ -17,51 +20,64 @@ class EventoController {
         capataz_id
       });
 
-      return res.status(201).json({ id: nascimento.id, mensagem: 'Registro de nascimento criado com sucesso', registro: nascimento });
-    } catch (erro) {
-      return res.status(500).json({ erro: 'Erro ao criar registro', detalhe: erro.message });
+      res.status(201).json({
+        id: nascimento.id,
+        mensagem: 'Registro de nascimento criado com sucesso',
+        registro: nascimento
+      });
+    } catch (erro: any) {
+      if (erro.message?.includes('RN27') || erro.message?.includes('RF013')) {
+        res.status(422).json({ erro: erro.message });
+        return;
+      }
+      next(erro);
     }
   }
 
-  /**
-   * POST /api/eventos-zootecnicos/obitos
-   * Registra um óbito animal com foto obrigatória.
-   *
-   * RF009, RF013: Campos obrigatórios validados na camada controller e service.
-   */
-  registrarObito(req, res) {
+  async registrarObito(req, res, next): Promise<void> {
+    const {
+      capataz_id,
+      retiro_id,
+      data,
+      categoria,
+      quantidade,
+      identificacao_animal,
+      causa_morte,
+      foto_base64,
+      geolocalizacao
+    } = req.body;
+
+    const camposGeraisFaltantes: string[] = [];
+
+    if (!capataz_id) camposGeraisFaltantes.push('capataz_id');
+    if (!retiro_id) camposGeraisFaltantes.push('retiro_id');
+    if (!data) camposGeraisFaltantes.push('data');
+    if (!categoria) camposGeraisFaltantes.push('categoria');
+    if (!quantidade) camposGeraisFaltantes.push('quantidade');
+
+    if (camposGeraisFaltantes.length > 0) {
+      res.status(400).json({
+        erro: 'Campos obrigatórios não preenchidos',
+        campos_faltantes: camposGeraisFaltantes
+      });
+      return;
+    }
+
+    const camposRF013Faltantes: string[] = [];
+    if (!identificacao_animal) camposRF013Faltantes.push('identificacao_animal');
+    if (!causa_morte) camposRF013Faltantes.push('causa_morte');
+    if (!foto_base64) camposRF013Faltantes.push('foto_base64');
+
+    if (camposRF013Faltantes.length > 0) {
+      res.status(422).json({
+        erro: 'Campos obrigatórios não preenchidos',
+        campos_faltantes: camposRF013Faltantes
+      });
+      return;
+    }
+
     try {
-      const {
-        capataz_id,
-        retiro_id,
-        data,
-        categoria,
-        quantidade,
-        identificacao_animal,
-        causa_morte,
-        foto_base64,
-        geolocalizacao
-      } = req.body;
-
-      // Validação de campos obrigatórios na camada controller (RF013)
-      const camposFaltantes: string[] = [];
-      if (!capataz_id) camposFaltantes.push('capataz_id');
-      if (!retiro_id) camposFaltantes.push('retiro_id');
-      if (!data) camposFaltantes.push('data');
-      if (!categoria) camposFaltantes.push('categoria');
-      if (!quantidade) camposFaltantes.push('quantidade');
-      if (!identificacao_animal) camposFaltantes.push('identificacao_animal');
-      if (!causa_morte) camposFaltantes.push('causa_morte');
-      if (!foto_base64) camposFaltantes.push('foto_base64');
-
-      if (camposFaltantes.length > 0) {
-        return res.status(400).json({
-          erro: 'Campos obrigatórios não preenchidos',
-          campos_faltantes: camposFaltantes
-        });
-      }
-
-      const obito = eventoService.registrarObito({
+      const obito = await eventoService.registrarObito({
         capataz_id,
         retiro_id,
         data,
@@ -73,25 +89,28 @@ class EventoController {
         geolocalizacao
       });
 
-      return res.status(201).json({
+      res.status(201).json({
         mensagem: 'Registro de óbito criado com sucesso',
         registro: obito
       });
-    } catch (erro) {
-      if (erro.message.includes('RF013')) {
-        return res.status(422).json({ erro: erro.message });
+    } catch (erro: any) {
+      // Mensagens de validação amigáveis voltam direto pro usuário
+      if (erro.message && (
+        erro.message.includes('obrigatório') ||
+        erro.message.includes('obrigatória') ||
+        erro.message.includes('Informe') ||
+        erro.message.includes('Selecione') ||
+        erro.message.includes('foto da carcaça')
+      )) {
+        res.status(422).json({ erro: erro.message });
+        return;
       }
-      return res.status(500).json({ erro: 'Erro ao registrar óbito', detalhe: erro.message });
+
+      next(erro);
     }
   }
 
-  /**
-   * GET /api/eventos-zootecnicos
-   * Lista todos os eventos zootécnicos com paginação e filtros.
-   *
-   * RF014, US11: Consulta histórica completa para o Coordenador.
-   */
-  listarEventos(req, res) {
+  async listarEventos(req, res, next): Promise<void> {
     try {
       const {
         retiro_id,
@@ -103,7 +122,7 @@ class EventoController {
         limite
       } = req.query;
 
-      const resultado = eventoService.listarEventos({
+      const resultado = await eventoService.listarEventos({
         retiro_id: retiro_id as string | undefined,
         categoria: categoria as string | undefined,
         data_inicio: data_inicio as string | undefined,
@@ -113,14 +132,11 @@ class EventoController {
         limite: limite ? parseInt(limite as string, 10) : undefined
       });
 
-      return res.status(200).json(resultado);
+      res.status(200).json(resultado);
     } catch (erro) {
-      return res.status(500).json({ erro: 'Erro ao listar eventos zootécnicos', detalhe: erro.message });
+      next(erro);
     }
   }
 }
 
 export default new EventoController();
-
-
-

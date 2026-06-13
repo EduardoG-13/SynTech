@@ -1,16 +1,34 @@
+/* ============================================================
+   Paleta BRPec / Syntech — baseada nos mockups de alta fidelidade
+   - Verde escuro (sidebar/headers): #1A4D2E
+   - Cream/bege (background): #F4EEDE
+   - Verde médio (acentos/gráficos): #2E7D52
+   - Laranja (status "em andamento"): #ED9024
+   ============================================================ */
 :root {
   color-scheme: light;
-  --bg: #f4f7f1;
-  --surface: #ffffff;
-  --surface-muted: #edf3e8;
-  --text: #172018;
-  --muted: #5c6b5d;
-  --line: #d7dfd3;
-  --primary: #286140;
-  --primary-dark: #18462d;
-  --danger: #9d2f2f;
-  --warning: #946510;
-  --success: #1f6a45;
+  /* Backgrounds */
+  --bg: #F4EEDE;             /* cream do corpo */
+  --bg-strong: #EAE2CC;       /* tonalidade mais escura do cream pra dividers */
+  --surface: #FFFFFF;         /* cards */
+  --surface-muted: #FAF5E8;   /* zebra/hover sobre cream */
+  /* Brand */
+  --primary: #1A4D2E;         /* verde Syntech (sidebar, header, botões) */
+  --primary-dark: #0F2F1B;    /* hover/active */
+  --primary-light: #2E7D52;   /* acento, gráficos */
+  --primary-pale: #E6F3EB;    /* fundo claro de hover */
+  /* Texto */
+  --text: #1B1B1B;            /* texto principal */
+  --muted: #5C6B5D;           /* labels secundárias */
+  --muted-2: #8A8A7C;         /* texto desabilitado */
+  /* Linhas */
+  --line: #D7DFD3;            /* bordas suaves */
+  --line-strong: #C8D3C3;     /* bordas focadas */
+  /* Status */
+  --danger: #D32F2F;
+  --warning: #ED9024;         /* "Em andamento" do mockup */
+  --success: #2E7D52;
+  --info: #1A4D2E;
 }
 
 * {
@@ -213,7 +231,6 @@ pre {
 
 table {
   border-collapse: collapse;
-  min-width: 760px;
   width: 100%;
 }
 
@@ -231,6 +248,7 @@ th {
 }
 
 @media (max-width: 880px) {
+
   .topbar,
   .layout {
     display: block;
@@ -249,3 +267,569 @@ th {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Layout Geral Baseado no synctech-app */
+#device {
+  display: flex;
+  flex-direction: column;
+  /* Padrão de coluna para telas sem sidebar (Login) */
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Quando logado no Desktop, muda para linha */
+#device.logged {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  /* Sidebar com 280px e o resto para o app */
+}
+
+/* Botão Hamburger */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1001;
+  background: var(--primary);
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+  min-height: auto;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 3px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+}
+
+.sidebar-overlay.open {
+  display: block;
+}
+
+/* Sidebar Vertical — verde Syntech do mockup */
+#sidebar {
+  background-color: var(--primary);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 1.5rem 1.25rem;
+  position: sticky;
+  top: 0;
+}
+
+.side-logo {
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0;
+}
+.side-logo img {
+  max-width: 160px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+#side-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-grow: 1;
+}
+
+#side-nav button,
+.side-config {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.85);
+  text-align: left;
+  padding: 12px 14px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: 8px;
+  width: 100%;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+}
+
+#side-nav button:hover,
+.side-config:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+#side-nav button.active {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Rodapé da sidebar (Configurações + Sair) */
+.side-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: 12px;
+  margin-top: 12px;
+}
+
+.side-logout {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.85);
+  text-align: left;
+  padding: 12px 14px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: 8px;
+  width: 100%;
+  font-weight: 500;
+}
+
+.side-logout:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+/* Área Principal */
+#app {
+  height: 100vh;
+  overflow-y: auto;
+  padding: 2rem;
+  background-color: var(--bg);
+}
+
+
+/* Ícones da sidebar e bottom nav */
+#side-nav img,
+.side-config img,
+.side-logout img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.bottom-nav img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+} 
+
+
+
+/* -------------------------------------------------
+   1. Centralizar o texto da sub‑frase
+   ------------------------------------------------- */
+.header-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* <‑‑ centraliza tudo dentro do header */
+  text-align: center;
+  /* garante centralização das linhas de texto */
+  gap: 0.5rem;
+  /* espaço entre h1 e .sub */
+  margin-top: 5rem;
+}
+
+/* Ajusta a frase “Quem é você?” (tamanho e cor opcional) */
+.header-bar .sub {
+  font-size: 1.2rem;
+  /* aumenta levemente */
+  color: #00132b;
+  /* cor suave, pode mudar como quiser */
+}
+
+/* -------------------------------------------------
+   2. Botões de seleção – deixar tudo em coluna
+   ------------------------------------------------- */
+.perfil-btn {
+  display: flex;
+  flex-direction: column;
+  /* ícone em cima, texto embaixo */
+  align-items: center;
+  /* centraliza ícone + texto */
+  justify-content: center;
+  padding: 1rem;
+  width: 400px;
+  /* tamanho fixo (ajuste se quiser maior) */
+  height: 100px;
+
+  background: #122040;
+  /* cor de fundo (pode mudar) */
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+/* -------------------------------------------------
+   3. Tamanho e centralização da imagem dentro do botão
+   ------------------------------------------------- */
+.perfil-btn .ic img {
+  width: 48px;
+  /* tamanho desejado da imagem */
+  height: 48px;
+  /* garante proporção quadrada */
+  object-fit: contain;
+  /* não distorce a imagem */
+  margin-bottom: 0.5rem;
+  /* espaço entre ícone e o label */
+}
+
+/* -------------------------------------------------
+   4. Texto do label (opcional – cor e fonte)
+   ------------------------------------------------- */
+.perfil-btn .lbl {
+  font-size: 0.95rem;
+  color: #fff;
+  /* contraste com o fundo escuro */
+  font-weight: 600;
+}
+
+/* -------------------------------------------------
+   5. Layout da área de botões (centralizar tudo)
+   ------------------------------------------------- */
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+#lista-retiros {
+  margin-top: 2rem;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 2rem;                     /* espaço entre os cards */
+  max-width: 1200px;             /* limite máximo para telas largas */
+  margin-left: auto;
+  margin-right: auto;            /* centraliza automaticamente */
+  padding: 0 1rem;               /* “respiro” nas bordas */
+}
+
+/* Estilos de card-retiro-card movidos para css/login.css */
+
+
+
+/* Esconde bottom-nav sempre (usamos só sidebar + hamburger) */
+.bottom-nav {
+  display: none !important;
+}
+
+/* Mobile: sidebar escondida, hamburger visível */
+@media (max-width: 768px) {
+  #device.logged {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  #sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100vh;
+    z-index: 1000;
+    transition: left 0.3s ease;
+  }
+
+  #sidebar.open {
+    left: 0;
+  }
+
+  #app {
+    height: auto;
+    min-height: 100vh;
+    padding: 1rem;
+    padding-top: 4rem;
+  }
+
+  .header-bar {
+    margin-top: 0;
+  }
+
+  .bottom-nav {
+    display: flex;
+  }
+}
+
+/* Desktop: sidebar fixa, hamburger escondido */
+@media (min-width: 769px) {
+  .hamburger {
+    display: none !important;
+  }
+
+  .sidebar-overlay {
+    display: none !important;
+  }
+
+  .bottom-nav {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-bar {
+    margin-top: 0;
+  }
+
+  .perfil-btn {
+    max-width: 280px;
+    height: 90px;
+  }
+
+  .perfil-btn .ic img {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* =========================================================
+   Botão flutuante "Instalar app" (PWA)
+   ========================================================= */
+.pwa-install-btn {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #1A4D2E;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.85rem 1.25rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(26, 77, 46, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.pwa-install-btn:hover {
+  background: #2E7D52;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(26, 77, 46, 0.45);
+}
+
+/* =========================================================
+   Ícones .ico inline em labels, botões e títulos (global)
+   ========================================================= */
+.label-ico {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin-right: 4px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* Ícone pequeno (acompanha texto em pílulas/badges/inputs) */
+.ico-sm {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin-right: 3px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* Ícone médio (botões secundários, dropdowns) */
+.ico-md {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  vertical-align: middle;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* Ícone do menu lateral — sempre o mesmo tamanho */
+#sidebar nav button span img,
+.side-config img,
+.side-logout img {
+  width: 22px !important;
+  height: 22px !important;
+  object-fit: contain;
+}
+
+/* Pílulas/badges: ícones inline menores para não passar do height da pill */
+.pill .label-ico,
+.pill .ico-md,
+.badge .label-ico,
+.toggle-pills .pill img {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+}
+
+/* Pílulas em filtros (fixed pequeno) */
+.filter-pills .pill .label-ico,
+.filter-pills .pill .ico-md {
+  width: 14px;
+  height: 14px;
+}
+
+/* Resumo/sucesso: alinha ícones inline no texto */
+.resumo-linha .label-ico,
+.resumo-linha .ico-sm { vertical-align: middle; margin-right: 4px; }
+
+/* Botões de ação grandes: ícone proporcional */
+.btn-salvar .label-ico,
+.btn-enviar .label-ico,
+.btn-enviar-detalhe .label-ico,
+.btn-baixar .label-ico,
+.btn-primario-grande .label-ico,
+.btn-primario .label-ico,
+.btn-secundario-laranja .label-ico,
+.btn-login .label-ico {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+/* Avatar do header-bar — força tamanho consistente do .ico interno */
+.user-avatar img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+/* =========================================================
+   ACESSIBILIDADE DE CAMPO — APENAS PARA CAPATAZ
+   Fontes maiores + UPPERCASE para uso em campo
+   (sol forte, dedos sujos, baixo letramento digital).
+   Os outros perfis (Gerente, Coordenador, Infra) mantêm o tamanho normal.
+   ========================================================= */
+
+body[data-perfil="Capataz"] #device.logged {
+  font-size: 1.15rem;
+}
+body[data-perfil="Capataz"] #device.logged .header-bar h1 {
+  font-size: 2.3rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+body[data-perfil="Capataz"] #device.logged .header-bar .sub {
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+body[data-perfil="Capataz"] #device.logged h2,
+body[data-perfil="Capataz"] #device.logged h3 {
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+body[data-perfil="Capataz"] #device.logged label,
+body[data-perfil="Capataz"] #device.logged .label-bold,
+body[data-perfil="Capataz"] #device.logged .card.campo label {
+  font-size: 1.15rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-weight: 700;
+}
+body[data-perfil="Capataz"] #device.logged .filter-pills .pill,
+body[data-perfil="Capataz"] #device.logged .toggle-pills .pill {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  padding: 0.85rem 1.5rem;
+}
+body[data-perfil="Capataz"] #device.logged button,
+body[data-perfil="Capataz"] #device.logged .btn,
+body[data-perfil="Capataz"] #device.logged .btn-primario,
+body[data-perfil="Capataz"] #device.logged .btn-salvar,
+body[data-perfil="Capataz"] #device.logged .btn-enviar,
+body[data-perfil="Capataz"] #device.logged .btn-enviar-detalhe,
+body[data-perfil="Capataz"] #device.logged .btn-primario-grande,
+body[data-perfil="Capataz"] #device.logged .btn-login,
+body[data-perfil="Capataz"] #device.logged .btn-audio {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  min-height: 64px;
+  padding: 1.1rem 1.25rem;
+}
+body[data-perfil="Capataz"] #device.logged .tarefa-card .titulo {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+body[data-perfil="Capataz"] #device.logged .tarefa-card .descricao { font-size: 1rem; }
+body[data-perfil="Capataz"] #device.logged .tarefa-card .meta { font-size: 0.9rem; }
+body[data-perfil="Capataz"] #device.logged .badge {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.45rem 0.95rem;
+}
+body[data-perfil="Capataz"] #sidebar #side-nav button,
+body[data-perfil="Capataz"] #sidebar .side-config,
+body[data-perfil="Capataz"] #sidebar .side-logout {
+  font-size: 1.1rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-weight: 700;
+}
+body[data-perfil="Capataz"] #device.logged input[type="text"],
+body[data-perfil="Capataz"] #device.logged input[type="number"],
+body[data-perfil="Capataz"] #device.logged input[type="date"],
+body[data-perfil="Capataz"] #device.logged input[type="password"],
+body[data-perfil="Capataz"] #device.logged select,
+body[data-perfil="Capataz"] #device.logged textarea {
+  font-size: 1.15rem;
+  min-height: 60px;
+  padding: 0.95rem 1rem;
+}
+body[data-perfil="Capataz"] .bottom-nav button {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+}
+/* fim do bloco específico do Capataz */
+

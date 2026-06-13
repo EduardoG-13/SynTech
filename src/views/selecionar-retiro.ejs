@@ -1,0 +1,86 @@
+<%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/login.css" />
+
+<div id="device" class="retiro-page">
+  <div class="login-logo">
+    <img src="/public/syntech-verde.png" alt="Syntech" />
+  </div>
+  <div class="header-bar">
+    <button class="back-btn" onclick="window.location.href='/'">← Voltar</button>
+    <h1>Olá, Capataz!</h1>
+    <div class="sub">Toque no seu retiro para entrar</div>
+  </div>
+
+  <div class="content">
+    <div class="search-box">
+      <span><img class="ico-md" src="/public/Icons/lupa.ico" alt="" /></span>
+      <input id="searchRetiro" placeholder="Buscar retiro..." oninput="filtrarRetiros(this.value)" />
+    </div>
+
+    <div id="lista-retiros">
+      <% retiros.forEach(function(r) {
+           var nome = r.nome || '';
+           var capataz = r.capataz || '';
+      %>
+        <div class="card-retiro-card"
+             data-nome="<%= nome.toLowerCase() %>"
+             data-cap="<%= capataz.toLowerCase() %>"
+             onclick="selecionarRetiro('<%= r.id %>', '<%= nome %>')">
+          <span class="pin"><img src="/public/Icons/localizacao.ico" alt="" /></span>
+          <div class="info">
+            <div class="nome"><%= nome %></div>
+            <% if (capataz) { %>
+              <div class="cap">Capataz: <%= capataz %></div>
+            <% } %>
+          </div>
+          <span class="arrow">›</span>
+        </div>
+      <% }); %>
+    </div>
+
+    <div id="lista-vazia" class="lista-vazia" style="display:none; text-align:center; color:#8A8A7C; padding:20px;">
+      Nenhum retiro encontrado.
+    </div>
+  </div>
+</div>
+
+<script>
+  function selecionarRetiro(retiroId, nome) {
+    // Cria a SESSÃO no servidor (cookie) — fonte da verdade para autenticação
+    fetch('/api/auth/login-capataz', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ retiro_id: retiroId })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.sucesso) {
+        window.authClient.setAccessToken(data.accessToken);
+        // Cache local pra UX (auto-redirect na próxima abertura)
+        localStorage.setItem('brpec_sessao', JSON.stringify({
+          perfil: 'Capataz', retiro: nome, retiro_id: retiroId,
+          logadoEm: new Date().toISOString()
+        }));
+        window.location.href = '/tarefas';
+      } else {
+        alert(data.erro || 'Não foi possível entrar neste retiro.');
+      }
+    })
+    .catch(function() {
+      alert('Erro de conexão. Tente novamente.');
+    });
+  }
+
+  function filtrarRetiros(q) {
+    q = (q || '').toLowerCase().trim();
+    var visiveis = 0;
+    document.querySelectorAll('#lista-retiros .card-retiro-card').forEach(function (c) {
+      var ok = !q || c.dataset.nome.indexOf(q) >= 0 || c.dataset.cap.indexOf(q) >= 0;
+      c.style.display = ok ? '' : 'none';
+      if (ok) visiveis++;
+    });
+    document.getElementById('lista-vazia').style.display = visiveis === 0 ? 'block' : 'none';
+  }
+</script>
+
+<%- include('partials/footer') %>

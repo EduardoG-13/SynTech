@@ -56,8 +56,13 @@ class PainelService {
       else if (row.status === 'CONCLUIDA') resumo.concluidas = row.total;
     }
 
+    const percentualTarefasConcluidas = resumo.total > 0
+      ? Number(((resumo.concluidas / resumo.total) * 100).toFixed(2))
+      : 0;
+
     return {
       resumo_tarefas: resumo,
+      percentual_tarefas_concluidas: percentualTarefasConcluidas,
       tarefas_por_retiro: Object.values(retiros),
       alertas_abertos: alertasAbertos,
       total_alertas_abertos: (alertasAbertos as any[]).length,

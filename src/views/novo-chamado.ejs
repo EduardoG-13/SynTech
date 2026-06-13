@@ -1,0 +1,179 @@
+<%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/chamado.css" />
+<link rel="stylesheet" href="/public/css/nova-os.css" />
+
+<div id="device" class="logged">
+  <%- include('partials/sidebar') %>
+
+  <div id="app">
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar"><img src="/public/Icons/<%= perfil === 'Capataz' ? 'capataz' : 'infra' %>.ico" alt="<%= perfil %>" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <h1>Abrir Chamado</h1>
+      <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %></div>
+    </div>
+
+    <main class="chamado-main">
+
+      <button type="button" class="btn-voltar" onclick="window.history.back()">⬅️ Voltar</button>
+
+      <form id="form-novo-chamado" class="form-novo-chamado">
+
+        <div class="card-resolucao">
+          <label class="label-bold"><img class="label-ico" src="/public/Icons/infra.ico" alt="" /> Tipo de problema</label>
+          <div class="operacao-grid" id="tipo-grid">
+            <button type="button" class="op-card" data-tipo="hidraulica">
+              <img class="op-card-ico" src="/public/Icons/hidraulica.ico" alt="" />
+              <span class="op-card-label">Hidráulica</span>
+              <span class="op-card-sub">bebedouro, encanamento</span>
+            </button>
+            <button type="button" class="op-card" data-tipo="eletrica">
+              <img class="op-card-ico" src="/public/Icons/eletrica.ico" alt="" />
+              <span class="op-card-label">Elétrica</span>
+              <span class="op-card-sub">energia, painel</span>
+            </button>
+            <button type="button" class="op-card" data-tipo="cerca">
+              <img class="op-card-ico" src="/public/Icons/cerca.ico" alt="" />
+              <span class="op-card-label">Cerca</span>
+              <span class="op-card-sub">mourão, arame</span>
+            </button>
+            <button type="button" class="op-card" data-tipo="outro">
+              <img class="op-card-ico" src="/public/Icons/alerta.ico" alt="" />
+              <span class="op-card-label">Outro</span>
+              <span class="op-card-sub">qualquer outro problema</span>
+            </button>
+          </div>
+          <input type="hidden" id="tipo-ocorrencia" name="tipo" required />
+        </div>
+
+        <div class="card-resolucao">
+          <label class="label-bold" for="descricao"><img class="label-ico" src="/public/Icons/editar.ico" alt="" /> Descreva o problema</label>
+          <p class="ajuda">Mínimo 10 caracteres. Seja claro sobre o que aconteceu.</p>
+          <textarea id="descricao" name="descricao" rows="4" placeholder="Ex: Bebedouro com vazamento no pasto 4, gado sem água..." minlength="10" required></textarea>
+        </div>
+
+        <div class="card-resolucao">
+          <label class="label-bold"><img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" /> Áudio (opcional)</label>
+          <p class="ajuda">Grave detalhes em áudio se preferir não digitar.</p>
+          <button type="button" class="btn-audio" id="btn-gravar-audio">
+            <img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" />
+            <span id="audio-btn-txt">Gravar áudio</span>
+          </button>
+          <audio id="audio-preview" controls style="display:none; width:100%; margin-top:0.5rem;"></audio>
+          <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;">🗑️ Apagar áudio</button>
+        </div>
+
+        <div class="card-resolucao">
+          <label class="label-bold"><img class="label-ico" src="/public/Icons/GPS.ico" alt="" /> Localização GPS</label>
+          <p id="gps-status" class="gps-status-text"><img class="ico-sm" src="/public/Icons/GPS.ico" alt="" /> Capturando localização...</p>
+          <input id="latitude" name="latitude" type="hidden" />
+          <input id="longitude" name="longitude" type="hidden" />
+          <input id="capataz_id" name="capataz_id" type="hidden" value="<%= typeof capataz_id !== 'undefined' ? capataz_id : '' %>" />
+          <input id="retiro_id" name="retiro_id" type="hidden" value="<%= typeof retiro_id !== 'undefined' ? retiro_id : '' %>" />
+        </div>
+
+        <div class="card-resolucao">
+          <label class="label-bold" for="local-referencia"><img class="label-ico" src="/public/Icons/bussola_direcao_guia.ico" alt="" /> Local / Referência (texto)</label>
+          <p class="ajuda">Ajuda a Infra encontrar o local. Ex: "Pasto 4, perto do bebedouro velho".</p>
+          <input id="local-referencia" name="local_referencia" type="text" placeholder="Onde está o problema?" />
+        </div>
+
+        <div class="card-resolucao">
+          <label class="label-bold"><img class="label-ico" src="/public/Icons/tira_foto.ico" alt="" /> Foto / evidência (opcional)</label>
+          <div class="upload-foto">
+            <label for="foto" class="upload-label">
+              <img class="upload-icon-img" src="/public/Icons/tira_foto.ico" alt="" />
+              <span id="foto-novo-txt">📷 Tirar foto ou escolher do celular</span>
+            </label>
+            <input id="foto" name="foto" type="file" accept="image/*" style="display:none;" />
+          </div>
+          <img id="preview-foto-novo" style="display:none; max-width:100%; border-radius:10px; margin-top:0.75rem;" />
+        </div>
+
+        <button type="submit" class="btn-salvar">
+          <img class="label-ico" src="/public/Icons/concluido.ico" alt="" /> Enviar Chamado
+        </button>
+
+        <p class="form-msg" id="novo-msg" style="display:none;"></p>
+
+      </form>
+    </main>
+  </div>
+</div>
+
+<script src="/public/js/chamados.js"></script>
+<script>
+  // Grid de cards do tipo de problema → preenche input hidden #tipo-ocorrencia
+  (function() {
+    var grid = document.getElementById('tipo-grid');
+    if (!grid) return;
+    grid.querySelectorAll('.op-card').forEach(function(card) {
+      card.addEventListener('click', function() {
+        grid.querySelectorAll('.op-card').forEach(function(c) { c.classList.remove('active'); });
+        card.classList.add('active');
+        document.getElementById('tipo-ocorrencia').value = card.dataset.tipo;
+      });
+    });
+  })();
+</script>
+<script>
+  // Áudio + preview de foto + submit
+  (function() {
+    var input = document.getElementById('foto');
+    input.addEventListener('change', function() {
+      if (!input.files.length) return;
+      document.getElementById('foto-novo-txt').textContent = '✅ ' + input.files[0].name;
+      var r = new FileReader();
+      r.onload = function(e) {
+        var img = document.getElementById('preview-foto-novo');
+        img.src = e.target.result; img.style.display = 'block';
+      };
+      r.readAsDataURL(input.files[0]);
+    });
+
+    var mediaRecorder = null, audioChunks = [], audioBase64 = '', gravando = false;
+    var btnA = document.getElementById('btn-gravar-audio');
+    var btnR = document.getElementById('btn-remover-audio');
+    btnA.addEventListener('click', function() {
+      if (!gravando) {
+        navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+          mediaRecorder = new MediaRecorder(stream);
+          audioChunks = [];
+          mediaRecorder.ondataavailable = function(e) { audioChunks.push(e.data); };
+          mediaRecorder.onstop = function() {
+            var blob = new Blob(audioChunks, { type: 'audio/webm' });
+            var rd = new FileReader();
+            rd.onloadend = function() {
+              audioBase64 = rd.result;
+              var p = document.getElementById('audio-preview');
+              p.src = audioBase64; p.style.display = 'block';
+              btnR.style.display = 'inline-block';
+            };
+            rd.readAsDataURL(blob);
+            stream.getTracks().forEach(function(t) { t.stop(); });
+          };
+          mediaRecorder.start();
+          gravando = true;
+          document.getElementById('audio-btn-txt').textContent = '⏹️ Parar gravação';
+          btnA.classList.add('gravando');
+        }).catch(function() { alert('🎙️ Permissão de microfone negada.'); });
+      } else {
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+        gravando = false;
+        document.getElementById('audio-btn-txt').textContent = 'Gravar novamente';
+        btnA.classList.remove('gravando');
+      }
+    });
+    btnR.addEventListener('click', function() {
+      audioBase64 = '';
+      var p = document.getElementById('audio-preview');
+      p.src = ''; p.style.display = 'none';
+      btnR.style.display = 'none';
+    });
+
+    // Expor para o novo-chamado-handler poder pegar (compatibilidade)
+    window.__audioChamadoBase64 = function() { return audioBase64; };
+  })();
+</script>
+<script src="/public/js/novo-chamado-handler.js"></script>
+
+<%- include('partials/footer') %>

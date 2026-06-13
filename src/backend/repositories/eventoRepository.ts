@@ -2,16 +2,17 @@ import db from '../config/database';
 import { v7 as uuidv7 } from 'uuid';
 
 class EventoRepository {
-  criarNascimento(evento) {
+  async criarNascimento(evento: any): Promise<any> {
     const mov_id = uuidv7();
     const nas_id = uuidv7();
-    
-    // Inicia transação
+
     db.exec('BEGIN TRANSACTION');
     try {
       const stmtMov = db.prepare(`
-        INSERT INTO movimentacoes (id, capataz_id, retiro_id, data, categoria, quantidade, sincronizado)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO movimentacoes (
+          id, capataz_id, retiro_id, data, categoria, quantidade, sincronizado
+        )
+        VALUES (?, ?, ?, ?, ?, ?, 0)
       `);
       stmtMov.run(
         mov_id,
@@ -19,8 +20,7 @@ class EventoRepository {
         evento.retiro_id,
         evento.data,
         evento.categoria,
-        evento.quantidade,
-        1 // online server
+        evento.quantidade
       );
 
       const stmtNas = db.prepare(`
@@ -29,7 +29,15 @@ class EventoRepository {
       `);
       stmtNas.run(nas_id, mov_id);
 
+      // Register outbox sync entry for the movimentacao
+      const stmtSync = db.prepare(`
+        INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas, ultima_tentativa)
+        VALUES (?, 'movimentacao', ?, 'PENDENTE', 0, null)
+      `);
+      stmtSync.run(uuidv7(), mov_id);
+
       db.exec('COMMIT');
+
       return this.buscarMovimentacaoPorId(mov_id);
     } catch (err) {
       db.exec('ROLLBACK');
@@ -64,14 +72,14 @@ class EventoRepository {
       // 1. Inserir movimentação base
       const stmtMov = db.prepare(`
         INSERT INTO movimentacoes (id, capataz_id, retiro_id, data, categoria, quantidade, sincronizado)
-        VALUES (?, ?, ?, ?, ?, ?, 1)
+        VALUES (?, ?, ?, ?, ?, ?, 0)
       `);
       stmtMov.run(mov_id, evento.capataz_id, evento.retiro_id, evento.data, evento.categoria, evento.quantidade);
 
       // 2. Inserir evidência (foto obrigatória)
       const stmtFoto = db.prepare(`
         INSERT INTO evidencias (id, movimentacao_id, tipo, arquivo_base64, geolocalizacao, sincronizada)
-        VALUES (?, ?, 'FOTO', ?, ?, 1)
+        VALUES (?, ?, 'FOTO', ?, ?, 0)
       `);
       stmtFoto.run(foto_id, mov_id, evento.foto_base64, evento.geolocalizacao || null);
 
@@ -81,6 +89,13 @@ class EventoRepository {
         VALUES (?, ?, ?, ?, ?)
       `);
       stmtObito.run(obito_id, mov_id, evento.identificacao_animal, evento.causa_morte, foto_id);
+
+      // Register outbox sync entry for the movimentacao
+      const stmtSync = db.prepare(`
+        INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas, ultima_tentativa)
+        VALUES (?, 'movimentacao', ?, 'PENDENTE', 0, null)
+      `);
+      stmtSync.run(uuidv7(), mov_id);
 
       db.exec('COMMIT');
 
@@ -205,12 +220,11 @@ class EventoRepository {
     };
   }
 
-  buscarMovimentacaoPorId(id) {
+  async buscarMovimentacaoPorId(id: string): Promise<any | null> {
     const stmt = db.prepare('SELECT * FROM movimentacoes WHERE id = ?');
-    return stmt.get(id);
+    const row = stmt.get(id);
+    return row || null;
   }
 }
 
 export default new EventoRepository();
-
-

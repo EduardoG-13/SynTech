@@ -1,0 +1,127 @@
+<!-- Botão hamburger (só aparece no mobile) -->
+<button id="btn-hamburger" class="hamburger" onclick="toggleSidebar()">
+  <span></span><span></span><span></span>
+</button>
+<div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<aside id="sidebar">
+  <div class="side-logo">
+    <img src="/public/syntech-branco.png" alt="Syntech" />
+  </div>
+
+  <nav id="side-nav">
+    <% if (perfil==='Infraestrutura' ) { %>
+      <!-- Menu da Infraestrutura -->
+      <button data-rota="/infraestrutura" onclick="window.location.href='/infraestrutura'">
+        <span><img src="/public/Icons/alerta.ico" alt="Chamados" /></span> Chamados
+      </button>
+      <button data-rota="/historico" onclick="window.location.href='/historico'">
+        <span><img src="/public/Icons/historico_tempo_voltar.ico" alt="Histórico" /></span> Histórico
+      </button>
+
+    <% } else if (perfil==='Gerente' ) { %>
+      <!-- Menu do Gerente -->
+      <button data-rota="/dashboard" onclick="window.location.href='/dashboard'">
+        <span><img src="/public/Icons/dashboard_analise_dados.ico" alt="Dashboard" /></span> Dashboard
+      </button>
+      <button data-rota="/infraestrutura" onclick="window.location.href='/infraestrutura'">
+        <span><img src="/public/Icons/alerta.ico" alt="Infraestrutura" /></span> Infraestrutura
+      </button>
+      <button data-rota="/historico" onclick="window.location.href='/historico'">
+        <span><img src="/public/Icons/historico_tempo_voltar.ico" alt="Histórico" /></span> Histórico
+      </button>
+
+    <% } else if (perfil==='Coordenador' ) { %>
+      <!-- Menu do Coordenador -->
+      <button data-rota="/dashboard" onclick="window.location.href='/dashboard'">
+        <span><img src="/public/Icons/dashboard_analise_dados.ico" alt="Dashboard" /></span> Dashboard
+      </button>
+      <button data-rota="/boletas" onclick="window.location.href='/boletas'">
+        <span><img src="/public/Icons/movimentacao.ico" alt="Boletas" /></span> Boletas
+      </button>
+      <button data-rota="/historico" onclick="window.location.href='/historico'">
+        <span><img src="/public/Icons/historico_tempo_voltar.ico" alt="Histórico" /></span> Histórico
+      </button>
+
+    <% } else { %>
+      <!-- Menu padrão (Capataz) -->
+      <button data-rota="/nova-os" onclick="window.location.href='/nova-os'">
+        <span><img src="/public/Icons/movimentacao.ico" alt="Nova Boleta" /></span> Nova Boleta
+      </button>
+      <button data-rota="/tarefas" onclick="window.location.href='/tarefas'">
+        <span><img src="/public/Icons/historico_tempo_voltar.ico" alt="Histórico" /></span> Histórico
+      </button>
+      <button data-rota="/novo-chamado" onclick="window.location.href='/novo-chamado'">
+        <span><img src="/public/Icons/infra.ico" alt="Abrir chamado" /></span> Abrir Chamado
+      </button>
+    <% } %>
+  </nav>
+
+  <!-- Rodapé: Configurações (só Gerente ADM) + Sair (todos) -->
+  <div class="side-footer">
+    <button class="side-config" id="side-config-btn" data-rota="/configuracoes"
+            onclick="window.location.href='/configuracoes'" style="display:none;">
+      <span><img src="/public/Icons/configuracao.ico" alt="Configurações" /></span> Configurações
+    </button>
+    <button class="side-logout" id="side-logout-btn" onclick="fazerLogout()">
+      <span><img src="/public/Icons/exit.ico" alt="Sair" /></span> Sair
+    </button>
+  </div>
+
+  <script>
+    function fazerLogout() {
+      window.authClient.clearSession();
+      fetch('/api/auth/logout', { method: 'POST' }).finally(function () {
+        window.location.href = '/';
+      });
+    }
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+      document.getElementById('sidebar-overlay').classList.toggle('open');
+    }
+
+    // Marca o botão da rota atual como "active" automaticamente
+    (function() {
+      var path = window.location.pathname;
+      var botoes = document.querySelectorAll('#sidebar [data-rota]');
+      var melhorMatch = null;
+      var maiorLen = 0;
+      botoes.forEach(function(b) {
+        var rota = b.getAttribute('data-rota');
+        if (path === rota || path.indexOf(rota + '/') === 0) {
+          if (rota.length > maiorLen) { maiorLen = rota.length; melhorMatch = b; }
+        }
+      });
+      if (melhorMatch) melhorMatch.classList.add('active');
+    })();
+
+    // Marca o body com o perfil ativo (CSS usa body[data-perfil="Capataz"] etc.)
+    document.body.setAttribute('data-perfil', '<%= perfil %>');
+
+    // Pede ao Service Worker para pré-cachear as rotas desse perfil
+    // Chave POR PERFIL — se trocar de conta, baixa o cache do novo perfil
+    if ('serviceWorker' in navigator) {
+      var chavePerfil = 'brpec_precache_<%= perfil %>';
+      if (!sessionStorage.getItem(chavePerfil)) {
+        navigator.serviceWorker.ready.then(function(reg) {
+          if (reg.active) {
+            reg.active.postMessage({ tipo: 'pre-cache-perfil', perfil: '<%= perfil %>' });
+            sessionStorage.setItem(chavePerfil, '1');
+          }
+        });
+      }
+    }
+
+    // Mostra o botão Configurações apenas para Gerente ADM (is_admin = true)
+    fetch('/api/auth/me', { credentials: 'same-origin' })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.usuario && data.usuario.perfil === 'Gerente' && data.usuario.is_admin) {
+          var btn = document.getElementById('side-config-btn');
+          if (btn) btn.style.display = '';
+        }
+      })
+      .catch(function() {});
+  </script>
+</aside>

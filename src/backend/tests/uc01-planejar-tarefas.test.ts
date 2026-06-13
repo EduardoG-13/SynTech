@@ -32,7 +32,7 @@ const RETIRO_B = 'retiro-b';
 const GERENTE_ID = 'gerente-1';
 const CAPATAZ_A = 'capataz-a';
 const CAPATAZ_B = 'capataz-b';
-const DATA_FUTURA = '2026-06-20';
+const DATA_FUTURA = new Date(Date.now() + 86400000).toISOString().split('T')[0];
 
 // ── Setup ─────────────────────────────────────────────────────────────────────
 
@@ -49,8 +49,8 @@ beforeEach(() => {
     DELETE FROM obitos;
     DELETE FROM nascimentos;
     DELETE FROM movimentacoes;
-    DELETE FROM evidencias;
     DELETE FROM alertas;
+    DELETE FROM evidencias;
     DELETE FROM tarefas;
     DELETE FROM usuarios;
     DELETE FROM retiros;
@@ -91,10 +91,10 @@ describe('C — POST /api/tarefas (criar tarefa — UC01 / RF001)', () => {
     expect(res.body.tarefa.status).toBe('PENDENTE');
   });
 
-  test('C2. Regra de negócio (RN01) — capataz não pertence ao retiro retorna HTTP 422', async () => {
+  test('C2. Regra de negócio — capataz não pertence ao retiro retorna HTTP 422', async () => {
     const res = await criarTarefa({ capataz_id: CAPATAZ_B });
     expect(res.status).toBe(422);
-    expect(res.body.erro).toMatch(/RN01/);
+    expect(res.body.erro).toMatch(/não pertence ao retiro/i);
   });
 
   test('C3. Payload inválido — campos obrigatórios ausentes retorna HTTP 400', async () => {
@@ -113,6 +113,12 @@ describe('C — POST /api/tarefas (criar tarefa — UC01 / RF001)', () => {
     expect(tarefa['capataz_id']).toBe(CAPATAZ_A);
     expect(tarefa['gerente_id']).toBe(GERENTE_ID);
     expect(tarefa['status']).toBe('PENDENTE');
+
+    // Assert outbox queue registration (US09 / RF011 / Outbox Pattern)
+    const syncItem = db.prepare('SELECT * FROM sincronizacoes WHERE entidade_tipo = ? AND entidade_id = ?').get('tarefa', res.body.id) as Record<string, unknown>;
+    expect(syncItem).toBeDefined();
+    expect(syncItem['status_envio']).toBe('PENDENTE');
+    expect(syncItem['tentativas']).toBe(0);
   });
 });
 
@@ -168,6 +174,7 @@ describe('K — PATCH /api/tarefas/:id/concluir (concluir tarefa)', () => {
       .send({ capataz_id: CAPATAZ_B });
 
     expect(res.status).toBe(404);
+    expect(res.body).toHaveProperty('erro');
   });
 
   test('K3. Persistência — status e concluida_em atualizados no banco após conclusão', async () => {
@@ -181,6 +188,23 @@ describe('K — PATCH /api/tarefas/:id/concluir (concluir tarefa)', () => {
     const tarefa = db.prepare('SELECT * FROM tarefas WHERE id = ?').get(tarefa_id) as Record<string, unknown>;
     expect(tarefa['status']).toBe('CONCLUIDA');
     expect(tarefa['concluida_em']).toBeTruthy();
+
+    // Assert outbox queue registration for completion
+    const syncItems = db.prepare('SELECT * FROM sincronizacoes WHERE entidade_tipo = ? AND entidade_id = ? ORDER BY criada_em DESC').all('tarefa', tarefa_id) as Record<string, unknown>[];
+    expect(syncItems.length).toBeGreaterThanOrEqual(1);
+    expect(syncItems[0]['status_envio']).toBe('PENDENTE');
+  });
+
+  test('K4. Payload inválido — capataz_id ausente retorna HTTP 400', async () => {
+    const criacao = await criarTarefa();
+    const tarefa_id = criacao.body.id as string;
+
+    const res = await request(app)
+      .patch(`/api/tarefas/${tarefa_id}/concluir`)
+      .send({});
+
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('erro');
   });
 });
 
@@ -208,7 +232,7 @@ describe('E — POST /api/tarefas/:id/evidencias (anexar evidência)', () => {
       .send({ tipo: 'FOTO', arquivo_base64: 'data:image/png;base64,abc123', capataz_id: CAPATAZ_B });
 
     expect(res.status).toBe(404);
-    expect(res.body.erro).toMatch(/RN05/);
+    expect(res.body.erro).toMatch(/não encontrada|não pertence/i);
   });
 
   test('E3. Payload inválido — tipo ausente retorna HTTP 400', async () => {
@@ -235,5 +259,10 @@ describe('E — POST /api/tarefas/:id/evidencias (anexar evidência)', () => {
     expect(evidencia).toBeDefined();
     expect(evidencia['tarefa_id']).toBe(tarefa_id);
     expect(evidencia['tipo']).toBe('TEXTO');
+
+    // Assert outbox queue registration for evidence
+    const syncItem = db.prepare('SELECT * FROM sincronizacoes WHERE entidade_tipo = ? AND entidade_id = ?').get('evidencia', res.body.evidencia_id as string) as Record<string, unknown>;
+    expect(syncItem).toBeDefined();
+    expect(syncItem['status_envio']).toBe('PENDENTE');
   });
 });

@@ -1,0 +1,250 @@
+<%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/tarefas.css" />
+<link rel="stylesheet" href="/public/css/boletas.css" />
+
+<div id="device" class="logged">
+  <%- include('partials/sidebar') %>
+
+  <div id="app">
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar"><img src="/public/Icons/<%= perfil === 'Gerente' ? 'gerente' : (perfil === 'Coordenador' ? 'coordenador' : (perfil === 'Infraestrutura' ? 'infra' : 'capataz')) %>.ico" alt="<%= perfil %>" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <h1>Histórico</h1>
+      <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %></div>
+    </div>
+
+    <main class="tarefas-main">
+
+      <!-- Abas: Boletas | Chamados (Infra só vê Chamados; Capataz só vê Boletas) -->
+      <div class="filter-pills" id="abas-hist">
+        <% if (perfil !== 'Infraestrutura') { %>
+          <button class="pill active" data-aba="boletas"><img class="ico-md" src="/public/Icons/movimentacao.ico" alt="" /> Boletas</button>
+        <% } %>
+        <% if (perfil !== 'Capataz') { %>
+          <button class="pill <%= perfil === 'Infraestrutura' ? 'active' : '' %>" data-aba="chamados"><img class="ico-md" src="/public/Icons/infra.ico" alt="" /> Chamados</button>
+        <% } %>
+      </div>
+
+      <!-- Filtros (Gerente e Coordenador) -->
+      <% if (perfil === 'Gerente' || perfil === 'Coordenador') { %>
+        <div class="card-filtros" style="background:#fff; border:1px solid #d7dfd3; border-radius:12px; padding:1rem; margin-bottom:1rem;">
+          <div class="export-datas">
+            <div class="export-data-field">
+              <label class="export-field-label"><img class="ico-sm" src="/public/Icons/localizacao.ico" alt="" /> Retiro</label>
+              <select id="filtro-retiro"><option value="">Todos</option></select>
+            </div>
+            <div class="export-data-field" id="campo-filtro-tipo">
+              <label class="export-field-label"><img class="ico-sm" src="/public/Icons/movimentacao.ico" alt="" /> Tipo</label>
+              <select id="filtro-tipo">
+                <option value="">Todos</option>
+                <option value="nascimento">Nascimento</option>
+                <option value="obito">Óbito</option>
+                <option value="transferencia">Transferência</option>
+                <option value="compravenda">Compra/Venda</option>
+                <option value="manejo">Manejo</option>
+              </select>
+            </div>
+            <div class="export-data-field" id="campo-filtro-status">
+              <label class="export-field-label"><img class="ico-sm" src="/public/Icons/concluido.ico" alt="" /> Status</label>
+              <select id="filtro-status">
+                <option value="">Todos</option>
+                <option value="aprovada">Aprovadas</option>
+                <option value="pendente">Pendentes</option>
+              </select>
+            </div>
+            <div class="export-data-field">
+              <label class="export-field-label"><img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> De</label>
+              <input type="date" id="filtro-data-ini" />
+            </div>
+            <div class="export-data-field">
+              <label class="export-field-label"><img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> Até</label>
+              <input type="date" id="filtro-data-fim" />
+            </div>
+          </div>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.75rem;">
+            <button type="button" id="btn-aplicar-filtros" class="btn-primario"><img class="label-ico" src="/public/Icons/lupa.ico" alt="" /> Aplicar filtros</button>
+            <button type="button" id="btn-limpar-filtros" class="btn-secundario-laranja">🧹 Limpar</button>
+            <% if (perfil === 'Coordenador') { %>
+              <button type="button" id="btn-exportar-xlsx" class="btn-secundario-laranja">📊 Exportar XLSX</button>
+              <button type="button" id="btn-exportar-csv" class="btn-secundario-laranja" style="background:#5C6B5D; color:#fff;">📄 Exportar CSV</button>
+            <% } %>
+          </div>
+        </div>
+      <% } %>
+
+      <div class="tarefas-lista" id="hist-lista">
+        <p style="text-align:center; color:#8A8A7C; padding:1rem;">Carregando...</p>
+      </div>
+
+      <div class="tarefas-vazio" id="hist-vazio" style="display:none;">
+        <p>Nenhum registro encontrado.</p>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script>
+  var PERFIL = '<%= perfil %>';
+  var ABA_ATIVA = (PERFIL === 'Infraestrutura') ? 'chamados' : 'boletas';
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (PERFIL === 'Gerente' || PERFIL === 'Coordenador') {
+      carregarRetiros();
+      document.getElementById('btn-aplicar-filtros').addEventListener('click', carregar);
+      document.getElementById('btn-limpar-filtros').addEventListener('click', limparFiltros);
+      var btnXlsx = document.getElementById('btn-exportar-xlsx');
+      if (btnXlsx) btnXlsx.addEventListener('click', function() { exportar('xlsx'); });
+      var btnCsv = document.getElementById('btn-exportar-csv');
+      if (btnCsv) btnCsv.addEventListener('click', function() { exportar('csv'); });
+      ajustarFiltrosPorAba();
+    }
+    document.querySelectorAll('#abas-hist .pill').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#abas-hist .pill').forEach(function(b){b.classList.remove('active');});
+        btn.classList.add('active');
+        ABA_ATIVA = btn.dataset.aba;
+        ajustarFiltrosPorAba();
+        carregar();
+      });
+    });
+    carregar();
+  });
+
+  // Tipo e Status só fazem sentido pra boletas; aba "Chamados" esconde
+  function ajustarFiltrosPorAba() {
+    var campoTipo = document.getElementById('campo-filtro-tipo');
+    var campoStatus = document.getElementById('campo-filtro-status');
+    if (!campoTipo || !campoStatus) return;
+    var ehBoletas = ABA_ATIVA === 'boletas';
+    campoTipo.style.display = ehBoletas ? '' : 'none';
+    campoStatus.style.display = ehBoletas ? '' : 'none';
+  }
+
+  function limparFiltros() {
+    ['filtro-retiro', 'filtro-tipo', 'filtro-status'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    ['filtro-data-ini', 'filtro-data-fim'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    carregar();
+  }
+
+  function carregarRetiros() {
+    fetch('/api/dashboard/retiros', { credentials: 'same-origin' })
+      .then(function(r) { return r.json(); })
+      .then(function(rows) {
+        var sel = document.getElementById('filtro-retiro');
+        (rows || []).forEach(function(r) {
+          sel.insertAdjacentHTML('beforeend', '<option value="' + r.id + '">' + r.nome + '</option>');
+        });
+      });
+  }
+
+  function montarParams() {
+    var p = new URLSearchParams();
+    var ret = document.getElementById('filtro-retiro');
+    var tipo = document.getElementById('filtro-tipo');
+    var status = document.getElementById('filtro-status');
+    var ini = document.getElementById('filtro-data-ini');
+    var fim = document.getElementById('filtro-data-fim');
+    if (ret && ret.value) p.set('retiro_id', ret.value);
+    if (tipo && tipo.value && ABA_ATIVA === 'boletas') p.set('tipo', tipo.value);
+    if (status && status.value && ABA_ATIVA === 'boletas') p.set('status', status.value);
+    if (ini && ini.value) p.set('data_inicio', ini.value);
+    if (fim && fim.value) p.set('data_fim', fim.value);
+    return p.toString();
+  }
+
+  function carregar() {
+    var cont = document.getElementById('hist-lista');
+    var vazio = document.getElementById('hist-vazio');
+    cont.innerHTML = '<p style="text-align:center; color:#8A8A7C; padding:1rem;">Carregando...</p>';
+    vazio.style.display = 'none';
+
+    var url = ABA_ATIVA === 'boletas' ? '/api/historico/boletas' : '/api/historico/chamados';
+    var qs = montarParams();
+    if (qs) url += '?' + qs;
+
+    fetch(url, { credentials: 'same-origin' })
+      .then(function(r) { return r.json(); })
+      .then(function(rows) {
+        if (!rows || !rows.length) {
+          cont.innerHTML = '';
+          vazio.style.display = 'block';
+          return;
+        }
+        cont.innerHTML = ABA_ATIVA === 'boletas' ? renderBoletas(rows) : renderChamados(rows);
+      })
+      .catch(function() {
+        cont.innerHTML = '<p style="color:#D32F2F; text-align:center;">Erro ao carregar.</p>';
+      });
+  }
+
+  function renderBoletas(rows) {
+    var ICOS = { nascimento: 'nascimento', obito: 'obto', transferencia: 'movimentacao', compravenda: 'movimentacao', evolucao: 'movimentacao', manejo: 'tarefas' };
+    var ROT = { nascimento: 'Nascimento', obito: 'Óbito', transferencia: 'Transferência', compravenda: 'Compra/Venda', evolucao: 'Evolução', manejo: 'Manejo' };
+    return rows.map(function(r) {
+      var ico = ICOS[r.operacao] || 'tarefas';
+      var rotulo = ROT[r.operacao] || 'Registro';
+      var data = r.data || (r.criadoEm || '').slice(0,10);
+      var total = (r.animais || []).reduce(function(s,a){return s+(parseInt(a.quantidade)||0);},0);
+      var badge = r.aprovada
+        ? '<span class="badge concluida">✅ Aprovada</span>'
+        : '<span class="badge pendente">⏳ Pendente</span>';
+      return '<div class="card tarefa-card" onclick="window.location.href=\'/boleta/' + r.id + '\'">' +
+        '<div class="bar-lateral ' + (r.aprovada ? 'concluida' : 'pendente') + '"></div>' +
+        '<div class="body">' +
+          '<div class="info">' +
+            '<span class="titulo"><img class="label-ico" src="/public/Icons/' + ico + '.ico" alt="" /> ' + rotulo + ' — ' + total + ' cabeças</span>' +
+            '<span class="descricao">' + (r.retiro_nome || '') + ' · ' + (r.capataz_nome || '') + '</span>' +
+            '<div class="meta"><span class="retiro-tag">📅 ' + data + '</span></div>' +
+          '</div>' +
+          '<div class="status-area">' + badge + '<span class="arrow">›</span></div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  function renderChamados(rows) {
+    var ICOS = { hidraulica: 'hidraulica', eletrica: 'eletrica', cerca: 'cerca', bebedouro: 'bebedouro' };
+    return rows.map(function(c) {
+      var ico = ICOS[c.tipo] || 'alerta';
+      var statusClasse = c.status === 'RESOLVIDO' ? 'concluida' : (c.status === 'EM_ANDAMENTO' ? 'andamento' : 'pendente');
+      var statusLabel = c.status === 'RESOLVIDO' ? 'Resolvido' : (c.status === 'EM_ANDAMENTO' ? 'Em andamento' : 'Aberto');
+      var data = (c.criado_em || '').slice(0,10);
+      // Capataz/Gerente/Coord vão pra detalhe read-only; Infra vai pra resolver
+      var rota = (PERFIL === 'Infraestrutura' || PERFIL === 'Tecnico') ? '/chamado/' + c.id + '/resolver' : '/chamado/' + c.id;
+      return '<div class="card tarefa-card" onclick="window.location.href=\'' + rota + '\'">' +
+        '<div class="bar-lateral ' + statusClasse + '"></div>' +
+        '<div class="body">' +
+          '<div class="info">' +
+            '<span class="titulo"><img class="label-ico" src="/public/Icons/' + ico + '.ico" alt="" /> ' + (c.descricao || '').slice(0, 50) + '</span>' +
+            '<span class="descricao">' + (c.tipo || '').toUpperCase() + ' · ' + (c.retiro_nome || '') + '</span>' +
+            '<div class="meta"><span class="retiro-tag">📅 ' + data + '</span></div>' +
+          '</div>' +
+          '<div class="status-area"><span class="badge ' + statusClasse + '">' + statusLabel + '</span><span class="arrow">›</span></div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  function exportar(formato) {
+    formato = formato || 'xlsx';
+    var qs = montarParams();
+    var p = new URLSearchParams(qs);
+    p.set('formato', formato);
+    // Se o filtro tipo foi escolhido, exporta só ele; senão, todos
+    var tipoSel = document.getElementById('filtro-tipo');
+    if (tipoSel && tipoSel.value) {
+      p.set('tipos', tipoSel.value);
+    } else {
+      p.set('tipos', ['nascimento', 'obito', 'transferencia', 'compravenda', 'manejo'].join(','));
+    }
+    window.location.href = '/api/coordenador/exportar?' + p.toString();
+  }
+</script>
+
+<%- include('partials/footer') %>

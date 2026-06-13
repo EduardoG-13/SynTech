@@ -1,0 +1,333 @@
+/* boletas.css — Layout do formulário de boletas zootécnicas */
+
+.form-main {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.btn-voltar {
+  background: none;
+  border: none;
+  color: #1A4D2E;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 1.25rem;
+}
+
+.btn-voltar:hover {
+  color: #2E7D52;
+}
+
+.boleta-card {
+  background: #fff;
+  border: 1px solid #d7dfd3;
+  border-radius: 16px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.boleta-card h2 {
+  margin-top: 0;
+  font-size: 1.3rem;
+  color: #1B1B1B;
+}
+
+.descricao-texto {
+  color: #5c6b5d;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.boleta-card label {
+  display: block;
+  margin-bottom: 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  color: #1B1B1B;
+}
+
+.boleta-card select,
+.boleta-card input[type="text"],
+.boleta-card input[type="date"],
+.boleta-card input[type="file"] {
+  width: 100%;
+  margin-top: 0.45rem;
+  padding: 0.85rem;
+  border-radius: 12px;
+  border: 1px solid #c8d3c3;
+  font-size: 1rem;
+  background: #fff;
+  color: #1B1B1B;
+}
+
+.boleta-card select:focus,
+.boleta-card input:focus {
+  outline: none;
+  border-color: #1A4D2E;
+}
+
+.upload-label {
+  display: block;
+  cursor: pointer;
+}
+
+.upload-label input[type="file"] {
+  padding: 0.6rem 0.75rem;
+}
+
+.morte-campos {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #f4d6d6;
+  background: #fff6f6;
+  border-radius: 12px;
+}
+
+.morte-campos.hidden {
+  display: none !important;
+}
+
+.btn-primario {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  background: #1A4D2E;
+  color: #fff;
+  padding: 0.95rem 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.btn-primario:hover {
+  background: #276b4a;
+}
+
+/* =========================================================
+   Tela de Boletas do Coordenador (aprovar + exportar)
+   ========================================================= */
+
+.boletas-main {
+  display: block;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.boletas-main .filter-pills {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+.boletas-main .filter-pills .pill {
+  background: #fff;
+  border: 2px solid #d7dfd3;
+  color: #1B1B1B;
+  border-radius: 999px;
+  padding: 0.5rem 1.25rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: auto;
+}
+.boletas-main .filter-pills .pill.active {
+  background: #1A4D2E; color: #fff; border-color: #1A4D2E;
+}
+
+.boletas-resumo {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.boletas-resumo .card {
+  background: #fff;
+  border: 1px solid #d7dfd3;
+  border-radius: 12px;
+  padding: 1rem 0.85rem;
+  text-align: center;
+}
+.boletas-resumo .card span {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1A4D2E;
+  line-height: 1;
+}
+.boletas-resumo .card p {
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  color: #8A8A7C;
+  font-weight: 600;
+}
+
+.boletas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.boleta-card {
+  background: #fff;
+  border: 1px solid #d7dfd3;
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  transition: border-color 0.2s;
+}
+.boleta-card:hover {
+  border-color: #1A4D2E;
+}
+.boleta-check {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #1A4D2E;
+}
+.boleta-titulo {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1B1B1B;
+}
+.btn-aprovar {
+  background: #1A4D2E;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 0.85rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: auto;
+}
+.btn-aprovar:hover { background: #2E7D52; }
+
+.boletas-main .btn-primario {
+  background: #1A4D2E;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.85rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 48px;
+}
+.boletas-main .btn-primario:hover { background: #2E7D52; }
+
+@media (max-width: 700px) {
+  .boletas-resumo { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* =========================================================
+   Bloco de Exportação (Coordenador)
+   ========================================================= */
+
+.export-tipos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Sobrescreve label{display:grid} global do styles.css */
+.export-checkbox {
+  display: flex !important;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 0.85rem;
+  background: #fafdfb;
+  border: 1px solid #e5e5e0;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1B1B1B;
+  transition: all 0.2s;
+}
+.export-checkbox:hover { border-color: #1A4D2E; background: #f0f7f2; }
+.export-checkbox input[type="checkbox"] {
+  accent-color: #1A4D2E;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.export-checkbox img.label-ico {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.export-checkbox .emoji-ico {
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+.export-checkbox span:last-child { flex: 1; }
+
+/* Datas + retiro */
+.export-datas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.export-data-field {
+  display: flex !important;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.export-field-label {
+  display: block !important;
+  font-size: 0.8rem;
+  color: #5c6b5d;
+  font-weight: 600;
+}
+.export-data-field input,
+.export-data-field select {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #c8d3c3;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  width: 100%;
+  background: #fff;
+  min-height: 42px;
+}
+
+.export-acoes {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.export-acoes button {
+  flex: 1;
+  min-width: 200px;
+  min-height: 48px;
+}
+.btn-secundario-laranja {
+  background: #A64B00;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.85rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn-secundario-laranja:hover { background: #8a3e00; }
+
+/* Mobile */
+@media (max-width: 600px) {
+  .export-tipos { grid-template-columns: 1fr; }
+  .export-datas { grid-template-columns: 1fr; }
+  .export-acoes button { min-width: 100%; }
+}

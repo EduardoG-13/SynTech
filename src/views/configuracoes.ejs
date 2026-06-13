@@ -1,0 +1,125 @@
+<%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/configuracoes.css" />
+
+<div id="device" class="logged">
+  <%- include('partials/sidebar') %>
+
+  <div id="app">
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar"><img src="/public/Icons/gerente.ico" alt="Gerente" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <h1>Configurações</h1>
+      <div class="sub">Gestão de retiros e usuários (Gerente)</div>
+    </div>
+
+    <main class="config-main">
+
+      <!-- Abas -->
+      <div class="config-abas">
+        <button class="aba active" data-aba="retiros"><img class="label-ico" src="/public/Icons/home.ico" alt="" /> Retiros</button>
+        <button class="aba" data-aba="usuarios"><img class="label-ico" src="/public/Icons/capataz.ico" alt="" /> Usuários</button>
+      </div>
+
+      <!-- Aviso de acesso -->
+      <div class="config-aviso" id="config-aviso" style="display:none;">
+        <img class="ico-sm" src="/public/Icons/acesso_restrito.ico" alt="" /> Acesso restrito. Faça login como <strong>Gerente</strong> para gerenciar.
+      </div>
+
+      <!-- ================= ABA RETIROS ================= -->
+      <section class="aba-conteudo" id="conteudo-retiros">
+
+        <div class="card-config">
+          <h2><img class="label-ico" src="/public/Icons/localizacao.ico" alt="" /> Novo retiro</h2>
+          <form id="form-retiro" class="grid-form">
+            <input type="hidden" id="ret-id" />
+            <div>
+              <label>Nome do retiro</label>
+              <input type="text" id="ret-nome" placeholder="Ex: Acurizal" required />
+            </div>
+            <div>
+              <label>Número</label>
+              <input type="text" id="ret-numero" placeholder="Ex: 01" />
+            </div>
+            <div>
+              <label>Localização</label>
+              <input type="text" id="ret-local" placeholder="Ex: Sede Acurizal" />
+            </div>
+            <div>
+              <label>Capataz responsável</label>
+              <select id="ret-capataz"><option value="">— Sem capataz —</option></select>
+            </div>
+            <div>
+              <label>Coordenador</label>
+              <select id="ret-coord"><option value="">— Sem coordenador —</option></select>
+            </div>
+            <div class="form-acoes">
+              <button type="submit" class="btn-salvar" id="ret-btn-salvar"><img class="label-ico" src="/public/Icons/salvar.ico" alt="" /> Salvar retiro</button>
+              <button type="button" class="btn-cancelar" id="ret-btn-cancelar" style="display:none;">Cancelar</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card-config">
+          <h2><img class="label-ico" src="/public/Icons/tarefas.ico" alt="" /> Retiros cadastrados</h2>
+          <div id="lista-retiros-admin" class="lista-admin"></div>
+        </div>
+
+      </section>
+
+      <!-- ================= ABA USUÁRIOS ================= -->
+      <section class="aba-conteudo" id="conteudo-usuarios" style="display:none;">
+
+        <div class="card-config">
+          <h2><img class="label-ico" src="/public/Icons/capataz.ico" alt="" /> Novo usuário</h2>
+          <form id="form-usuario" class="grid-form">
+            <input type="hidden" id="usr-id" />
+            <div>
+              <label>Nome (login)</label>
+              <input type="text" id="usr-nome" placeholder="Ex: marcos" required />
+            </div>
+            <div>
+              <label>Senha</label>
+              <input type="password" id="usr-senha" placeholder="Senha de acesso" />
+              <small id="usr-senha-hint" style="display:none; color:#5c6b5d;">Deixe em branco para manter a senha atual</small>
+            </div>
+            <div>
+              <label>Perfil</label>
+              <select id="usr-perfil">
+                <option value="Coordenador">Coordenador</option>
+                <option value="Gerente">Gerente</option>
+                <option value="Capataz">Capataz</option>
+                <option value="Tecnico">Técnico de Infraestrutura</option>
+              </select>
+            </div>
+            <div id="usr-retiro-wrap" style="display:none;">
+              <label>Retiro (capataz)</label>
+              <select id="usr-retiro"><option value="">— Sem retiro —</option></select>
+            </div>
+            <div id="usr-admin-wrap" style="display:none;">
+              <label style="display:flex; align-items:center; gap:0.5rem;">
+                <input type="checkbox" id="usr-is-admin" />
+                <span><img class="ico-sm" src="/public/Icons/bloqueado.ico" alt="" /> Administrador (acessa Configurações)</span>
+              </label>
+              <small style="color:#5c6b5d;">Marque para conceder acesso à tela de Configurações.</small>
+            </div>
+            <div class="form-acoes">
+              <button type="submit" class="btn-salvar" id="usr-btn-salvar"><img class="label-ico" src="/public/Icons/salvar.ico" alt="" /> Salvar usuário</button>
+              <button type="button" class="btn-cancelar" id="usr-btn-cancelar" style="display:none;">Cancelar</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card-config">
+          <h2><img class="label-ico" src="/public/Icons/capataz.ico" alt="" /> Usuários cadastrados</h2>
+          <div id="lista-usuarios-admin" class="lista-admin"></div>
+        </div>
+
+      </section>
+
+      <p class="config-msg" id="config-msg" style="display:none;"></p>
+
+    </main>
+  </div>
+</div>
+
+<script src="/public/js/configuracoes.js"></script>
+<%- include('partials/footer') %>
