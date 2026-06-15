@@ -93,13 +93,34 @@ cd src/backend
 npm install
 ```
 
-4. Crie o arquivo `.env` a partir do modelo:
+4. Crie o arquivo `.env` a partir do modelo (na raiz do projeto):
 
 ```sh
 cp .env.example .env
 ```
 
-O arquivo `.env` já vem com valores padrão funcionais. Não é necessário preencher credenciais externas — o banco SQLite é criado automaticamente na primeira execução.
+5. Gere um valor único para `SESSION_SECRET` e substitua o placeholder no `.env`:
+
+```sh
+node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+```
+
+#### Variáveis de Ambiente
+
+As variáveis abaixo são lidas pelo servidor a partir do arquivo `.env` localizado na raiz do projeto (fallback: `src/backend/.env`).
+
+| Variável | Obrigatória | Padrão | Descrição |
+|---|---|---|---|
+| `PORT` | Não | `3000` | Porta em que o servidor HTTP é iniciado. |
+| `NODE_ENV` | Não | `development` | Modo de execução. Em produção, deve ser definida como `production`. |
+| `DB_PATH` | Não | `./database/brpec.sqlite` | Caminho do arquivo SQLite local, criado automaticamente na primeira execução. |
+| `DATABASE_URL` | Condicional | — | String de conexão PostgreSQL para sincronização em nuvem (Supabase). Exigida quando `ENABLE_CLOUD_SYNC=true`. Formato: `postgresql://usuario:senha@host:5432/database`. |
+| `ENABLE_CLOUD_SYNC` | Não | `false` | Habilita a sincronização automática com o banco remoto. Deve ser definida como `true` apenas quando `DATABASE_URL` estiver configurada. |
+| `SESSION_SECRET` | **Sim** | — | Segredo utilizado para assinar os cookies de sessão. Deve ser gerado com `crypto.randomBytes(64)` e nunca exposto em repositórios públicos. Na ausência desse valor, é utilizado um fallback inseguro embutido no código. |
+| `ACCESS_TOKEN_EXPIRES_IN` | Não | `15m` | Tempo de expiração do token de acesso JWT. |
+| `REFRESH_TOKEN_EXPIRES_IN` | Não | `7d` | Tempo de expiração do token de renovação JWT. |
+
+> **Segurança:** o arquivo `.env` está registrado no `.gitignore` e não deve ser versionado. Apenas `.env.example` — sem valores reais — é mantido no repositório.
 
 ### Execucao
 
