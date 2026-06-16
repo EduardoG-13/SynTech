@@ -6611,6 +6611,8 @@ A tabela abaixo é coerente com a Matriz RF → RN → Endpoint (seção 3.1.4) 
 
 ### 5.2.1. Relatório de testes de guerrilha
 
+Link para a planilha dos testes de Guerrilha: https://docs.google.com/spreadsheets/d/1qdGcS9gtkIaFlHcXa6VoyoqdvRIejTfKeiD6Zggm5aI/edit?usp=sharing
+
 _Posicione aqui as tabelas com enunciados de tarefas, etapas e resultados de testes de usabilidade. Ou utilize um link para seu relatório de testes (mantenha o link sempre público para visualização)._
 
 ### 5.2.2. Relatório de testes SUS (System Usability Scale)
