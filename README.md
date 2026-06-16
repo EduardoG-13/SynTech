@@ -114,9 +114,11 @@ As variáveis abaixo são lidas pelo servidor a partir do arquivo `.env` localiz
 | `PORT` | Não | `3000` | Porta em que o servidor HTTP é iniciado. |
 | `NODE_ENV` | Não | `development` | Modo de execução. Em produção, deve ser definida como `production`. |
 | `DB_PATH` | Não | `./database/brpec.sqlite` | Caminho do arquivo SQLite local, criado automaticamente na primeira execução. |
-| `DATABASE_URL` | Condicional | — | String de conexão PostgreSQL para sincronização em nuvem (Supabase). Exigida quando `ENABLE_CLOUD_SYNC=true`. Formato: `postgresql://usuario:senha@host:5432/database`. |
+| `DATABASE_URL` | **Sim** | — | String de conexão PostgreSQL (Supabase) exigida pelo backend independentemente do valor de `ENABLE_CLOUD_SYNC`. Formato: `postgresql://usuario:senha@host:5432/database`. |
 | `ENABLE_CLOUD_SYNC` | Não | `false` | Habilita a sincronização automática com o banco remoto. Deve ser definida como `true` apenas quando `DATABASE_URL` estiver configurada. |
 | `SESSION_SECRET` | **Sim** | — | Segredo utilizado para assinar os cookies de sessão. Deve ser gerado com `crypto.randomBytes(64)` e nunca exposto em repositórios públicos. Na ausência desse valor, é utilizado um fallback inseguro embutido no código. |
+| `JWT_ACCESS_SECRET` | **Sim** | — | Chave de assinatura do token de acesso JWT. Sem esse valor o servidor retorna erro na autenticação. Deve ser gerada com `crypto.randomBytes(64)`. |
+| `JWT_REFRESH_SECRET` | **Sim** | — | Chave de assinatura do token de renovação JWT. Sem esse valor o servidor retorna erro na autenticação. Deve ser gerada com `crypto.randomBytes(64)`. |
 | `ACCESS_TOKEN_EXPIRES_IN` | Não | `15m` | Tempo de expiração do token de acesso JWT. |
 | `REFRESH_TOKEN_EXPIRES_IN` | Não | `7d` | Tempo de expiração do token de renovação JWT. |
 
