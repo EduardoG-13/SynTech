@@ -124,26 +124,51 @@ As variáveis abaixo são carregadas pelo `dotenv`: primeiro a partir do diretó
 
 > **Segurança:** o arquivo `.env` está registrado no `.gitignore` e não deve ser versionado. Apenas `.env.example` — sem valores reais — é mantido no repositório.
 
-### Execucao
+### Executando o Backend
 
-A partir da pasta `src/backend`, inicie o servidor em modo desenvolvimento:
+#### Migrations do banco de dados
+
+As migrations são executadas **automaticamente** a cada inicialização do servidor — não é necessário nenhum comando manual. O sistema lê os arquivos `src/backend/database/migration.sql` e os arquivos `.sql` em `src/backend/database/migrations/` em ordem alfabética, registrando cada migration aplicada na tabela `schema_migrations` para evitar reexecução.
+
+Na primeira execução com o banco vazio, um seed inicial é aplicado automaticamente com os retiros e usuários padrão da BrPec.
+
+#### Iniciando o servidor
+
+A partir da pasta `src/backend`:
+
+**Modo desenvolvimento** (reinicia automaticamente ao salvar arquivos):
 
 ```sh
 npm run dev
 ```
 
-O terminal deve exibir:
+**Modo produção:**
+
+```sh
+npm start
+```
+
+#### Saída esperada na inicialização
 
 ```
-[database] Banco SQLite conectado: .../database/brpec.sqlite
+[database] Banco SQLite conectado: .../src/backend/database/brpec.sqlite
 [initDb] Banco de dados inicializado com sucesso
+[server] Banco vazio detectado — rodando seed inicial...   ← apenas na primeira execução
+[server] Banco já populado (N usuário(s)) — pulando seed. ← nas execuções seguintes
 [server] Servidor BrPec rodando na porta 3000
    Health-check: http://localhost:3000/api/health
+[server] Sincronização automática em nuvem (outbox) DESATIVADA via flag ENABLE_CLOUD_SYNC.
 ```
 
-### Verificacao
+#### Portas utilizadas
 
-Acesse `http://localhost:3000/api/health` no navegador ou execute no terminal:
+| Porta | Protocolo | Descrição |
+|---|---|---|
+| `3000` | HTTP | Servidor principal (API REST + interface web). Configurável via `PORT` no `.env`. |
+
+#### Verificando a operação
+
+Acesse no navegador ou execute no terminal:
 
 ```sh
 curl http://localhost:3000/api/health
@@ -160,7 +185,16 @@ Resposta esperada:
 }
 ```
 
-Se o campo `banco` retornar `"desconectado"`, verifique se o Node.js esta na versão 22.5.0 ou superior.
+#### Troubleshooting
+
+| Sintoma | Causa provável | Solução |
+|---|---|---|
+| `Cannot find module 'node:sqlite'` | Node.js abaixo de v22.5.0 | Atualize o Node.js para v22.5.0 ou superior. Verifique com `node --version`. |
+| `banco: "desconectado"` no health-check | Node.js incompatível ou caminho do SQLite incorreto | Confirme a versão do Node.js e o valor de `DB_PATH` no `.env`. |
+| `Error: SESSION_SECRET is not defined` ou sessão inválida | Variável ausente ou usando o valor placeholder do `.env.example` | Gere e defina `SESSION_SECRET` conforme descrito na seção de Variáveis de Ambiente. |
+| `JsonWebTokenError` ou erro 401 na autenticação | `JWT_ACCESS_SECRET` ou `JWT_REFRESH_SECRET` não definidas | Defina ambas as variáveis no `.env` com valores gerados por `crypto.randomBytes(64)`. |
+| `Error: connect ECONNREFUSED` ou falha no cloud sync | `DATABASE_URL` ausente ou inválida | Verifique a string de conexão PostgreSQL no `.env`. |
+| `[initDb] ERRO: Arquivo de migration base não encontrado` | Execução a partir de diretório incorreto | Execute o servidor a partir de `src/backend/`, não da raiz do projeto. |
 
 ### Estrutura do backend
 
