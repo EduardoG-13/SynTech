@@ -107,7 +107,7 @@ node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
 
 #### Variáveis de Ambiente
 
-As variáveis abaixo são lidas pelo servidor a partir do arquivo `.env` localizado na raiz do projeto (fallback: `src/backend/.env`).
+As variáveis abaixo são carregadas pelo `dotenv`: primeiro a partir do diretório de execução do comando e depois a partir do `.env` na raiz do projeto.
 
 | Variável | Obrigatória | Padrão | Descrição |
 |---|---|---|---|
