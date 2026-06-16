@@ -19,7 +19,10 @@
 
       <!-- Cabeçalho: tipo + status -->
       <div class="card detalhe-cabecalho">
-        <h2 id="bol-tipo"><img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Carregando...</h2>
+        <div>
+          <h2 id="bol-tipo"><img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Carregando...</h2>
+          <span id="bol-numero" style="display:none; font-size:0.8rem; font-weight:700; color:#5C6B5D; letter-spacing:0.04em;"></span>
+        </div>
         <span class="badge pendente" id="bol-status">⏳ Carregando</span>
       </div>
 
@@ -97,6 +100,12 @@
         <p class="sem-audio" id="bol-sem-foto">📭 Nenhuma foto anexada.</p>
         <img id="bol-foto" class="foto-preview" alt="Foto anexada pelo capataz" style="display:none;" />
         <a id="bol-foto-link" href="#" target="_blank" rel="noopener" style="display:none; text-align:center; font-size:0.85rem; color:#1A4D2E; text-decoration:underline; margin-top:0.5rem;">🔍 Abrir foto em tela cheia</a>
+      </div>
+
+      <!-- Georreferência (rastreabilidade) -->
+      <div class="card detalhe-bloco" id="bloco-gps" style="display:none;">
+        <h3><img class="label-ico" src="/public/Icons/GPS.ico" alt="" /> Localização do registro</h3>
+        <a id="bol-gps-link" href="#" target="_blank" rel="noopener" style="color:#1A4D2E; text-decoration:underline;">—</a>
       </div>
 
       <!-- ============ DADOS DA CONCLUSÃO / VALIDAÇÃO ============ -->
@@ -269,6 +278,13 @@
     document.getElementById('bol-tipo').innerHTML =
       '<img class="label-ico" src="/public/Icons/' + meta.ico + '.ico" alt="" /> ' + meta.label;
 
+    // Identificador legível (rastreabilidade)
+    var numEl = document.getElementById('bol-numero');
+    if (numEl && reg.numero_boleta) {
+      numEl.textContent = '🔖 ' + reg.numero_boleta;
+      numEl.style.display = 'block';
+    }
+
     // Status badge
     var badge = document.getElementById('bol-status');
     if (reg.aprovada) {
@@ -370,6 +386,20 @@
       semFoto.style.display = 'block';
     }
 
+    // Georreferência (rastreabilidade)
+    var gpsBox = document.getElementById('bloco-gps');
+    var gpsLink = document.getElementById('bol-gps-link');
+    if (gpsBox && reg.latitude && reg.longitude) {
+      gpsBox.style.display = '';
+      var ehMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+      gpsLink.href = ehMobile
+        ? 'geo:' + reg.latitude + ',' + reg.longitude + '?q=' + reg.latitude + ',' + reg.longitude
+        : 'https://www.google.com/maps?q=' + reg.latitude + ',' + reg.longitude;
+      gpsLink.textContent = Number(reg.latitude).toFixed(5) + ', ' + Number(reg.longitude).toFixed(5) + ' (abrir no Maps)';
+    } else if (gpsBox) {
+      gpsBox.style.display = 'none';
+    }
+
     // Bloco validação
     if (reg.aprovada) {
       setText('bol-validacao', '✓ Aprovada');
@@ -426,21 +456,18 @@
       });
   }
 
-  // Janela de edição do Capataz (30 dias + não aprovada)
+  // Edição do Capataz: bloqueia SÓ quando o Gerente fechou o mês.
+  // (A aprovação do Coordenador não trava mais — o capataz pode corrigir até o fechamento.)
   function aplicarJanelaEdicaoCapataz(reg) {
     var btnEditar = document.getElementById('btn-editar');
     var bloqueio = document.getElementById('bloqueio-edicao');
     if (!btnEditar) return;
-    var bloqueada = false;
-    var motivo = '';
-    if (reg.aprovada) { bloqueada = true; motivo = '🔒 Boleta já aprovada pelo Coordenador.'; }
-    if (reg.criadoEm) {
-      var dias = (Date.now() - new Date(reg.criadoEm).getTime()) / (1000 * 60 * 60 * 24);
-      if (dias > 30) { bloqueada = true; motivo = '🔒 Boleta com mais de 30 dias — janela de edição encerrada.'; }
-    }
-    if (bloqueada) {
+    if (reg.mes_fechado) {
       btnEditar.style.display = 'none';
-      if (bloqueio) { bloqueio.style.display = 'block'; bloqueio.textContent = motivo; }
+      if (bloqueio) {
+        bloqueio.style.display = 'block';
+        bloqueio.textContent = '🔒 Mês fechado pelo Gerente — esta boleta não pode mais ser editada.';
+      }
     }
   }
 </script>

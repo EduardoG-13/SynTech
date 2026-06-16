@@ -24,8 +24,51 @@
         var aba = btn.dataset.aba;
         document.getElementById('conteudo-retiros').style.display = aba === 'retiros' ? 'block' : 'none';
         document.getElementById('conteudo-usuarios').style.display = aba === 'usuarios' ? 'block' : 'none';
+        var dispEl = document.getElementById('conteudo-dispositivos');
+        if (dispEl) {
+          dispEl.style.display = aba === 'dispositivos' ? 'block' : 'none';
+          if (aba === 'dispositivos') carregarDispositivos();
+        }
       });
     });
+  }
+
+  // ---------- Dispositivos ----------
+  function carregarDispositivos() {
+    var cont = document.getElementById('lista-dispositivos-admin');
+    if (!cont) return;
+    cont.innerHTML = '<p style="color:#8A8A7C;">Carregando…</p>';
+    fetch('/api/admin/dispositivos', { credentials: 'same-origin' })
+      .then(tratarResposta)
+      .then(function (rows) {
+        if (!rows || !rows.length) {
+          cont.innerHTML = '<p style="color:#8A8A7C;">Nenhum dispositivo vinculado ainda.</p>';
+          return;
+        }
+        cont.innerHTML = rows.map(function (d) {
+          var revogado = !!d.revogado_em;
+          var ultimo = (d.ultimo_acesso || '').slice(0, 16).replace('T', ' ');
+          return '<div class="lista-item" style="display:flex; align-items:center; justify-content:space-between; gap:0.5rem; padding:0.6rem 0.8rem; border:1px solid #e5e5e0; border-radius:10px; margin-bottom:0.4rem; ' + (revogado ? 'opacity:0.55;' : '') + '">' +
+            '<div>' +
+              '<div><strong>📍 ' + (d.retiro_nome || '—') + '</strong> · 👷 ' + (d.capataz_nome || '—') + '</div>' +
+              '<small style="color:#8A8A7C;">Último acesso: ' + (ultimo || '—') + (revogado ? ' · 🚫 revogado' : '') + '</small>' +
+            '</div>' +
+            (revogado ? '' : '<button class="btn-revogar-disp" data-id="' + d.id + '" style="background:none; border:1px solid #D32F2F; color:#D32F2F; border-radius:8px; padding:0.3rem 0.7rem; cursor:pointer; font-size:0.85rem;">Revogar</button>') +
+          '</div>';
+        }).join('');
+        cont.querySelectorAll('.btn-revogar-disp').forEach(function (b) {
+          b.addEventListener('click', function () { revogarDispositivo(b.dataset.id); });
+        });
+      })
+      .catch(function () { cont.innerHTML = '<p style="color:#C0392B;">Erro ao carregar dispositivos.</p>'; });
+  }
+
+  function revogarDispositivo(id) {
+    if (!confirm('Revogar este dispositivo? Ele vai pedir seleção de retiro no próximo acesso.')) return;
+    fetch('/api/admin/dispositivos/' + encodeURIComponent(id), { method: 'DELETE', credentials: 'same-origin' })
+      .then(function (r) { return r.json(); })
+      .then(function () { carregarDispositivos(); })
+      .catch(function () { msg('❌ Erro ao revogar dispositivo.', 'erro'); });
   }
 
   // Mostra retiro só p/ Capataz; checkbox de admin só p/ Gerente

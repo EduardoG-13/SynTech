@@ -113,11 +113,38 @@ export function obterResumo(req: Request, res: Response) {
     ).get(...permitidos) as any).n;
   }
 
+  // Boletas por tipo de operação (gráfico de barras)
+  const boletasPorTipo = db.prepare(`
+    SELECT tipo_operacao AS tipo, COUNT(DISTINCT grupo_id) AS total
+    FROM movimentacoes
+    ${condMov}
+    GROUP BY tipo_operacao
+    ORDER BY total DESC
+  `).all(...condMovParams) as any[];
+
+  // Evolução mensal de boletas — últimos 6 meses (gráfico de linha)
+  const boletasPorMes = db.prepare(`
+    SELECT substr(data, 1, 7) AS mes, COUNT(DISTINCT grupo_id) AS total
+    FROM movimentacoes
+    ${condMov}
+    GROUP BY substr(data, 1, 7)
+    ORDER BY mes DESC
+    LIMIT 6
+  `).all(...condMovParams) as any[];
+  boletasPorMes.reverse(); // ordem cronológica pro gráfico
+
+  // Total de cabeças movimentadas (KPI)
+  const totalCabecas = (db.prepare(`
+    SELECT COALESCE(SUM(quantidade), 0) AS n FROM movimentacoes ${condMov}
+  `).get(...condMovParams) as any).n;
+
   return res.json({
     chamadosPorRetiro,
     boletas: totaisBoletas,
+    boletasPorTipo,
+    boletasPorMes,
     chamados: chamadosPorStatus,
-    totais: { retiros: totalRetiros, capatazes: totalCapatazes },
+    totais: { retiros: totalRetiros, capatazes: totalCapatazes, cabecas: totalCabecas },
     escopo: sess.perfil === 'Gerente' ? 'todos' : 'meus-retiros',
   });
 }

@@ -16,6 +16,7 @@ import dadosRoutes from './dadosRoutes';
 import adminRoutes from './adminRoutes';
 import coordenadorRoutes from './coordenadorRoutes';
 import boletaRoutes from './boletaRoutes';
+import gerenteRoutes from './gerenteRoutes';
 import dashboardRoutes from './dashboardRoutes';
 import historicoRoutes from './historicoRoutes';
 
@@ -36,6 +37,9 @@ router.use('/boletas', boletaRoutes);
 
 // Dashboard (Gerente / Coordenador)
 router.use('/dashboard', dashboardRoutes);
+
+// Gerente: fechamento mensal das boletas
+router.use('/gerente', gerenteRoutes);
 
 // Histórico unificado (todos os perfis, com filtros automáticos)
 router.use('/historico', historicoRoutes);

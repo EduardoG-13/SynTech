@@ -3,6 +3,7 @@ import {
   listarRetiros, criarRetiro, atualizarRetiro, excluirRetiro,
   listarUsuarios, criarUsuario, atualizarUsuario, excluirUsuario,
   excluirBoleta, excluirChamado, excluirTarefa,
+  listarDispositivos, revogarDispositivo,
 } from '../controllers/adminController';
 
 const router = Router();
@@ -40,5 +41,9 @@ router.delete('/usuarios/:id', excluirUsuario);
 router.delete('/boletas/:grupo_id', excluirBoleta);
 router.delete('/chamados/:id', excluirChamado);
 router.delete('/tarefas/:id', excluirTarefa);
+
+// Dispositivos (login automático por aparelho)
+router.get('/dispositivos', listarDispositivos);
+router.delete('/dispositivos/:id', revogarDispositivo);
 
 export default router;

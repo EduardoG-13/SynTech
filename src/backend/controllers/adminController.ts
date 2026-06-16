@@ -213,3 +213,35 @@ export function excluirTarefa(req: Request, res: Response) {
   enfileirarSync('tarefa_excluida', id);
   return res.json({ mensagem: 'Tarefa excluída com sucesso.' });
 }
+
+// ==================== DISPOSITIVOS (login automático por aparelho) ====================
+
+/**
+ * GET /api/admin/dispositivos
+ * Lista os dispositivos vinculados (aparelhos que entram automático em um retiro).
+ */
+export function listarDispositivos(_req: Request, res: Response) {
+  const rows = db.prepare(`
+    SELECT d.id, d.device_token, d.apelido, d.criado_em, d.ultimo_acesso, d.revogado_em,
+           r.nome AS retiro_nome, u.nome AS capataz_nome
+    FROM dispositivos d
+    LEFT JOIN retiros  r ON r.id = d.retiro_id
+    LEFT JOIN usuarios u ON u.id = d.capataz_id
+    ORDER BY d.revogado_em IS NOT NULL, d.ultimo_acesso DESC
+  `).all();
+  return res.json(rows);
+}
+
+/**
+ * DELETE /api/admin/dispositivos/:id
+ * Revoga um dispositivo (ex: tablet trocou de retiro). Ele volta a pedir
+ * seleção de retiro no próximo acesso.
+ */
+export function revogarDispositivo(req: Request, res: Response) {
+  const id = String(req.params.id);
+  const existe = db.prepare('SELECT id FROM dispositivos WHERE id = ?').get(id);
+  if (!existe) return res.status(404).json({ erro: 'Dispositivo não encontrado.' });
+
+  db.prepare("UPDATE dispositivos SET revogado_em = datetime('now') WHERE id = ?").run(id);
+  return res.json({ mensagem: 'Dispositivo revogado. Vai pedir seleção de retiro no próximo acesso.' });
+}

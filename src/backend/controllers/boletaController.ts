@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { v7 as uuidv7 } from 'uuid';
 import db from '../config/database';
+import { mesEstaFechado } from './gerenteController';
 
 /**
  * boletaController.ts
@@ -17,6 +18,20 @@ function enfileirarSync(entidade: string, id: string) {
     `INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas)
      VALUES (?, ?, ?, 'PENDENTE', 0)`
   ).run(uuidv7(), entidade, id);
+}
+
+/**
+ * Gera o identificador legível da boleta: BOL-AAAA-NNNN.
+ * Sequência por ano, contando boletas distintas (grupo_id) já numeradas naquele ano.
+ */
+function gerarNumeroBoleta(data: string): string {
+  const ano = (data || new Date().toISOString().slice(0, 10)).slice(0, 4);
+  const prefixo = `BOL-${ano}-`;
+  const row = db.prepare(
+    `SELECT COUNT(DISTINCT grupo_id) AS n FROM movimentacoes WHERE numero_boleta LIKE ?`
+  ).get(prefixo + '%') as any;
+  const seq = (row?.n || 0) + 1;
+  return prefixo + String(seq).padStart(4, '0');
 }
 
 /**
@@ -54,44 +69,47 @@ export function criarBoleta(req: Request, res: Response) {
   const insertMov = db.prepare(`
     INSERT INTO movimentacoes (
       id, capataz_id, retiro_id, data, categoria, quantidade,
-      tipo_operacao, grupo_id,
+      tipo_operacao, grupo_id, numero_boleta,
       pasto, observacoes, observacoes_audio_base64, tem_foto, foto_base64,
       raca, brinco, causa_morte,
       tipo_negocio, valor_financeiro,
       retiro_origem_id, retiro_destino_id, tipo_transporte, motorista, rg_cpf_motorista, placa,
-      titulo,
+      titulo, latitude, longitude,
       sincronizado, validado
     ) VALUES (
       ?, ?, ?, ?, ?, ?,
-      ?, ?,
+      ?, ?, ?,
       ?, ?, ?, ?, ?,
       ?, ?, ?,
       ?, ?,
       ?, ?, ?, ?, ?, ?,
-      ?,
+      ?, ?, ?,
       0, 0
     )
   `);
 
+  const numeroBoleta = gerarNumeroBoleta(data);
   const fotoBase64 = b.foto_base64 || null;
+  const lat = (b.latitude !== undefined && b.latitude !== null) ? Number(b.latitude) : null;
+  const lng = (b.longitude !== undefined && b.longitude !== null) ? Number(b.longitude) : null;
   const ids: string[] = [];
   for (const a of animais) {
     const movId = uuidv7();
     insertMov.run(
       movId, sess.id, retiro_id, data, a.categoria || '', parseInt(a.quantidade) || 0,
-      operacao, grupoId,
+      operacao, grupoId, numeroBoleta,
       b.pasto || null, b.observacoes || null, b.observacoes_audio || null, b.tem_foto ? 1 : 0, fotoBase64,
       b.raca || null, b.brinco || null, b.causa || null,
       b.tipo || null, b.valor ? parseFloat(b.valor) : null,
       b.retiro_origem || null, b.retiro_destino || null, b.transporte || null,
       b.motorista || null, b.rgcpf || null, b.placa || null,
-      b.titulo || null,
+      b.titulo || null, lat, lng,
     );
     ids.push(movId);
     enfileirarSync('movimentacao', movId);
   }
 
-  return res.status(201).json({ grupo_id: grupoId, ids, mensagem: 'Boleta registrada.' });
+  return res.status(201).json({ grupo_id: grupoId, numero_boleta: numeroBoleta, ids, mensagem: 'Boleta registrada.' });
 }
 
 /**
@@ -109,14 +127,12 @@ export function atualizarBoleta(req: Request, res: Response) {
 
   if (existentes.length === 0) return res.status(404).json({ erro: 'Boleta não encontrada.' });
 
-  // Janela de 30 dias
-  const criadoEm = new Date(existentes[0].criado_em);
-  const dias = (Date.now() - criadoEm.getTime()) / (1000 * 60 * 60 * 24);
-  if (dias > 30) {
-    return res.status(422).json({ erro: 'Boleta com mais de 30 dias não pode ser editada.' });
-  }
-  if (existentes[0].aprovado_por_coordenador_id) {
-    return res.status(422).json({ erro: 'Boleta já aprovada pelo Coordenador.' });
+  // REGRA NOVA: a aprovação do Coordenador/Gerente NÃO trava mais a edição.
+  // A boleta só fica travada quando o Gerente FECHA o mês daquele registro.
+  if (mesEstaFechado(existentes[0].data)) {
+    return res.status(422).json({
+      erro: 'Este mês já foi fechado pelo Gerente. A boleta não pode mais ser alterada.'
+    });
   }
 
   // Estratégia mais simples: apaga as rows do grupo e cria de novo
@@ -134,25 +150,29 @@ export function atualizarBoleta(req: Request, res: Response) {
   const insertMov = db.prepare(`
     INSERT INTO movimentacoes (
       id, capataz_id, retiro_id, data, categoria, quantidade,
-      tipo_operacao, grupo_id, pasto, observacoes, observacoes_audio_base64, tem_foto, foto_base64,
+      tipo_operacao, grupo_id, numero_boleta, pasto, observacoes, observacoes_audio_base64, tem_foto, foto_base64,
       raca, brinco, causa_morte, tipo_negocio, valor_financeiro,
       retiro_origem_id, retiro_destino_id, tipo_transporte, motorista, rg_cpf_motorista, placa,
-      titulo, sincronizado, validado, criado_em
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?)
+      titulo, latitude, longitude, sincronizado, validado, criado_em
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?)
   `);
 
+  // Preserva o identificador original da boleta (rastreabilidade) e georreferência
+  const numeroBoleta = existentes[0].numero_boleta || gerarNumeroBoleta(data);
   const fotoBase64 = b.foto_base64 || existentes[0].foto_base64 || null;
+  const lat = (b.latitude !== undefined && b.latitude !== null) ? Number(b.latitude) : existentes[0].latitude;
+  const lng = (b.longitude !== undefined && b.longitude !== null) ? Number(b.longitude) : existentes[0].longitude;
   for (const a of animais) {
     const movId = uuidv7();
     insertMov.run(
       movId, sess.id, retiro_id, data, a.categoria || '', parseInt(a.quantidade) || 0,
-      operacao, grupoId,
+      operacao, grupoId, numeroBoleta,
       b.pasto || null, b.observacoes || null, b.observacoes_audio || null, b.tem_foto ? 1 : 0, fotoBase64,
       b.raca || null, b.brinco || null, b.causa || null,
       b.tipo || null, b.valor ? parseFloat(b.valor) : null,
       b.retiro_origem || null, b.retiro_destino || null, b.transporte || null,
       b.motorista || null, b.rgcpf || null, b.placa || null,
-      b.titulo || null,
+      b.titulo || null, lat, lng,
       existentes[0].criado_em,
     );
     enfileirarSync('movimentacao', movId);
@@ -183,6 +203,7 @@ export function listarMinhas(req: Request, res: Response) {
     if (!grupos[key]) {
       grupos[key] = {
         id: key, // grupo_id é o ID da boleta no front
+        numero_boleta: r.numero_boleta || null,
         operacao: r.tipo_operacao,
         data: r.data,
         retiro: r.retiro_id,
@@ -244,6 +265,8 @@ export function obterBoleta(req: Request, res: Response) {
   const first = rows[0];
   return res.json({
     id: first.grupo_id || first.id,
+    numero_boleta: first.numero_boleta || null,
+    mes_fechado: mesEstaFechado(first.data),
     operacao: first.tipo_operacao,
     data: first.data,
     retiro: first.retiro_id, retiro_nome: first.retiro_nome,
@@ -258,6 +281,7 @@ export function obterBoleta(req: Request, res: Response) {
     retiro_destino: first.retiro_destino_id, retiro_destino_nome: first.retiro_destino_nome,
     transporte: first.tipo_transporte, motorista: first.motorista,
     rgcpf: first.rg_cpf_motorista, placa: first.placa, titulo: first.titulo,
+    latitude: first.latitude, longitude: first.longitude,
     criadoEm: first.criado_em,
     sincronizado: !!first.sincronizado,
     aprovada: !!first.aprovado_por_coordenador_id,

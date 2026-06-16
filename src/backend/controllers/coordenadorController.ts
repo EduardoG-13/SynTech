@@ -387,7 +387,9 @@ export function exportarBoletaPdf(req: Request, res: Response) {
   const tipo = first.tipo_operacao as string;
   const rotulo = ROTULO_TIPO[tipo] || tipo?.toUpperCase() || 'BOLETA';
   const totalAnimais = rows.reduce((s, m) => s + (Number(m.quantidade) || 0), 0);
-  const filename = `boleta_${rotulo.replace(/\s+/g, '_').toLowerCase()}_${(first.data || '').replace(/-/g, '')}.pdf`;
+  const filename = (first.numero_boleta
+    ? first.numero_boleta
+    : `boleta_${rotulo.replace(/\s+/g, '_').toLowerCase()}_${(first.data || '').replace(/-/g, '')}`) + '.pdf';
 
   res.setHeader('Content-Type', 'application/pdf');
   res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
@@ -403,9 +405,10 @@ export function exportarBoletaPdf(req: Request, res: Response) {
   const LINHA = '#D7DFD3';
 
   // Cabeçalho — barra verde + título
+  const numeroBoleta = first.numero_boleta || ('s/n · ' + String(first.grupo_id || first.id).slice(0, 8));
   doc.rect(48, 48, doc.page.width - 96, 56).fill(VERDE);
   doc.fillColor('#FFFFFF').font('Helvetica-Bold').fontSize(20).text('BRPec', 64, 64);
-  doc.font('Helvetica').fontSize(10).text('Relatório de Boleta', 64, 88);
+  doc.font('Helvetica').fontSize(10).text('Relatório de Boleta · ' + numeroBoleta, 64, 88);
   doc.font('Helvetica-Bold').fontSize(11).text(rotulo, 0, 70, { align: 'right', width: doc.page.width - 64 });
   const dataEmissao = new Date().toLocaleString('pt-BR');
   doc.font('Helvetica').fontSize(8).text(`Emitido em ${dataEmissao}`, 0, 88, { align: 'right', width: doc.page.width - 64 });
@@ -529,7 +532,7 @@ export function exportarBoletaPdf(req: Request, res: Response) {
   const rodapeY = doc.page.height - 40;
   doc.moveTo(48, rodapeY).lineTo(doc.page.width - 48, rodapeY).strokeColor(LINHA).stroke();
   doc.fillColor(CINZA).font('Helvetica').fontSize(8)
-     .text(`BRPec · ID do grupo: ${first.grupo_id || first.id}`, 48, rodapeY + 8, { width: doc.page.width - 96, align: 'left' });
+     .text(`BRPec · Boleta ${numeroBoleta} · ref ${String(first.grupo_id || first.id).slice(0, 8)}`, 48, rodapeY + 8, { width: doc.page.width - 96, align: 'left' });
   doc.text(`Gerado por: ${sess.perfil}`, 48, rodapeY + 8, { width: doc.page.width - 96, align: 'right' });
 
   doc.end();

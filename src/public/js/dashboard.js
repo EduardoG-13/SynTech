@@ -3,6 +3,8 @@
 (function () {
   var chartBarras = null;
   var chartDonut  = null;
+  var chartTipo   = null;
+  var chartMes    = null;
 
   document.addEventListener('DOMContentLoaded', function () {
     carregarResumo();
@@ -12,7 +14,103 @@
     var filtroData   = document.getElementById('filter-data');
     if (filtroRetiro) filtroRetiro.addEventListener('change', carregarResumo);
     if (filtroData)   filtroData.addEventListener('change',   carregarResumo);
+
+    var btnExp = document.getElementById('btn-exportar-dashboard');
+    if (btnExp) btnExp.addEventListener('click', exportarPlanilha);
+
+    // Fechamento de período (só Gerente — elementos só existem pra ele)
+    var btnFechar = document.getElementById('btn-fechar-mes');
+    if (btnFechar) {
+      btnFechar.addEventListener('click', fecharPeriodo);
+      carregarFechamentos();
+    }
+    var btnOficial = document.getElementById('btn-planilha-oficial');
+    if (btnOficial) btnOficial.addEventListener('click', gerarPlanilhaOficial);
   });
+
+  function gerarPlanilhaOficial() {
+    var de  = (document.getElementById('fechar-de')  || {}).value || '';
+    var ate = (document.getElementById('fechar-ate') || {}).value || '';
+    var params = new URLSearchParams();
+    if (de)  params.set('data_inicio', de);
+    if (ate) params.set('data_fim', ate);
+    window.location.href = '/api/gerente/planilha-oficial' + (params.toString() ? '?' + params.toString() : '');
+  }
+
+  function fecharMsg(texto, cor) {
+    var el = document.getElementById('fechar-msg');
+    if (!el) return;
+    el.textContent = texto; el.style.color = cor; el.style.display = 'block';
+  }
+
+  function fecharPeriodo() {
+    var de  = (document.getElementById('fechar-de')  || {}).value;
+    var ate = (document.getElementById('fechar-ate') || {}).value;
+    if (!de || !ate) { fecharMsg('❌ Escolha o período (de e até).', '#D32F2F'); return; }
+    if (de > ate)   { fecharMsg('❌ A data inicial não pode ser maior que a final.', '#D32F2F'); return; }
+    if (!confirm('Fechar o período de ' + de + ' a ' + ate + '? As boletas ficarão travadas.')) return;
+    fetch('/api/gerente/fechamento', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin',
+      body: JSON.stringify({ data_inicio: de, data_fim: ate })
+    })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        if (!res.ok) { fecharMsg('❌ ' + (res.d.erro || 'Erro.'), '#D32F2F'); return; }
+        fecharMsg('✅ ' + res.d.mensagem, '#2E7D52');
+        carregarFechamentos();
+      })
+      .catch(function () { fecharMsg('❌ Erro de conexão.', '#D32F2F'); });
+  }
+
+  function carregarFechamentos() {
+    var cont = document.getElementById('lista-fechamentos');
+    if (!cont) return;
+    fetch('/api/gerente/fechamentos', { credentials: 'same-origin' })
+      .then(function (r) { return r.json(); })
+      .then(function (rows) {
+        if (!rows || !rows.length) {
+          cont.innerHTML = '<p style="color:#8A8A7C; font-size:0.85rem;">Nenhum mês fechado ainda.</p>';
+          return;
+        }
+        cont.innerHTML = '<p style="font-size:0.8rem; color:#5c6b5d; margin-bottom:0.4rem;">Períodos fechados:</p>' +
+          rows.map(function (f) {
+            var label = (f.data_inicio && f.data_fim) ? (f.data_inicio + ' → ' + f.data_fim) : f.mes;
+            return '<div style="display:flex; align-items:center; justify-content:space-between; gap:0.5rem; padding:0.4rem 0.6rem; border:1px solid #e5e5e0; border-radius:8px; margin-bottom:0.3rem;">' +
+              '<span>🔒 <strong>' + label + '</strong> <small style="color:#8A8A7C;">por ' + (f.fechado_por_nome || '—') + '</small></span>' +
+              '<button class="btn-reabrir" data-id="' + f.id + '" style="background:none; border:1px solid #A64B00; color:#A64B00; border-radius:6px; padding:0.2rem 0.6rem; cursor:pointer; font-size:0.8rem;">Reabrir</button>' +
+            '</div>';
+          }).join('');
+        cont.querySelectorAll('.btn-reabrir').forEach(function (b) {
+          b.addEventListener('click', function () { reabrirMes(b.dataset.id); });
+        });
+      })
+      .catch(function () { cont.innerHTML = ''; });
+  }
+
+  function reabrirMes(id) {
+    if (!confirm('Reabrir este período? As boletas voltam a poder ser editadas.')) return;
+    fetch('/api/gerente/fechamento/' + encodeURIComponent(id), {
+      method: 'DELETE', credentials: 'same-origin'
+    })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        fecharMsg(res.ok ? ('✅ ' + res.d.mensagem) : ('❌ ' + (res.d.erro || 'Erro.')), res.ok ? '#2E7D52' : '#D32F2F');
+        carregarFechamentos();
+      })
+      .catch(function () { fecharMsg('❌ Erro de conexão.', '#D32F2F'); });
+  }
+
+  // Exporta planilha XLSX respeitando os filtros atuais (retiro + data)
+  function exportarPlanilha() {
+    var params = new URLSearchParams();
+    params.set('formato', 'xlsx');
+    params.set('tipos', ['nascimento','obito','transferencia','compravenda','evolucao','manejo'].join(','));
+    var retiro = document.getElementById('filter-retiro');
+    var data   = document.getElementById('filter-data');
+    if (retiro && retiro.value) params.set('retiro_id', retiro.value);
+    if (data && data.value)     params.set('data_inicio', data.value), params.set('data_fim', data.value);
+    window.location.href = '/api/coordenador/exportar?' + params.toString();
+  }
 
   function getFiltros() {
     var retiro = document.getElementById('filter-retiro');
@@ -83,19 +181,17 @@
           }
         }
 
-        var alertasEl = document.getElementById('stat-alertas');
-        var prioEl    = document.getElementById('stat-prioridades');
-        var evoEl     = document.getElementById('stat-evolucao');
-        if (alertasEl) alertasEl.textContent = (d.chamados && d.chamados.abertos)   || 0;
-        if (prioEl)    prioEl.textContent    = (d.boletas  && d.boletas.pendentes)  || 0;
-        if (evoEl) {
-          var total = (d.boletas && d.boletas.total)    || 0;
-          var aprov = (d.boletas && d.boletas.aprovadas) || 0;
-          evoEl.textContent = (total ? Math.round((aprov / total) * 100) : 0) + '%';
-        }
+        var b = d.boletas || {};
+        setKpi('stat-boletas-total', b.total || 0);
+        setKpi('stat-pendentes', b.pendentes || 0);
+        setKpi('stat-aprovadas', b.aprovadas || 0);
+        setKpi('stat-cabecas', (d.totais && d.totais.cabecas) || 0);
+        setKpi('stat-alertas', (d.chamados && d.chamados.abertos) || 0);
 
         renderBarras(d.chamadosPorRetiro || []);
         renderDonut(d.chamados || {});
+        renderBoletasPorTipo(d.boletasPorTipo || []);
+        renderBoletasPorMes(d.boletasPorMes || []);
       })
       .catch(function () {
         ocultarLoader('chart-chamados');
@@ -192,6 +288,66 @@
           legend: { position: 'bottom', labels: { font: { family: 'Inter', size: 12 } } },
         },
         cutout: '60%',
+      }
+    });
+  }
+
+  function setKpi(id, valor) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = valor;
+  }
+
+  var ROTULO_TIPO = {
+    nascimento: 'Nascimento', obito: 'Morte', transferencia: 'Movimentação',
+    compravenda: 'Compra/Venda', evolucao: 'Mudança idade', manejo: 'Manejo',
+  };
+
+  function renderBoletasPorTipo(rows) {
+    var canvas = document.getElementById('chart-tipo');
+    if (!canvas || typeof Chart === 'undefined') return;
+    if (chartTipo) { chartTipo.destroy(); chartTipo = null; }
+    var labels = rows.map(function (r) { return ROTULO_TIPO[r.tipo] || r.tipo || '—'; });
+    var dados  = rows.map(function (r) { return r.total; });
+    if (!rows.length) { canvas.style.display = 'none'; return; }
+    canvas.style.display = '';
+    chartTipo = new Chart(canvas.getContext('2d'), {
+      type: 'bar',
+      data: { labels: labels, datasets: [{
+        label: 'Boletas', data: dados,
+        backgroundColor: ['#1A4D2E','#2E7D52','#A64B00','#607D8B','#8E7CC3','#D4A017'],
+        borderRadius: 6,
+      }]},
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, ticks: { precision: 0 } } },
+      }
+    });
+  }
+
+  function renderBoletasPorMes(rows) {
+    var canvas = document.getElementById('chart-mes');
+    if (!canvas || typeof Chart === 'undefined') return;
+    if (chartMes) { chartMes.destroy(); chartMes = null; }
+    if (!rows.length) { canvas.style.display = 'none'; return; }
+    canvas.style.display = '';
+    var meses = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+    var labels = rows.map(function (r) {
+      var p = (r.mes || '').split('-');
+      return p.length === 2 ? (meses[parseInt(p[1]) - 1] + '/' + p[0].slice(2)) : r.mes;
+    });
+    var dados = rows.map(function (r) { return r.total; });
+    chartMes = new Chart(canvas.getContext('2d'), {
+      type: 'line',
+      data: { labels: labels, datasets: [{
+        label: 'Boletas no mês', data: dados,
+        borderColor: '#1A4D2E', backgroundColor: 'rgba(46,125,82,0.15)',
+        fill: true, tension: 0.3, pointBackgroundColor: '#1A4D2E', pointRadius: 4,
+      }]},
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, ticks: { precision: 0 } } },
       }
     });
   }

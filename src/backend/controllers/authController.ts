@@ -175,7 +175,7 @@ export function me(req: Request, res: Response) {
  * autorizado. Por ora, basta o registro do retiro no servidor.
  */
 export function loginCapataz(req: Request, res: Response) {
-  const { retiro_id } = req.body;
+  const { retiro_id, device_token } = req.body;
   if (!retiro_id) {
     return res.status(400).json({ sucesso: false, erro: 'retiro_id obrigatório' });
   }
@@ -198,6 +198,79 @@ export function loginCapataz(req: Request, res: Response) {
     retiro_id: row.retiro_id,
   };
 
+  // Vincula o dispositivo a este retiro (login automático nas próximas vezes)
+  if (device_token) {
+    try {
+      const existente = db.prepare('SELECT id FROM dispositivos WHERE device_token = ?').get(device_token) as any;
+      if (existente) {
+        db.prepare(
+          `UPDATE dispositivos SET retiro_id = ?, capataz_id = ?, revogado_em = NULL, ultimo_acesso = datetime('now') WHERE device_token = ?`
+        ).run(retiro_id, row.id, device_token);
+      } else {
+        db.prepare(
+          `INSERT INTO dispositivos (id, device_token, retiro_id, capataz_id, ultimo_acesso) VALUES (?, ?, ?, ?, datetime('now'))`
+        ).run(uuidv7(), device_token, retiro_id, row.id);
+      }
+    } catch (e) {
+      console.warn('[loginCapataz] falha ao registrar dispositivo:', (e as any).message);
+    }
+  }
+
+  criarSessao(req, usuario);
+  const { accessToken } = emitirTokens(res, usuario);
+
+  return res.json({ sucesso: true, perfil: row.perfil, retiro_id: row.retiro_id, usuario, accessToken });
+}
+
+/**
+ * GET /api/auth/dispositivo/:token
+ * Verifica se um dispositivo está vinculado a um retiro (pra login automático).
+ */
+export function verificarDispositivo(req: Request, res: Response) {
+  const token = String(req.params.token);
+  const row = db.prepare(`
+    SELECT d.retiro_id, d.capataz_id, r.nome AS retiro_nome, u.nome AS capataz_nome
+    FROM dispositivos d
+    LEFT JOIN retiros  r ON r.id = d.retiro_id
+    LEFT JOIN usuarios u ON u.id = d.capataz_id
+    WHERE d.device_token = ? AND d.revogado_em IS NULL
+  `).get(token) as any;
+
+  if (!row) return res.json({ vinculado: false });
+  return res.json({
+    vinculado: true,
+    retiro_id: row.retiro_id,
+    retiro_nome: row.retiro_nome,
+    capataz_nome: row.capataz_nome,
+  });
+}
+
+/**
+ * POST /api/auth/login-dispositivo
+ * Login automático via device_token vinculado. Cria sessão sem o capataz
+ * precisar reselecionar o retiro.
+ */
+export function loginDispositivo(req: Request, res: Response) {
+  const { device_token } = req.body;
+  if (!device_token) return res.status(400).json({ sucesso: false, erro: 'device_token obrigatório' });
+
+  const disp = db.prepare(
+    `SELECT retiro_id, capataz_id FROM dispositivos WHERE device_token = ? AND revogado_em IS NULL`
+  ).get(device_token) as any;
+
+  if (!disp) return res.status(404).json({ sucesso: false, erro: 'Dispositivo não vinculado.' });
+
+  const row = db.prepare(
+    `SELECT id, nome, perfil, retiro_id FROM usuarios WHERE id = ? AND perfil = 'Capataz'`
+  ).get(disp.capataz_id) as any;
+
+  if (!row) return res.status(404).json({ sucesso: false, erro: 'Capataz do dispositivo não encontrado.' });
+
+  db.prepare(`UPDATE dispositivos SET ultimo_acesso = datetime('now') WHERE device_token = ?`).run(device_token);
+
+  const usuario: JwtUserPayload = {
+    id: row.id, nome: row.nome, perfil: row.perfil, retiro_id: row.retiro_id,
+  };
   criarSessao(req, usuario);
   const { accessToken } = emitirTokens(res, usuario);
 
