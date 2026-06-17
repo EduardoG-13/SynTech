@@ -63,17 +63,18 @@ Parametros implementados em `src/public/js/sync.js`:
 
 ### 3. Timeout configuravel
 
-Camada: frontend/PWA para chamadas de sincronizacao; backend apenas respeita limite de payload e retorna status claro.
+Camada: frontend/PWA para chamadas de sincronizacao, operacoes mutaveis com fallback local e autenticacao; backend apenas respeita limite de payload e retorna status claro.
 
 Decisao:
 - Chamadas de sincronizacao devem usar `AbortController` para nao ficarem indefinidamente abertas em conexoes instaveis.
 - Timeout deve ser parametrizado para permitir ajuste por ambiente sem alterar o fluxo de negocio.
 
-Parametros implementados em `src/public/js/sync.js`:
-- Timeout padrao para envio de lote: 5s.
+- Parametros implementados em `src/public/js/sync.js`, `src/public/js/offline-interceptor.js` e `src/public/js/auth-client.js`:
+- Timeout padrao para envio de lote, operacoes mutaveis e auth: 5s.
 - Timeout para operacoes com evidencia em Base64: 10s quando o payload individual tiver midia.
-- Variavel/configuracao sugerida: `SYNC_REQUEST_TIMEOUT_MS`, default `5000`.
+- Variaveis/configuracoes suportadas: `SYNC_REQUEST_TIMEOUT_MS`, `SYNC_EVIDENCE_TIMEOUT_MS`, `CRITICAL_REQUEST_TIMEOUT_MS`, `CRITICAL_EVIDENCE_REQUEST_TIMEOUT_MS` e `AUTH_REQUEST_TIMEOUT_MS`.
 - Em timeout: nao remover item da fila; incrementar `tentativas`, registrar `ultimaTentativa` e `erroServidor = "TIMEOUT"`.
+- Em timeout de operacao mutavel via `fazerRequisicaoComOffline`: salvar automaticamente no IndexedDB e retornar confirmacao de armazenamento local ao usuario.
 
 ### 4. Fallback de cache para leitura
 
@@ -124,10 +125,10 @@ Parametros:
 - Evitar multiplas sincronizacoes simultaneas no mesmo cliente.
 - Registrar tentativas e ultima tentativa para auditoria e depuracao.
 - Manter compatibilidade com os testes existentes de offline e sincronizacao.
-- Adicionar testes unitarios/integracao para timeout, retry maximo e manutencao de item falho na fila quando a implementacao for feita.
+- Manter testes unitarios/integracao para timeout, retry maximo e manutencao de item falho na fila.
 
 ## Resumo para o issue
 
-Serao implementadas tres estrategias principais de resiliencia no fluxo offline-online: fallback local obrigatorio no PWA via IndexedDB, retry com backoff exponencial no sincronizador de fila e timeout configuravel nas chamadas de sincronizacao. O Service Worker fica responsavel apenas por fallback de leitura/cache para requisicoes `GET`, enquanto operacoes mutaveis seguem pela fila local. No backend, o endpoint `/api/sincronizacao/lote` mantem processamento item a item, limite de 500 itens por lote e resposta com status individual, permitindo remover localmente apenas o que retornar `SINCRONIZADO`.
+Foram implementadas tres estrategias principais de resiliencia no fluxo offline-online: fallback local obrigatorio no PWA via IndexedDB, retry com backoff exponencial no sincronizador de fila e timeout configuravel nas chamadas criticas de sincronizacao, operacoes mutaveis e autenticacao. O Service Worker fica responsavel apenas por fallback de leitura/cache para requisicoes `GET`, enquanto operacoes mutaveis seguem pela fila local. No backend, o endpoint `/api/sincronizacao/lote` mantem processamento item a item, limite de 500 itens por lote e resposta com status individual, permitindo remover localmente apenas o que retornar `SINCRONIZADO`.
 
-Parametros definidos: maximo de 3 retries por ciclo, backoff de 1s/2s/4s com jitter ate 500ms, timeout padrao de 5s para envio de lote, timeout de 10s para payloads com evidencia, lote maximo de 500 itens e remocao local somente apos confirmacao individual do backend.
+Parametros definidos: maximo de 3 retries por ciclo, backoff de 1s/2s/4s com jitter ate 500ms, timeout padrao de 5s para envio de lote, operacoes mutaveis e auth, timeout de 10s para payloads com evidencia, lote maximo de 500 itens e remocao local somente apos confirmacao individual do backend.
