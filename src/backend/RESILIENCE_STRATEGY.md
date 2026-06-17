@@ -54,7 +54,7 @@ Decisao:
 - Falhas temporarias devem reagendar o item com atraso progressivo.
 - Falhas de validacao retornadas pelo backend devem permanecer visiveis como `FALHA`, sem apagar o registro local.
 
-Parametros propostos:
+Parametros implementados em `src/public/js/sync.js`:
 - Tentativas automaticas por ciclo de conectividade: maximo de 3.
 - Backoff exponencial: 1s, 2s e 4s.
 - Jitter: ate 500ms por tentativa para evitar rajadas quando varias abas/dispositivos reconectarem juntos.
@@ -69,7 +69,7 @@ Decisao:
 - Chamadas de sincronizacao devem usar `AbortController` para nao ficarem indefinidamente abertas em conexoes instaveis.
 - Timeout deve ser parametrizado para permitir ajuste por ambiente sem alterar o fluxo de negocio.
 
-Parametros propostos:
+Parametros implementados em `src/public/js/sync.js`:
 - Timeout padrao para envio de lote: 5s.
 - Timeout para operacoes com evidencia em Base64: 10s quando o payload individual tiver midia.
 - Variavel/configuracao sugerida: `SYNC_REQUEST_TIMEOUT_MS`, default `5000`.
