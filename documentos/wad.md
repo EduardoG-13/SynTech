@@ -6611,7 +6611,13 @@ A tabela abaixo é coerente com a Matriz RF → RN → Endpoint (seção 3.1.4) 
 
 ### 5.2.1. Relatório de testes de guerrilha
 
+
+Os testes de guerrilha (*guerrilla usability testing*) são uma modalidade de avaliação de usabilidade de baixo custo na qual participantes são recrutados de forma rápida e oportunista em ambientes cotidianos como corredores, cafeterias ou espaços de coworking para realizarem tarefas representativas em um protótipo ou produto real, sem a necessidade de laboratório especializado ou processo formal de recrutamento [53]. Cada sessão costuma durar entre 10 e 20 minutos, e a literatura de usabilidade indica que cinco a oito participantes são suficientes para identificar a maioria dos problemas críticos de uma interface [54].
+
+A principal importância dessa abordagem está na capacidade de gerar retroalimentação qualitativa rápida sobre dificuldades reais de uso ainda em fases iniciais do desenvolvimento, quando ajustes são menos custosos. Por envolverem pessoas reais em contexto natural, os testes de guerrilha expõem problemas de navegação, nomenclatura e fluxo que costumam passar despercebidos em revisões internas e inspeções heurísticas [53]. Para este projeto, o método foi adotado para validar os principais fluxos da aplicação junto a participantes que representam os perfis de Capataz, Gerente e Coordenador definidos nas personas do sistema, complementando as avaliações técnicas realizadas nas etapas anteriores.
+
 Link para a planilha dos testes de Guerrilha: https://docs.google.com/spreadsheets/d/1qdGcS9gtkIaFlHcXa6VoyoqdvRIejTfKeiD6Zggm5aI/edit?usp=sharing
+
 
 Tarefa 1 — Conclusão de tarefa com evidência fotográfica
 Suponha que você é Gabriel, capataz do retiro Barra Bonita, terminou de transferir alguns animais para outro retiro e está sem acesso à internet no momento; utilize o sistema para marcar a tarefa como concluída e anexar uma foto como evidência do serviço realizado.
@@ -6654,39 +6660,15 @@ _Posicione aqui o relatório dos testes SUS realizados._
 
 ## 6.1 Resumo Executivo
 
-O Brasil é o maior exportador mundial de carne bovina, com receita de exportação de
-US$ 18,03 bilhões em 2025 [1] e crescente pressão por rastreabilidade de
-origem nos principais mercados internacionais. Apesar dessa escala, a gestão operacional
-de grande parte das fazendas ainda depende de registros manuais em papel um gargalo
-que compromete a qualidade das informações e a velocidade das decisões.
+O Brasil é o maior exportador mundial de carne bovina, com receita de exportação deUS$ 18,03 bilhões em 2025 [1] e crescente pressão por rastreabilidade de origem nos principais mercados internacionais. Apesar dessa escala, a gestão operacional de grande parte das fazendas ainda depende de registros manuais em papel um gargalo que compromete a qualidade das informações e a velocidade das decisões.
 
-É nesse contexto que se insere a solução desenvolvida para a BrPec Agropecuária S.A.,
-empresa com 14 retiros operacionais no Pantanal sul-mato-grossense. A região concentra
-64,5% do bioma pantaneiro no Mato Grosso do Sul [28], onde propriedades são
-extensas e retiros estão geograficamente dispersos, sem acesso a telecomunicações
-convencionais. O fluxo de informações entre o campo e o escritório ocorre por meio de
-boletas físicas preenchidas pelos capatazes, redigitadas manualmente em planilhas na
-sede. Esse processo gera inconsistências nos registros, atrasos de horas ou dias no
-repasse de informações críticas — como mortes de animais — e retrabalho constante para
-a equipe de coordenação.
+É nesse contexto que se insere a solução desenvolvida para a BrPec Agropecuária S.A., empresa com 14 retiros operacionais no Pantanal sul-mato-grossense. A região concentra 64,5% do bioma pantaneiro no Mato Grosso do Sul [28], onde propriedades são extensas e retiros estão geograficamente dispersos, sem acesso a telecomunicações convencionais. O fluxo de informações entre o campo e o escritório ocorre por meio de boletas físicas preenchidas pelos capatazes, redigitadas manualmente em planilhas na sede. Esse processo gera inconsistências nos registros, atrasos de horas ou dias no repasse de informações críticas — como mortes de animais — e retrabalho constante para a equipe de coordenação.
 
-A aplicação web progressiva (PWA) desenvolvida digitaliza o registro das movimentações
-do rebanho — nascimentos, mortes, compras, vendas e transferências entre retiros —,
-com funcionamento offline nativo. Para isso, adota SQLite como banco de dados local
-no dispositivo, desvinculando o registro de dados da disponibilidade de rede. Os dados
-são sincronizados automaticamente com o servidor durante as janelas de conectividade
-via Starlink, eliminando a dependência de conexão contínua como pré-requisito
-operacional.
+A aplicação web progressiva (PWA) desenvolvida digitaliza o registro das movimentações do rebanho — nascimentos, mortes, compras, vendas e transferências entre retiros —, com funcionamento offline nativo. Para isso, adota SQLite como banco de dados local no dispositivo, desvinculando o registro de dados da disponibilidade de rede. Os dados são sincronizados automaticamente com o servidor durante as janelas de conectividade via Starlink, eliminando a dependência de conexão contínua como pré-requisito operacional.
 
-Os principais diferenciais competitivos da solução são: interface adaptada ao perfil
-de baixa escolaridade digital dos capatazes, operação offline nativa via SQLite,
-eliminação da etapa de redigitação e rastreabilidade completa das movimentações em
-tempo real.
+Os principais diferenciais competitivos da solução são: interface adaptada ao perfil de baixa escolaridade digital dos capatazes, operação offline nativa via SQLite, eliminação da etapa de redigitação e rastreabilidade completa das movimentações em tempo real.
 
-O objetivo estratégico do projeto é reduzir erros operacionais, aumentar a velocidade
-de atualização das informações e dar aos gestores uma visão confiável e atualizada das
-operações de campo — tornando a BrPec mais competitiva em um setor que avança
-rapidamente em direção à digitalização e à rastreabilidade compulsória [40].
+O objetivo estratégico do projeto é reduzir erros operacionais, aumentar a velocidade de atualização das informações e dar aos gestores uma visão confiável e atualizada das operações de campo — tornando a BrPec mais competitiva em um setor que avança rapidamente em direção à digitalização e à rastreabilidade compulsória [40].
 
 
 ## 6.2 Análise de Mercado
@@ -7139,6 +7121,10 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 [51] ANATEL. Serviço de Comunicação Multimídia (SCM): acessos por tecnologia de acesso. Brasília: Anatel, 2024. Disponível em: https://informacoes.anatel.gov.br/paineis/acesso-a-internet-banda-larga. Acesso em: jun. 2026.
 
 [52] DISTRITO. Agtech Report Brasil 2024. São Paulo: Distrito, 2024. Disponível em: https://distrito.me/agtech-report/. Acesso em: jun. 2026.
+
+[53] KRUG, Steve. Rocket Surgery Made Easy: The Do-It-Yourself Guide to Finding and Fixing Usability Problems. Berkeley: New Riders, 2010. ISBN 978-0-321-65729-5.
+
+[54] NIELSEN, Jakob. Why You Only Need to Test with 5 Users. Nielsen Norman Group, 19 mar. 2000. Disponível em: https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/. Acesso em: jun. 2026.
 
 # <a name="c9"></a>Anexos
 
