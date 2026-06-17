@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { v7 as uuidv7 } from 'uuid';
-import db from '../config/database';
 import { authConfig, JwtRefreshPayload, JwtUserPayload } from '../config/auth';
+import authService from '../services/authService';
 import {
   buscarRefreshTokenAtivo,
   revogarRefreshToken,
@@ -72,36 +71,22 @@ export function login(req: Request, res: Response) {
     return res.status(400).json({ sucesso: false, erro: 'Campos obrigatórios não preenchidos.' });
   }
 
-  const row = db.prepare('SELECT * FROM usuarios WHERE nome = ? AND perfil = ?').get(usuario, perfil) as any;
+  try {
+    const usuarioAutenticado = authService.autenticar(usuario, senha, perfil);
+    
+    criarSessao(req, usuarioAutenticado);
+    const { accessToken } = emitirTokens(res, usuarioAutenticado);
 
-  if (!row) {
-    return res.status(401).json({ sucesso: false, erro: 'Usuário não encontrado.' });
+    return res.json({
+      sucesso: true,
+      perfil: usuarioAutenticado.perfil,
+      is_admin: usuarioAutenticado.is_admin,
+      usuario: usuarioAutenticado,
+      accessToken,
+    });
+  } catch (error: any) {
+    return res.status(401).json({ sucesso: false, erro: error.message });
   }
-
-  const senhaValida = bcrypt.compareSync(senha, row.senha);
-
-  if (!senhaValida) {
-    return res.status(401).json({ sucesso: false, erro: 'Senha incorreta.' });
-  }
-
-  const usuarioAutenticado: JwtUserPayload = {
-    id: row.id,
-    nome: row.nome,
-    perfil: row.perfil,
-    retiro_id: row.retiro_id,
-    is_admin: row.is_admin === 1 || row.is_admin === true,
-  };
-
-  criarSessao(req, usuarioAutenticado);
-  const { accessToken } = emitirTokens(res, usuarioAutenticado);
-
-  return res.json({
-    sucesso: true,
-    perfil: row.perfil,
-    is_admin: usuarioAutenticado.is_admin,
-    usuario: usuarioAutenticado,
-    accessToken,
-  });
 }
 
 export function refresh(req: Request, res: Response) {
@@ -180,28 +165,22 @@ export function loginCapataz(req: Request, res: Response) {
     return res.status(400).json({ sucesso: false, erro: 'retiro_id obrigatório' });
   }
 
-  // Busca o capataz responsável pelo retiro (regra: 1 capataz por retiro hoje)
-  const row = db.prepare(
-    `SELECT u.id, u.nome, u.perfil, u.retiro_id
-     FROM usuarios u
-     WHERE u.perfil = 'Capataz' AND u.retiro_id = ?`
-  ).get(retiro_id) as any;
+  try {
+    const usuarioAutenticado = authService.autenticarCapataz(retiro_id);
 
-  if (!row) {
-    return res.status(404).json({ sucesso: false, erro: 'Nenhum capataz vinculado a este retiro.' });
+    criarSessao(req, usuarioAutenticado);
+    const { accessToken } = emitirTokens(res, usuarioAutenticado);
+
+    return res.json({ 
+      sucesso: true, 
+      perfil: usuarioAutenticado.perfil, 
+      retiro_id: usuarioAutenticado.retiro_id, 
+      usuario: usuarioAutenticado, 
+      accessToken 
+    });
+  } catch (error: any) {
+    return res.status(404).json({ sucesso: false, erro: error.message });
   }
-
-  const usuario: JwtUserPayload = {
-    id: row.id,
-    nome: row.nome,
-    perfil: row.perfil,
-    retiro_id: row.retiro_id,
-  };
-
-  criarSessao(req, usuario);
-  const { accessToken } = emitirTokens(res, usuario);
-
-  return res.json({ sucesso: true, perfil: row.perfil, retiro_id: row.retiro_id, usuario, accessToken });
 }
 
 /**
@@ -214,16 +193,10 @@ export function loginInfraestrutura(req: Request, res: Response) {
     return res.status(400).json({ sucesso: false, erro: 'categoria obrigatória' });
   }
 
-  const usuario: JwtUserPayload = {
-    id: 'tecnico-' + categoria,
-    nome: 'Técnico ' + categoria,
-    perfil: 'Infraestrutura',
-    retiro_id: null,
-    categoria: categoria,
-  };
+  const usuarioAutenticado = authService.autenticarInfra(categoria);
 
-  criarSessao(req, usuario);
-  const { accessToken } = emitirTokens(res, usuario);
+  criarSessao(req, usuarioAutenticado);
+  const { accessToken } = emitirTokens(res, usuarioAutenticado);
 
-  return res.json({ sucesso: true, perfil: 'Infraestrutura', categoria, usuario, accessToken });
+  return res.json({ sucesso: true, perfil: 'Infraestrutura', categoria, usuario: usuarioAutenticado, accessToken });
 }
