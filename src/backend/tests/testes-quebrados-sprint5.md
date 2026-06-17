@@ -5,10 +5,28 @@
 | Status | Suites | Casos de Teste |
 |--------|--------|----------------|
 | Quebrados (suite falhou) | 13 | ~116 bloqueados |
-| Passando | 11 | 75 |
-| **Total** | **24** | **~191** |
+| Passando | 13 | 80 |
+| **Total** | **26** | **~196** |
 
-**61% da suite está inoperante.** Duas causas raiz distintas, ambas de dependência ausente.
+**50% da suite está inoperante.** Duas causas raiz distintas, ambas de dependência ausente. O total passou de 24 para 26 suites após adição de `critical-timeout.test.ts` e `sync-retry.test.ts` ao projeto.
+
+### Suites passando
+
+| Suite | Casos |
+|-------|-------|
+| `src/backend/tests/unit/healthService.test.ts` | 4 |
+| `src/backend/tests/unit/exportacaoService.test.ts` | 4 |
+| `src/backend/tests/unit/obitoService.test.ts` | 4 |
+| `src/backend/tests/unit/nascimentoService.test.ts` | 2 |
+| `src/backend/tests/unit/eventoService.test.ts` | 4 |
+| `src/backend/tests/unit/alertaService.test.ts` | 8 |
+| `src/backend/tests/unit/database.test.ts` | 4 |
+| `src/backend/tests/unit/tarefaService.test.ts` | 13 |
+| `src/backend/tests/unit/cloudSyncService.test.ts` | 15 |
+| `src/backend/tests/initDb.test.ts` | 16 |
+| `src/backend/tests/swagger.test.ts` | 1 |
+| `src/backend/tests/critical-timeout.test.ts` | 2 |
+| `src/backend/tests/sync-retry.test.ts` | 3 |
 
 ---
 
