@@ -196,6 +196,80 @@ Resposta esperada:
 | `Error: connect ECONNREFUSED` ou falha no cloud sync | `DATABASE_URL` ausente ou inválida | Verifique a string de conexão PostgreSQL no `.env`. |
 | `[initDb] ERRO: Arquivo de migration base não encontrado` | Execução a partir de diretório incorreto | Execute o servidor a partir de `src/backend/`, não da raiz do projeto. |
 
+### Testes
+
+Os testes são executados a partir da pasta `src/backend` com o comando:
+
+```sh
+npm test
+```
+
+O comando aciona o Jest com as flags `--runInBand` (execução sequencial, necessária para evitar conflitos de banco SQLite) e `--forceExit` (encerra o processo ao terminar, independentemente de conexões abertas). O banco de dados utilizado nos testes é um SQLite em memória (`DB_PATH=:memory:`), isolado do banco de desenvolvimento.
+
+#### Interpretando o output
+
+```
+PASS tests/endpoints.test.ts
+PASS tests/uc01-planejar-tarefas.test.ts
+FAIL tests/auth-jwt.test.ts
+  ● login › deve retornar 401 para senha incorreta
+
+Test Suites: 1 failed, 11 passed, 12 total
+Tests:       2 failed, 47 passed, 49 total
+Snapshots:   0 total
+Time:        4.321 s
+```
+
+| Indicador | Significado |
+|---|---|
+| `PASS` | Todos os testes do arquivo passaram. |
+| `FAIL` | Ao menos um teste do arquivo falhou. O nome do teste com falha é exibido abaixo. |
+| `Tests: X failed` | Quantidade de casos de teste com falha no total da suite. |
+| `--runInBand` | Testes executados em série; obrigatório para bancos SQLite compartilhados. |
+
+#### Suites disponíveis
+
+| Arquivo | O que cobre |
+|---|---|
+| `auth-jwt.test.ts` | Autenticação, emissão e validação de tokens JWT. |
+| `endpoints.test.ts` | Contratos de entrada/saída dos endpoints REST principais. |
+| `uc01-planejar-tarefas.test.ts` | Fluxo completo do UC01 — planejamento de tarefas pelo Coordenador. |
+| `tarefaIntegration.test.ts` | CRUD e regras de negócio de tarefas. |
+| `alertaIntegration.test.ts` | Criação e consulta de alertas. |
+| `eventoIntegration.test.ts` | Registro de eventos de rebanho. |
+| `sincronizacaoIntegration.test.ts` | Fila de sincronização (outbox) e lote. |
+| `contratos-rnf.test.ts` | Requisitos não funcionais (tempo de resposta, formato de resposta). |
+| `offline-operations.test.ts` | Operações offline e reprocessamento da fila. |
+| `viewRoutes.test.ts` | Rotas de renderização de views EJS. |
+| `initDb.test.ts` | Inicialização e idempotência das migrations. |
+| `swagger.test.ts` | Disponibilidade e validade da documentação OpenAPI. |
+
+### Fluxos de Autenticação
+
+O sistema possui quatro perfis de acesso com fluxos de login distintos. As credenciais abaixo são criadas automaticamente pelo seed na primeira execução do servidor.
+
+> **Atenção:** as credenciais de desenvolvimento não devem ser utilizadas em ambientes de produção.
+
+#### Credenciais de desenvolvimento
+
+| Perfil | Usuário | Senha | Endpoint de login |
+|---|---|---|---|
+| Gerente (ADM) | `admin` | `123456` | `POST /api/auth/login` |
+| Coordenador | `marcos`, `rafael`, `carlos`, `anderson`, `fernando`, `lucas`, `pedro` | `123456` | `POST /api/auth/login` |
+| Capataz | `Rogério`, `Lucas`, `Marcelo`, `Fabiano`, `Valdineis`, `Daniel`, `João Paulo`, `Alberto`, `José Carlos`, `Valdeci`, `Manoel`, `Wilson`, `Ariovaldo` | `123456` | `POST /api/auth/login-capataz` |
+| Infraestrutura | `tecnico-hidraulica`, `tecnico-eletrica`, `tecnico-cerca` | `123456` | `POST /api/auth/login-infra` |
+
+#### Descrição dos perfis
+
+**Gerente (ADM)**
+É o único perfil com permissão de excluir qualquer registro do sistema, controlada pela flag `is_admin` verificada em duas camadas: interface e backend. Acessa o dashboard consolidado com visão de todos os retiros, chamados e tarefas. Autentica via `POST /api/auth/login` com `{ usuario, senha, perfil: "Gerente" }`.
+
+**Coordenador**
+Aprova ou rejeita boletas registradas pelos capatazes dos retiros sob sua responsabilidade. Exporta relatórios em XLSX, CSV e PDF. Cada coordenador está vinculado a dois retiros no seed inicial. Autentica via `POST /api/auth/login` com `{ usuario, senha, perfil: "Coordenador" }`.
+
+**Capataz**
+Registra boletas de movimentação de rebanho (nascimento, óbito, transferência, compra/venda, evolução, manejo) e abre chamados de infraestrutura, com funcionamento offline nativo. Cada capataz está vinculado a um retiro. O login é feito por seleção de retiro — o sistema identifica o capataz pelo `retiro_id` — via `POST /api/auth/login-capataz`.
+
 ### Estrutura do backend
 
 Arquitetura em camadas: Controller > Service > Repository > Banco SQLite. Documentacao detalhada em [`src/backend/README_BACKEND.md`](src/backend/README_BACKEND.md).
