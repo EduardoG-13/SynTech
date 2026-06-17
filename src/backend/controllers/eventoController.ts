@@ -2,7 +2,7 @@ import eventoService from '../services/eventoService';
 
 class EventoController {
   async registrarNascimento(req, res, next): Promise<void> {
-    const { data, retiro_id, categoria, quantidade, capataz_id } = req.body;
+    const { data, retiro_id, categoria, quantidade, capataz_id, peso_nascimento, identificacao_mae, sexo } = req.body;
 
     if (!data || !retiro_id || !categoria || !quantidade || !capataz_id) {
       res.status(400).json({
@@ -17,7 +17,10 @@ class EventoController {
         retiro_id,
         categoria,
         quantidade,
-        capataz_id
+        capataz_id,
+        peso_nascimento: peso_nascimento !== undefined ? Number(peso_nascimento) : undefined,
+        identificacao_mae,
+        sexo
       });
 
       res.status(201).json({
@@ -26,7 +29,11 @@ class EventoController {
         registro: nascimento
       });
     } catch (erro: any) {
-      if (erro.message?.includes('RN27') || erro.message?.includes('RF013')) {
+      if (erro.message && erro.message.includes('RF013')) {
+        res.status(400).json({ erro: erro.message });
+        return;
+      }
+      if (erro.message && erro.message.includes('RN27')) {
         res.status(422).json({ erro: erro.message });
         return;
       }
@@ -47,31 +54,21 @@ class EventoController {
       geolocalizacao
     } = req.body;
 
-    const camposGeraisFaltantes: string[] = [];
+    const camposFaltantes: string[] = [];
 
-    if (!capataz_id) camposGeraisFaltantes.push('capataz_id');
-    if (!retiro_id) camposGeraisFaltantes.push('retiro_id');
-    if (!data) camposGeraisFaltantes.push('data');
-    if (!categoria) camposGeraisFaltantes.push('categoria');
-    if (!quantidade) camposGeraisFaltantes.push('quantidade');
+    if (!capataz_id) camposFaltantes.push('capataz_id');
+    if (!retiro_id) camposFaltantes.push('retiro_id');
+    if (!data) camposFaltantes.push('data');
+    if (!categoria) camposFaltantes.push('categoria');
+    if (!quantidade) camposFaltantes.push('quantidade');
+    if (!identificacao_animal) camposFaltantes.push('identificacao_animal');
+    if (!causa_morte) camposFaltantes.push('causa_morte');
+    if (!foto_base64) camposFaltantes.push('foto_base64');
 
-    if (camposGeraisFaltantes.length > 0) {
+    if (camposFaltantes.length > 0) {
       res.status(400).json({
         erro: 'Campos obrigatórios não preenchidos',
-        campos_faltantes: camposGeraisFaltantes
-      });
-      return;
-    }
-
-    const camposRF013Faltantes: string[] = [];
-    if (!identificacao_animal) camposRF013Faltantes.push('identificacao_animal');
-    if (!causa_morte) camposRF013Faltantes.push('causa_morte');
-    if (!foto_base64) camposRF013Faltantes.push('foto_base64');
-
-    if (camposRF013Faltantes.length > 0) {
-      res.status(422).json({
-        erro: 'Campos obrigatórios não preenchidos',
-        campos_faltantes: camposRF013Faltantes
+        campos_faltantes: camposFaltantes
       });
       return;
     }

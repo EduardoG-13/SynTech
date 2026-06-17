@@ -100,6 +100,7 @@ export function criarBoleta(req: Request, res: Response) {
   const fotoBase64 = b.foto_base64 || null;
   const lat = (b.latitude !== undefined && b.latitude !== null) ? Number(b.latitude) : null;
   const lng = (b.longitude !== undefined && b.longitude !== null) ? Number(b.longitude) : null;
+  const tarefaId = b.tarefa_id || null;
   const ids: string[] = [];
   for (const a of animais) {
     const movId = uuidv7();
@@ -113,11 +114,26 @@ export function criarBoleta(req: Request, res: Response) {
       b.motorista || null, b.rgcpf || null, b.placa || null,
       b.titulo || null, lat, lng,
     );
+    if (tarefaId) {
+      db.prepare('UPDATE movimentacoes SET tarefa_id = ? WHERE id = ?').run(tarefaId, movId);
+    }
     ids.push(movId);
     enfileirarSync('movimentacao', movId);
   }
 
-  return res.status(201).json({ grupo_id: grupoId, numero_boleta: numeroBoleta, ids, mensagem: 'Boleta registrada.' });
+  // Se a boleta foi originada de uma tarefa pré-agendada, marca a tarefa como CONCLUIDA
+  if (tarefaId) {
+    try {
+      db.prepare(
+        "UPDATE tarefas SET status = 'CONCLUIDA', concluida_em = datetime('now') WHERE id = ? AND capataz_id = ?"
+      ).run(tarefaId, sess.id);
+      enfileirarSync('tarefa', tarefaId);
+    } catch (e) {
+      console.warn('[criarBoleta] falha ao marcar tarefa concluída:', (e as any).message);
+    }
+  }
+
+  return res.status(201).json({ grupo_id: grupoId, numero_boleta: numeroBoleta, ids, tarefa_id: tarefaId, mensagem: 'Boleta registrada.' });
 }
 
 /**

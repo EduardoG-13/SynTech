@@ -10,9 +10,10 @@ class TarefaRepository {
       const stmtInsert = db.prepare(`
         INSERT INTO tarefas (
           id, titulo, descricao, status, data_execucao,
-          retiro_id, capataz_id, gerente_id, sincronizada
+          retiro_id, capataz_id, gerente_id, sincronizada,
+          tipo_operacao, prioridade, observacoes, audio_base64, foto_base64
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?, ?)
       `);
       stmtInsert.run(
         id,
@@ -22,7 +23,12 @@ class TarefaRepository {
         tarefa.data_execucao,
         tarefa.retiro_id,
         tarefa.capataz_id,
-        tarefa.gerente_id
+        tarefa.gerente_id,
+        tarefa.tipo_operacao || null,
+        tarefa.prioridade || 'media',
+        tarefa.observacoes || null,
+        tarefa.audio_base64 || null,
+        tarefa.foto_base64 || null,
       );
 
       // Register outbox synchronization entry

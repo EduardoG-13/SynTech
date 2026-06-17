@@ -35,9 +35,9 @@
         <p>📭 Nenhuma tarefa por aqui.</p>
       </div>
 
-      <!-- FAB Nova Boleta livre -->
-      <button class="btn btn-primario" style="width:100%; margin-top:1.5rem;" onclick="window.location.href='/nova-os'">
-        <img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Nova Boleta
+      <!-- Botão fixo flutuante: Nova Boleta -->
+      <button class="btn btn-primario btn-fab" onclick="window.location.href='/nova-os'">
+        <img class="btn-ico" src="/public/Icons/movimentacao.ico" alt="" /> Nova Boleta
       </button>
 
     </main>
@@ -198,5 +198,25 @@
     '</div>';
   }
 </script>
+
+<style>
+  /* FAB Nova Boleta */
+  .btn-fab {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: auto;
+    z-index: 100;
+    box-shadow: 0 4px 16px rgba(26, 77, 46, 0.3);
+    padding: 1rem 1.5rem;
+    border-radius: 999px;
+  }
+  @media (max-width: 768px) {
+    .btn-fab {
+      bottom: 5rem;
+      right: 1rem;
+    }
+  }
+</style>
 
 <%- include('partials/footer') %>

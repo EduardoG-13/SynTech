@@ -210,7 +210,47 @@
       // Espera um pouco pra carregarDados() popular os selects antes
       setTimeout(function() { preencherParaEdicao(editId); }, 600);
     }
+
+    // Modo "executar tarefa": ?tarefa=ID busca a tarefa do gerente e pré-preenche
+    var tarefaId = params.get('tarefa');
+    if (tarefaId) {
+      window.__TAREFA_ID = tarefaId;
+      setTimeout(function() { preencherDaTarefa(tarefaId); }, 600);
+    }
   });
+
+  function preencherDaTarefa(id) {
+    fetch('/api/tarefas/' + encodeURIComponent(id), { credentials: 'same-origin' })
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(t) {
+        if (!t) return;
+        // Mostra banner no topo
+        var banner = document.createElement('div');
+        banner.className = 'card campo';
+        banner.style.cssText = 'background:#E6F3EB; border:2px solid #1A4D2E; padding:0.85rem 1rem;';
+        banner.innerHTML = '<strong style="color:#1A4D2E;">📋 Executando tarefa criada por ' +
+          (t.gerente_nome || 'Gerente') + '</strong>' +
+          (t.observacoes ? '<p style="margin-top:0.4rem; font-size:0.9rem;">' + t.observacoes + '</p>' : '');
+        var form = document.getElementById('form-nova-os');
+        form.insertBefore(banner, form.firstChild);
+
+        // Seleciona tipo de operação
+        if (t.tipo_operacao) {
+          var card = document.querySelector('.op-card[data-op="' + t.tipo_operacao + '"]');
+          if (card) card.click();
+        }
+        // Pré-seleciona retiro
+        ['os-retiro', 'os-retiro-origem'].forEach(function(selId) {
+          var sel = document.getElementById(selId);
+          if (sel && t.retiro_id) sel.value = t.retiro_id;
+        });
+        // Pré-preenche data
+        if (t.data_execucao) {
+          var dataEl = document.getElementById('os-data');
+          if (dataEl) dataEl.value = t.data_execucao;
+        }
+      });
+  }
 
   function preencherParaEdicao(id) {
     fetch('/api/boletas/' + encodeURIComponent(id), { credentials: 'same-origin' })
@@ -643,6 +683,11 @@
     }
     payload.observacoes = (document.getElementById('os-observacoes') || {}).value || '';
     payload.observacoes_audio = audioBase64 || ''; // áudio em base64 (data URL) para salvar no banco
+
+    // Se está executando uma tarefa pré-agendada, vincula a boleta à tarefa
+    if (window.__TAREFA_ID) {
+      payload.tarefa_id = window.__TAREFA_ID;
+    }
 
     // Lê a foto (óbito ou manejo) como base64 antes de enviar
     var fotoFile = null;
