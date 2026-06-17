@@ -2,6 +2,8 @@ import db from '../config/database';
 import supabasePool from '../config/supabasePool';
 import { v7 as uuidv7 } from 'uuid';
 
+const MAX_TENTATIVAS_CLOUD = 10;
+
 class CloudSyncService {
   private active = false;
 
@@ -14,7 +16,7 @@ class CloudSyncService {
       // retiro/usuario (raiz) → evidencia → tarefa/movimentacao/alerta (filhos)
       const pending = db.prepare(`
         SELECT * FROM sincronizacoes
-        WHERE status_envio IN ('PENDENTE', 'ERRO')
+        WHERE status_envio IN ('PENDENTE', 'ERRO') AND tentativas < ?
         ORDER BY
           CASE entidade_tipo
             WHEN 'retiro'       THEN 0
@@ -26,7 +28,7 @@ class CloudSyncService {
             ELSE 9
           END ASC,
           criada_em ASC
-      `).all() as any[];
+      `).all(MAX_TENTATIVAS_CLOUD) as any[];
 
       if (pending.length === 0) {
         this.active = false;
