@@ -289,3 +289,36 @@ Fix: `npm install --save-dev jest-environment-jsdom`
 
 **3 — BAIXO | Implementar CT-NA02–05 e CT-UA02–04**
 Fechar as lacunas de cobertura nos serviços de nascimento e alerta. Baixo porque os fluxos felizes já são cobertos; o que falta são as validações de campos obrigatórios individuais.
+
+---
+
+## Task: Corrigir Testes Unitários com Falha
+
+Resultado da execução da suite unitária (`src/backend/tests/unit/`): **9 suites, 58 testes, 0 falhas.**
+
+Não há testes unitários quebrados. Nenhuma correção é necessária nesta task.
+
+### Suites passando
+
+| Suite | Casos |
+|-------|-------|
+| `src/backend/tests/unit/healthService.test.ts` | 4 |
+| `src/backend/tests/unit/exportacaoService.test.ts` | 4 |
+| `src/backend/tests/unit/obitoService.test.ts` | 4 |
+| `src/backend/tests/unit/nascimentoService.test.ts` | 2 |
+| `src/backend/tests/unit/eventoService.test.ts` | 4 |
+| `src/backend/tests/unit/alertaService.test.ts` | 8 |
+| `src/backend/tests/unit/database.test.ts` | 4 |
+| `src/backend/tests/unit/tarefaService.test.ts` | 13 |
+| `src/backend/tests/unit/cloudSyncService.test.ts` | 15 |
+| `src/backend/tests/initDb.test.ts` | 16 |
+| `src/backend/tests/swagger.test.ts` | 1 |
+
+Os únicos itens identificados dentro de `unit/` pelo mapeamento são casos ausentes (nunca escritos, não quebrados):
+
+| Arquivo | CTs ausentes |
+|---------|-------------|
+| `src/backend/tests/unit/nascimentoService.test.ts` | CT-NA02, CT-NA03, CT-NA04, CT-NA05 |
+| `src/backend/tests/unit/alertaService.test.ts` | CT-UA02, CT-UA03, CT-UA04 |
+
+Todas as falhas da sprint estão em suites de integração, cujas causas raiz e correções estão documentadas acima.
