@@ -1,10 +1,5 @@
 # Review — Mapeamento de Testes Quebrados (Sprint 5)
 
-**Revisor:** @arthur.morais  
-**Tarefa revisada:** [SP5] Mapeamento de testes quebrados — @enzo.bezerra  
-**Data da revisão:** 2026-06-17  
-**Veredicto:** ✅ APROVADO — ajustes incorporados pelo revisor
-
 ---
 
 ## Resumo
