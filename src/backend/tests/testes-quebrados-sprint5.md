@@ -1,25 +1,38 @@
 ## Inventário de Testes Quebrados — Sprint 5
 
-> **Atualização pós-revisão (2026-06-17):** as causas raiz abaixo foram sanadas — `cookie-parser` e `jest-environment-jsdom` já estão instalados em `node_modules`. As suites listadas como quebradas estão atualmente passando. O inventário mantém o estado histórico no momento do mapeamento e foi complementado com as suites não mapeadas identificadas em revisão.
-
 ### Resumo Executivo
 
 | Status | Suites | Casos de Teste |
 |--------|--------|----------------|
-| Quebrados no momento do mapeamento | 13 | ~116 bloqueados |
-| Passando (mapeadas originalmente) | 11 | 75 |
-| Passando (identificadas em revisão) | 10 | 54 |
-| Passando (unit — alertaService / nascimentoService) | 2 | 10 |
-| **Total atual** | **26** | **~245** |
+| Quebrados (suite falhou) | 13 | ~116 bloqueados |
+| Passando | 13 | 80 |
+| **Total** | **26** | **~196** |
 
-**Status atual: 100% da suite passa** após instalação de `cookie-parser` e `jest-environment-jsdom`. O percentual de 61% inoperante refletia o estado no momento do mapeamento.
+**50% da suite está inoperante.** Duas causas raiz distintas, ambas de dependência ausente. O total passou de 24 para 26 suites após adição de `critical-timeout.test.ts` e `sync-retry.test.ts` ao projeto.
+
+### Suites passando
+
+| Suite | Casos |
+|-------|-------|
+| `src/backend/tests/unit/healthService.test.ts` | 4 |
+| `src/backend/tests/unit/exportacaoService.test.ts` | 4 |
+| `src/backend/tests/unit/obitoService.test.ts` | 4 |
+| `src/backend/tests/unit/nascimentoService.test.ts` | 2 |
+| `src/backend/tests/unit/eventoService.test.ts` | 4 |
+| `src/backend/tests/unit/alertaService.test.ts` | 8 |
+| `src/backend/tests/unit/database.test.ts` | 4 |
+| `src/backend/tests/unit/tarefaService.test.ts` | 13 |
+| `src/backend/tests/unit/cloudSyncService.test.ts` | 15 |
+| `src/backend/tests/initDb.test.ts` | 16 |
+| `src/backend/tests/swagger.test.ts` | 1 |
+| `src/backend/tests/critical-timeout.test.ts` | 2 |
+| `src/backend/tests/sync-retry.test.ts` | 3 |
 
 ---
 
-## CAUSA RAIZ 1 — `cookie-parser` não instalado *(sanada)*
+## CAUSA RAIZ 1 — `cookie-parser` não instalado
 
-**Erro original:** `TS2307: Cannot find module 'cookie-parser' or its corresponding type declarations` em `src/backend/app.ts:6`  
-**Correção aplicada:** `npm install cookie-parser @types/cookie-parser` (já em `package.json` e `node_modules`)
+**Erro:** `TS2307: Cannot find module 'cookie-parser' or its corresponding type declarations` em `src/backend/app.ts:6`
 
 **Impacto: CRÍTICO** — Derruba 12 suites de integração inteiras. Nenhum teste de endpoint, autenticação, sincronização ou offline executa.
 
@@ -237,12 +250,11 @@ Valida renderização de templates EJS e redirecionamentos de rotas protegidas.
 
 ---
 
-## CAUSA RAIZ 2 — `jest-environment-jsdom` não instalado *(sanada)*
+## CAUSA RAIZ 2 — `jest-environment-jsdom` não instalado
 
-**Erro original:** `Test environment jest-environment-jsdom cannot be found. As of Jest 28, must be installed separately.`  
-**Correção aplicada:** `npm install --save-dev jest-environment-jsdom` (já em `package.json` e `node_modules`)
+**Erro:** `Test environment jest-environment-jsdom cannot be found. As of Jest 28, must be installed separately.`
 
-**Impacto: MÉDIO** — Isolava apenas 1 suite, com 2 casos de teste.
+**Impacto: MÉDIO** — Isola apenas 1 suite, com 2 casos de teste.
 
 #### 13. `src/backend/tests/chamados.frontend.test.ts` — 2 casos | MÉDIO
 Testa a captura de GPS no front-end (RF006 — coordenadas do chamado).
@@ -254,171 +266,26 @@ Testa a captura de GPS no front-end (RF006 — coordenadas do chamado).
 
 ---
 
----
-
-## Suites Passando — Não Mapeadas Originalmente *(identificadas em revisão)*
-
-Suites existentes no momento do mapeamento que não foram incluídas no inventário. Todas passam com 100% de aprovação.
-
----
-
-### Sincronização Offline
-
-#### 14. `src/backend/tests/sync-retry.test.ts` — 3 casos | PASSANDO | CRÍTICO
-Cobre resiliência da fila offline: backoff exponencial com jitter, retry automático até sucesso e bloqueio de retry para erros não-transitórios.
-
-| Caso | Impacto |
-|------|---------|
-| `calcula backoff exponencial com jitter controlado` | Crítico |
-| `retenta falha de comunicacao ate sucesso sem intervencao do usuario` | Crítico |
-| `nao retenta erro marcado como nao transitorio` | Crítico |
-
----
-
-#### 15. `src/backend/tests/unit/cloudSyncService.test.ts` — 15 casos | PASSANDO | CRÍTICO
-Suite mais abrangente de sincronização. Cobre CT-CS01 a CT-CS15: suspensão offline, sync de tarefas e alertas, transações com COMMIT e ROLLBACK para todas as movimentações (nascimento, óbito, transferência, compravenda), sync de evidências, retiros e usuários.
-
-| Caso | Impacto |
-|------|---------|
-| `[CT-CS01] suspende sincronização sem conexão Supabase (offline)` | Crítico |
-| `[CT-CS02] processa e sincroniza tarefas com sucesso quando online` | Crítico |
-| `[CT-CS03] incrementa tentativas e registra ERRO ao falhar upsert` | Crítico |
-| `[CT-CS04] sincroniza alertas com sucesso` | Crítico |
-| `[CT-CS05] sincroniza movimentação de nascimento via COMMIT` | Crítico |
-| `[CT-CS06] sincroniza movimentação de óbito` | Crítico |
-| `[CT-CS07] sincroniza movimentação de transferência` | Crítico |
-| `[CT-CS08] sincroniza movimentação de compravenda` | Crítico |
-| `[CT-CS09] executa ROLLBACK e marca ERRO quando transação falha` | Crítico |
-| `[CT-CS10] sincroniza evidência vinculada a tarefa com sucesso` | Crítico |
-| `[CT-CS11] marca ERRO e não atualiza sincronizada se upsert falhar` | Crítico |
-| `[CT-CS12] sincroniza retiro com sucesso` | Médio |
-| `[CT-CS13] marca ERRO se upsert de retiro falhar` | Médio |
-| `[CT-CS14] sincroniza usuário com sucesso` | Médio |
-| `[CT-CS15] marca ERRO se upsert de usuário falhar` | Médio |
-
----
-
-### Autenticação com Timeout
-
-#### 16. `src/backend/tests/critical-timeout.test.ts` — 2 casos | PASSANDO | CRÍTICO
-Cobre comportamento de timeout em operações críticas: salva na fila local quando requisição mútavel expira e aplica timeout específico em chamadas de autenticação.
-
-| Caso | Impacto |
-|------|---------|
-| `salva operacao mutavel na fila local quando a requisicao expira` | Crítico |
-| `aplica timeout nas chamadas de autenticacao` | Crítico |
-
----
-
-### Serviços Unitários
-
-#### 17. `src/backend/tests/unit/tarefaService.test.ts` — 13 casos | PASSANDO | CRÍTICO
-Cobre CT-UT01 a CT-UT13: conclusão, validação de propriedade, evidências (foto/texto, limite de 5 MB, base64 inválido, prefixo data URI), e criação com validação de data retroativa e descrição em branco.
-
-| Caso | Impacto |
-|------|---------|
-| `[CT-UT01] conclui tarefa e retorna registro atualizado` | Crítico |
-| `[CT-UT02] lança erro quando tarefa já está concluída` | Crítico |
-| `[CT-UT03] lança erro quando tarefa não pertence ao capataz` | Crítico |
-| `[CT-UT04] salva evidência e retorna evidencia_id` | Crítico |
-| `[CT-UT05] lança erro quando tarefa não pertence ao capataz (evidência)` | Crítico |
-| `[CT-UT06] lança erro quando arquivo_base64 excede 5 MB` | Crítico |
-| `[CT-UT07] lança erro quando base64 contém caracteres inválidos` | Médio |
-| `[CT-UT08] aceita e normaliza base64 com prefixo data URI` | Médio |
-| `[CT-UT09] lança erro quando arquivo_base64 é string vazia` | Médio |
-| `[CT-UT10] salva evidência de texto sem arquivo_base64` | Médio |
-| `[CT-UT11] cria tarefa e retorna registro persistido` | Crítico |
-| `[CT-UT12] lança erro quando data de agendamento é retroativa` | Crítico |
-| `[CT-UT13] lança erro quando descrição é fornecida em branco` | Médio |
-
----
-
-#### 18. `src/backend/tests/unit/healthService.test.ts` — 4 casos | PASSANDO | MÉDIO
-Cobre CT-HS01 a CT-HS04: status "ok"/"erro" do banco, propagação de mensagem de erro e presença de timestamp/uptime.
-
-| Caso | Impacto |
-|------|---------|
-| `[CT-HS01] retorna status "ok" e banco "conectado" quando repositório não lança erro` | Médio |
-| `[CT-HS02] retorna status "erro" e banco "desconectado" quando repositório lança exceção` | Médio |
-| `[CT-HS03] inclui mensagem de erro no campo "erro" quando banco falha` | Médio |
-| `[CT-HS04] inclui sempre timestamp e uptime no resultado` | Baixo |
-
----
-
-#### 19. `src/backend/tests/unit/database.test.ts` — 4 casos | PASSANDO | MÉDIO
-Valida resolução de caminho do banco: padrão, DB_PATH customizado, criação de diretório inexistente e uso de `:memory:`.
-
-| Caso | Impacto |
-|------|---------|
-| `usa o caminho padrão quando DB_PATH não está definido` | Médio |
-| `usa DB_PATH customizado e resolve para caminho absoluto` | Médio |
-| `cria o diretório quando ele não existe` | Médio |
-| `usa :memory: diretamente sem resolver caminho no disco` | Médio |
-
----
-
-#### 20. `src/backend/tests/unit/obitoService.test.ts` — 4 casos | PASSANDO | CRÍTICO
-Cobre CT-OB01 a CT-OB04: criação válida, rejeição por foto ausente (RN07), causa_morte ausente e identificacao_animal ausente (RF013).
-
-| Caso | Impacto |
-|------|---------|
-| `[CT-OB01] salva e retorna o registro quando dados são válidos` | Crítico |
-| `[CT-OB02] lança erro quando foto_base64 estiver vazia` | Crítico |
-| `[CT-OB03] lança erro quando causa_morte estiver vazia` | Crítico |
-| `[CT-OB04] lança erro quando identificacao_animal estiver vazia` | Crítico |
-
----
-
-#### 21. `src/backend/tests/unit/eventoService.test.ts` — 4 casos | PASSANDO | MÉDIO
-Valida listagem de eventos: todos, filtrado por retiro, retiro sem eventos e filtro por tipo.
-
-| Caso | Impacto |
-|------|---------|
-| `retorna todos os eventos repassando objeto vazio ao repositório` | Médio |
-| `retorna apenas eventos do retiro filtrado` | Médio |
-| `retorna lista vazia quando o retiro não possui eventos` | Médio |
-| `repassa filtro de tipo ao repositório e retorna apenas eventos do tipo solicitado` | Médio |
-
----
-
-#### 22. `src/backend/tests/unit/exportacaoService.test.ts` — 4 casos | PASSANDO | CRÍTICO
-Cobre controle de acesso à exportação (ACESSO_NEGADO para perfil Capataz), erro de usuário não encontrado, geração de CSV com cabeçalhos e contagem de registros.
-
-| Caso | Impacto |
-|------|---------|
-| `lança ACESSO_NEGADO quando perfil do usuário for Capataz` | Crítico |
-| `lança erro quando usuário não for encontrado` | Crítico |
-| `gera CSV com cabeçalhos separados por ponto-e-vírgula` | Médio |
-| `retorna total_registros igual ao número de linhas consultadas` | Médio |
-
----
-
-### Documentação de API
-
-#### 23. `src/backend/tests/swagger.test.ts` — 1 caso | PASSANDO | BAIXO
-Valida que a documentação Swagger cobre os endpoints de sincronização em lote e painel gerencial.
-
-| Caso | Impacto |
-|------|---------|
-| `documenta sincronização em lote e painel gerencial` | Baixo |
-
----
-
 ## Casos de Teste Ausentes (não escritos)
 
-Lacunas de cobertura em suites existentes. Nenhuma suite está quebrada por estas ausências — os casos faltantes são validações complementares.
+Estes não são suites quebradas, mas lacunas de cobertura identificadas pelos CTs documentados nos comentários do código.
 
 | Arquivo | CTs faltando | Cobertura ausente |
 |---------|-------------|-------------------|
-| `src/backend/tests/unit/nascimentoService.test.ts` | CT-NA02, CT-NA03, CT-NA04, CT-NA05 | Validação individual de `retiro_id`, `categoria`, `quantidade`, `capataz_id` ausentes (RF008). CT-NA06 (data futura) já implementado. |
-| `src/backend/tests/unit/alertaService.test.ts` | CT-UA02, CT-UA03, CT-UA04 | Validação individual de `tipo`, `descricao`, `capataz_id` ausentes em `criarAlerta`. Os casos CT-UA07 a CT-UA11 para `resolverChamado` estão implementados e passando. |
+| `src/backend/tests/unit/nascimentoService.test.ts` | CT-NA02, CT-NA03, CT-NA04, CT-NA05 | Validação de `retiro_id`, `categoria`, `quantidade`, `capataz_id` ausentes (RF008) |
+| `src/backend/tests/unit/alertaService.test.ts` | CT-UA02, CT-UA03, CT-UA04 | Casos não implementados para `criarAlerta` (possivelmente `tipo`, `descricao`, `capataz_id` ausentes) |
 
 ---
 
-## Priorização para Correção *(atualizada)*
+## Priorização para Correção
 
-**1 — CONCLUÍDO | Instalar `cookie-parser` e `jest-environment-jsdom`**
-Ambos instalados. As 13 suites que estavam quebradas passam atualmente.
+**1 — CRÍTICO | Instalar `cookie-parser` e seus tipos**
+Corrige 12 suites de uma vez. Resolve 114 casos bloqueados, incluindo toda a cobertura de integração de RF001, RF006, RF007, RF008, RF009, RF011, JWT, RNF02, RNF-CAP, offline e sincronização.
+Fix: `npm install cookie-parser @types/cookie-parser`
 
-**2 — BAIXO | Implementar CT-NA02–05 e CT-UA02–04**
-Fechar as lacunas de cobertura nos serviços de nascimento e alerta. Baixo porque os fluxos felizes e a maioria das validações já são cobertos; o que falta são validações de campos obrigatórios individuais.
+**2 — MÉDIO | Instalar `jest-environment-jsdom`**
+Desbloqueia os testes de geolocalização do front-end (RF006, GPS).
+Fix: `npm install --save-dev jest-environment-jsdom`
+
+**3 — BAIXO | Implementar CT-NA02–05 e CT-UA02–04**
+Fechar as lacunas de cobertura nos serviços de nascimento e alerta. Baixo porque os fluxos felizes já são cobertos; o que falta são as validações de campos obrigatórios individuais.
