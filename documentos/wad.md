@@ -6613,6 +6613,11 @@ A tabela abaixo é coerente com a Matriz RF → RN → Endpoint (seção 3.1.4) 
 
 Link para a planilha dos testes de Guerrilha: https://docs.google.com/spreadsheets/d/1qdGcS9gtkIaFlHcXa6VoyoqdvRIejTfKeiD6Zggm5aI/edit?usp=sharing
 
+Tarefa 1 — Conclusão de tarefa com evidência fotográfica
+Suponha que você é Gabriel, capataz do retiro Barra Bonita, terminou de transferir alguns animais para outro retiro e está sem acesso à internet no momento; utilize o sistema para marcar a tarefa como concluída e anexar uma foto como evidência do serviço realizado.
+
+O teste tem início com o login de Gabriel, selecionando o perfil Capataz e o retiro Barra Bonita, etapa em que se espera que o sistema o autentique e exiba somente as tarefas do dia vinculadas a esse retiro (RN02, RN05). Em seguida, é aberto o detalhe da tarefa referente à transferência de animais, devendo a tela apresentar a descrição, o retiro e o status atual como "pendente". Na sequência, a tarefa é marcada como concluída e a foto é anexada, estando sem conexão; espera-se que o sistema registre a conclusão e vincule a foto à tarefa, armazenando ambas localmente até a próxima sincronização (RN08, RN10). Por fim, ao restabelecer a conectividade, o status deve ser atualizado para o Gerente e o sistema deve exibir a mensagem de confirmação "Registro sincronizado com sucesso" (RN09, RN11).
+
 _Posicione aqui as tabelas com enunciados de tarefas, etapas e resultados de testes de usabilidade. Ou utilize um link para seu relatório de testes (mantenha o link sempre público para visualização)._
 
 ### 5.2.2. Relatório de testes SUS (System Usability Scale)
