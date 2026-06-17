@@ -10,6 +10,7 @@
 
 import { Router, Request, Response } from 'express';
 import { RETIROS } from '../config/retiros';
+import { checkRoleRedirect } from '../middleware/roleMiddleware';
 
 export class ViewRoutes {
   public router: Router;
@@ -91,13 +92,8 @@ export class ViewRoutes {
     });
 
     // Registrar resolução de chamado (US06) — só Infra ou Tecnico
-    this.router.get('/chamado/:id/resolver', (req: Request, res: Response) => {
+    this.router.get('/chamado/:id/resolver', checkRoleRedirect(['Infraestrutura', 'Tecnico'], '/chamado/:id'), (req: Request, res: Response) => {
       const sess = (req.session as any)?.usuario;
-      if (!sess) return res.redirect('/');
-      if (!['Infraestrutura', 'Tecnico'].includes(sess.perfil)) {
-        // Outros perfis veem read-only
-        return res.redirect('/chamado/' + req.params.id);
-      }
       res.render('chamado-resolver', { perfil: sess.perfil, retiro: sess.retiro_id || 'Geral', nome: sess.nome || '', chamadoId: req.params.id });
     });
 
@@ -109,15 +105,8 @@ export class ViewRoutes {
     });
 
     // Boletas / Movimentações — exclusivo do Coordenador (US11/US12)
-    this.router.get('/boletas', (req: Request, res: Response) => {
+    this.router.get('/boletas', checkRoleRedirect(['Coordenador']), (req: Request, res: Response) => {
       const sess = (req.session as any)?.usuario;
-      if (!sess) return res.redirect('/');
-      if (sess.perfil !== 'Coordenador') {
-        return res.status(403).render('acesso-negado', {
-          perfil: sess.perfil,
-          perfilNecessario: 'Coordenador',
-        });
-      }
       res.render('boletas', { perfil: sess.perfil, retiro: sess.retiro_id || 'Geral', nome: sess.nome || '' });
     });
 
