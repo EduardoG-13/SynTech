@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { v7 as uuidv7 } from 'uuid';
-import db from '../config/database';
+import authService from '../services/authService';
 import { authConfig, JwtRefreshPayload, JwtUserPayload } from '../config/auth';
 import {
   buscarRefreshTokenAtivo,
@@ -72,16 +71,10 @@ export function login(req: Request, res: Response) {
     return res.status(400).json({ sucesso: false, erro: 'Campos obrigatórios não preenchidos.' });
   }
 
-  const row = db.prepare('SELECT * FROM usuarios WHERE nome = ? AND perfil = ?').get(usuario, perfil) as any;
+  const row = authService.autenticarUsuario(usuario, senha, perfil);
 
   if (!row) {
-    return res.status(401).json({ sucesso: false, erro: 'Usuário não encontrado.' });
-  }
-
-  const senhaValida = bcrypt.compareSync(senha, row.senha);
-
-  if (!senhaValida) {
-    return res.status(401).json({ sucesso: false, erro: 'Senha incorreta.' });
+    return res.status(401).json({ sucesso: false, erro: 'Usuário ou senha incorretos.' });
   }
 
   const usuarioAutenticado: JwtUserPayload = {
@@ -181,11 +174,7 @@ export function loginCapataz(req: Request, res: Response) {
   }
 
   // Busca o capataz responsável pelo retiro (regra: 1 capataz por retiro hoje)
-  const row = db.prepare(
-    `SELECT u.id, u.nome, u.perfil, u.retiro_id
-     FROM usuarios u
-     WHERE u.perfil = 'Capataz' AND u.retiro_id = ?`
-  ).get(retiro_id) as any;
+  const row = authService.autenticarCapatazPorRetiro(retiro_id);
 
   if (!row) {
     return res.status(404).json({ sucesso: false, erro: 'Nenhum capataz vinculado a este retiro.' });
