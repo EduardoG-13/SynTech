@@ -1,6 +1,18 @@
 import db from '../config/database';
 
 class BoletaRepository {
+  public iniciarTransacao() {
+    db.exec('BEGIN TRANSACTION;');
+  }
+
+  public commit() {
+    db.exec('COMMIT;');
+  }
+
+  public rollback() {
+    db.exec('ROLLBACK;');
+  }
+
   public enfileirarSync(entidade: string, id: string, uuid: string) {
     db.prepare(
       `INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas)

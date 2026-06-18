@@ -1,26 +1,21 @@
 import { v7 as uuidv7 } from 'uuid';
 import boletaRepository from '../repositories/boletaRepository';
 
-interface SessUsuario { id: string; perfil: string; retiro_id?: string | null; }
-
 class BoletaService {
   private enfileirarSync(entidade: string, id: string) {
     boletaRepository.enfileirarSync(entidade, id, uuidv7());
   }
 
-  public criarBoleta(sess: SessUsuario, b: any) {
-    const operacao = b.operacao;
+  criarBoleta(capataz_id: string, b: any, fallbackRetiroId?: string | null) {
+    const operacao: string = b.operacao;
     if (!operacao) throw new Error('operacao é obrigatória.');
 
-    const grupoId = uuidv7();
-    const data = b.data || new Date().toISOString().slice(0, 10);
-    const retiro_id = b.retiro || b.retiro_origem || sess.retiro_id;
+    const retiro_id = b.retiro || b.retiro_origem || fallbackRetiroId;
     if (!retiro_id) throw new Error('retiro é obrigatório.');
 
+    // Validação por tipo
     if (operacao === 'obito' && !b.tem_foto) {
-      const err: any = new Error('Para registrar óbito é obrigatório anexar a foto da carcaça.');
-      err.status = 422;
-      throw err;
+      throw new Error('Para registrar óbito é obrigatório anexar a foto da carcaça.');
     }
 
     let animais = Array.isArray(b.animais) ? b.animais : [];
@@ -31,55 +26,54 @@ class BoletaService {
       animais = [{ categoria: operacao === 'manejo' ? 'MANEJO' : 'AJUSTE', quantidade: 0 }];
     }
 
+    const grupoId = uuidv7();
+    const data = b.data || new Date().toISOString().slice(0, 10);
     const fotoBase64 = b.foto_base64 || null;
     const ids: string[] = [];
     const agora = new Date().toISOString();
-
-    for (const a of animais) {
-      const movId = uuidv7();
-      const params = [
-        movId, sess.id, retiro_id, data, a.categoria || '', parseInt(a.quantidade) || 0,
-        operacao, grupoId,
-        b.pasto || null, b.observacoes || null, b.observacoes_audio || null, b.tem_foto ? 1 : 0, fotoBase64,
-        b.raca || null, b.brinco || null, b.causa || null,
-        b.tipo || null, b.valor ? parseFloat(b.valor) : null,
-        b.retiro_origem || null, b.retiro_destino || null, b.transporte || null,
-        b.motorista || null, b.rgcpf || null, b.placa || null,
-        b.titulo || null,
-        agora
-      ];
-      boletaRepository.inserirMovimentacao(params);
-      ids.push(movId);
-      this.enfileirarSync('movimentacao', movId);
+    
+    boletaRepository.iniciarTransacao();
+    try {
+      for (const a of animais) {
+        const movId = uuidv7();
+        const params = [
+          movId, capataz_id, retiro_id, data, a.categoria || '', parseInt(a.quantidade) || 0,
+          operacao, grupoId,
+          b.pasto || null, b.observacoes || null, b.observacoes_audio || null, b.tem_foto ? 1 : 0, fotoBase64,
+          b.raca || null, b.brinco || null, b.causa || null,
+          b.tipo || null, b.valor ? parseFloat(b.valor) : null,
+          b.retiro_origem || null, b.retiro_destino || null, b.transporte || null,
+          b.motorista || null, b.rgcpf || null, b.placa || null,
+          b.titulo || null,
+          agora
+        ];
+        boletaRepository.inserirMovimentacao(params);
+        ids.push(movId);
+        this.enfileirarSync('movimentacao', movId);
+      }
+      boletaRepository.commit();
+    } catch (e) {
+      boletaRepository.rollback();
+      throw e;
     }
 
     return { grupo_id: grupoId, ids };
   }
 
-  public atualizarBoleta(sess: SessUsuario, grupoId: string, b: any) {
-    const existentes = boletaRepository.buscarBoleta(grupoId, sess.id);
+  atualizarBoleta(capataz_id: string, grupoId: string, b: any) {
+    const existentes = boletaRepository.buscarBoleta(grupoId, capataz_id);
 
-    if (existentes.length === 0) {
-      const err: any = new Error('Boleta não encontrada.');
-      err.status = 404;
-      throw err;
-    }
+    if (existentes.length === 0) throw new Error('Boleta não encontrada.');
 
     const criadoEmStr = existentes[0].criado_em;
     const criadoEm = new Date(criadoEmStr + (criadoEmStr.endsWith('Z') ? '' : 'Z'));
     const dias = (Date.now() - criadoEm.getTime()) / (1000 * 60 * 60 * 24);
     if (dias > 30) {
-      const err: any = new Error('Boleta com mais de 30 dias não pode ser editada.');
-      err.status = 422;
-      throw err;
+      throw new Error('Boleta com mais de 30 dias não pode ser editada.');
     }
     if (existentes[0].aprovado_por_coordenador_id) {
-      const err: any = new Error('Boleta já aprovada pelo Coordenador.');
-      err.status = 422;
-      throw err;
+      throw new Error('Boleta já aprovada pelo Coordenador.');
     }
-
-    boletaRepository.excluirBoleta(grupoId, sess.id);
 
     const data = b.data || existentes[0].data;
     const retiro_id = b.retiro || b.retiro_origem || existentes[0].retiro_id;
@@ -88,28 +82,38 @@ class BoletaService {
     if (animais.length === 0) animais = [{ categoria: 'AJUSTE', quantidade: 0 }];
 
     const fotoBase64 = b.foto_base64 || existentes[0].foto_base64 || null;
-    for (const a of animais) {
-      const movId = uuidv7();
-      const params = [
-        movId, sess.id, retiro_id, data, a.categoria || '', parseInt(a.quantidade) || 0,
-        operacao, grupoId,
-        b.pasto || null, b.observacoes || null, b.observacoes_audio || null, b.tem_foto ? 1 : 0, fotoBase64,
-        b.raca || null, b.brinco || null, b.causa || null,
-        b.tipo || null, b.valor ? parseFloat(b.valor) : null,
-        b.retiro_origem || null, b.retiro_destino || null, b.transporte || null,
-        b.motorista || null, b.rgcpf || null, b.placa || null,
-        b.titulo || null,
-        existentes[0].criado_em
-      ];
-      boletaRepository.inserirMovimentacao(params);
-      this.enfileirarSync('movimentacao', movId);
+
+    boletaRepository.iniciarTransacao();
+    try {
+      boletaRepository.excluirBoleta(grupoId, capataz_id);
+
+      for (const a of animais) {
+        const movId = uuidv7();
+        const params = [
+          movId, capataz_id, retiro_id, data, a.categoria || '', parseInt(a.quantidade) || 0,
+          operacao, grupoId,
+          b.pasto || null, b.observacoes || null, b.observacoes_audio || null, b.tem_foto ? 1 : 0, fotoBase64,
+          b.raca || null, b.brinco || null, b.causa || null,
+          b.tipo || null, b.valor ? parseFloat(b.valor) : null,
+          b.retiro_origem || null, b.retiro_destino || null, b.transporte || null,
+          b.motorista || null, b.rgcpf || null, b.placa || null,
+          b.titulo || null,
+          existentes[0].criado_em
+        ];
+        boletaRepository.inserirMovimentacao(params);
+        this.enfileirarSync('movimentacao', movId);
+      }
+      boletaRepository.commit();
+    } catch (e) {
+      boletaRepository.rollback();
+      throw e;
     }
 
     return { grupo_id: grupoId };
   }
 
-  public listarMinhas(sess: SessUsuario) {
-    const rows = boletaRepository.listarMinhasBoletas(sess.id);
+  listarMinhasBoletas(capataz_id: string) {
+    const rows = boletaRepository.listarMinhasBoletas(capataz_id);
 
     const grupos: Record<string, any> = {};
     for (const r of rows) {
@@ -148,14 +152,10 @@ class BoletaService {
     return Object.values(grupos);
   }
 
-  public obterBoleta(sess: SessUsuario, grupoId: string) {
+  obterBoleta(grupoId: string) {
     const rows = boletaRepository.detalharBoleta(grupoId);
 
-    if (rows.length === 0) {
-      const err: any = new Error('Boleta não encontrada.');
-      err.status = 404;
-      throw err;
-    }
+    if (rows.length === 0) return null;
 
     const first = rows[0];
     return {

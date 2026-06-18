@@ -4,6 +4,96 @@
  */
 
 const MAX_ITEMS_POR_LOTE = 500;
+const MAX_TENTATIVAS_RETRY = 3;
+const BACKOFF_BASE_MS = 1000;
+const JITTER_MAX_MS = 500;
+const SYNC_REQUEST_TIMEOUT_MS = Number(window.SYNC_REQUEST_TIMEOUT_MS || 5000);
+const SYNC_EVIDENCE_TIMEOUT_MS = Number(window.SYNC_EVIDENCE_TIMEOUT_MS || 10000);
+
+let syncInProgress = false;
+
+const aguardar = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+export function calcularAtrasoRetry(tentativa, jitter = Math.floor(Math.random() * JITTER_MAX_MS)) {
+  const expoente = Math.max(tentativa - 1, 0);
+  return BACKOFF_BASE_MS * (2 ** expoente) + jitter;
+}
+
+function criarErroRetryable(mensagem, retryable = true) {
+  const erro = new Error(mensagem);
+  erro.retryable = retryable;
+  return erro;
+}
+
+async function fetchComTimeout(url, opcoes = {}, timeoutMs = SYNC_REQUEST_TIMEOUT_MS) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    return await fetch(url, {
+      ...opcoes,
+      signal: controller.signal,
+    });
+  } catch (erro) {
+    if (erro && erro.name === 'AbortError') {
+      throw criarErroRetryable('TIMEOUT');
+    }
+
+    throw criarErroRetryable(erro.message || 'Falha de comunicacao');
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+function deveRetentarStatus(status) {
+  return status === 408 || status === 429 || status >= 500;
+}
+
+function payloadPossuiEvidencia(valor) {
+  if (!valor || typeof valor !== 'object') {
+    return false;
+  }
+
+  const camposDeMidia = ['fotoBase64', 'audioBase64', 'audio_base64', 'arquivo_base64'];
+
+  for (const campo of camposDeMidia) {
+    if (valor[campo]) {
+      return true;
+    }
+  }
+
+  return Object.values(valor).some((item) => payloadPossuiEvidencia(item));
+}
+
+export async function executarComRetry(operacao, opcoes = {}) {
+  const maxTentativas = opcoes.maxTentativas || MAX_TENTATIVAS_RETRY;
+  let ultimoErro;
+
+  for (let tentativa = 1; tentativa <= maxTentativas; tentativa += 1) {
+    try {
+      return await operacao(tentativa);
+    } catch (erro) {
+      ultimoErro = erro;
+
+      if (erro && erro.retryable === false) {
+        throw erro;
+      }
+
+      if (tentativa >= maxTentativas) {
+        break;
+      }
+
+      const atraso = calcularAtrasoRetry(tentativa);
+      console.warn(
+        `[Sincronizador] Falha de comunicacao na tentativa ${tentativa}/${maxTentativas}. Retentando em ${atraso}ms.`,
+        erro
+      );
+      await aguardar(atraso);
+    }
+  }
+
+  throw ultimoErro;
+}
 
 function obterTipoEntidade(item) {
   const url = item.dados?.url;
@@ -38,25 +128,36 @@ function extrairDadosDoItem(item) {
   return item.dados?.dados ?? item.dados ?? null;
 }
 
-async function enviarLote(itensPendentes) {
+async function enviarLoteSemRetry(itensPendentes) {
   const itensParaEnviar = itensPendentes.map((item) => ({
     id: item.id,
     entidade_tipo: obterTipoEntidade(item),
     dados: extrairDadosDoItem(item),
   }));
 
-  const response = await fetch('/api/sincronizacao/lote', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
+  const timeoutMs = itensParaEnviar.some((item) => payloadPossuiEvidencia(item.dados))
+    ? SYNC_EVIDENCE_TIMEOUT_MS
+    : SYNC_REQUEST_TIMEOUT_MS;
+
+  const response = await fetchComTimeout(
+    '/api/sincronizacao/lote',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ itens: itensParaEnviar }),
     },
-    body: JSON.stringify({ itens: itensParaEnviar }),
-  });
+    timeoutMs
+  );
 
   // Exigir confirmação explícita (200 ou 201) antes de considerar os itens enviados
   if (response.status !== 200 && response.status !== 201) {
     const errorText = await response.text();
-    throw new Error(`Falha no envio do lote: ${response.status} ${errorText}`);
+    throw criarErroRetryable(
+      `Falha no envio do lote: ${response.status} ${errorText}`,
+      deveRetentarStatus(response.status)
+    );
   }
 
   const resultado = await response.json();
@@ -110,14 +211,29 @@ async function enviarLote(itensPendentes) {
   return resultado;
 }
 
+async function enviarLote(itensPendentes) {
+  return executarComRetry(() => enviarLoteSemRetry(itensPendentes));
+}
+
 /**
  * Processa a fila de sincronização
  * Lê todos os registros com status PENDENTE e envia para o servidor
  * @returns {Promise<Object>} Resultado da sincronização
  */
 export async function processarFilaSincronizacao() {
+  let syncLockAdquirido = false;
+
   try {
     console.log('[Sincronizador] Iniciando processamento da fila...');
+
+    if (syncInProgress) {
+      console.warn('[Sincronizador] Sincronização já em andamento - ignorando nova execução');
+      return {
+        sucesso: false,
+        mensagem: 'Sincronização já em andamento',
+        emAndamento: true,
+      };
+    }
 
     if (!navigator.onLine) {
       console.warn('[Sincronizador] Dispositivo offline - aguardando conexão');
@@ -131,6 +247,9 @@ export async function processarFilaSincronizacao() {
     if (!window.brpecIndexedDb) {
       throw new Error('IndexedDB não está inicializado');
     }
+
+    syncInProgress = true;
+    syncLockAdquirido = true;
 
     const itens = await window.brpecIndexedDb.listarFila();
     console.log(`[Sincronizador] Encontrados ${itens.length} itens na fila`);
@@ -193,6 +312,10 @@ export async function processarFilaSincronizacao() {
       mensagem: erro.message,
       erros: 1,
     };
+  } finally {
+    if (syncLockAdquirido) {
+      syncInProgress = false;
+    }
   }
 }
 

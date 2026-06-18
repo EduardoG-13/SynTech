@@ -1,23 +1,67 @@
 import bcrypt from 'bcryptjs';
-import authRepository from '../repositories/authRepository';
+import usuarioRepository from '../repositories/usuarioRepository';
+import { JwtUserPayload } from '../config/auth';
 
 class AuthService {
-  public autenticarUsuario(nome: string, senhaLimpa: string, perfil: string) {
-    const usuario = authRepository.buscarUsuarioPorNomeEPerfil(nome, perfil);
-    if (!usuario) {
-      return null;
+  /**
+   * Autentica um usuário padrão (Gerente, Coordenador, etc)
+   * validando as credenciais e retornando o payload do JWT se sucesso.
+   */
+  autenticar(usuario: string, senhaLimpa: string, perfil: string): JwtUserPayload {
+    const row = usuarioRepository.buscarPorNomeEPerfil(usuario, perfil) as any;
+
+    if (!row) {
+      throw new Error('Usuário não encontrado.');
     }
 
-    const senhaValida = bcrypt.compareSync(senhaLimpa, usuario.senha);
+    const senhaValida = bcrypt.compareSync(senhaLimpa, row.senha);
+
     if (!senhaValida) {
-      return null;
+      throw new Error('Senha incorreta.');
     }
 
-    return usuario;
+    const usuarioAutenticado: JwtUserPayload = {
+      id: row.id,
+      nome: row.nome,
+      perfil: row.perfil,
+      retiro_id: row.retiro_id,
+      is_admin: row.is_admin === 1 || row.is_admin === true,
+    };
+
+    return usuarioAutenticado;
   }
 
-  public autenticarCapatazPorRetiro(retiro_id: string) {
-    return authRepository.buscarCapatazPorRetiro(retiro_id);
+  /**
+   * Autentica um Capataz através apenas da seleção do retiro.
+   */
+  autenticarCapataz(retiro_id: string): JwtUserPayload {
+    const row = usuarioRepository.buscarCapatazPorRetiro(retiro_id) as any;
+
+    if (!row) {
+      throw new Error('Nenhum capataz vinculado a este retiro.');
+    }
+
+    const usuarioAutenticado: JwtUserPayload = {
+      id: row.id,
+      nome: row.nome,
+      perfil: row.perfil,
+      retiro_id: row.retiro_id,
+    };
+
+    return usuarioAutenticado;
+  }
+
+  /**
+   * Autentica os técnicos de infraestrutura baseando-se apenas na categoria.
+   */
+  autenticarInfra(categoria: string): JwtUserPayload {
+    return {
+      id: 'tecnico-' + categoria,
+      nome: 'Técnico ' + categoria,
+      perfil: 'Infraestrutura',
+      retiro_id: null,
+      categoria: categoria,
+    };
   }
 }
 

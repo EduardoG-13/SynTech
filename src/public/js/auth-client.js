@@ -1,6 +1,7 @@
 (function () {
   var ACCESS_TOKEN_KEY = 'brpec_access_token';
   var SESSION_KEY = 'brpec_sessao';
+  var AUTH_REQUEST_TIMEOUT_MS = Number(window.AUTH_REQUEST_TIMEOUT_MS || 5000);
   var originalFetch = window.fetch.bind(window);
   var refreshPromise = null;
 
@@ -24,6 +25,44 @@
     return typeof target === 'string' && target.indexOf('/api/') === 0 && target.indexOf('/api/auth/') !== 0;
   }
 
+  function isAuthRequest(url) {
+    var target = typeof url === 'string' ? url : url && url.url;
+    return typeof target === 'string' && target.indexOf('/api/auth/') === 0;
+  }
+
+  function fetchWithTimeout(input, init, timeoutMs) {
+    var controller = new AbortController();
+    var timeoutId = setTimeout(function () {
+      controller.abort();
+    }, timeoutMs);
+
+    var options = Object.assign({}, init || {});
+    options.signal = controller.signal;
+
+    return originalFetch(input, options)
+      .catch(function (error) {
+        if (error && error.name === 'AbortError') {
+          var timeoutError = new Error('Tempo limite excedido ao comunicar com o servidor.');
+          timeoutError.name = 'AbortError';
+          timeoutError.comunicacao = true;
+          throw timeoutError;
+        }
+
+        throw error;
+      })
+      .finally(function () {
+        clearTimeout(timeoutId);
+      });
+  }
+
+  function fetchAuth(input, init) {
+    if (isAuthRequest(input)) {
+      return fetchWithTimeout(input, init, AUTH_REQUEST_TIMEOUT_MS);
+    }
+
+    return originalFetch(input, init);
+  }
+
   function cloneOptionsWithAuth(input, init) {
     var options = Object.assign({}, init || {});
     var token = getAccessToken();
@@ -40,7 +79,7 @@
 
   function refreshAccessToken() {
     if (!refreshPromise) {
-      refreshPromise = originalFetch('/api/auth/refresh', {
+      refreshPromise = fetchAuth('/api/auth/refresh', {
         method: 'POST',
         credentials: 'same-origin',
       })
@@ -68,14 +107,14 @@
   window.fetch = function (input, init) {
     var firstOptions = cloneOptionsWithAuth(input, init);
 
-    return originalFetch(input, firstOptions).then(function (response) {
+    return fetchAuth(input, firstOptions).then(function (response) {
       if (response.status !== 401 || !shouldAttachToken(typeof input === 'string' ? input : input.url)) {
         return response;
       }
 
       return refreshAccessToken()
         .then(function () {
-          return originalFetch(input, cloneOptionsWithAuth(input, init));
+          return fetchAuth(input, cloneOptionsWithAuth(input, init));
         })
         .catch(function () {
           clearSession();

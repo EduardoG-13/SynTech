@@ -30,8 +30,12 @@ app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 app.use(cookieParser());
 app.use('/public', express.static(path.join(projectRoot, 'src/public')));
+const sessionSecret = process.env.SESSION_SECRET;
+if (!sessionSecret && process.env.NODE_ENV === 'production') {
+  throw new Error('SESSION_SECRET precisa ser definido em producao');
+}
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'brpec-syntech-2026',
+  secret: sessionSecret || 'brpec-syntech-dev',
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 365 * 24 * 60 * 60 * 1000 }
