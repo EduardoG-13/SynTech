@@ -6799,6 +6799,18 @@ Os fluxos do **Coordenador** foram os mais estáveis, com 100% de conclusão em 
 
 As heurísticas mais recorrentes nas falhas foram **H1 (Visibilidade do status do sistema)**, ausência de confirmação após ações críticas, e **H9 (Diagnóstico e recuperação de erros)**, erros de backend exibidos sem mensagem orientativa ao usuário. Esses achados orientam os ajustes prioritários antes dos testes SUS: correção do endpoint de chamados de infraestrutura e adição de feedback explícito de confirmação nos fluxos do Capataz e do Gerente.
 
+#### Lista de Melhorias Identificadas
+
+Os achados dos testes de guerrilha foram compilados e priorizados segundo a **escala de severidade de Nielsen**: 0 — Sem importância; 1 — Cosmético; 2 — Simples; 3 — Grave; 4 — Catastrófico. Problemas com severidade 3 ou 4 devem ser corrigidos antes da entrega.
+
+| # | Problema | Área | Severidade | Participante(s) / Tarefa | Melhoria Sugerida |
+|---|---|---|---|---|---|
+| 1 | Endpoint de chamados de infraestrutura retorna HTTP 400 independente dos dados enviados, impedindo qualquer submissão | Funcional | 4 — Catastrófico | Fernanda, Gabriel Cristino, Davi / Tarefa 2 | Corrigir validação e mapeamento do payload no backend; retornar status 2xx e mensagem de sucesso ao usuário |
+| 2 | Ausência de confirmação de sincronização após conclusão de tarefa com foto: o registro não aparece imediatamente para Gerente nem para o Capataz, sem indicação visual de que foi salvo | UX | 3 — Grave | Gregory (falha), Gabriel (dificuldade) / Tarefa 1 | Exibir toast ou snackbar de confirmação após sincronização bem-sucedida; indicar estado pendente enquanto o upload de foto estiver em andamento |
+| 3 | Ausência de feedback visual após criação de tarefa calendarizada: participante não localiza a tarefa recém-registrada e interpreta como falha no cadastro | UX | 3 — Grave | Fernanda / Tarefa 3 | Exibir confirmação (modal ou snackbar) ao salvar tarefa calendarizada e redirecionar ou destacar o item criado na lista |
+
+Não foram observadas ocorrências de severidade 0 (sem importância), 1 (cosmético) ou 2 (simples) durante as sessões. O problema catastrófico (severidade 4) e os dois graves (severidade 3) devem ser corrigidos antes dos testes SUS para garantir que os participantes consigam concluir as tarefas e que os resultados reflitam a usabilidade real da interface, e não falhas funcionais.
+
 ### 5.2.2. Relatório de testes SUS (System Usability Scale)
 
 _Posicione aqui o relatório dos testes SUS realizados._
