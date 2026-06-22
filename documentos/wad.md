@@ -6660,7 +6660,13 @@ _Posicione aqui as tabelas com enunciados de tarefas, etapas e resultados de tes
 
 ### 5.2.2. Relatório de testes SUS (System Usability Scale)
 
+O *System Usability Scale* (SUS) é um questionário padronizado de dez itens, desenvolvido por John Brooke em 1986, amplamente utilizado para medir a percepção subjetiva de usabilidade de sistemas interativos [56]. Cada item é respondido em uma escala Likert de 1 a 5, e as respostas são combinadas em uma fórmula que produz um escore final entre 0 e 100. Apesar de a escala ser numérica, o escore não representa uma porcentagem, mas sim um valor de referência interpretado segundo benchmarks consolidados na literatura: escores acima de 85 são classificados como "excelente"; entre 72 e 85, como "bom"; entre 52 e 71, como "regular"; abaixo de 52, como "pobre" [56][54].
+
+A principal vantagem do SUS está na sua simplicidade de aplicação e na possibilidade de comparar o resultado obtido com bases de dados de referência de centenas de sistemas avaliados, o que confere contexto objetivo à percepção dos usuários [56]. Complementando os testes de guerrilha — que identificam qualitativamente onde e como os usuários encontram dificuldades —, o SUS quantifica o nível geral de satisfação com a interface, permitindo avaliar se a solução atinge um patamar aceitável de usabilidade para o perfil de usuário do projeto.
+
 _Posicione aqui o relatório dos testes SUS realizados._
+
+
 
 # <a name="c6"></a>6. Estudo de Mercado e Plano de Marketing (sprint 4)
 
@@ -7133,6 +7139,8 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 [54] NIELSEN, Jakob. Why You Only Need to Test with 5 Users. Nielsen Norman Group, 19 mar. 2000. Disponível em: https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/. Acesso em: jun. 2026.
 
 [55] ISO 9241-11:2018. Ergonomics of human-system interaction — Part 11: Usability: Definitions and concepts. Geneva: International Organization for Standardization, 2018.
+
+[56] BROOKE, John. SUS: A 'Quick and Dirty' Usability Scale. In: JORDAN, P. W. et al. (eds.). Usability Evaluation in Industry. London: Taylor & Francis, 1996. p. 189–194.
 
 # <a name="c9"></a>Anexos
 
