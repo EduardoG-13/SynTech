@@ -7147,6 +7147,19 @@ De acordo com os benchmarks consolidados na literatura [56], o escore médio de 
 
 O resultado geral indica que a solução desenvolvida atinge um nível de usabilidade percebida compatível com produtos digitais bem avaliados, com margem de melhoria concentrada em fluxos de onboarding e orientação contextual para usuários com menor experiência digital — aspecto coerente com o perfil de capataz descrito nas personas do projeto.
 
+---
+
+#### Triangulação com os testes de guerrilha
+
+A leitura integrada dos testes de guerrilha e do SUS revela padrões consistentes que se reforçam mutuamente, permitindo uma interpretação mais robusta dos dados do que cada método ofereceria isoladamente.
+
+**Tarefa 2 e as questões de suporte técnico (Q4) e aprendizabilidade (Q7).** A Tarefa 2 — abertura de chamado de infraestrutura pelo Capataz — resultou em 100% de falha entre os três participantes, todos impedidos por um erro HTTP 400 sem mensagem orientativa ao usuário (H9). Esse incidente é o principal candidato a explicar por que Q4 ("precisaria de ajuda de uma pessoa técnica") registrou a maior taxa de concordância do questionário (28,6%) e por que Q7 ("maioria aprenderia rapidamente") obteve a média mais baixa entre as questões positivas (3,71) e o único caso de discordância total. Participantes que encontraram uma falha funcional sem diagnóstico claro tendem a atribuir a dificuldade a complexidade do sistema, e não ao bug — o que infla artificialmente a percepção de necessidade de suporte técnico e reduz a confiança na aprendizabilidade.
+
+**Fluxos do Coordenador e a percepção de integração (Q5).** As Tarefas 5 e 6 — visualização de movimentação zootécnica e exportação em CSV pelo Coordenador — registraram 100% de conclusão com sucesso pleno, sem ocorrências de dificuldade ou falha. Esse resultado tem correspondência direta na Q5 ("as várias funções estão bem integradas"), que obteve a maior média de todo o questionário (4,57) e a maior concentração de respostas máximas (71,4%). A coerência entre os fluxos do Coordenador e a percepção de integração sugere que a arquitetura de informação desse perfil — acesso a dados consolidados, filtros e exportação — foi a mais clara e fluida para os participantes.
+
+**H1 (ausência de confirmação) e a confiança percebida (Q9).** A heurística mais recorrente nos testes de guerrilha foi H1 — visibilidade do status do sistema — manifestada na falta de feedback após sincronização (Tarefa 1) e após criação de tarefa calendarizada (Tarefa 3). A Q9 do SUS ("senti muito confiante ao usar o sistema") registrou a única discordância (P2, nota 2) entre as questões positivas com média acima de 3,5. A ausência de confirmações visuais em ações críticas é uma das causas mais documentadas de baixa confiança percebida, e a correlação entre as falhas de H1 no guerrilha e a nota de Q9 reforça esse diagnóstico.
+
+
 # <a name="c6"></a>6. Estudo de Mercado e Plano de Marketing (sprint 4)
 
 ## 6.1 Resumo Executivo
