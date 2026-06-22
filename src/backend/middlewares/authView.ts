@@ -54,6 +54,10 @@ export function requireLogin(perfisPermitidos?: string[], opcoes?: { exigeAdmin?
     }
 
     (res.locals as any).usuarioLogado = usuario;
+    // Expõe nome/perfil/retiro pra todas as views via res.locals — evita repetir em cada render()
+    (res.locals as any).nome = usuario.nome;
+    (res.locals as any).perfil = usuario.perfil;
+    (res.locals as any).retiro = usuario.retiro_id || 'Geral';
     next();
   };
 }

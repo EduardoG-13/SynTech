@@ -1,5 +1,5 @@
 /* Service Worker BRPec — offline-first */
-const CACHE_NAME = 'brpec-v4';
+const CACHE_NAME = 'brpec-v5';
 
 // 1) Assets estáticos: cacheados imediatamente na instalação do SW
 const ASSETS_ESTATICOS = [
@@ -52,6 +52,38 @@ const ASSETS_ESTATICOS = [
   '/public/Icons/tira_foto.ico',
   '/public/icons-pwa/icon-192.png',
   '/public/icons-pwa/icon-512.png',
+  // Logos da marca Syntech (sidebar branca + login verde)
+  '/public/syntech-verde.png',
+  '/public/syntech-branco.png',
+  // Ícones temáticos usados na nova-os, detalhe-boleta, chamados
+  '/public/Icons/Brinco.ico',
+  '/public/Icons/GPS.ico',
+  '/public/Icons/Pasto.ico',
+  '/public/Icons/Placa_de_carro.ico',
+  '/public/Icons/abaco_calculo_total.ico',
+  '/public/Icons/acesso_restrito.ico',
+  '/public/Icons/aperto_maos_acordo.ico',
+  '/public/Icons/bloqueado.ico',
+  '/public/Icons/bussola_direcao_guia.ico',
+  '/public/Icons/calendario_pagina_agenda.ico',
+  '/public/Icons/caminhao_transporte_gado.ico',
+  '/public/Icons/carrinho_compras_gado.ico',
+  '/public/Icons/cedula_dinheiro_bovino.ico',
+  '/public/Icons/comitiva_peao_a_cavalo.ico',
+  '/public/Icons/dashboard_analise_dados.ico',
+  '/public/Icons/destido.ico',
+  '/public/Icons/editar.ico',
+  '/public/Icons/entrada_animais_recebimento_compra.ico',
+  '/public/Icons/envio_animais_caixa.ico',
+  '/public/Icons/evolucao.ico',
+  '/public/Icons/excluir.ico',
+  '/public/Icons/exit.ico',
+  '/public/Icons/historico_tempo_voltar.ico',
+  '/public/Icons/identidade.ico',
+  '/public/Icons/instalar_aplicativo_celular.ico',
+  '/public/Icons/lupa.ico',
+  '/public/Icons/olho_senha_aberto.ico',
+  '/public/Icons/olho_senha_fechado.ico',
 ];
 
 // 2) Rotas autenticadas: pré-cacheadas DEPOIS do login (cliente avisa via postMessage)

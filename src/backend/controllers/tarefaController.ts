@@ -20,8 +20,15 @@ class TarefaController {
 
       return res.status(201).json({ id: tarefa.id, mensagem: 'Tarefa criada com sucesso', tarefa });
     } catch (erro) {
-      if (erro.message.includes('RN01')) {
+      if (erro.message.includes('não pertence ao retiro')) {
         return res.status(422).json({ erro: erro.message });
+      }
+      if (
+        erro.message.includes('retroativa') ||
+        erro.message.includes('em branco') ||
+        erro.message.includes('não é um Capataz válido')
+      ) {
+        return res.status(400).json({ erro: erro.message });
       }
       next(erro);
     }
@@ -57,6 +64,9 @@ class TarefaController {
       if (erro.message.includes('não encontrada')) {
         return res.status(404).json({ erro: erro.message });
       }
+      if (erro.message.includes('já está concluída')) {
+        return res.status(409).json({ erro: erro.message });
+      }
       next(erro);
     }
   }
@@ -78,8 +88,14 @@ class TarefaController {
 
       return res.status(201).json({ mensagem: 'Evidência salva com sucesso', evidencia_id: result.evidencia_id });
     } catch (erro) {
-      if (erro.message.includes('RN05')) {
+      if (erro.message?.includes('não encontrada')) {
         return res.status(404).json({ erro: erro.message });
+      }
+      if (erro.message?.includes('formato válido')) {
+        return res.status(400).json({ erro: erro.message });
+      }
+      if (erro.message?.includes('muito grande')) {
+        return res.status(413).json({ erro: erro.message });
       }
       next(erro);
     }

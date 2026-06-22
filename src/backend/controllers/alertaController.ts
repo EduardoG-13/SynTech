@@ -3,11 +3,6 @@ import alertaService from '../services/alertaService';
 class AlertaController {
   async criarAlerta(req, res, next) {
     const { tipo, descricao, capataz_id, retiro_id, latitude, longitude, foto_base64, local_referencia, audio_base64 } = req.body;
-    console.log('[criarAlerta] body recebido:', {
-      tipo, descricao_len: descricao?.length,
-      capataz_id, retiro_id, latitude, longitude,
-      foto_size: foto_base64 ? foto_base64.length : 0,
-    });
 
     const faltando: string[] = [];
     if (!tipo) faltando.push('tipo');
@@ -24,7 +19,7 @@ class AlertaController {
 
     if (!descricao || descricao.trim().length <= 10) {
       return res.status(400).json({
-        erro: 'RN06: descrição deve ter mais de 10 caracteres'
+        erro: 'RN-ALERTA: descrição deve ter mais de 10 caracteres'
       });
     }
 
@@ -68,8 +63,8 @@ class AlertaController {
 
   async obterChamado(req, res, next) {
     try {
-      const chamado = await alertaService.listarChamados({ status: undefined } as any);
-      const c = (chamado as any[]).find((x) => x.id === req.params.id);
+      // Usa buscarPorId — traz a foto anexada pelo capataz, áudio, retiro_nome, capataz_nome etc.
+      const c = await alertaService.obterPorId(req.params.id);
       if (!c) return res.status(404).json({ erro: 'Chamado não encontrado.' });
       return res.json(c);
     } catch (erro) {

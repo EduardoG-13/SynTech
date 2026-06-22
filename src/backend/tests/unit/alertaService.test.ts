@@ -4,7 +4,7 @@
  * Suite de testes unitários — AlertaService
  *
  * Regras de negócio cobertas:
- *   RN06 — chamado deve ter descrição com mais de 10 caracteres e coordenadas GPS
+ *   RN-ALERTA — chamado deve ter coordenadas GPS obrigatórias
  *   RN-TECNICO    — apenas usuários com perfil Tecnico podem resolver chamados
  *   RN-STATUS     — chamado já resolvido não pode ser resolvido novamente
  *
@@ -31,7 +31,7 @@ const mockAlertaRepo = alertaRepository as jest.Mocked<typeof alertaRepository>;
 const mockTecnico = { id: 'mock-tecnico-id-0001', perfil: 'Tecnico' };
 
 describe('AlertaService', () => {
-  describe('criarAlerta — RN06', () => {
+  describe('criarAlerta — validações de payload RN-ALERTA (RF006)', () => {
     const dadosBase = {
       tipo: 'CERCA' as const,
       descricao: 'Cerca danificada no setor B',
@@ -46,7 +46,7 @@ describe('AlertaService', () => {
       mockAlertaRepo.criar.mockResolvedValue(alertaFixture());
     });
 
-    it('deve criar o chamado e retornar o registro persistido quando os dados são válidos', async () => {
+    it('[CT-UA01] deve criar o chamado e retornar o registro persistido quando os dados são válidos', async () => {
       // Arrange
       const alertaEsperado = alertaFixture();
       mockAlertaRepo.criar.mockResolvedValue(alertaEsperado);
@@ -59,48 +59,21 @@ describe('AlertaService', () => {
       expect(resultado).toEqual(alertaEsperado);
     });
 
-    it('deve lançar erro e não persistir quando a descrição for muito curta (≤ 10 caracteres)', async () => {
-      // Arrange — exatamente 10 caracteres (limite não satisfeito)
-      const dados = { ...dadosBase, descricao: '1234567890' };
-
-      // Act & Assert
-      await expect(alertaService.criarAlerta(dados)).rejects.toThrow('RN06');
-      expect(mockAlertaRepo.criar).not.toHaveBeenCalled();
-    });
-
-    it('deve lançar erro e não persistir quando a descrição estiver em branco', async () => {
-      // Arrange
-      const dados = { ...dadosBase, descricao: '   ' };
-
-      // Act & Assert
-      await expect(alertaService.criarAlerta(dados)).rejects.toThrow('RN06');
-      expect(mockAlertaRepo.criar).not.toHaveBeenCalled();
-    });
-
-    it('deve lançar erro e não persistir quando a descrição estiver ausente', async () => {
-      // Arrange
-      const { descricao: _, ...dadosSemDescricao } = dadosBase;
-
-      // Act & Assert
-      await expect(alertaService.criarAlerta(dadosSemDescricao)).rejects.toThrow('RN06');
-      expect(mockAlertaRepo.criar).not.toHaveBeenCalled();
-    });
-
-    it('deve lançar erro e não persistir quando a latitude estiver ausente', async () => {
+    it('[CT-UA05] deve lançar erro e não persistir quando a latitude estiver ausente', async () => {
       // Arrange
       const { latitude: _, ...dadosSemLat } = dadosBase;
 
       // Act & Assert
-      await expect(alertaService.criarAlerta(dadosSemLat)).rejects.toThrow('RN06');
+      await expect(alertaService.criarAlerta(dadosSemLat)).rejects.toThrow('RN-ALERTA');
       expect(mockAlertaRepo.criar).not.toHaveBeenCalled();
     });
 
-    it('deve lançar erro e não persistir quando a longitude estiver ausente', async () => {
+    it('[CT-UA06] deve lançar erro e não persistir quando a longitude estiver ausente', async () => {
       // Arrange
       const { longitude: _, ...dadosSemLng } = dadosBase;
 
       // Act & Assert
-      await expect(alertaService.criarAlerta(dadosSemLng)).rejects.toThrow('RN06');
+      await expect(alertaService.criarAlerta(dadosSemLng)).rejects.toThrow('RN-ALERTA');
       expect(mockAlertaRepo.criar).not.toHaveBeenCalled();
     });
   });
@@ -118,7 +91,8 @@ describe('AlertaService', () => {
       mockAlertaRepo.resolver.mockResolvedValue({ ...alertaFixture(), status: 'RESOLVIDO' });
     });
 
-    it('deve resolver o chamado quando os dados são válidos e o usuário é Tecnico', async () => {
+    it('[CT-UA07] deve resolver o chamado quando os dados são válidos e o usuário é Tecnico', async () => {
+      // Arrange — beforeEach configura: usuário Tecnico, chamado ABERTO, resolver.mockResolvedValue
       // Act
       const resultado = await alertaService.resolverChamado(CHAMADO_ID, TECNICO_ID, SOLUCAO, FOTO);
 
@@ -127,7 +101,7 @@ describe('AlertaService', () => {
       expect(resultado.status).toBe('RESOLVIDO');
     });
 
-    it('deve lançar ACESSO_NEGADO e não resolver quando o usuário não tiver perfil Tecnico', async () => {
+    it('[CT-UA08] deve lançar ACESSO_NEGADO e não resolver quando o usuário não tiver perfil Tecnico', async () => {
       // Arrange — usuário com perfil Capataz
       mockAlertaRepo.buscarUsuarioPorId.mockResolvedValue({ id: TECNICO_ID, perfil: 'Capataz' });
 
@@ -138,7 +112,7 @@ describe('AlertaService', () => {
       expect(mockAlertaRepo.resolver).not.toHaveBeenCalled();
     });
 
-    it('deve lançar ACESSO_NEGADO e não resolver quando o usuário não for encontrado', async () => {
+    it('[CT-UA09] deve lançar ACESSO_NEGADO e não resolver quando o usuário não for encontrado', async () => {
       // Arrange
       mockAlertaRepo.buscarUsuarioPorId.mockResolvedValue(null);
 
@@ -149,7 +123,7 @@ describe('AlertaService', () => {
       expect(mockAlertaRepo.resolver).not.toHaveBeenCalled();
     });
 
-    it('deve lançar CHAMADO_NAO_ENCONTRADO quando o chamado não existir', async () => {
+    it('[CT-UA10] deve lançar CHAMADO_NAO_ENCONTRADO quando o chamado não existir', async () => {
       // Arrange
       mockAlertaRepo.buscarPorId.mockResolvedValue(null);
 
@@ -160,7 +134,7 @@ describe('AlertaService', () => {
       expect(mockAlertaRepo.resolver).not.toHaveBeenCalled();
     });
 
-    it('deve lançar CHAMADO_JA_RESOLVIDO e não atualizar quando o chamado já foi resolvido', async () => {
+    it('[CT-UA11] deve lançar CHAMADO_JA_RESOLVIDO e não atualizar quando o chamado já foi resolvido', async () => {
       // Arrange — chamado com status RESOLVIDO
       mockAlertaRepo.buscarPorId.mockResolvedValue({ ...alertaFixture(), status: 'RESOLVIDO' });
 

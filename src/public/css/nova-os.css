@@ -422,3 +422,76 @@
   .linha-evo .evo-qtd { grid-area: qtd; }
   .linha-evo .btn-remover { grid-area: rem; }
 }
+
+/* =========================================================
+   Grid de operações (substitui o <select> nativo)
+   ========================================================= */
+.operacao-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.op-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: #fff;
+  border: 2px solid #d7dfd3;
+  border-radius: 12px;
+  padding: 0.85rem 0.5rem;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.15s ease;
+  min-height: auto;
+  width: 100%;
+  text-align: center;
+}
+.op-card:hover {
+  border-color: #1A4D2E;
+  background: #f0f7f2;
+  transform: translateY(-1px);
+}
+.op-card.active {
+  border-color: #1A4D2E;
+  background: #E6F3EB;
+  box-shadow: 0 2px 8px rgba(26,77,46,0.15);
+}
+.op-card-ico {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  margin: 0;
+}
+.op-card-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1B1B1B;
+  line-height: 1.2;
+}
+.op-card.active .op-card-label {
+  color: #1A4D2E;
+}
+.op-card-sub {
+  font-size: 0.72rem;
+  color: #5C6B5D;
+  line-height: 1.15;
+  margin-top: 0.1rem;
+}
+
+@media (max-width: 480px) {
+  .operacao-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  .op-card { padding: 0.7rem 0.4rem; }
+  .op-card-ico { width: 30px; height: 30px; }
+  .op-card-label { font-size: 0.8rem; }
+}
+
+/* Capataz: texto e ícone maior pra leitura em campo */
+body[data-perfil="Capataz"] .op-card-label { font-size: 0.95rem; }
+body[data-perfil="Capataz"] .op-card-ico { width: 42px; height: 42px; }

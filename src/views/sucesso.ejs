@@ -27,10 +27,10 @@
 
         <div class="sucesso-acoes">
           <button class="btn-secundario" id="btn-historico">
-            🕓 Ver histórico
+            <img class="label-ico" src="/public/Icons/historico_tempo_voltar.ico" alt="" /> Ver histórico
           </button>
           <button class="btn-primario-grande" id="btn-inicio">
-            ⬅️ Voltar ao início
+            <img class="label-ico" src="/public/Icons/home.ico" alt="" /> Voltar ao início
           </button>
         </div>
       </div>
@@ -94,25 +94,25 @@
 
     var html = '';
     html += linhaResumo('Tipo', '<img class="label-ico" src="/public/Icons/' + info.ico + '.ico" alt="" /> ' + info.label);
-    if (r.data)    html += linhaResumo('📅 Data', r.data);
-    if (r.retiro || r.retiro_origem)  html += linhaResumo('📍 Retiro', r.retiro || r.retiro_origem);
-    if (r.retiro_destino)  html += linhaResumo('🎯 Destino', r.retiro_destino);
-    if (r.pasto)   html += linhaResumo('Pasto', r.pasto);
+    if (r.data)    html += linhaResumo('<img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt=""/> Data', r.data);
+    if (r.retiro || r.retiro_origem)  html += linhaResumo('<img class="ico-sm" src="/public/Icons/localizacao.ico" alt=""/> Retiro', r.retiro || r.retiro_origem);
+    if (r.retiro_destino)  html += linhaResumo('<img class="ico-sm" src="/public/Icons/destido.ico" alt=""/> Destino', r.retiro_destino);
+    if (r.pasto)   html += linhaResumo('<img class="ico-sm" src="/public/Icons/Pasto.ico" alt=""/> Pasto', r.pasto);
 
     if (r.animais && r.animais.length) {
       var lista = r.animais.map(function(a) { return a.quantidade + ' × ' + a.categoria; }).join('<br>');
-      html += linhaResumo('🐂 Animais', lista);
+      html += linhaResumo('<img class="ico-sm" src="/public/Icons/movimentacao.ico" alt=""/> Animais', lista);
       var total = r.animais.reduce(function(s,a) { return s + (parseInt(a.quantidade)||0); }, 0);
-      html += linhaResumo('Total', '<strong>' + total + ' cabeças</strong>');
+      html += linhaResumo('<img class="ico-sm" src="/public/Icons/abaco_calculo_total.ico" alt=""/> Total', '<strong>' + total + ' cabeças</strong>');
     }
 
-    if (r.brinco)  html += linhaResumo('🏷️ Brinco', r.brinco);
-    if (r.causa)   html += linhaResumo('Causa', r.causa);
-    if (r.valor)   html += linhaResumo('💵 Valor', 'R$ ' + r.valor);
-    if (r.titulo)  html += linhaResumo('Título', r.titulo);
-    if (r.observacoes) html += linhaResumo('📝 Observações', r.observacoes);
-    if (r.observacoes_audio) html += linhaResumo('🎙️ Áudio', 'Anexado');
-    if (r.tem_foto) html += linhaResumo('📷 Foto', 'Anexada');
+    if (r.brinco)  html += linhaResumo('<img class="ico-sm" src="/public/Icons/Brinco.ico" alt=""/> Brinco', r.brinco);
+    if (r.causa)   html += linhaResumo('<img class="ico-sm" src="/public/Icons/obto.ico" alt=""/> Causa', r.causa);
+    if (r.valor)   html += linhaResumo('<img class="ico-sm" src="/public/Icons/cedula_dinheiro_bovino.ico" alt=""/> Valor', 'R$ ' + r.valor);
+    if (r.titulo)  html += linhaResumo('<img class="ico-sm" src="/public/Icons/tarefas.ico" alt=""/> Título', r.titulo);
+    if (r.observacoes) html += linhaResumo('<img class="ico-sm" src="/public/Icons/editar.ico" alt=""/> Observações', r.observacoes);
+    if (r.observacoes_audio) html += linhaResumo('<img class="ico-sm" src="/public/Icons/grava_audio.ico" alt=""/> Áudio', 'Anexado');
+    if (r.tem_foto) html += linhaResumo('<img class="ico-sm" src="/public/Icons/tira_foto.ico" alt=""/> Foto', 'Anexada');
 
     document.getElementById('sucesso-resumo').innerHTML = html;
   }

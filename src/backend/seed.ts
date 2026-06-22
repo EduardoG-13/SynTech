@@ -1,11 +1,20 @@
 import db from './config/database';
 import bcrypt from 'bcryptjs';
+import { v7 as uuidv7 } from 'uuid';
 import { inicializarBanco } from './config/initDb';
 
 // Garante que as tabelas existem antes de inserir os dados
 inicializarBanco();
 
 const senhaHash = bcrypt.hashSync('123456', 10);
+
+// Helper: enfileira pra subir pro Supabase via cloudSync (idempotente)
+function enfileirarSync(tipo: string, id: string) {
+  db.prepare(
+    `INSERT OR IGNORE INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas)
+     VALUES (?, ?, ?, 'PENDENTE', 0)`
+  ).run(uuidv7(), tipo, id);
+}
 
 try {
   // ==================== RETIROS ====================
@@ -41,6 +50,7 @@ try {
   for (const c of coordenadores) {
     db.prepare(`INSERT OR IGNORE INTO usuarios (id, nome, senha, perfil, retiro_id) VALUES (?, ?, ?, ?, ?)`)
       .run(c.id, c.nome, senhaHash, 'Coordenador', null);
+    enfileirarSync('usuario', c.id);
   }
 
   // Agora os retiros com coordenador_id atribuído
@@ -50,6 +60,7 @@ try {
   const coordDistribuicao = ['coord-1','coord-1','coord-2','coord-2','coord-3','coord-3','coord-4','coord-4','coord-5','coord-5','coord-6','coord-6','coord-7','coord-7','coord-7'];
   for (let i = 0; i < retiros.length; i++) {
     stmtRetiro.run(retiros[i].id, retiros[i].nome, retiros[i].loc, coordDistribuicao[i]);
+    enfileirarSync('retiro', retiros[i].id);
   }
 
   // ==================== GERENTE ADM master (único inicial) ====================
@@ -63,6 +74,7 @@ try {
   }
   // Garante que o admin tem is_admin=1 mesmo se foi criado antes da migration
   try { db.prepare("UPDATE usuarios SET is_admin = 1 WHERE id = 'gerente-1'").run(); } catch(e) {}
+  enfileirarSync('usuario', 'gerente-1');
 
   // ==================== CAPATAZES ====================
   const capatazes = [
@@ -85,6 +97,8 @@ try {
     db.prepare(`INSERT OR IGNORE INTO usuarios (id, nome, senha, perfil, retiro_id) VALUES (?, ?, ?, ?, ?)`)
       .run(c.id, c.nome, senhaHash, 'Capataz', c.retiro);
     db.prepare(`UPDATE retiros SET capataz_id = ? WHERE id = ?`).run(c.id, c.retiro);
+    enfileirarSync('usuario', c.id);
+    enfileirarSync('retiro', c.retiro); // re-enfileira pra incluir capataz_id atualizado
   }
 
   // ==================== INFRA (3 equipes técnicas) ====================
@@ -97,6 +111,7 @@ try {
   for (const t of equipesInfra) {
     db.prepare(`INSERT OR IGNORE INTO usuarios (id, nome, senha, perfil, retiro_id) VALUES (?, ?, ?, ?, NULL)`)
       .run(t.id, t.nome, senhaHash, 'Tecnico');
+    enfileirarSync('usuario', t.id);
   }
 
   console.log('[seed] Seed concluído com sucesso!');

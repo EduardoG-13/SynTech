@@ -107,6 +107,7 @@ describe('AL — POST /api/chamados (Criar Alerta)', () => {
     expect(res.body).toHaveProperty('erro');
     expect(res.body.erro).toMatch(/Campos obrigatórios não preenchidos/);
   });
+
 });
 
 // ── N — POST /api/eventos-zootecnicos/nascimentos (Registrar Nascimento) ──────
@@ -152,5 +153,26 @@ describe('N — POST /api/eventos-zootecnicos/nascimentos (Registrar Nascimento)
     expect(res.status).toBe(400);
     expect(res.body).toHaveProperty('erro');
     expect(res.body.erro).toMatch(/Campos obrigatórios não preenchidos/);
+  });
+
+  test('N3. Regra de negócio (RN27) — data de nascimento futura retorna erro 4xx', async () => {
+    // Arrange — todos os campos válidos; apenas a data está no futuro
+    const DATA_FUTURA = new Date(Date.now() + 86_400_000).toISOString().split('T')[0];
+    const res = await request(app)
+      .post('/api/eventos-zootecnicos/nascimentos')
+      .send({
+        data: DATA_FUTURA,
+        retiro_id: RETIRO_A,
+        categoria: 'bezerro',
+        quantidade: 3,
+        capataz_id: CAPATAZ_A,
+        identificacao_mae: 'MAE-TEST',
+        sexo: 'Macho',
+        peso_nascimento: 32,
+      });
+
+    // Assert — eventoController captura RN27 e retorna 422 (regra de negócio violada)
+    expect(res.status).toBe(422);
+    expect(res.body).toHaveProperty('erro');
   });
 });

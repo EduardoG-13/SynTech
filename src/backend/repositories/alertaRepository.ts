@@ -69,7 +69,24 @@ class AlertaRepository {
   }
 
   async buscarPorId(id: string): Promise<any | null> {
-    const stmt = db.prepare('SELECT * FROM alertas WHERE id = ?');
+    // Carrega o alerta junto com a foto inicial do capataz (foto_id) e a foto da resolução,
+    // se existir. Sem esses JOINs, a tela do Infra não tem como mostrar a evidência anexada.
+    const stmt = db.prepare(`
+      SELECT a.*,
+             ev_capataz.arquivo_base64 AS foto_base64,
+             ev_resol.arquivo_base64    AS foto_resolucao_base64,
+             r.nome  AS retiro_nome,
+             cap.nome AS capataz_nome,
+             tec.nome AS tecnico_nome
+      FROM alertas a
+      LEFT JOIN evidencias ev_capataz ON ev_capataz.id = a.foto_id
+      LEFT JOIN evidencias ev_resol   ON ev_resol.alerta_id = a.id AND ev_resol.id <> a.foto_id
+      LEFT JOIN retiros   r   ON r.id = a.retiro_id
+      LEFT JOIN usuarios  cap ON cap.id = a.capataz_id
+      LEFT JOIN usuarios  tec ON tec.id = a.tecnico_id
+      WHERE a.id = ?
+      LIMIT 1
+    `);
     const row = stmt.get(id);
     return row || null;
   }

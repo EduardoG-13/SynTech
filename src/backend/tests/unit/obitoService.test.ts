@@ -4,8 +4,7 @@
  * Suite de testes unitários — EventoService.registrarObito
  *
  * Regras de negócio cobertas:
- *   RF013 — Validação de campos obrigatórios (foto_base64, causa_morte, identificacao_animal)
- *   RN07  — Foto e causa obrigatórias para registro de óbito
+ *   RF009 — Validação de campos obrigatórios (foto_base64, causa_morte, identificacao_animal)
  *
  * Padrão de estruturação: AAA (Arrange · Act · Assert)
  */
@@ -47,7 +46,9 @@ describe('EventoService — registrarObito', () => {
     }));
   });
 
-  it('deve salvar e retornar o registro quando todos os dados são válidos', async () => {
+  it('[CT-OB01] deve salvar e retornar o registro quando todos os dados são válidos', async () => {
+    // Arrange — beforeEach configura criarObito com fixture válida
+
     // Act
     const resultado = await eventoService.registrarObito({ ...dadosBase });
 
@@ -56,38 +57,38 @@ describe('EventoService — registrarObito', () => {
     expect(resultado).toBeDefined();
   });
 
-  describe('validação de foto_base64 (RN07)', () => {
-    it('deve lançar erro e não persistir quando foto_base64 estiver vazia', async () => {
+  describe('validação de foto_base64 (RF009)', () => {
+    it('[CT-OB02] deve lançar erro e não persistir quando foto_base64 estiver vazia', async () => {
       // Arrange
       const dados = { ...dadosBase, foto_base64: '' };
 
       // Act & Assert
       await expect(eventoService.registrarObito(dados))
-        .rejects.toThrow('Foto');
+        .rejects.toThrow(/foto da carcaça/i);
       expect(mockEventoRepo.criarObito).not.toHaveBeenCalled();
     });
   });
 
   describe('validação de causa_morte', () => {
-    it('deve lançar erro e não persistir quando causa_morte estiver vazia', async () => {
+    it('[CT-OB03] deve lançar erro e não persistir quando causa_morte estiver vazia', async () => {
       // Arrange
       const dados = { ...dadosBase, causa_morte: '' };
 
       // Act & Assert
       await expect(eventoService.registrarObito(dados))
-        .rejects.toThrow('causa_morte');
+        .rejects.toThrow(/causa da morte/i);
       expect(mockEventoRepo.criarObito).not.toHaveBeenCalled();
     });
   });
 
   describe('validação de identificacao_animal', () => {
-    it('deve lançar erro e não persistir quando identificacao_animal estiver vazia', async () => {
+    it('[CT-OB04] deve lançar erro e não persistir quando identificacao_animal estiver vazia', async () => {
       // Arrange
       const dados = { ...dadosBase, identificacao_animal: '' };
 
       // Act & Assert
       await expect(eventoService.registrarObito(dados))
-        .rejects.toThrow('identificacao_animal');
+        .rejects.toThrow(/identificação do animal/i);
       expect(mockEventoRepo.criarObito).not.toHaveBeenCalled();
     });
   });

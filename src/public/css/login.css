@@ -5,13 +5,32 @@
 
 /* --- Tela de Login (Seleção de Perfil) --- */
 
-.login-page {
-  background: linear-gradient(180deg, #F5F0E8 0%, #e8e3d9 100%);
+.login-page,
+.retiro-page {
+  background: var(--bg);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
+  padding-top: 2rem;
+}
+
+/* Logo Syntech no topo das telas de login */
+.login-logo {
+  display: flex;
   justify-content: center;
+  margin: 1rem 0 1.5rem 0;
+  max-width: 100%;
+}
+.login-logo img {
+  max-width: 220px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+@media (max-width: 480px) {
+  .login-logo img { max-width: 180px; }
 }
 
 .login-page .header-bar {
@@ -147,14 +166,23 @@
 
 .btn-olho {
   position: absolute;
-  right: 0.75rem;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1.25rem;
-  padding: 0;
+  padding: 0.25rem;
   min-height: auto;
   color: #5c6b5d;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-olho img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
 }
 
 .btn-olho:hover {

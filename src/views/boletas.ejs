@@ -9,7 +9,7 @@
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
       <div class="user-avatar"><img src="/public/Icons/coordenador.ico" alt="Coordenador" style="width:32px;height:32px;object-fit:contain;" /></div>
       <h1>Boletas</h1>
-      <div class="sub"><%= retiro %> (<%= perfil %>)</div>
+      <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %></div>
     </div>
 
     <main class="boletas-main">
@@ -17,19 +17,22 @@
 
       <div class="boletas-filtros" style="margin-bottom: 1rem;">
         <div class="card" style="padding: 1rem;">
+          <p style="font-size:0.8rem; color:#5c6b5d; margin-bottom:0.5rem;"><img class="ico-sm" src="/public/Icons/lupa.ico" alt="" /> Filtra a lista de boletas pendentes abaixo.</p>
           <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-            <select id="filtro-retiro" style="flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;">
+            <select id="filtro-retiro" style="flex: 1; min-width:140px; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;">
               <option value="">Todos os retiros</option>
             </select>
-            <select id="filtro-tipo" style="flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;">
+            <select id="filtro-tipo" style="flex: 1; min-width:140px; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;">
               <option value="">Todos os tipos</option>
               <option value="nascimento">Nascimento</option>
               <option value="obito">Óbito</option>
               <option value="transferencia">Transferência</option>
               <option value="compravenda">Compra/Venda</option>
+              <option value="manejo">Manejo</option>
             </select>
-            <input type="date" id="filtro-data-inicio" style="flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;" placeholder="Data início" />
-            <input type="date" id="filtro-data-fim" style="flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;" placeholder="Data fim" />
+            <input type="date" id="filtro-data-inicio" style="flex: 1; min-width:140px; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;" />
+            <input type="date" id="filtro-data-fim" style="flex: 1; min-width:140px; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;" />
+            <button type="button" id="btn-limpar-lista" style="padding:0.5rem 0.75rem; border:1px solid #ccc; background:#fff; border-radius:8px; cursor:pointer;">🧹 Limpar</button>
           </div>
         </div>
       </div>
@@ -60,36 +63,39 @@
 
       <!-- Exportação: escolher tipos + intervalo e gerar planilha -->
       <div class="card" style="margin-top: 1.5rem; padding: 1.25rem;">
-        <h3 style="color: #1A4D2E; margin-bottom: 0.75rem;">⬇️ Exportar planilha</h3>
+        <h3 style="color: #1A4D2E; margin-bottom: 0.75rem;"><img class="label-ico" src="/public/Icons/sincronizacao.ico" alt="" /> Exportar planilha</h3>
         <p style="font-size: 0.85rem; color: #5c6b5d; margin-bottom: 0.75rem;">Escolha o que incluir e o período.</p>
 
         <div class="export-tipos">
           <label class="export-checkbox"><input type="checkbox" class="exp-tipo" value="movimentacao" checked /><img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /><span>Movimentações / Transferências</span></label>
           <label class="export-checkbox"><input type="checkbox" class="exp-tipo" value="nascimento" checked /><img class="label-ico" src="/public/Icons/nascimento.ico" alt="" /><span>Nascimentos</span></label>
           <label class="export-checkbox"><input type="checkbox" class="exp-tipo" value="obito" checked /><img class="label-ico" src="/public/Icons/obto.ico" alt="" /><span>Óbitos / Mortes</span></label>
-          <label class="export-checkbox"><input type="checkbox" class="exp-tipo" value="compravenda" checked /><span class="emoji-ico">💰</span><span>Compras / Vendas</span></label>
+          <label class="export-checkbox"><input type="checkbox" class="exp-tipo" value="compravenda" checked /><img class="label-ico" src="/public/Icons/cedula_dinheiro_bovino.ico" alt="" /><span>Compras / Vendas</span></label>
         </div>
 
         <div class="export-datas">
           <div class="export-data-field">
-            <label class="export-field-label">📅 De</label>
+            <label class="export-field-label"><img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> De</label>
             <input type="date" id="exp-data-inicio" />
           </div>
           <div class="export-data-field">
-            <label class="export-field-label">📅 Até</label>
+            <label class="export-field-label"><img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> Até</label>
             <input type="date" id="exp-data-fim" />
           </div>
           <div class="export-data-field">
-            <label class="export-field-label">📍 Retiro</label>
+            <label class="export-field-label"><img class="ico-sm" src="/public/Icons/localizacao.ico" alt="" /> Retiro</label>
             <select id="exp-retiro">
               <option value="">Todos</option>
             </select>
           </div>
         </div>
 
-        <div class="export-acoes">
-          <button class="btn btn-primario" id="btn-exportar">
-            ⬇️ Gerar planilha (filtros)
+        <div class="export-acoes" style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn btn-primario" id="btn-exportar" data-formato="xlsx">
+            📊 Gerar XLSX (filtros)
+          </button>
+          <button class="btn btn-primario" id="btn-exportar-csv" data-formato="csv" style="background:#5C6B5D;">
+            📄 Gerar CSV (filtros)
           </button>
           <button class="btn btn-secundario-laranja" id="btn-exportar-selecionadas">
             ⬇️ Exportar selecionadas (<span id="qtd-sel">0</span>)
@@ -107,21 +113,54 @@
   var SELECIONADAS = new Set();
 
   document.addEventListener('DOMContentLoaded', function() {
-    // Usa endpoint que já filtra retiros pelo Coordenador logado
+    // Carrega retiros nos dois selects (lista + exportação)
     fetch('/api/dashboard/retiros', { credentials: 'same-origin' })
       .then(function(r) { return r.json(); })
       .then(function(retiros) {
-        var sel = document.getElementById('exp-retiro');
-        (retiros || []).forEach(function(r) {
-          sel.insertAdjacentHTML('beforeend', '<option value="' + r.id + '">' + r.nome + '</option>');
+        ['exp-retiro', 'filtro-retiro'].forEach(function(id) {
+          var sel = document.getElementById(id);
+          if (!sel) return;
+          (retiros || []).forEach(function(r) {
+            sel.insertAdjacentHTML('beforeend', '<option value="' + r.id + '">' + r.nome + '</option>');
+          });
         });
       }).catch(function(){});
 
     carregarBoletasPendentes();
 
-    document.getElementById('btn-exportar').addEventListener('click', exportarComFiltros);
+    // Filtros in-memory: a cada mudança refiltra a lista
+    ['filtro-retiro', 'filtro-tipo', 'filtro-data-inicio', 'filtro-data-fim'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('change', renderBoletas);
+    });
+    var btnLimpar = document.getElementById('btn-limpar-lista');
+    if (btnLimpar) btnLimpar.addEventListener('click', function() {
+      ['filtro-retiro', 'filtro-tipo', 'filtro-data-inicio', 'filtro-data-fim'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      renderBoletas();
+    });
+
+    document.getElementById('btn-exportar').addEventListener('click', function() { exportarComFiltros('xlsx'); });
+    document.getElementById('btn-exportar-csv').addEventListener('click', function() { exportarComFiltros('csv'); });
     document.getElementById('btn-exportar-selecionadas').addEventListener('click', exportarSelecionadas);
   });
+
+  function aplicarFiltrosLista() {
+    var ret  = (document.getElementById('filtro-retiro') || {}).value || '';
+    var tipo = (document.getElementById('filtro-tipo')   || {}).value || '';
+    var ini  = (document.getElementById('filtro-data-inicio') || {}).value || '';
+    var fim  = (document.getElementById('filtro-data-fim')    || {}).value || '';
+    return BOLETAS.filter(function(b) {
+      if (ret && !(b.retiro_id === ret || b.retiro_origem_id === ret || b.retiro_destino_id === ret)) return false;
+      if (tipo && b.tipo_operacao !== tipo) return false;
+      var d = b.data || (b.criado_em || '').slice(0, 10);
+      if (ini && d < ini) return false;
+      if (fim && d > fim) return false;
+      return true;
+    });
+  }
 
   function carregarBoletasPendentes() {
     fetch('/api/coordenador/boletas-pendentes', { credentials: 'same-origin' })
@@ -140,15 +179,19 @@
   function renderBoletas() {
     atualizarTotais();
     var cont = document.getElementById('boletas-lista');
-    if (!BOLETAS.length) {
+    var visiveis = aplicarFiltrosLista();
+    if (!visiveis.length) {
+      var msg = BOLETAS.length
+        ? '<p style="font-size:1rem; margin-bottom:0.5rem;">🔎 Nenhuma boleta bate com os filtros aplicados.</p>'
+        : '<p style="font-size:1rem; margin-bottom:0.5rem;">📭 Nenhuma boleta pendente de aprovação no momento.</p>';
       cont.innerHTML =
         '<div style="text-align:center; padding:1.5rem; color:#8A8A7C; background:#fff; border:1px dashed #d7dfd3; border-radius:12px;">' +
-        '<p style="font-size:1rem; margin-bottom:0.5rem;">📭 Nenhuma boleta pendente de aprovação no momento.</p>' +
+        msg +
         '<p style="font-size:0.85rem;">Você vê apenas boletas dos retiros sob sua responsabilidade.</p>' +
         '</div>';
       return;
     }
-    cont.innerHTML = BOLETAS.map(function(b) {
+    cont.innerHTML = visiveis.map(function(b) {
       var data = b.data || (b.criado_em || '').slice(0,10);
       var aprovada = !!b.aprovado_por_coordenador_id;
       return '<div class="card boleta-card" style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem; padding:0.75rem 1rem;">' +
@@ -211,11 +254,13 @@
       return;
     }
     var ids = Array.from(SELECIONADAS).join(',');
-    window.location.href = '/api/coordenador/exportar?ids=' + encodeURIComponent(ids);
-    msgExport('⬇️ Download da seleção iniciado.', '#2E7D52');
+    // Selecionadas vai como XLSX por padrão
+    window.location.href = '/api/coordenador/exportar?formato=xlsx&ids=' + encodeURIComponent(ids);
+    msgExport('⬇️ Download da seleção iniciado (XLSX).', '#2E7D52');
   }
 
-  function exportarComFiltros() {
+  function exportarComFiltros(formato) {
+    formato = formato || 'xlsx';
     var tipos = Array.prototype.slice.call(document.querySelectorAll('.exp-tipo:checked'))
       .map(function(c) { return c.value; });
 
@@ -225,6 +270,7 @@
     }
 
     var params = new URLSearchParams();
+    params.set('formato', formato);
     params.set('tipos', tipos.join(','));
     var ini = document.getElementById('exp-data-inicio').value;
     var fim = document.getElementById('exp-data-fim').value;
@@ -234,7 +280,7 @@
     if (retiro) params.set('retiro_id', retiro);
 
     var url = '/api/coordenador/exportar?' + params.toString();
-    msgExport('⏳ Gerando planilha...', '#A64B00');
+    msgExport('⏳ Gerando ' + formato.toUpperCase() + '...', '#A64B00');
     window.location.href = url;
     setTimeout(function() {
       msgExport('✅ Download iniciado. Se nada baixou, confira o filtro.', '#2E7D52');

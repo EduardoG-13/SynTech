@@ -4,16 +4,12 @@ import { Alerta } from '../models/Alerta';
 class AlertaService {
   async criarAlerta(dados: Partial<Alerta>) {
     if (!dados.descricao || dados.descricao.trim().length <= 10) {
-      throw new Error('RN06: descrição deve ter mais de 10 caracteres');
+      throw new Error('RN-ALERTA: descrição deve ter mais de 10 caracteres');
     }
 
     if (dados.latitude === undefined || dados.latitude === null ||
         dados.longitude === undefined || dados.longitude === null) {
-      throw new Error('RN06: coordenadas GPS são obrigatórias');
-    }
-
-    if (dados.foto_base64 != null && typeof dados.foto_base64 !== 'string') {
-      throw new Error('Formato inválido para foto_base64');
+      throw new Error('RN-ALERTA: coordenadas GPS são obrigatórias');
     }
 
     return await alertaRepository.criar(dados);
@@ -23,6 +19,12 @@ class AlertaService {
     if (typeof filtros === 'string') return await alertaRepository.listar(filtros);
     if (filtros === undefined)        return await alertaRepository.listar();
     return await alertaRepository.listar(filtros.status, filtros.tipo);
+  }
+
+  // Busca por ID com foto, capataz, retiro, técnico (via JOINs).
+  // Usado pela tela de detalhe/resolver — precisa da imagem que o capataz anexou.
+  async obterPorId(id: string) {
+    return await alertaRepository.buscarPorId(id);
   }
 
   async resolverChamado(

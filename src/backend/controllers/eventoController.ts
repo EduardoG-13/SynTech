@@ -2,7 +2,7 @@ import eventoService from '../services/eventoService';
 
 class EventoController {
   async registrarNascimento(req, res, next): Promise<void> {
-    const { data, retiro_id, categoria, quantidade, capataz_id, identificacao_mae, sexo, peso_nascimento, geolocalizacao } = req.body;
+    const { data, retiro_id, categoria, quantidade, capataz_id } = req.body;
 
     if (!data || !retiro_id || !categoria || !quantidade || !capataz_id) {
       res.status(400).json({
@@ -17,11 +17,7 @@ class EventoController {
         retiro_id,
         categoria,
         quantidade,
-        capataz_id,
-        identificacao_mae,
-        sexo,
-        peso_nascimento,
-        geolocalizacao
+        capataz_id
       });
 
       res.status(201).json({
@@ -29,7 +25,11 @@ class EventoController {
         mensagem: 'Registro de nascimento criado com sucesso',
         registro: nascimento
       });
-    } catch (erro) {
+    } catch (erro: any) {
+      if (erro.message?.includes('RN27') || erro.message?.includes('RF013')) {
+        res.status(422).json({ erro: erro.message });
+        return;
+      }
       next(erro);
     }
   }
@@ -47,21 +47,31 @@ class EventoController {
       geolocalizacao
     } = req.body;
 
-    const camposFaltantes: string[] = [];
+    const camposGeraisFaltantes: string[] = [];
 
-    if (!capataz_id) camposFaltantes.push('capataz_id');
-    if (!retiro_id) camposFaltantes.push('retiro_id');
-    if (!data) camposFaltantes.push('data');
-    if (!categoria) camposFaltantes.push('categoria');
-    if (!quantidade) camposFaltantes.push('quantidade');
-    if (!identificacao_animal) camposFaltantes.push('identificacao_animal');
-    if (!causa_morte) camposFaltantes.push('causa_morte');
-    if (!foto_base64) camposFaltantes.push('foto_base64');
+    if (!capataz_id) camposGeraisFaltantes.push('capataz_id');
+    if (!retiro_id) camposGeraisFaltantes.push('retiro_id');
+    if (!data) camposGeraisFaltantes.push('data');
+    if (!categoria) camposGeraisFaltantes.push('categoria');
+    if (!quantidade) camposGeraisFaltantes.push('quantidade');
 
-    if (camposFaltantes.length > 0) {
+    if (camposGeraisFaltantes.length > 0) {
       res.status(400).json({
         erro: 'Campos obrigatórios não preenchidos',
-        campos_faltantes: camposFaltantes
+        campos_faltantes: camposGeraisFaltantes
+      });
+      return;
+    }
+
+    const camposRF013Faltantes: string[] = [];
+    if (!identificacao_animal) camposRF013Faltantes.push('identificacao_animal');
+    if (!causa_morte) camposRF013Faltantes.push('causa_morte');
+    if (!foto_base64) camposRF013Faltantes.push('foto_base64');
+
+    if (camposRF013Faltantes.length > 0) {
+      res.status(422).json({
+        erro: 'Campos obrigatórios não preenchidos',
+        campos_faltantes: camposRF013Faltantes
       });
       return;
     }
@@ -84,7 +94,14 @@ class EventoController {
         registro: obito
       });
     } catch (erro: any) {
-      if (erro.message.includes('RF013')) {
+      // Mensagens de validação amigáveis voltam direto pro usuário
+      if (erro.message && (
+        erro.message.includes('obrigatório') ||
+        erro.message.includes('obrigatória') ||
+        erro.message.includes('Informe') ||
+        erro.message.includes('Selecione') ||
+        erro.message.includes('foto da carcaça')
+      )) {
         res.status(422).json({ erro: erro.message });
         return;
       }

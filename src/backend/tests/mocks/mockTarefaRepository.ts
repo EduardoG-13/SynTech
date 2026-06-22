@@ -6,7 +6,7 @@ function tarefaFixture(): Tarefa {
     titulo: 'Inspeção de cerca',
     descricao: 'Verificar cerca do lote norte',
     status: 'PENDENTE',
-    data_execucao: '2026-06-01',
+    data_execucao: new Date(Date.now() + 86_400_000).toISOString().split('T')[0],
     retiro_id: 'mock-retiro-id-0001',
     capataz_id: 'mock-capataz-id-0001',
     gerente_id: 'mock-gerente-id-0001',

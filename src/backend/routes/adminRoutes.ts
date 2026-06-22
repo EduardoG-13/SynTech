@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import {
   listarRetiros, criarRetiro, atualizarRetiro, excluirRetiro,
   listarUsuarios, criarUsuario, atualizarUsuario, excluirUsuario,
+  excluirBoleta, excluirChamado, excluirTarefa,
 } from '../controllers/adminController';
 
 const router = Router();
@@ -34,5 +35,10 @@ router.get('/usuarios', listarUsuarios);
 router.post('/usuarios', criarUsuario);
 router.put('/usuarios/:id', atualizarUsuario);
 router.delete('/usuarios/:id', excluirUsuario);
+
+// Exclusão de registros — só Gerente ADM
+router.delete('/boletas/:grupo_id', excluirBoleta);
+router.delete('/chamados/:id', excluirChamado);
+router.delete('/tarefas/:id', excluirTarefa);
 
 export default router;

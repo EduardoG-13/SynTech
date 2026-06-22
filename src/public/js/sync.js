@@ -264,13 +264,13 @@ export async function processarFilaSincronizacao() {
       };
     }
 
-    const itensPendentes = itens.filter((item) => item.status === 'PENDENTE');
-    console.log(`[Sincronizador] ${itensPendentes.length} itens com status PENDENTE`);
+    const itensPendentes = itens.filter((item) => item.status === 'PENDENTE' || item.status === 'FALHA');
+    console.log(`[Sincronizador] ${itensPendentes.length} itens com status PENDENTE ou FALHA`);
 
     if (itensPendentes.length === 0) {
       return {
         sucesso: true,
-        mensagem: 'Nenhum item pendente',
+        mensagem: 'Nenhum item pendente ou com falha',
         processados: 0,
         sucessos: 0,
         erros: 0,

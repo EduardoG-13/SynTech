@@ -3,26 +3,12 @@ import { MovimentacaoBase } from '../models/Movimentacao';
 
 class EventoService {
   async registrarNascimento(dados: {
-    capataz_id: string;
-    retiro_id: string;
     data: string;
+    retiro_id: string;
     categoria: string;
     quantidade: number;
-    peso_nascimento?: number;
-    identificacao_mae?: string;
-    sexo?: string;
-    geolocalizacao?: string;
+    capataz_id: string;
   }) {
-    // RF013: Validação de campos obrigatórios
-    if (!dados.identificacao_mae || dados.identificacao_mae.trim() === '') {
-      throw new Error('RF013: Campo obrigatório ausente: identificacao_mae');
-    }
-    if (!dados.sexo || dados.sexo.trim() === '') {
-      throw new Error('RF013: Campo obrigatório ausente: sexo');
-    }
-    if (!dados.peso_nascimento || dados.peso_nascimento <= 0) {
-      throw new Error('RF013: peso_nascimento deve ser um valor positivo');
-    }
     // RN27: Data de nascimento não pode ser futura
     const hoje = new Date();
     hoje.setHours(23, 59, 59, 999);
@@ -51,21 +37,21 @@ class EventoService {
     foto_base64: string;
     geolocalizacao?: string;
   }) {
-    // RF013: Validação de campos obrigatórios
+    // Validação de campos obrigatórios para óbito
     if (!dados.identificacao_animal) {
-      throw new Error('RF013: Campo obrigatório ausente: identificacao_animal');
+      throw new Error('Informe a identificação do animal.');
     }
     if (!dados.causa_morte) {
-      throw new Error('RF013: Campo obrigatório ausente: causa_morte');
+      throw new Error('Informe a causa da morte.');
     }
     if (!dados.foto_base64) {
-      throw new Error('RF013: Foto obrigatória para registro de óbito (evidência sanitária)');
+      throw new Error('Para registrar óbito é obrigatório anexar a foto da carcaça.');
     }
     if (!dados.data) {
-      throw new Error('RF013: Campo obrigatório ausente: data');
+      throw new Error('Informe a data do óbito.');
     }
     if (!dados.categoria) {
-      throw new Error('RF013: Campo obrigatório ausente: categoria');
+      throw new Error('Selecione a categoria do animal.');
     }
 
     return await eventoRepository.criarObito(dados);
