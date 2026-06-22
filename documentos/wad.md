@@ -6779,6 +6779,26 @@ Cada participante executou entre 1 e 5 tarefas conforme a disponibilidade na ses
 | 2 | Fernanda | Sem experiência com agronegócio. | Sucesso | Fez login corretamente e todos os registros foram exibidos. | Listagem atualizada refletindo os registros que atendem aos parâmetros definidos. | Sistema gerou arquivo com colunas padronizadas (data, retiro, tipo de evento, categoria animal, quantidade, Capataz). | Conteúdo refletiu os dados validados no banco, eliminando redigitação manual. | H3 - Controle e liberdade do usuário; H7 - Flexibilidade e eficiência de uso |
 | 3 | Rafael | Sem experiência com agronegócio. | Sucesso | Fez login corretamente e todos os registros foram exibidos. | Listagem atualizada refletindo os registros que atendem aos parâmetros definidos. | Sistema gerou arquivo com colunas padronizadas (data, retiro, tipo de evento, categoria animal, quantidade, Capataz). | Conteúdo refletiu os dados validados no banco, eliminando redigitação manual. | H3 - Controle e liberdade do usuário; H7 - Flexibilidade e eficiência de uso |
 
+
+---
+
+#### Síntese dos Resultados
+
+Ao todo foram realizadas 22 sessões de teste distribuídas entre os três perfis de sistema. O quadro abaixo consolida a taxa de conclusão por tarefa:
+
+| Tarefa | Perfil | Sessões | Sucesso pleno | Com dificuldade | Não concluiu |
+|---|---|---|---|---|---|
+| 1 — Concluir tarefa com foto | Capataz | 6 | 4 | 1 | 1 |
+| 2 — Abrir chamado de infraestrutura | Capataz | 3 | 0 | 0 | 3 |
+| 3 — Criar tarefa calendarizada | Gerente | 3 | 2 | 0 | 1 |
+| 4 — Consultar tela de infraestrutura | Gerente | 3 | 3 | 0 | 0 |
+| 5 — Visualizar movimentação zootécnica | Coordenador | 4 | 4 | 0 | 0 |
+| 6 — Exportar dados em CSV | Coordenador | 3 | 3 | 0 | 0 |
+
+Os fluxos do **Coordenador** foram os mais estáveis, com 100% de conclusão em ambas as tarefas. Os fluxos do **Gerente** apresentaram resultado misto: a consulta de infraestrutura (Tarefa 4) foi concluída por todos, mas a criação de tarefa (Tarefa 3) falhou para um participante por ausência de feedback visual após o cadastro. Os fluxos do **Capataz** concentraram os problemas mais críticos: a Tarefa 2 resultou em falha total para todos os participantes devido a um erro HTTP 400 na submissão do chamado de infraestrutura, independente da categoria selecionada; na Tarefa 1, dois participantes encontraram dificuldade ou não conseguiram concluir por falta de confirmação de que o registro havia sido sincronizado.
+
+As heurísticas mais recorrentes nas falhas foram **H1 (Visibilidade do status do sistema)**, ausência de confirmação após ações críticas, e **H9 (Diagnóstico e recuperação de erros)**, erros de backend exibidos sem mensagem orientativa ao usuário. Esses achados orientam os ajustes prioritários antes dos testes SUS: correção do endpoint de chamados de infraestrutura e adição de feedback explícito de confirmação nos fluxos do Capataz e do Gerente.
+
 ### 5.2.2. Relatório de testes SUS (System Usability Scale)
 
 _Posicione aqui o relatório dos testes SUS realizados._
