@@ -7124,6 +7124,20 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 
 [43] W3C. WCAG 2.1 — Success Criterion 1.4.6: Contrast (Enhanced). Disponível em: https://www.w3.org/TR/WCAG21/#contrast-enhanced. Acesso em: maio 2026.
 
+[44] IRANCHO. iRancho: sistema de gestão pecuária. [S.l.]: iRancho, [2026]. Disponível em: https://www.irancho.com.br/perguntas-frequentes/. Acesso em: jun. 2026.
+
+[45] JETBOV. JetBov: gestão de pastagem e desempenho animal. [S.l.]: JetBov, [2026]. Disponível em: https://play.google.com/store/apps/details?id=com.ionicframework.jetbovapp459755. Acesso em: jun. 2026.
+
+[46] AEGRO. Aegro: plataforma de gestão rural. [S.l.]: Aegro, [2026]. Disponível em: https://aegro.com.br/. Acesso em: jun. 2026.
+
+[47] IBGE. Censo Agropecuário 2017: resultados definitivos — Mato Grosso do Sul. Rio de Janeiro: IBGE, 2019. Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/21814-2017-censo-agropecuario.html. Acesso em: jun. 2026.
+
+[48] EMBRAPA PANTANAL. Panorama socioeconômico do Pantanal. Corumbá: Embrapa Pantanal, 2020. Disponível em: https://www.embrapa.br/pantanal. Acesso em: jun. 2026.
+
+[49] IBGE. Censo Agropecuário 2017: acesso à internet e educação nos estabelecimentos agropecuários — resultados definitivos. Rio de Janeiro: IBGE, 2019. Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/21814-2017-censo-agropecuario.html. Acesso em: jun. 2026.
+
+[50] IBGE. Pesquisa Nacional por Amostra de Domicílios Contínua — Educação 2022. Rio de Janeiro: IBGE, 2023. Disponível em: https://www.ibge.gov.br/estatisticas/sociais/educacao/17270-pnad-continua.html. Acesso em: jun. 2026.
+
 [51] ANATEL. Serviço de Comunicação Multimídia (SCM): acessos por tecnologia de acesso. Brasília: Anatel, 2024. Disponível em: https://informacoes.anatel.gov.br/paineis/acesso-a-internet-banda-larga. Acesso em: jun. 2026.
 
 [52] DISTRITO. Agtech Report Brasil 2024. São Paulo: Distrito, 2024. Disponível em: https://distrito.me/agtech-report/. Acesso em: jun. 2026.
@@ -7132,7 +7146,7 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 
 [54] NIELSEN, Jakob. Why You Only Need to Test with 5 Users. Nielsen Norman Group, 19 mar. 2000. Disponível em: https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/. Acesso em: jun. 2026.
 
-[55] ISO 9241-11:2018. Ergonomics of human-system interaction — Part 11: Usability: Definitions and concepts. Geneva: International Organization for Standardization, 2018.
+[55] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO 9241-11:2018: Ergonomics of human-system interaction — Part 11: Usability: Definitions and concepts. Genebra: ISO, 2018.
 
 # <a name="c9"></a>Anexos
 
