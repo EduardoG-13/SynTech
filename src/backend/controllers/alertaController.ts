@@ -1,4 +1,5 @@
 import alertaService from '../services/alertaService';
+import { AppError } from '../utils/AppError';
 
 class AlertaController {
   async criarAlerta(req, res, next) {
@@ -11,16 +12,11 @@ class AlertaController {
     if (latitude === undefined || latitude === null || latitude === '') faltando.push('latitude');
     if (longitude === undefined || longitude === null || longitude === '') faltando.push('longitude');
     if (faltando.length) {
-      return res.status(400).json({
-        erro: 'Campos obrigatórios não preenchidos: ' + faltando.join(', '),
-        recebido: { tipo, capataz_id, retiro_id, latitude, longitude },
-      });
+      return next(new AppError(400, 'Campos obrigatórios não preenchidos: ' + faltando.join(', ') + '. Recebido: ' + JSON.stringify({ tipo, capataz_id, retiro_id, latitude, longitude })));
     }
 
     if (!descricao || descricao.trim().length <= 10) {
-      return res.status(400).json({
-        erro: 'RN-ALERTA: descrição deve ter mais de 10 caracteres'
-      });
+      return next(new AppError(400, 'RN-ALERTA: descrição deve ter mais de 10 caracteres'));
     }
 
     try {
@@ -65,7 +61,7 @@ class AlertaController {
     try {
       // Usa buscarPorId — traz a foto anexada pelo capataz, áudio, retiro_nome, capataz_nome etc.
       const c = await alertaService.obterPorId(req.params.id);
-      if (!c) return res.status(404).json({ erro: 'Chamado não encontrado.' });
+      if (!c) throw new AppError(404, 'Chamado não encontrado.');
       return res.json(c);
     } catch (erro) {
       next(erro);
@@ -80,9 +76,7 @@ class AlertaController {
     const foto_base64 = req.body.foto_base64 || req.body.fotoBase64;
 
     if (!tecnico_id || !solucao) {
-      return res.status(400).json({
-        erro: 'Campos obrigatórios não preenchidos: solucao (e técnico via sessão)'
-      });
+      return next(new AppError(400, 'Campos obrigatórios não preenchidos: solucao (e técnico via sessão)'));
     }
     // foto_base64 é OPCIONAL agora — algumas resoluções não exigem foto
     if (!foto_base64) {
@@ -103,15 +97,15 @@ class AlertaController {
       });
     } catch (erro: any) {
       if (erro.message.includes('ACESSO_NEGADO')) {
-        return res.status(403).json({ erro: erro.message });
+        return next(new AppError(403, erro.message));
       }
 
       if (erro.message === 'CHAMADO_NAO_ENCONTRADO') {
-        return res.status(404).json({ erro: erro.message });
+        return next(new AppError(404, erro.message));
       }
 
       if (erro.message === 'CHAMADO_JA_RESOLVIDO') {
-        return res.status(409).json({ erro: erro.message });
+        return next(new AppError(409, erro.message));
       }
 
       next(erro);

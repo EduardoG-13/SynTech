@@ -322,3 +322,35 @@ Os únicos itens identificados dentro de `unit/` pelo mapeamento são casos ause
 | `src/backend/tests/unit/alertaService.test.ts` | CT-UA02, CT-UA03, CT-UA04 |
 
 Todas as falhas da sprint estão em suites de integração, cujas causas raiz e correções estão documentadas acima.
+
+---
+
+## Task: Corrigir Testes de Integração com Falha
+
+Resultado após a correção: **26 suites, 196 testes, 0 falhas.**
+
+### Causa raiz identificada
+
+`cookie-parser`, `@types/cookie-parser` e `jest-environment-jsdom` já estavam declarados no `package.json` mas não estavam presentes em `node_modules` — `npm install` nunca havia sido executado após esses pacotes serem adicionados ao projeto.
+
+### Correção aplicada
+
+Execução de `npm install`, que sincronizou o `node_modules` com as dependências já declaradas no `package.json`. Nenhum arquivo de teste ou de produção foi modificado.
+
+### Resultado por suite
+
+| Suite | Casos | Status |
+|-------|-------|--------|
+| `src/backend/tests/alertaIntegration.test.ts` | 5 | Passando |
+| `src/backend/tests/auth-jwt.test.ts` | 4 | Passando |
+| `src/backend/tests/contratos-rnf.test.ts` | 9 | Passando |
+| `src/backend/tests/endpoints.test.ts` | 16 | Passando |
+| `src/backend/tests/eventoIntegration.test.ts` | 18 | Passando |
+| `src/backend/tests/frontend.test.ts` | 3 | Passando |
+| `src/backend/tests/offline-operations.test.ts` | 11 | Passando |
+| `src/backend/tests/outros-endpoints.test.ts` | 6 | Passando |
+| `src/backend/tests/sincronizacaoIntegration.test.ts` | 12 | Passando |
+| `src/backend/tests/tarefaIntegration.test.ts` | 7 | Passando |
+| `src/backend/tests/uc01-planejar-tarefas.test.ts` | 15 | Passando |
+| `src/backend/tests/viewRoutes.test.ts` | 8 | Passando |
+| `src/backend/tests/chamados.frontend.test.ts` | 2 | Passando |

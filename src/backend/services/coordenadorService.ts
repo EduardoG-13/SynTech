@@ -1,6 +1,6 @@
 import ExcelJS from 'exceljs';
 import PDFDocument from 'pdfkit';
-import db from '../config/database';
+import coordenadorRepository from '../repositories/coordenadorRepository';
 import { PassThrough } from 'stream';
 
 interface SessUsuario {
@@ -64,37 +64,14 @@ export class CoordenadorService {
 
   private getRetirosDoCoordenador(sess: SessUsuario): string[] | null {
     if (sess.perfil === 'Gerente') return null;
-    const rows = db.prepare(
-      'SELECT id FROM retiros WHERE coordenador_id = ?'
-    ).all(sess.id) as { id: string }[];
-    return rows.map((r) => r.id);
+    return coordenadorRepository.obterRetirosDoCoordenador(sess.id);
   }
 
   // ============ APROVAÇÃO ============
 
   public listarBoletasPendentes(sess: SessUsuario) {
     const retirosPermitidos = this.getRetirosDoCoordenador(sess);
-
-    let sql = `
-      SELECT m.*, u.nome AS capataz_nome, r.nome AS retiro_nome
-      FROM movimentacoes m
-      LEFT JOIN usuarios u ON u.id = m.capataz_id
-      LEFT JOIN retiros r ON r.id = m.retiro_id
-      WHERE m.aprovado_por_coordenador_id IS NULL
-    `;
-    const params: any[] = [];
-
-    if (retirosPermitidos !== null) {
-      if (retirosPermitidos.length === 0) return [];
-      const ph = retirosPermitidos.map(() => '?').join(',');
-      sql += ` AND (m.retiro_id IN (${ph})
-                OR m.retiro_origem_id IN (${ph})
-                OR m.retiro_destino_id IN (${ph}))`;
-      params.push(...retirosPermitidos, ...retirosPermitidos, ...retirosPermitidos);
-    }
-
-    sql += ' ORDER BY m.criado_em DESC';
-    const rows = db.prepare(sql).all(...params) as any[];
+    const rows = coordenadorRepository.listarBoletasPendentes(retirosPermitidos);
 
     const grupos: Record<string, any> = {};
     for (const r of rows) {
@@ -108,10 +85,7 @@ export class CoordenadorService {
   }
 
   public aprovarBoleta(sess: SessUsuario, idOuGrupo: string) {
-    const rows = db.prepare(
-      `SELECT id, retiro_id, retiro_origem_id, retiro_destino_id, grupo_id
-       FROM movimentacoes WHERE id = ? OR grupo_id = ?`
-    ).all(idOuGrupo, idOuGrupo) as any[];
+    const rows = coordenadorRepository.obterBoletaParaAprovacao(idOuGrupo);
 
     if (rows.length === 0) throw new Error('Boleta não encontrada.');
 
@@ -129,68 +103,25 @@ export class CoordenadorService {
       }
     }
 
-    const stmt = db.prepare(`
-      UPDATE movimentacoes
-      SET aprovado_por_coordenador_id = ?, aprovado_em = datetime('now'), validado = 1
-      WHERE id = ?
-    `);
-    for (const r of rows) stmt.run(sess.id, r.id);
+    const ids = rows.map(r => r.id);
+    coordenadorRepository.aprovarMovimentacoes(ids, sess.id);
     return rows.length;
   }
 
   // ============ BUSCA EXPORTAÇÃO ============
 
   public buscarMovimentacoesParaExport(sess: SessUsuario, f: FiltrosExport) {
-    const conds: string[] = [];
-    const params: any[] = [];
-
     const retirosPermitidos = this.getRetirosDoCoordenador(sess);
-    if (retirosPermitidos !== null) {
-      if (retirosPermitidos.length === 0) return [];
-      const ph = retirosPermitidos.map(() => '?').join(',');
-      conds.push(`(m.retiro_id IN (${ph}) OR m.retiro_origem_id IN (${ph}) OR m.retiro_destino_id IN (${ph}))`);
-      params.push(...retirosPermitidos, ...retirosPermitidos, ...retirosPermitidos);
-    }
-
-    if (f.ids) {
-      const idList = String(f.ids).split(',').filter(Boolean);
-      if (idList.length === 0) return [];
-      const ph = idList.map(() => '?').join(',');
-      conds.push(`(m.id IN (${ph}) OR m.grupo_id IN (${ph}))`);
-      params.push(...idList, ...idList);
-    }
-
-    if (f.retiro_id) {
-      conds.push('(m.retiro_id = ? OR m.retiro_origem_id = ? OR m.retiro_destino_id = ?)');
-      params.push(String(f.retiro_id), String(f.retiro_id), String(f.retiro_id));
-    }
-    if (f.data_inicio) { conds.push('m.data >= ?'); params.push(String(f.data_inicio)); }
-    if (f.data_fim) { conds.push('m.data <= ?'); params.push(String(f.data_fim)); }
-    if (f.somente_aprovadas === '1') conds.push('m.aprovado_por_coordenador_id IS NOT NULL');
-
-    const tiposSelecionados = f.tipos ? String(f.tipos).split(',').filter(Boolean) : null;
-    if (tiposSelecionados && tiposSelecionados.length) {
-      const ph = tiposSelecionados.map(() => '?').join(',');
-      conds.push(`m.tipo_operacao IN (${ph})`);
-      params.push(...tiposSelecionados);
-    }
-
-    const where = conds.length ? 'WHERE ' + conds.join(' AND ') : '';
-    const sql = `
-      SELECT m.*,
-             r.nome  AS retiro_nome,
-             ro.nome AS origem_nome,
-             rd.nome AS destino_nome,
-             u.nome  AS capataz_nome
-      FROM movimentacoes m
-      LEFT JOIN retiros  r  ON r.id  = m.retiro_id
-      LEFT JOIN retiros  ro ON ro.id = m.retiro_origem_id
-      LEFT JOIN retiros  rd ON rd.id = m.retiro_destino_id
-      LEFT JOIN usuarios u  ON u.id  = m.capataz_id
-      ${where}
-      ORDER BY m.data DESC, m.criado_em DESC
-    `;
-    return db.prepare(sql).all(...params) as any[];
+    const tiposSelecionados = f.tipos ? String(f.tipos).split(',').filter(Boolean) : undefined;
+    return coordenadorRepository.buscarMovimentacoesParaExport(
+      retirosPermitidos,
+      f.ids,
+      f.retiro_id,
+      f.data_inicio,
+      f.data_fim,
+      f.somente_aprovadas,
+      tiposSelecionados
+    );
   }
 
   public gerarCsv(rows: any[]) {
@@ -293,22 +224,7 @@ export class CoordenadorService {
   // ============ PDF ============
 
   public gerarBoletaPdf(sess: SessUsuario, idOuGrupo: string): { stream: NodeJS.ReadableStream, filename: string } {
-    const rows = db.prepare(`
-      SELECT m.*,
-             r.nome  AS retiro_nome,
-             ro.nome AS origem_nome,
-             rd.nome AS destino_nome,
-             u.nome  AS capataz_nome,
-             c.nome  AS coord_nome
-      FROM movimentacoes m
-      LEFT JOIN retiros  r  ON r.id  = m.retiro_id
-      LEFT JOIN retiros  ro ON ro.id = m.retiro_origem_id
-      LEFT JOIN retiros  rd ON rd.id = m.retiro_destino_id
-      LEFT JOIN usuarios u  ON u.id  = m.capataz_id
-      LEFT JOIN usuarios c  ON c.id  = m.aprovado_por_coordenador_id
-      WHERE m.id = ? OR m.grupo_id = ?
-      ORDER BY m.criado_em ASC
-    `).all(idOuGrupo, idOuGrupo) as any[];
+    const rows = coordenadorRepository.obterMovimentacoesCompletas(idOuGrupo);
 
     if (rows.length === 0) throw new Error('Boleta não encontrada.');
 

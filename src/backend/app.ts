@@ -11,7 +11,7 @@ import { RETIROS } from './config/retiros';
 import routes from './routes/index';
 import viewRoutes from './routes/viewRoutes';
 import authRoutes from './routes/authRoutes';
-import { autenticarJWT } from './middleware/authMiddleware';
+import { autenticarJWT } from './middlewares/authMiddleware';
 import { requireLogin } from './middlewares/authView';
 
 const app = express();
@@ -146,10 +146,8 @@ app.use('/api', autenticarJWT, routes);
 // Rotas de views adicionais
 app.use('/', viewRoutes);
 
-// Error handler global
-app.use((erro: Error, _req: Request, res: Response, _next: NextFunction) => {
-  console.error(erro);
-  res.status(500).json({ erro: 'Erro interno do servidor' });
-});
+import { errorHandler } from './middlewares/errorHandler';
+app.use(errorHandler);
+
 
 export default app;

@@ -202,7 +202,7 @@ describe('POST /api/eventos-zootecnicos/obitos', () => {
 
     expect(res.status).toBe(422);
     expect(res.body).toHaveProperty('erro');
-    expect(res.body.campos_faltantes).toContain('foto_base64');
+    expect(res.body.erro).toContain('foto_base64');
   });
 
   it('400 — payload vazio: todos os campos obrigatórios ausentes', async () => {
@@ -229,7 +229,7 @@ describe('POST /api/eventos-zootecnicos/obitos', () => {
 
     expect(res.status).toBe(422);
     expect(res.body).toHaveProperty('erro');
-    expect(res.body.campos_faltantes).toContain('identificacao_animal');
+    expect(res.body.erro).toContain('identificacao_animal');
   });
 
   it('422 — sem causa_morte (RF013)', async () => {
@@ -247,7 +247,7 @@ describe('POST /api/eventos-zootecnicos/obitos', () => {
 
     expect(res.status).toBe(422);
     expect(res.body).toHaveProperty('erro');
-    expect(res.body.campos_faltantes).toContain('causa_morte');
+    expect(res.body.erro).toContain('causa_morte');
   });
 
   it('400 — sem data (RF013)', async () => {
@@ -265,7 +265,7 @@ describe('POST /api/eventos-zootecnicos/obitos', () => {
 
     expect(res.status).toBe(400);
     expect(res.body).toHaveProperty('erro');
-    expect(res.body.campos_faltantes).toContain('data');
+    expect(res.body.erro).toContain('data');
   });
 });
 

@@ -1,13 +1,10 @@
 import tarefaService from '../services/tarefaService';
+import { AppError } from '../utils/AppError';
 
 class TarefaController {
   async criarTarefa(req, res, next) {
     try {
       const { titulo, descricao, retiro_id, capataz_id, data_execucao, gerente_id } = req.body;
-
-      if (!titulo || !retiro_id || !capataz_id || !data_execucao || !gerente_id) {
-        return res.status(400).json({ erro: 'Campos obrigatórios não preenchidos' });
-      }
 
       const tarefa = await tarefaService.criarTarefa({
         titulo,
@@ -21,14 +18,14 @@ class TarefaController {
       return res.status(201).json({ id: tarefa.id, mensagem: 'Tarefa criada com sucesso', tarefa });
     } catch (erro) {
       if (erro.message.includes('não pertence ao retiro')) {
-        return res.status(422).json({ erro: erro.message });
+        return next(new AppError(422, erro.message));
       }
       if (
         erro.message.includes('retroativa') ||
         erro.message.includes('em branco') ||
         erro.message.includes('não é um Capataz válido')
       ) {
-        return res.status(400).json({ erro: erro.message });
+        return next(new AppError(400, erro.message));
       }
       next(erro);
     }
@@ -39,7 +36,7 @@ class TarefaController {
       const capataz_id = req.query.capataz_id || req.body.capataz_id;
 
       if (!capataz_id) {
-        return res.status(400).json({ erro: 'capataz_id obrigatório' });
+        throw new AppError(400, 'capataz_id obrigatório');
       }
 
       const tarefas = await tarefaService.buscarTarefasHoje(capataz_id);
@@ -54,18 +51,14 @@ class TarefaController {
       const { id } = req.params;
       const { capataz_id } = req.body;
 
-      if (!id || !capataz_id) {
-        return res.status(400).json({ erro: 'campos obrigatórios não preenchidos' });
-      }
-
       const tarefaAtualizada = await tarefaService.concluirTarefa(id, capataz_id);
       return res.status(200).json({ mensagem: 'Tarefa concluída com sucesso', tarefa: tarefaAtualizada });
     } catch (erro) {
       if (erro.message.includes('não encontrada')) {
-        return res.status(404).json({ erro: erro.message });
+        return next(new AppError(404, erro.message));
       }
       if (erro.message.includes('já está concluída')) {
-        return res.status(409).json({ erro: erro.message });
+        return next(new AppError(409, erro.message));
       }
       next(erro);
     }
@@ -76,8 +69,8 @@ class TarefaController {
       const { id } = req.params;
       const { tipo, arquivo_base64, capataz_id, geolocalizacao } = req.body;
 
-      if (!id || !tipo || !capataz_id || (!arquivo_base64 && tipo !== 'TEXTO')) {
-        return res.status(400).json({ erro: 'campos obrigatórios não preenchidos' });
+      if (!arquivo_base64 && tipo !== 'TEXTO') {
+        throw new AppError(400, 'Arquivo base64 é obrigatório para este tipo de evidência');
       }
 
       const result = await tarefaService.anexarEvidencia(id, capataz_id, {
@@ -89,13 +82,13 @@ class TarefaController {
       return res.status(201).json({ mensagem: 'Evidência salva com sucesso', evidencia_id: result.evidencia_id });
     } catch (erro) {
       if (erro.message?.includes('não encontrada')) {
-        return res.status(404).json({ erro: erro.message });
+        return next(new AppError(404, erro.message));
       }
       if (erro.message?.includes('formato válido')) {
-        return res.status(400).json({ erro: erro.message });
+        return next(new AppError(400, erro.message));
       }
       if (erro.message?.includes('muito grande')) {
-        return res.status(413).json({ erro: erro.message });
+        return next(new AppError(413, erro.message));
       }
       next(erro);
     }
