@@ -6784,6 +6784,66 @@ A maioria dos participantes (57,1%) discordou da necessidade de suporte técnico
 
 ---
 
+**Questão 5 — "Eu achei que as várias funções neste sistema estão bem integradas."**
+
+Esta é uma questão de polaridade positiva no SUS: pontuações mais altas indicam que os participantes percebem coerência e integração entre as funcionalidades do sistema. As respostas foram as seguintes:
+
+| Participante | Resposta |
+|---|---|
+| P1 | 4 |
+| P2 | 3 |
+| P3 | 5 |
+| P4 | 5 |
+| P5 | 5 |
+| P6 | 5 |
+| P7 | 5 |
+
+A distribuição das respostas é apresentada a seguir:
+
+| Escala | Frequência | Proporção |
+|---|---|---|
+| 5 — Concordo totalmente | 5 | 71,4% |
+| 4 — Concordo | 1 | 14,3% |
+| 3 — Neutro | 1 | 14,3% |
+| 2 — Discordo | 0 | 0,0% |
+| 1 — Discordo totalmente | 0 | 0,0% |
+
+**Média: 4,57 / 5,0**
+
+Esta questão obteve a maior média registrada até o momento no questionário. Cinco dos sete participantes (71,4%) concordaram plenamente que as funções do sistema estão bem integradas, e nenhum expressou discordância. O resultado indica que os fluxos entre os diferentes perfis de usuário — Capataz, Gerente e Coordenador — e entre os módulos da aplicação foram percebidos como coesos e consistentes, o que é especialmente relevante em um sistema com operação offline e sincronização assíncrona.
+
+---
+
+**Questão 6 — "Eu achei que havia muita inconsistência neste sistema."**
+
+Esta é uma questão de polaridade negativa no SUS: pontuações mais baixas indicam que os participantes não percebem inconsistências na interface. As respostas foram as seguintes:
+
+| Participante | Resposta |
+|---|---|
+| P1 | 2 |
+| P2 | 2 |
+| P3 | 2 |
+| P4 | 2 |
+| P5 | 1 |
+| P6 | 1 |
+| P7 | 2 |
+
+A distribuição das respostas é apresentada a seguir:
+
+| Escala | Frequência | Proporção |
+|---|---|---|
+| 5 — Concordo totalmente | 0 | 0,0% |
+| 4 — Concordo | 0 | 0,0% |
+| 3 — Neutro | 0 | 0,0% |
+| 2 — Discordo | 5 | 71,4% |
+| 1 — Discordo totalmente | 2 | 28,6% |
+
+**Média: 1,71 / 5,0**
+
+Esta questão apresenta o resultado mais homogêneo de todo o questionário: todos os sete participantes discordaram da afirmação, sem nenhuma resposta neutra ou de concordância. O resultado reforça o que a Q5 já indicava — os participantes perceberam o sistema como coerente e consistente em seus diferentes fluxos e módulos, o que é um indicador robusto de qualidade na padronização da interface.
+
+---
+
 _Dados brutos coletados via Google Forms:_
 
 "Carimbo de data/hora","Nome de usuário","Eu acho que gostaria de usar este sistema com frequencia.","Eu achei o sistema desnecessariamente complexo.","Eu achei o sistema facil de usar.","Eu acho que precisaria de ajuda de uma pessoa tecnica para ser capaz de usar este sistema.","Eu achei que as varias funcoes neste sistema estao bem integradas.","Eu achei que havia muita inconsistencia neste sistema.","Eu imagino que a maioria das pessoas aprenderia a usar este sistema muito rapidamente.","Eu achei o sistema muito complicado de usar.","Eu me senti muito confiante ao usar o sistema.","Eu precisei aprender muitas coisas novas antes de conseguir usar este sistema."
