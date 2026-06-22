@@ -1337,7 +1337,7 @@ graph TD
 ```
 
 <center>
-  <p><strong>Figura 8.1</strong> — Arquitetura de Sincronização em 3 Camadas do BrPec</p>
+  <p><strong>Figura 8</strong> — Arquitetura de Sincronização em 3 Camadas do BrPec</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1379,7 +1379,7 @@ O Sistema BrPec adota o padrão **Arquitetura em Camadas (Layered Architecture)*
 A solução é composta por **cinco camadas lógicas** no backend, implementadas em Node.js + Express.js, com persistência em PostgreSQL gerenciado pelo Supabase:
 
 <center>
-  <p><strong>Figura 8</strong> — Diagrama de Arquitetura em Camadas do Sistema BrPec</p>
+  <p><strong>Figura 9</strong> — Diagrama de Arquitetura em Camadas do Sistema BrPec</p>
   <img src="./assets/diagramaArquitetura.png" width="800" alt="Diagrama da arquitetura em camadas Controller-Service-Repository do BrPec"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -1486,7 +1486,7 @@ Os casos de uso do Sistema BrPec foram definidos com o objetivo de representar, 
 Cada caso de uso está associado a um requisito funcional (RF), garantindo rastreabilidade entre as necessidades identificadas e as funcionalidades implementadas. A seguir, são detalhados os principais casos de uso do sistema.
 
 <center>
-  <p><strong>Figura 9</strong> — Diagrama de Caso de Uso aplicado à BrPec Agropecuária</p>
+  <p><strong>Figura 10</strong> — Diagrama de Caso de Uso aplicado à BrPec Agropecuária</p>
   <img src="../assets/diagramaDeUso.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -1846,7 +1846,7 @@ classDiagram
 ```
 
 <center>
-  <p><strong>Figura 10</strong> — Diagrama de Classes do Domínio do Sistema BrPec (Mermaid UML)</p>
+  <p><strong>Figura 11</strong> — Diagrama de Classes do Domínio do Sistema BrPec (Mermaid UML)</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2341,7 +2341,7 @@ flowchart TD
 ```
 
 <center>
-  <p><strong>Figura 10</strong> — Diagrama de Classes Arquitetural do Sistema BrPec</p>
+  <p><strong>Figura 12</strong> — Diagrama de Classes Arquitetural do Sistema BrPec</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2924,7 +2924,7 @@ sequenceDiagram
 O diagrama de atividades abaixo representa o fluxo de execução de tarefas no sistema BrPec, contemplando o funcionamento offline-first da aplicação. O processo inicia com a criação da tarefa pelo gerente, passando pela disponibilização ao capataz, execução da atividade em campo e sincronização dos dados com o sistema central. O fluxo foi modelado utilizando UML, mantendo consistência de notação ao longo de toda a representação.
 
 <center>
-  <p><strong>Figura 11</strong> — Diagrama de Estados do Sistema BrPec</p>
+  <p><strong>Figura 13</strong> — Diagrama de Estados do Sistema BrPec</p>
   <img src="./assets/diagramaDeEstados.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -2985,7 +2985,7 @@ flowchart TD
 ```
 
 <center>
-  <p><strong>Figura 12</strong> — Diagrama de Implantação Física do Sistema BrPec</p>
+  <p><strong>Figura 14</strong> — Diagrama de Implantação Física do Sistema BrPec</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3181,40 +3181,40 @@ Os fluxos de navegação estão organizados em quatro jornadas principais:
 
 ### Fluxo 1 — Capataz: visualizar e concluir tarefas com evidências (US02, US03, US04)
 #### Tela de Tarefas:
-Este wireframe (figura 10) representa a interface destinada ao Capataz, com design responsivo adaptado para dispositivos móveis (parte da esquerda) e desktop (parte da direita). 
+Este wireframe (Figura 15) representa a interface destinada ao Capataz, com design responsivo adaptado para dispositivos móveis (parte da esquerda) e desktop (parte da direita). 
 
 Esta tela é o ponto de entrada do Capataz no aplicativo. Na parte central é possível ver uma lista com as tarefas pendentes organizadas automaticamente por ordem de importância, garantindo que as atividades críticas sejam atendidas primeiro mesmo offline, atendendo a (US02). Na parte inferior da interface, há um botão "Nova O.S." que permite a criação imediata de novas Ordens de Serviço, eliminando a necessidade de anotações manuais. 
 
 Em relação à navegação e detalhes, o botão "Todos" permite que, ao clicar, o usuário expanda a visualização para uma gestão completa do histórico de atividades, enquanto o botão "Rebanhos" provê acesso às informações do rebanho e dados zootécnicos. Ao selecionar uma tarefa específica no detalhamento de tarefas, o sistema exibe uma tela com as especificações detalhadas e orientações para a execução. 
 
 <center>
-  <p><strong>Figura 12</strong> — Wireframe da tela de lista de tarefas do Capataz (US02)</p>
+  <p><strong>Figura 15</strong> — Wireframe da tela de lista de tarefas do Capataz (US02)</p>
   <img src="./assets/wireframeCapatazTarefas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 #### Informações sobre a tarefa:
-A Figura 11 ilustra a interface de Detalhamento da Tarefa, acessada após o Capataz selecionar uma atividade específica na lista principal. A solução foi priorizada para dispositivos móveis, considerando que esse usuário atua majoritariamente em campo, com necessidade de acesso rápido, offline e simplificado às informações operacionais. A versão desktop é apresentada apenas como adaptação responsiva da interface, garantindo consistência visual caso o sistema seja acessado em telas maiores, mas não representa o dispositivo principal da persona.
+A Figura 16 ilustra a interface de Detalhamento da Tarefa, acessada após o Capataz selecionar uma atividade específica na lista principal. A solução foi priorizada para dispositivos móveis, considerando que esse usuário atua majoritariamente em campo, com necessidade de acesso rápido, offline e simplificado às informações operacionais. A versão desktop é apresentada apenas como adaptação responsiva da interface, garantindo consistência visual caso o sistema seja acessado em telas maiores, mas não representa o dispositivo principal da persona.
 
 Para assegurar a execução precisa da ordem de serviço, a tela centraliza todo o conteúdo da tarefa, incluindo a identificação com título da atividade e descrição detalhada do serviço, os parâmetros de controle com prazo de entrega e nível de prioridade, e os recursos multimídia como reprodutor de áudio (instruções gravadas pelo Gerente) e visualização de fotos para referência visual do local ou do problema, atendendo a (US02).
 
 Quanto às ações do usuário, um botão de "Iniciar Tarefa" permite o controle de fluxo para registrar o exato momento em que a atividade começa, mesmo offline, gerando dados de produtividade, enquanto um botão de retorno estrategicamente posicionado permite a navegação para voltar à tela inicial de tarefas de forma rápida.
 
 <center>
-<p><strong>Figura 13</strong> — Wireframe da tela de detalhes sobre a tarefa do Capataz (US02)</p>
+<p><strong>Figura 16</strong> — Wireframe da tela de detalhes sobre a tarefa do Capataz (US02)</p>
  <img src="./assets/wireframeCapatazConcluirTarefaTablet.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 #### Concluir tarefa:
-A Figura 12 detalha a interface de Conclusão de Atividade, etapa final do fluxo de trabalho do Capataz, com uma tela projetada para garantir a confiabilidade dos dados e o registro fiel do que foi executado em campo. 
+A Figura 17 detalha a interface de Conclusão de Atividade, etapa final do fluxo de trabalho do Capataz, com uma tela projetada para garantir a confiabilidade dos dados e o registro fiel do que foi executado em campo. 
 
 Para a confirmação de atividade e evitar erros operacionais, a tela exibe o título da tarefa em progresso, permitindo que o usuário valide se está encerrando o chamado correto, apresentando também as evidências e feedback através do registro fotográfico, com opção para anexar uma imagem da tarefa concluída para servir como comprovante visual da execução (ex: um animal tratado), e do campo de observações, espaço dedicado para que o Capataz relate eventuais problemas encontrados, comentários pertinentes ou detalhes que fujam ao padrão da ordem de serviço, podendo ser preenchido de forma escrita ou por áudio.
 
 Por fim, para o encerramento, o botão "Salvar" consolida as informações, e depois o de "Concluir", que só aparecerá após salvas as informações, altera o status da tarefa no sistema e prepara os dados para a sincronização com o banco de dados central.
 
 <center>
-  <p><strong>Figura 14</strong> — Wireframe da tela de concluir tarefa do Capataz (US04) e (US05) </p>
+  <p><strong>Figura 17</strong> — Wireframe da tela de concluir tarefa do Capataz (US04) e (US05) </p>
   <img src="./assets/wireframeCapatazAnexarFotos.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3224,26 +3224,26 @@ Por fim, para o encerramento, o botão "Salvar" consolida as informações, e de
 ### Fluxo 2 — Capataz, Coordenador e Técnico: emitir e resolver alertas de infraestrutura (US06)
 #### Tela Infraestrutura:
 
-A Figura 13 apresenta a interface de Gestão de Infraestrutura, onde o Gerente e o Capataz podem monitorar e organizar as manutenções da fazenda (US06) e (US07), com uma tela que segue o padrão de design responsivo para uso em dispositivos móveis e desktop. 
+A Figura 18 apresenta a interface de Gestão de Infraestrutura, onde o Gerente e o Capataz podem monitorar e organizar as manutenções da fazenda (US06) e (US07), com uma tela que segue o padrão de design responsivo para uso em dispositivos móveis e desktop. 
 
 Para facilitar a organização, a categorização de chamados agrupa as demandas de manutenção em três seções principais, sendo hidráulica (gestão de bebedouros, bombas e encanamentos), cerca (reparos e vistorias de perímetros e divisões de pastos) e elétrica (manutenção de cercas elétricas, painéis e iluminação). 
 
 Ao selecionar uma categoria, o sistema permite o monitoramento de status e detalha o fluxo de trabalho através de indicadores específicos, como pendentes/abertos para visualização da quantidade de novos chamados, em andamento para acompanhamento dos serviços iniciados e o histórico semanal como relatório de chamados concluídos nos últimos sete dias. Como ação rápida, dentro de cada seção, existe a funcionalidade de criar uma nova Ordem de Serviço (O.S.) específica para aquele setor, garantindo que o registro seja feito no local do problema.
 
 <center>
-  <p><strong>Figura 15</strong> — Wireframe do painel de infraestrutura (US06) e (US07)</p>
+  <p><strong>Figura 18</strong> — Wireframe do painel de infraestrutura (US06) e (US07)</p>
   <img src="./assets/wireframeInfraestrutura.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 #### Nova O.S.:
 
-A Figura 14 ilustra a interface de Abertura de Nova Ordem de Serviço (O.S.), acessível para os perfis do Gerente e do Capataz, onde a tela adota o padrão de design responsivo, operando perfeitamente em dispositivos móveis e desktop. No fluxo de acesso do Gerente, o processo de criação segue a mesma jornada padronizada de abertura de tarefas comuns, de modo que, após acessar o painel de criação, o Gerente deve selecionar o botão "Infraestrutura" para habilitar o formulário específico de manutenção. Já no fluxo do Capataz, esse acesso seria através do botão de "Nova O.S." presente na tela inicial e não apareceria a opção de selecionar a equipe "Capataz", atendendo a (US06) e a (US07). 
+A Figura 19 ilustra a interface de Abertura de Nova Ordem de Serviço (O.S.), acessível para os perfis do Gerente e do Capataz, onde a tela adota o padrão de design responsivo, operando perfeitamente em dispositivos móveis e desktop. No fluxo de acesso do Gerente, o processo de criação segue a mesma jornada padronizada de abertura de tarefas comuns, de modo que, após acessar o painel de criação, o Gerente deve selecionar o botão "Infraestrutura" para habilitar o formulário específico de manutenção. Já no fluxo do Capataz, esse acesso seria através do botão de "Nova O.S." presente na tela inicial e não apareceria a opção de selecionar a equipe "Capataz", atendendo a (US06) e a (US07). 
   
 Para garantir o direcionamento correto da demanda, os campos e parâmetros de cadastro oferecem preenchimento para o tipo de chamado, realizando a classificação da O.S. entre as três categorias principais da fazenda, que são Hidráulica, Cerca ou Elétrica, para a definição de prioridade, com a atribuição do nível de urgência do reparo (ex: Alta, Média, Baixa) para auxiliar na organização da fila de trabalho do Capataz, para o prazo ideal, definindo uma data limite esperada para a conclusão do serviço, e para o detalhamento técnico, que consiste em um campo descritivo para que o gestor insira todas as informações, orientações e especificações necessárias, garantindo clareza para a equipe de execução em campo.
 
 <center>
-  <p><strong>Figura 16</strong> — Wireframe da tela de criação de nova O.S. pelo Gerente (US06) e (US07)</p>
+  <p><strong>Figura 19</strong> — Wireframe da tela de criação de nova O.S. pelo Gerente (US06) e (US07)</p>
   <img src="./assets/wireframeGerenteNovaOs.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3251,14 +3251,14 @@ Para garantir o direcionamento correto da demanda, os campos e parâmetros de ca
 
 #### Tela Infraestrutura- registrar resolução:
 
-A Figura 15 detalha a interface de Detalhes do Chamado, permitindo que o funcionário da Infraestrutura formalize o encerramento dos chamados de infraestrutura, mantendo a responsividade para facilitar o uso tanto no campo quanto no escritório. 
+A Figura 20 detalha a interface de Detalhes do Chamado, permitindo que o funcionário da Infraestrutura formalize o encerramento dos chamados de infraestrutura, mantendo a responsividade para facilitar o uso tanto no campo quanto no escritório. 
 
 O formulário de registro de solução permite documentar o fechamento da tarefa com precisão, incluindo a descrição da atividade com o relato detalhado do que foi executado para resolver o problema, dados temporais com o registro da data e horário de conclusão, e evidência visual por meio de campo para anexar fotos que comprovem a resolução do chamado. 
 
 Além disso, uma funcionalidade crítica desta tela é a linha do tempo (histórico do chamado), que permite a visualização do ciclo de vida da tarefa apresentando todas as fases até a entrega final, como a abertura, com o registro de quando o chamado foi criado e por quem, o andamento, indicando o horário em que a tarefa foi iniciada e o tempo de resposta, e a conclusão, marcando o momento exato da resolução e permitindo o cálculo da eficiência operacional. Essas informações poderão ser vistas pelos Gerentes e Capatazes também, atendendo ao (US06) e ao (US07).
 
 <center>
-  <p><strong>Figura 17</strong> — Wireframe da tela de registrar resolução- infraestrutura</p>
+  <p><strong>Figura 20</strong> — Wireframe da tela de registrar resolução- infraestrutura</p>
   <img src="./assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3268,20 +3268,20 @@ Além disso, uma funcionalidade crítica desta tela é a linha do tempo (histór
 ### Fluxo 3 — Gerente: acompanhar painel e criar ordens de serviço (US07, US01)
 #### Dashboard inicial:
 
-A Figura 16 ilustra a Interface Principal (Dashboard) destinada aos perfis de Gerente e Coordenador, desenvolvida com design responsivo para dispositivos móveis e desktop, onde esta tela funciona como o núcleo centralizador para o monitoramento e a tomada de decisões na fazenda. 
+A Figura 21 ilustra a Interface Principal (Dashboard) destinada aos perfis de Gerente e Coordenador, desenvolvida com design responsivo para dispositivos móveis e desktop, onde esta tela funciona como o núcleo centralizador para o monitoramento e a tomada de decisões na fazenda. 
 
 Os indicadores do painel central oferecem uma visão macro e em tempo real das operações, permitindo acesso rápido aos chamados por retiro, com a distribuição volumétrica das demandas de manutenção entre as áreas da propriedade, à evolução dos chamados, através de gráficos ou métricas que demonstram o ritmo de abertura e fechamento de ordens de serviço, aos alertas em aberto, com notificações críticas que exigem atenção imediata da gestão, e às prioridades, que trazem uma lista consolidada das tarefas mais urgentes em execução no campo. 
 
 No menu de navegação lateral (desktop), posicionado no canto esquerdo da interface, destacam-se abas estruturadas para navegação direta nas seguintes verticais: retiros, para detalhamento de estoque de rebanho e infraestrutura local; ordens, para a gestão e distribuição de novas Ordens de Serviço; e alertas, consistindo em um painel dedicado à triagem de ocorrências críticas, atendendo a (US07).
 
 <center>
-  <p><strong>Figura 18</strong> — Wireframe da tela de dashboard do Gerente e Coordenador (US07)</p>
+  <p><strong>Figura 21</strong> — Wireframe da tela de dashboard do Gerente e Coordenador (US07)</p>
   <img src="./assets/wireframeGerenteCoordenadorDashboard.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 #### Nova O.S.:
-A Figura 14 (citada anteriormente) ilustra a interface unificada de Abertura de Demandas, utilizada pelo Gerente para delegar atividades tanto para a equipe de manutenção quanto para os Capatazes de campo, adotando o padrão de design responsivo para dispositivos móveis e desktop. 
+A Figura 19 (citada anteriormente) ilustra a interface unificada de Abertura de Demandas, utilizada pelo Gerente para delegar atividades tanto para a equipe de manutenção quanto para os Capatazes de campo, adotando o padrão de design responsivo para dispositivos móveis e desktop. 
 
 No fluxo de seleção de tipo, ao acessar o painel, o gestor pode alternar entre duas verticais de trabalho, sendo elas a de infraestrutura, para manutenção Hidráulica, Cerca ou Elétrica, e a de operações de manejo, para demandas zootécnicas direcionadas diretamente aos Capatazes, tais como Movimentação de Rebanho, Registro de Óbito, entre outras. 
 
@@ -3292,11 +3292,11 @@ Para garantir o direcionamento correto e a clareza da atividade, os campos e par
 ### Fluxo 4 — Coordenador: visualizar movimentações e exportar dados consolidados (US11, US12)
 #### Dashboard inicial:
 
-A Interface Principal (Dashboard) destinada aos perfis de Gerente e Coordenador, desenvolvida com design responsivo para dispositivos móveis e desktop, funciona como o núcleo centralizador para o monitoramento e a tomada de decisões na fazenda. Ela foi descrita anteriormente, no fluxo 3, na parte de "Dashboard inicial". O respectivo wireframe foi apresentado na Figura 16.
+A Interface Principal (Dashboard) destinada aos perfis de Gerente e Coordenador, desenvolvida com design responsivo para dispositivos móveis e desktop, funciona como o núcleo centralizador para o monitoramento e a tomada de decisões na fazenda. Ela foi descrita anteriormente, no fluxo 3, na parte de "Dashboard inicial". O respectivo wireframe foi apresentado na Figura 21.
 
 #### Tela de movimentações (boletas digitais):
 
-A Figura 17, ilustra a tela de movimentações. A interface foi projetada em design responsivo para uso em desktop e dispositivos móveis, permitindo ao Coordenador acessar, revisar e validar os registros enviados pelos Capatazes após a sincronização.
+A Figura 22, ilustra a tela de movimentações. A interface foi projetada em design responsivo para uso em desktop e dispositivos móveis, permitindo ao Coordenador acessar, revisar e validar os registros enviados pelos Capatazes após a sincronização.
 
 Na parte central da tela, é exibida uma lista consolidada de todos os retiros, sendo possível, ao clicar em um deles, visualizar os detalhes das movimentações zootécnicas registradas, contendo as informações essenciais de cada evento: tipo de movimentação (nascimento, óbito, transferência ou compra/venda), retiro de origem, categoria animal, quantidade, data do registro e Capataz responsável (US11).
 
@@ -3305,7 +3305,7 @@ Para facilitar a gestão dos registros, a interface disponibiliza filtros por re
 Além disso, o Coordenador dispõe de um botão de exportação posicionado de forma destacada na interface, permitindo gerar e baixar um arquivo em formato Excel/CSV contendo os registros filtrados (US12). A exportação respeita a estrutura de colunas padronizada e compatível com os templates legados utilizados pela coordenação da BrPec, contemplando: data, retiro, tipo de evento, categoria animal, quantidade e Capataz responsável.
 
 <center>
-  <p><strong>Figura 19</strong> — Wireframe da tela de lista de movimentações do Coordenador (US11)</p>
+  <p><strong>Figura 22</strong> — Wireframe da tela de lista de movimentações do Coordenador (US11)</p>
   <img src="./assets/wireframeListaDeBoletos.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3334,12 +3334,12 @@ Um guia de estilo (style guide) é um documento de referência que centraliza to
 O Guia de Estilos navegável completo está disponível em: [Figma - SynTech](https://www.figma.com/design/CnhVA41sJORDmEQ1DLbxfY/SynTech?node-id=198-939)
 
 <center>
-  <p><strong>Figura 18</strong> - Guia de Estilos Completo</p>
+  <p><strong>Figura 23</strong> - Guia de Estilos Completo</p>
   <img src="./assets/guiaDeEstilos.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-A Figura 18 apresenta o guia de estilos completo da plataforma SynTech, consolidando em uma única visualização as decisões visuais do produto: paleta de cores, escala tipográfica, biblioteca de ícones e componentes de interface. O documento serve como referência central para garantir consistência entre design e desenvolvimento ao longo de todo o projeto.
+A Figura 23 apresenta o guia de estilos completo da plataforma SynTech, consolidando em uma única visualização as decisões visuais do produto: paleta de cores, escala tipográfica, biblioteca de ícones e componentes de interface. O documento serve como referência central para garantir consistência entre design e desenvolvimento ao longo de todo o projeto.
 
 ### 3.4.1 Cores
 
@@ -3387,7 +3387,7 @@ A escolha tipográfica em interfaces digitais vai além da estética. Fontes sem
 A tipografia da solução utiliza a família **Inter**, disponível gratuitamente via Google Fonts, projetada especificamente para interfaces digitais e com alto desempenho em tamanhos reduzidos e em condições adversas de luminosidade [2].
 
 <center>
-  <p><strong>Figura 19</strong> - Fonte Inter e suas variações</p>
+  <p><strong>Figura 24</strong> - Fonte Inter e suas variações</p>
   <img src="./assets/interFont.png" width="800"/>
   <p>Fonte: Font Squirrel.</p>
 </center>
@@ -3471,7 +3471,7 @@ No guia de estilo, a seção de imagens define quais assets visuais estáticos f
 No caso desta solução, o único asset de imagem utilizado é o **logotipo da SynTech**, a plataforma web do projeto. Ele deve ser tratado como elemento protegido da identidade visual: sua proporção não deve ser alterada e sua aplicação se limita ao cabeçalho da plataforma, garantindo reconhecimento consistente da marca ao longo de toda a experiência do usuário.
 
 <center>
-  <p><strong>Figura 20</strong> - Logotipo SynTech</p>
+  <p><strong>Figura 25</strong> - Logotipo SynTech</p>
   <img src="./assets/syntech.png" width="300"/>
   <p>Fonte: Próprios autores.</p>
 </center>
@@ -3528,7 +3528,7 @@ A tela de tarefas é a interface principal do Capataz. Projetada para exibir ape
 - **CR3 (US02):** As tarefas são exibidas de forma organizada e de fácil entendimento.
 
 <center>
-  <p><strong>Figura 20</strong> — Protótipo de Alta Fidelidade: Tela de Tarefas do Capataz (Mobile e Desktop)</p>
+  <p><strong>Figura 26</strong> — Protótipo de Alta Fidelidade: Tela de Tarefas do Capataz (Mobile e Desktop)</p>
   <img src="./assets/mockups/mockupTarefas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3552,7 +3552,7 @@ A tela de detalhe exibe todas as informações necessárias para que o Capataz e
 - **CR3 (US02):** O botão "Iniciar Tarefa" registra localmente o início da execução, mesmo offline.
 
 <center>
-  <p><strong>Figura 19</strong> — Protótipo de Alta Fidelidade: Tela de Detalhe da Tarefa do Capataz (Mobile e Desktop)</p>
+  <p><strong>Figura 27</strong> — Protótipo de Alta Fidelidade: Tela de Detalhe da Tarefa do Capataz (Mobile e Desktop)</p>
   <img src="./assets/mockups/mockupRebanho.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3577,7 +3577,7 @@ A tela de conclusão de tarefa centraliza todas as ações necessárias para o C
 - **CR1 (US05):** O Capataz grava e anexa um áudio curto explicando detalhes da execução sem precisar digitar.
 
 <center>
-  <p><strong>Figura 20</strong> — Protótipo de Alta Fidelidade: Tela de Concluir Tarefa do Capataz (Mobile e Desktop)</p>
+  <p><strong>Figura 28</strong> — Protótipo de Alta Fidelidade: Tela de Concluir Tarefa do Capataz (Mobile e Desktop)</p>
   <img src="./assets/mockups/mockupConcluirTarefas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3609,7 +3609,7 @@ Fechados), permitindo triagem imediata por prioridade de atendimento.
 abertura rápida de um novo chamado diretamente do painel.
 
 <center>
-  <p><strong>Figura 21</strong> — Protótipo de Alta Fidelidade: Painel de Infraestrutura (Mobile e Desktop)</p>
+  <p><strong>Figura 29</strong> — Protótipo de Alta Fidelidade: Painel de Infraestrutura (Mobile e Desktop)</p>
   <img src="./assets/mockups/alta-fidelidade-infraestrutura-painel.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3633,7 +3633,7 @@ A tela de criação de nova Ordem de Serviço centraliza todos os campos necess�
 - **CR3 (US01):** O Gerente pode anexar áudio e foto à O.S. para complementar as instruções enviadas ao Capataz.
 
 <center>
-  <p><strong>Figura 22</strong> — Protótipo de Alta Fidelidade: Tela de Nova Ordem de Serviço do Gerente (Mobile e Desktop)</p>
+  <p><strong>Figura 30</strong> — Protótipo de Alta Fidelidade: Tela de Nova Ordem de Serviço do Gerente (Mobile e Desktop)</p>
   <img src="./assets/mockups/alta-fidelidade-gerente-nova-os.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3658,7 +3658,7 @@ A tela de registro de resolução é acessada pelo técnico de infraestrutura ap
 - **CR3 (US06):** O botão "Salvar Resolução" encerra o chamado e atualiza seu status no painel de infraestrutura.
 
 <center>
-  <p><strong>Figura 23</strong> — Protótipo de Alta Fidelidade: Tela de Registrar Resolução de Chamado (Mobile e Desktop)</p>
+  <p><strong>Figura 31</strong> — Protótipo de Alta Fidelidade: Tela de Registrar Resolução de Chamado (Mobile e Desktop)</p>
   <img src="./assets/mockups/alta-fidelidade-infraestrutura-resolver-chamado.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3683,7 +3683,7 @@ O dashboard é a tela inicial do Gerente e do Coordenador, oferecendo uma visão
 - **CR3 (US07):** O Gerente pode filtrar os indicadores por retiro e por período diretamente no painel.
 
 <center>
-  <p><strong>Figura 24</strong> — Protótipo de Alta Fidelidade: Dashboard do Gerente e Coordenador (Mobile e Desktop)</p>
+  <p><strong>Figura 32</strong> — Protótipo de Alta Fidelidade: Dashboard do Gerente e Coordenador (Mobile e Desktop)</p>
   <img src="./assets/mockups/alta-fidelidade-gerente-coordenador-painel.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3709,7 +3709,7 @@ A tela de boletas é a interface principal do Coordenador para acesso e exporta�
 - **CR2 (US12):** Cada boleta exibe informações suficientes para identificação do registro antes do download.
 
 <center>
-  <p><strong>Figura 25</strong> — Protótipo de Alta Fidelidade: Tela de Lista de Boletas do Coordenador (Mobile e Desktop)</p>
+  <p><strong>Figura 33</strong> — Protótipo de Alta Fidelidade: Tela de Lista de Boletas do Coordenador (Mobile e Desktop)</p>
   <img src="./assets/mockups/alta-fidelidade-coordenador-boletas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3794,7 +3794,7 @@ Este diagrama registra a estrutura de dados concebida na sprint 2, com a Boleta 
 A seção 3.6.1 apresenta a versão conceitual consolidada após a evolução deste DER: a Boleta deixa de ser uma entidade isolada e passa a ser materializada pelos registros de Movimentação, Tarefa, Alerta e Evidência. Essa decisão separou melhor as responsabilidades de cada entidade e eliminou atributos que não são pertinentes a todos os tipos de evento.
 
 <center>
-  <p><strong>Figura 21</strong> — DER conceitual da sprint 2 — BRPec Agropecuária</p>
+  <p><strong>Figura 34</strong> — DER conceitual da sprint 2 — BRPec Agropecuária</p>
 </center>
 
 <img src="./assets/modelo-er-brpec.png" width="800"/>
@@ -5701,7 +5701,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de seleção de perfil** — ponto de entrada do sistema, onde o usuário seleciona seu perfil (Capataz, Infraestrutura, Coordenador ou Gerente) por meio de botões com ícones representativos, seguindo o princípio de redução de digitação definido na persona do Capataz.
 
 <center>
-  <p><strong>Figura 25a</strong> — Primeira versão: Tela de Seleção de Perfil (Real)</p>
+  <p><strong>Figura 35</strong> — Primeira versão: Tela de Seleção de Perfil (Real)</p>
   <img src="./assets/prints-v1/01-login-perfil.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5709,7 +5709,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de seleção de retiro** — exibida após o Capataz selecionar seu perfil, apresenta a lista dos 15 retiros reais da BrPec (Acurizal, Aroeira, Baia Bonita, Bodoquena 1, Bodoquena 2, Boqueirão, Caieira, CMB, Confinamento, Cristo, Morada Nova, Morro Azul, Puga, São Miguel e Vista Alegre) com busca por nome, permitindo navegação rápida mesmo em dispositivos com tela reduzida.
 
 <center>
-  <p><strong>Figura 25b</strong> — Primeira versão: Tela de Seleção de Retiro (Real)</p>
+  <p><strong>Figura 36</strong> — Primeira versão: Tela de Seleção de Retiro (Real)</p>
   <img src="./assets/prints-v1/02-login-retiro.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5717,7 +5717,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de lista de tarefas (US02)** — exibe as tarefas do dia com cards contendo barra lateral colorida por status (âmbar para "Em andamento", verde para "Pendente"), filtros por tipo ("Todos" / "Rebanhos") e botão "Nova O.S." para criação rápida.
 
 <center>
-  <p><strong>Figura 26</strong> — Primeira versão: Tela de Lista de Tarefas do Capataz (Real)</p>
+  <p><strong>Figura 37</strong> — Primeira versão: Tela de Lista de Tarefas do Capataz (Real)</p>
   <img src="./assets/prints-v1/03-lista-tarefas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5725,7 +5725,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de detalhe da tarefa (US02)** — apresenta título, badge de status, descrição textual, player de áudio para instruções gravadas pelo Gerente e placeholder para foto de referência, com botão "Iniciar Tarefa" em largura total.
 
 <center>
-  <p><strong>Figura 27</strong> — Primeira versão: Tela de Detalhe da Tarefa do Capataz (Real)</p>
+  <p><strong>Figura 38</strong> — Primeira versão: Tela de Detalhe da Tarefa do Capataz (Real)</p>
   <img src="./assets/prints-v1/04-detalhe-tarefa.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5733,7 +5733,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de concluir tarefa (US03/US04/US05)** — formulário de conclusão com campos para foto da conclusão, observações em texto e registro de áudio, com botões "Tirar Foto" e "Salvar" na base.
 
 <center>
-  <p><strong>Figura 28</strong> — Primeira versão: Tela de Concluir Tarefa do Capataz (Real)</p>
+  <p><strong>Figura 39</strong> — Primeira versão: Tela de Concluir Tarefa do Capataz (Real)</p>
   <img src="./assets/prints-v1/05-concluir-tarefa.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5743,7 +5743,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de nova boleta** — formulário completo de movimentação de animais com seleção de tipo de operação (Movimentação, Nascimento, Morte), seleção de retiros de origem e destino, contagem categorizada de animais por sexo e faixa etária (7 categorias de machos e 5 de fêmeas, conforme planilha real da BrPec) com steppers para incremento/decremento, total geral calculado automaticamente e campo de observações.
 
 <center>
-  <p><strong>Figura 28a</strong> — Primeira versão: Tela de Nova Boleta de Movimentação (Real)</p>
+  <p><strong>Figura 40</strong> — Primeira versão: Tela de Nova Boleta de Movimentação (Real)</p>
   <img src="./assets/prints-v1/06-nova-boleta.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5751,7 +5751,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de registrar nascimento** — formulário simplificado para registro de nascimentos com data automática, seleção de retiro, categoria (Bezerro/Bezerra), stepper de quantidade e campo de foto opcional.
 
 <center>
-  <p><strong>Figura 28b</strong> — Primeira versão: Tela de Registrar Nascimento (Real)</p>
+  <p><strong>Figura 41</strong> — Primeira versão: Tela de Registrar Nascimento (Real)</p>
   <img src="./assets/prints-v1/07-registrar-nascimento.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5759,7 +5759,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de registrar óbito (RF013)** — formulário com campos obrigatórios sinalizados visualmente (asterisco vermelho e borda vermelha): data, retiro, identificação do animal, categoria, causa da morte (14 causas cadastradas: Acidente, Atolado, Cobra, Deficiência nutricional, etc.), quantidade e foto obrigatória.
 
 <center>
-  <p><strong>Figura 28c</strong> — Primeira versão: Tela de Registrar Óbito (Real)</p>
+  <p><strong>Figura 42</strong> — Primeira versão: Tela de Registrar Óbito (Real)</p>
   <img src="./assets/prints-v1/08-registrar-obito.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5769,7 +5769,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Painel de infraestrutura** — interface de gestão de chamados com filtros por categoria (Hidráulica, Cerca, Elétrica), cards de contadores por status (Abertos: 12, Em andamento: 5, Fechados: 28) e botão "+ Nova O.S.".
 
 <center>
-  <p><strong>Figura 29</strong> — Primeira versão: Painel de Infraestrutura (Real)</p>
+  <p><strong>Figura 43</strong> — Primeira versão: Painel de Infraestrutura (Real)</p>
   <img src="./assets/prints-v1/10-painel-infraestrutura.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5777,7 +5777,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de resolver chamado** — formulário de registro de resolução com card de identificação do chamado, campo de descrição com contador de caracteres (0/500), área de anexo de foto com especificação de formatos aceitos, botão "Salvar Resolução" e histórico do chamado em timeline com três etapas (Aberto → Em andamento → Resolvido) incluindo datas e descrições.
 
 <center>
-  <p><strong>Figura 30</strong> — Primeira versão: Tela de Registrar Resolução de Chamado (Real)</p>
+  <p><strong>Figura 44</strong> — Primeira versão: Tela de Registrar Resolução de Chamado (Real)</p>
   <img src="./assets/prints-v1/11-resolver-chamado.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5787,7 +5787,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Dashboard** — painel consolidado com filtros de retiro e data, gráfico de barras "Chamados por retiro", card "Evolução das demandas" com indicador percentual (75%), gráfico de rosca "Tarefas por status" com legenda colorida, e cards numéricos para "Alertas em aberto" e "Prioridades".
 
 <center>
-  <p><strong>Figura 31</strong> — Primeira versão: Dashboard do Gerente e Coordenador (Real)</p>
+  <p><strong>Figura 45</strong> — Primeira versão: Dashboard do Gerente e Coordenador (Real)</p>
   <img src="./assets/prints-v1/12-dashboard-gerente.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5795,7 +5795,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de nova O.S. (US01)** — formulário completo de criação de Ordem de Serviço com seletor de equipe (Capataz/Infra), campos de seleção de operação, título, retiro de origem, destino opcional, responsável, descrição, prazo, indicadores de prioridade (alta/média/baixa) com dots coloridos, e cards de áudio e foto para complementar instruções.
 
 <center>
-  <p><strong>Figura 32</strong> — Primeira versão: Tela de Nova Ordem de Serviço do Gerente (Real)</p>
+  <p><strong>Figura 46</strong> — Primeira versão: Tela de Nova Ordem de Serviço do Gerente (Real)</p>
   <img src="./assets/prints-v1/13-nova-os.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5805,7 +5805,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de boletas** — lista de boletas com sub-navegação (Painel/Boletas), cards com título e metadados (data, capataz, quantidade de animais) e botão de download individual.
 
 <center>
-  <p><strong>Figura 33</strong> — Primeira versão: Tela de Lista de Boletas do Coordenador (Real)</p>
+  <p><strong>Figura 47</strong> — Primeira versão: Tela de Lista de Boletas do Coordenador (Real)</p>
   <img src="./assets/prints-v1/14-boletas-lista.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5813,7 +5813,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de exportação (US12)** — formulário de exportação com seleção de período (De/Até), checkboxes para tipos de dados (Movimentações, Nascimentos, Óbitos, Tarefas), seleção de formato (CSV/Excel) e botão "Exportar".
 
 <center>
-  <p><strong>Figura 33a</strong> — Primeira versão: Tela de Exportação de Dados (Real)</p>
+  <p><strong>Figura 48</strong> — Primeira versão: Tela de Exportação de Dados (Real)</p>
   <img src="./assets/prints-v1/15-exportar-dados.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5821,7 +5821,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de evolução de rebanho** — formulário para registro de reclassificação de animais com seleção de retiro, tipo de classificação (Desmama/Evolução/Classificação), cards de "DE (origem)" e "PARA (nova categoria)" com seletores de categoria e faixa etária, stepper de quantidade e observações.
 
 <center>
-  <p><strong>Figura 33b</strong> — Primeira versão: Tela de Evolução de Rebanho (Real)</p>
+  <p><strong>Figura 49</strong> — Primeira versão: Tela de Evolução de Rebanho (Real)</p>
   <img src="./assets/prints-v1/09-boleta-evolucao.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5833,7 +5833,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de sucesso** — feedback visual de confirmação com ícone de check, mensagem "Salvo com sucesso!" e badge offline "1 registro na fila", simulando o comportamento esperado do modo offline-first.
 
 <center>
-  <p><strong>Figura 33c</strong> — Primeira versão: Tela de Confirmação de Sucesso / Modo Offline (Real)</p>
+  <p><strong>Figura 50</strong> — Primeira versão: Tela de Confirmação de Sucesso / Modo Offline (Real)</p>
   <img src="./assets/prints-v1/16-tela-sucesso.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5891,7 +5891,7 @@ Os endpoints implementados e testados cobrem os fluxos críticos da sprint 3:
 A suíte de testes automatizados utiliza Jest 29 + ts-jest + Supertest sobre banco SQLite em memória. Todos os 19 casos de teste foram executados e aprovados com sucesso, validando contratos HTTP, regras de negócio (RN01, RN05) e persistência no banco local. A evidência de execução está registrada em `documentos/assets/jest.png`.
 
 <center>
-  <p><strong>Figura 34</strong> — Resultado da execução dos testes automatizados (19/19 passando)</p>
+  <p><strong>Figura 51</strong> — Resultado da execução dos testes automatizados (19/19 passando)</p>
   <img src="./assets/jest.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5943,7 +5943,7 @@ O frontend foi refatorado para consumir a API REST real, substituindo os dados e
 - **Tela de login com JWT** — a seleção de perfil agora dispara `POST /api/auth/login`, que retorna um access token (armazenado via `src/public/js/auth-client.js`) e um refresh token em cookie `HttpOnly`. Após o login, o Service Worker recebe uma `postMessage` com o perfil do usuário e pré-cacheia as rotas específicas daquele perfil para funcionamento offline.
 
 <center>
-  <p><strong>Figura 35</strong> — Segunda versão: Tela de login com autenticação JWT real</p>
+  <p><strong>Figura 52</strong> — Segunda versão: Tela de login com autenticação JWT real</p>
   <img src="./assets/image-login-gerente.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5953,7 +5953,7 @@ O frontend foi refatorado para consumir a API REST real, substituindo os dados e
 - **Tela de lista de tarefas (US02) com dados reais** — os cards de tarefas passaram a ser populados com dados reais consumidos de `GET /api/tarefas/hoje?capataz_id=...`. O badge de conectividade no rodapé exibe o estado da rede, e ao voltar online a fila de operações pendentes é sincronizada automaticamente.
 
 <center>
-  <p><strong>Figura 36</strong> — Segunda versão: Tela de tarefas com dados reais e badge de conectividade</p>
+  <p><strong>Figura 53</strong> — Segunda versão: Tela de tarefas com dados reais e badge de conectividade</p>
   <img src="./assets/image-lista-de-tarefas-capataz.png" width="800"/>
   <p>Fonte: Próprios autores (2026)</p>
 </center>
@@ -5961,7 +5961,7 @@ O frontend foi refatorado para consumir a API REST real, substituindo os dados e
 - **Tela de Nova O.S. com suporte offline (US01/RF001)** — o formulário de criação de tarefa agora submete para `POST /api/tarefas` via `fazerRequisicaoComOffline()`. Quando online, retorna HTTP 201 e exibe confirmação. Quando offline, salva automaticamente na store `sincronizacoes` do IndexedDB com `status: 'PENDENTE'` e exibe feedback "Salvo localmente".
 
 <center>
-  <p><strong>Figura 37</strong> — Segunda versão: Nova O.S. submetendo para backend real (POST /api/tarefas → 201)</p>
+  <p><strong>Figura 54</strong> — Segunda versão: Nova O.S. submetendo para backend real (POST /api/tarefas → 201)</p>
   <img src="./assets/image-nova-os.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5969,7 +5969,7 @@ O frontend foi refatorado para consumir a API REST real, substituindo os dados e
 - **Tela de chamados com dados reais (US06/RF006)** — a listagem de chamados passou a consumir `GET /api/chamados`, e o formulário de novo chamado (`src/public/js/novo-chamado-handler.js`) captura GPS via `navigator.geolocation` e submete para `POST /api/chamados`. A resolução de chamados (`src/public/js/chamado-resolver-handler.js`) submete para `PUT /api/chamados/:id/resolver`.
 
 <center>
-  <p><strong>Figura 38</strong> — Segunda versão: Tela de chamados com dados reais do banco</p>
+  <p><strong>Figura 55</strong> — Segunda versão: Tela de chamados com dados reais do banco</p>
   <img src="./assets/image-abrir-chamado-capataz.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5979,13 +5979,13 @@ O frontend foi refatorado para consumir a API REST real, substituindo os dados e
 - **Dashboard com gráficos Chart.js dinâmicos** — os gráficos de barras ("Chamados por retiro") e rosca ("Tarefas por status"), que na sprint 3 eram renderizados com CSS estático, passaram a ser gerados com a biblioteca **Chart.js** consumindo `GET /api/dashboard/resumo` e `GET /api/dashboard/retiros`. Os filtros de retiro e data disparam novas chamadas à API e atualizam os gráficos em tempo real.
 
 <center>
-  <p><strong>Figura 39</strong> — Segunda versão: Dashboard com gráficos Chart.js populados com dados reais</p>
+  <p><strong>Figura 56</strong> — Segunda versão: Dashboard com gráficos Chart.js populados com dados reais</p>
   <img src="./assets/prints-v2/05-dashboard-charts.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-  <p><strong>Figura 39</strong> — Segunda versão: Dashboard com gráficos Chart.js populados com dados reais - Parte 2</p>
+  <p><strong>Figura 57</strong> — Segunda versão: Dashboard com gráficos Chart.js populados com dados reais - Parte 2</p>
   <img src="./assets/image-dashboard-gerente-parte2.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5997,7 +5997,7 @@ O frontend foi refatorado para consumir a API REST real, substituindo os dados e
 - **Renderização server-side (EJS)** — as páginas passaram a ser renderizadas no servidor via templates EJS (`src/backend/routes/viewRoutes.ts`), com dados iniciais injetados via `res.render()`, reduzindo o número de chamadas à API na carga inicial.
 
 <center>
-  <p><strong>Figura 40</strong> — Service Worker <code>sw.js</code> registrado e ativo no navegador (DevTools → Application → Service Workers)</p>
+  <p><strong>Figura 58</strong> — Service Worker <code>sw.js</code> registrado e ativo no navegador (DevTools → Application → Service Workers)</p>
   <img src="./assets/image-service-workers.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -6064,7 +6064,7 @@ PASS tests/unit/exportacaoService.test.ts   (3 casos — acesso, CSV, total_regi
 ```
 
 <center>
-  <p><strong>Figura 41</strong> — Resultado da execução da suíte de testes completa (sprint 4)</p>
+  <p><strong>Figura 59</strong> — Resultado da execução da suíte de testes completa (sprint 4)</p>
   <img src="./assets/image-npm-test-passed.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
