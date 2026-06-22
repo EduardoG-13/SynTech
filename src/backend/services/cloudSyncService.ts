@@ -1,5 +1,7 @@
 import cloudSyncRepository from '../repositories/cloudSyncRepository';
 
+const MAX_TENTATIVAS_CLOUD = 10;
+
 class CloudSyncService {
   private active = false;
 
@@ -8,8 +10,23 @@ class CloudSyncService {
     this.active = true;
 
     try {
-      // 1. Query pending items
-      const pending = cloudSyncRepository.obterSincronizacoesPendentes();
+      // 1. Query pending items — ORDEM TOPOLÓGICA pra respeitar FKs do Postgres
+      // retiro/usuario (raiz) → evidencia → tarefa/movimentacao/alerta (filhos)
+      const pending = db.prepare(`
+        SELECT * FROM sincronizacoes
+        WHERE status_envio IN ('PENDENTE', 'ERRO') AND tentativas < ?
+        ORDER BY
+          CASE entidade_tipo
+            WHEN 'retiro'       THEN 0
+            WHEN 'usuario'      THEN 1
+            WHEN 'evidencia'    THEN 2
+            WHEN 'tarefa'       THEN 3
+            WHEN 'movimentacao' THEN 4
+            WHEN 'alerta'       THEN 5
+            ELSE 9
+          END ASC,
+          criada_em ASC
+      `).all(MAX_TENTATIVAS_CLOUD) as any[];
 
       if (pending.length === 0) {
         this.active = false;

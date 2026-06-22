@@ -41,7 +41,7 @@ function carregarModuloSync() {
   };
 
   vm.runInNewContext(
-    `${source}\nglobalThis.__syncRetryTest = { executarComRetry, calcularAtrasoRetry };`,
+    `${source}\nglobalThis.__syncRetryTest = { executarComRetry, calcularAtrasoRetry, deveRetentarStatus };`,
     context
   );
 
@@ -99,5 +99,37 @@ describe('Retry de sincronizacao offline-online', () => {
 
     expect(tentativas).toBe(1);
     expect(delays).toHaveLength(0);
+  });
+
+  it('lanca o ultimo erro apos esgotar o maximo de tentativas', async () => {
+    const { api, delays } = carregarModuloSync();
+    let tentativas = 0;
+
+    await expect(
+      api.executarComRetry(async () => {
+        tentativas += 1;
+        throw new Error('Servico indisponivel');
+      })
+    ).rejects.toThrow('Servico indisponivel');
+
+    expect(tentativas).toBe(3);
+    expect(delays).toHaveLength(2);
+  });
+});
+
+describe('deveRetentarStatus', () => {
+  it.each([
+    [408, true],
+    [429, true],
+    [500, true],
+    [503, true],
+    [400, false],
+    [401, false],
+    [404, false],
+    [200, false],
+    [201, false],
+  ])('status %i -> retentavel: %s', (status, esperado) => {
+    const { api } = carregarModuloSync();
+    expect(api.deveRetentarStatus(status)).toBe(esperado);
   });
 });
