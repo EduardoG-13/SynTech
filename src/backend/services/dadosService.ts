@@ -1,21 +1,17 @@
-import db from '../config/database';
+import dadosRepository from '../repositories/dadosRepository';
 
 export class DadosService {
   public listarRetiros() {
-    return db.prepare('SELECT id, nome, localizacao FROM retiros ORDER BY nome').all();
+    return dadosRepository.listarRetirosComLocalizacao();
   }
 
   public listarCapatazes() {
-    return db.prepare(
-      `SELECT id, nome, retiro_id FROM usuarios WHERE perfil = 'Capataz' ORDER BY nome`
-    ).all();
+    return dadosRepository.listarCapatazes();
   }
 
   public dadosFormNovaOs() {
-    const retiros = db.prepare('SELECT id, nome FROM retiros ORDER BY nome').all();
-    const capatazes = db.prepare(
-      `SELECT id, nome, retiro_id FROM usuarios WHERE perfil = 'Capataz' ORDER BY nome`
-    ).all();
+    const retiros = dadosRepository.listarRetirosSimples();
+    const capatazes = dadosRepository.listarCapatazes();
 
     const categorias = [
       'Bezerra 0 a 7 meses', 'Bezerro 0 a 7 meses',
