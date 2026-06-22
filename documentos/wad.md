@@ -6844,6 +6844,66 @@ Esta questão apresenta o resultado mais homogêneo de todo o questionário: tod
 
 ---
 
+**Questão 7 — "Eu imagino que a maioria das pessoas aprenderia a usar este sistema muito rapidamente."**
+
+Esta é uma questão de polaridade positiva no SUS: pontuações mais altas indicam que os participantes percebem o sistema como de rápida curva de aprendizado. As respostas foram as seguintes:
+
+| Participante | Resposta |
+|---|---|
+| P1 | 5 |
+| P2 | 1 |
+| P3 | 3 |
+| P4 | 3 |
+| P5 | 5 |
+| P6 | 4 |
+| P7 | 5 |
+
+A distribuição das respostas é apresentada a seguir:
+
+| Escala | Frequência | Proporção |
+|---|---|---|
+| 5 — Concordo totalmente | 3 | 42,9% |
+| 4 — Concordo | 1 | 14,3% |
+| 3 — Neutro | 2 | 28,6% |
+| 2 — Discordo | 0 | 0,0% |
+| 1 — Discordo totalmente | 1 | 14,3% |
+
+**Média: 3,71 / 5,0**
+
+Esta questão apresenta a maior dispersão de respostas do questionário até o momento. A maioria (57,1%) concordou que o sistema seria aprendido rapidamente, e dois participantes permaneceram neutros. No entanto, um participante (P2) discordou totalmente da afirmação, configurando o único caso de discordância categórica em uma questão positiva ao longo de todo o SUS. Esse resultado, somado às notas neutras de P3 e P4 na Q4, sugere que a percepção de aprendizabilidade do sistema pode variar conforme o grau de familiaridade prévia com ferramentas digitais — o que está alinhado com a diversidade do perfil de usuário-alvo do projeto.
+
+---
+
+**Questão 8 — "Eu achei o sistema muito complicado de usar."**
+
+Esta é uma questão de polaridade negativa no SUS: pontuações mais baixas indicam que os participantes não percebem o sistema como complicado. As respostas foram as seguintes:
+
+| Participante | Resposta |
+|---|---|
+| P1 | 2 |
+| P2 | 3 |
+| P3 | 2 |
+| P4 | 2 |
+| P5 | 1 |
+| P6 | 2 |
+| P7 | 1 |
+
+A distribuição das respostas é apresentada a seguir:
+
+| Escala | Frequência | Proporção |
+|---|---|---|
+| 5 — Concordo totalmente | 0 | 0,0% |
+| 4 — Concordo | 0 | 0,0% |
+| 3 — Neutro | 1 | 14,3% |
+| 2 — Discordo | 4 | 57,1% |
+| 1 — Discordo totalmente | 2 | 28,6% |
+
+**Média: 1,86 / 5,0**
+
+Nenhum participante concordou que o sistema é complicado de usar. A grande maioria (85,7%) discordou ativamente da afirmação, e o único respondente neutro (P2, nota 3) é o mesmo que atribuiu discordância total na Q7, o que reforça a hipótese de que sua percepção reflete menor familiaridade com ferramentas digitais em geral, e não necessariamente uma limitação da interface. O resultado é consistente com os dados das Q2 e Q6, consolidando a percepção de que o sistema não é percebido como complexo ou complicado pelo perfil avaliado.
+
+---
+
 _Dados brutos coletados via Google Forms:_
 
 "Carimbo de data/hora","Nome de usuário","Eu acho que gostaria de usar este sistema com frequencia.","Eu achei o sistema desnecessariamente complexo.","Eu achei o sistema facil de usar.","Eu acho que precisaria de ajuda de uma pessoa tecnica para ser capaz de usar este sistema.","Eu achei que as varias funcoes neste sistema estao bem integradas.","Eu achei que havia muita inconsistencia neste sistema.","Eu imagino que a maioria das pessoas aprenderia a usar este sistema muito rapidamente.","Eu achei o sistema muito complicado de usar.","Eu me senti muito confiante ao usar o sistema.","Eu precisei aprender muitas coisas novas antes de conseguir usar este sistema."
