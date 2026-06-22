@@ -6724,6 +6724,36 @@ Nenhum participante concordou que o sistema é desnecessariamente complexo. A ma
 
 ---
 
+**Questão 3 — "Eu achei o sistema fácil de usar."**
+
+Esta é uma questão de polaridade positiva no SUS: pontuações mais altas indicam maior percepção de facilidade de uso. As respostas foram as seguintes:
+
+| Participante | Resposta |
+|---|---|
+| P1 | 4 |
+| P2 | 3 |
+| P3 | 4 |
+| P4 | 4 |
+| P5 | 5 |
+| P6 | 5 |
+| P7 | 5 |
+
+A distribuição das respostas é apresentada a seguir:
+
+| Escala | Frequência | Proporção |
+|---|---|---|
+| 5 — Concordo totalmente | 3 | 42,9% |
+| 4 — Concordo | 3 | 42,9% |
+| 3 — Neutro | 1 | 14,3% |
+| 2 — Discordo | 0 | 0,0% |
+| 1 — Discordo totalmente | 0 | 0,0% |
+
+**Média: 4,29 / 5,0**
+
+A grande maioria dos participantes (85,7%) concordou que o sistema é fácil de usar, com 42,9% expressando concordância total. O único respondente neutro (nota 3) não chegou a contradizer a percepção de facilidade. A ausência de discordância e a média de 4,29 posicionam esta questão como uma das mais bem avaliadas do questionário, indicando que os fluxos e a interface foram percebidos como intuitivos pelo perfil de usuário testado.
+
+---
+
 _Dados brutos coletados via Google Forms:_
 
 "Carimbo de data/hora","Nome de usuário","Eu acho que gostaria de usar este sistema com frequencia.","Eu achei o sistema desnecessariamente complexo.","Eu achei o sistema facil de usar.","Eu acho que precisaria de ajuda de uma pessoa tecnica para ser capaz de usar este sistema.","Eu achei que as varias funcoes neste sistema estao bem integradas.","Eu achei que havia muita inconsistencia neste sistema.","Eu imagino que a maioria das pessoas aprenderia a usar este sistema muito rapidamente.","Eu achei o sistema muito complicado de usar.","Eu me senti muito confiante ao usar o sistema.","Eu precisei aprender muitas coisas novas antes de conseguir usar este sistema."
