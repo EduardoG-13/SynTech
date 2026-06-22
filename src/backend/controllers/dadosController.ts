@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import dadosService from '../services/dadosService';
+import db from '../config/database';
 
 /**
  * dadosController.ts
@@ -10,7 +10,7 @@ import dadosService from '../services/dadosService';
 // GET /api/dados/retiros - lista todos os retiros
 export function listarRetiros(_req: Request, res: Response) {
   try {
-    const retiros = dadosService.listarRetiros();
+    const retiros = db.prepare('SELECT id, nome, localizacao FROM retiros ORDER BY nome').all();
     return res.json(retiros);
   } catch (error: any) {
     return res.status(500).json({ erro: error.message });
@@ -20,7 +20,9 @@ export function listarRetiros(_req: Request, res: Response) {
 // GET /api/dados/capatazes - lista usuários com perfil Capataz (com retiro)
 export function listarCapatazes(_req: Request, res: Response) {
   try {
-    const capatazes = dadosService.listarCapatazes();
+    const capatazes = db.prepare(
+      `SELECT id, nome, retiro_id FROM usuarios WHERE perfil = 'Capataz' ORDER BY nome`
+    ).all();
     return res.json(capatazes);
   } catch (error: any) {
     return res.status(500).json({ erro: error.message });
@@ -30,8 +32,42 @@ export function listarCapatazes(_req: Request, res: Response) {
 // GET /api/dados/form-nova-os - retorna tudo que o formulário de Nova O.S. precisa
 export function dadosFormNovaOs(_req: Request, res: Response) {
   try {
-    const dados = dadosService.dadosFormNovaOs();
-    return res.json(dados);
+    const retiros = db.prepare('SELECT id, nome FROM retiros ORDER BY nome').all();
+    const capatazes = db.prepare(
+      `SELECT u.id, u.nome, u.retiro_id, r.nome AS retiro_nome
+       FROM usuarios u LEFT JOIN retiros r ON r.id = u.retiro_id
+       WHERE u.perfil = 'Capataz' ORDER BY u.nome`
+    ).all();
+
+    // Dados de domínio (planilha oficial BRPec)
+    const categorias = [
+      'Bezerra 0 a 7 meses', 'Bezerro 0 a 7 meses',
+      'Novilha 8 a 12 meses', 'Garrote 8 a 12 meses',
+      'Novilha 13 a 24 meses', 'Garrote 13 a 24 meses',
+      'Novilha 25 a 36 meses', 'Boi 25 a 36 meses', 'Touro 25 a 36 meses',
+      'Vaca acima 36 meses', 'Boi acima 36 meses', 'Touro acima 36 meses',
+    ];
+
+    // Nascimento: só nasce bezerro/bezerra
+    const categoriasNascimento = ['Bezerra 0 a 7 meses', 'Bezerro 0 a 7 meses'];
+
+    const tiposMorte = [
+      'Acidente', 'Atolado', 'Cobra', 'Def. nutricional', 'Desconhecida',
+      'Desidratação', 'Doenças', 'Fraqueza', 'Hipotermia', 'Intoxicação',
+      'Morte Subita', 'Onça', 'Parto', 'Raio',
+    ];
+
+    const operacoes = [
+      { valor: 'nascimento', label: 'Nascimento' },
+      { valor: 'obito', label: 'Morte' },
+      { valor: 'abate', label: 'Abate Interno' },
+      { valor: 'transferencia', label: 'Transferência' },
+      { valor: 'compravenda', label: 'Compra / Venda' },
+      { valor: 'evolucao', label: 'Evolução' },
+      { valor: 'manejo', label: 'Manejo' },
+    ];
+
+    return res.json({ retiros, capatazes, categorias, categoriasNascimento, tiposMorte, operacoes });
   } catch (error: any) {
     return res.status(500).json({ erro: error.message });
   }

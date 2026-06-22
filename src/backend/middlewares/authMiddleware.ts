@@ -23,16 +23,24 @@ export function autenticarJWT(req: Request, res: Response, next: NextFunction) {
 
   const authorization = req.headers.authorization;
 
-  if (!authorization?.startsWith('Bearer ')) {
-    return res.status(401).json({ erro: 'Token de acesso ausente.' });
+  // 1) Tenta o JWT (Bearer) se presente
+  if (authorization?.startsWith('Bearer ')) {
+    const token = authorization.slice('Bearer '.length);
+    try {
+      req.usuario = jwt.verify(token, authConfig.accessSecret) as JwtUserPayload;
+      return next();
+    } catch {
+      // token inválido/expirado: tenta a sessão abaixo antes de barrar
+    }
   }
 
-  const token = authorization.slice('Bearer '.length);
-
-  try {
-    req.usuario = jwt.verify(token, authConfig.accessSecret) as JwtUserPayload;
+  // 2) Fallback de SESSÃO (cookie) — o app é session-first; toda tela cria sessão no login.
+  //    Isso faz as páginas (tarefas, boletas, dashboard) funcionarem sem depender do Bearer.
+  const sessUsuario = (req.session as any)?.usuario;
+  if (sessUsuario) {
+    req.usuario = sessUsuario as JwtUserPayload;
     return next();
-  } catch {
-    return res.status(401).json({ erro: 'Token de acesso invalido ou expirado.' });
   }
+
+  return res.status(401).json({ erro: 'Token de acesso ausente.' });
 }

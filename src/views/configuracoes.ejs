@@ -17,6 +17,7 @@
       <div class="config-abas">
         <button class="aba active" data-aba="retiros"><img class="label-ico" src="/public/Icons/home.ico" alt="" /> Retiros</button>
         <button class="aba" data-aba="usuarios"><img class="label-ico" src="/public/Icons/capataz.ico" alt="" /> Usuários</button>
+        <button class="aba" data-aba="dispositivos"><img class="label-ico" src="/public/Icons/instalar_aplicativo_celular.ico" alt="" /> Dispositivos</button>
       </div>
 
       <!-- Aviso de acesso -->
@@ -113,6 +114,17 @@
           <div id="lista-usuarios-admin" class="lista-admin"></div>
         </div>
 
+      </section>
+
+      <!-- ================= ABA DISPOSITIVOS ================= -->
+      <section class="aba-conteudo" id="conteudo-dispositivos" style="display:none;">
+        <div class="card-config">
+          <h2><img class="label-ico" src="/public/Icons/instalar_aplicativo_celular.ico" alt="" /> Dispositivos vinculados</h2>
+          <p style="font-size:0.85rem; color:#5c6b5d; margin-bottom:0.75rem;">
+            Aparelhos que entram automaticamente em um retiro (login por dispositivo). Revogue quando um tablet trocar de retiro — ele volta a pedir a seleção no próximo acesso.
+          </p>
+          <div id="lista-dispositivos-admin" class="lista-admin"></div>
+        </div>
       </section>
 
       <p class="config-msg" id="config-msg" style="display:none;"></p>

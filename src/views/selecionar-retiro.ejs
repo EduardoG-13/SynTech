@@ -45,12 +45,49 @@
 </div>
 
 <script>
+  // === Device binding: cada dispositivo fica "amarrado" a um retiro ===
+  // Gera (1x) um token único guardado no localStorage. Identifica o aparelho.
+  function getDeviceToken() {
+    var t = localStorage.getItem('brpec_device_token');
+    if (!t) {
+      t = (crypto && crypto.randomUUID) ? crypto.randomUUID()
+        : 'dev-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+      localStorage.setItem('brpec_device_token', t);
+    }
+    return t;
+  }
+
+  // Ao abrir a tela: se o aparelho já está vinculado a um retiro, entra direto.
+  (function autoLoginDispositivo() {
+    var token = getDeviceToken();
+    fetch('/api/auth/dispositivo/' + encodeURIComponent(token), { credentials: 'same-origin' })
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (!d || !d.vinculado) return; // aparelho novo → mostra a lista de retiros
+        // Faz login automático e vai direto pras tarefas
+        return fetch('/api/auth/login-dispositivo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ device_token: token })
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(login) {
+          if (login && login.sucesso) {
+            if (window.authClient) window.authClient.setAccessToken(login.accessToken);
+            window.location.href = '/tarefas';
+          }
+        });
+      })
+      .catch(function() { /* offline ou sem vínculo: fica na tela de seleção */ });
+  })();
+
   function selecionarRetiro(retiroId, nome) {
-    // Cria a SESSÃO no servidor (cookie) — fonte da verdade para autenticação
+    // Cria a SESSÃO no servidor (cookie) + vincula este dispositivo ao retiro
     fetch('/api/auth/login-capataz', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ retiro_id: retiroId })
+      body: JSON.stringify({ retiro_id: retiroId, device_token: getDeviceToken() })
     })
     .then(function(r) { return r.json(); })
     .then(function(data) {

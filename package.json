@@ -8,6 +8,7 @@
     "db:downsync": "ts-node src/backend/downsync.ts",
     "db:resync": "ts-node src/backend/force-resync.ts",
     "db:limpar": "ts-node src/backend/limpar-orfaos.ts",
+    "db:numerar": "ts-node src/backend/backfill-numero-boleta.ts",
     "db:compare": "ts-node src/backend/tests/manual/compare-schemas.ts",
     "db:verify-sync": "ts-node src/backend/tests/manual/verify-sync.ts",
     "test:coverage": "jest --coverage --forceExit"
