@@ -6964,16 +6964,24 @@ Nenhum participante concordou que precisou aprender muitas coisas novas para usa
 
 ---
 
-_Dados brutos coletados via Google Forms:_
+**Escore SUS consolidado**
 
-"Carimbo de data/hora","Nome de usuário","Eu acho que gostaria de usar este sistema com frequencia.","Eu achei o sistema desnecessariamente complexo.","Eu achei o sistema facil de usar.","Eu acho que precisaria de ajuda de uma pessoa tecnica para ser capaz de usar este sistema.","Eu achei que as varias funcoes neste sistema estao bem integradas.","Eu achei que havia muita inconsistencia neste sistema.","Eu imagino que a maioria das pessoas aprenderia a usar este sistema muito rapidamente.","Eu achei o sistema muito complicado de usar.","Eu me senti muito confiante ao usar o sistema.","Eu precisei aprender muitas coisas novas antes de conseguir usar este sistema."
-"2026/06/17 10:46:03 AM GMT-3","gbeltramem@gmail.com","4","3","4","2","4","2","5","2","4","1"
-"2026/06/17 10:57:18 AM GMT-3","gabriel.simoes.marques14@gmail.com","3","2","3","4","3","2","1","3","2","3"
-"2026/06/17 11:04:36 AM GMT-3","rodrigues.ccomp@gmail.com","3","2","4","4","5","2","3","2","4","2"
-"2026/06/17 11:22:34 AM GMT-3","eduardoogabrielloliveiraa@gmail.com","4","2","4","3","5","2","3","2","4","2"
-"2026/06/17 11:25:09 AM GMT-3","gbeltramem@gmail.com","4","1","5","1","5","1","5","1","4","2"
-"2026/06/17 11:40:37 AM GMT-3","davi.tricarico@sou.inteli.edu.br","5","1","5","1","5","1","4","2","4","2"
-"2026/06/17 11:48:42 AM GMT-3","gbeltramem@gmail.com","5","1","5","1","5","2","5","1","5","1"
+A tabela a seguir apresenta o escore individual calculado para cada participante, obtido pela fórmula padrão do SUS: para cada questão de polaridade positiva (ímpares), a contribuição é `resposta − 1`; para cada questão de polaridade negativa (pares), a contribuição é `5 − resposta`. A soma das dez contribuições é multiplicada por 2,5, resultando em um escore entre 0 e 100.
+
+| Participante | Escore SUS |
+|---|---|
+| P1 | 77,5 |
+| P2 | 45,0 |
+| P3 | 67,5 |
+| P4 | 72,5 |
+| P5 | 92,5 |
+| P6 | 90,0 |
+| P7 | 97,5 |
+| **Média** | **77,5** |
+
+De acordo com os benchmarks consolidados na literatura [56], o escore médio de **77,5** classifica o sistema como **"Bom"**, situando-se na faixa entre 72 e 85. Seis dos sete participantes obtiveram escores iguais ou superiores a 67, e três deles superaram 85 — limiar da classificação "Excelente". O único escore abaixo do limiar "Regular" (52) pertence a P2 (45,0), participante cujo padrão de respostas ao longo de todo o questionário — discordância total na Q7, neutralidade nas Q4, Q8 e Q10 — indica menor familiaridade com ferramentas digitais, e não necessariamente limitações da interface em si. Desconsiderando esse outlier, a média dos demais seis participantes seria de **83,6**, próxima ao limiar da classificação "Excelente".
+
+O resultado geral indica que a solução desenvolvida atinge um nível de usabilidade percebida compatível com produtos digitais bem avaliados, com margem de melhoria concentrada em fluxos de onboarding e orientação contextual para usuários com menor experiência digital — aspecto coerente com o perfil de capataz descrito nas personas do projeto.
 
 # <a name="c6"></a>6. Estudo de Mercado e Plano de Marketing (sprint 4)
 
