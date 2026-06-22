@@ -6609,9 +6609,52 @@ A tabela abaixo é coerente com a Matriz RF → RN → Endpoint (seção 3.1.4) 
 
 ## 5.2. Testes de usabilidade (sprint 5)
 
+Os testes de usabilidade consistem em observar usuários reais executando tarefas representativas em um produto ou sistema, com o objetivo de identificar dificuldades, erros e pontos de fricção na interface antes que cheguem ao ambiente de produção. Segundo a norma ISO 9241-11:2018, usabilidade é definida como a medida em que um produto pode ser utilizado por usuários específicos para atingir objetivos específicos com eficácia, eficiência e satisfação em um dado contexto de uso [55].
+
+A realização de testes com usuários é considerada a forma mais direta de validar decisões de design, pois substitui suposições internas por evidências concretas de comportamento. Problemas que passam despercebidos em revisões internas e inspeções heurísticas tendem a emergir nas primeiras sessões de observação, tornando essa etapa indispensável no ciclo de desenvolvimento centrado no usuário [54].
+
+Nesta sprint, os testes de usabilidade foram conduzidos em duas frentes complementares: testes de guerrilha (seção 5.2.1), voltados à identificação rápida de problemas de navegação e fluxo com participantes recrutados informalmente; e testes SUS (seção 5.2.2), aplicados para mensurar quantitativamente a percepção de usabilidade do sistema por meio de questionário padronizado.
+
 ### 5.2.1. Relatório de testes de guerrilha
 
+
+Os testes de guerrilha (*guerrilla usability testing*) são uma modalidade de avaliação de usabilidade de baixo custo na qual participantes são recrutados de forma rápida e oportunista em ambientes cotidianos como corredores, cafeterias ou espaços de coworking para realizarem tarefas representativas em um protótipo ou produto real, sem a necessidade de laboratório especializado ou processo formal de recrutamento [53]. Cada sessão costuma durar entre 10 e 20 minutos, e a literatura de usabilidade indica que cinco a oito participantes são suficientes para identificar a maioria dos problemas críticos de uma interface [54].
+
+A principal importância dessa abordagem está na capacidade de gerar retroalimentação qualitativa rápida sobre dificuldades reais de uso ainda em fases iniciais do desenvolvimento, quando ajustes são menos custosos. Por envolverem pessoas reais em contexto natural, os testes de guerrilha expõem problemas de navegação, nomenclatura e fluxo que costumam passar despercebidos em revisões internas e inspeções heurísticas [53]. Para este projeto, o método foi adotado para validar os principais fluxos da aplicação junto a participantes que representam os perfis de Capataz, Gerente e Coordenador definidos nas personas do sistema, complementando as avaliações técnicas realizadas nas etapas anteriores.
+
 Link para a planilha dos testes de Guerrilha: https://docs.google.com/spreadsheets/d/1qdGcS9gtkIaFlHcXa6VoyoqdvRIejTfKeiD6Zggm5aI/edit?usp=sharing
+
+
+Tarefa 1 — Conclusão de tarefa com evidência fotográfica
+Suponha que você é Gabriel, capataz do retiro Barra Bonita, terminou de transferir alguns animais para outro retiro e está sem acesso à internet no momento; utilize o sistema para marcar a tarefa como concluída e anexar uma foto como evidência do serviço realizado.
+
+O teste tem início com o login de Gabriel, selecionando o perfil Capataz e o retiro Barra Bonita, etapa em que se espera que o sistema o autentique e exiba somente as tarefas do dia vinculadas a esse retiro (RN02, RN05). Em seguida, é aberto o detalhe da tarefa referente à transferência de animais, devendo a tela apresentar a descrição, o retiro e o status atual como "pendente". Na sequência, a tarefa é marcada como concluída e a foto é anexada, estando sem conexão; espera-se que o sistema registre a conclusão e vincule a foto à tarefa, armazenando ambas localmente até a próxima sincronização (RN08, RN10). Por fim, ao restabelecer a conectividade, o status deve ser atualizado para o Gerente e o sistema deve exibir a mensagem de confirmação "Registro sincronizado com sucesso" (RN09, RN11).
+
+Tarefa 2 — Abertura de chamado de infraestrutura
+Suponha que você é capataz e percebeu que o bebedouro do curral está quebrado, comprometendo o acesso de água ao rebanho; utilize o sistema para abrir um chamado de infraestrutura informando o tipo de problema, o retiro e a localização.
+
+O teste tem início com o login do Capataz e a seleção do retiro correspondente, etapa em que se espera que o sistema libere o acesso apenas às funções vinculadas ao retiro autenticado. Em seguida, é acessada a opção de criar um novo chamado de infraestrutura, devendo o sistema exibir o formulário com os campos obrigatórios de tipo de problema, retiro e localização (RF006). Na sequência, o tipo de problema é preenchido e a localização é capturada; espera-se que as coordenadas GPS sejam obtidas automaticamente e sejam exibidas como imutáveis, sem permitir edição manual (RN19, RN24). Por fim, ao enviar o chamado, o sistema deve confirmá-lo imediatamente se houver conexão ou, em caso contrário, informar que o registro foi salvo localmente para envio na próxima sincronização (RN20–RN23, RN25, RN26).
+
+
+Tarefa 3 — Criação de tarefa calendarizada
+Suponha que você é o gerente geral e precisa que o capataz de um retiro específico verifique as cercas na próxima segunda-feira; utilize o sistema para criar essa tarefa calendarizada e associá-la ao retiro correto.
+
+O teste tem início com o login do Gerente e o acesso ao dashboard, etapa em que se espera que o sistema apresente a visão geral das atividades da fazenda. Em seguida, é selecionada a opção de criar nova OS/tarefa, devendo o formulário ser exibido com os campos de descrição, data e retiro (RF001). Na sequência, são preenchidos a descrição "verificar as cercas", a data de segunda-feira e o retiro de destino; espera-se que o sistema exija o vínculo obrigatório a um único retiro, sem permitir associação múltipla (RN01). Por fim, ao salvar a tarefa, ela deve ficar disponível para o Capataz responsável pelo retiro assim que o dispositivo dele sincronizar (CR2 da US01).
+
+Tarefa 4 — Consulta à tela de infraestrutura
+Suponha que você é o gerente geral e quer saber quantos chamados de infraestrutura estão abertos antes de priorizar a equipe de manutenção; utilize o sistema para acessar a tela de infraestrutura e consultar o status de cada chamado registrado pelos capatazes.
+
+O teste tem início com o login do Gerente e o acesso ao dashboard, etapa em que se espera que o sistema apresente a visão consolidada das atividades. Em seguida, o Gerente navega até a tela de infraestrutura, devendo o sistema exibir a lista de chamados agrupados por retiro e com o status de cada um (RF007). Na sequência, é aplicado o filtro por status "aberto"; espera-se que somente os chamados pendentes de atendimento permaneçam visíveis, permitindo a contagem e a priorização. Por fim, ao abrir um chamado específico, o sistema deve apresentar o Capataz que o registrou, o retiro, a data, a hora e a descrição do problema, subsidiando a decisão do Gerente sobre o encaminhamento da equipe de manutenção.
+
+Tarefa 5 — Visualização e validação de movimentação zootécnica
+Suponha que você é o coordenador e foi notificado de que um capataz registrou o nascimento de bezerros em um retiro; utilize o sistema para visualizar essa movimentação zootécnica e validar as informações antes da consolidação.
+
+O teste tem início com o login do Coordenador e o acesso ao painel de movimentações zootécnicas, etapa em que se espera que o sistema exiba a listagem completa dos registros sincronizados, com tipo de evento, retiro de origem, data e Capataz responsável (CR1). Em seguida, são aplicados filtros por retiro ou tipo de evento para localizar o nascimento registrado, devendo a listagem ser atualizada para exibir somente os registros que atendem aos critérios selecionados. Na sequência, é aberto o detalhe da movimentação; espera-se que o sistema apresente todas as informações do registro, incluindo as evidências fotográficas anexadas pelo Capataz, quando aplicável (CR3). Por fim, o registro é validado antes da consolidação, devendo os dados estar íntegros e disponíveis sem necessidade de redigitação manual.
+
+Tarefa 6 — Exportação de dados consolidados em CSV
+Suponha que você é o coordenador e precisa enviar os dados consolidados de movimentações do mês para os controles centrais da empresa; utilize o sistema para exportar esses registros em formato CSV.
+
+O teste tem início com o login do Coordenador e o acesso à lista de boletas e movimentações, etapa em que se espera que o sistema exiba todos os registros disponíveis para exportação. Em seguida, são aplicados filtros de período, retiro e tipo de evento, devendo a listagem ser atualizada para refletir exclusivamente os registros que atendem aos parâmetros definidos. Na sequência, é acionado o botão de exportação com seleção do formato CSV; espera-se que o sistema gere o arquivo com colunas padronizadas contendo data, retiro, tipo de evento, categoria animal, quantidade e Capataz responsável (RF015). Por fim, o arquivo é baixado, devendo o seu conteúdo refletir estritamente os dados já validados estruturalmente no banco de dados central, eliminando a necessidade de redigitação manual e assegurando a integridade das informações enviadas aos controles da empresa (RN28).
 
 _Posicione aqui as tabelas com enunciados de tarefas, etapas e resultados de testes de usabilidade. Ou utilize um link para seu relatório de testes (mantenha o link sempre público para visualização)._
 
@@ -6623,39 +6666,15 @@ _Posicione aqui o relatório dos testes SUS realizados._
 
 ## 6.1 Resumo Executivo
 
-O Brasil é o maior exportador mundial de carne bovina, com receita de exportação de
-US$ 18,03 bilhões em 2025 [1] e crescente pressão por rastreabilidade de
-origem nos principais mercados internacionais. Apesar dessa escala, a gestão operacional
-de grande parte das fazendas ainda depende de registros manuais em papel um gargalo
-que compromete a qualidade das informações e a velocidade das decisões.
+O Brasil é o maior exportador mundial de carne bovina, com receita de exportação deUS$ 18,03 bilhões em 2025 [1] e crescente pressão por rastreabilidade de origem nos principais mercados internacionais. Apesar dessa escala, a gestão operacional de grande parte das fazendas ainda depende de registros manuais em papel um gargalo que compromete a qualidade das informações e a velocidade das decisões.
 
-É nesse contexto que se insere a solução desenvolvida para a BrPec Agropecuária S.A.,
-empresa com 14 retiros operacionais no Pantanal sul-mato-grossense. A região concentra
-64,5% do bioma pantaneiro no Mato Grosso do Sul [28], onde propriedades são
-extensas e retiros estão geograficamente dispersos, sem acesso a telecomunicações
-convencionais. O fluxo de informações entre o campo e o escritório ocorre por meio de
-boletas físicas preenchidas pelos capatazes, redigitadas manualmente em planilhas na
-sede. Esse processo gera inconsistências nos registros, atrasos de horas ou dias no
-repasse de informações críticas — como mortes de animais — e retrabalho constante para
-a equipe de coordenação.
+É nesse contexto que se insere a solução desenvolvida para a BrPec Agropecuária S.A., empresa com 14 retiros operacionais no Pantanal sul-mato-grossense. A região concentra 64,5% do bioma pantaneiro no Mato Grosso do Sul [28], onde propriedades são extensas e retiros estão geograficamente dispersos, sem acesso a telecomunicações convencionais. O fluxo de informações entre o campo e o escritório ocorre por meio de boletas físicas preenchidas pelos capatazes, redigitadas manualmente em planilhas na sede. Esse processo gera inconsistências nos registros, atrasos de horas ou dias no repasse de informações críticas — como mortes de animais — e retrabalho constante para a equipe de coordenação.
 
-A aplicação web progressiva (PWA) desenvolvida digitaliza o registro das movimentações
-do rebanho — nascimentos, mortes, compras, vendas e transferências entre retiros —,
-com funcionamento offline nativo. Para isso, adota SQLite como banco de dados local
-no dispositivo, desvinculando o registro de dados da disponibilidade de rede. Os dados
-são sincronizados automaticamente com o servidor durante as janelas de conectividade
-via Starlink, eliminando a dependência de conexão contínua como pré-requisito
-operacional.
+A aplicação web progressiva (PWA) desenvolvida digitaliza o registro das movimentações do rebanho — nascimentos, mortes, compras, vendas e transferências entre retiros —, com funcionamento offline nativo. Para isso, adota SQLite como banco de dados local no dispositivo, desvinculando o registro de dados da disponibilidade de rede. Os dados são sincronizados automaticamente com o servidor durante as janelas de conectividade via Starlink, eliminando a dependência de conexão contínua como pré-requisito operacional.
 
-Os principais diferenciais competitivos da solução são: interface adaptada ao perfil
-de baixa escolaridade digital dos capatazes, operação offline nativa via SQLite,
-eliminação da etapa de redigitação e rastreabilidade completa das movimentações em
-tempo real.
+Os principais diferenciais competitivos da solução são: interface adaptada ao perfil de baixa escolaridade digital dos capatazes, operação offline nativa via SQLite, eliminação da etapa de redigitação e rastreabilidade completa das movimentações em tempo real.
 
-O objetivo estratégico do projeto é reduzir erros operacionais, aumentar a velocidade
-de atualização das informações e dar aos gestores uma visão confiável e atualizada das
-operações de campo — tornando a BrPec mais competitiva em um setor que avança
-rapidamente em direção à digitalização e à rastreabilidade compulsória [40].
+O objetivo estratégico do projeto é reduzir erros operacionais, aumentar a velocidade de atualização das informações e dar aos gestores uma visão confiável e atualizada das operações de campo — tornando a BrPec mais competitiva em um setor que avança rapidamente em direção à digitalização e à rastreabilidade compulsória [40].
 
 
 ## 6.2 Análise de Mercado
@@ -7108,6 +7127,12 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 [51] ANATEL. Serviço de Comunicação Multimídia (SCM): acessos por tecnologia de acesso. Brasília: Anatel, 2024. Disponível em: https://informacoes.anatel.gov.br/paineis/acesso-a-internet-banda-larga. Acesso em: jun. 2026.
 
 [52] DISTRITO. Agtech Report Brasil 2024. São Paulo: Distrito, 2024. Disponível em: https://distrito.me/agtech-report/. Acesso em: jun. 2026.
+
+[53] KRUG, Steve. Rocket Surgery Made Easy: The Do-It-Yourself Guide to Finding and Fixing Usability Problems. Berkeley: New Riders, 2010. ISBN 978-0-321-65729-5.
+
+[54] NIELSEN, Jakob. Why You Only Need to Test with 5 Users. Nielsen Norman Group, 19 mar. 2000. Disponível em: https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/. Acesso em: jun. 2026.
+
+[55] ISO 9241-11:2018. Ergonomics of human-system interaction — Part 11: Usability: Definitions and concepts. Geneva: International Organization for Standardization, 2018.
 
 # <a name="c9"></a>Anexos
 
