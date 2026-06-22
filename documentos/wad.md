@@ -6611,9 +6611,30 @@ A tabela abaixo é coerente com a Matriz RF → RN → Endpoint (seção 3.1.4) 
 
 ### 5.2.1. Relatório de testes de guerrilha
 
-Link para a planilha dos testes de Guerrilha: https://docs.google.com/spreadsheets/d/1qdGcS9gtkIaFlHcXa6VoyoqdvRIejTfKeiD6Zggm5aI/edit?usp=sharing
+[Link para a planilha dos testes de Guerrilha:] (https://docs.google.com/spreadsheets/d/1qdGcS9gtkIaFlHcXa6VoyoqdvRIejTfKeiD6Zggm5aI/edit?usp=sharing) 
+#### Perfil dos Participantes
 
-_Posicione aqui as tabelas com enunciados de tarefas, etapas e resultados de testes de usabilidade. Ou utilize um link para seu relatório de testes (mantenha o link sempre público para visualização)._
+Os testes foram conduzidos com **6 participantes**, todos estudantes de graduação recrutados por conveniência entre colegas de faculdade dos integrantes do grupo. Os perfis de sistema (Capataz, Gerente e Coordenador) foram atribuídos como cenários de tarefa durante a sessão, nenhum participante ocupa esses cargos na BrPec e nem em outra agropecuária. O principal critério de diversidade adotado foi a familiaridade com o contexto agropecuário: Gregory cresceu em propriedade rural, enquanto os demais não têm experiência com o setor.
+
+| Participante | Perfil de experiência |
+|---|---|
+| Gregory | Experiência com ambiente rural (cresceu em fazenda, pai tem propriedade) |
+| Gabriel | Sem experiência com agronegócio |
+| Gabriel Cristino | Sem experiência com agronegócio |
+| Fernanda | Sem experiência com agronegócio |
+| Davi | Sem experiência com agronegócio |
+| Rafael | Sem experiência com agronegócio |
+
+A distribuição por perfil testado foi a seguinte:
+
+| Perfil de sistema testado | Tarefas | Participantes |
+|---|---|---|
+| Capataz | 1 e 2 | Gregory, Gabriel, Gabriel Cristino, Fernanda, Davi, Rafael (6) |
+| Gerente | 3 e 4 | Fernanda, Davi, Rafael (3) |
+| Coordenador | 5 e 6 | Gregory, Gabriel Cristino, Fernanda, Davi, Rafael (5) |
+
+Cada participante executou entre 1 e 5 tarefas conforme a disponibilidade na sessão. Nenhum recebeu instruções sobre o sistema antes da interação — o contato com a interface foi o primeiro de cada um.
+
 
 ### 5.2.2. Relatório de testes SUS (System Usability Scale)
 
