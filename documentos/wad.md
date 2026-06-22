@@ -6904,6 +6904,66 @@ Nenhum participante concordou que o sistema é complicado de usar. A grande maio
 
 ---
 
+**Questão 9 — "Eu me senti muito confiante ao usar o sistema."**
+
+Esta é uma questão de polaridade positiva no SUS: pontuações mais altas indicam que os participantes se sentiram seguros e à vontade durante o uso. As respostas foram as seguintes:
+
+| Participante | Resposta |
+|---|---|
+| P1 | 4 |
+| P2 | 2 |
+| P3 | 4 |
+| P4 | 4 |
+| P5 | 4 |
+| P6 | 4 |
+| P7 | 5 |
+
+A distribuição das respostas é apresentada a seguir:
+
+| Escala | Frequência | Proporção |
+|---|---|---|
+| 5 — Concordo totalmente | 1 | 14,3% |
+| 4 — Concordo | 5 | 71,4% |
+| 3 — Neutro | 0 | 0,0% |
+| 2 — Discordo | 1 | 14,3% |
+| 1 — Discordo totalmente | 0 | 0,0% |
+
+**Média: 3,86 / 5,0**
+
+A maioria expressiva dos participantes (85,7%) concordou que se sentiu confiante ao usar o sistema, com cinco deles atribuindo nota 4 — o que indica uma concordância consistente, ainda que não categórica. O único ponto de atenção é P2 (nota 2), que novamente destoa do grupo, padrão já observado nas Q7 e Q8. A ausência de respostas neutras nesta questão é relevante: os participantes polarizaram entre confiança e desconfiança, sem ambiguidade, o que sugere que a interface transmite clareza suficiente para a maioria, mas pode gerar insegurança em usuários com menor experiência digital.
+
+---
+
+**Questão 10 — "Eu precisei aprender muitas coisas novas antes de conseguir usar este sistema."**
+
+Esta é uma questão de polaridade negativa no SUS: pontuações mais baixas indicam que os participantes não precisaram de esforço de aprendizado significativo para começar a usar o sistema. As respostas foram as seguintes:
+
+| Participante | Resposta |
+|---|---|
+| P1 | 1 |
+| P2 | 3 |
+| P3 | 2 |
+| P4 | 2 |
+| P5 | 2 |
+| P6 | 2 |
+| P7 | 1 |
+
+A distribuição das respostas é apresentada a seguir:
+
+| Escala | Frequência | Proporção |
+|---|---|---|
+| 5 — Concordo totalmente | 0 | 0,0% |
+| 4 — Concordo | 0 | 0,0% |
+| 3 — Neutro | 1 | 14,3% |
+| 2 — Discordo | 4 | 57,1% |
+| 1 — Discordo totalmente | 2 | 28,6% |
+
+**Média: 1,86 / 5,0**
+
+Nenhum participante concordou que precisou aprender muitas coisas novas para usar o sistema. A maioria (85,7%) discordou ativamente, e o único neutro (P2, nota 3) mantém o padrão já identificado nas questões anteriores. O resultado encerra o questionário com uma percepção positiva de familiaridade imediata com a interface, indicando que os elementos de navegação e interação adotados foram suficientemente reconhecíveis para os participantes, sem exigir aprendizado de novos padrões de uso.
+
+---
+
 _Dados brutos coletados via Google Forms:_
 
 "Carimbo de data/hora","Nome de usuário","Eu acho que gostaria de usar este sistema com frequencia.","Eu achei o sistema desnecessariamente complexo.","Eu achei o sistema facil de usar.","Eu acho que precisaria de ajuda de uma pessoa tecnica para ser capaz de usar este sistema.","Eu achei que as varias funcoes neste sistema estao bem integradas.","Eu achei que havia muita inconsistencia neste sistema.","Eu imagino que a maioria das pessoas aprenderia a usar este sistema muito rapidamente.","Eu achei o sistema muito complicado de usar.","Eu me senti muito confiante ao usar o sistema.","Eu precisei aprender muitas coisas novas antes de conseguir usar este sistema."
