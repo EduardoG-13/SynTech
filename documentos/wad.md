@@ -7576,11 +7576,95 @@ ao da BrPec, aproveitando a rede de confiança já estabelecida no setor.
 
 # <a name="c7"></a>7. Conclusões e trabalhos futuros (sprint 5)
 
-_Escreva de que formas a solução da aplicação web atingiu os objetivos descritos na seção 2 deste documento. Indique pontos fortes e pontos a melhorar de maneira geral._
+## 7.1. O que foi entregue
 
-_Relacione os pontos de melhorias evidenciados nos testes com planos de ações para serem implementadas. O grupo não precisa implementá-las, pode deixar registrado aqui o plano para ações futuras_
+Ao longo de cinco sprints, a equipe desenvolveu uma aplicação web progressiva (PWA) offline-first para digitalizar a operação de campo da BrPec Agropecuária. O sistema substituiu o fluxo manual de boletas de papel e redigitação em planilhas por uma interface móvel que opera sem conectividade contínua e sincroniza dados automaticamente nas janelas de acesso à rede disponíveis nos retiros.
 
-_Relacione também quaisquer outras ideias que o grupo tenha para melhorias futuras_
+A solução foi entregue com quatro perfis de uso funcionais — Capataz, Coordenador, Gerente e Infraestrutura — cada um com autenticação independente e fluxos adaptados às suas responsabilidades operacionais. As 12 User Stories (US01–US12), os 15 Requisitos Funcionais (RF001–RF015) e as 28 Regras de Negócio (RN01–RN28) foram implementados e rastreados na Matriz RTM da seção 3.9. Os oito eixos de qualidade da ISO/IEC 25010 (RNF:USAB, RNF:CONF, RNF:DES, RNF:SUP, RNF:SEG, RNF:CAP, RNF:REST e um eixo adicional de resiliência) foram endereçados ao longo das sprints e documentados na seção 3.1.3.
+
+Os principais entregáveis funcionais incluem:
+
+- **Gestão de tarefas calendarizadas** (US01–US05, RF001–RF005): criação pelo Gerente, visualização e conclusão com evidências (foto, áudio, texto) pelo Capataz, com fila offline e sincronização automática via Service Worker + IndexedDB.
+- **Chamados de infraestrutura** (US06, RF006): abertura de alertas georreferenciados pelo Capataz, com coordenadas GPS imutáveis após registro e resolução pelo técnico de infraestrutura com foto de evidência.
+- **Dashboard gerencial** (US07, RF007): painel consolidado com status de tarefas por retiro, atualizado após cada sincronização.
+- **Registro zootécnico** (US08–US10, RF008–RF013): formulário de boleta digital cobrindo nascimentos, mortes, transferências, compras, vendas, evoluções e manejos, com foto obrigatória para mortes e georreferenciamento automático.
+- **Consulta e exportação de movimentações** (US11–US12, RF014–RF015): visualização filtrada por retiro e tipo pelo Coordenador, com exportação em CSV UTF-8 com BOM compatível com Excel (RFC 4180).
+- **Autenticação e autorização** (sprint 5): sessões JWT com access token e refresh token em cookie HttpOnly, controle de acesso por perfil em todos os endpoints protegidos.
+- **Sincronização em nuvem** (sprints 4–5): padrão Outbox via tabela `sincronizacoes`, agendador automático com fila de retry e limite de tentativas, integração com Supabase (PostgreSQL + Storage).
+
+---
+
+## 7.2. Principais desafios e como foram superados
+
+**Arquitetura offline-first em ambiente sem framework.** A principal exigência técnica do projeto — funcionamento sem internet com sincronização posterior — foi implementada sem bibliotecas de gestão de estado ou frameworks reativos. A solução combina Service Worker para interceptação de requisições, IndexedDB para persistência local no cliente e um endpoint `POST /api/sincronizacao/lote` no backend para processar a fila acumulada. O desafio de garantir determinismo nas janelas de reconexão foi resolvido com um loop de retry configurável no `sync.js` e um agendador no `cloudSyncService` com limite de tentativas e ordem topológica de envio para respeitar chaves estrangeiras do Supabase.
+
+**Compatibilidade do SQLite nativo com Node.js.** A adoção do módulo `node:sqlite` nativo exigiu Node.js ≥ 22.5 e atenção à API síncrona (`DatabaseSync`), que difere dos drivers assíncronos convencionais. O uso de banco em memória (`:memory:`) nos testes garantiu isolamento completo entre suítes e eliminou a necessidade de limpeza de estado entre execuções.
+
+**Separação de responsabilidades e legibilidade do código.** Na sprint 5, toda a lógica de negócio que havia sido implementada diretamente nos controllers foi migrada para serviços e repositórios dedicados. A refatoração envolveu extração de `authService`, `boletaService`, `refreshTokenRepository`, `usuarioRepository` e repositórios de dados, sem alterar contratos de API nem quebrar os testes existentes.
+
+**Gerenciamento de conflitos de merge em branch de documentação.** A branch de documentação da sprint 5 acumulou referências a arquivos que pertenciam a PRs pendentes na `developer` (caso de `transferenciaController.ts`), gerando erros de compilação TypeScript invisíveis no contexto da branch de origem. O processo de atualização de branches revelou a necessidade de uma política mais rigorosa de sincronização entre branches paralelas de feature e documentação.
+
+**Usabilidade em dispositivos de campo.** O design mobile-first com botões mínimos de 56px, contraste AAA (7:1) para uso sob luz solar e ícones do Material Symbols Rounded hospedados localmente foram validados na sprint 5. Os testes de guerrilha identificaram ausência de feedback de confirmação em ações críticas como ponto de melhoria prioritário — problema que não havia emergido nas revisões internas.
+
+---
+
+## 7.3. Resultados mensuráveis
+
+### Cobertura de requisitos
+
+| Dimensão | Total definido | Implementado |
+|---|---|---|
+| User Stories (US) | 12 | 12 |
+| Requisitos Funcionais (RF) | 15 | 15 |
+| Regras de Negócio (RN) | 28 | 28 |
+| Eixos ISO/IEC 25010 (RNF) | 8 | 8 |
+
+### Testes automatizados
+
+| Métrica | Resultado |
+|---|---|
+| Suites executadas | 26 |
+| Suites aprovadas | 26 (100%) |
+| Casos de teste | 206 |
+| Casos aprovados | 206 (100%) |
+| Cobertura global de statements | 45,2% |
+| Cobertura de statements — áreas críticas (auth, sync, eventos) | 55–89% |
+
+### Testes de usabilidade
+
+| Métrica | Resultado |
+|---|---|
+| Participantes — testes de guerrilha | 6 |
+| Sessões de teste | 22 |
+| Taxa de conclusão — fluxos do Coordenador | 100% |
+| Taxa de conclusão — fluxos do Gerente | 83% |
+| Taxa de conclusão — fluxos do Capataz | 52% |
+| Participantes — testes SUS | 7 |
+| Escore SUS médio | 77,5 — "Bom" (escala Bangor et al.) |
+
+### Critérios impeditivos de publicação
+
+| Critério | Status |
+|---|---|
+| Build (`tsc --noEmit`) | PASSOU |
+| Suite completa (`npm test`) | PASSOU — 26/26 suites, 206/206 testes |
+| Deploy | FALHOU — configuração de deploy não versionada; ausência de URL pública |
+
+---
+
+## 7.4. Limitações identificadas
+
+**Deploy em ambiente público.** O sistema opera exclusivamente em execução local (`npm start`). Não foi versionado artefato de deploy compatível com nenhuma plataforma de hospedagem (Render, Railway, Fly.io ou similar), e nenhuma URL de homologação foi publicada.
+
+**Cobertura de testes nos fluxos do Capataz.** A taxa de conclusão de 52% nos testes de guerrilha para os fluxos do Capataz — concentrada na Tarefa 2 (abertura de chamado) por um erro HTTP 400 no endpoint — evidencia que as suites automatizadas cobrem contratos HTTP mas não substituem a validação de ponta a ponta com usuários reais.
+
+**Feedback visual em ações críticas.** Os testes de guerrilha identificaram ausência de confirmação após conclusão de tarefa com sincronização (H1 — Visibilidade do status do sistema) como problema de severidade grave, afetando também a criação de tarefa calendarizada.
+
+**Cobertura de testes no `boletaService`.** O serviço de boletas — área central do produto — apresentou 3,8% de cobertura de statements ao final da sprint 5, sem testes dedicados para os fluxos de criação, atualização e listagem de boletas.
+
+**Sincronização bidirecional e resolução de conflitos.** A arquitetura atual implementa sincronização unidirecional (campo → nuvem via Outbox). Cenários de edição concorrente — dois capatazes registrando movimentações para o mesmo lote de animais em retiros diferentes sem conexão — não possuem mecanismo de detecção ou resolução de conflito.
+
+**Onboarding para usuários com baixa literacia digital.** O perfil de Capataz descrito nas personas inclui usuários com dificuldade com leitura e escrita formal. Os testes de guerrilha indicaram que a terminologia e a navegação foram mais acessíveis para participantes com experiência rural, mas o escore SUS de P2 (45,0) sinaliza que parte do público-alvo pode ter dificuldades com a curva de aprendizado.
 
 # <a name="c8"></a>8. Referências (sprints 1 a 5)
 
