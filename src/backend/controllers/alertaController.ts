@@ -15,8 +15,10 @@ class AlertaController {
       return next(new AppError(400, 'Campos obrigatórios não preenchidos: ' + faltando.join(', ') + '. Recebido: ' + JSON.stringify({ tipo, capataz_id, retiro_id, latitude, longitude })));
     }
 
-    if (!descricao || descricao.trim().length <= 10) {
-      return next(new AppError(400, 'RN-ALERTA: descrição deve ter mais de 10 caracteres'));
+    const temDescricao = !!descricao && descricao.trim().length >= 10;
+    const temAudio = !!audio_base64;
+    if (!temDescricao && !temAudio) {
+      return next(new AppError(400, 'RN-ALERTA: informe uma descricao com ao menos 10 caracteres ou grave um audio'));
     }
 
     try {

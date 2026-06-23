@@ -54,15 +54,15 @@
         </div>
         <% } %>
 
-        <div class="card-resolucao">
-          <label class="label-bold" for="descricao"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">edit</span> Descreva o problema <span class="req-star">*</span></label>
-          <p class="ajuda">Mínimo 10 caracteres. Seja claro sobre o que aconteceu.</p>
-          <textarea id="descricao" name="descricao" rows="4" placeholder="Ex: Bebedouro com vazamento no pasto 4, gado sem água..." minlength="10" required></textarea>
+        <div class="card-resolucao card-detalhamento-obrigatorio">
+          <label class="label-bold" for="descricao"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">edit</span> Detalhamento do problema <span class="req-star">*</span></label>
+          <p id="detalhamento-ajuda" class="ajuda ajuda-obrigatoria">Obrigat&oacute;rio: escreva pelo menos 10 caracteres ou grave um &aacute;udio explicando o problema.</p>
+          <textarea id="descricao" name="descricao" rows="4" placeholder="Ex: Bebedouro com vazamento no pasto 4, gado sem &aacute;gua..." minlength="10" aria-describedby="detalhamento-ajuda"></textarea>
         </div>
 
-        <div class="card-resolucao">
-          <label class="label-bold"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">mic</span> Áudio <span class="opcional-txt">(opcional)</span></label>
-          <p class="ajuda">Grave detalhes em áudio se preferir não digitar.</p>
+        <div class="card-resolucao card-detalhamento-obrigatorio">
+          <label class="label-bold"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">mic</span> &Aacute;udio do problema <span class="req-star">*</span></label>
+          <p class="ajuda ajuda-obrigatoria">Use o &aacute;udio se preferir n&atilde;o digitar. Texto ou &aacute;udio: um dos dois &eacute; obrigat&oacute;rio.</p>
           <button type="button" class="btn-audio" id="btn-gravar-audio">
             <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">mic</span>
             <span id="audio-btn-txt">Gravar áudio</span>

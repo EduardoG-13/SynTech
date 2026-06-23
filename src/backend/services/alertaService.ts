@@ -3,8 +3,10 @@ import { Alerta } from '../models/Alerta';
 
 class AlertaService {
   async criarAlerta(dados: Partial<Alerta>) {
-    if (!dados.descricao || dados.descricao.trim().length <= 10) {
-      throw new Error('RN-ALERTA: descrição deve ter mais de 10 caracteres');
+    const temDescricao = !!dados.descricao && dados.descricao.trim().length >= 10;
+    const temAudio = !!(dados as any).audio_base64;
+    if (!temDescricao && !temAudio) {
+      throw new Error('RN-ALERTA: informe uma descricao com ao menos 10 caracteres ou grave um audio');
     }
 
     if (dados.latitude === undefined || dados.latitude === null ||

@@ -91,6 +91,20 @@
   margin-top: -0.25rem;
 }
 
+.ajuda-obrigatoria {
+  background: #FFF4E5;
+  border-left: 4px solid #ED9024;
+  border-radius: 8px;
+  color: #6F3A00;
+  font-weight: 700;
+  margin-top: 0;
+  padding: 0.6rem 0.75rem;
+}
+
+.card-detalhamento-obrigatorio {
+  border-color: #ED9024;
+}
+
 .card-resolucao select,
 .card-resolucao textarea,
 .card-resolucao input[type="text"] {
