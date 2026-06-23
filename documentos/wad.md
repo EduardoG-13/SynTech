@@ -7163,14 +7163,38 @@ A leitura integrada dos testes de guerrilha e do SUS revela padrões consistente
 
 #### Lista Unificada de Melhorias
 
-A tabela a seguir consolida todos os problemas identificados nas duas rodadas de teste — guerrilha e SUS —, unificando achados qualitativos e quantitativos em uma lista priorizada por severidade. P1–P6 referem-se aos participantes dos testes de guerrilha (seção 5.2.1); referências ao SUS indicam questões do questionário (Q1–Q10).
+A tabela a seguir consolida todos os problemas identificados nas duas rodadas de teste — guerrilha e SUS —, unificando achados qualitativos e quantitativos em uma lista priorizada por severidade.
 
-| # | Problema | Área | Severidade | Fonte | Referência | Melhoria Sugerida |
-|---|---|---|---|---|---|---|
-| 1 | Endpoint de chamados de infraestrutura retorna HTTP 400 independente dos dados enviados, impedindo qualquer submissão | Funcional | 4 — Catastrófico | Guerrilha | P3, P4, P5 / Tarefa 2 | Corrigir validação e mapeamento do payload no backend; retornar status 2xx e mensagem de sucesso ao usuário |
-| 2 | Ausência de confirmação de sincronização após conclusão de tarefa com foto: registro não aparece para Gerente nem para o Capataz sem indicação visual de que foi salvo | UX | 3 — Grave | Guerrilha + SUS | P1 (falha), P2 (dificuldade) / Tarefa 1; reforçado por Q9 do SUS — único caso de discordância em questão positiva com média acima de 3,5 (H1) | Exibir toast ou snackbar de confirmação após sincronização bem-sucedida; indicar estado pendente enquanto o upload de foto estiver em andamento |
-| 3 | Ausência de feedback visual após criação de tarefa calendarizada: participante não localiza a tarefa recém-registrada e interpreta como falha no cadastro | UX | 3 — Grave | Guerrilha + SUS | P4 / Tarefa 3; reforçado pela recorrência de H1 como heurística mais frequente nas sessões e pela correlação com Q9 do SUS | Exibir confirmação (modal ou snackbar) ao salvar tarefa calendarizada e redirecionar ou destacar o item criado na lista |
-| 4 | Sistema não oferece orientação contextual suficiente para usuários com menor familiaridade digital | UX | 2 — Simples | SUS | Q4 (28,6% concordaram com necessidade de suporte técnico); Q7 (menor média entre questões positivas, 3,71, com único caso de discordância total) | Adicionar tooltips ou textos de orientação em ações críticas — abertura de chamado e conclusão de tarefa com foto — para reduzir dependência de suporte técnico no perfil de capataz com baixa escolaridade digital |
+**Legenda — coluna Tipo:**
+- **Funcional** — bug técnico que impede a execução da tarefa independentemente do comportamento do usuário
+- **Usabilidade** — dificuldade originada pelo design da interface: navegação, feedback visual, convenções ou posicionamento de elementos
+- **Compreensão de conteúdo** — dificuldade originada pelo vocabulário ou pela lógica do domínio agropecuário, não pelo design em si
+
+**Legenda — colunas de participantes (P1–P6):**
+- **teve** — participante encontrou o problema durante a sessão
+- **não** — participante executou a tarefa sem encontrar o problema
+- **n/t** — participante não testou essa tarefa na sessão
+- **n/a** — item derivado exclusivamente do SUS; não possui mapeamento por participante de guerrilha
+
+**Legenda — severidade (escala Nielsen):**
+- **1 — Cosmético** — não interfere na execução; pode ser corrigido se houver tempo
+- **2 — Simples** — causa lentidão ou confusão pontual; baixa prioridade
+- **3 — Grave** — dificulta ou impede a conclusão da tarefa para parte dos usuários; deve ser corrigido
+- **4 — Catastrófico** — impede a conclusão da tarefa para todos os usuários; correção imediata
+
+| \# | Tarefa | Tipo | Problema | Severidade | P1 | P2 | P3 | P4 | P5 | P6 | Melhoria Sugerida |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | Capataz: Registrar nascimentos | Usabilidade | Nem o Coordenador nem o Capataz conseguem localizar movimentações registradas pelo Capataz; tarefas concluídas desaparecem do fluxo | 4 — Catastrófico | teve | teve | não | teve | não | n/t | Garantir persistência e visibilidade dos registros sincronizados na listagem do Coordenador e na confirmação do Capataz |
+| 2 | Capataz: Abrir chamado de infraestrutura | Funcional | Endpoint retorna HTTP 400 independente dos dados enviados, impedindo qualquer submissão | 3 — Grave | n/t | n/t | teve | teve | teve | n/t | Corrigir validação e mapeamento do payload no backend; retornar status 2xx e mensagem de sucesso ao usuário |
+| 3 | Gerente: Criar tarefa calendarizada | Usabilidade | Confusão ao abrir configurações: participantes esperavam nova tela; botão com posicionamento inadequado e nomenclatura pouco clara | 3 — Grave | não | não | não | teve | teve | teve | Reposicionar aba de configurações para local mais visível e renomear o botão de acesso |
+| 4 | Capataz: Concluir tarefa com foto | Usabilidade | Ausência de confirmação de sincronização: registro não aparece para Gerente nem para o Capataz sem indicação visual de que foi salvo; reforçado por Q9 do SUS (única discordância em questão positiva com média acima de 3,5) | 3 — Grave | teve | teve | não | não | não | não | Exibir toast ou snackbar de confirmação após sincronização bem-sucedida; indicar estado pendente durante upload de foto |
+| 5 | Gerente: Criar tarefa calendarizada | Usabilidade | Ausência de feedback visual após criação: participante não localiza a tarefa recém-registrada e interpreta como falha no cadastro; reforçado pela recorrência de H1 nas sessões e correlação com Q9 do SUS | 3 — Grave | n/t | n/t | n/t | teve | não | não | Exibir confirmação (modal ou snackbar) ao salvar tarefa calendarizada e redirecionar ou destacar o item criado na lista |
+| 6 | Capataz: Abrir chamado de infraestrutura | Usabilidade | Cor do indicador de GPS capturado gera confusão com estado de erro; ausência de sinalização de sucesso | 2 — Simples | não | não | não | não | teve | não | Alterar cor do indicador de GPS para verde quando as coordenadas forem capturadas com sucesso |
+| 7 | Gerente: Criar tarefa calendarizada | Usabilidade | Dificuldade de leitura na tela de revisão: hífens e tamanho reduzido de texto prejudicam a leitura | 2 — Simples | não | não | não | não | teve | não | Remover hífens desnecessários e aumentar tamanho do texto na tela de revisão |
+| 8 | Geral | Usabilidade | Sistema não oferece orientação contextual suficiente para usuários com menor familiaridade digital — SUS Q4: 28,6% indicaram necessidade de suporte técnico; Q7: menor média entre questões positivas, 3,71, com único caso de discordância total | 2 — Simples | n/a | n/a | n/a | n/a | n/a | n/a | Adicionar tooltips ou textos de orientação em ações críticas — abertura de chamado e conclusão de tarefa com foto — para reduzir dependência de suporte técnico no perfil de capataz com baixa escolaridade digital |
+| 9 | Capataz: Registrar nascimentos | Compreensão de conteúdo | Confusão ao registrar transferências: participante consegue selecionar o próprio retiro como destino, gerando registro inválido | 1 — Cosmético | não | não | não | não | teve | não | Bloquear seleção do retiro de origem como destino no formulário de transferências |
+| 10 | Capataz: Registrar nascimentos | Compreensão de conteúdo | Dificuldade em localizar tipo de animal por faixa etária: ordenação atual mistura categorias de forma não intuitiva | 1 — Cosmético | não | não | não | não | teve | não | Ordenar seleção de categoria de animais por espécie primeiro, depois por faixa etária |
+| 11 | Coordenador: Visualizar movimentação | Usabilidade | Participante sentiu falta de poder ordenar colunas na tabela de movimentações; visualização percebida como limitada | 1 — Cosmético | não | não | n/t | teve | não | não | Adicionar ordenação por coluna na tabela de movimentações do Coordenador |
 
 
 # <a name="c6"></a>6. Estudo de Mercado e Plano de Marketing (sprint 4)
