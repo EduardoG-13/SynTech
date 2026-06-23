@@ -1,4 +1,4 @@
-<img src="../assets/logointeli.png">
+﻿<img src="../assets/logointeli.png">
 
 # WAD - Web Application Document - Módulo 2 - Inteli
 
@@ -1905,7 +1905,7 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
 | criadoEm | DateTime | Sim         | Timestamp de criação do registro, gerado pelo sistema                   |
 
 <center>
-  <p><strong>Tabela 31</strong> — Atributos da classe Usuario</p>
+  <p><strong>Tabela 22</strong> — Atributos da classe Usuario</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1921,7 +1921,7 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
 | visualizarAlertas()  | void         | Acessa os alertas de infraestrutura abertos pelos Capatazes (RF006) |
 
 <center>
-  <p><strong>Tabela 32</strong> — Métodos da classe Gerente</p>
+  <p><strong>Tabela 23</strong> — Métodos da classe Gerente</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1935,7 +1935,7 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
 | exportarRelatorio()       | Exportacao               | Gera e disponibiliza arquivo CSV/XLSX com os dados consolidados (RF015)            |
 
 <center>
-  <p><strong>Tabela 33</strong> — Métodos da classe Coordenador</p>
+  <p><strong>Tabela 24</strong> — Métodos da classe Coordenador</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1951,7 +1951,7 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
 | registrarEventoZootecnico() | MovimentacaoBase     | Preenche e persiste localmente um evento zootécnico (RF008, RF009)                       |
 
 <center>
-  <p><strong>Tabela 34</strong> — Métodos da classe Capataz</p>
+  <p><strong>Tabela 25</strong> — Métodos da classe Capataz</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1969,7 +1969,7 @@ Essa camada concentra as entidades que sustentam o fluxo principal de trabalho d
 | criadoEm       | DateTime | Sim         | Timestamp de cadastro do retiro no sistema                   |
 
 <center>
-  <p><strong>Tabela 35</strong> — Atributos da classe Retiro</p>
+  <p><strong>Tabela 26</strong> — Atributos da classe Retiro</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1991,7 +1991,7 @@ Essa camada concentra as entidades que sustentam o fluxo principal de trabalho d
 | sincronizada | Boolean  | Sim         | Indica se o registro já foi transmitido ao servidor central (RF010)               |
 
 <center>
-  <p><strong>Tabela 36</strong> — Atributos da classe Tarefa</p>
+  <p><strong>Tabela 27</strong> — Atributos da classe Tarefa</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2013,7 +2013,7 @@ A classe `Evidencia` é modelada como abstrata por reunir o comportamento comum 
 | **TextoComplementar** | conteudo        | String   | Sim         | Conteúdo textual inserido pelo Capataz como complemento da tarefa |
 
 <center>
-  <p><strong>Tabela 37</strong> — Atributos da classe Evidencia</p>
+  <p><strong>Tabela 28</strong> — Atributos da classe Evidencia</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2034,7 +2034,7 @@ A classe `Evidencia` é modelada como abstrata por reunir o comportamento comum 
 | foto_id      | UUID     | Não         | Chave estrangeira opcional para uma Foto associada ao chamado                 |
 
 <center>
-  <p><strong>Tabela 38</strong> — Atributos da classe Alerta</p>
+  <p><strong>Tabela 29</strong> — Atributos da classe Alerta</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2067,7 +2067,7 @@ Essa camada concentra os registros de eventos do rebanho e as entidades de supor
 | **Compravenda**        | valorFinanceiro              | Decimal  | Sim         | Valor financeiro associado ao negócio                                                    |
 
 <center>
-  <p><strong>Tabela 39</strong> — Atributos da classe MovimentacaoBase e suas subclasses</p>
+  <p><strong>Tabela 30</strong> — Atributos da classe MovimentacaoBase e suas subclasses</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2085,7 +2085,7 @@ Essa camada concentra os registros de eventos do rebanho e as entidades de supor
 | criadaEm        | DateTime | Sim         | Timestamp de criação do registro de controle, gerado no momento do salvamento local |
 
 <center>
-  <p><strong>Tabela 40</strong> — Atributos da classe Sincronizacao</p>
+  <p><strong>Tabela 31</strong> — Atributos da classe Sincronizacao</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2102,7 +2102,7 @@ Essa camada concentra os registros de eventos do rebanho e as entidades de supor
 | geradaEm         | DateTime | Sim         | Timestamp de geração do arquivo, registrado automaticamente pelo sistema      |
 
 <center>
-  <p><strong>Tabela 41</strong> — Atributos da classe Exportacao</p>
+  <p><strong>Tabela 32</strong> — Atributos da classe Exportacao</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2141,7 +2141,7 @@ A Tabela 19 consolida todos os relacionamentos modelados no diagrama, com seus t
 | Sincronizacao        | Dependência (- - →) | MovimentacaoBase     | 1 para 1       | RF010, RF012       |
 
 <center>
-  <p><strong>Tabela 42</strong> — Síntese de Relacionamentos</p>
+  <p><strong>Tabela 33</strong> — Síntese de Relacionamentos</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2464,7 +2464,7 @@ sequenceDiagram
 | Alternativo 2 | Capataz não pertence ao retiro → Service lança erro → Controller retorna 422    |
 
 <center>
-  <p><strong>Tabela 43</strong> — Fluxos Cobertos</p>
+  <p><strong>Tabela 34</strong> — Fluxos Cobertos</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2479,7 +2479,7 @@ sequenceDiagram
 | RNF — DES | Endpoint responde em p95 < 200ms com até 200 registros no banco                                  |
 
 <center>
-  <p><strong>Tabela 44</strong> — Rastreabilidade (RF001, RN01, RNF-SEG, RNF-DES)</p>
+  <p><strong>Tabela 35</strong> — Rastreabilidade (RF001, RN01, RNF-SEG, RNF-DES)</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2549,7 +2549,7 @@ sequenceDiagram
 | Alternativo 3 | Perfil não autorizado → acesso negado com 403                                                        |
 
 <center>
-  <p><strong>Tabela 45</strong> — Fluxos Cobertos</p>
+  <p><strong>Tabela 36</strong> — Fluxos Cobertos</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2570,7 +2570,7 @@ sequenceDiagram
 | RNF — DES    | Latência p95 < 200ms para salvar e ler registros no banco de dados local                                |
 
 <center>
-  <p><strong>Tabela 46</strong> — Mapa de Rastreabilidade</p>
+  <p><strong>Tabela 37</strong> — Mapa de Rastreabilidade</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2657,7 +2657,7 @@ sequenceDiagram
 | Alternativo 3 | Falha na sincronização com o servidor → tentativa registrada e reenvio automático na próxima conexão (RF012) |
 
 <center>
-  <p><strong>Tabela 47</strong> — Fluxos Cobertos</p>
+  <p><strong>Tabela 38</strong> — Fluxos Cobertos</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2678,7 +2678,7 @@ sequenceDiagram
 | RNF — CONF   | 0% de perda de dados em falhas de conexão; estratégia offline-first com reenvio automático              |
 
 <center>
-  <p><strong>Tabela 48</strong> — Mapa de Rastreabilidade (RF003, RF010, RF011, RF012, RN05, RN08, RN09, RN12, RNF-SEG, RNF-CONF)</p>
+  <p><strong>Tabela 39</strong> — Mapa de Rastreabilidade (RF003, RF010, RF011, RF012, RN05, RN08, RN09, RN12, RNF-SEG, RNF-CONF)</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2767,7 +2767,7 @@ sequenceDiagram
 | Alternativo 3 | Falha na sincronização → tentativa registrada e reenvio automático na próxima conexão (RF012)                      |
 
 <center>
-  <p><strong>Tabela 49</strong> — Fluxos cobertos</p>
+  <p><strong>Tabela 40</strong> — Fluxos cobertos</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2789,7 +2789,7 @@ sequenceDiagram
 | RNF — CAP    | Suporte a sincronização em lote de até 500 eventos                                                           |
 
 <center>
-  <p><strong>Tabela 50</strong> — Mapa de Rastreabilidade</p>
+  <p><strong>Tabela 41</strong> — Mapa de Rastreabilidade</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2899,7 +2899,7 @@ sequenceDiagram
 | Alternativo 3 | Falha de rede na sincronização ou replicação → Reenvio automático no próximo ciclo de conexões restabelecidas (RF012)                               |
 
 <center>
-  <p><strong>Tabela 51</strong> — Fluxos cobertos (DS05)</p>
+  <p><strong>Tabela 42</strong> — Fluxos cobertos (DS05)</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2915,7 +2915,7 @@ sequenceDiagram
 | RNF — CONF   | Integridade transacional em SQLite (local) e PostgreSQL Supabase (nuvem) para evitar inconsistências               |
 
 <center>
-  <p><strong>Tabela 52</strong> — Mapa de Rastreabilidade (DS05)</p>
+  <p><strong>Tabela 43</strong> — Mapa de Rastreabilidade (DS05)</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3322,7 +3322,7 @@ O quadro a seguir consolida a relação entre personas, User Stories priorizadas
 | Técnico de Infraestrutura | US06, US07 | Visualizar chamados e registrar resolução de problemas | Painel de infraestrutura; Detalhe do chamado; Registrar resolução | Mobile/Desktop |
 
 <center>
-  <p><strong>Tabela 51</strong> — Wireframes</p>
+  <p><strong>Tabela 44</strong> — Wireframes</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3362,7 +3362,7 @@ Uma **paleta de cores** é o conjunto definido e limitado de cores que uma marca
 | <img src="./assets/cores/white.png" width="40"/> | Branco | `#FFFFFF` | Fundos Secundários - fundo de cards, mensagens e caixas |
 
 <center>
-  <p><strong>Tabela 52</strong> — Paleta de Cores</p>
+  <p><strong>Tabela 45</strong> — Paleta de Cores</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3398,7 +3398,7 @@ A tipografia da solução utiliza a família **Inter**, disponível gratuitament
 | Corpo de texto, labels e tabelas | 400 (Regular), 500 (Medium) |
 
 <center>
-  <p><strong>Tabela 53</strong> — Tipografia da solução</p>
+  <p><strong>Tabela 46</strong> — Tipografia da solução</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3418,7 +3418,7 @@ A escala tipográfica foi definida com base nos critérios de contraste e legibi
 > Tamanho mínimo adotado: **12px**. Nenhum texto funcional da interface utiliza tamanho inferior a esse valor, garantindo legibilidade mesmo em dispositivos móveis sob luz solar direta [43][20].
 
 <center>
-  <p><strong>Tabela 54</strong> — Escala Tipográfica</p>
+  <p><strong>Tabela 47</strong> — Escala Tipográfica</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3477,7 +3477,7 @@ No caso desta solução, o único asset de imagem utilizado é o **logotipo da S
 </center>
 
 <center>
-  <p><strong>Tabela 55</strong> — Ícones e atributos</p>
+  <p><strong>Tabela 48</strong> — Ícones e atributos</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3832,7 +3832,7 @@ A evolução conceitual está apresentada nas seções 3.6.1 e 3.6.2. Nesta seç
 | `exportacoes`        | `id`           | `coordenador_id → usuarios(id)`                                         | Registro de exportações CSV geradas pelo Coordenador               |
 
 <center>
-  <p><strong>Tabela 56</strong> — Modelo Relacional</p>
+  <p><strong>Tabela 49</strong> — Modelo Relacional</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -4251,7 +4251,7 @@ A consulta retorna apenas as tarefas em que a tarefa está pendente e o respons�
 | V | V | V     |
 
 <center>
-  <p><strong>Tabela 57</strong> — Tabela-Verdade</p>
+  <p><strong>Tabela 50</strong> — Tabela-Verdade</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -4267,7 +4267,7 @@ A consulta realiza a integração entre as tabelas tarefas, usuarios e retiros, 
 | `retiros`  | Representa os retiros da fazenda           |
 
 <center>
-  <p><strong>Tabela 58</strong> — Tabelas Relacionadas</p>
+  <p><strong>Tabela 51</strong> — Tabelas Relacionadas</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -4289,7 +4289,7 @@ Com o objetivo de garantir rastreabilidade entre as regras de negócio definidas
 | RN28 — Exportação deve refletir dados validados | Movimentacao / Exportacao | `movimentacoes`, `sincronizacoes` | Uso de registros sincronizados e validados antes da exportação |
 
 <center>
-  <p><strong>Tabela 59</strong> — Matriz de Rastreabilidade</p>
+  <p><strong>Tabela 52</strong> — Matriz de Rastreabilidade</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -4329,7 +4329,7 @@ A consulta contabiliza apenas as movimentações classificadas como nascimento.
 | V | V         |
 
 <center>
-  <p><strong>Tabela 60</strong> — Leitura Lógica</p>
+  <p><strong>Tabela 53</strong> — Leitura Lógica</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -4344,7 +4344,7 @@ A consulta relaciona os registros de nascimento às movimentações do sistema e
 | `retiros`       | Identifica o local associado ao registro |
 
 <center>
-  <p><strong>Tabela 61</strong> — Tabelas Relacionadas</p>
+  <p><strong>Tabela 54</strong> — Tabelas Relacionadas</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center> 
 
@@ -4388,7 +4388,7 @@ A consulta retorna registros que precisam de atenção da rotina de sincronizaç
 | V | V | V     |
 
 <center>
-  <p><strong>Tabela 62</strong> — Leitura Lógica</p>
+  <p><strong>Tabela 55</strong> — Leitura Lógica</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -4401,7 +4401,7 @@ A consulta utiliza a tabela sincronizacoes, responsável pelo gerenciamento das 
 | `sincronizacoes` | Controla a fila de registros locais aguardando sincronização |
 
 <center>
-  <p><strong>Tabela 63</strong> — Tabelas Relacionadas</p>
+  <p><strong>Tabela 56</strong> — Tabelas Relacionadas</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -4449,7 +4449,7 @@ A atualização só ocorre quando o registro está em processamento e ainda não
 | V | V | V     |
 
 <center>
-  <p><strong>Tabela 64</strong> — Tabela-Verdade</p>
+  <p><strong>Tabela 57</strong> — Tabela-Verdade</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center> 
 
@@ -5635,7 +5635,7 @@ Regras de Negócio (RN) e a implementação correspondente no backend da BrPec.
 Uma linha por combinação RF + RN; onde não existe RN dedicada para o RF na seção 3.1.2, o campo exibe "—".
 
 <div align="center">
-  <p><strong>Tabela 20</strong> — Matriz RTM BrPec</p>
+  <p><strong>Tabela 58</strong> — Matriz RTM BrPec</p>
 </div>
 
 | US    | Persona     | Necessidade                                               | RN    | RF    | Implementação                                                                                                                                         | Evidência                                                                                                                                                             |
@@ -5858,7 +5858,7 @@ src/backend/
 **Estado atual de cada camada:**
 
 <center>
-  <p><strong>Tabela 20</strong> — Estado da implementação das camadas arquiteturais (sprint 3)</p>
+  <p><strong>Tabela 59</strong> — Estado da implementação das camadas arquiteturais (sprint 3)</p>
 </center>
 
 | Camada | Arquivos implementados | Status |
@@ -6022,7 +6022,7 @@ src/backend/
 **Estado atual de cada camada após a sprint 4:**
 
 <center>
-  <p><strong>Tabela 21</strong> — Estado da implementação das camadas arquiteturais (sprint 4)</p>
+  <p><strong>Tabela 60</strong> — Estado da implementação das camadas arquiteturais (sprint 4)</p>
 </center>
 
 | Camada | Adicionado na sprint 4 | Status |
