@@ -6,60 +6,60 @@
 
   <div id="app">
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar"><img src="/public/Icons/<%= perfil === 'Gerente' ? 'gerente' : (perfil === 'Coordenador' ? 'coordenador' : (perfil === 'Capataz' ? 'capataz' : 'infra')) %>.ico" alt="<%= perfil %>" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <div class="user-avatar" aria-label="Perfil: <%= perfil %>"><span class="material-symbols-rounded" aria-hidden="true"><%= perfil === 'Gerente' ? 'manage_accounts' : (perfil === 'Coordenador' ? 'groups' : (perfil === 'Capataz' ? 'engineering' : 'construction')) %></span></div>
       <h1>Detalhe do Chamado</h1>
       <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %> · somente leitura</div>
     </div>
 
     <main class="chamado-main">
-      <button type="button" class="btn-voltar" onclick="window.history.back()">⬅️ Voltar</button>
+      <button type="button" class="btn-voltar" onclick="window.history.back()"><span class="material-symbols-rounded ui-icon back-ico" aria-hidden="true">arrow_back</span> Voltar</button>
 
       <div class="card-chamado">
         <div class="card-chamado-header">
-          <div class="card-chamado-icone"><img src="/public/Icons/infra.ico" alt="" /></div>
+          <div class="card-chamado-icone"><span class="material-symbols-rounded ui-icon" aria-hidden="true">construction</span></div>
           <div>
             <h2 id="chamado-titulo">Carregando...</h2>
             <span class="badge" id="chamado-categoria">—</span>
           </div>
         </div>
         <div class="card-chamado-meta">
-          <div><strong><img class="ico-sm" src="/public/Icons/localizacao.ico" alt="" /> Retiro:</strong> <span id="chamado-retiro">—</span></div>
-          <div><strong><img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> Aberto em:</strong> <span id="chamado-data">—</span></div>
-          <div><strong><img class="ico-sm" src="/public/Icons/capataz.ico" alt="" /> Capataz:</strong> <span id="chamado-capataz">—</span></div>
-          <div><strong><img class="ico-sm" src="/public/Icons/editar.ico" alt="" /> Descrição:</strong> <span id="chamado-descricao">—</span></div>
+          <div><strong><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">location_on</span> Retiro:</strong> <span id="chamado-retiro">—</span></div>
+          <div><strong><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">calendar_month</span> Aberto em:</strong> <span id="chamado-data">—</span></div>
+          <div><strong><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">engineering</span> Capataz:</strong> <span id="chamado-capataz">—</span></div>
+          <div><strong><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">edit</span> Descrição:</strong> <span id="chamado-descricao">—</span></div>
           <div id="chamado-gps-box" style="display:none;">
-            <strong><img class="ico-sm" src="/public/Icons/GPS.ico" alt="" /> GPS:</strong>
+            <strong><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">my_location</span> GPS:</strong>
             <a id="chamado-gps-link" href="#" target="_blank" rel="noopener" style="color:#1A4D2E; text-decoration:underline;">—</a>
           </div>
-          <div id="chamado-local-box" style="display:none;"><strong><img class="ico-sm" src="/public/Icons/bussola_direcao_guia.ico" alt="" /> Local (referência):</strong> <span id="chamado-local">—</span></div>
+          <div id="chamado-local-box" style="display:none;"><strong><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">explore</span> Local (referência):</strong> <span id="chamado-local">—</span></div>
         </div>
         <div id="chamado-audio-box" style="display:none; margin-top:0.75rem;">
-          <p class="ajuda" style="margin-bottom:0.25rem;"><img class="ico-sm" src="/public/Icons/grava_audio.ico" alt="" /> Áudio enviado pelo capataz:</p>
+          <p class="ajuda" style="margin-bottom:0.25rem;"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">mic</span> Áudio enviado pelo capataz:</p>
           <audio controls id="chamado-audio" style="width:100%;"></audio>
         </div>
         <div id="chamado-foto-box" style="display:none; margin-top:0.75rem;">
-          <p class="ajuda" style="margin-bottom:0.25rem;"><img class="ico-sm" src="/public/Icons/tira_foto.ico" alt="" /> Foto enviada pelo capataz:</p>
+          <p class="ajuda" style="margin-bottom:0.25rem;"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">photo_camera</span> Foto enviada pelo capataz:</p>
           <img id="chamado-foto" alt="Foto do problema" style="max-width:100%; border-radius:10px;" />
         </div>
       </div>
 
       <!-- Bloco de resolução (se já tiver) -->
       <div class="card-chamado" id="bloco-resolucao" style="display:none;">
-        <h3 style="color:#1A4D2E; margin-bottom:0.5rem;"><img class="label-ico" src="/public/Icons/concluido.ico" alt="" /> Resolução</h3>
+        <h3 style="color:#1A4D2E; margin-bottom:0.5rem;"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">check_circle</span> Resolução</h3>
         <div class="card-chamado-meta">
-          <div><strong><img class="ico-sm" src="/public/Icons/infra.ico" alt="" /> Técnico:</strong> <span id="resol-tecnico">—</span></div>
-          <div><strong><img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> Resolvido em:</strong> <span id="resol-data">—</span></div>
-          <div><strong><img class="ico-sm" src="/public/Icons/concluido.ico" alt="" /> Solução:</strong> <span id="resol-solucao">—</span></div>
+          <div><strong><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">construction</span> Técnico:</strong> <span id="resol-tecnico">—</span></div>
+          <div><strong><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">calendar_month</span> Resolvido em:</strong> <span id="resol-data">—</span></div>
+          <div><strong><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">check_circle</span> Solução:</strong> <span id="resol-solucao">—</span></div>
         </div>
       </div>
 
       <p style="text-align:center; color:#8A8A7C; font-size:0.85rem; margin-top:1rem;">
-        <img class="ico-sm" src="/public/Icons/bloqueado.ico" alt="" /> Esta tela é somente leitura para o seu perfil.
+        <span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">lock</span> Esta tela é somente leitura para o seu perfil.
       </p>
 
       <!-- Botão Excluir: só Gerente ADM -->
       <button id="btn-excluir-chamado" style="display:none; width:100%; padding:0.85rem; background:#D32F2F; color:#fff; border:none; border-radius:10px; font-weight:700; cursor:pointer; margin-top:0.5rem;">
-        <img class="label-ico" src="/public/Icons/excluir.ico" alt="" /> Excluir chamado
+        <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">delete</span> Excluir chamado
       </button>
       <p class="form-msg" id="cham-msg" style="display:none; margin-top:0.5rem;"></p>
     </main>
@@ -134,7 +134,7 @@
     if (!confirm('Tem certeza que deseja EXCLUIR este chamado? Essa ação não pode ser desfeita.')) return;
     var btn = document.getElementById('btn-excluir-chamado');
     btn.disabled = true;
-    btn.textContent = '⏳ Excluindo...';
+    btn.textContent = 'Excluindo...';
     fetch('/api/admin/chamados/' + encodeURIComponent(CHAMADO_ID), {
       method: 'DELETE', credentials: 'same-origin'
     })
@@ -143,20 +143,20 @@
         var msg = document.getElementById('cham-msg');
         if (!res.ok) {
           btn.disabled = false;
-          btn.innerHTML = '🗑️ Excluir chamado';
-          msg.textContent = '❌ ' + (res.data.erro || 'Erro ao excluir.');
+          btn.innerHTML = BRPIcons.html('excluir', 'label-ico') + ' Excluir chamado';
+          msg.textContent = ' ' + (res.data.erro || 'Erro ao excluir.');
           msg.className = 'form-msg erro';
           msg.style.display = 'block';
           return;
         }
-        msg.textContent = '🗑️ Chamado excluído. Redirecionando...';
+        msg.textContent = ' Chamado excluído. Redirecionando...';
         msg.className = 'form-msg sucesso';
         msg.style.display = 'block';
         setTimeout(function() { window.location.href = '/historico'; }, 1200);
       })
       .catch(function() {
         btn.disabled = false;
-        btn.innerHTML = '🗑️ Excluir chamado';
+        btn.innerHTML = BRPIcons.html('excluir', 'label-ico') + ' Excluir chamado';
       });
   }
 </script>

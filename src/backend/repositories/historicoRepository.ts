@@ -32,6 +32,16 @@ class HistoricoRepository {
     if (filtros.data_fim) { conds.push('m.data <= ?'); params.push(String(filtros.data_fim)); }
     if (filtros.status === 'aprovada') conds.push('m.aprovado_por_coordenador_id IS NOT NULL');
     if (filtros.status === 'pendente') conds.push('m.aprovado_por_coordenador_id IS NULL');
+    if (filtros.busca && String(filtros.busca).trim()) {
+      const termo = `%${String(filtros.busca).trim().toLowerCase()}%`;
+      conds.push(`(
+        LOWER(COALESCE(m.numero_boleta, '')) LIKE ?
+        OR LOWER(COALESCE(m.grupo_id, '')) LIKE ?
+        OR LOWER(COALESCE(u.nome, '')) LIKE ?
+        OR LOWER(COALESCE(r.nome, '')) LIKE ?
+      )`);
+      params.push(termo, termo, termo, termo);
+    }
 
     const where = conds.length ? 'WHERE ' + conds.join(' AND ') : '';
     return db.prepare(`

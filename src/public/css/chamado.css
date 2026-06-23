@@ -10,18 +10,7 @@
   padding: 0;
 }
 
-.btn-voltar {
-  background: none;
-  border: none;
-  color: #1A4D2E;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-  margin-bottom: 1rem;
-  min-height: auto;
-}
-.btn-voltar:hover { background: none; color: #2E7D52; }
+/* .btn-voltar definido globalmente em styles.css */
 
 /* Card do chamado (resolver) */
 .card-chamado {
@@ -49,6 +38,7 @@
   flex-shrink: 0;
 }
 .card-chamado-icone img { width: 32px; height: 32px; object-fit: contain; }
+.card-chamado-icone .material-symbols-rounded { font-size: 2rem; }
 .card-chamado-header h2 {
   font-family: 'Inter', sans-serif;
   font-size: 1.15rem;

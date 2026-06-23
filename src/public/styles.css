@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Material Symbols Rounded';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('/public/fonts/material-symbols-rounded-v2.woff2') format('woff2');
+}
+
 /* ============================================================
    Paleta BRPec / Syntech — baseada nos mockups de alta fidelidade
    - Verde escuro (sidebar/headers): #1A4D2E
@@ -34,6 +42,98 @@
 * {
   box-sizing: border-box;
 }
+
+.material-symbols-rounded {
+  direction: ltr;
+  display: inline-block;
+  flex: 0 0 auto;
+  font-family: 'Material Symbols Rounded';
+  font-feature-settings: 'liga';
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 1;
+  overflow: hidden;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+}
+
+.ui-icon {
+  color: currentColor;
+  height: 1em !important;
+  min-width: 1em;
+  overflow: visible;
+  vertical-align: -0.18em;
+  width: 1em !important;
+}
+
+.ui-icon.ico-sm { font-size: 1.1rem; }
+.ui-icon.label-ico,
+.ui-icon.btn-ico,
+.ui-icon.back-ico { font-size: 1.25rem; }
+.ui-icon.ico-md { font-size: 1.5rem; }
+.ui-icon.op-card-ico,
+.ui-icon.upload-icon-img { font-size: 3rem; }
+.ui-icon.ui-icon--hero { font-size: 4.5rem; }
+
+button .ui-icon,
+a .ui-icon,
+label .ui-icon,
+h2 .ui-icon,
+h3 .ui-icon {
+  margin-right: 0.35rem;
+}
+
+.user-avatar .material-symbols-rounded {
+  color: inherit;
+  font-size: 2rem;
+}
+
+.db-stat-card__label .ui-icon {
+  font-size: 1.35rem;
+}
+
+#side-nav .material-symbols-rounded,
+.side-config .material-symbols-rounded,
+.side-logout .material-symbols-rounded,
+.bottom-nav .material-symbols-rounded {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.card-chamado-icone .material-symbols-rounded,
+.sucesso-icone .material-symbols-rounded {
+  font-size: 3rem;
+}
+
+.upload-icon .material-symbols-rounded {
+  font-size: 3rem;
+}
+
+body[data-perfil="Capataz"] button .ui-icon,
+body[data-perfil="Capataz"] .op-card .ui-icon {
+  font-size: 1.75rem;
+}
+
+body[data-perfil="Capataz"] .pill,
+body[data-perfil="Capataz"] .fab-nova-boleta,
+body[data-perfil="Capataz"] .btn-voltar {
+  min-height: 48px;
+}
+
+.priority-dot {
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  display: inline-block;
+  height: 0.75rem;
+  margin-right: 0.35rem;
+  width: 0.75rem;
+}
+.priority-dot--high { background: var(--danger); color: var(--danger); }
+.priority-dot--medium { background: var(--warning); color: #8A5300; }
+.priority-dot--low { background: var(--success); color: var(--success); }
 
 body {
   margin: 0;
@@ -182,14 +282,29 @@ button:hover {
 }
 
 .secondary-button,
-.ghost-button {
+.ghost-button,
+.btn-secundario {
   background: #fff;
   color: var(--primary);
+  border: 1px solid var(--primary);
 }
 
 .secondary-button:hover,
-.ghost-button:hover {
+.ghost-button:hover,
+.btn-secundario:hover {
   background: var(--surface-muted);
+}
+
+.req-star {
+  color: var(--danger);
+  margin-left: 2px;
+}
+
+.opcional-txt {
+  color: var(--muted-2);
+  font-size: 0.85em;
+  font-weight: normal;
+  margin-left: 4px;
 }
 
 .status {
@@ -650,6 +765,132 @@ th {
 }
 
 /* =========================================================
+   Indicador de conexão (pill fixo no topo) + Rodapé do app
+   ========================================================= */
+.status-conexao {
+  position: fixed;
+  top: 0.75rem;
+  right: 0.85rem;
+  z-index: 998;              /* abaixo da sidebar (1000) e do overlay (999) no mobile */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid transparent;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition: background 0.2s, opacity 0.2s, transform 0.15s;
+}
+.status-conexao:hover { transform: translateY(1px); }
+
+.status-conexao .status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
+}
+
+/* Online: verde Syntech */
+.status-conexao.online {
+  background: var(--primary-light);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+/* Offline: cinza/vermelho discreto */
+.status-conexao.offline {
+  background: var(--muted);
+}
+.status-conexao.offline .status-dot { background: #ffd5d5; animation: pulso-offline 1.4s ease-in-out infinite; }
+
+/* Há itens aguardando envio: vira âmbar pra chamar atenção */
+.status-conexao.tem-pendencia {
+  background: var(--warning);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+.status-conexao.sincronizando { opacity: 0.85; }
+
+.status-conexao .status-pend {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.28);
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+@keyframes pulso-offline {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* Capataz: pill um pouco maior pra leitura no campo */
+body[data-perfil="Capataz"] .status-conexao { font-size: 0.9rem; padding: 0.45rem 0.95rem; }
+
+/* ---- Rodapé ---- */
+.app-footer {
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+  padding: 1rem 1.5rem;
+}
+.app-footer .footer-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.app-footer p {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.app-footer .footer-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.app-footer .app-version {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 3px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .app-footer .footer-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+}
+
+/* Alvos de toque: 44 px como base e 48 px no fluxo de campo do Capataz. */
+.pill { min-height: 44px; }
+body[data-perfil="Capataz"] .pill,
+body[data-perfil="Capataz"] .fab-nova-boleta,
+body[data-perfil="Capataz"] .btn-fab,
+body[data-perfil="Capataz"] .btn-voltar {
+  min-height: 48px !important;
+}
+
+/* =========================================================
    Ícones .ico inline em labels, botões e títulos (global)
    ========================================================= */
 .label-ico {
@@ -737,6 +978,69 @@ th {
 }
 
 /* =========================================================
+   BOTÃO VOLTAR — padrão único em TODO o sistema
+   Hierarquia: secundário com borda, sempre no topo da tela,
+   acima do título da página, antes de qualquer conteúdo.
+   ========================================================= */
+.btn-voltar,
+.back-btn,
+.btn-voltar-destaque {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.45rem;
+  background: #fff;
+  border: 2px solid #1A4D2E;
+  color: #1A4D2E;
+  border-radius: 10px;
+  padding: 0.55rem 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 0 0 1.25rem 0;
+  min-height: auto;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  width: fit-content;
+  line-height: 1;
+}
+.btn-voltar:hover,
+.back-btn:hover,
+.btn-voltar-destaque:hover {
+  background: #E6F3EB;
+  border-color: #2E7D52;
+  color: #2E7D52;
+}
+.btn-voltar .back-ico,
+.back-btn .back-ico,
+.btn-voltar .label-ico,
+.back-btn img,
+.btn-voltar-destaque .label-ico {
+  width: 18px !important;
+  height: 18px !important;
+  object-fit: contain;
+  margin: 0 !important;
+  vertical-align: middle;
+}
+
+/* Hierarquia de botões — explícita:
+   Primário (ação principal, mais geral): .btn-primario, .btn-enviar (fundo verde)
+   Secundário (ação alternativa): .btn-secundario, .btn-voltar (outline verde)
+   Sutil (ação terciária / link): .btn-link, .btn-text (texto verde sem borda) */
+.btn-link,
+.btn-text {
+  background: none;
+  border: none;
+  color: #1A4D2E;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.4rem 0.6rem;
+  text-decoration: underline;
+}
+
+/* =========================================================
    ACESSIBILIDADE DE CAMPO — APENAS PARA CAPATAZ
    Fontes maiores + UPPERCASE para uso em campo
    (sol forte, dedos sujos, baixo letramento digital).
@@ -772,27 +1076,38 @@ body[data-perfil="Capataz"] #device.logged .card.campo label {
 }
 body[data-perfil="Capataz"] #device.logged .filter-pills .pill,
 body[data-perfil="Capataz"] #device.logged .toggle-pills .pill {
-  font-size: 1.1rem;
+  font-size: 1rem;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   font-weight: 700;
-  padding: 0.85rem 1.5rem;
+  padding: 0.55rem 1.15rem;
+  min-height: 48px;
 }
-body[data-perfil="Capataz"] #device.logged button,
-body[data-perfil="Capataz"] #device.logged .btn,
-body[data-perfil="Capataz"] #device.logged .btn-primario,
+body[data-perfil="Capataz"] #device.logged button:not(.pill):not(.fab-nova-boleta):not(.btn-voltar):not(.btn-criar):not(.btn-add):not(.btn-remover),
+body[data-perfil="Capataz"] #device.logged .btn:not(.fab-nova-boleta):not(.btn-voltar):not(.btn-criar),
+body[data-perfil="Capataz"] #device.logged .btn-primario:not(.fab-nova-boleta):not(.btn-voltar):not(.btn-criar),
 body[data-perfil="Capataz"] #device.logged .btn-salvar,
 body[data-perfil="Capataz"] #device.logged .btn-enviar,
 body[data-perfil="Capataz"] #device.logged .btn-enviar-detalhe,
 body[data-perfil="Capataz"] #device.logged .btn-primario-grande,
 body[data-perfil="Capataz"] #device.logged .btn-login,
 body[data-perfil="Capataz"] #device.logged .btn-audio {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-weight: 700;
-  min-height: 64px;
-  padding: 1.1rem 1.25rem;
+  min-height: 60px;
+  padding: 1rem 1.2rem;
+}
+/* FAB "Nova Boleta" — tamanho fixo, não herda o gigantismo dos botões do Capataz */
+.fab-nova-boleta {
+  font-size: 0.85rem !important;
+  min-height: 48px !important;
+  padding: 0.6rem 1.2rem !important;
+  width: fit-content !important;
+  left: auto !important;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 body[data-perfil="Capataz"] #device.logged .tarefa-card .titulo {
   font-size: 1.2rem;

@@ -245,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (resultado.sucesso) {
-      irParaSucesso('✅ Chamado enviado com sucesso!');
+      irParaSucesso(' Chamado enviado com sucesso!');
       return;
     }
 
@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (resultado.mensagem && resultado.mensagem.toLowerCase().includes('network')) {
       try {
         await salvarOffline(payload);
-        irParaSucesso('✅ Chamado salvo localmente. Será sincronizado quando voltar a conexão.');
+        irParaSucesso(' Chamado salvo localmente. Será sincronizado quando voltar a conexão.');
         return;
       } catch (erro) {
         console.error('Erro ao salvar chamado localmente após falha de rede:', erro);

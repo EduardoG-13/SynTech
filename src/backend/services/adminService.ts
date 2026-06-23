@@ -132,6 +132,18 @@ export class AdminService {
     adminRepository.excluirTarefa(id);
     adminRepository.enfileirarSync('tarefa_excluida', id);
   }
+  // ==================== DISPOSITIVOS ====================
+
+  public listarDispositivos() {
+    return adminRepository.listarDispositivos();
+  }
+
+  public revogarDispositivo(id: string) {
+    const existe = adminRepository.verificarDispositivoExiste(id);
+    if (!existe) throw new Error('Dispositivo nÃ£o encontrado.');
+
+    adminRepository.revogarDispositivo(id);
+  }
 }
 
 export default new AdminService();

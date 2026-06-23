@@ -7,7 +7,7 @@
 
   <div id="app">
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar"><img src="/public/Icons/<%= perfil === 'Gerente' ? 'gerente' : (perfil === 'Coordenador' ? 'coordenador' : (perfil === 'Infraestrutura' ? 'infra' : 'capataz')) %>.ico" alt="<%= perfil %>" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <div class="user-avatar" aria-label="Perfil: <%= perfil %>"><span class="material-symbols-rounded" aria-hidden="true"><%= perfil === 'Gerente' ? 'manage_accounts' : (perfil === 'Coordenador' ? 'groups' : (perfil === 'Infraestrutura' ? 'construction' : 'engineering')) %></span></div>
       <h1>Infraestrutura</h1>
       <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %></div>
     </div>
@@ -16,8 +16,8 @@
 
       <div class="chamados-resumo" id="chamados-resumo">
 
-        <div class="card chamado-status-card">
-          <div class="chamado-status-icon aberto"><img src="/public/Icons/pendente.ico" alt="" style="width:32px;height:32px;object-fit:contain;" /></div>
+        <div class="card chamado-status-card" data-filtro="ABERTO" style="cursor:pointer;">
+          <div class="chamado-status-icon aberto"><span class="material-symbols-rounded ui-icon" aria-hidden="true">pending</span></div>
           <div class="chamado-status-info">
             <span class="chamado-status-label">Abertos</span>
             <span class="chamado-status-sub">Total de chamados</span>
@@ -25,8 +25,8 @@
           <span class="chamado-status-count" id="count-abertos">0</span>
         </div>
 
-        <div class="card chamado-status-card">
-          <div class="chamado-status-icon andamento"><img src="/public/Icons/andamento.ico" alt="" style="width:32px;height:32px;object-fit:contain;" /></div>
+        <div class="card chamado-status-card" data-filtro="EM_ANDAMENTO" style="cursor:pointer;">
+          <div class="chamado-status-icon andamento"><span class="material-symbols-rounded ui-icon" aria-hidden="true">pending</span></div>
           <div class="chamado-status-info">
             <span class="chamado-status-label">Em andamento</span>
             <span class="chamado-status-sub">Total de chamados</span>
@@ -34,11 +34,11 @@
           <span class="chamado-status-count" id="count-andamento">0</span>
         </div>
 
-        <div class="card chamado-status-card">
-          <div class="chamado-status-icon fechado"><img src="/public/Icons/concluido.ico" alt="" style="width:32px;height:32px;object-fit:contain;" /></div>
+        <div class="card chamado-status-card" data-filtro="RESOLVIDO" style="cursor:pointer;">
+          <div class="chamado-status-icon fechado"><span class="material-symbols-rounded ui-icon" aria-hidden="true">check_circle</span></div>
           <div class="chamado-status-info">
-            <span class="chamado-status-label">Fechados</span>
-            <span class="chamado-status-sub">Histórico semanal</span>
+            <span class="chamado-status-label">Resolvidos</span>
+            <span class="chamado-status-sub">Total de chamados</span>
           </div>
           <span class="chamado-status-count" id="count-fechados">0</span>
         </div>
@@ -52,7 +52,7 @@
       <% if (perfil !== 'Infraestrutura') { %>
         <!-- Só Capataz e Gerente ABREM chamados. A Infra apenas recebe e executa. -->
         <button class="btn btn-primario" id="btn-nova-os-infra" style="width: 100%; margin-top: 1rem;" onclick="window.location.href='/novo-chamado?perfil=<%= perfil %>&retiro=<%= retiro %>'">
-          <img class="label-ico" src="/public/Icons/infra.ico" alt="" /> Abrir Chamado de Infraestrutura
+          <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">construction</span> Abrir Chamado de Infraestrutura
         </button>
       <% } %>
 
@@ -66,51 +66,111 @@
     var PERFIL = '<%= perfil %>';
     var RETIRO = '<%= retiro %>';
     var cont = document.getElementById('chamados-lista');
+    var todosChamados = [];
+    var filtroAtivo = '';
+
+    // Cards de contagem clicáveis como filtro
+    document.querySelectorAll('.chamado-status-card[data-filtro]').forEach(function(card) {
+      card.addEventListener('click', function() {
+        var f = card.getAttribute('data-filtro');
+        if (filtroAtivo === f) {
+          filtroAtivo = '';
+          card.style.outline = '';
+        } else {
+          filtroAtivo = f;
+          document.querySelectorAll('.chamado-status-card[data-filtro]').forEach(function(c) { c.style.outline = ''; });
+          card.style.outline = '3px solid #1A4D2E';
+        }
+        renderizar(todosChamados);
+      });
+    });
 
     fetch('/api/chamados', { credentials: 'same-origin' })
       .then(function(r) { return r.json(); })
       .then(function(data) {
-        var chamados = (data && data.chamados) || [];
-        var counts = { ABERTO: 0, EM_ANDAMENTO: 0, RESOLVIDO: 0 };
-        chamados.forEach(function(c) { if (counts[c.status] !== undefined) counts[c.status]++; });
-
-        var elAb = document.getElementById('count-abertos');
-        var elAn = document.getElementById('count-andamento');
-        var elFe = document.getElementById('count-fechados');
-        if (elAb) elAb.textContent = counts.ABERTO;
-        if (elAn) elAn.textContent = counts.EM_ANDAMENTO;
-        if (elFe) elFe.textContent = counts.RESOLVIDO;
-
-        if (!chamados.length) {
-          cont.innerHTML = '<p style="text-align:center; color:#8A8A7C; padding:1.5rem;">📭 Nenhum chamado registrado ainda.</p>';
-          return;
-        }
-
-        var ICOS = { hidraulica: 'hidraulica', eletrica: 'eletrica', cerca: 'cerca', bebedouro: 'bebedouro' };
-        cont.innerHTML = chamados.map(function(c) {
-          var ico = ICOS[c.tipo] || 'alerta';
-          var statusClasse = c.status === 'RESOLVIDO' ? 'concluida' : (c.status === 'EM_ANDAMENTO' ? 'andamento' : 'pendente');
-          var statusLabel = c.status === 'RESOLVIDO' ? 'Resolvido' : (c.status === 'EM_ANDAMENTO' ? 'Em andamento' : 'Aberto');
-          var data = (c.criado_em || '').slice(0, 10);
-          return '<div class="card tarefa-card" onclick="window.location.href=\'/chamado/' + c.id + '/resolver\'">' +
-            '<div class="bar-lateral ' + statusClasse + '"></div>' +
-            '<div class="body">' +
-              '<div class="info">' +
-                '<span class="titulo"><img class="label-ico" src="/public/Icons/' + ico + '.ico" alt="" /> ' + (c.descricao || '').slice(0, 50) + '</span>' +
-                '<span class="descricao">' + (c.tipo || '').toUpperCase() + '</span>' +
-                '<div class="meta"><span class="retiro-tag">📅 ' + data + '</span></div>' +
-              '</div>' +
-              '<div class="status-area">' +
-                '<span class="badge ' + statusClasse + '">' + statusLabel + '</span>' +
-                '<span class="arrow">›</span>' +
-              '</div>' +
-            '</div>' +
-          '</div>';
-        }).join('');
+        todosChamados = (data && data.chamados) || [];
+        atualizarContadores(todosChamados);
+        renderizar(todosChamados);
       })
       .catch(function() {
         cont.innerHTML = '<p style="color:#D32F2F; text-align:center;">Erro ao carregar chamados.</p>';
       });
+
+    function atualizarContadores(chamados) {
+      var counts = { ABERTO: 0, EM_ANDAMENTO: 0, RESOLVIDO: 0 };
+      chamados.forEach(function(c) { if (counts[c.status] !== undefined) counts[c.status]++; });
+      var elAb = document.getElementById('count-abertos');
+      var elAn = document.getElementById('count-andamento');
+      var elFe = document.getElementById('count-fechados');
+      if (elAb) elAb.textContent = counts.ABERTO;
+      if (elAn) elAn.textContent = counts.EM_ANDAMENTO;
+      if (elFe) elFe.textContent = counts.RESOLVIDO;
+    }
+
+    function renderizar(chamados) {
+      var lista = filtroAtivo ? chamados.filter(function(c) { return c.status === filtroAtivo; }) : chamados;
+      if (!lista.length) {
+        cont.innerHTML = '<p style="text-align:center; color:#8A8A7C; padding:1.5rem;">Nenhum chamado encontrado.</p>';
+        return;
+      }
+      var ICOS = { hidraulica: 'hidraulica', eletrica: 'eletrica', cerca: 'cerca', bebedouro: 'bebedouro' };
+      var ehInfra = (PERFIL === 'Infraestrutura' || PERFIL === 'Tecnico');
+      cont.innerHTML = lista.map(function(c) {
+        var ico = ICOS[c.tipo] || 'alerta';
+        var statusClasse = c.status === 'RESOLVIDO' ? 'concluida' : (c.status === 'EM_ANDAMENTO' ? 'andamento' : 'pendente');
+        var statusLabel = c.status === 'RESOLVIDO' ? 'Resolvido' : (c.status === 'EM_ANDAMENTO' ? 'Em andamento' : 'Aberto');
+        var data = (c.criado_em || '').slice(0, 10);
+        var btnComecar = '';
+        if (ehInfra && c.status === 'ABERTO') {
+          btnComecar = '<button class="btn btn-primario btn-comecar" data-id="' + c.id + '" ' +
+            'style="font-size:0.8rem; padding:0.35rem 0.75rem; margin-top:0.4rem;" ' +
+            'onclick="event.stopPropagation(); iniciarChamado(\'' + c.id + '\', this)">Começar</button>';
+        }
+        return '<div class="card tarefa-card" onclick="window.location.href=\'/chamado/' + c.id + '/resolver\'">' +
+          '<div class="bar-lateral ' + statusClasse + '"></div>' +
+          '<div class="body">' +
+            '<div class="info">' +
+              '<span class="titulo">' + BRPIcons.html(ico, 'label-ico') + ' ' + (c.descricao || '').slice(0, 50) + '</span>' +
+              '<span class="descricao">' + (c.tipo || '').toUpperCase() + '</span>' +
+              '<div class="meta"><span class="retiro-tag"> ' + data + '</span></div>' +
+              btnComecar +
+            '</div>' +
+            '<div class="status-area">' +
+              '<span class="badge ' + statusClasse + '">' + statusLabel + '</span>' +
+              '<span class="arrow">›</span>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    window.iniciarChamado = function(id, btn) {
+      btn.disabled = true;
+      btn.textContent = 'Iniciando...';
+      fetch('/api/chamados/' + id + '/iniciar', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin'
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(res) {
+        if (res.status === 'EM_ANDAMENTO') {
+          var c = todosChamados.find(function(ch) { return ch.id === id; });
+          if (c) c.status = 'EM_ANDAMENTO';
+          atualizarContadores(todosChamados);
+          renderizar(todosChamados);
+        } else {
+          alert(res.erro || 'Erro ao iniciar chamado.');
+          btn.disabled = false;
+          btn.textContent = 'Começar';
+        }
+      })
+      .catch(function() {
+        alert('Erro de rede.');
+        btn.disabled = false;
+        btn.textContent = 'Começar';
+      });
+    };
   })();
 </script>
 

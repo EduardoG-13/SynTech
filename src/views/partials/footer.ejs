@@ -1,68 +1,202 @@
+<!-- Indicador de conexão — fixo no TOPO, visível em todas as telas logadas -->
+<div id="status-conexao" class="status-conexao online" role="status" aria-live="polite" title="Status de conexão. Toque para sincronizar.">
+  <span class="status-dot"></span>
+  <span id="onlineStatus">Online</span>
+  <span id="status-conexao-pend" class="status-pend" style="display:none;"></span>
+</div>
+
 <!-- Rodapé do Sistema -->
- <footer class="app-footer">
-    <div class="footer-container">
-        <p>&copy; 2026 BrPec Agropecuária. Desenvolvido poelo Grupo 3 (syntech)</p> <!-- &copy; serve para colocar o símbolo de direitos autorais (copyright) © em páginas da web-->
-        <div class="footer-meta">
-            <span class="badge-offline" id="onlineStatus">Online</span>
-            <span class="app-version">v0.0 - Sprint 4</span>
-        </div>
+<footer class="app-footer">
+  <div class="footer-container">
+    <p>&copy; 2026 BRPec Agropecuária · Desenvolvido pelo Grupo 3 (SynTech)</p>
+    <div class="footer-meta">
+      <span class="app-version">v0.5 · Sprint 5</span>
     </div>
- </footer>
+  </div>
+</footer>
 
- <!-- Script JS para Sincronização com o Banco de Dados local -->
- <script type="module">
-   import { fazerRequisicaoComOffline, sincronizarFilaPendente } from '/public/js/offline-interceptor.js';
-   
-   // Expor globalmente para uso em templates inline
-   window.fazerRequisicaoComOffline = fazerRequisicaoComOffline;
-   window.sincronizarFilaPendente = sincronizarFilaPendente;
- </script>
- <script src="/public/app.js"></script>
+<!-- Script JS para Sincronização com o Banco de Dados local -->
+<script type="module">
+  import { fazerRequisicaoComOffline, sincronizarFilaPendente } from '/public/js/offline-interceptor.js';
 
- <!-- Botão flutuante "Instalar app" — só aparece quando o browser permite -->
- <button id="btn-instalar-pwa" class="pwa-install-btn" style="display:none;" onclick="instalarPWA()">
-   <img class="label-ico" src="/public/Icons/instalar_aplicativo_celular.ico" alt="" /> Instalar app
- </button>
+  // Expor globalmente para uso em templates inline
+  window.fazerRequisicaoComOffline = fazerRequisicaoComOffline;
+  window.sincronizarFilaPendente = sincronizarFilaPendente;
+</script>
+<script src="/public/app.js"></script>
 
- <!-- Registro do Service Worker + handler de instalação do PWA -->
- <script>
-   if ('serviceWorker' in navigator) {
-     window.addEventListener('load', function () {
-       navigator.serviceWorker.register('/sw.js')
-         .then(function (reg) { console.log('[SW] Registrado:', reg.scope); })
-         .catch(function (err) { console.error('[SW] Falha:', err); });
-     });
-   }
+<!-- Indicador de conexão: liga o pill do topo ao estado real (online/offline + fila) -->
+<script>
+  (function () {
+    function iniciarStatusConexao() {
+      var pill = document.getElementById('status-conexao');
+      if (!pill) return;
+      var txt = document.getElementById('onlineStatus');
+      var pend = document.getElementById('status-conexao-pend');
 
-   // Captura o evento 'beforeinstallprompt' (Chrome/Edge/Android) e mostra o botão
-   var deferredInstallPrompt = null;
-   window.addEventListener('beforeinstallprompt', function (e) {
-     e.preventDefault();
-     deferredInstallPrompt = e;
-     var btn = document.getElementById('btn-instalar-pwa');
-     if (btn) btn.style.display = 'flex';
-   });
+      // Conta itens ainda não enviados na fila local (IndexedDB)
+      function contarPendentes() {
+        try {
+          if (window.brpecIndexedDb && window.brpecIndexedDb.listarFila) {
+            return window.brpecIndexedDb.listarFila()
+              .then(function (itens) {
+                return (itens || []).filter(function (i) { return i && i.status !== 'SINCRONIZADO'; }).length;
+              })
+              .catch(function () { return 0; });
+          }
+        } catch (e) { /* IndexedDB indisponível */ }
+        return Promise.resolve(0);
+      }
 
-   function instalarPWA() {
-     if (!deferredInstallPrompt) {
-       // iOS não dispara beforeinstallprompt — instruir o usuário
-       alert('Para instalar no iPhone:\n\n1. Toque no botão de compartilhar (□↑)\n2. Selecione "Adicionar à Tela de Início"');
-       return;
-     }
-     deferredInstallPrompt.prompt();
-     deferredInstallPrompt.userChoice.then(function () {
-       deferredInstallPrompt = null;
-       var btn = document.getElementById('btn-instalar-pwa');
-       if (btn) btn.style.display = 'none';
-     });
-   }
+      function render() {
+        var online = navigator.onLine;
+        pill.classList.toggle('offline', !online);
+        pill.classList.toggle('online', online);
+        if (txt) txt.textContent = online ? 'Online' : 'Offline';
+        contarPendentes().then(function (n) {
+          if (n > 0) {
+            pend.style.display = 'inline-flex';
+            pend.textContent = n + (n === 1 ? ' pendente' : ' pendentes');
+            pill.classList.add('tem-pendencia');
+          } else {
+            pend.style.display = 'none';
+            pill.classList.remove('tem-pendencia');
+          }
+        });
+      }
 
-   // Esconde o botão quando o app já está instalado
-   window.addEventListener('appinstalled', function () {
-     var btn = document.getElementById('btn-instalar-pwa');
-     if (btn) btn.style.display = 'none';
-   });
- </script>
+      window.addEventListener('online', render);
+      window.addEventListener('offline', render);
+      window.addEventListener('brpec:conexao', render);
+      window.addEventListener('brpec:sincronizacaoConcluida', render);
+
+      // Toque no pill força uma sincronização (quando online)
+      pill.addEventListener('click', function () {
+        if (!navigator.onLine) return;
+        var sync = window.offlineInterceptor && window.offlineInterceptor.forcarSincronizacao;
+        if (typeof sync !== 'function') return;
+        pill.classList.add('sincronizando');
+        if (txt) txt.textContent = 'Sincronizando...';
+        Promise.resolve(sync()).then(function () {
+          setTimeout(function () { pill.classList.remove('sincronizando'); render(); }, 400);
+        }).catch(function () { pill.classList.remove('sincronizando'); render(); });
+      });
+
+      // Recontagem periódica leve (caso algo entre na fila sem disparar evento)
+      setInterval(render, 8000);
+      render();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', iniciarStatusConexao);
+    } else {
+      iniciarStatusConexao();
+    }
+  })();
+</script>
+
+<!-- Botão flutuante "Instalar app" — só aparece quando o browser permite -->
+<button id="btn-instalar-pwa" class="pwa-install-btn" style="display:none;" onclick="instalarPWA()">
+  <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">install_mobile</span> Instalar app
+</button>
+
+<!-- Registro do Service Worker + handler de instalação do PWA -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/sw.js')
+        .then(function (reg) {
+          console.log('[SW] Registrado:', reg.scope);
+
+          var perfil = '<%= typeof usuario !== "undefined" ? usuario.perfil : "" %>';
+          if (perfil) {
+            navigator.serviceWorker.ready.then(function(registration) {
+              var sw = registration.active || registration.waiting || registration.installing;
+              if (sw) {
+                console.log('[SW] Disparando pre-cache-perfil:', perfil);
+                sw.postMessage({ tipo: 'pre-cache-perfil', perfil: perfil });
+              }
+            });
+          }
+        })
+        .catch(function (err) { console.error('[SW] Falha:', err); });
+    });
+  }
+
+  // Captura o evento 'beforeinstallprompt' (Chrome/Edge/Android) e mostra o botão
+  var deferredInstallPrompt = null;
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    var btn = document.getElementById('btn-instalar-pwa');
+    if (btn) btn.style.display = 'flex';
+  });
+
+  function instalarPWA() {
+    if (!deferredInstallPrompt) {
+      // iOS não dispara beforeinstallprompt — instruir o usuário
+      alert('Para instalar no iPhone:\n\n1. Toque no botão de compartilhar (□↑)\n2. Selecione "Adicionar à Tela de Início"');
+      return;
+    }
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.then(function () {
+      deferredInstallPrompt = null;
+      var btn = document.getElementById('btn-instalar-pwa');
+      if (btn) btn.style.display = 'none';
+    });
+  }
+
+  // Esconde o botão quando o app já está instalado
+  window.addEventListener('appinstalled', function () {
+    var btn = document.getElementById('btn-instalar-pwa');
+    if (btn) btn.style.display = 'none';
+  });
+</script>
+
+<!-- Pedir todas as permissões no primeiro acesso (GPS, câmera, microfone) -->
+<script>
+(function() {
+  var KEY = 'brpec_permissoes_pedidas';
+  if (localStorage.getItem(KEY)) return;
+
+  function pedirPermissoes() {
+    var promessas = [];
+
+    if (navigator.geolocation) {
+      promessas.push(new Promise(function(resolve) {
+        navigator.geolocation.getCurrentPosition(
+          function() { resolve('gps:ok'); },
+          function() { resolve('gps:negado'); },
+          { enableHighAccuracy: true, timeout: 10000 }
+        );
+      }));
+    }
+
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      promessas.push(
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then(function(stream) { stream.getTracks().forEach(function(t) { t.stop(); }); return 'camera:ok'; })
+          .catch(function() { return 'camera:negado'; })
+      );
+      promessas.push(
+        navigator.mediaDevices.getUserMedia({ audio: true })
+          .then(function(stream) { stream.getTracks().forEach(function(t) { t.stop(); }); return 'mic:ok'; })
+          .catch(function() { return 'mic:negado'; })
+      );
+    }
+
+    Promise.all(promessas).then(function() {
+      localStorage.setItem(KEY, new Date().toISOString());
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(pedirPermissoes, 1500); });
+  } else {
+    setTimeout(pedirPermissoes, 1500);
+  }
+})();
+</script>
 
 </body>
 </html>
