@@ -338,7 +338,7 @@
           if (selOrigem) {
             var nomeOrig = selOrigem.options[selOrigem.selectedIndex] ? selOrigem.options[selOrigem.selectedIndex].text : t.retiro_origem_nome || '';
             selOrigem.style.display = 'none';
-            selOrigem.disabled = true;
+            setSelectBloqueado(selOrigem, true);
             var spanOrig = document.createElement('div');
             spanOrig.className = 'campo-readonly';
             spanOrig.textContent = nomeOrig;
@@ -347,7 +347,7 @@
           if (selDestino) {
             var nomeDest = selDestino.options[selDestino.selectedIndex] ? selDestino.options[selDestino.selectedIndex].text : t.retiro_destino_nome || '';
             selDestino.style.display = 'none';
-            selDestino.disabled = true;
+            setSelectBloqueado(selDestino, true);
             var spanDest = document.createElement('div');
             spanDest.className = 'campo-readonly';
             spanDest.textContent = nomeDest;
@@ -654,12 +654,12 @@
                 var el = document.getElementById(id);
                 if (!el) return;
                 if (isEu) {
-                  el.disabled = false;
+                  setSelectBloqueado(el, false);
                 } else if (retiroId) {
                   el.value = retiroId;
-                  el.disabled = true;
+                  setSelectBloqueado(el, true);
                 } else {
-                  el.disabled = false;
+                  setSelectBloqueado(el, false);
                 }
               });
               atualizarBloqueioRetiroTransfer();
@@ -692,9 +692,16 @@
     var sel = document.getElementById('os-retiro');
     if (sel) {
       sel.value = match.id;
-      if (PERFIL === 'Capataz') sel.disabled = true;
+      if (PERFIL === 'Capataz') setSelectBloqueado(sel, true);
     }
     atualizarBloqueioRetiroTransfer();
+  }
+
+  function setSelectBloqueado(el, bloqueado) {
+    if (!el) return;
+    el.disabled = !!bloqueado;
+    el.classList.toggle('select-bloqueado', !!bloqueado);
+    el.setAttribute('aria-disabled', bloqueado ? 'true' : 'false');
   }
 
   function atualizarBloqueioRetiroTransfer() {
@@ -704,19 +711,19 @@
 
     // Se for Gerente e selecionou "Eu mesmo", libera tudo
     if (PERFIL === 'Gerente' && !RETIRO_LOGADO_ID) {
-      selOrigem.disabled = false;
-      selDestino.disabled = false;
+      setSelectBloqueado(selOrigem, false);
+      setSelectBloqueado(selDestino, false);
       return;
     }
 
     if (TIPO_TRANSF === 'envio') {
       if (RETIRO_LOGADO_ID) selOrigem.value = RETIRO_LOGADO_ID;
-      selOrigem.disabled = true;
-      selDestino.disabled = false;
+      setSelectBloqueado(selOrigem, true);
+      setSelectBloqueado(selDestino, false);
     } else {
       if (RETIRO_LOGADO_ID) selDestino.value = RETIRO_LOGADO_ID;
-      selDestino.disabled = true;
-      selOrigem.disabled = false;
+      setSelectBloqueado(selDestino, true);
+      setSelectBloqueado(selOrigem, false);
     }
   }
 
@@ -846,12 +853,6 @@
       }
     }
 
-    // Reabilita temporariamente selects de retiro (disabled impede leitura do .value em alguns browsers)
-    ['os-retiro', 'os-retiro-origem', 'os-retiro-destino'].forEach(function(id) {
-      var el = document.getElementById(id);
-      if (el) el.disabled = false;
-    });
-
     var payload = { operacao: op, perfil: PERFIL, data: (document.getElementById('os-data') || {}).value };
 
     // Gerente: envia em nome de um capataz específico ou registra ele mesmo
@@ -877,11 +878,10 @@
     if (op === 'transferencia') {
       payload.tipo = TIPO_TRANSF;
       payload.transporte = TIPO_TRANSPORTE;
-      // Selects disabled não enviam value via .value se estiverem disabled — re-habilita temporariamente
       var selOrig = document.getElementById('os-retiro-origem');
       var selDest = document.getElementById('os-retiro-destino');
-      payload.retiro_origem = selOrig.disabled ? selOrig.options[selOrig.selectedIndex].value : selOrig.value;
-      payload.retiro_destino = selDest.disabled ? selDest.options[selDest.selectedIndex].value : selDest.value;
+      payload.retiro_origem = selOrig.value;
+      payload.retiro_destino = selDest.value;
       // Vincula ao envio original se for recebimento bilateral
       if (window.__TRANSF_REF) {
         payload.transferencia_ref = window.__TRANSF_REF;

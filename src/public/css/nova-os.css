@@ -75,6 +75,29 @@
   color: #1B1B1B;
 }
 
+.card.campo select.select-bloqueado,
+.card.campo select:disabled.select-bloqueado {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #f4f7f3;
+  background-image: none;
+  border-color: #d7dfd3;
+  color: #1B1B1B;
+  cursor: not-allowed;
+  opacity: 1;
+  font-weight: 600;
+}
+
+.card.campo select.select-bloqueado::-ms-expand {
+  display: none;
+}
+
+.card.campo select.select-bloqueado + .ajuda,
+.card.campo .ajuda-bloqueio-retiro {
+  color: #5c6b5d;
+}
+
 .card.campo select:focus,
 .card.campo input:focus,
 .card.campo textarea:focus {
