@@ -7652,19 +7652,19 @@ Os principais entregáveis funcionais incluem:
 
 ---
 
-## 7.4. Limitações identificadas e trabalhos futuros
+## 7.4. Limitações identificadas
 
-**Deploy em ambiente público.** O sistema opera exclusivamente em execução local (`npm start`). Não foi versionado artefato de deploy compatível com nenhuma plataforma de hospedagem (Render, Railway, Fly.io ou similar), e nenhuma URL de homologação foi publicada. A prioridade imediata para uma próxima iteração é a criação de um `Dockerfile` ou arquivo equivalente, com pipeline de CI/CD automático integrado ao repositório.
+**Deploy em ambiente público.** O sistema opera exclusivamente em execução local (`npm start`). Não foi versionado artefato de deploy compatível com nenhuma plataforma de hospedagem (Render, Railway, Fly.io ou similar), e nenhuma URL de homologação foi publicada.
 
-**Cobertura de testes nos fluxos do Capataz.** A taxa de conclusão de 52% nos testes de guerrilha para os fluxos do Capataz — concentrada na Tarefa 2 (abertura de chamado) por um erro HTTP 400 no endpoint — evidencia que as suites automatizadas cobrem contratos HTTP mas não substituem a validação de ponta a ponta com usuários reais. O endpoint de chamados de infraestrutura deve ser corrigido e os fluxos do Capataz devem receber testes de integração end-to-end antes de qualquer publicação.
+**Cobertura de testes nos fluxos do Capataz.** A taxa de conclusão de 52% nos testes de guerrilha para os fluxos do Capataz — concentrada na Tarefa 2 (abertura de chamado) por um erro HTTP 400 no endpoint — evidencia que as suites automatizadas cobrem contratos HTTP mas não substituem a validação de ponta a ponta com usuários reais.
 
-**Feedback visual em ações críticas.** Os testes de guerrilha identificaram ausência de confirmação após conclusão de tarefa com sincronização (H1 — Visibilidade do status do sistema) como problema de severidade grave. A adição de toast ou snackbar de confirmação após sincronização bem-sucedida e após criação de tarefa calendarizada é o ajuste de UX de maior impacto para o próximo ciclo.
+**Feedback visual em ações críticas.** Os testes de guerrilha identificaram ausência de confirmação após conclusão de tarefa com sincronização (H1 — Visibilidade do status do sistema) como problema de severidade grave, afetando também a criação de tarefa calendarizada.
 
-**Cobertura de testes no `boletaService`.** O serviço de boletas — área central do produto — apresentou 3,8% de cobertura de statements ao final da sprint 5. A ausência de testes dedicados para os fluxos de criação, atualização e listagem de boletas representa o maior risco técnico remanescente e deve ser endereçada antes da publicação.
+**Cobertura de testes no `boletaService`.** O serviço de boletas — área central do produto — apresentou 3,8% de cobertura de statements ao final da sprint 5, sem testes dedicados para os fluxos de criação, atualização e listagem de boletas.
 
-**Sincronização bidirecional e resolução de conflitos.** A arquitetura atual implementa sincronização unidirecional (campo → nuvem via Outbox). Cenários de edição concorrente — dois capatazes registrando movimentações para o mesmo lote de animais em retiros diferentes sem conexão — não possuem mecanismo de detecção ou resolução de conflito. Para operação em produção, é necessário definir uma política de merge (ex: última escrita vence, ou alertar o Coordenador para revisão manual).
+**Sincronização bidirecional e resolução de conflitos.** A arquitetura atual implementa sincronização unidirecional (campo → nuvem via Outbox). Cenários de edição concorrente — dois capatazes registrando movimentações para o mesmo lote de animais em retiros diferentes sem conexão — não possuem mecanismo de detecção ou resolução de conflito.
 
-**Onboarding para usuários com baixa literacia digital.** O perfil de Capataz descrito nas personas inclui usuários com dificuldade com leitura e escrita formal. Os testes de guerrilha indicaram que a terminologia e a navegação foram mais acessíveis para participantes com experiência rural, mas o escore SUS de P2 (45,0) sinaliza que parte do público-alvo pode ter dificuldades com a curva de aprendizado. Tutoriais interativos, onboarding guiado por voz e simplificação dos formulários de boleta são melhorias prioritárias para adequação ao perfil real dos operadores de campo.
+**Onboarding para usuários com baixa literacia digital.** O perfil de Capataz descrito nas personas inclui usuários com dificuldade com leitura e escrita formal. Os testes de guerrilha indicaram que a terminologia e a navegação foram mais acessíveis para participantes com experiência rural, mas o escore SUS de P2 (45,0) sinaliza que parte do público-alvo pode ter dificuldades com a curva de aprendizado.
 
 # <a name="c8"></a>8. Referências (sprints 1 a 5)
 
