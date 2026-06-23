@@ -7225,8 +7225,6 @@ O objetivo estratégico do projeto é reduzir erros operacionais, aumentar a vel
 
 ## 6.2 Análise de Mercado
 
-_a) Visão Geral do Setor_
-
 O Brasil ocupa posição de destaque na pecuária bovina mundial. Em 2024, o rebanho 
 nacional atingiu 238,2 milhões de cabeças, segundo a Pesquisa da Pecuária Municipal 
 do IBGE — segundo maior da série histórica, superando em 12% a própria população 
@@ -7248,8 +7246,6 @@ previsto para entrar em vigor a partir de 2026, aumenta as exigências de rastre
 e comprovação de origem para acesso a mercados externos. Esse cenário reforça a 
 necessidade de digitalização das operações de campo, tornando soluções como a 
 desenvolvida para a BrPec diretamente alinhadas às demandas do setor.
-
-_b) Tamanho e Crescimento do Mercado_
 
 O rebanho bovino brasileiro encerrou 2024 com 238,2 milhões de cabeças, segundo a
 Pesquisa da Pecuária Municipal do IBGE — o segundo maior da série histórica iniciada
@@ -7299,10 +7295,6 @@ que registram movimentações de rebanho de forma estruturada e rastreável pass
 ter vantagem competitiva concreta no acesso a mercados premium — exatamente o
 problema que a solução desenvolvida para a BrPec endereça.
 
-
-
-_c) Tendências de Mercado (até 300 palavras)_
-
 Três tendências convergem para criar um momento favorável à adoção de soluções de gestão digital na pecuária de campo.
 
 **Tendência tecnológica: conectividade satelital e arquitetura offline-first**
@@ -7318,8 +7310,6 @@ O comportamento dos compradores internacionais de carne bovina mudou estruturalm
 O ecossistema de agtechs no Brasil cresceu de forma acelerada nos últimos anos, com o número de startups do setor expandindo mais de 30% entre 2020 e 2024 [52]. O segmento de gestão pecuária concentra parte crescente desse fluxo, com soluções voltadas a registro de rebanho, manejo sanitário e rastreabilidade ganhando tração junto a produtores de médio e grande porte. Esse crescimento eleva a pressão competitiva sobre fazendas que ainda operam com papel e amplia o mercado para ferramentas como a desenvolvida para a BrPec.
 
 ## 6.3 Análise da Concorrência
-
-_a) Principais Concorrentes (até 250 palavras)_
 
 O mercado de software para gestão pecuária no Brasil conta com soluções voltadas
 principalmente para fazendas com infraestrutura tecnológica já estabelecida.
@@ -7340,8 +7330,6 @@ gestão financeira complexa, apresenta curva de aprendizado mais longa [46].
 Nenhuma das soluções comerciais identificadas foi projetada para o modelo operacional
 de retiros geograficamente dispersos, com usuários de baixa escolaridade digital e
 conectividade dependente de janelas fixas de Starlink. 
-
-_b) Vantagens Competitivas da Aplicação Web (até 250 palavras)_
 
 A solução desenvolvida para a BrPec se diferencia dos concorrentes por um conjunto de
 características construídas especificamente para o contexto operacional da empresa.
@@ -7370,8 +7358,6 @@ concorrentes que penaliza operações de grande rebanho como a da BrPec.
 
 ## 6.4 Público-Alvo
 
-_a) Segmentação de Mercado (até 250 palavras)_
-
 O mercado-alvo da solução é composto por fazendas de pecuária de corte localizadas
 em regiões de baixa conectividade, com operações distribuídas em múltiplas unidades
 de campo, os retiros no contexto da Brpec. Esse segmento concentra características específicas que o diferenciam do mercado geral de
@@ -7395,10 +7381,6 @@ necessitam de visibilidade consolidada das operações de campo em tempo real, s
 depender de relatórios manuais ou planilhas desatualizadas. Ambos os segmentos
 compartilham a necessidade central de rastreabilidade operacional com baixa
 dependência de infraestrutura de rede.
-
-
-
-_b) Perfil do Público-Alvo (até 250 palavras)_
 
 O público-alvo da solução é composto por três perfis de usuários internos da BrPec,
 com características e contextos de uso distintos.
@@ -7428,7 +7410,6 @@ fluxos simples, linguagem visual direta, botões grandes e suporte a registros p
 
 ## 6.5 Posicionamento
 
-_a) Proposta de Valor Única (até 250 palavras)_
 A BrPec opera hoje com um fluxo de informações inteiramente manual: capatazes
 registram movimentações do rebanho em boletas de papel, que são recolhidas e
 redigitadas em planilhas Excel na sede pelo coordenador. Esse processo gera atrasos
@@ -7454,8 +7435,6 @@ de recolhimento e redigitação das boletas, as informações do rebanho — nas
 mortes, transferências — passam a estar disponíveis no painel assim que o retiro
 sincroniza. A tomada de decisão deixa de depender de dados defasados e passa a
 refletir a realidade operacional do dia.
-
-_b) Estratégia de Diferenciação (até 250 palavras)_
 
 A estratégia de diferenciação da solução se apoia em três eixos que os concorrentes
 de mercado não endereçam de forma combinada.
@@ -7492,8 +7471,6 @@ O Business Model Canvas abaixo sintetiza a estrutura de negócio da solução de
 
 ## 6.6 Estratégia de Marketing
 
-_a) Produto/Serviço (até 200 palavras)_
-
 A solução é uma aplicação web progressiva (PWA) voltada à digitalização do
 gerenciamento de campo em fazendas de pecuária de corte. É composta por dois
 módulos integrados: o aplicativo de campo, utilizado pelos capatazes para registro
@@ -7514,8 +7491,6 @@ aplicativos, simplificando a distribuição nos dispositivos da BrPec. O conjunt
 dessas características elimina a etapa de redigitação manual, reduz erros de
 registro na origem e amplia a rastreabilidade das movimentações do rebanho em
 tempo real.
-
-_b) Preço (até 200 palavras)_
 
 O modelo de precificação adotado é o SaaS (Software as a Service) com cobrança
 anual baseada no volume de cabeças ativas no rebanho. Esse modelo foi escolhido
@@ -7544,8 +7519,6 @@ usuários operacionais licenciados. Cobrar por cabeça ativa — e não por usu�
 por módulo — é o modelo mais transparente para o cliente rural, pois vincula
 diretamente o custo da ferramenta ao tamanho do negócio que ela suporta.
 
-_c) Praça (Distribuição) (até 200 palavras)_
-
 A estratégia de distribuição é B2B direta, sem intermediários. O produto é
 comercializado por meio de contato direto com a empresa e, com foco em propriedades que compartilham o perfil operacional da BrPec: múltiplos retiros, rebanho extenso e conectividade limitada.
 
@@ -7554,8 +7527,6 @@ de aplicativos, o que reduz barreiras de acesso em dispositivos com configuraç�
 restritas. A implementação é realizada de forma assistida: visita técnica à
 propriedade para configuração inicial, treinamento presencial dos capatazes e
 coordenadores e acompanhamento do primeiro ciclo completo de sincronização.
-
-_d) Promoção (até 200 palavras)_
 
 A estratégia de promoção é concentrada em canais com alta densidade do
 público-alvo e adequados ao ciclo de vendas B2B de ticket elevado.
