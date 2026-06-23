@@ -111,7 +111,7 @@ app.get('/boleta/:id', requireLogin(['Capataz', 'Coordenador', 'Gerente']), (req
   res.render('detalhe-boleta', { perfil: u.perfil, retiro: u.retiro_id || 'Geral', boletaId: req.params.id });
 });
 
-app.get('/nova-os', requireLogin(['Capataz']), (_req, res) => {
+app.get('/nova-os', requireLogin(['Capataz', 'Gerente']), (_req, res) => {
   const u = (res.locals as any).usuarioLogado;
   res.render('nova-os', { perfil: u.perfil, retiro: u.retiro_id || 'Geral' });
 });
