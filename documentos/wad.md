@@ -7554,7 +7554,11 @@ ao da BrPec, aproveitando a rede de confiança já estabelecida no setor.
 
 _Escreva de que formas a solução da aplicação web atingiu os objetivos descritos na seção 2 deste documento. Indique pontos fortes e pontos a melhorar de maneira geral._
 
-_Relacione os pontos de melhorias evidenciados nos testes com planos de ações para serem implementadas. O grupo não precisa implementá-las, pode deixar registrado aqui o plano para ações futuras_
+Os testes de usabilidade realizados na sprint 5 evidenciaram um conjunto de melhorias que não foram implementadas neste ciclo e constituem o principal plano de ação para iterações futuras.
+
+ As melhorias de maior impacto identificadas são a confusão na tela de configurações do Gerente, cuja aba deve ser reposicionada e renomeada para tornar o acesso mais intuitivo. Em nível de prioridade intermediária, destacam-se a correção da cor do indicador de GPS capturado no formulário de chamado de infraestrutura — que deve sinalizar sucesso em verde em vez de remeter a um estado de erro —, a melhoria da legibilidade na tela de revisão do Gerente pela remoção de hífens e aumento do tamanho do texto, e a criação de orientações contextuais para usuários com menor familiaridade digital, como tooltips nas ações críticas de abertura de chamado e conclusão de tarefa, endereçando os resultados de Q4 e Q7 do SUS. 
+ 
+ Por fim, em caráter cosmético, recomenda-se travar a seleção do retiro de origem como destino no formulário de transferências, reordenar a listagem de categorias de animais por espécie antes da faixa etária, e habilitar ordenação por coluna na tabela de movimentações do Coordenador.
 
 _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futuras_
 
