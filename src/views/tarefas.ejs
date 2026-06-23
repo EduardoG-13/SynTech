@@ -8,7 +8,7 @@
   <div id="app">
 
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar"><img src="/public/Icons/capataz.ico" alt="Capataz" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <div class="user-avatar"><span class="material-symbols-rounded ui-icon" aria-hidden="true">engineering</span></div>
       <h1>Minhas Tarefas</h1>
       <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %> · <%= retiro %></div>
     </div>
@@ -18,11 +18,11 @@
       <!-- Filtros: Abertas / Concluídas -->
       <div class="filter-pills" id="filtros-tarefas">
         <button class="pill active" data-filtro="ABERTA">
-          <img class="ico-md" src="/public/Icons/pendente.ico" alt="" /> Abertas
+          <span class="material-symbols-rounded ui-icon ico-md" aria-hidden="true">pending</span> Abertas
           <span class="contador" id="cnt-abertas">0</span>
         </button>
         <button class="pill" data-filtro="CONCLUIDA">
-          <img class="ico-md" src="/public/Icons/concluido.ico" alt="" /> Concluídas
+          <span class="material-symbols-rounded ui-icon ico-md" aria-hidden="true">check_circle</span> Concluídas
           <span class="contador" id="cnt-concluidas">0</span>
         </button>
       </div>
@@ -32,12 +32,12 @@
       </div>
 
       <div class="tarefas-vazio" id="tarefas-vazio" style="display:none;">
-        <p>📭 Nenhuma tarefa por aqui.</p>
+        <p> Nenhuma tarefa por aqui.</p>
       </div>
 
-      <!-- FAB Nova Boleta livre -->
-      <button class="btn btn-primario" style="width:100%; margin-top:1.5rem;" onclick="window.location.href='/nova-os'">
-        <img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Nova Boleta
+      <!-- Botão fixo flutuante: Nova Boleta -->
+      <button class="btn btn-primario btn-fab" onclick="window.location.href='/nova-os'">
+        <span class="material-symbols-rounded ui-icon btn-ico" aria-hidden="true">add</span> Nova Boleta
       </button>
 
     </main>
@@ -87,7 +87,7 @@
   };
   var ROT_TIPO = {
     nascimento: 'Nascimento',
-    obito: 'Óbito',
+    obito: 'Morte',
     transferencia: 'Transferência',
     compravenda: 'Compra/Venda',
     evolucao: 'Evolução',
@@ -106,17 +106,25 @@
     carregar();
   });
 
+  // Helper: faz fetch e nunca rejeita — devolve fallback se der erro
+  function buscarJson(url, fallback) {
+    return fetch(url, { credentials: 'same-origin' })
+      .then(function(r) { return r.ok ? r.json() : fallback; })
+      .catch(function() { return fallback; });
+  }
+
   function carregar() {
+    // Cada fetch é independente: se um falhar, os outros ainda aparecem.
     Promise.all([
-      fetch('/api/tarefas?status=ABERTA', { credentials: 'same-origin' }).then(function(r) { return r.json(); }),
-      fetch('/api/tarefas?status=CONCLUIDA', { credentials: 'same-origin' }).then(function(r) { return r.json(); }),
-      fetch('/api/boletas/minhas', { credentials: 'same-origin' }).then(function(r) { return r.ok ? r.json() : []; }),
+      buscarJson('/api/tarefas?status=ABERTA', { tarefas: [] }),
+      buscarJson('/api/tarefas?status=CONCLUIDA', { tarefas: [] }),
+      buscarJson('/api/boletas/minhas', []),
     ])
     .then(function(arr) {
       var tarefasAbertas = (arr[0] && arr[0].tarefas) || [];
       var tarefasConcluidas = (arr[1] && arr[1].tarefas) || [];
-      var boletas = (arr[2] || []).map(function(b) {
-        b._item = 'boleta'; // discriminador
+      var boletas = (Array.isArray(arr[2]) ? arr[2] : []).map(function(b) {
+        b._item = 'boleta';
         return b;
       });
       tarefasAbertas.forEach(function(t) { t._item = 'tarefa'; });
@@ -130,10 +138,6 @@
       document.getElementById('cnt-abertas').textContent = ABERTAS.length;
       document.getElementById('cnt-concluidas').textContent = CONCLUIDAS.length;
       renderizar();
-    })
-    .catch(function() {
-      document.getElementById('tarefas-lista').innerHTML =
-        '<p style="color:#D32F2F; text-align:center;">Erro ao carregar.</p>';
     });
   }
 
@@ -144,7 +148,7 @@
     if (!lista.length) {
       cont.innerHTML = '';
       vazio.style.display = 'block';
-      vazio.firstElementChild.textContent = FILTRO === 'CONCLUIDA' ? '📭 Nada concluído ainda.' : '📭 Sem tarefas abertas no momento.';
+      vazio.firstElementChild.textContent = FILTRO === 'CONCLUIDA' ? ' Nada concluído ainda.' : ' Sem tarefas abertas no momento.';
       return;
     }
     vazio.style.display = 'none';
@@ -159,18 +163,18 @@
     var rotulo = ROT_TIPO[t.tipo_operacao] || t.tipo_operacao || 'Tarefa';
     var ehNova = (t.gerente_id && !t.vista_em && t.status !== 'CONCLUIDA');
     var badgeStatus = t.status === 'CONCLUIDA'
-      ? '<span class="badge concluida">✓ Concluída</span>'
-      : '<span class="badge pendente">⏳ ' + (t.status === 'EM_ANDAMENTO' ? 'Em andamento' : 'Pendente') + '</span>';
+      ? '<span class="badge concluida"> Concluída</span>'
+      : '<span class="badge pendente">' + (t.status === 'EM_ANDAMENTO' ? 'Em andamento' : 'Pendente') + '</span>';
     var badgeNova = ehNova
-      ? '<span class="badge nova"><img class="ico-sm" src="/public/Icons/notificacao_dispositivo_movel.ico" alt="" /> NOVA</span>'
+      ? '<span class="badge nova"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">notifications</span> NOVA</span>'
       : '';
     var prio = t.prioridade ? '<span class="prioridade ' + t.prioridade + '">● ' + t.prioridade.toUpperCase() + '</span>' : '';
     return '<div class="card tarefa-card" onclick="window.location.href=\'/tarefa/' + t.id + '\'">' +
       '<div class="bar-lateral ' + (t.status === 'CONCLUIDA' ? 'concluida' : 'pendente') + '"></div>' +
       '<div class="body"><div class="info">' +
-        '<span class="titulo"><img class="label-ico" src="/public/Icons/' + ico + '.ico" alt="" /> ' + (t.titulo || rotulo) + ' ' + badgeNova + '</span>' +
-        '<span class="descricao">📋 Tarefa · ' + rotulo + ' · ' + (t.retiro_nome || '') + '</span>' +
-        '<div class="meta"><span class="retiro-tag"><img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> ' + (t.data_execucao || '') + '</span>' + prio + '</div>' +
+        '<span class="titulo">' + BRPIcons.html(ico, 'label-ico') + ' ' + (t.titulo || rotulo) + ' ' + badgeNova + '</span>' +
+        '<span class="descricao"> Tarefa · ' + rotulo + ' · ' + (t.retiro_nome || '') + '</span>' +
+        '<div class="meta"><span class="retiro-tag"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">calendar_month</span> ' + (t.data_execucao || '') + '</span>' + prio + '</div>' +
       '</div><div class="status-area">' + badgeStatus + '<span class="arrow">›</span></div></div>' +
     '</div>';
   }
@@ -181,18 +185,38 @@
     var rotulo = ROT_TIPO[b.operacao] || b.operacao || 'Boleta';
     var total = (b.animais || []).reduce(function(s, a) { return s + (parseInt(a.quantidade) || 0); }, 0);
     var badge = b.aprovada
-      ? '<span class="badge concluida">✓ Aprovada</span>'
-      : '<span class="badge pendente">⏳ Aguardando</span>';
-    var num = b.numero_boleta ? ('<span style="font-size:0.7rem; font-weight:700; color:#5C6B5D;">🔖 ' + b.numero_boleta + '</span>') : '';
+      ? '<span class="badge concluida"> Aprovada</span>'
+      : '<span class="badge pendente">Aguardando</span>';
+    var num = b.numero_boleta ? ('<span style="font-size:0.7rem; font-weight:700; color:#5C6B5D;"> ' + b.numero_boleta + '</span>') : '';
     return '<div class="card tarefa-card" onclick="window.location.href=\'/boleta/' + b.id + '\'">' +
       '<div class="bar-lateral concluida"></div>' +
       '<div class="body"><div class="info">' +
-        '<span class="titulo"><img class="label-ico" src="/public/Icons/' + ico + '.ico" alt="" /> ' + rotulo + (total ? ' — ' + total + ' cab.' : '') + ' ' + num + '</span>' +
-        '<span class="descricao">📝 Boleta · ' + (b.retiro_nome || '') + '</span>' +
-        '<div class="meta"><span class="retiro-tag"><img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> ' + (b.data || '') + '</span></div>' +
+        '<span class="titulo">' + BRPIcons.html(ico, 'label-ico') + ' ' + rotulo + (total ? ' — ' + total + ' cab.' : '') + ' ' + num + '</span>' +
+        '<span class="descricao"> Boleta · ' + (b.retiro_nome || '') + '</span>' +
+        '<div class="meta"><span class="retiro-tag"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">calendar_month</span> ' + (b.data || '') + '</span></div>' +
       '</div><div class="status-area">' + badge + '<span class="arrow">›</span></div></div>' +
     '</div>';
   }
 </script>
+
+<style>
+  /* FAB Nova Boleta */
+  .btn-fab {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: auto;
+    z-index: 100;
+    box-shadow: 0 4px 16px rgba(26, 77, 46, 0.3);
+    padding: 1rem 1.5rem;
+    border-radius: 999px;
+  }
+  @media (max-width: 768px) {
+    .btn-fab {
+      bottom: 5rem;
+      right: 1rem;
+    }
+  }
+</style>
 
 <%- include('partials/footer') %>

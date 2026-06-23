@@ -1,7 +1,7 @@
 .db-stats {
   display: grid;
   gap: 18px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .db-stat-card {
@@ -40,7 +40,39 @@
   margin: 0 auto;
 }
 
-@media (max-width: 880px) {
+/* ===== Barra de filtros (retiro + período de—até) ===== */
+.db-filtros-linha {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.db-filtro-campo {
+  display: flex;
+  flex-direction: column;
+}
+.db-filtro-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+.db-filtro-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+}
+.db-filtro-acoes {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1100px) {
   .db-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -54,9 +86,46 @@
   }
 }
 
+/* ===== Mobile: gráficos e dashboard (Gerente / Coordenador) ===== */
+@media (max-width: 600px) {
+  /* Barras viram horizontais no JS — precisam de mais altura pra caber os rótulos */
+  .db-chart-wrap {
+    height: 320px;
+  }
+  .db-chart-wrap--donut {
+    height: 240px;
+  }
+  .db-stat-card__value {
+    font-size: clamp(26px, 9vw, 38px);
+  }
+  .db-stat-card__label {
+    font-size: 11px;
+  }
+  /* Filtros e botões ocupam a largura toda — sem aperto no toque */
+  .db-filtro-campo,
+  .db-filtro-acoes {
+    flex: 1 1 100% !important;
+    min-width: 0 !important;
+  }
+  .db-filtro-acoes .btn {
+    flex: 1 1 100%;
+  }
+  #btn-fechar-mes,
+  #btn-planilha-oficial,
+  #fechar-de,
+  #fechar-ate {
+    width: 100%;
+    flex: 1 1 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box;
+  }
+}
+
 @media (max-width: 480px) {
+  /* 5 KPIs em 2 colunas (menos rolagem que 1 coluna) */
   .db-stats {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
   }
 }
 

@@ -6,149 +6,187 @@
 
   <div id="app">
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar"><img src="/public/Icons/<%= perfil === 'Gerente' ? 'gerente' : (perfil === 'Coordenador' ? 'coordenador' : (perfil === 'Infraestrutura' ? 'infra' : 'capataz')) %>.ico" alt="<%= perfil %>" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <div class="user-avatar" aria-label="Perfil: <%= perfil %>"><span class="material-symbols-rounded" aria-hidden="true"><%= perfil === 'Gerente' ? 'manage_accounts' : (perfil === 'Coordenador' ? 'groups' : (perfil === 'Infraestrutura' ? 'construction' : 'engineering')) %></span></div>
       <h1>Nova Boleta</h1>
       <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %> · <%= retiro %></div>
     </div>
 
     <main class="form-main">
 
-      <button class="btn-voltar" onclick="window.history.back()">⬅️ Voltar</button>
+      <button class="btn-voltar" onclick="window.history.back()"><span class="material-symbols-rounded ui-icon back-ico" aria-hidden="true">arrow_back</span> Voltar</button>
 
       <form id="form-nova-os">
 
+        <% if (perfil === 'Gerente') { %>
+        <!-- Gerente cria em nome de um capataz -->
+        <div class="card campo" id="bloco-gerente-capataz">
+          <label><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">engineering</span> Para qual capataz? <span class="req-star">*</span></label>
+          <select id="os-capataz">
+            <option value="">Selecione o capataz...</option>
+          </select>
+        </div>
+        <% } %>
+
         <!-- 1. Operação (sempre visível) — grid de cards com ícone -->
         <div class="card campo">
-          <label><img class="label-ico" src="/public/Icons/tarefas.ico" alt="" /> O que você quer registrar?</label>
+          <label><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">assignment</span> O que você quer registrar? <span class="req-star">*</span></label>
           <div class="operacao-grid" id="operacao-grid"></div>
           <input type="hidden" id="os-operacao" required />
         </div>
 
         <!-- ===================== MOVIMENTAÇÃO ===================== -->
         <div class="card campo dinamico" data-op="transferencia">
-          <label><img class="label-ico" src="/public/Icons/bussola_direcao_guia.ico" alt="" /> Direção</label>
+          <label><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">explore</span> Eu sou o Retiro de... <span class="req-star">*</span></label>
           <div class="toggle-pills">
-            <button type="button" class="pill active" data-tipo="envio"><img class="label-ico" src="/public/Icons/envio_animais_caixa.ico" alt="" /> Saindo</button>
-            <button type="button" class="pill" data-tipo="recebimento"><img class="label-ico" src="/public/Icons/entrada_animais_recebimento_compra.ico" alt="" /> Entrando</button>
+            <button type="button" class="pill active" data-tipo="envio"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">call_made</span> Origem</button>
+            <button type="button" class="pill" data-tipo="recebimento"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">call_received</span> Destino</button>
           </div>
         </div>
 
         <div class="card campo dinamico" data-op="transferencia">
-          <label for="os-retiro-origem"><img class="label-ico" src="/public/Icons/localizacao.ico" alt="" /> De onde sai</label>
+          <label for="os-retiro-origem"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">location_on</span> Origem <span class="req-star">*</span></label>
           <select id="os-retiro-origem"></select>
         </div>
 
         <div class="card campo dinamico" data-op="transferencia">
-          <label for="os-retiro-destino"><img class="label-ico" src="/public/Icons/destido.ico" alt="" /> Para onde vai</label>
+          <label for="os-retiro-destino"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">location_on</span> Destino <span class="req-star">*</span></label>
           <select id="os-retiro-destino"></select>
         </div>
 
         <div class="card campo dinamico" data-op="transferencia">
-          <label><img class="label-ico" src="/public/Icons/caminhao_transporte_gado.ico" alt="" /> Transporte</label>
+          <label><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">local_shipping</span> Transporte <span class="req-star">*</span></label>
           <div class="toggle-pills">
-            <button type="button" class="pill active" data-transporte="rodoviario"><img class="label-ico" src="/public/Icons/caminhao_transporte_gado.ico" alt="" /> Caminhão</button>
-            <button type="button" class="pill" data-transporte="comitiva"><img class="label-ico" src="/public/Icons/comitiva_peao_a_cavalo.ico" alt="" /> Comitiva</button>
+            <button type="button" class="pill active" data-transporte="rodoviario"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">local_shipping</span> Caminhão</button>
+            <button type="button" class="pill" data-transporte="comitiva"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">directions_walk</span> Comitiva</button>
           </div>
         </div>
 
-        <!-- ===================== RETIRO (demais operações) ===================== -->
-        <div class="card campo dinamico" data-op="nascimento obito compravenda evolucao manejo">
-          <label for="os-retiro"><img class="label-ico" src="/public/Icons/localizacao.ico" alt="" /> Retiro</label>
-          <select id="os-retiro"></select>
+        <!-- ===================== RETIRO (demais operações) =====================
+             Capataz: texto fixo (não editável, lê do contexto da sessão)
+             Gerente: dropdown (cria boleta em nome de qualquer retiro)
+        -->
+        <div class="card campo dinamico" data-op="nascimento obito abate compravenda evolucao manejo">
+          <label for="os-retiro"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">location_on</span> Retiro <span class="req-star">*</span></label>
+          <% if (perfil === 'Capataz') { %>
+            <div class="campo-readonly" id="os-retiro-texto"><%= retiro %></div>
+            <select id="os-retiro" style="display:none;"></select>
+          <% } else { %>
+            <select id="os-retiro"></select>
+          <% } %>
         </div>
 
-        <!-- ===================== Nº DO PASTO + DATA ===================== -->
-        <div class="card campo dinamico" data-op="nascimento obito transferencia compravenda evolucao">
-          <div class="dois-campos">
-            <div>
-              <label for="os-pasto"><img class="label-ico" src="/public/Icons/Pasto.ico" alt="" /> Pasto <span class="opcional-txt">(opcional)</span></label>
-              <input type="text" id="os-pasto" placeholder="Ex: 12" />
-            </div>
-            <div>
-              <label for="os-data"><img class="label-ico" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> Data</label>
-              <input type="date" id="os-data" />
-            </div>
-          </div>
+        <!-- ===================== DATA ===================== -->
+        <div class="card campo dinamico" data-op="nascimento obito abate transferencia compravenda evolucao">
+          <label for="os-data"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">calendar_month</span> Data <span class="req-star">*</span></label>
+          <input type="date" id="os-data" />
         </div>
 
         <!-- ===================== CATEGORIAS + QUANTIDADES (repetível) ===================== -->
-        <div class="card campo dinamico" data-op="nascimento obito transferencia compravenda">
-          <label><img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Animais</label>
+        <div class="card campo dinamico" data-op="nascimento obito abate transferencia compravenda">
+          <label><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">swap_horiz</span> Animais <span class="req-star">*</span></label>
           <div id="linhas-categoria"></div>
-          <button type="button" class="btn-add" id="btn-add-categoria">➕ Adicionar categoria</button>
+          <button type="button" class="btn-add" id="btn-add-categoria"><span class="material-symbols-rounded ui-icon" aria-hidden="true">add</span> Adicionar categoria</button>
           <div class="total-linha">
-            <span><img class="label-ico" src="/public/Icons/abaco_calculo_total.ico" alt="" /> Total:</span>
+            <span><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">calculate</span> Total:</span>
             <strong id="total-animais">0</strong>
           </div>
         </div>
 
         <!-- ===================== MUDANÇA DE IDADE (de → para) ===================== -->
         <div class="card campo dinamico" data-op="evolucao">
-          <label><img class="label-ico" src="/public/Icons/evolucao.ico" alt="" /> Mudança de idade</label>
+          <label><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">trending_up</span> Evolução <span class="req-star">*</span></label>
           <p class="ajuda">Quando o animal cresce e troca de categoria (ex: bezerro → garrote).</p>
           <div id="linhas-evolucao"></div>
-          <button type="button" class="btn-add" id="btn-add-evolucao">➕ Adicionar mudança</button>
+          <button type="button" class="btn-add" id="btn-add-evolucao"><span class="material-symbols-rounded ui-icon" aria-hidden="true">add</span> Adicionar mudança</button>
         </div>
 
         <!-- ===================== NASCIMENTO: raça ===================== -->
         <div class="card campo dinamico" data-op="nascimento">
-          <label for="os-raca"><img class="label-ico" src="/public/Icons/nascimento.ico" alt="" /> Raça</label>
-          <input type="text" id="os-raca" placeholder="Ex: Nelore" />
+          <label for="os-raca"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">pets</span> Raça <span class="req-star">*</span></label>
+          <input type="text" id="os-raca" value="NELORE/CRUZADO" />
         </div>
 
         <!-- ===================== MORTE: ID do animal + causa ===================== -->
         <div class="card campo dinamico destaque-obito" data-op="obito">
-          <label for="os-brinco"><img class="label-ico" src="/public/Icons/Brinco.ico" alt="" /> Brinco</label>
+          <label for="os-brinco"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">sell</span> Brinco <span class="opcional-txt">(opcional — pode não estar na carcaça)</span></label>
           <input type="text" id="os-brinco" placeholder="Ex: 4471" />
         </div>
 
         <div class="card campo dinamico destaque-obito" data-op="obito">
-          <label for="os-causa"><img class="label-ico" src="/public/Icons/obto.ico" alt="" /> Causa</label>
+          <label for="os-causa"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">heart_broken</span> Causa <span class="req-star">*</span></label>
           <select id="os-causa"></select>
+        </div>
+
+        <!-- ===================== ABATE INTERNO: brinco + foto obrigatória ===================== -->
+        <div class="card campo dinamico destaque-obito" data-op="abate">
+          <label for="os-brinco-abate"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">sell</span> Brinco <span class="opcional-txt">(opcional)</span></label>
+          <input type="text" id="os-brinco-abate" placeholder="Ex: 4471" />
+        </div>
+
+        <div class="card campo dinamico destaque-obito" data-op="abate">
+          <label><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">photo_camera</span> Foto do abate <span class="req-star">*</span></label>
+          <div class="upload-foto">
+            <label for="os-foto-abate" class="upload-label">
+              <span class="material-symbols-rounded ui-icon upload-icon-img" aria-hidden="true">photo_camera</span>
+              <span id="foto-abate-txt"> Tirar foto ou escolher do celular</span>
+            </label>
+            <input type="file" id="os-foto-abate" accept="image/*" />
+          </div>
         </div>
 
         <!-- ===================== COMPRA/VENDA ===================== -->
         <div class="card campo dinamico" data-op="compravenda">
-          <label><img class="label-ico" src="/public/Icons/cedula_dinheiro_bovino.ico" alt="" /> Tipo de negócio</label>
+          <label><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">payments</span> Tipo de negócio <span class="req-star">*</span></label>
           <div class="toggle-pills">
-            <button type="button" class="pill active" data-negocio="compra"><img class="label-ico" src="/public/Icons/carrinho_compras_gado.ico" alt="" /> Compra</button>
-            <button type="button" class="pill" data-negocio="venda"><img class="label-ico" src="/public/Icons/aperto_maos_acordo.ico" alt="" /> Venda</button>
+            <button type="button" class="pill active" data-negocio="compra"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">shopping_cart</span> Compra</button>
+            <button type="button" class="pill" data-negocio="venda"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">handshake</span> Venda</button>
           </div>
         </div>
 
         <div class="card campo dinamico" data-op="compravenda">
-          <label for="os-valor"><img class="label-ico" src="/public/Icons/cedula_dinheiro_bovino.ico" alt="" /> Valor (R$)</label>
+          <label for="os-valor"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">payments</span> Valor (R$) <span class="opcional-txt">(opcional)</span></label>
           <input type="number" id="os-valor" min="0" step="0.01" placeholder="0,00" />
         </div>
 
         <!-- ===================== MANEJO GERAL ===================== -->
         <div class="card campo dinamico" data-op="manejo">
-          <label for="os-titulo"><img class="label-ico" src="/public/Icons/tarefas.ico" alt="" /> Título</label>
-          <input type="text" id="os-titulo" placeholder="Ex: Vacinação" />
+          <label for="os-titulo"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">assignment</span> Tipo de Manejo <span class="req-star">*</span></label>
+          <select id="os-titulo">
+            <option value="">Selecione o tipo de manejo...</option>
+            <option value="Vacinação">Vacinação</option>
+            <option value="Vermifugação">Vermifugação</option>
+            <option value="Pesagem">Pesagem</option>
+            <option value="Marcação / Brinco">Marcação / Brinco</option>
+            <option value="Castração">Castração</option>
+            <option value="Apartação">Apartação</option>
+            <option value="Embarque">Embarque</option>
+            <option value="Desembarque">Desembarque</option>
+            <option value="Outro">Outro (especificar nas observações)</option>
+          </select>
         </div>
 
         <!-- ===================== OBSERVAÇÕES (texto OU áudio) ===================== -->
-        <div class="card campo dinamico" data-op="nascimento obito transferencia compravenda evolucao manejo">
-          <label for="os-observacoes"><img class="label-ico" src="/public/Icons/editar.ico" alt="" /> Observações</label>
-          <textarea id="os-observacoes" rows="3" placeholder="Escreva ou grave um áudio (opcional)"></textarea>
+        <div class="card campo dinamico" data-op="nascimento obito abate transferencia compravenda evolucao manejo">
+          <label for="os-observacoes"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">edit</span> Observações <span class="opcional-txt">(opcional)</span></label>
+          <textarea id="os-observacoes" rows="3" placeholder="Escreva ou grave um áudio"></textarea>
 
           <div class="audio-rec">
             <button type="button" class="btn-audio" id="btn-gravar-audio">
-              <img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" />
+              <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">mic</span>
               <span id="audio-btn-txt">Gravar áudio</span>
             </button>
             <audio id="audio-preview" controls style="display:none; width:100%; margin-top:0.5rem;"></audio>
-            <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;">🗑️ Apagar áudio</button>
+            <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;"><span class="material-symbols-rounded ui-icon" aria-hidden="true">delete</span> Apagar áudio</button>
           </div>
         </div>
 
-        <!-- ===================== FOTO (óbito = obrigatória) ===================== -->
+        <!-- ===================== FOTO (morte = obrigatória) ===================== -->
         <div class="card campo dinamico destaque-obito" data-op="obito">
-          <label><img class="label-ico" src="/public/Icons/tira_foto.ico" alt="" /> Foto da carcaça <span class="obrigatorio">* obrigatória</span></label>
+          <label><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">photo_camera</span> Foto da carcaça <span class="req-star">*</span></label>
           <div class="upload-foto">
             <label for="os-foto" class="upload-label">
-              <img class="upload-icon-img" src="/public/Icons/tira_foto.ico" alt="" />
-              <span id="foto-label-txt">📷 Tirar foto ou escolher do celular</span>
+              <span class="material-symbols-rounded ui-icon upload-icon-img" aria-hidden="true">photo_camera</span>
+              <span id="foto-label-txt"> Tirar foto ou escolher do celular</span>
             </label>
             <input type="file" id="os-foto" accept="image/*" />
           </div>
@@ -156,18 +194,18 @@
 
         <!-- ===================== FOTO (manejo = opcional) ===================== -->
         <div class="card campo dinamico" data-op="manejo">
-          <label><img class="label-ico" src="/public/Icons/tira_foto.ico" alt="" /> Foto da execução <span class="opcional-txt">(opcional)</span></label>
+          <label><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">photo_camera</span> Foto da execução <span class="opcional-txt">(opcional)</span></label>
           <div class="upload-foto">
             <label for="os-foto-manejo" class="upload-label">
-              <img class="upload-icon-img" src="/public/Icons/tira_foto.ico" alt="" />
-              <span id="foto-manejo-txt">📷 Tirar foto ou escolher do celular</span>
+              <span class="material-symbols-rounded ui-icon upload-icon-img" aria-hidden="true">photo_camera</span>
+              <span id="foto-manejo-txt"> Tirar foto ou escolher do celular</span>
             </label>
             <input type="file" id="os-foto-manejo" accept="image/*" />
           </div>
         </div>
 
         <button type="submit" class="btn-enviar" id="btn-enviar" disabled>
-          <img class="btn-ico" src="/public/Icons/concluido.ico" alt="" /> Registrar Boleta
+          <span class="material-symbols-rounded ui-icon btn-ico" aria-hidden="true">check_circle</span> Registrar Boleta
         </button>
 
         <p class="form-msg" id="form-msg" style="display:none;"></p>
@@ -186,6 +224,8 @@
   var TIPO_TRANSPORTE = 'rodoviario';
   var CATEGORIAS = [];
   var CATEGORIAS_NASCIMENTO = [];
+  var gpsAtual = null;  // leitura de GPS mais recente {latitude, longitude}
+  var RETIRO_LOGADO_ID = null;
 
   document.addEventListener('DOMContentLoaded', function() {
     var hoje = new Date().toISOString().split('T')[0];
@@ -197,6 +237,7 @@
     configurarToggles();
     configurarFotoLabel();
     configurarAudio();
+    iniciarGPS();   // começa a capturar GPS já na abertura, pra estar pronto no envio
 
     document.getElementById('btn-add-categoria').addEventListener('click', function() { addLinhaCategoria(); });
     document.getElementById('btn-add-evolucao').addEventListener('click', function() { addLinhaEvolucao(); });
@@ -208,32 +249,156 @@
       // Espera um pouco pra carregarDados() popular os selects antes
       setTimeout(function() { preencherParaEdicao(editId); }, 600);
     }
+
+    // Modo "executar tarefa": ?tarefa=ID busca a tarefa do gerente e pré-preenche
+    var tarefaId = params.get('tarefa');
+    if (tarefaId) {
+      window.__TAREFA_ID = tarefaId;
+      setTimeout(function() { preencherDaTarefa(tarefaId); }, 600);
+    }
+
+    // Modo "recebimento bilateral": ?transferencia_ref=GRUPO_ID pré-preenche como transferência de recebimento
+    var transfRef = params.get('transferencia_ref');
+    if (transfRef) {
+      window.__TRANSF_REF = transfRef;
+      setTimeout(function() { preencherParaTransferencia(transfRef); }, 600);
+    }
   });
+
+  function preencherDaTarefa(id) {
+    fetch('/api/tarefas/' + encodeURIComponent(id), { credentials: 'same-origin' })
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(t) {
+        if (!t) return;
+        // Mostra banner no topo
+        var banner = document.createElement('div');
+        banner.className = 'card campo';
+        banner.style.cssText = 'background:#E6F3EB; border:2px solid #1A4D2E; padding:0.85rem 1rem;';
+        banner.innerHTML = '<strong style="color:#1A4D2E;"> Executando tarefa criada por ' +
+          (t.gerente_nome || 'Gerente') + '</strong>' +
+          (t.observacoes ? '<p style="margin-top:0.4rem; font-size:0.9rem;">' + t.observacoes + '</p>' : '');
+        var form = document.getElementById('form-nova-os');
+        form.insertBefore(banner, form.firstChild);
+
+        // Seleciona tipo de operação
+        if (t.tipo_operacao) {
+          var card = document.querySelector('.op-card[data-op="' + t.tipo_operacao + '"]');
+          if (card) card.click();
+        }
+        // Pré-seleciona retiro
+        ['os-retiro', 'os-retiro-origem'].forEach(function(selId) {
+          var sel = document.getElementById(selId);
+          if (sel && t.retiro_id) sel.value = t.retiro_id;
+        });
+        // Pré-preenche data
+        if (t.data_execucao) {
+          var dataEl = document.getElementById('os-data');
+          if (dataEl) dataEl.value = t.data_execucao;
+        }
+      });
+  }
+
+  function preencherParaTransferencia(grupoId) {
+    fetch('/api/transferencias/' + encodeURIComponent(grupoId) + '/detalhes', { credentials: 'same-origin' })
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(t) {
+        if (!t) { mostrarMsg('Transferência de referência não encontrada.', 'erro'); return; }
+
+        // Banner informativo
+        var banner = document.createElement('div');
+        banner.className = 'card campo';
+        banner.style.cssText = 'background:#FFF8E1; border:2px solid #E8A838; padding:0.85rem 1rem;';
+        var catHtml = (t.categorias || []).map(function(c) {
+          return '<li>' + c.categoria + ': <strong>' + c.quantidade + '</strong> cab.</li>';
+        }).join('');
+        banner.innerHTML = '<strong style="color:#E8A838;"> Recebimento de transferência — ' + (t.numero_boleta || '') + '</strong>' +
+          '<p style="margin:0.3rem 0 0; font-size:0.85rem;">Enviado por <strong>' + (t.capataz_nome || '?') + '</strong> de ' +
+          (t.retiro_origem_nome || '?') + ' → ' + (t.retiro_destino_nome || '?') + '</p>' +
+          '<p style="margin:0.4rem 0 0; font-size:0.85rem;">Declarado na origem:</p>' +
+          '<ul style="margin:0.2rem 0 0 1rem; font-size:0.85rem;">' + catHtml + '</ul>' +
+          '<p style="margin:0.5rem 0 0; font-size:0.8rem; color:#666;">Preencha abaixo o que <strong>você conferiu no recebimento</strong>. Se as quantidades divergirem, um conflito será gerado.</p>';
+        var form = document.getElementById('form-nova-os');
+        form.insertBefore(banner, form.firstChild);
+
+        // Seleciona operação transferência
+        var card = document.querySelector('.op-card[data-op="transferencia"]');
+        if (card) card.click();
+
+        // Seta como "Destino" (recebimento)
+        var pillDest = document.querySelector('[data-tipo="recebimento"]');
+        if (pillDest) pillDest.click();
+
+        // Pré-preenche retiros — mostra como texto fixo (não editável)
+        setTimeout(function() {
+          setVal('os-retiro-origem', t.retiro_origem_id);
+          setVal('os-retiro-destino', t.retiro_destino_id);
+          // Substitui dropdowns por texto fixo (UX: sem dropdown se não é editável)
+          var selOrigem = document.getElementById('os-retiro-origem');
+          var selDestino = document.getElementById('os-retiro-destino');
+          if (selOrigem) {
+            var nomeOrig = selOrigem.options[selOrigem.selectedIndex] ? selOrigem.options[selOrigem.selectedIndex].text : t.retiro_origem_nome || '';
+            selOrigem.style.display = 'none';
+            setSelectBloqueado(selOrigem, true);
+            var spanOrig = document.createElement('div');
+            spanOrig.className = 'campo-readonly';
+            spanOrig.textContent = nomeOrig;
+            selOrigem.parentNode.insertBefore(spanOrig, selOrigem.nextSibling);
+          }
+          if (selDestino) {
+            var nomeDest = selDestino.options[selDestino.selectedIndex] ? selDestino.options[selDestino.selectedIndex].text : t.retiro_destino_nome || '';
+            selDestino.style.display = 'none';
+            setSelectBloqueado(selDestino, true);
+            var spanDest = document.createElement('div');
+            spanDest.className = 'campo-readonly';
+            spanDest.textContent = nomeDest;
+            selDestino.parentNode.insertBefore(spanDest, selDestino.nextSibling);
+          }
+
+          // Pré-preenche categorias do que foi declarado na origem (limpa linhas existentes e recria)
+          var catContainer = document.getElementById('linhas-categoria');
+          if (catContainer && t.categorias && t.categorias.length) {
+            catContainer.innerHTML = '';
+            t.categorias.forEach(function(c) {
+              addLinhaCategoria(c.categoria, '');
+            });
+          }
+
+          // Pré-preenche transporte e data
+          if (t.tipo_transporte) {
+            var pillTransp = document.querySelector('[data-transporte="' + t.tipo_transporte + '"]');
+            if (pillTransp) pillTransp.click();
+          }
+          if (t.data) setVal('os-data', t.data);
+          if (t.raca) setVal('os-raca', t.raca);
+        }, 200);
+      })
+      .catch(function() { mostrarMsg('Erro ao carregar dados da transferência.', 'erro'); });
+  }
 
   function preencherParaEdicao(id) {
     fetch('/api/boletas/' + encodeURIComponent(id), { credentials: 'same-origin' })
       .then(function(r) { return r.ok ? r.json() : null; })
       .then(function(reg) {
         if (!reg) {
-          mostrarMsg('⚠️ Boleta não encontrada para edição.', 'erro');
+          mostrarMsg(' Boleta não encontrada para edição.', 'erro');
           return;
         }
         if (reg.criadoEm) {
           var dias = (Date.now() - new Date(reg.criadoEm).getTime()) / (1000 * 60 * 60 * 24);
           if (dias > 30) {
-            mostrarMsg('🔒 Esta boleta tem mais de 30 dias e não pode mais ser editada.', 'erro');
+            mostrarMsg(' Esta boleta tem mais de 30 dias e não pode mais ser editada.', 'erro');
             setTimeout(function() { window.location.href = '/boleta/' + id; }, 2000);
             return;
           }
         }
         if (reg.aprovada) {
-          mostrarMsg('🔒 Boleta já aprovada pelo Coordenador, não pode mais ser editada.', 'erro');
+          mostrarMsg(' Boleta já aprovada pelo Coordenador, não pode mais ser editada.', 'erro');
           setTimeout(function() { window.location.href = '/boleta/' + id; }, 2000);
           return;
         }
         preencherCamposEdicao(reg);
       })
-      .catch(function() { mostrarMsg('❌ Erro ao carregar boleta.', 'erro'); });
+      .catch(function() { mostrarMsg(' Erro ao carregar boleta.', 'erro'); });
   }
 
   function preencherCamposEdicao(reg) {
@@ -248,7 +413,6 @@
     setVal('os-retiro', reg.retiro);
     setVal('os-retiro-origem', reg.retiro_origem);
     setVal('os-retiro-destino', reg.retiro_destino);
-    setVal('os-pasto', reg.pasto);
     setVal('os-raca', reg.raca);
     setVal('os-brinco', reg.brinco);
     setVal('os-causa', reg.causa);
@@ -296,7 +460,7 @@
     // Marca o título da página como "Editando"
     var h1 = document.querySelector('.header-bar h1');
     if (h1) h1.textContent = 'Editar Boleta';
-    mostrarMsg('✏️ Modo edição — altere o que precisar e salve.', 'sucesso');
+    mostrarMsg(' Modo edição — altere o que precisar e salve.', 'sucesso');
   }
 
   function setVal(id, valor) {
@@ -329,7 +493,7 @@
 
   function iniciarGravacao() {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      mostrarMsg('🎙️ Seu navegador não permite gravar áudio.', 'erro');
+      mostrarMsg(' Seu navegador não permite gravar áudio.', 'erro');
       return;
     }
     navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
@@ -351,10 +515,10 @@
       };
       mediaRecorder.start();
       gravando = true;
-      document.getElementById('audio-btn-txt').textContent = '⏹️ Parar gravação';
+      document.getElementById('audio-btn-txt').textContent = 'Parar gravação';
       document.getElementById('btn-gravar-audio').classList.add('gravando');
     }).catch(function() {
-      mostrarMsg('🎙️ Permissão de microfone negada.', 'erro');
+      mostrarMsg(' Permissão de microfone negada.', 'erro');
     });
   }
 
@@ -372,16 +536,17 @@
   }
 
   // Adiciona uma linha de categoria + quantidade
-  function addLinhaCategoria() {
+  function addLinhaCategoria(catValue, qtdValue) {
     // Nascimento: só bezerro/bezerra
     var op = (document.getElementById('os-operacao') || {}).value;
     var lista = (op === 'nascimento' && CATEGORIAS_NASCIMENTO.length) ? CATEGORIAS_NASCIMENTO : CATEGORIAS;
     var div = document.createElement('div');
     div.className = 'linha-cat';
+    var esconderRemover = (op === 'obito' || op === 'abate');
     div.innerHTML =
       '<select class="cat-sel">' + optsCategorias(lista) + '</select>' +
       '<input type="number" class="cat-qtd" min="1" placeholder="Qtd" />' +
-      '<button type="button" class="btn-remover">🗑️</button>';
+      '<button type="button" class="btn-remover" aria-label="Remover categoria"' + (esconderRemover ? ' style="display:none"' : '') + '>' + BRPIcons.html('excluir') + '</button>';
     div.querySelector('.btn-remover').addEventListener('click', function() {
       div.remove();
       atualizarTotal();
@@ -391,6 +556,8 @@
       sanitizarQtd(qtd);
       atualizarTotal();
     });
+    if (catValue) { div.querySelector('.cat-sel').value = catValue; }
+    if (qtdValue !== undefined && qtdValue !== '') { qtd.value = qtdValue; }
     document.getElementById('linhas-categoria').appendChild(div);
   }
 
@@ -406,10 +573,10 @@
     div.className = 'linha-evo';
     div.innerHTML =
       '<select class="evo-origem">' + optsCategorias() + '</select>' +
-      '<span class="seta-evo">➡️</span>' +
+      '<span class="seta-evo"><span class="material-symbols-rounded ui-icon" aria-hidden="true">arrow_forward</span></span>' +
       '<select class="evo-destino">' + optsCategorias() + '</select>' +
       '<input type="number" class="evo-qtd" min="1" placeholder="Qtd" />' +
-      '<button type="button" class="btn-remover">🗑️</button>';
+      '<button type="button" class="btn-remover" aria-label="Remover mudança">' + BRPIcons.html('excluir') + '</button>';
     div.querySelector('.btn-remover').addEventListener('click', function() { div.remove(); });
     var eqtd = div.querySelector('.evo-qtd');
     eqtd.addEventListener('input', function() { sanitizarQtd(eqtd); });
@@ -428,6 +595,7 @@
   var ICO_OPERACAO = {
     nascimento:    'nascimento',
     obito:         'obto',
+    abate:         'obto',
     transferencia: 'movimentacao',
     compravenda:   'cedula_dinheiro_bovino',
     evolucao:      'evolucao',
@@ -468,6 +636,37 @@
 
         preselecionarRetiroLogado(d.retiros);
 
+        // Gerente: popula seletor de capataz e trava retiro ao capataz selecionado
+        if (PERFIL === 'Gerente') {
+          var selCap = document.getElementById('os-capataz');
+          if (selCap && d.capatazes && d.capatazes.length) {
+            selCap.innerHTML = '<option value="">Selecione o capataz...</option>' +
+              '<option value="eu">Eu mesmo (Gerente)</option>' +
+              d.capatazes.map(function(c) {
+                return '<option value="' + c.id + '" data-retiro="' + (c.retiro_id || '') + '">' + c.nome + ' — ' + (c.retiro_nome || c.retiro_id || '') + '</option>';
+              }).join('');
+            selCap.addEventListener('change', function() {
+              var opt = selCap.options[selCap.selectedIndex];
+              var retiroId = opt ? opt.getAttribute('data-retiro') : '';
+              var isEu = selCap.value === 'eu';
+              RETIRO_LOGADO_ID = isEu ? null : retiroId;
+              ['os-retiro'].forEach(function(id) {
+                var el = document.getElementById(id);
+                if (!el) return;
+                if (isEu) {
+                  setSelectBloqueado(el, false);
+                } else if (retiroId) {
+                  el.value = retiroId;
+                  setSelectBloqueado(el, true);
+                } else {
+                  setSelectBloqueado(el, false);
+                }
+              });
+              atualizarBloqueioRetiroTransfer();
+            });
+          }
+        }
+
         CATEGORIAS = d.categorias;
         CATEGORIAS_NASCIMENTO = d.categoriasNascimento || [];
 
@@ -476,7 +675,7 @@
           d.tiposMorte.map(function(c) { return '<option value="' + c + '">' + c + '</option>'; }).join('');
       })
       .catch(function() {
-        mostrarMsg('❌ Erro ao carregar dados do servidor. Verifique a conexão.', 'erro');
+        mostrarMsg(' Erro ao carregar dados do servidor. Verifique a conexão.', 'erro');
       });
   }
 
@@ -488,10 +687,44 @@
           || String(r.nome).toLowerCase() === alvo;
     });
     if (!match) return;
-    ['os-retiro', 'os-retiro-origem'].forEach(function(id) {
-      var sel = document.getElementById(id);
-      if (sel) sel.value = match.id;
-    });
+    RETIRO_LOGADO_ID = match.id;
+
+    var sel = document.getElementById('os-retiro');
+    if (sel) {
+      sel.value = match.id;
+      if (PERFIL === 'Capataz') setSelectBloqueado(sel, true);
+    }
+    atualizarBloqueioRetiroTransfer();
+  }
+
+  function setSelectBloqueado(el, bloqueado) {
+    if (!el) return;
+    el.disabled = !!bloqueado;
+    el.classList.toggle('select-bloqueado', !!bloqueado);
+    el.setAttribute('aria-disabled', bloqueado ? 'true' : 'false');
+  }
+
+  function atualizarBloqueioRetiroTransfer() {
+    var selOrigem = document.getElementById('os-retiro-origem');
+    var selDestino = document.getElementById('os-retiro-destino');
+    if (!selOrigem || !selDestino) return;
+
+    // Se for Gerente e selecionou "Eu mesmo", libera tudo
+    if (PERFIL === 'Gerente' && !RETIRO_LOGADO_ID) {
+      setSelectBloqueado(selOrigem, false);
+      setSelectBloqueado(selDestino, false);
+      return;
+    }
+
+    if (TIPO_TRANSF === 'envio') {
+      if (RETIRO_LOGADO_ID) selOrigem.value = RETIRO_LOGADO_ID;
+      setSelectBloqueado(selOrigem, true);
+      setSelectBloqueado(selDestino, false);
+    } else {
+      if (RETIRO_LOGADO_ID) selDestino.value = RETIRO_LOGADO_ID;
+      setSelectBloqueado(selDestino, true);
+      setSelectBloqueado(selOrigem, false);
+    }
   }
 
   function configurarOperacao() {
@@ -504,9 +737,13 @@
       });
       document.getElementById('btn-enviar').disabled = !op;
 
+      // Morte/abate: só uma categoria (mesmo sexo/idade), esconde botão "+"
+      var btnAddCat = document.getElementById('btn-add-categoria');
+      if (btnAddCat) btnAddCat.style.display = (op === 'obito' || op === 'abate') ? 'none' : '';
+
       // Inicia com uma linha de categoria/evolução
       // Limpa as linhas antigas pra regenerar com a lista certa (nascimento = só bezerro/bezerra)
-      if (['nascimento','obito','transferencia','compravenda'].indexOf(op) >= 0) {
+      if (['nascimento','obito','abate','transferencia','compravenda'].indexOf(op) >= 0) {
         var cont = document.getElementById('linhas-categoria');
         cont.innerHTML = '';
         addLinhaCategoria();
@@ -525,7 +762,10 @@
         btn.addEventListener('click', function() {
           grupo.querySelectorAll('.pill').forEach(function(b) { b.classList.remove('active'); });
           btn.classList.add('active');
-          if (btn.dataset.tipo) TIPO_TRANSF = btn.dataset.tipo;
+          if (btn.dataset.tipo) {
+            TIPO_TRANSF = btn.dataset.tipo;
+            atualizarBloqueioRetiroTransfer();
+          }
           if (btn.dataset.negocio) TIPO_NEGOCIO = btn.dataset.negocio;
           if (btn.dataset.transporte) {
             TIPO_TRANSPORTE = btn.dataset.transporte;
@@ -542,14 +782,21 @@
     if (input) {
       input.addEventListener('change', function() {
         var txt = document.getElementById('foto-label-txt');
-        if (input.files.length) txt.textContent = '✅ ' + input.files[0].name;
+        if (input.files.length) txt.textContent = ' ' + input.files[0].name;
       });
     }
     var inputMan = document.getElementById('os-foto-manejo');
     if (inputMan) {
       inputMan.addEventListener('change', function() {
         var txt = document.getElementById('foto-manejo-txt');
-        if (inputMan.files.length) txt.textContent = '✅ ' + inputMan.files[0].name;
+        if (inputMan.files.length) txt.textContent = ' ' + inputMan.files[0].name;
+      });
+    }
+    var inputAbate = document.getElementById('os-foto-abate');
+    if (inputAbate) {
+      inputAbate.addEventListener('change', function() {
+        var txt = document.getElementById('foto-abate-txt');
+        if (inputAbate.files.length) txt.textContent = ' ' + inputAbate.files[0].name;
       });
     }
   }
@@ -590,21 +837,40 @@
 
     if (op === 'obito') {
       if (!document.getElementById('os-foto').files.length) {
-        mostrarMsg('📷 Para registrar óbito é obrigatório anexar a foto da carcaça.', 'erro');
+        mostrarMsg(' Para registrar morte é obrigatório anexar a foto da carcaça.', 'erro');
         return;
       }
       if (!document.getElementById('os-causa').value) {
-        mostrarMsg('💀 Informe a causa da morte.', 'erro');
+        mostrarMsg(' Informe a causa da morte.', 'erro');
+        return;
+      }
+    }
+
+    if (op === 'abate') {
+      if (!document.getElementById('os-foto-abate').files.length) {
+        mostrarMsg(' Para registrar abate é obrigatório anexar a foto.', 'erro');
         return;
       }
     }
 
     var payload = { operacao: op, perfil: PERFIL, data: (document.getElementById('os-data') || {}).value };
 
-    if (['nascimento','obito','transferencia','compravenda'].indexOf(op) >= 0) {
+    // Gerente: envia em nome de um capataz específico ou registra ele mesmo
+    if (PERFIL === 'Gerente') {
+      var selCapGer = document.getElementById('os-capataz');
+      if (selCapGer && selCapGer.value && selCapGer.value !== 'eu') {
+        payload.capataz_id = selCapGer.value;
+      } else if (!selCapGer || !selCapGer.value) {
+        mostrarMsg(' Selecione para qual capataz registrar a boleta.', 'erro');
+        return;
+      }
+      // se valor === 'eu', não envia capataz_id → backend usa sess.id
+    }
+
+    if (['nascimento','obito','abate','transferencia','compravenda'].indexOf(op) >= 0) {
       payload.animais = coletarCategorias();
       if (!payload.animais.length) {
-        mostrarMsg('🐂 Adicione pelo menos uma categoria com quantidade.', 'erro');
+        mostrarMsg(' Adicione pelo menos uma categoria com quantidade.', 'erro');
         return;
       }
     }
@@ -612,24 +878,32 @@
     if (op === 'transferencia') {
       payload.tipo = TIPO_TRANSF;
       payload.transporte = TIPO_TRANSPORTE;
-      payload.retiro_origem = document.getElementById('os-retiro-origem').value;
-      payload.retiro_destino = document.getElementById('os-retiro-destino').value;
-      // Dados de motorista não são mais solicitados (simplificação do formulário)
+      var selOrig = document.getElementById('os-retiro-origem');
+      var selDest = document.getElementById('os-retiro-destino');
+      payload.retiro_origem = selOrig.value;
+      payload.retiro_destino = selDest.value;
+      // Vincula ao envio original se for recebimento bilateral
+      if (window.__TRANSF_REF) {
+        payload.transferencia_ref = window.__TRANSF_REF;
+      }
     } else if (op === 'compravenda') {
       payload.tipo = TIPO_NEGOCIO;
       payload.retiro = document.getElementById('os-retiro').value;
       payload.valor = document.getElementById('os-valor').value;
     } else if (op === 'nascimento') {
       payload.retiro = document.getElementById('os-retiro').value;
-      payload.pasto = document.getElementById('os-pasto').value;
       payload.raca = document.getElementById('os-raca').value;
     } else if (op === 'obito') {
       payload.retiro = document.getElementById('os-retiro').value;
-      payload.pasto = document.getElementById('os-pasto').value;
       payload.brinco = document.getElementById('os-brinco').value;
       payload.causa = document.getElementById('os-causa').value;
       var fotoObito = document.getElementById('os-foto');
       payload.tem_foto = !!(fotoObito && fotoObito.files.length);
+    } else if (op === 'abate') {
+      payload.retiro = document.getElementById('os-retiro').value;
+      payload.brinco = document.getElementById('os-brinco-abate').value;
+      var fotoAbate = document.getElementById('os-foto-abate');
+      payload.tem_foto = !!(fotoAbate && fotoAbate.files.length);
     } else if (op === 'evolucao') {
       payload.retiro = document.getElementById('os-retiro').value;
       payload.evolucoes = coletarEvolucoes();
@@ -642,11 +916,19 @@
     payload.observacoes = (document.getElementById('os-observacoes') || {}).value || '';
     payload.observacoes_audio = audioBase64 || ''; // áudio em base64 (data URL) para salvar no banco
 
-    // Lê a foto (óbito ou manejo) como base64 antes de enviar
+    // Se está executando uma tarefa pré-agendada, vincula a boleta à tarefa
+    if (window.__TAREFA_ID) {
+      payload.tarefa_id = window.__TAREFA_ID;
+    }
+
+    // Lê a foto (morte ou manejo) como base64 antes de enviar
     var fotoFile = null;
     if (op === 'obito') {
       var fObito = document.getElementById('os-foto');
       if (fObito && fObito.files.length) fotoFile = fObito.files[0];
+    } else if (op === 'abate') {
+      var fAbate = document.getElementById('os-foto-abate');
+      if (fAbate && fAbate.files.length) fotoFile = fAbate.files[0];
     } else if (op === 'manejo') {
       var fManejo = document.getElementById('os-foto-manejo');
       if (fManejo && fManejo.files.length) fotoFile = fManejo.files[0];
@@ -666,30 +948,86 @@
         payload.foto_base64 = fotoBase64;
         payload.tem_foto = true;
       }
-      // Georreferência: captura GPS pra rastreabilidade (não bloqueia se negar)
+      var temFoto = !!(payload.foto_base64 || payload.tem_foto);
+      var btn = document.getElementById('btn-enviar');
+
+      // Toda foto precisa de localização. Se ainda não temos GPS, avisamos e esperamos.
+      if (temFoto && !gpsAtual) {
+        mostrarMsg(' Capturando o GPS da foto... aguarde um instante.', 'info');
+        if (btn) { btn.disabled = true; }
+      }
+
       capturarGPS(function(coords) {
+        if (btn) { btn.disabled = false; }
         if (coords) {
           payload.latitude = coords.latitude;
           payload.longitude = coords.longitude;
+        } else if (temFoto) {
+          // Requisito: toda foto georreferenciada. Sem GPS, não envia.
+          mostrarMsg(' Não consegui pegar o GPS, e toda foto precisa de localização. Ative o GPS do aparelho e tente novamente.', 'erro');
+          return;
         }
         enviarPayload(payload);
       });
     });
   });
 
-  // Captura GPS com timeout curto; chama cb(null) se falhar/negar (não trava o registro)
+  // ===== GPS / Georreferenciação =====
+  // Requisito de rastreabilidade: TODA foto (morte, manejo) precisa de localização.
+  // Por isso começamos a capturar já na abertura e, no envio com foto, exigimos GPS.
+  function lerGpsCache() {
+    try {
+      var raw = localStorage.getItem('brpec_gps_ultima_pos');
+      if (!raw) return null;
+      var p = JSON.parse(raw);
+      if (p && p.lat && p.lon) return { latitude: parseFloat(p.lat), longitude: parseFloat(p.lon) };
+    } catch (e) {}
+    return null;
+  }
+  function salvarGpsCache(lat, lon) {
+    try {
+      localStorage.setItem('brpec_gps_ultima_pos', JSON.stringify({ lat: lat, lon: lon, timestamp: Date.now() }));
+      localStorage.setItem('brpec_gps_autorizado', 'true');
+    } catch (e) {}
+  }
+
+  // Dispara a captura assim que a tela abre (e mantém a última posição conhecida).
+  function iniciarGPS() {
+    gpsAtual = lerGpsCache();  // usa a última posição enquanto a nova chega
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(
+      function(pos) {
+        gpsAtual = { latitude: pos.coords.latitude, longitude: pos.coords.longitude };
+        salvarGpsCache(pos.coords.latitude, pos.coords.longitude);
+      },
+      function() { /* mantém cache/none; tenta de novo no envio */ },
+      { enableHighAccuracy: true, timeout: 30000, maximumAge: 60000 }
+    );
+  }
+
+  // No envio: devolve a leitura mais recente; se não houver, tenta agora (até 12s)
+  // e cai pra última posição conhecida. cb(null) só quando realmente não há nada.
   function capturarGPS(cb) {
-    if (!navigator.geolocation) { cb(null); return; }
+    if (gpsAtual) { cb(gpsAtual); return; }
+    if (!navigator.geolocation) { cb(lerGpsCache()); return; }
     var respondido = false;
-    var timer = setTimeout(function() { if (!respondido) { respondido = true; cb(null); } }, 4000);
+    var timer = setTimeout(function() {
+      if (!respondido) { respondido = true; cb(gpsAtual || lerGpsCache()); }
+    }, 12000);
     navigator.geolocation.getCurrentPosition(
       function(pos) {
         if (respondido) return;
         respondido = true; clearTimeout(timer);
-        cb({ latitude: pos.coords.latitude, longitude: pos.coords.longitude });
+        gpsAtual = { latitude: pos.coords.latitude, longitude: pos.coords.longitude };
+        salvarGpsCache(pos.coords.latitude, pos.coords.longitude);
+        cb(gpsAtual);
       },
-      function() { if (!respondido) { respondido = true; clearTimeout(timer); cb(null); } },
-      { enableHighAccuracy: true, timeout: 4000, maximumAge: 60000 }
+      function() {
+        if (respondido) return;
+        respondido = true; clearTimeout(timer);
+        cb(gpsAtual || lerGpsCache());
+      },
+      { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 }
     );
   }
 
@@ -697,6 +1035,12 @@
     var editId = new URLSearchParams(window.location.search).get('edit');
     var url = editId ? '/api/boletas/' + encodeURIComponent(editId) : '/api/boletas';
     var metodo = editId ? 'PUT' : 'POST';
+
+    // Já está sem rede: salva direto no aparelho, sem nem tentar (e sem travar o capataz).
+    if (!navigator.onLine) {
+      salvarBoletaOffline(url, metodo, payload);
+      return;
+    }
 
     fetch(url, {
       method: metodo,
@@ -707,7 +1051,7 @@
     .then(function(r) { return r.json().then(function(d){ return { ok: r.ok, data: d }; }); })
     .then(function(res) {
       if (!res.ok) {
-        mostrarMsg('❌ ' + (res.data.erro || 'Erro ao salvar boleta.'), 'erro');
+        mostrarMsg(' ' + (res.data.erro || 'Erro ao salvar boleta.'), 'erro');
         return;
       }
       // Guarda no localStorage só pra tela de sucesso mostrar o resumo
@@ -718,7 +1062,35 @@
       window.location.href = '/sucesso';
     })
     .catch(function() {
-      mostrarMsg('❌ Erro de conexão. Tente novamente.', 'erro');
+      // Falha de rede no meio do envio: NÃO perde o registro — guarda local pra sincronizar depois.
+      salvarBoletaOffline(url, metodo, payload);
+    });
+  }
+
+  // Salva a boleta na fila local (IndexedDB). Quando a conexão voltar, o sincronizador
+  // reenvia a requisição original (POST/PUT /api/boletas) automaticamente.
+  function salvarBoletaOffline(url, metodo, payload) {
+    var idb = window.brpecIndexedDb;
+    if (!idb || typeof idb.salvarFila !== 'function') {
+      mostrarMsg(' Sem conexão e o aparelho não conseguiu guardar o registro. Tente de novo perto do sinal.', 'erro');
+      return;
+    }
+    idb.salvarFila('boleta', {
+      url: url,
+      metodo: metodo,
+      dados: payload,
+      tentativas: 0,
+      ultimaTentativa: new Date().toISOString(),
+    })
+    .then(function() {
+      try {
+        var resumo = Object.assign({ criadoEm: new Date().toISOString(), _offline: true }, payload);
+        localStorage.setItem('brpec_ultimo_registro', JSON.stringify(resumo));
+      } catch(e) {}
+      window.location.href = '/sucesso?offline=1';
+    })
+    .catch(function() {
+      mostrarMsg(' Não foi possível guardar no aparelho. Tente novamente.', 'erro');
     });
   }
 </script>

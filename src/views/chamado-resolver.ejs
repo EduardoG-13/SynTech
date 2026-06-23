@@ -6,20 +6,20 @@
 
   <div id="app">
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar"><img src="/public/Icons/infra.ico" alt="Infra" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <div class="user-avatar"><span class="material-symbols-rounded ui-icon" aria-hidden="true">construction</span></div>
       <h1>Resolver Chamado</h1>
       <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %></div>
     </div>
 
     <main class="chamado-main">
 
-      <button type="button" class="btn-voltar" onclick="window.history.back()">⬅️ Voltar</button>
+      <button type="button" class="btn-voltar" onclick="window.history.back()"><span class="material-symbols-rounded ui-icon back-ico" aria-hidden="true">arrow_back</span> Voltar</button>
 
       <!-- Card do chamado -->
       <div class="card-chamado">
         <div class="card-chamado-header">
           <div class="card-chamado-icone" id="chamado-icone">
-            <img src="/public/Icons/infra.ico" alt="" />
+            <span class="material-symbols-rounded ui-icon" aria-hidden="true">construction</span>
           </div>
           <div>
             <h2 id="chamado-titulo">Carregando...</h2>
@@ -27,21 +27,21 @@
           </div>
         </div>
         <div class="card-chamado-meta">
-          <div><strong><img class="ico-sm" src="/public/Icons/localizacao.ico" alt="" /> Retiro:</strong> <span id="chamado-retiro">—</span></div>
-          <div><strong><img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> Aberto em:</strong> <span id="chamado-data">—</span></div>
-          <div><strong><img class="ico-sm" src="/public/Icons/capataz.ico" alt="" /> Capataz:</strong> <span id="chamado-capataz">—</span></div>
-          <div><strong><img class="ico-sm" src="/public/Icons/editar.ico" alt="" /> Descrição:</strong> <span id="chamado-descricao">—</span></div>
-          <div id="chamado-gps-box" style="display:none;"><strong><img class="ico-sm" src="/public/Icons/GPS.ico" alt="" /> GPS:</strong> <span id="chamado-gps">—</span></div>
-          <div id="chamado-local-box" style="display:none;"><strong><img class="ico-sm" src="/public/Icons/bussola_direcao_guia.ico" alt="" /> Local (referência):</strong> <span id="chamado-local">—</span></div>
+          <div><strong><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">location_on</span> Retiro:</strong> <span id="chamado-retiro">—</span></div>
+          <div><strong><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">calendar_month</span> Aberto em:</strong> <span id="chamado-data">—</span></div>
+          <div><strong><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">engineering</span> Capataz:</strong> <span id="chamado-capataz">—</span></div>
+          <div><strong><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">edit</span> Descrição:</strong> <span id="chamado-descricao">—</span></div>
+          <div id="chamado-gps-box" style="display:none;"><strong><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">my_location</span> GPS:</strong> <span id="chamado-gps">—</span></div>
+          <div id="chamado-local-box" style="display:none;"><strong><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">explore</span> Local (referência):</strong> <span id="chamado-local">—</span></div>
         </div>
         <div id="chamado-audio-box" style="display:none; margin-top:0.75rem;">
-          <p class="ajuda" style="margin-bottom:0.25rem;"><img class="ico-sm" src="/public/Icons/grava_audio.ico" alt="" /> Áudio enviado pelo capataz:</p>
+          <p class="ajuda" style="margin-bottom:0.25rem;"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">mic</span> Áudio enviado pelo capataz:</p>
           <audio controls id="chamado-audio" style="width:100%;"></audio>
         </div>
         <div id="chamado-foto-box" style="display:none; margin-top:0.75rem;">
-          <p class="ajuda" style="margin-bottom:0.25rem;"><img class="ico-sm" src="/public/Icons/tira_foto.ico" alt="" /> Foto enviada pelo capataz:</p>
+          <p class="ajuda" style="margin-bottom:0.25rem;"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">photo_camera</span> Foto enviada pelo capataz:</p>
           <img id="chamado-foto" class="chamado-foto" alt="Foto do problema" style="max-width:100%; border-radius:10px;" />
-          <a id="chamado-foto-link" href="#" target="_blank" rel="noopener" style="display:inline-block; margin-top:0.4rem; color:#1A4D2E; font-size:0.85rem; text-decoration:underline;">🔍 Abrir foto em tela cheia</a>
+          <a id="chamado-foto-link" href="#" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; margin-top:0.4rem; color:#1A4D2E; font-size:0.85rem; text-decoration:underline;"><span class="material-symbols-rounded ui-icon" aria-hidden="true">visibility</span> Abrir foto em tela cheia</a>
         </div>
       </div>
 
@@ -50,29 +50,29 @@
         <input type="hidden" id="chamado-id" value="<%= typeof chamadoId !== 'undefined' ? chamadoId : '' %>" />
 
         <div class="card-resolucao">
-          <label class="label-bold"><img class="label-ico" src="/public/Icons/editar.ico" alt="" /> Descrição da Solução</label>
+          <label class="label-bold"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">edit</span> Descrição da Solução <span class="req-star">*</span></label>
           <textarea id="descricao-solucao" rows="5" maxlength="500" placeholder="Descreva o que foi feito para resolver o problema..."></textarea>
           <div class="char-counter"><span id="char-count">0</span>/500</div>
         </div>
 
         <div class="card-resolucao">
-          <label class="label-bold"><img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" /> Gravar áudio (opcional)</label>
+          <label class="label-bold"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">mic</span> Gravar áudio <span class="opcional-txt">(opcional)</span></label>
           <p class="ajuda">Se preferir, grave um áudio explicando a resolução.</p>
           <button type="button" class="btn-audio" id="btn-gravar-audio">
-            <img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" />
+            <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">mic</span>
             <span id="audio-btn-txt">Gravar áudio</span>
           </button>
           <audio id="audio-preview" controls style="display:none; width:100%; margin-top:0.5rem;"></audio>
-          <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;">🗑️ Apagar áudio</button>
+          <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;"><span class="material-symbols-rounded ui-icon" aria-hidden="true">delete</span> Apagar áudio</button>
         </div>
 
         <div class="card-resolucao">
-          <label class="label-bold"><img class="label-ico" src="/public/Icons/tira_foto.ico" alt="" /> Foto da resolução (opcional)</label>
+          <label class="label-bold"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">photo_camera</span> Foto da resolução <span class="opcional-txt">(opcional)</span></label>
           <p class="ajuda">Tire foto ou escolha do celular.</p>
           <div class="upload-foto">
             <label for="input-foto-resolucao" class="upload-label">
-              <img class="upload-icon-img" src="/public/Icons/tira_foto.ico" alt="" />
-              <span id="foto-txt">📷 Tirar foto ou escolher do celular</span>
+              <span class="material-symbols-rounded ui-icon upload-icon-img" aria-hidden="true">photo_camera</span>
+              <span id="foto-txt"> Tirar foto ou escolher do celular</span>
             </label>
             <input type="file" id="input-foto-resolucao" accept="image/*" style="display:none;" />
           </div>
@@ -80,7 +80,7 @@
         </div>
 
         <button type="submit" class="btn-salvar" id="btn-salvar-resolucao">
-          <img class="label-ico" src="/public/Icons/concluido.ico" alt="" /> Salvar Resolução
+          <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">check_circle</span> Salvar Resolução
         </button>
 
         <p class="form-msg" id="resolver-msg" style="display:none;"></p>
@@ -159,12 +159,12 @@
     var aviso = document.createElement('div');
     aviso.className = 'card-resolucao';
     aviso.innerHTML =
-      '<h3 style="color:#1A4D2E; margin-bottom:0.5rem;">✅ Resolução já registrada</h3>' +
+      '<h3 style="color:#1A4D2E; margin-bottom:0.5rem;"> Resolução já registrada</h3>' +
       '<div class="card-chamado-meta">' +
-        '<div><strong>📅 Resolvido em:</strong> ' + ((c.resolvido_em || '').slice(0,16).replace('T',' ') || '—') + '</div>' +
-        '<div><strong>🛠️ Solução:</strong> ' + (c.solucao_resolucao || '—') + '</div>' +
+        '<div><strong> Resolvido em:</strong> ' + ((c.resolvido_em || '').slice(0,16).replace('T',' ') || '—') + '</div>' +
+        '<div><strong> Solução:</strong> ' + (c.solucao_resolucao || '—') + '</div>' +
       '</div>' +
-      '<p style="margin-top:0.75rem; color:#8A8A7C; font-size:0.85rem;">🔒 Não é possível alterar uma resolução já registrada.</p>';
+      '<p style="margin-top:0.75rem; color:#8A8A7C; font-size:0.85rem;"> Não é possível alterar uma resolução já registrada.</p>';
     document.querySelector('.chamado-main').appendChild(aviso);
   }
 
@@ -172,7 +172,7 @@
     var input = document.getElementById('input-foto-resolucao');
     input.addEventListener('change', function() {
       if (!input.files.length) return;
-      document.getElementById('foto-txt').textContent = '✅ ' + input.files[0].name;
+      document.getElementById('foto-txt').textContent = ' ' + input.files[0].name;
       var reader = new FileReader();
       reader.onload = function(e) {
         var img = document.getElementById('preview-foto-resolucao');
@@ -205,7 +205,7 @@
     });
   }
   function iniciarGravacao() {
-    if (!navigator.mediaDevices) { msg('🎙️ Navegador não suporta gravação.', 'erro'); return; }
+    if (!navigator.mediaDevices) { msg(' Navegador não suporta gravação.', 'erro'); return; }
     navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
       mediaRecorder = new MediaRecorder(stream);
       audioChunks = [];
@@ -224,9 +224,9 @@
       };
       mediaRecorder.start();
       gravando = true;
-      document.getElementById('audio-btn-txt').textContent = '⏹️ Parar gravação';
+      document.getElementById('audio-btn-txt').textContent = 'Parar gravação';
       document.getElementById('btn-gravar-audio').classList.add('gravando');
-    }).catch(function() { msg('🎙️ Permissão de microfone negada.', 'erro'); });
+    }).catch(function() { msg(' Permissão de microfone negada.', 'erro'); });
   }
   function pararGravacao() {
     if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
@@ -247,7 +247,7 @@
     e.preventDefault();
     var descricao = document.getElementById('descricao-solucao').value.trim();
     if (descricao.length < 5) {
-      msg('🛠️ Descreva a resolução (mínimo 5 caracteres).', 'erro');
+      msg(' Descreva a resolução (mínimo 5 caracteres).', 'erro');
       return;
     }
     var foto = document.getElementById('input-foto-resolucao').files[0];
@@ -273,11 +273,11 @@
       })
       .then(function(r) { return r.json().then(function(d){ return { ok: r.ok, data: d }; }); })
       .then(function(res) {
-        if (!res.ok) { msg('❌ ' + (res.data.erro || 'Erro ao salvar.'), 'erro'); return; }
-        msg('✅ Resolução registrada com sucesso!', 'sucesso');
+        if (!res.ok) { msg(' ' + (res.data.erro || 'Erro ao salvar.'), 'erro'); return; }
+        msg(' Resolução registrada com sucesso!', 'sucesso');
         setTimeout(function() { window.location.href = '/infraestrutura'; }, 1500);
       })
-      .catch(function() { msg('❌ Erro de conexão.', 'erro'); });
+      .catch(function() { msg(' Erro de conexão.', 'erro'); });
     });
   }
 </script>

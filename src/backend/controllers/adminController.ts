@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { AppError } from '../utils/AppError';
 import adminService from '../services/adminService';
+import db from '../config/database';
 
 // ==================== RETIROS ====================
 
@@ -143,16 +144,12 @@ export function excluirTarefa(req: Request, res: Response, next: NextFunction) {
  * GET /api/admin/dispositivos
  * Lista os dispositivos vinculados (aparelhos que entram automático em um retiro).
  */
-export function listarDispositivos(_req: Request, res: Response) {
-  const rows = db.prepare(`
-    SELECT d.id, d.device_token, d.apelido, d.criado_em, d.ultimo_acesso, d.revogado_em,
-           r.nome AS retiro_nome, u.nome AS capataz_nome
-    FROM dispositivos d
-    LEFT JOIN retiros  r ON r.id = d.retiro_id
-    LEFT JOIN usuarios u ON u.id = d.capataz_id
-    ORDER BY d.revogado_em IS NOT NULL, d.ultimo_acesso DESC
-  `).all();
-  return res.json(rows);
+export function listarDispositivos(_req: Request, res: Response, next: NextFunction) {
+  try {
+    return res.json(adminService.listarDispositivos());
+  } catch (error: any) {
+    next(error);
+  }
 }
 
 /**

@@ -5,14 +5,14 @@
 
   <div id="app">
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar"><img src="/public/Icons/capataz.ico" alt="Capataz" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <div class="user-avatar"><span class="material-symbols-rounded ui-icon" aria-hidden="true">engineering</span></div>
       <h1>Detalhe da Tarefa</h1>
       <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %> · <%= retiro %></div>
     </div>
 
     <main class="layout" style="padding: 0;">
 
-      <button class="btn-voltar" onclick="window.history.back()">← Voltar</button>
+      <button class="btn-voltar" onclick="window.history.back()"><span class="material-symbols-rounded ui-icon back-ico" aria-hidden="true">arrow_back</span> Voltar</button>
 
       <div class="badge-status andamento">Em andamento</div>
 
@@ -48,7 +48,7 @@
       </div>
 
       <button class="btn btn-primario" id="btn-iniciar-tarefa" style="width: 100%; margin-top: 1rem;">
-        ▶ Iniciar Tarefa
+        <span class="material-symbols-rounded ui-icon" aria-hidden="true">play_arrow</span> Iniciar tarefa
       </button>
 
     </main>

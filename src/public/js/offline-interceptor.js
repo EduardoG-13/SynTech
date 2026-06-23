@@ -180,10 +180,10 @@ function atualizarStatusBadge() {
   const badge = document.getElementById('onlineStatus');
   if (badge) {
     if (isOnline) {
-      badge.textContent = '🟢 Online';
+      badge.textContent = 'Online';
       badge.style.backgroundColor = '#4CAF50';
     } else {
-      badge.textContent = '🔴 Offline';
+      badge.textContent = 'Offline';
       badge.style.backgroundColor = '#f44336';
     }
   }

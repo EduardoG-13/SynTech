@@ -30,6 +30,8 @@ export class HistoricoService {
       if (!grupos[key]) {
         grupos[key] = {
           id: key,
+          grupo_id: key,
+          numero_boleta: r.numero_boleta || null,
           operacao: r.tipo_operacao,
           data: r.data,
           retiro_nome: r.retiro_nome,

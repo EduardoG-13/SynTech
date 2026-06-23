@@ -48,16 +48,25 @@
         cont.innerHTML = rows.map(function (d) {
           var revogado = !!d.revogado_em;
           var ultimo = (d.ultimo_acesso || '').slice(0, 16).replace('T', ' ');
+          var botoes = '';
+          if (revogado) {
+            botoes = '<button class="btn-apagar-disp" data-id="' + d.id + '" style="background:none; border:1px solid #D32F2F; color:#D32F2F; border-radius:8px; padding:0.3rem 0.7rem; cursor:pointer; font-size:0.85rem;">' + BRPIcons.html('excluir', 'ico-sm') + ' Apagar</button>';
+          } else {
+            botoes = '<button class="btn-revogar-disp" data-id="' + d.id + '" style="background:none; border:1px solid #D32F2F; color:#D32F2F; border-radius:8px; padding:0.3rem 0.7rem; cursor:pointer; font-size:0.85rem;">Revogar</button>';
+          }
           return '<div class="lista-item" style="display:flex; align-items:center; justify-content:space-between; gap:0.5rem; padding:0.6rem 0.8rem; border:1px solid #e5e5e0; border-radius:10px; margin-bottom:0.4rem; ' + (revogado ? 'opacity:0.55;' : '') + '">' +
             '<div>' +
-              '<div><strong>📍 ' + (d.retiro_nome || '—') + '</strong> · 👷 ' + (d.capataz_nome || '—') + '</div>' +
-              '<small style="color:#8A8A7C;">Último acesso: ' + (ultimo || '—') + (revogado ? ' · 🚫 revogado' : '') + '</small>' +
+              '<div><strong>' + BRPIcons.html('localizacao', 'ico-sm') + ' ' + (d.retiro_nome || '—') + '</strong> · ' + BRPIcons.html('capataz', 'ico-sm') + ' ' + (d.capataz_nome || '—') + '</div>' +
+              '<small style="color:#8A8A7C;">Último acesso: ' + (ultimo || '—') + (revogado ? ' · revogado' : '') + '</small>' +
             '</div>' +
-            (revogado ? '' : '<button class="btn-revogar-disp" data-id="' + d.id + '" style="background:none; border:1px solid #D32F2F; color:#D32F2F; border-radius:8px; padding:0.3rem 0.7rem; cursor:pointer; font-size:0.85rem;">Revogar</button>') +
+            botoes +
           '</div>';
         }).join('');
         cont.querySelectorAll('.btn-revogar-disp').forEach(function (b) {
           b.addEventListener('click', function () { revogarDispositivo(b.dataset.id); });
+        });
+        cont.querySelectorAll('.btn-apagar-disp').forEach(function (b) {
+          b.addEventListener('click', function () { excluirDispositivo(b.dataset.id); });
         });
       })
       .catch(function () { cont.innerHTML = '<p style="color:#C0392B;">Erro ao carregar dispositivos.</p>'; });
@@ -68,7 +77,15 @@
     fetch('/api/admin/dispositivos/' + encodeURIComponent(id), { method: 'DELETE', credentials: 'same-origin' })
       .then(function (r) { return r.json(); })
       .then(function () { carregarDispositivos(); })
-      .catch(function () { msg('❌ Erro ao revogar dispositivo.', 'erro'); });
+      .catch(function () { msg(' Erro ao revogar dispositivo.', 'erro'); });
+  }
+
+  function excluirDispositivo(id) {
+    if (!confirm('Apagar este dispositivo definitivamente? Ele será removido da lista.')) return;
+    fetch('/api/admin/dispositivos/' + encodeURIComponent(id) + '/apagar', { method: 'DELETE', credentials: 'same-origin' })
+      .then(function (r) { return r.json(); })
+      .then(function () { msg(' Dispositivo apagado.', 'sucesso'); carregarDispositivos(); })
+      .catch(function () { msg(' Erro ao apagar dispositivo.', 'erro'); });
   }
 
   // Mostra retiro só p/ Capataz; checkbox de admin só p/ Gerente
@@ -95,7 +112,7 @@
       if (err && err.acesso === false) {
         document.getElementById('config-aviso').style.display = 'block';
       } else {
-        msg('❌ Erro ao carregar dados.', 'erro');
+        msg(' Erro ao carregar dados.', 'erro');
       }
     });
   }
@@ -130,11 +147,11 @@
       return '<div class="item-admin">' +
         '<div class="item-info">' +
           '<strong>' + r.nome + (r.numero ? ' (' + r.numero + ')' : '') + '</strong>' +
-          '<span>👷 ' + (r.capataz_nome || '—') + '  ·  📋 ' + (r.coordenador_nome || '—') + '</span>' +
+          '<span>' + BRPIcons.html('capataz', 'ico-sm') + ' ' + (r.capataz_nome || '—') + ' · ' + BRPIcons.html('coordenador', 'ico-sm') + ' ' + (r.coordenador_nome || '—') + '</span>' +
         '</div>' +
         '<div class="item-acoes">' +
-          '<button class="btn-edit" data-id="' + r.id + '">✏️</button>' +
-          '<button class="btn-del" data-id="' + r.id + '">🗑️</button>' +
+          '<button class="btn-edit" data-id="' + r.id + '" aria-label="Editar retiro">' + BRPIcons.html('editar') + '</button>' +
+          '<button class="btn-del" data-id="' + r.id + '" aria-label="Excluir retiro">' + BRPIcons.html('excluir') + '</button>' +
         '</div>' +
       '</div>';
     }).join('');
@@ -152,7 +169,7 @@
     if (!usuariosCache.length) { cont.innerHTML = '<p class="vazio">Nenhum usuário cadastrado.</p>'; return; }
     cont.innerHTML = usuariosCache.map(function (u) {
       var badgeAdmin = (u.perfil === 'Gerente' && u.is_admin)
-        ? ' <span class="badge-perfil admin">🛡️ ADM</span>'
+        ? ' <span class="badge-perfil admin">' + BRPIcons.html('acesso_restrito', 'ico-sm') + ' ADM</span>'
         : '';
       return '<div class="item-admin">' +
         '<div class="item-info">' +
@@ -160,8 +177,8 @@
           '<span class="badge-perfil ' + u.perfil.toLowerCase() + '">' + u.perfil + '</span>' + badgeAdmin +
         '</div>' +
         '<div class="item-acoes">' +
-          '<button class="btn-edit" data-id="' + u.id + '">✏️</button>' +
-          '<button class="btn-del" data-id="' + u.id + '">🗑️</button>' +
+          '<button class="btn-edit" data-id="' + u.id + '" aria-label="Editar usuário">' + BRPIcons.html('editar') + '</button>' +
+          '<button class="btn-del" data-id="' + u.id + '" aria-label="Excluir usuário">' + BRPIcons.html('excluir') + '</button>' +
         '</div>' +
       '</div>';
     }).join('');
@@ -191,11 +208,11 @@
     fetch(url, { method: metodo, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
       .then(tratarResposta)
       .then(function () {
-        msg('✅ Retiro salvo!', 'sucesso');
+        msg(' Retiro salvo!', 'sucesso');
         resetFormRetiro();
         carregarTudo();
       })
-      .catch(function () { msg('❌ Erro ao salvar retiro.', 'erro'); });
+      .catch(function () { msg(' Erro ao salvar retiro.', 'erro'); });
   }
 
   function editarRetiro(id) {
@@ -215,8 +232,8 @@
     if (!confirm('Excluir este retiro?')) return;
     fetch('/api/admin/retiros/' + id, { method: 'DELETE' })
       .then(tratarResposta)
-      .then(function () { msg('🗑️ Retiro excluído.', 'sucesso'); carregarTudo(); })
-      .catch(function () { msg('❌ Erro ao excluir.', 'erro'); });
+      .then(function () { msg(' Retiro excluído.', 'sucesso'); carregarTudo(); })
+      .catch(function () { msg(' Erro ao excluir.', 'erro'); });
   }
 
   function resetFormRetiro() {
@@ -237,7 +254,7 @@
       retiro_id: perfil === 'Capataz' ? document.getElementById('usr-retiro').value : '',
       is_admin: perfil === 'Gerente' ? document.getElementById('usr-is-admin').checked : false
     };
-    if (!id && !payload.senha) { msg('❌ Informe uma senha para o novo usuário.', 'erro'); return; }
+    if (!id && !payload.senha) { msg(' Informe uma senha para o novo usuário.', 'erro'); return; }
 
     var url = id ? '/api/admin/usuarios/' + id : '/api/admin/usuarios';
     var metodo = id ? 'PUT' : 'POST';
@@ -245,12 +262,12 @@
     fetch(url, { method: metodo, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
       .then(tratarResposta)
       .then(function (res) {
-        if (res && res.erro) { msg('❌ ' + res.erro, 'erro'); return; }
-        msg('✅ Usuário salvo!', 'sucesso');
+        if (res && res.erro) { msg(' ' + res.erro, 'erro'); return; }
+        msg(' Usuário salvo!', 'sucesso');
         resetFormUsuario();
         carregarTudo();
       })
-      .catch(function () { msg('❌ Erro ao salvar usuário.', 'erro'); });
+      .catch(function () { msg(' Erro ao salvar usuário.', 'erro'); });
   }
 
   function editarUsuario(id) {
@@ -274,11 +291,11 @@
     fetch('/api/admin/usuarios/' + id, { method: 'DELETE' })
       .then(tratarResposta)
       .then(function (res) {
-        if (res && res.erro) { msg('❌ ' + res.erro, 'erro'); return; }
-        msg('🗑️ Usuário excluído.', 'sucesso');
+        if (res && res.erro) { msg(' ' + res.erro, 'erro'); return; }
+        msg(' Usuário excluído.', 'sucesso');
         carregarTudo();
       })
-      .catch(function () { msg('❌ Erro ao excluir.', 'erro'); });
+      .catch(function () { msg(' Erro ao excluir.', 'erro'); });
   }
 
   function resetFormUsuario() {

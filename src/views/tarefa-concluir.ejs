@@ -5,14 +5,14 @@
 
   <div id="app">
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar"><img src="/public/Icons/capataz.ico" alt="Capataz" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <div class="user-avatar"><span class="material-symbols-rounded ui-icon" aria-hidden="true">engineering</span></div>
       <h1>Concluir Tarefa</h1>
       <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %> · <%= retiro %></div>
     </div>
 
     <main class="layout" style="padding: 0;">
 
-      <button class="btn-voltar" onclick="window.history.back()">← Voltar</button>
+      <button class="btn-voltar" onclick="window.history.back()"><span class="material-symbols-rounded ui-icon back-ico" aria-hidden="true">arrow_back</span> Voltar</button>
 
       <div class="card" style="margin-bottom: 1rem; background: var(--verde-profundo, #1A4D2E); color: #fff; text-align: center; padding: 1rem;">
         <h2 id="tarefa-titulo-concluir">Nome da Tarefa</h2>
@@ -22,7 +22,7 @@
         <h3>Foto da Conclusão</h3>
         <div class="upload-area" id="area-foto">
           <label for="input-foto" class="upload-label">
-            <span class="upload-icon"><img src="/public/Icons/tira_foto.ico" alt="" style="width:48px;height:48px;object-fit:contain;" /></span>
+            <span class="upload-icon"><span class="material-symbols-rounded ui-icon" aria-hidden="true">photo_camera</span></span>
             <span>Clique ou arraste uma imagem</span>
           </label>
           <input type="file" id="input-foto" accept="image/*" style="display: none;" />
@@ -39,7 +39,7 @@
         <h3>Gravar Áudio</h3>
         <div class="audio-recorder">
           <button class="btn btn-secundario" id="btn-gravar" style="width: 100%;">
-            <img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" /> Grave seu áudio
+            <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">mic</span> Grave seu áudio
           </button>
           <audio id="audio-gravado" controls style="width: 100%; display: none; margin-top: 0.5rem;"></audio>
         </div>
@@ -47,10 +47,10 @@
 
       <div class="acoes-concluir" style="display: flex; gap: 1rem; margin-top: 1rem;">
         <button class="btn btn-secundario" id="btn-tirar-foto" style="flex: 1;">
-          <img class="label-ico" src="/public/Icons/tira_foto.ico" alt="" /> Tirar Foto
+          <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">photo_camera</span> Tirar Foto
         </button>
         <button class="btn btn-primario" id="btn-salvar" style="flex: 1;">
-          <img class="label-ico" src="/public/Icons/salvar.ico" alt="" /> Salvar
+          <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">save</span> Salvar
         </button>
       </div>
 

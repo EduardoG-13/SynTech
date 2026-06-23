@@ -8,81 +8,65 @@
   <div id="app">
 
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar"><img src="/public/Icons/capataz.ico" alt="Capataz" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <div class="user-avatar"><span class="material-symbols-rounded ui-icon" aria-hidden="true">engineering</span></div>
       <h1>Detalhe da Tarefa</h1>
       <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %> · <%= retiro %></div>
     </div>
 
     <main class="detalhe-main">
 
-      <button class="btn-voltar" onclick="window.history.back()">⬅️ Voltar</button>
+      <button class="btn-voltar" onclick="window.history.back()"><span class="material-symbols-rounded ui-icon back-ico" aria-hidden="true">arrow_back</span> Voltar</button>
 
-      <!-- Identificação da tarefa -->
+      <!-- Cabeçalho: tipo + status -->
       <div class="card detalhe-cabecalho">
-        <h2 id="tarefa-titulo">Consertar Cerca</h2>
-        <span class="badge andamento" id="tarefa-status">Em andamento</span>
+        <h2 id="t-titulo">Carregando...</h2>
+        <span class="badge pendente" id="t-status">Carregando</span>
       </div>
 
-      <!-- Descrição -->
+      <!-- Dados principais -->
       <div class="card detalhe-bloco">
-        <h3><img class="label-ico" src="/public/Icons/editar.ico" alt="" /> Descrição</h3>
-        <p id="tarefa-descricao">Reparar a cerca quebrada no setor norte do pasto. Verificar mourões e esticadores.</p>
-        <div class="detalhe-meta">
-          <span class="prioridade alta">● Prioridade Alta</span>
-          <span class="retiro-tag"><img class="ico-sm" src="/public/Icons/localizacao.ico" alt="" /> <%= retiro %></span>
+        <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">assignment</span> Dados da tarefa</h3>
+        <div class="dados-grid">
+          <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">swap_horiz</span> Tipo</span><span class="dado-valor" id="t-tipo">—</span></div>
+          <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">location_on</span> Retiro</span><span class="dado-valor" id="t-retiro">—</span></div>
+          <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">calendar_month</span> Data de execução</span><span class="dado-valor" id="t-data">—</span></div>
+          <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">warning</span> Prioridade</span><span class="dado-valor" id="t-prioridade">—</span></div>
+          <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">manage_accounts</span> Criada por</span><span class="dado-valor" id="t-gerente">—</span></div>
         </div>
       </div>
 
-      <!-- Player de áudio: instruções gravadas pelo Gerente -->
+      <!-- Instruções do gerente -->
       <div class="card detalhe-bloco">
-        <h3><img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" /> Áudio do Gerente</h3>
-        <p class="ajuda-detalhe">Instruções gravadas pela gerência. Toque para ouvir.</p>
-        <audio controls class="audio-instrucao">
-          <source src="" type="audio/webm" />
-          Seu navegador não suporta áudio.
-        </audio>
-        <p class="sem-audio" id="sem-audio">🔇 Nenhum áudio anexado a esta tarefa.</p>
+        <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">edit</span> Instruções</h3>
+        <p id="t-observacoes">—</p>
       </div>
 
-      <!-- ============ EXECUÇÃO / CONCLUSÃO ============ -->
-      <form id="form-conclusao">
+      <!-- Áudio do gerente -->
+      <div class="card detalhe-bloco" id="bloco-audio">
+        <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">mic</span> Áudio de instrução</h3>
+        <audio controls id="t-audio" style="width:100%; display:none;"></audio>
+        <p class="sem-audio" id="t-sem-audio"> Sem áudio anexado.</p>
+      </div>
 
-        <!-- Anexar foto (câmera) -->
-        <div class="card detalhe-bloco">
-          <h3><img class="label-ico" src="/public/Icons/tira_foto.ico" alt="" /> Foto da execução</h3>
-          <div class="upload-foto-detalhe">
-            <label for="foto-execucao" class="upload-label-detalhe">
-              <img class="upload-icon-img" src="/public/Icons/tira_foto.ico" alt="" />
-              <span id="foto-txt">📷 Tirar foto ou escolher do celular</span>
-            </label>
-            <!-- Sem 'capture' → no celular o browser pergunta "Câmera ou Arquivos" -->
-            <input type="file" id="foto-execucao" accept="image/*" />
-          </div>
-          <img id="foto-preview" class="foto-preview" alt="Pré-visualização" style="display:none;" />
-        </div>
+      <!-- Foto de referência -->
+      <div class="card detalhe-bloco" id="bloco-foto">
+        <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">photo_camera</span> Foto de referência</h3>
+        <img id="t-foto" class="foto-preview" style="display:none;" />
+        <p class="sem-audio" id="t-sem-foto"> Sem foto de referência.</p>
+        <p class="ajuda-detalhe" style="margin-top:0.5rem; color:#A64B00;" id="aviso-foto-extra"> Você ainda precisará tirar a foto na execução, conforme o tipo da tarefa.</p>
+      </div>
 
-        <!-- Anotações (texto OU áudio) -->
-        <div class="card detalhe-bloco">
-          <h3><img class="label-ico" src="/public/Icons/editar.ico" alt="" /> Anotações</h3>
-          <textarea id="anotacoes" rows="3" placeholder="Escreva ou grave um áudio (opcional)"></textarea>
+      <!-- Botão Iniciar -->
+      <button class="btn-enviar-detalhe" id="btn-iniciar" style="display:none;">
+        <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">play_arrow</span> Iniciar tarefa
+      </button>
+      <p id="t-msg" class="form-msg" style="display:none;"></p>
 
-          <div class="audio-rec">
-            <button type="button" class="btn-audio" id="btn-gravar-audio">
-              <img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" />
-              <span id="audio-btn-txt">Gravar áudio</span>
-            </button>
-            <audio id="audio-preview" controls style="display:none; width:100%; margin-top:0.5rem;"></audio>
-            <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;">🗑️ Apagar áudio</button>
-          </div>
-        </div>
-
-        <button type="submit" class="btn-enviar-detalhe" id="btn-concluir">
-          <img class="btn-ico" src="/public/Icons/concluido.ico" alt="" /> Concluir Tarefa
-        </button>
-
-        <p class="form-msg" id="detalhe-msg" style="display:none;"></p>
-
-      </form>
+      <!-- Resultado se já concluída -->
+      <div class="card detalhe-bloco" id="bloco-concluida" style="display:none;">
+        <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">check_circle</span> Tarefa concluída</h3>
+        <p>Esta tarefa já foi executada por você em <strong id="t-concluida-em">—</strong>.</p>
+      </div>
 
     </main>
 
@@ -90,141 +74,91 @@
 </div>
 
 <script>
-  var PERFIL = '<%= perfil %>';
-  var RETIRO = '<%= retiro %>';
   var TAREFA_ID = '<%= typeof tarefaId !== "undefined" ? tarefaId : "" %>';
+  var TAREFA = null;
+  var ROTULOS_OP = {
+    nascimento:    'Nascimento',
+    obito:         'Morte',
+    transferencia: 'Transferência',
+    compravenda:   'Compra / Venda',
+    evolucao:      'Evolução',
+    manejo:        'Manejo'
+  };
 
   document.addEventListener('DOMContentLoaded', function() {
-    esconderAudioVazio();
-    configurarFotoPreview();
-    configurarAudio();
+    if (!TAREFA_ID) { document.getElementById('t-titulo').textContent = 'ID inválido'; return; }
+    carregar();
+
+    document.getElementById('btn-iniciar').addEventListener('click', function() {
+      // Vai pra Nova OS com query string da tarefa — lá ela vai pré-preencher
+      window.location.href = '/nova-os?tarefa=' + encodeURIComponent(TAREFA_ID);
+    });
   });
 
-  // Se não há src de áudio do gerente, esconde o player e mostra aviso
-  function esconderAudioVazio() {
-    var player = document.querySelector('.audio-instrucao');
-    var source = player ? player.querySelector('source') : null;
-    if (!source || !source.getAttribute('src')) {
-      if (player) player.style.display = 'none';
-      document.getElementById('sem-audio').style.display = 'block';
-    } else {
-      document.getElementById('sem-audio').style.display = 'none';
-    }
+  function setText(id, v) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = (v === null || v === undefined || v === '') ? '—' : v;
   }
 
-  // Pré-visualização da foto tirada
-  function configurarFotoPreview() {
-    var input = document.getElementById('foto-execucao');
-    input.addEventListener('change', function() {
-      if (!input.files.length) return;
-      var file = input.files[0];
-      document.getElementById('foto-txt').textContent = '✅ ' + file.name;
-      var reader = new FileReader();
-      reader.onload = function(e) {
-        var img = document.getElementById('foto-preview');
-        img.src = e.target.result;
-        img.style.display = 'block';
-      };
-      reader.readAsDataURL(file);
-    });
-  }
-
-  // ===== Gravação de áudio para anotações (capataz que não escreve) =====
-  var mediaRecorder = null, audioChunks = [], audioBase64 = '', gravando = false;
-
-  function configurarAudio() {
-    var btn = document.getElementById('btn-gravar-audio');
-    var btnRemover = document.getElementById('btn-remover-audio');
-    btn.addEventListener('click', function() {
-      if (!gravando) iniciarGravacao(); else pararGravacao();
-    });
-    btnRemover.addEventListener('click', function() {
-      audioBase64 = '';
-      var p = document.getElementById('audio-preview');
-      p.src = ''; p.style.display = 'none';
-      btnRemover.style.display = 'none';
-    });
-  }
-
-  function iniciarGravacao() {
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      mostrarMsg('🎙️ Seu navegador não permite gravar áudio.', 'erro'); return;
-    }
-    navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
-      mediaRecorder = new MediaRecorder(stream);
-      audioChunks = [];
-      mediaRecorder.ondataavailable = function(e) { audioChunks.push(e.data); };
-      mediaRecorder.onstop = function() {
-        var blob = new Blob(audioChunks, { type: 'audio/webm' });
-        var reader = new FileReader();
-        reader.onloadend = function() {
-          audioBase64 = reader.result;
-          var p = document.getElementById('audio-preview');
-          p.src = audioBase64; p.style.display = 'block';
-          document.getElementById('btn-remover-audio').style.display = 'inline-block';
-        };
-        reader.readAsDataURL(blob);
-        stream.getTracks().forEach(function(t) { t.stop(); });
-      };
-      mediaRecorder.start();
-      gravando = true;
-      document.getElementById('audio-btn-txt').textContent = '⏹️ Parar gravação';
-      document.getElementById('btn-gravar-audio').classList.add('gravando');
-    }).catch(function() { mostrarMsg('🎙️ Permissão de microfone negada.', 'erro'); });
-  }
-
-  function pararGravacao() {
-    if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
-    gravando = false;
-    document.getElementById('audio-btn-txt').textContent = 'Gravar novamente';
-    document.getElementById('btn-gravar-audio').classList.remove('gravando');
-  }
-
-  function mostrarMsg(texto, tipo) {
-    var el = document.getElementById('detalhe-msg');
-    el.textContent = texto;
-    el.className = 'form-msg ' + tipo;
-    el.style.display = 'block';
-    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-
-  document.getElementById('form-conclusao').addEventListener('submit', function(e) {
-    e.preventDefault();
-    var foto = document.getElementById('foto-execucao');
-    if (!foto.files.length && !document.getElementById('anotacoes').value && !audioBase64) {
-      mostrarMsg('📷 Anexe ao menos uma foto, anotação ou áudio para concluir.', 'erro');
-      return;
-    }
-    var btn = document.getElementById('btn-concluir');
-    if (btn) { btn.disabled = true; btn.textContent = '⏳ Concluindo...'; }
-
-    // PATCH real no endpoint /api/tarefas/:id/concluir
-    fetch('/api/auth/me', { credentials: 'same-origin' })
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        var capatazId = (data && data.usuario && data.usuario.id) || '';
-        return fetch('/api/tarefas/' + encodeURIComponent(TAREFA_ID) + '/concluir', {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'same-origin',
-          body: JSON.stringify({ capataz_id: capatazId })
-        });
-      })
-      .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
-      .then(function(res) {
-        if (!res.ok) {
-          if (btn) { btn.disabled = false; btn.textContent = '✅ Concluir tarefa'; }
-          mostrarMsg('❌ ' + (res.data.erro || 'Erro ao concluir.'), 'erro');
-          return;
+  function carregar() {
+    fetch('/api/tarefas/' + encodeURIComponent(TAREFA_ID), { credentials: 'same-origin' })
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(t) {
+        if (!t) { document.getElementById('t-titulo').textContent = 'Tarefa não encontrada'; return; }
+        TAREFA = t;
+        renderTarefa(t);
+        // Marca como vista (uma vez)
+        if (!t.vista_em) {
+          fetch('/api/tarefas/' + encodeURIComponent(TAREFA_ID) + '/marcar-vista', {
+            method: 'PATCH', credentials: 'same-origin'
+          }).catch(function(){});
         }
-        mostrarMsg('✅ Tarefa concluída!', 'sucesso');
-        setTimeout(function() { window.location.href = '/tarefas'; }, 1500);
-      })
-      .catch(function() {
-        if (btn) { btn.disabled = false; btn.textContent = '✅ Concluir tarefa'; }
-        mostrarMsg('❌ Erro de conexão. Tente novamente.', 'erro');
       });
-  });
+  }
+
+  function renderTarefa(t) {
+    setText('t-titulo', t.titulo);
+    setText('t-tipo', ROTULOS_OP[t.tipo_operacao] || t.tipo_operacao || '—');
+    setText('t-retiro', t.retiro_nome || t.retiro_id);
+    setText('t-data', t.data_execucao);
+    setText('t-prioridade', (t.prioridade || 'média').toUpperCase());
+    setText('t-gerente', t.gerente_nome || '—');
+    setText('t-observacoes', t.observacoes || t.descricao || '—');
+
+    var badge = document.getElementById('t-status');
+    if (t.status === 'CONCLUIDA') {
+      badge.textContent = ' Concluída';
+      badge.className = 'badge concluida';
+      document.getElementById('bloco-concluida').style.display = 'block';
+      setText('t-concluida-em', (t.concluida_em || '').replace('T', ' ').slice(0, 16));
+    } else if (t.status === 'EM_ANDAMENTO') {
+      badge.textContent = 'Em andamento';
+      badge.className = 'badge andamento';
+      document.getElementById('btn-iniciar').style.display = 'block';
+    } else {
+      badge.textContent = 'Pendente';
+      badge.className = 'badge pendente';
+      document.getElementById('btn-iniciar').style.display = 'block';
+    }
+
+    // Áudio
+    if (t.audio_base64) {
+      var au = document.getElementById('t-audio');
+      au.src = t.audio_base64;
+      au.style.display = 'block';
+      document.getElementById('t-sem-audio').style.display = 'none';
+    }
+    // Foto
+    if (t.foto_base64) {
+      var img = document.getElementById('t-foto');
+      var src = t.foto_base64.indexOf('data:') === 0 ? t.foto_base64 : ('data:image/jpeg;base64,' + t.foto_base64);
+      img.src = src;
+      img.style.display = 'block';
+      document.getElementById('t-sem-foto').style.display = 'none';
+    } else {
+      document.getElementById('aviso-foto-extra').style.display = 'none';
+    }
+  }
 </script>
 
 <%- include('partials/footer') %>
