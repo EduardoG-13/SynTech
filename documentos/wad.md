@@ -108,7 +108,7 @@ O Modelo das 5 Forças de Porter foi aplicado para analisar a estrutura competit
 <center>
   <p><strong>Figura 1</strong> — Análise das 5 Forças de Porter aplicada à BRPec Agropecuária<br/>
   <img src="../assets/5ForçasDePorter-BRPec.png" width="800"/>
-  
+
   Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -5030,7 +5030,7 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
   - `Content-Disposition: attachment; filename="movimentacoes_2026-05-26.csv"`
   - `X-Exportacao-Id: uuid-registro-exportacao`
   - `X-Total-Registros: 15`
-  
+
   Colunas do CSV: `data`, `retiro`, `tipo_evento`, `categoria`, `quantidade`, `capataz_responsavel`, `criado_em`.
 - **Resposta (400 Bad Request)**:
   ```json
@@ -6105,7 +6105,7 @@ _Descreva e ilustre aqui o desenvolvimento da versão final do sistema web, com 
 
 # <a name="c5"></a>5. Testes
 
-## 5.1. Relatório de testes automatizados 
+## 5.1. Relatório de testes automatizados
 
 A suite automatizada cobre a camada de serviços e os endpoints REST do BrPec em dois níveis: **testes unitários de serviço** (white-box, repositórios substituídos por dublês) e **testes de integração de endpoints** (black-box, HTTP via Supertest + SQLite em memória). O toolchain é **Jest 29 + ts-jest + Supertest**.
 
@@ -6606,6 +6606,54 @@ A tabela abaixo é coerente com a Matriz RF → RN → Endpoint (seção 3.1.4) 
 | CT-EV01 – CT-EV04 | — | RF014 | `GET /api/eventos-zootecnicos` |
 | CT-EX01 – CT-EX04 | RN28 | RF015 | `GET /api/coordenador/exportar` |
 | CT-HS01 – CT-HS04 | — | — | `services/healthService.ts` (cobertura de branches de erro de banco) |
+
+### 5.1.6. Verificação de critérios impeditivos de publicação (vermelho)
+
+Foi realizada, em 22 de junho de 2026, uma auditoria técnica dos critérios impeditivos de publicação definidos para o projeto. Foram considerados como critérios vermelhos: build quebrando, testes automatizados falhando, funcionalidades core inoperantes e deploy ausente. A verificação foi conduzida a partir da execução local dos comandos disponíveis no repositório e da inspeção dos artefatos versionados.
+
+#### 5.1.6.1. Checklist consolidado para o issue
+
+| Critério impeditivo | Status | Evidência verificada | Observação |
+|---|---|---|---|
+| Build quebrando | PASSOU | Foi executado `npm run build`, definido em [`package.json`](../package.json), com conclusão bem-sucedida do `tsc`. | Não foi observado erro de compilação TypeScript. |
+| Testes falhando | PASSOU | Foi executado `npm test`, definido em [`package.json`](../package.json), com resultado `26 passed, 26 total` em suites e `206 passed, 206 total` em testes. | A suíte completa de regressão foi aprovada. |
+| Funcionalidades core inoperantes | PASSOU | Foram aprovadas suites de endpoints, autenticação, sincronização, offline, timeout, retry, contratos RNF e serviços em [`src/backend/tests`](../src/backend/tests). | Os fluxos core cobertos por testes automatizados permaneceram operacionais. |
+| Deploy ausente | FALHOU | Foram inspecionados artefatos de publicação no repositório. Não foram encontrados `Dockerfile`, `docker-compose.yml`, `render.yaml`, `vercel.json`, `netlify.toml`, `fly.toml`, `Procfile`, `railway.json` ou workflows em `.github/workflows`. | Foi identificado apenas suporte local por `npm start` e `npm run build`; recomenda-se priorizar a criação de configuração de deploy e URL pública de homologação. |
+
+#### 5.1.6.2. Evidências de execução
+
+Foi verificado que o build local se encontra íntegro:
+
+```bash
+npm run build
+```
+
+Resultado observado:
+
+```text
+> build
+> tsc
+```
+
+Foi verificado que a suíte completa de testes se encontra íntegra:
+
+```bash
+npm test
+```
+
+Resultado observado:
+
+```text
+Test Suites: 26 passed, 26 total
+Tests:       206 passed, 206 total
+Snapshots:   0 total
+```
+
+Foi verificado que os scripts formais de execução estão declarados no [`package.json`](../package.json), incluindo `test`, `build`, `start` e `dev`. Entretanto, não foi localizado artefato de deploy versionado, tampouco uma URL pública de homologação ou produção no repositório. Dessa forma, o critério "deploy ausente" foi classificado como FALHOU, pois ainda representa um bloqueio de publicação mesmo com build e testes aprovados.
+
+#### 5.1.6.3. Conclusão da auditoria
+
+Conclui-se que a aplicação não apresenta bloqueio por compilação, regressão automatizada ou inoperância das funcionalidades core cobertas por testes. No entanto, a publicação ainda permanece impedida pela ausência de configuração de deploy versionada e evidência de ambiente publicado. Recomenda-se que a correção priorizada seja a criação de um artefato de deploy compatível com a estratégia definida para o projeto, acompanhado de URL de homologação e instruções de operação.
 
 ## 5.2. Testes de usabilidade (sprint 5)
 
@@ -7660,4 +7708,3 @@ A modelagem do Domínio (UML) foi confrontada com a implementação na pasta `sr
 Durante a verificação inicial, foi identificada a falta de espelhamento exato em TS para algumas tabelas persistidas: `exportacoes` e `refresh_tokens`.
 - **Exportacao.ts e RefreshToken.ts:** Embora os arquivos de repositório e de banco de dados existissem, as respectivas interfaces *Model* em `src/backend/models/` estavam faltando.
 - **Resolução:** As interfaces TypeScript correspondentes foram devidamente criadas em `src/backend/models/Exportacao.ts` e `RefreshToken.ts`, resolvendo o problema e garantindo 100% de conformidade com os diagramas e tabelas.
-
