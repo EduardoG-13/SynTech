@@ -15,7 +15,37 @@ export interface RegistroAuditoria {
 }
 
 class AuditoriaRepository {
+  private schemaGarantido = false;
+
+  private garantirSchema() {
+    if (this.schemaGarantido) return;
+
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS auditoria_acoes (
+        id TEXT PRIMARY KEY,
+        usuario_id TEXT,
+        usuario_nome TEXT,
+        perfil TEXT,
+        acao TEXT NOT NULL,
+        entidade_tipo TEXT,
+        entidade_id TEXT,
+        metodo TEXT,
+        rota TEXT,
+        status_http INTEGER,
+        detalhes TEXT,
+        criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_auditoria_criado_em ON auditoria_acoes(criado_em);
+      CREATE INDEX IF NOT EXISTS idx_auditoria_usuario ON auditoria_acoes(usuario_id);
+      CREATE INDEX IF NOT EXISTS idx_auditoria_entidade ON auditoria_acoes(entidade_tipo, entidade_id);
+    `);
+
+    this.schemaGarantido = true;
+  }
+
   registrar(registro: RegistroAuditoria) {
+    this.garantirSchema();
     const id = uuidv7();
     db.prepare(`
       INSERT INTO auditoria_acoes (
@@ -40,6 +70,7 @@ class AuditoriaRepository {
   }
 
   listar(limite = 200) {
+    this.garantirSchema();
     return db.prepare(`
       SELECT *
       FROM auditoria_acoes
