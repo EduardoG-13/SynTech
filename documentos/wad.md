@@ -108,7 +108,7 @@ O Modelo das 5 Forças de Porter foi aplicado para analisar a estrutura competit
 <center>
   <p><strong>Figura 1</strong> — Análise das 5 Forças de Porter aplicada à BRPec Agropecuária<br/>
   <img src="../assets/5ForçasDePorter-BRPec.png" width="800"/>
-  
+
   Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1337,7 +1337,7 @@ graph TD
 ```
 
 <center>
-  <p><strong>Figura 8.1</strong> — Arquitetura de Sincronização em 3 Camadas do BrPec</p>
+  <p><strong>Figura 8</strong> — Arquitetura de Sincronização em 3 Camadas do BrPec</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1379,7 +1379,7 @@ O Sistema BrPec adota o padrão **Arquitetura em Camadas (Layered Architecture)*
 A solução é composta por **cinco camadas lógicas** no backend, implementadas em Node.js + Express.js, com persistência em PostgreSQL gerenciado pelo Supabase:
 
 <center>
-  <p><strong>Figura 8</strong> — Diagrama de Arquitetura em Camadas do Sistema BrPec</p>
+  <p><strong>Figura 9</strong> — Diagrama de Arquitetura em Camadas do Sistema BrPec</p>
   <img src="./assets/diagramaArquitetura.png" width="800" alt="Diagrama da arquitetura em camadas Controller-Service-Repository do BrPec"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -1486,7 +1486,7 @@ Os casos de uso do Sistema BrPec foram definidos com o objetivo de representar, 
 Cada caso de uso está associado a um requisito funcional (RF), garantindo rastreabilidade entre as necessidades identificadas e as funcionalidades implementadas. A seguir, são detalhados os principais casos de uso do sistema.
 
 <center>
-  <p><strong>Figura 9</strong> — Diagrama de Caso de Uso aplicado à BrPec Agropecuária</p>
+  <p><strong>Figura 10</strong> — Diagrama de Caso de Uso aplicado à BrPec Agropecuária</p>
   <img src="../assets/diagramaDeUso.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -1846,7 +1846,7 @@ classDiagram
 ```
 
 <center>
-  <p><strong>Figura 10</strong> — Diagrama de Classes do Domínio do Sistema BrPec (Mermaid UML)</p>
+  <p><strong>Figura 11</strong> — Diagrama de Classes do Domínio do Sistema BrPec (Mermaid UML)</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2341,7 +2341,7 @@ flowchart TD
 ```
 
 <center>
-  <p><strong>Figura 10</strong> — Diagrama de Classes Arquitetural do Sistema BrPec</p>
+  <p><strong>Figura 12</strong> — Diagrama de Classes Arquitetural do Sistema BrPec</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2924,7 +2924,7 @@ sequenceDiagram
 O diagrama de atividades abaixo representa o fluxo de execução de tarefas no sistema BrPec, contemplando o funcionamento offline-first da aplicação. O processo inicia com a criação da tarefa pelo gerente, passando pela disponibilização ao capataz, execução da atividade em campo e sincronização dos dados com o sistema central. O fluxo foi modelado utilizando UML, mantendo consistência de notação ao longo de toda a representação.
 
 <center>
-  <p><strong>Figura 11</strong> — Diagrama de Estados do Sistema BrPec</p>
+  <p><strong>Figura 13</strong> — Diagrama de Estados do Sistema BrPec</p>
   <img src="./assets/diagramaDeEstados.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -2985,7 +2985,7 @@ flowchart TD
 ```
 
 <center>
-  <p><strong>Figura 12</strong> — Diagrama de Implantação Física do Sistema BrPec</p>
+  <p><strong>Figura 14</strong> — Diagrama de Implantação Física do Sistema BrPec</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3181,40 +3181,40 @@ Os fluxos de navegação estão organizados em quatro jornadas principais:
 
 ### Fluxo 1 — Capataz: visualizar e concluir tarefas com evidências (US02, US03, US04)
 #### Tela de Tarefas:
-Este wireframe (figura 10) representa a interface destinada ao Capataz, com design responsivo adaptado para dispositivos móveis (parte da esquerda) e desktop (parte da direita). 
+Este wireframe (Figura 15) representa a interface destinada ao Capataz, com design responsivo adaptado para dispositivos móveis (parte da esquerda) e desktop (parte da direita). 
 
 Esta tela é o ponto de entrada do Capataz no aplicativo. Na parte central é possível ver uma lista com as tarefas pendentes organizadas automaticamente por ordem de importância, garantindo que as atividades críticas sejam atendidas primeiro mesmo offline, atendendo a (US02). Na parte inferior da interface, há um botão "Nova O.S." que permite a criação imediata de novas Ordens de Serviço, eliminando a necessidade de anotações manuais. 
 
 Em relação à navegação e detalhes, o botão "Todos" permite que, ao clicar, o usuário expanda a visualização para uma gestão completa do histórico de atividades, enquanto o botão "Rebanhos" provê acesso às informações do rebanho e dados zootécnicos. Ao selecionar uma tarefa específica no detalhamento de tarefas, o sistema exibe uma tela com as especificações detalhadas e orientações para a execução. 
 
 <center>
-  <p><strong>Figura 12</strong> — Wireframe da tela de lista de tarefas do Capataz (US02)</p>
+  <p><strong>Figura 15</strong> — Wireframe da tela de lista de tarefas do Capataz (US02)</p>
   <img src="./assets/wireframeCapatazTarefas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 #### Informações sobre a tarefa:
-A Figura 11 ilustra a interface de Detalhamento da Tarefa, acessada após o Capataz selecionar uma atividade específica na lista principal. A solução foi priorizada para dispositivos móveis, considerando que esse usuário atua majoritariamente em campo, com necessidade de acesso rápido, offline e simplificado às informações operacionais. A versão desktop é apresentada apenas como adaptação responsiva da interface, garantindo consistência visual caso o sistema seja acessado em telas maiores, mas não representa o dispositivo principal da persona.
+A Figura 16 ilustra a interface de Detalhamento da Tarefa, acessada após o Capataz selecionar uma atividade específica na lista principal. A solução foi priorizada para dispositivos móveis, considerando que esse usuário atua majoritariamente em campo, com necessidade de acesso rápido, offline e simplificado às informações operacionais. A versão desktop é apresentada apenas como adaptação responsiva da interface, garantindo consistência visual caso o sistema seja acessado em telas maiores, mas não representa o dispositivo principal da persona.
 
 Para assegurar a execução precisa da ordem de serviço, a tela centraliza todo o conteúdo da tarefa, incluindo a identificação com título da atividade e descrição detalhada do serviço, os parâmetros de controle com prazo de entrega e nível de prioridade, e os recursos multimídia como reprodutor de áudio (instruções gravadas pelo Gerente) e visualização de fotos para referência visual do local ou do problema, atendendo a (US02).
 
 Quanto às ações do usuário, um botão de "Iniciar Tarefa" permite o controle de fluxo para registrar o exato momento em que a atividade começa, mesmo offline, gerando dados de produtividade, enquanto um botão de retorno estrategicamente posicionado permite a navegação para voltar à tela inicial de tarefas de forma rápida.
 
 <center>
-<p><strong>Figura 13</strong> — Wireframe da tela de detalhes sobre a tarefa do Capataz (US02)</p>
+<p><strong>Figura 16</strong> — Wireframe da tela de detalhes sobre a tarefa do Capataz (US02)</p>
  <img src="./assets/wireframeCapatazConcluirTarefaTablet.png" width="800"/>
  <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 #### Concluir tarefa:
-A Figura 12 detalha a interface de Conclusão de Atividade, etapa final do fluxo de trabalho do Capataz, com uma tela projetada para garantir a confiabilidade dos dados e o registro fiel do que foi executado em campo. 
+A Figura 17 detalha a interface de Conclusão de Atividade, etapa final do fluxo de trabalho do Capataz, com uma tela projetada para garantir a confiabilidade dos dados e o registro fiel do que foi executado em campo. 
 
 Para a confirmação de atividade e evitar erros operacionais, a tela exibe o título da tarefa em progresso, permitindo que o usuário valide se está encerrando o chamado correto, apresentando também as evidências e feedback através do registro fotográfico, com opção para anexar uma imagem da tarefa concluída para servir como comprovante visual da execução (ex: um animal tratado), e do campo de observações, espaço dedicado para que o Capataz relate eventuais problemas encontrados, comentários pertinentes ou detalhes que fujam ao padrão da ordem de serviço, podendo ser preenchido de forma escrita ou por áudio.
 
 Por fim, para o encerramento, o botão "Salvar" consolida as informações, e depois o de "Concluir", que só aparecerá após salvas as informações, altera o status da tarefa no sistema e prepara os dados para a sincronização com o banco de dados central.
 
 <center>
-  <p><strong>Figura 14</strong> — Wireframe da tela de concluir tarefa do Capataz (US04) e (US05) </p>
+  <p><strong>Figura 17</strong> — Wireframe da tela de concluir tarefa do Capataz (US04) e (US05) </p>
   <img src="./assets/wireframeCapatazAnexarFotos.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3224,26 +3224,26 @@ Por fim, para o encerramento, o botão "Salvar" consolida as informações, e de
 ### Fluxo 2 — Capataz, Coordenador e Técnico: emitir e resolver alertas de infraestrutura (US06)
 #### Tela Infraestrutura:
 
-A Figura 13 apresenta a interface de Gestão de Infraestrutura, onde o Gerente e o Capataz podem monitorar e organizar as manutenções da fazenda (US06) e (US07), com uma tela que segue o padrão de design responsivo para uso em dispositivos móveis e desktop. 
+A Figura 18 apresenta a interface de Gestão de Infraestrutura, onde o Gerente e o Capataz podem monitorar e organizar as manutenções da fazenda (US06) e (US07), com uma tela que segue o padrão de design responsivo para uso em dispositivos móveis e desktop. 
 
 Para facilitar a organização, a categorização de chamados agrupa as demandas de manutenção em três seções principais, sendo hidráulica (gestão de bebedouros, bombas e encanamentos), cerca (reparos e vistorias de perímetros e divisões de pastos) e elétrica (manutenção de cercas elétricas, painéis e iluminação). 
 
 Ao selecionar uma categoria, o sistema permite o monitoramento de status e detalha o fluxo de trabalho através de indicadores específicos, como pendentes/abertos para visualização da quantidade de novos chamados, em andamento para acompanhamento dos serviços iniciados e o histórico semanal como relatório de chamados concluídos nos últimos sete dias. Como ação rápida, dentro de cada seção, existe a funcionalidade de criar uma nova Ordem de Serviço (O.S.) específica para aquele setor, garantindo que o registro seja feito no local do problema.
 
 <center>
-  <p><strong>Figura 15</strong> — Wireframe do painel de infraestrutura (US06) e (US07)</p>
+  <p><strong>Figura 18</strong> — Wireframe do painel de infraestrutura (US06) e (US07)</p>
   <img src="./assets/wireframeInfraestrutura.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 #### Nova O.S.:
 
-A Figura 14 ilustra a interface de Abertura de Nova Ordem de Serviço (O.S.), acessível para os perfis do Gerente e do Capataz, onde a tela adota o padrão de design responsivo, operando perfeitamente em dispositivos móveis e desktop. No fluxo de acesso do Gerente, o processo de criação segue a mesma jornada padronizada de abertura de tarefas comuns, de modo que, após acessar o painel de criação, o Gerente deve selecionar o botão "Infraestrutura" para habilitar o formulário específico de manutenção. Já no fluxo do Capataz, esse acesso seria através do botão de "Nova O.S." presente na tela inicial e não apareceria a opção de selecionar a equipe "Capataz", atendendo a (US06) e a (US07). 
+A Figura 19 ilustra a interface de Abertura de Nova Ordem de Serviço (O.S.), acessível para os perfis do Gerente e do Capataz, onde a tela adota o padrão de design responsivo, operando perfeitamente em dispositivos móveis e desktop. No fluxo de acesso do Gerente, o processo de criação segue a mesma jornada padronizada de abertura de tarefas comuns, de modo que, após acessar o painel de criação, o Gerente deve selecionar o botão "Infraestrutura" para habilitar o formulário específico de manutenção. Já no fluxo do Capataz, esse acesso seria através do botão de "Nova O.S." presente na tela inicial e não apareceria a opção de selecionar a equipe "Capataz", atendendo a (US06) e a (US07). 
   
 Para garantir o direcionamento correto da demanda, os campos e parâmetros de cadastro oferecem preenchimento para o tipo de chamado, realizando a classificação da O.S. entre as três categorias principais da fazenda, que são Hidráulica, Cerca ou Elétrica, para a definição de prioridade, com a atribuição do nível de urgência do reparo (ex: Alta, Média, Baixa) para auxiliar na organização da fila de trabalho do Capataz, para o prazo ideal, definindo uma data limite esperada para a conclusão do serviço, e para o detalhamento técnico, que consiste em um campo descritivo para que o gestor insira todas as informações, orientações e especificações necessárias, garantindo clareza para a equipe de execução em campo.
 
 <center>
-  <p><strong>Figura 16</strong> — Wireframe da tela de criação de nova O.S. pelo Gerente (US06) e (US07)</p>
+  <p><strong>Figura 19</strong> — Wireframe da tela de criação de nova O.S. pelo Gerente (US06) e (US07)</p>
   <img src="./assets/wireframeGerenteNovaOs.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3251,14 +3251,14 @@ Para garantir o direcionamento correto da demanda, os campos e parâmetros de ca
 
 #### Tela Infraestrutura- registrar resolução:
 
-A Figura 15 detalha a interface de Detalhes do Chamado, permitindo que o funcionário da Infraestrutura formalize o encerramento dos chamados de infraestrutura, mantendo a responsividade para facilitar o uso tanto no campo quanto no escritório. 
+A Figura 20 detalha a interface de Detalhes do Chamado, permitindo que o funcionário da Infraestrutura formalize o encerramento dos chamados de infraestrutura, mantendo a responsividade para facilitar o uso tanto no campo quanto no escritório. 
 
 O formulário de registro de solução permite documentar o fechamento da tarefa com precisão, incluindo a descrição da atividade com o relato detalhado do que foi executado para resolver o problema, dados temporais com o registro da data e horário de conclusão, e evidência visual por meio de campo para anexar fotos que comprovem a resolução do chamado. 
 
 Além disso, uma funcionalidade crítica desta tela é a linha do tempo (histórico do chamado), que permite a visualização do ciclo de vida da tarefa apresentando todas as fases até a entrega final, como a abertura, com o registro de quando o chamado foi criado e por quem, o andamento, indicando o horário em que a tarefa foi iniciada e o tempo de resposta, e a conclusão, marcando o momento exato da resolução e permitindo o cálculo da eficiência operacional. Essas informações poderão ser vistas pelos Gerentes e Capatazes também, atendendo ao (US06) e ao (US07).
 
 <center>
-  <p><strong>Figura 17</strong> — Wireframe da tela de registrar resolução- infraestrutura</p>
+  <p><strong>Figura 20</strong> — Wireframe da tela de registrar resolução- infraestrutura</p>
   <img src="./assets/wireframeInfraestruturaRegistrarResolucao.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3268,20 +3268,20 @@ Além disso, uma funcionalidade crítica desta tela é a linha do tempo (histór
 ### Fluxo 3 — Gerente: acompanhar painel e criar ordens de serviço (US07, US01)
 #### Dashboard inicial:
 
-A Figura 16 ilustra a Interface Principal (Dashboard) destinada aos perfis de Gerente e Coordenador, desenvolvida com design responsivo para dispositivos móveis e desktop, onde esta tela funciona como o núcleo centralizador para o monitoramento e a tomada de decisões na fazenda. 
+A Figura 21 ilustra a Interface Principal (Dashboard) destinada aos perfis de Gerente e Coordenador, desenvolvida com design responsivo para dispositivos móveis e desktop, onde esta tela funciona como o núcleo centralizador para o monitoramento e a tomada de decisões na fazenda. 
 
 Os indicadores do painel central oferecem uma visão macro e em tempo real das operações, permitindo acesso rápido aos chamados por retiro, com a distribuição volumétrica das demandas de manutenção entre as áreas da propriedade, à evolução dos chamados, através de gráficos ou métricas que demonstram o ritmo de abertura e fechamento de ordens de serviço, aos alertas em aberto, com notificações críticas que exigem atenção imediata da gestão, e às prioridades, que trazem uma lista consolidada das tarefas mais urgentes em execução no campo. 
 
 No menu de navegação lateral (desktop), posicionado no canto esquerdo da interface, destacam-se abas estruturadas para navegação direta nas seguintes verticais: retiros, para detalhamento de estoque de rebanho e infraestrutura local; ordens, para a gestão e distribuição de novas Ordens de Serviço; e alertas, consistindo em um painel dedicado à triagem de ocorrências críticas, atendendo a (US07).
 
 <center>
-  <p><strong>Figura 18</strong> — Wireframe da tela de dashboard do Gerente e Coordenador (US07)</p>
+  <p><strong>Figura 21</strong> — Wireframe da tela de dashboard do Gerente e Coordenador (US07)</p>
   <img src="./assets/wireframeGerenteCoordenadorDashboard.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 #### Nova O.S.:
-A Figura 14 (citada anteriormente) ilustra a interface unificada de Abertura de Demandas, utilizada pelo Gerente para delegar atividades tanto para a equipe de manutenção quanto para os Capatazes de campo, adotando o padrão de design responsivo para dispositivos móveis e desktop. 
+A Figura 19 (citada anteriormente) ilustra a interface unificada de Abertura de Demandas, utilizada pelo Gerente para delegar atividades tanto para a equipe de manutenção quanto para os Capatazes de campo, adotando o padrão de design responsivo para dispositivos móveis e desktop. 
 
 No fluxo de seleção de tipo, ao acessar o painel, o gestor pode alternar entre duas verticais de trabalho, sendo elas a de infraestrutura, para manutenção Hidráulica, Cerca ou Elétrica, e a de operações de manejo, para demandas zootécnicas direcionadas diretamente aos Capatazes, tais como Movimentação de Rebanho, Registro de Óbito, entre outras. 
 
@@ -3292,11 +3292,11 @@ Para garantir o direcionamento correto e a clareza da atividade, os campos e par
 ### Fluxo 4 — Coordenador: visualizar movimentações e exportar dados consolidados (US11, US12)
 #### Dashboard inicial:
 
-A Interface Principal (Dashboard) destinada aos perfis de Gerente e Coordenador, desenvolvida com design responsivo para dispositivos móveis e desktop, funciona como o núcleo centralizador para o monitoramento e a tomada de decisões na fazenda. Ela foi descrita anteriormente, no fluxo 3, na parte de "Dashboard inicial". O respectivo wireframe foi apresentado na Figura 16.
+A Interface Principal (Dashboard) destinada aos perfis de Gerente e Coordenador, desenvolvida com design responsivo para dispositivos móveis e desktop, funciona como o núcleo centralizador para o monitoramento e a tomada de decisões na fazenda. Ela foi descrita anteriormente, no fluxo 3, na parte de "Dashboard inicial". O respectivo wireframe foi apresentado na Figura 21.
 
 #### Tela de movimentações (boletas digitais):
 
-A Figura 17, ilustra a tela de movimentações. A interface foi projetada em design responsivo para uso em desktop e dispositivos móveis, permitindo ao Coordenador acessar, revisar e validar os registros enviados pelos Capatazes após a sincronização.
+A Figura 22, ilustra a tela de movimentações. A interface foi projetada em design responsivo para uso em desktop e dispositivos móveis, permitindo ao Coordenador acessar, revisar e validar os registros enviados pelos Capatazes após a sincronização.
 
 Na parte central da tela, é exibida uma lista consolidada de todos os retiros, sendo possível, ao clicar em um deles, visualizar os detalhes das movimentações zootécnicas registradas, contendo as informações essenciais de cada evento: tipo de movimentação (nascimento, óbito, transferência ou compra/venda), retiro de origem, categoria animal, quantidade, data do registro e Capataz responsável (US11).
 
@@ -3305,7 +3305,7 @@ Para facilitar a gestão dos registros, a interface disponibiliza filtros por re
 Além disso, o Coordenador dispõe de um botão de exportação posicionado de forma destacada na interface, permitindo gerar e baixar um arquivo em formato Excel/CSV contendo os registros filtrados (US12). A exportação respeita a estrutura de colunas padronizada e compatível com os templates legados utilizados pela coordenação da BrPec, contemplando: data, retiro, tipo de evento, categoria animal, quantidade e Capataz responsável.
 
 <center>
-  <p><strong>Figura 19</strong> — Wireframe da tela de lista de movimentações do Coordenador (US11)</p>
+  <p><strong>Figura 22</strong> — Wireframe da tela de lista de movimentações do Coordenador (US11)</p>
   <img src="./assets/wireframeListaDeBoletos.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3334,12 +3334,12 @@ Um guia de estilo (style guide) é um documento de referência que centraliza to
 O Guia de Estilos navegável completo está disponível em: [Figma - SynTech](https://www.figma.com/design/CnhVA41sJORDmEQ1DLbxfY/SynTech?node-id=198-939)
 
 <center>
-  <p><strong>Figura 18</strong> - Guia de Estilos Completo</p>
+  <p><strong>Figura 23</strong> - Guia de Estilos Completo</p>
   <img src="./assets/guiaDeEstilos.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-A Figura 18 apresenta o guia de estilos completo da plataforma SynTech, consolidando em uma única visualização as decisões visuais do produto: paleta de cores, escala tipográfica, biblioteca de ícones e componentes de interface. O documento serve como referência central para garantir consistência entre design e desenvolvimento ao longo de todo o projeto.
+A Figura 23 apresenta o guia de estilos completo da plataforma SynTech, consolidando em uma única visualização as decisões visuais do produto: paleta de cores, escala tipográfica, biblioteca de ícones e componentes de interface. O documento serve como referência central para garantir consistência entre design e desenvolvimento ao longo de todo o projeto.
 
 ### 3.4.1 Cores
 
@@ -3387,7 +3387,7 @@ A escolha tipográfica em interfaces digitais vai além da estética. Fontes sem
 A tipografia da solução utiliza a família **Inter**, disponível gratuitamente via Google Fonts, projetada especificamente para interfaces digitais e com alto desempenho em tamanhos reduzidos e em condições adversas de luminosidade [2].
 
 <center>
-  <p><strong>Figura 19</strong> - Fonte Inter e suas variações</p>
+  <p><strong>Figura 24</strong> - Fonte Inter e suas variações</p>
   <img src="./assets/interFont.png" width="800"/>
   <p>Fonte: Font Squirrel.</p>
 </center>
@@ -3471,7 +3471,7 @@ No guia de estilo, a seção de imagens define quais assets visuais estáticos f
 No caso desta solução, o único asset de imagem utilizado é o **logotipo da SynTech**, a plataforma web do projeto. Ele deve ser tratado como elemento protegido da identidade visual: sua proporção não deve ser alterada e sua aplicação se limita ao cabeçalho da plataforma, garantindo reconhecimento consistente da marca ao longo de toda a experiência do usuário.
 
 <center>
-  <p><strong>Figura 20</strong> - Logotipo SynTech</p>
+  <p><strong>Figura 25</strong> - Logotipo SynTech</p>
   <img src="./assets/syntech.png" width="300"/>
   <p>Fonte: Próprios autores.</p>
 </center>
@@ -3528,7 +3528,7 @@ A tela de tarefas é a interface principal do Capataz. Projetada para exibir ape
 - **CR3 (US02):** As tarefas são exibidas de forma organizada e de fácil entendimento.
 
 <center>
-  <p><strong>Figura 20</strong> — Protótipo de Alta Fidelidade: Tela de Tarefas do Capataz (Mobile e Desktop)</p>
+  <p><strong>Figura 26</strong> — Protótipo de Alta Fidelidade: Tela de Tarefas do Capataz (Mobile e Desktop)</p>
   <img src="./assets/mockups/mockupTarefas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3552,7 +3552,7 @@ A tela de detalhe exibe todas as informações necessárias para que o Capataz e
 - **CR3 (US02):** O botão "Iniciar Tarefa" registra localmente o início da execução, mesmo offline.
 
 <center>
-  <p><strong>Figura 19</strong> — Protótipo de Alta Fidelidade: Tela de Detalhe da Tarefa do Capataz (Mobile e Desktop)</p>
+  <p><strong>Figura 27</strong> — Protótipo de Alta Fidelidade: Tela de Detalhe da Tarefa do Capataz (Mobile e Desktop)</p>
   <img src="./assets/mockups/mockupRebanho.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3577,7 +3577,7 @@ A tela de conclusão de tarefa centraliza todas as ações necessárias para o C
 - **CR1 (US05):** O Capataz grava e anexa um áudio curto explicando detalhes da execução sem precisar digitar.
 
 <center>
-  <p><strong>Figura 20</strong> — Protótipo de Alta Fidelidade: Tela de Concluir Tarefa do Capataz (Mobile e Desktop)</p>
+  <p><strong>Figura 28</strong> — Protótipo de Alta Fidelidade: Tela de Concluir Tarefa do Capataz (Mobile e Desktop)</p>
   <img src="./assets/mockups/mockupConcluirTarefas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3609,7 +3609,7 @@ Fechados), permitindo triagem imediata por prioridade de atendimento.
 abertura rápida de um novo chamado diretamente do painel.
 
 <center>
-  <p><strong>Figura 21</strong> — Protótipo de Alta Fidelidade: Painel de Infraestrutura (Mobile e Desktop)</p>
+  <p><strong>Figura 29</strong> — Protótipo de Alta Fidelidade: Painel de Infraestrutura (Mobile e Desktop)</p>
   <img src="./assets/mockups/alta-fidelidade-infraestrutura-painel.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3633,7 +3633,7 @@ A tela de criação de nova Ordem de Serviço centraliza todos os campos necess�
 - **CR3 (US01):** O Gerente pode anexar áudio e foto à O.S. para complementar as instruções enviadas ao Capataz.
 
 <center>
-  <p><strong>Figura 22</strong> — Protótipo de Alta Fidelidade: Tela de Nova Ordem de Serviço do Gerente (Mobile e Desktop)</p>
+  <p><strong>Figura 30</strong> — Protótipo de Alta Fidelidade: Tela de Nova Ordem de Serviço do Gerente (Mobile e Desktop)</p>
   <img src="./assets/mockups/alta-fidelidade-gerente-nova-os.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3658,7 +3658,7 @@ A tela de registro de resolução é acessada pelo técnico de infraestrutura ap
 - **CR3 (US06):** O botão "Salvar Resolução" encerra o chamado e atualiza seu status no painel de infraestrutura.
 
 <center>
-  <p><strong>Figura 23</strong> — Protótipo de Alta Fidelidade: Tela de Registrar Resolução de Chamado (Mobile e Desktop)</p>
+  <p><strong>Figura 31</strong> — Protótipo de Alta Fidelidade: Tela de Registrar Resolução de Chamado (Mobile e Desktop)</p>
   <img src="./assets/mockups/alta-fidelidade-infraestrutura-resolver-chamado.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3683,7 +3683,7 @@ O dashboard é a tela inicial do Gerente e do Coordenador, oferecendo uma visão
 - **CR3 (US07):** O Gerente pode filtrar os indicadores por retiro e por período diretamente no painel.
 
 <center>
-  <p><strong>Figura 24</strong> — Protótipo de Alta Fidelidade: Dashboard do Gerente e Coordenador (Mobile e Desktop)</p>
+  <p><strong>Figura 32</strong> — Protótipo de Alta Fidelidade: Dashboard do Gerente e Coordenador (Mobile e Desktop)</p>
   <img src="./assets/mockups/alta-fidelidade-gerente-coordenador-painel.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3709,7 +3709,7 @@ A tela de boletas é a interface principal do Coordenador para acesso e exporta�
 - **CR2 (US12):** Cada boleta exibe informações suficientes para identificação do registro antes do download.
 
 <center>
-  <p><strong>Figura 25</strong> — Protótipo de Alta Fidelidade: Tela de Lista de Boletas do Coordenador (Mobile e Desktop)</p>
+  <p><strong>Figura 33</strong> — Protótipo de Alta Fidelidade: Tela de Lista de Boletas do Coordenador (Mobile e Desktop)</p>
   <img src="./assets/mockups/alta-fidelidade-coordenador-boletas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -3794,7 +3794,7 @@ Este diagrama registra a estrutura de dados concebida na sprint 2, com a Boleta 
 A seção 3.6.1 apresenta a versão conceitual consolidada após a evolução deste DER: a Boleta deixa de ser uma entidade isolada e passa a ser materializada pelos registros de Movimentação, Tarefa, Alerta e Evidência. Essa decisão separou melhor as responsabilidades de cada entidade e eliminou atributos que não são pertinentes a todos os tipos de evento.
 
 <center>
-  <p><strong>Figura 21</strong> — DER conceitual da sprint 2 — BRPec Agropecuária</p>
+  <p><strong>Figura 34</strong> — DER conceitual da sprint 2 — BRPec Agropecuária</p>
 </center>
 
 <img src="./assets/modelo-er-brpec.png" width="800"/>
@@ -5030,7 +5030,7 @@ Abaixo é apresentada a especificação completa de cada endpoint ativo, incluin
   - `Content-Disposition: attachment; filename="movimentacoes_2026-05-26.csv"`
   - `X-Exportacao-Id: uuid-registro-exportacao`
   - `X-Total-Registros: 15`
-  
+
   Colunas do CSV: `data`, `retiro`, `tipo_evento`, `categoria`, `quantidade`, `capataz_responsavel`, `criado_em`.
 - **Resposta (400 Bad Request)**:
   ```json
@@ -5701,7 +5701,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de seleção de perfil** — ponto de entrada do sistema, onde o usuário seleciona seu perfil (Capataz, Infraestrutura, Coordenador ou Gerente) por meio de botões com ícones representativos, seguindo o princípio de redução de digitação definido na persona do Capataz.
 
 <center>
-  <p><strong>Figura 25a</strong> — Primeira versão: Tela de Seleção de Perfil (Real)</p>
+  <p><strong>Figura 35</strong> — Primeira versão: Tela de Seleção de Perfil (Real)</p>
   <img src="./assets/prints-v1/01-login-perfil.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5709,7 +5709,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de seleção de retiro** — exibida após o Capataz selecionar seu perfil, apresenta a lista dos 15 retiros reais da BrPec (Acurizal, Aroeira, Baia Bonita, Bodoquena 1, Bodoquena 2, Boqueirão, Caieira, CMB, Confinamento, Cristo, Morada Nova, Morro Azul, Puga, São Miguel e Vista Alegre) com busca por nome, permitindo navegação rápida mesmo em dispositivos com tela reduzida.
 
 <center>
-  <p><strong>Figura 25b</strong> — Primeira versão: Tela de Seleção de Retiro (Real)</p>
+  <p><strong>Figura 36</strong> — Primeira versão: Tela de Seleção de Retiro (Real)</p>
   <img src="./assets/prints-v1/02-login-retiro.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5717,7 +5717,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de lista de tarefas (US02)** — exibe as tarefas do dia com cards contendo barra lateral colorida por status (âmbar para "Em andamento", verde para "Pendente"), filtros por tipo ("Todos" / "Rebanhos") e botão "Nova O.S." para criação rápida.
 
 <center>
-  <p><strong>Figura 26</strong> — Primeira versão: Tela de Lista de Tarefas do Capataz (Real)</p>
+  <p><strong>Figura 37</strong> — Primeira versão: Tela de Lista de Tarefas do Capataz (Real)</p>
   <img src="./assets/prints-v1/03-lista-tarefas.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5725,7 +5725,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de detalhe da tarefa (US02)** — apresenta título, badge de status, descrição textual, player de áudio para instruções gravadas pelo Gerente e placeholder para foto de referência, com botão "Iniciar Tarefa" em largura total.
 
 <center>
-  <p><strong>Figura 27</strong> — Primeira versão: Tela de Detalhe da Tarefa do Capataz (Real)</p>
+  <p><strong>Figura 38</strong> — Primeira versão: Tela de Detalhe da Tarefa do Capataz (Real)</p>
   <img src="./assets/prints-v1/04-detalhe-tarefa.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5733,7 +5733,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de concluir tarefa (US03/US04/US05)** — formulário de conclusão com campos para foto da conclusão, observações em texto e registro de áudio, com botões "Tirar Foto" e "Salvar" na base.
 
 <center>
-  <p><strong>Figura 28</strong> — Primeira versão: Tela de Concluir Tarefa do Capataz (Real)</p>
+  <p><strong>Figura 39</strong> — Primeira versão: Tela de Concluir Tarefa do Capataz (Real)</p>
   <img src="./assets/prints-v1/05-concluir-tarefa.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5743,7 +5743,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de nova boleta** — formulário completo de movimentação de animais com seleção de tipo de operação (Movimentação, Nascimento, Morte), seleção de retiros de origem e destino, contagem categorizada de animais por sexo e faixa etária (7 categorias de machos e 5 de fêmeas, conforme planilha real da BrPec) com steppers para incremento/decremento, total geral calculado automaticamente e campo de observações.
 
 <center>
-  <p><strong>Figura 28a</strong> — Primeira versão: Tela de Nova Boleta de Movimentação (Real)</p>
+  <p><strong>Figura 40</strong> — Primeira versão: Tela de Nova Boleta de Movimentação (Real)</p>
   <img src="./assets/prints-v1/06-nova-boleta.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5751,7 +5751,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de registrar nascimento** — formulário simplificado para registro de nascimentos com data automática, seleção de retiro, categoria (Bezerro/Bezerra), stepper de quantidade e campo de foto opcional.
 
 <center>
-  <p><strong>Figura 28b</strong> — Primeira versão: Tela de Registrar Nascimento (Real)</p>
+  <p><strong>Figura 41</strong> — Primeira versão: Tela de Registrar Nascimento (Real)</p>
   <img src="./assets/prints-v1/07-registrar-nascimento.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5759,7 +5759,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de registrar óbito (RF013)** — formulário com campos obrigatórios sinalizados visualmente (asterisco vermelho e borda vermelha): data, retiro, identificação do animal, categoria, causa da morte (14 causas cadastradas: Acidente, Atolado, Cobra, Deficiência nutricional, etc.), quantidade e foto obrigatória.
 
 <center>
-  <p><strong>Figura 28c</strong> — Primeira versão: Tela de Registrar Óbito (Real)</p>
+  <p><strong>Figura 42</strong> — Primeira versão: Tela de Registrar Óbito (Real)</p>
   <img src="./assets/prints-v1/08-registrar-obito.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5769,7 +5769,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Painel de infraestrutura** — interface de gestão de chamados com filtros por categoria (Hidráulica, Cerca, Elétrica), cards de contadores por status (Abertos: 12, Em andamento: 5, Fechados: 28) e botão "+ Nova O.S.".
 
 <center>
-  <p><strong>Figura 29</strong> — Primeira versão: Painel de Infraestrutura (Real)</p>
+  <p><strong>Figura 43</strong> — Primeira versão: Painel de Infraestrutura (Real)</p>
   <img src="./assets/prints-v1/10-painel-infraestrutura.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5777,7 +5777,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de resolver chamado** — formulário de registro de resolução com card de identificação do chamado, campo de descrição com contador de caracteres (0/500), área de anexo de foto com especificação de formatos aceitos, botão "Salvar Resolução" e histórico do chamado em timeline com três etapas (Aberto → Em andamento → Resolvido) incluindo datas e descrições.
 
 <center>
-  <p><strong>Figura 30</strong> — Primeira versão: Tela de Registrar Resolução de Chamado (Real)</p>
+  <p><strong>Figura 44</strong> — Primeira versão: Tela de Registrar Resolução de Chamado (Real)</p>
   <img src="./assets/prints-v1/11-resolver-chamado.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5787,7 +5787,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Dashboard** — painel consolidado com filtros de retiro e data, gráfico de barras "Chamados por retiro", card "Evolução das demandas" com indicador percentual (75%), gráfico de rosca "Tarefas por status" com legenda colorida, e cards numéricos para "Alertas em aberto" e "Prioridades".
 
 <center>
-  <p><strong>Figura 31</strong> — Primeira versão: Dashboard do Gerente e Coordenador (Real)</p>
+  <p><strong>Figura 45</strong> — Primeira versão: Dashboard do Gerente e Coordenador (Real)</p>
   <img src="./assets/prints-v1/12-dashboard-gerente.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5795,7 +5795,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de nova O.S. (US01)** — formulário completo de criação de Ordem de Serviço com seletor de equipe (Capataz/Infra), campos de seleção de operação, título, retiro de origem, destino opcional, responsável, descrição, prazo, indicadores de prioridade (alta/média/baixa) com dots coloridos, e cards de áudio e foto para complementar instruções.
 
 <center>
-  <p><strong>Figura 32</strong> — Primeira versão: Tela de Nova Ordem de Serviço do Gerente (Real)</p>
+  <p><strong>Figura 46</strong> — Primeira versão: Tela de Nova Ordem de Serviço do Gerente (Real)</p>
   <img src="./assets/prints-v1/13-nova-os.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5805,7 +5805,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de boletas** — lista de boletas com sub-navegação (Painel/Boletas), cards com título e metadados (data, capataz, quantidade de animais) e botão de download individual.
 
 <center>
-  <p><strong>Figura 33</strong> — Primeira versão: Tela de Lista de Boletas do Coordenador (Real)</p>
+  <p><strong>Figura 47</strong> — Primeira versão: Tela de Lista de Boletas do Coordenador (Real)</p>
   <img src="./assets/prints-v1/14-boletas-lista.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5813,7 +5813,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de exportação (US12)** — formulário de exportação com seleção de período (De/Até), checkboxes para tipos de dados (Movimentações, Nascimentos, Óbitos, Tarefas), seleção de formato (CSV/Excel) e botão "Exportar".
 
 <center>
-  <p><strong>Figura 33a</strong> — Primeira versão: Tela de Exportação de Dados (Real)</p>
+  <p><strong>Figura 48</strong> — Primeira versão: Tela de Exportação de Dados (Real)</p>
   <img src="./assets/prints-v1/15-exportar-dados.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5821,7 +5821,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de evolução de rebanho** — formulário para registro de reclassificação de animais com seleção de retiro, tipo de classificação (Desmama/Evolução/Classificação), cards de "DE (origem)" e "PARA (nova categoria)" com seletores de categoria e faixa etária, stepper de quantidade e observações.
 
 <center>
-  <p><strong>Figura 33b</strong> — Primeira versão: Tela de Evolução de Rebanho (Real)</p>
+  <p><strong>Figura 49</strong> — Primeira versão: Tela de Evolução de Rebanho (Real)</p>
   <img src="./assets/prints-v1/09-boleta-evolucao.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5833,7 +5833,7 @@ O frontend foi implementado como uma Single Page Application (SPA) leve, sem dep
 - **Tela de sucesso** — feedback visual de confirmação com ícone de check, mensagem "Salvo com sucesso!" e badge offline "1 registro na fila", simulando o comportamento esperado do modo offline-first.
 
 <center>
-  <p><strong>Figura 33c</strong> — Primeira versão: Tela de Confirmação de Sucesso / Modo Offline (Real)</p>
+  <p><strong>Figura 50</strong> — Primeira versão: Tela de Confirmação de Sucesso / Modo Offline (Real)</p>
   <img src="./assets/prints-v1/16-tela-sucesso.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5891,7 +5891,7 @@ Os endpoints implementados e testados cobrem os fluxos críticos da sprint 3:
 A suíte de testes automatizados utiliza Jest 29 + ts-jest + Supertest sobre banco SQLite em memória. Todos os 19 casos de teste foram executados e aprovados com sucesso, validando contratos HTTP, regras de negócio (RN01, RN05) e persistência no banco local. A evidência de execução está registrada em `documentos/assets/jest.png`.
 
 <center>
-  <p><strong>Figura 34</strong> — Resultado da execução dos testes automatizados (19/19 passando)</p>
+  <p><strong>Figura 51</strong> — Resultado da execução dos testes automatizados (19/19 passando)</p>
   <img src="./assets/jest.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5943,7 +5943,7 @@ O frontend foi refatorado para consumir a API REST real, substituindo os dados e
 - **Tela de login com JWT** — a seleção de perfil agora dispara `POST /api/auth/login`, que retorna um access token (armazenado via `src/public/js/auth-client.js`) e um refresh token em cookie `HttpOnly`. Após o login, o Service Worker recebe uma `postMessage` com o perfil do usuário e pré-cacheia as rotas específicas daquele perfil para funcionamento offline.
 
 <center>
-  <p><strong>Figura 35</strong> — Segunda versão: Tela de login com autenticação JWT real</p>
+  <p><strong>Figura 52</strong> — Segunda versão: Tela de login com autenticação JWT real</p>
   <img src="./assets/image-login-gerente.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5953,7 +5953,7 @@ O frontend foi refatorado para consumir a API REST real, substituindo os dados e
 - **Tela de lista de tarefas (US02) com dados reais** — os cards de tarefas passaram a ser populados com dados reais consumidos de `GET /api/tarefas/hoje?capataz_id=...`. O badge de conectividade no rodapé exibe o estado da rede, e ao voltar online a fila de operações pendentes é sincronizada automaticamente.
 
 <center>
-  <p><strong>Figura 36</strong> — Segunda versão: Tela de tarefas com dados reais e badge de conectividade</p>
+  <p><strong>Figura 53</strong> — Segunda versão: Tela de tarefas com dados reais e badge de conectividade</p>
   <img src="./assets/image-lista-de-tarefas-capataz.png" width="800"/>
   <p>Fonte: Próprios autores (2026)</p>
 </center>
@@ -5961,7 +5961,7 @@ O frontend foi refatorado para consumir a API REST real, substituindo os dados e
 - **Tela de Nova O.S. com suporte offline (US01/RF001)** — o formulário de criação de tarefa agora submete para `POST /api/tarefas` via `fazerRequisicaoComOffline()`. Quando online, retorna HTTP 201 e exibe confirmação. Quando offline, salva automaticamente na store `sincronizacoes` do IndexedDB com `status: 'PENDENTE'` e exibe feedback "Salvo localmente".
 
 <center>
-  <p><strong>Figura 37</strong> — Segunda versão: Nova O.S. submetendo para backend real (POST /api/tarefas → 201)</p>
+  <p><strong>Figura 54</strong> — Segunda versão: Nova O.S. submetendo para backend real (POST /api/tarefas → 201)</p>
   <img src="./assets/image-nova-os.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5969,7 +5969,7 @@ O frontend foi refatorado para consumir a API REST real, substituindo os dados e
 - **Tela de chamados com dados reais (US06/RF006)** — a listagem de chamados passou a consumir `GET /api/chamados`, e o formulário de novo chamado (`src/public/js/novo-chamado-handler.js`) captura GPS via `navigator.geolocation` e submete para `POST /api/chamados`. A resolução de chamados (`src/public/js/chamado-resolver-handler.js`) submete para `PUT /api/chamados/:id/resolver`.
 
 <center>
-  <p><strong>Figura 38</strong> — Segunda versão: Tela de chamados com dados reais do banco</p>
+  <p><strong>Figura 55</strong> — Segunda versão: Tela de chamados com dados reais do banco</p>
   <img src="./assets/image-abrir-chamado-capataz.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5979,13 +5979,13 @@ O frontend foi refatorado para consumir a API REST real, substituindo os dados e
 - **Dashboard com gráficos Chart.js dinâmicos** — os gráficos de barras ("Chamados por retiro") e rosca ("Tarefas por status"), que na sprint 3 eram renderizados com CSS estático, passaram a ser gerados com a biblioteca **Chart.js** consumindo `GET /api/dashboard/resumo` e `GET /api/dashboard/retiros`. Os filtros de retiro e data disparam novas chamadas à API e atualizam os gráficos em tempo real.
 
 <center>
-  <p><strong>Figura 39</strong> — Segunda versão: Dashboard com gráficos Chart.js populados com dados reais</p>
+  <p><strong>Figura 56</strong> — Segunda versão: Dashboard com gráficos Chart.js populados com dados reais</p>
   <img src="./assets/prints-v2/05-dashboard-charts.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 <center>
-  <p><strong>Figura 39</strong> — Segunda versão: Dashboard com gráficos Chart.js populados com dados reais - Parte 2</p>
+  <p><strong>Figura 57</strong> — Segunda versão: Dashboard com gráficos Chart.js populados com dados reais - Parte 2</p>
   <img src="./assets/image-dashboard-gerente-parte2.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -5997,7 +5997,7 @@ O frontend foi refatorado para consumir a API REST real, substituindo os dados e
 - **Renderização server-side (EJS)** — as páginas passaram a ser renderizadas no servidor via templates EJS (`src/backend/routes/viewRoutes.ts`), com dados iniciais injetados via `res.render()`, reduzindo o número de chamadas à API na carga inicial.
 
 <center>
-  <p><strong>Figura 40</strong> — Service Worker <code>sw.js</code> registrado e ativo no navegador (DevTools → Application → Service Workers)</p>
+  <p><strong>Figura 58</strong> — Service Worker <code>sw.js</code> registrado e ativo no navegador (DevTools → Application → Service Workers)</p>
   <img src="./assets/image-service-workers.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -6064,7 +6064,7 @@ PASS tests/unit/exportacaoService.test.ts   (3 casos — acesso, CSV, total_regi
 ```
 
 <center>
-  <p><strong>Figura 41</strong> — Resultado da execução da suíte de testes completa (sprint 4)</p>
+  <p><strong>Figura 59</strong> — Resultado da execução da suíte de testes completa (sprint 4)</p>
   <img src="./assets/image-npm-test-passed.png" width="800"/>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
@@ -6105,7 +6105,7 @@ _Descreva e ilustre aqui o desenvolvimento da versão final do sistema web, com 
 
 # <a name="c5"></a>5. Testes
 
-## 5.1. Relatório de testes automatizados 
+## 5.1. Relatório de testes automatizados
 
 A suite automatizada cobre a camada de serviços e os endpoints REST do BrPec em dois níveis: **testes unitários de serviço** (white-box, repositórios substituídos por dublês) e **testes de integração de endpoints** (black-box, HTTP via Supertest + SQLite em memória). O toolchain é **Jest 29 + ts-jest + Supertest**.
 
@@ -6607,6 +6607,54 @@ A tabela abaixo é coerente com a Matriz RF → RN → Endpoint (seção 3.1.4) 
 | CT-EX01 – CT-EX04 | RN28 | RF015 | `GET /api/coordenador/exportar` |
 | CT-HS01 – CT-HS04 | — | — | `services/healthService.ts` (cobertura de branches de erro de banco) |
 
+### 5.1.6. Verificação de critérios impeditivos de publicação (vermelho)
+
+Foi realizada, em 22 de junho de 2026, uma auditoria técnica dos critérios impeditivos de publicação definidos para o projeto. Foram considerados como critérios vermelhos: build quebrando, testes automatizados falhando, funcionalidades core inoperantes e deploy ausente. A verificação foi conduzida a partir da execução local dos comandos disponíveis no repositório e da inspeção dos artefatos versionados.
+
+#### 5.1.6.1. Checklist consolidado para o issue
+
+| Critério impeditivo | Status | Evidência verificada | Observação |
+|---|---|---|---|
+| Build quebrando | PASSOU | Foi executado `npm run build`, definido em [`package.json`](../package.json), com conclusão bem-sucedida do `tsc`. | Não foi observado erro de compilação TypeScript. |
+| Testes falhando | PASSOU | Foi executado `npm test`, definido em [`package.json`](../package.json), com resultado `26 passed, 26 total` em suites e `206 passed, 206 total` em testes. | A suíte completa de regressão foi aprovada. |
+| Funcionalidades core inoperantes | PASSOU | Foram aprovadas suites de endpoints, autenticação, sincronização, offline, timeout, retry, contratos RNF e serviços em [`src/backend/tests`](../src/backend/tests). | Os fluxos core cobertos por testes automatizados permaneceram operacionais. |
+| Deploy ausente | FALHOU | Foram inspecionados artefatos de publicação no repositório. Não foram encontrados `Dockerfile`, `docker-compose.yml`, `render.yaml`, `vercel.json`, `netlify.toml`, `fly.toml`, `Procfile`, `railway.json` ou workflows em `.github/workflows`. | Foi identificado apenas suporte local por `npm start` e `npm run build`; recomenda-se priorizar a criação de configuração de deploy e URL pública de homologação. |
+
+#### 5.1.6.2. Evidências de execução
+
+Foi verificado que o build local se encontra íntegro:
+
+```bash
+npm run build
+```
+
+Resultado observado:
+
+```text
+> build
+> tsc
+```
+
+Foi verificado que a suíte completa de testes se encontra íntegra:
+
+```bash
+npm test
+```
+
+Resultado observado:
+
+```text
+Test Suites: 26 passed, 26 total
+Tests:       206 passed, 206 total
+Snapshots:   0 total
+```
+
+Foi verificado que os scripts formais de execução estão declarados no [`package.json`](../package.json), incluindo `test`, `build`, `start` e `dev`. Entretanto, não foi localizado artefato de deploy versionado, tampouco uma URL pública de homologação ou produção no repositório. Dessa forma, o critério "deploy ausente" foi classificado como FALHOU, pois ainda representa um bloqueio de publicação mesmo com build e testes aprovados.
+
+#### 5.1.6.3. Conclusão da auditoria
+
+Conclui-se que a aplicação não apresenta bloqueio por compilação, regressão automatizada ou inoperância das funcionalidades core cobertas por testes. No entanto, a publicação ainda permanece impedida pela ausência de configuração de deploy versionada e evidência de ambiente publicado. Recomenda-se que a correção priorizada seja a criação de um artefato de deploy compatível com a estratégia definida para o projeto, acompanhado de URL de homologação e instruções de operação.
+
 ## 5.2. Testes de usabilidade (sprint 5)
 
 Os testes de usabilidade consistem em observar usuários reais executando tarefas representativas em um produto ou sistema, com o objetivo de identificar dificuldades, erros e pontos de fricção na interface antes que cheguem ao ambiente de produção. Segundo a norma ISO 9241-11:2018, usabilidade é definida como a medida em que um produto pode ser utilizado por usuários específicos para atingir objetivos específicos com eficácia, eficiência e satisfação em um dado contexto de uso [55].
@@ -6813,7 +6861,7 @@ As heurísticas mais recorrentes nas falhas foram **H1 (Visibilidade do status d
 
 ### 5.2.2. Relatório de testes SUS (System Usability Scale)
 
-O *System Usability Scale* (SUS) é um questionário padronizado de dez itens, desenvolvido por John Brooke em 1986, amplamente utilizado para medir a percepção subjetiva de usabilidade de sistemas interativos [56]. Cada item é respondido em uma escala Likert de 1 a 5, e as respostas são combinadas em uma fórmula que produz um escore final entre 0 e 100. Apesar de a escala ser numérica, o escore não representa uma porcentagem, mas sim um valor de referência interpretado segundo benchmarks consolidados na literatura: escores acima de 85 são classificados como "excelente"; entre 72 e 85, como "bom"; entre 52 e 71, como "regular"; abaixo de 52, como "pobre" [56][54].
+O *System Usability Scale* (SUS) é um questionário padronizado de dez itens, desenvolvido por John Brooke em 1986, amplamente utilizado para medir a percepção subjetiva de usabilidade de sistemas interativos [56]. Cada item é respondido em uma escala Likert de 1 a 5, e as respostas são combinadas em uma fórmula que produz um escore final entre 0 e 100. Apesar de a escala ser numérica, o escore não representa uma porcentagem. Sua interpretação deve ser feita por comparação com dados de referência e escalas adjetivas próprias do SUS, como a proposta por Bangor, Kortum e Miller [57].
 
 A principal vantagem do SUS está na sua simplicidade de aplicação e na possibilidade de comparar o resultado obtido com bases de dados de referência de centenas de sistemas avaliados, o que confere contexto objetivo à percepção dos usuários [56]. Complementando os testes de guerrilha — que identificam qualitativamente onde e como os usuários encontram dificuldades —, o SUS quantifica o nível geral de satisfação com a interface, permitindo avaliar se a solução atinge um patamar aceitável de usabilidade para o perfil de usuário do projeto.
 
@@ -6843,7 +6891,7 @@ A distribuição das respostas é apresentada a seguir:
 
 **Média: 4,0 / 5,0**
 
-As respostas variaram entre 3 e 5, sem nenhuma expressão de discordância. A maioria dos participantes (71,5%) concordou com a afirmação, atribuindo notas 4 ou 5, o que indica percepção de valor suficiente na ferramenta para utilizá-la com regularidade. Os dois respondentes neutros (nota 3) não chegaram a expressar resistência ao uso contínuo, reforçando uma percepção geral positiva quanto à utilidade recorrente da solução.
+As respostas variaram entre 3 e 5, sem nenhuma expressão de discordância. A maioria dos participantes (71,4%) concordou com a afirmação, atribuindo notas 4 ou 5, o que indica percepção de valor suficiente na ferramenta para utilizá-la com regularidade. Os dois respondentes neutros (nota 3) não chegaram a expressar resistência ao uso contínuo, reforçando uma percepção geral positiva quanto à utilidade recorrente da solução.
 
 ---
 
@@ -7023,7 +7071,7 @@ A distribuição das respostas é apresentada a seguir:
 
 **Média: 3,71 / 5,0**
 
-Esta questão apresenta a maior dispersão de respostas do questionário até o momento. A maioria (57,1%) concordou que o sistema seria aprendido rapidamente, e dois participantes permaneceram neutros. No entanto, um participante (P2) discordou totalmente da afirmação, configurando o único caso de discordância categórica em uma questão positiva ao longo de todo o SUS. Esse resultado, somado às notas neutras de P3 e P4 na Q4, sugere que a percepção de aprendizabilidade do sistema pode variar conforme o grau de familiaridade prévia com ferramentas digitais — o que está alinhado com a diversidade do perfil de usuário-alvo do projeto.
+Esta questão apresenta a maior dispersão de respostas do questionário até o momento. A maioria (57,1%) concordou que o sistema seria aprendido rapidamente, e dois participantes permaneceram neutros. No entanto, um participante (P2) discordou totalmente da afirmação, configurando o único caso de discordância categórica em uma questão positiva ao longo de todo o SUS. Esse resultado, somado à divergência observada na Q4, indica que a percepção de aprendizabilidade não foi uniforme entre os participantes. O SUS, isoladamente, não permite atribuir essa variação ao grau de familiaridade digital; essa hipótese exigiria dados qualitativos adicionais sobre cada participante.
 
 ---
 
@@ -7053,7 +7101,7 @@ A distribuição das respostas é apresentada a seguir:
 
 **Média: 1,86 / 5,0**
 
-Nenhum participante concordou que o sistema é complicado de usar. A grande maioria (85,7%) discordou ativamente da afirmação, e o único respondente neutro (P2, nota 3) é o mesmo que atribuiu discordância total na Q7, o que reforça a hipótese de que sua percepção reflete menor familiaridade com ferramentas digitais em geral, e não necessariamente uma limitação da interface. O resultado é consistente com os dados das Q2 e Q6, consolidando a percepção de que o sistema não é percebido como complexo ou complicado pelo perfil avaliado.
+Nenhum participante concordou que o sistema é complicado de usar. A grande maioria (85,7%) discordou ativamente da afirmação, e o único respondente neutro (P2, nota 3) é o mesmo que atribuiu discordância total na Q7. Isso demonstra que P2 apresentou uma percepção menos favorável em diferentes itens, mas não permite atribuir causalidade sem evidência qualitativa complementar. O resultado agregado é consistente com os dados das Q2 e Q6, consolidando a percepção de que o sistema não foi considerado complexo ou complicado pela maioria do grupo avaliado.
 
 ---
 
@@ -7132,7 +7180,7 @@ A tabela a seguir apresenta o escore individual calculado para cada participante
 | P7 | 97,5 |
 | **Média** | **77,5** |
 
-De acordo com os benchmarks consolidados na literatura [56], o escore médio de **77,5** classifica o sistema como **"Bom"**, situando-se na faixa entre 72 e 85. Seis dos sete participantes obtiveram escores iguais ou superiores a 67, e três deles superaram 85 — limiar da classificação "Excelente". O único escore abaixo do limiar "Regular" (52) pertence a P2 (45,0), participante cujo padrão de respostas ao longo de todo o questionário — discordância total na Q7, neutralidade nas Q4, Q8 e Q10 — indica menor familiaridade com ferramentas digitais, e não necessariamente limitações da interface em si. Desconsiderando esse outlier, a média dos demais seis participantes seria de **83,6**, próxima ao limiar da classificação "Excelente".
+Na escala adjetiva de Bangor, Kortum e Miller [57], o escore médio de **77,5** situa a avaliação geral na categoria **"Bom"**. Seis dos sete participantes obtiveram escores iguais ou superiores a 67,5, enquanto P2 apresentou o menor resultado (45,0). A amplitude observada, de 45,0 a 97,5, evidencia heterogeneidade entre as percepções individuais. O resultado de P2 deve permanecer no cálculo consolidado: não há critério estatístico previamente definido que justifique tratá-lo como *outlier* ou descartá-lo da análise.
 
 O resultado geral indica que a solução desenvolvida atinge um nível de usabilidade percebida compatível com produtos digitais bem avaliados, com margem de melhoria concentrada em fluxos de onboarding e orientação contextual para usuários com menor experiência digital — aspecto coerente com o perfil de capataz descrito nas personas do projeto.
 
@@ -7362,7 +7410,7 @@ atividade econômica há mais de 200 anos [48].
 Do ponto de vista tecnológico, o segmento é caracterizado por baixa adoção de
 ferramentas digitais de gestão. Segundo o Censo Agropecuário 2017 do IBGE, menos
 de 28% dos estabelecimentos rurais brasileiros possuem acesso à internet, e desses,
-apenas 46% contam com banda larga [49]. Esse cenário é ainda mais restritivo
+apenas 46% contam com banda larga. Esse cenário é ainda mais restritivo
 no Pantanal, onde a conectividade depende de tecnologias satelitais como o Starlink,
 disponíveis apenas no retiro.
 
@@ -7385,8 +7433,8 @@ sem acesso contínuo à internet, em condições adversas de luminosidade e mobi
 Responsável pelo registro diário de nascimentos, mortes, entradas, saídas e
 transferências do rebanho. O nível de escolaridade reflete o padrão da força de
 trabalho rural brasileira: 21% dos trabalhadores rurais são analfabetos e 43% possuem
-apenas ensino fundamental incompleto [49]. Apenas 26,5% da população rural
-maior de 18 anos possui ensino fundamental completo [50]. O WhatsApp é o
+apenas ensino fundamental incompleto. Apenas 26,5% da população rural
+maior de 18 anos possui ensino fundamental completo [49]. O WhatsApp é o
 principal canal de comunicação utilizado, indicando familiaridade com smartphones,
 mas não com interfaces de software estruturadas.
 
@@ -7552,115 +7600,229 @@ ao da BrPec, aproveitando a rede de confiança já estabelecida no setor.
 
 # <a name="c7"></a>7. Conclusões e trabalhos futuros (sprint 5)
 
-_Escreva de que formas a solução da aplicação web atingiu os objetivos descritos na seção 2 deste documento. Indique pontos fortes e pontos a melhorar de maneira geral._
+### 7.1. O que foi entregue
 
-Os testes de usabilidade realizados na sprint 5 evidenciaram um conjunto de melhorias que não foram implementadas neste ciclo e constituem o principal plano de ação para iterações futuras.
+Ao longo de cinco sprints, a equipe desenvolveu uma aplicação web progressiva (PWA) offline-first para digitalizar a operação de campo da BrPec Agropecuária. O sistema substituiu o fluxo manual de boletas de papel e redigitação em planilhas por uma interface móvel que opera sem conectividade contínua e sincroniza dados automaticamente nas janelas de acesso à rede disponíveis nos retiros.
 
- As melhorias de maior impacto identificadas são a confusão na tela de configurações do Gerente, cuja aba deve ser reposicionada e renomeada para tornar o acesso mais intuitivo. Em nível de prioridade intermediária, destacam-se a correção da cor do indicador de GPS capturado no formulário de chamado de infraestrutura — que deve sinalizar sucesso em verde em vez de remeter a um estado de erro —, a melhoria da legibilidade na tela de revisão do Gerente pela remoção de hífens e aumento do tamanho do texto, e a criação de orientações contextuais para usuários com menor familiaridade digital, como tooltips nas ações críticas de abertura de chamado e conclusão de tarefa, endereçando os resultados de Q4 e Q7 do SUS. 
- 
- Por fim, em caráter cosmético, recomenda-se travar a seleção do retiro de origem como destino no formulário de transferências, reordenar a listagem de categorias de animais por espécie antes da faixa etária, e habilitar ordenação por coluna na tabela de movimentações do Coordenador.
+A solução foi entregue com quatro perfis de uso funcionais — Capataz, Coordenador, Gerente e Infraestrutura — cada um com autenticação independente e fluxos adaptados às suas responsabilidades operacionais. As 12 User Stories (US01–US12), os 15 Requisitos Funcionais (RF001–RF015) e as 28 Regras de Negócio (RN01–RN28) foram implementados e rastreados na Matriz RTM da seção 3.9. Os oito eixos de qualidade da ISO/IEC 25010 (RNF:USAB, RNF:CONF, RNF:DES, RNF:SUP, RNF:SEG, RNF:CAP, RNF:REST e um eixo adicional de resiliência) foram endereçados ao longo das sprints e documentados na seção 3.1.3.
 
-_Relacione também quaisquer outras ideias que o grupo tenha para melhorias futuras_
+Os principais entregáveis funcionais incluem:
+
+- **Gestão de tarefas calendarizadas** (US01–US05, RF001–RF005): criação pelo Gerente, visualização e conclusão com evidências (foto, áudio, texto) pelo Capataz, com fila offline e sincronização automática via Service Worker + IndexedDB.
+- **Chamados de infraestrutura** (US06, RF006): abertura de alertas georreferenciados pelo Capataz, com coordenadas GPS imutáveis após registro e resolução pelo técnico de infraestrutura com foto de evidência.
+- **Dashboard gerencial** (US07, RF007): painel consolidado com status de tarefas por retiro, atualizado após cada sincronização.
+- **Registro zootécnico** (US08–US10, RF008–RF013): formulário de boleta digital cobrindo nascimentos, mortes, transferências, compras, vendas, evoluções e manejos, com foto obrigatória para mortes e georreferenciamento automático.
+- **Consulta e exportação de movimentações** (US11–US12, RF014–RF015): visualização filtrada por retiro e tipo pelo Coordenador, com exportação em CSV UTF-8 com BOM compatível com Excel (RFC 4180).
+- **Autenticação e autorização** (sprint 5): sessões JWT com access token e refresh token em cookie HttpOnly, controle de acesso por perfil em todos os endpoints protegidos.
+- **Sincronização em nuvem** (sprints 4–5): padrão Outbox via tabela `sincronizacoes`, agendador automático com fila de retry e limite de tentativas, integração com Supabase (PostgreSQL + Storage).
+
+---
+
+### 7.2. Principais desafios e como foram superados
+
+**Arquitetura offline-first em ambiente sem framework.** A principal exigência técnica do projeto — funcionamento sem internet com sincronização posterior — foi implementada sem bibliotecas de gestão de estado ou frameworks reativos. A solução combina Service Worker para interceptação de requisições, IndexedDB para persistência local no cliente e um endpoint `POST /api/sincronizacao/lote` no backend para processar a fila acumulada. O desafio de garantir determinismo nas janelas de reconexão foi resolvido com um loop de retry configurável no `sync.js` e um agendador no `cloudSyncService` com limite de tentativas e ordem topológica de envio para respeitar chaves estrangeiras do Supabase.
+
+**Compatibilidade do SQLite nativo com Node.js.** A adoção do módulo `node:sqlite` nativo exigiu Node.js ≥ 22.5 e atenção à API síncrona (`DatabaseSync`), que difere dos drivers assíncronos convencionais. O uso de banco em memória (`:memory:`) nos testes garantiu isolamento completo entre suítes e eliminou a necessidade de limpeza de estado entre execuções.
+
+**Separação de responsabilidades e legibilidade do código.** Na sprint 5, toda a lógica de negócio que havia sido implementada diretamente nos controllers foi migrada para serviços e repositórios dedicados. A refatoração envolveu extração de `authService`, `boletaService`, `refreshTokenRepository`, `usuarioRepository` e repositórios de dados, sem alterar contratos de API nem quebrar os testes existentes.
+
+**Gerenciamento de conflitos de merge em branch de documentação.** A branch de documentação da sprint 5 acumulou referências a arquivos que pertenciam a PRs pendentes na `developer` (caso de `transferenciaController.ts`), gerando erros de compilação TypeScript invisíveis no contexto da branch de origem. O processo de atualização de branches revelou a necessidade de uma política mais rigorosa de sincronização entre branches paralelas de feature e documentação.
+
+**Usabilidade em dispositivos de campo.** O design mobile-first com botões mínimos de 56px, contraste AAA (7:1) para uso sob luz solar e ícones do Material Symbols Rounded hospedados localmente foram validados na sprint 5. Os testes de guerrilha identificaram ausência de feedback de confirmação em ações críticas como ponto de melhoria prioritário — problema que não havia emergido nas revisões internas.
+
+---
+
+### 7.3. Resultados mensuráveis
+
+### Cobertura de requisitos
+
+| Dimensão | Total definido | Implementado |
+|---|---|---|
+| User Stories (US) | 12 | 12 |
+| Requisitos Funcionais (RF) | 15 | 15 |
+| Regras de Negócio (RN) | 28 | 28 |
+| Eixos ISO/IEC 25010 (RNF) | 8 | 8 |
+
+### Testes automatizados
+
+| Métrica | Resultado |
+|---|---|
+| Suites executadas | 26 |
+| Suites aprovadas | 26 (100%) |
+| Casos de teste | 206 |
+| Casos aprovados | 206 (100%) |
+| Cobertura global de statements | 45,2% |
+| Cobertura de statements — áreas críticas (auth, sync, eventos) | 55–89% |
+
+### Testes de usabilidade
+
+| Métrica | Resultado |
+|---|---|
+| Participantes — testes de guerrilha | 6 |
+| Sessões de teste | 22 |
+| Taxa de conclusão — fluxos do Coordenador | 100% |
+| Taxa de conclusão — fluxos do Gerente | 83% |
+| Taxa de conclusão — fluxos do Capataz | 52% |
+| Participantes — testes SUS | 7 |
+| Escore SUS médio | 77,5 — "Bom" (escala Bangor et al.) |
+
+### Critérios impeditivos de publicação
+
+| Critério | Status |
+|---|---|
+| Build (`tsc --noEmit`) | PASSOU |
+| Suite completa (`npm test`) | PASSOU — 26/26 suites, 206/206 testes |
+| Deploy | FALHOU — configuração de deploy não versionada; ausência de URL pública |
+
+---
+
+### 7.4. Limitações identificadas
+
+**Deploy em ambiente público.** O sistema opera exclusivamente em execução local (`npm start`). Não foi versionado artefato de deploy compatível com nenhuma plataforma de hospedagem (Render, Railway, Fly.io ou similar), e nenhuma URL de homologação foi publicada.
+
+**Cobertura de testes nos fluxos do Capataz.** A taxa de conclusão de 52% nos testes de guerrilha para os fluxos do Capataz — concentrada na Tarefa 2 (abertura de chamado) por um erro HTTP 400 no endpoint — evidencia que as suites automatizadas cobrem contratos HTTP mas não substituem a validação de ponta a ponta com usuários reais.
+
+**Feedback visual em ações críticas.** Os testes de guerrilha identificaram ausência de confirmação após conclusão de tarefa com sincronização (H1 — Visibilidade do status do sistema) como problema de severidade grave, afetando também a criação de tarefa calendarizada.
+
+**Cobertura de testes no `boletaService`.** O serviço de boletas — área central do produto — apresentou 3,8% de cobertura de statements ao final da sprint 5, sem testes dedicados para os fluxos de criação, atualização e listagem de boletas.
+
+**Sincronização bidirecional e resolução de conflitos.** A arquitetura atual implementa sincronização unidirecional (campo → nuvem via Outbox). Cenários de edição concorrente — dois capatazes registrando movimentações para o mesmo lote de animais em retiros diferentes sem conexão — não possuem mecanismo de detecção ou resolução de conflito.
+
+**Onboarding para usuários com baixa literacia digital.** O perfil de Capataz descrito nas personas inclui usuários com dificuldade com leitura e escrita formal. Os testes de guerrilha indicaram que a terminologia e a navegação foram mais acessíveis para participantes com experiência rural, mas o escore SUS de P2 (45,0) sinaliza que parte do público-alvo pode ter dificuldades com a curva de aprendizado.
+
+### 7.5. Planejamentos futuros
+
+Os achados dos testes de usabilidade documentados na seção 5.2 apontam um conjunto de melhorias a serem implementadas em ciclos futuros, complementando as limitações descritas na seção 7.4.
+
+As correções de maior impacto sobre a experiência do usuário envolvem a adição de feedback explícito nos fluxos do Capataz e do Gerente: exibição de toast ou snackbar de confirmação após a conclusão de tarefa com foto — endereçando a ausência de visibilidade do status de sincronização identificada pela heurística H1 — e confirmação visual após a criação de tarefa calendarizada, impedindo que o registro seja interpretado como falha de cadastro. Também deve ser corrigida a tela de configurações do Gerente, cujo botão de acesso deve ser reposicionado e renomeado para evitar a confusão documentada nas sessões de teste.
+
+Em prioridade intermediária, destacam-se: a alteração da cor do indicador de GPS para verde no formulário de chamado de infraestrutura, eliminando a associação visual com estado de erro; a melhoria da legibilidade na tela de revisão do Gerente, com remoção de hífens e aumento do tamanho do texto; e a criação de orientações contextuais — como tooltips em ações críticas — para reduzir a dependência de suporte técnico entre usuários com menor familiaridade digital, aspecto evidenciado pelas questões Q4 e Q7 do SUS e alinhado com o perfil de Capataz descrito nas personas do projeto.
+
+Por fim, em caráter cosmético, recomendam-se três ajustes no fluxo de registro zootécnico e na visualização do Coordenador: bloquear a seleção do retiro de origem como destino no formulário de transferências, reordenar a listagem de categorias de animais por espécie antes da faixa etária, e habilitar ordenação por coluna na tabela de movimentações.
+
+Além das melhorias de usabilidade, quatro frentes de expansão funcional foram identificadas como oportunidades de evolução do produto para ciclos posteriores. A primeira é a criação de um módulo sanitário e veterinário, cobrindo o registro de vacinações, medicamentos e tratamentos por animal — dado que atualmente não é capturado pelo sistema e representa uma lacuna relevante para fazendas que operam sob exigências de rastreabilidade sanitária. 
+
+A segunda é a implementação de notificações push, permitindo que Gerente e Coordenador recebam alertas em tempo real quando um chamado de infraestrutura for aberto ou uma tarefa crítica for concluída pelo Capataz, eliminando a dependência de verificação manual do painel. 
+
+A terceira é a criação de alertas automáticos por threshold, como notificações disparadas quando a taxa de mortalidade de um retiro ultrapassa um limite configurável ou quando um chamado permanece aberto por mais de um número definido de dias sem resolução — mecanismo que apoia a tomada de decisão proativa do Gerente. 
+
+Por fim, a integração com balanças e brincos eletrônicos permitiria o registro automático de peso individual durante manejos de campo, eliminando a digitação manual e reduzindo erros de transcrição, caminho já adotado por concorrentes como o iRancho no mercado nacional.
 
 # <a name="c8"></a>8. Referências (sprints 1 a 5)
 
-[1] ABIEC. Brasil bate recorde nas exportações de carne bovina em 2025. São Paulo: ABIEC, 2026. Disponível em: https://abiec.com.br/brasil-bate-recorde-nas-exportacoes-de-carne-bovina-em-2025/. Acesso em: jun. 2026.
+[1] ABIEC. **Brasil bate recorde nas exportações de carne bovina em 2025**. São Paulo: ABIEC, 2026. Disponível em: https://abiec.com.br/brasil-bate-recorde-nas-exportacoes-de-carne-bovina-em-2025/. Acesso em: 10 maio 2026.
 
-[2] BABICH, Nick. Principles of Typography in UI Design. UX Planet, 2016. Disponível em: https://uxplanet.org/principles-of-typography-in-ui-design-bc28f1f9666d. Acesso em: 19 maio 2026.
+[2] BABICH, Nick. **Principles of Typography in UI Design**. UX Planet, 2016. Disponível em: https://uxplanet.org/principles-of-typography-in-ui-design-bc28f1f9666d. Acesso em: 19 maio 2026.
 
-[3] BOOCH, Grady; RUMBAUGH, James; JACOBSON, Ivar. The Unified Modeling Language User Guide. 2. ed. Boston: Addison-Wesley Professional, 2005. 494 p. ISBN 978-0-321-26797-9.
+[3] BOOCH, Grady; RUMBAUGH, James; JACOBSON, Ivar. **The Unified Modeling Language User Guide**. 2. ed. Boston: Addison-Wesley Professional, 2005. 494 p. ISBN 978-0-321-26797-9.
 
-[4] BRASIL. Ministério do Trabalho e Emprego. Classificação Brasileira de Ocupações (CBO): capataz na Agropecuária - CBO 6210-05. [S.d.]. Disponível em: https://www.mtecbo.gov.br. Acesso em: 28 abr. 2026.
+[4] BRASIL. Ministério do Trabalho e Emprego. **Classificação Brasileira de Ocupações (CBO): capataz na Agropecuária - CBO 6210-05**. [S.d.]. Disponível em: https://www.mtecbo.gov.br. Acesso em: 28 abr. 2026.
 
-[5] CEPEA. PIB do Agronegócio Brasileiro. Disponível em: https://www.cepea.esalq.usp.br. Acesso em: 29 abr. 2026.
+[5] CEPEA. **PIB do Agronegócio Brasileiro**. [S.d.]. Disponível em: https://www.cepea.esalq.usp.br. Acesso em: 29 abr. 2026.
 
-[6] CHEN, Peter Pin-Shan. The entity-relationship model: toward a unified view of data. ACM Transactions on Database Systems, v. 1, n. 1, p. 9–36, 1976.
+[6] CHEN, Peter Pin-Shan. The entity-relationship model: toward a unified view of data. **ACM Transactions on Database Systems**, v. 1, n. 1, p. 9–36, 1976.
 
-[7] COHN, Mike. User Stories Applied: For Agile Software Development. Boston: Addison-Wesley, 2004.
+[7] COHN, Mike. **User Stories Applied: For Agile Software Development**. Boston: Addison-Wesley, 2004.
 
-[8] CONFEDERAÇÃO DA AGRICULTURA E PECUÁRIA DO BRASIL. Conheça as 4 carreiras mais quentes do agronegócio brasileiro. CNA Brasil, [S.d.]. Disponível em: https://www.cnabrasil.org.br/noticias/conheca-as-4-carreiras-mais-quentes-do-agronegocio-brasileiro. Acesso em: 28 abr. 2026.
+[8] CONFEDERAÇÃO DA AGRICULTURA E PECUÁRIA DO BRASIL. **Conheça as 4 carreiras mais quentes do agronegócio brasileiro**. CNA Brasil, [S.d.]. Disponível em: https://www.cnabrasil.org.br/noticias/conheca-as-4-carreiras-mais-quentes-do-agronegocio-brasileiro. Acesso em: 28 abr. 2026.
 
-[9] CONFEDERAÇÃO DA AGRICULTURA E PECUÁRIA DO BRASIL. Pesquisa Trimestral do Abate, Leite e Ovos — 1º trimestre de 2025. Brasília: CNA, 2025. Disponível em: https://www.cnabrasil.org.br. Acesso em: jun. 2026.
+[9] CONFEDERAÇÃO DA AGRICULTURA E PECUÁRIA DO BRASIL. **Pesquisa Trimestral do Abate, Leite e Ovos — 1º trimestre de 2025**. Brasília: CNA, 2025. Disponível em: https://www.cnabrasil.org.br. Acesso em: 10 maio 2026.
 
-[10] COOPER, Alan; REIMANN, Robert; CRONIN, David; NOESSEL, Christopher. About Face: The Essentials of Interaction Design. 4. ed. Indianapolis: John Wiley & Sons, 2014. ISBN 978-1-118-76657-6.
+[10] COOPER, Alan; REIMANN, Robert; CRONIN, David; NOESSEL, Christopher. **About Face: The Essentials of Interaction Design**. 4. ed. Indianapolis: John Wiley & Sons, 2014. ISBN 978-1-118-76657-6.
 
-[11] COSGROVE, J.; CACHIA, R. DigComp 3.0: European Digital Competence Framework. 5. ed. Luxembourg: Publications Office of the European Union, 2025. Disponível em: https://data.europa.eu/doi/10.2760/0001149. Acesso em: 28 abr. 2026.
+[11] COSGROVE, J.; CACHIA, R. **DigComp 3.0: European Digital Competence Framework**. 5. ed. Luxembourg: Publications Office of the European Union, 2025. Disponível em: https://data.europa.eu/doi/10.2760/0001149. Acesso em: 28 abr. 2026.
 
-[12] EVANS, Eric. Domain-Driven Design: Tackling Complexity in the Heart of Software. Boston: Addison-Wesley, 2003. ISBN 978-0-321-12521-7.
+[12] EVANS, Eric. **Domain-Driven Design: Tackling Complexity in the Heart of Software**. Boston: Addison-Wesley, 2003. ISBN 978-0-321-12521-7.
 
-[13] FOWLER, Martin. Patterns of Enterprise Application Architecture. Boston: Addison-Wesley, 2002. ISBN 978-0-321-12742-6.
+[13] FOWLER, Martin. **Patterns of Enterprise Application Architecture**. Boston: Addison-Wesley, 2002. ISBN 978-0-321-12742-6.
 
-[14] FOWLER, Martin. UML Distilled: A Brief Guide to the Standard Object Modeling Language. 3. ed. Boston: Addison-Wesley Professional, 2004. 175 p. ISBN 978-0-321-19368-1.
+[14] FOWLER, Martin. **UML Distilled: A Brief Guide to the Standard Object Modeling Language**. 3. ed. Boston: Addison-Wesley Professional, 2004. 175 p. ISBN 978-0-321-19368-1.
 
-[15] GAMMA, Erich; HELM, Richard; JOHNSON, Ralph; VLISSIDES, John. Design Patterns: Elements of Reusable Object-Oriented Software. Boston: Addison-Wesley, 1994. ISBN 978-0-201-63361-0.
+[15] GAMMA, Erich; HELM, Richard; JOHNSON, Ralph; VLISSIDES, John. **Design Patterns: Elements of Reusable Object-Oriented Software**. Boston: Addison-Wesley, 1994. ISBN 978-0-201-63361-0.
 
-[16] HOHPE, Gregor; WOOLF, Bobby. Enterprise Integration Patterns: Designing, Building, and Deploying Messaging Solutions. Boston: Addison-Wesley, 2003. ISBN 978-0-321-20068-6.
+[16] HOHPE, Gregor; WOOLF, Bobby. **Enterprise Integration Patterns: Designing, Building, and Deploying Messaging Solutions**. Boston: Addison-Wesley, 2003. ISBN 978-0-321-20068-6.
 
-[17] IBGE. Estatísticas da Produção Pecuária — Resultados do 4º trimestre de 2024. Rio de Janeiro: IBGE, 2025. Disponível em: https://agenciadenoticias.ibge.gov.br/agencia-noticias/2012-agencia-de-noticias/noticias/42899-abate-de-bovinos-atinge-recorde-em-2024. Acesso em: jun. 2026.
+[17] IBGE. **Estatísticas da Produção Pecuária — Resultados do 4º trimestre de 2024**. Rio de Janeiro: IBGE, 2025. Disponível em: https://agenciadenoticias.ibge.gov.br/agencia-noticias/2012-agencia-de-noticias/noticias/42899-abate-de-bovinos-atinge-recorde-em-2024. Acesso em: 10 maio 2026.
 
-[18] IBGE. Pesquisa da Pecuária Municipal 2024. Rio de Janeiro: IBGE, 2025. Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/9107-producao-da-pecuaria-municipal.html. Acesso em: jun. 2026.
+[18] IBGE. **Pesquisa da Pecuária Municipal 2024**. Rio de Janeiro: IBGE, 2025. Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/9107-producao-da-pecuaria-municipal.html. Acesso em: 10 maio 2026.
 
-[19] ILLUMINATING ENGINEERING SOCIETY. The Lighting Handbook. 10. ed. New York: IES, 2011.
+[19] ILLUMINATING ENGINEERING SOCIETY. **The Lighting Handbook**. 10. ed. New York: IES, 2011.
 
-[20] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO 9241-303:2011: Ergonomics of human-system interaction — Part 303: Requirements for electronic visual displays. Genebra: ISO, 2011.
+[20] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. **ISO 9241-303:2011**: Ergonomics of human-system interaction — Part 303: Requirements for electronic visual displays. Genebra: ISO, 2011.
 
-[21] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC 19505-2:2012: Information technology — Object Management Group Unified Modeling Language (OMG UML) — Part 2: Superstructure. Genebra: ISO, 2012. Disponível em: https://www.iso.org/standard/52854.html. Acesso em: mai. 2026.
+[21] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. **ISO/IEC 19505-2:2012**: Information technology — Object Management Group Unified Modeling Language (OMG UML) — Part 2: Superstructure. Genebra: ISO, 2012. Disponível em: https://www.iso.org/standard/52854.html. Acesso em: 15 maio 2026.
 
-[22] IPOG. Gestão do Agronegócio: como está o mercado de trabalho?. [S.d.]. Disponível em: https://blog.ipog.edu.br/gestao-e-negocios/gestao-do-agronegocio/. Acesso em: 28 abr. 2026.
+[22] IPOG. **Gestão do Agronegócio: como está o mercado de trabalho?**. [S.d.]. Disponível em: https://blog.ipog.edu.br/gestao-e-negocios/gestao-do-agronegocio/. Acesso em: 28 abr. 2026.
 
-[23] KOTLER, Philip; KELLER, Kevin Lane. Administração de marketing. 14. ed. São Paulo: Pearson Education do Brasil, 2012. ISBN 978-85-430-0199-4.
+[23] KOTLER, Philip; KELLER, Kevin Lane. **Administração de marketing**. 14. ed. São Paulo: Pearson Education do Brasil, 2012. ISBN 978-85-430-0199-4.
 
-[24] LARMAN, Craig. Applying UML and Patterns: An Introduction to Object-Oriented Analysis and Design and Iterative Development. 3. ed. Upper Saddle River: Prentice Hall, 2004. 736 p. ISBN 978-0-131-48906-6.
+[24] LARMAN, Craig. **Applying UML and Patterns: An Introduction to Object-Oriented Analysis and Design and Iterative Development**. 3. ed. Upper Saddle River: Prentice Hall, 2004. 736 p. ISBN 978-0-131-48906-6.
 
-[25] LEACH, P. et al. RFC 9562: Universally Unique IDentifiers (UUID). Internet Engineering Task Force, 2024. Disponível em: https://www.rfc-editor.org/rfc/rfc9562. Acesso em: 07 mai. 2026.
+[25] LEACH, P. et al. **RFC 9562**: Universally Unique IDentifiers (UUID). Internet Engineering Task Force, 2024. Disponível em: https://www.rfc-editor.org/rfc/rfc9562. Acesso em: 07 maio 2026.
 
-[26] MACHADO, João Guilherme de Camargo Ferraz; NANTES, José Flávio Diniz. Adoção da tecnologia da informação em organizações rurais: o caso da pecuária de corte. Gestão & Produção, São Carlos, v. 18, n. 3, p. 555-570, 2011. Disponível em: https://www.scielo.br/j/gp/a/cwVwLsPgq8FBq5kvgXZPpLQ/. Acesso em: 28 abr. 2026.
+[26] MACHADO, João Guilherme de Camargo Ferraz; NANTES, José Flávio Diniz. Adoção da tecnologia da informação em organizações rurais: o caso da pecuária de corte. **Gestão & Produção**, São Carlos, v. 18, n. 3, p. 555-570, 2011. Disponível em: https://www.scielo.br/j/gp/a/cwVwLsPgq8FBq5kvgXZPpLQ/. Acesso em: 28 abr. 2026.
 
-[27] MARTIN, Robert C. Clean Architecture: A Craftsman’s Guide to Software Structure and Design. Boston: Prentice Hall, 2017. ISBN 978-0-134-49416-6.
+[27] MARTIN, Robert C. **Clean Architecture: A Craftsman’s Guide to Software Structure and Design**. Boston: Prentice Hall, 2017. ISBN 978-0-134-49416-6.
 
-[28] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. MAPA fortalece agropecuária pantaneira. Brasília: MAPA, 2023. Disponível em: https://www.gov.br/agricultura/pt-br/assuntos/noticias/mapa-fortalece-agropecuaria-pantaneira. Acesso em: jun. 2026.
+[28] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. **MAPA fortalece agropecuária pantaneira**. Brasília: MAPA, 2023. Disponível em: https://www.gov.br/agricultura/pt-br/assuntos/noticias/mapa-fortalece-agropecuaria-pantaneira. Acesso em: 15 maio 2026.
 
-[29] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. Plano Nacional de Identificação de Bovinos e Búfalos (PNIB). Brasília: MAPA, 2024. Disponível em: https://www.gov.br/agricultura. Acesso em: jun. 2026.
+[29] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. **Plano Nacional de Identificação de Bovinos e Búfalos (PNIB)**. Brasília: MAPA, 2024. Disponível em: https://www.gov.br/agricultura. Acesso em: 15 maio 2026.
 
-[30] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. Produção e exportações de carne bovina 2024. Brasília: MAPA/SCRI, 2024. Disponível em: https://www.gov.br/agricultura. Acesso em: jun. 2026.
+[30] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. **Produção e exportações de carne bovina 2024**. Brasília: MAPA/SCRI, 2024. Disponível em: https://www.gov.br/agricultura. Acesso em: 15 maio 2026.
 
-[31] NIELSEN NORMAN GROUP. Design Systems vs. Style Guides. 2024. Disponível em: https://www.nngroup.com/articles/design-systems-vs-style-guides/. Acesso em: 18 maio 2026.
+[31] NIELSEN NORMAN GROUP. **Design Systems vs. Style Guides**. 2024. Disponível em: https://www.nngroup.com/articles/design-systems-vs-style-guides/. Acesso em: 18 maio 2026.
 
-[32] OBJECT MANAGEMENT GROUP. Unified Modeling Language Specification: Version 2.5.1. Needham, MA: OMG, 2017. Disponível em: https://www.omg.org/spec/UML/2.5.1. Acesso em: mai. 2026.
+[32] OBJECT MANAGEMENT GROUP. **Unified Modeling Language Specification: Version 2.5.1**. Needham, MA: OMG, 2017. Disponível em: https://www.omg.org/spec/UML/2.5.1. Acesso em: 15 maio 2026.
 
-[33] PORTAL SALÁRIO. Capataz na Pecuária - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/capataz-na-pecuaria-cbo-620115/. Acesso em: 28 abr. 2026.
+[33] PORTAL SALÁRIO. **Capataz na Pecuária - Salário 2026, Piso Salarial**. 2026. Disponível em: https://www.salario.com.br/profissao/capataz-na-pecuaria-cbo-620115/. Acesso em: 28 abr. 2026.
 
-[34] PORTAL SALÁRIO. Gerente de Produção e Operações Agropecuárias - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/gerente-de-producao-e-operacoes-agropecuarias-cbo-141115/. Acesso em: 28 abr. 2026.
+[34] PORTAL SALÁRIO. **Gerente de Produção e Operações Agropecuárias - Salário 2026, Piso Salarial**. 2026. Disponível em: https://www.salario.com.br/profissao/gerente-de-producao-e-operacoes-agropecuarias-cbo-141115/. Acesso em: 28 abr. 2026.
 
-[35] PORTER, Michael E. Competitive Strategy: Techniques for Analyzing Industries and Competitors. New York: Free Press, 2008. ISBN 978-0-7432-7275-4.
+[35] PORTER, Michael E. **Competitive Strategy: Techniques for Analyzing Industries and Competitors**. New York: Free Press, 2008. ISBN 978-0-7432-7275-4.
 
-[36] PROJECT MANAGEMENT INSTITUTE. Um guia do conhecimento em gerenciamento de projetos (Guia PMBOK). 7. ed. Newtown Square: PMI, 2021. ISBN 978-1-62825-664-2.
+[36] PROJECT MANAGEMENT INSTITUTE. **Um guia do conhecimento em gerenciamento de projetos (Guia PMBOK)**. 7. ed. Newtown Square: PMI, 2021. ISBN 978-1-62825-664-2.
 
-[37] REVISTA DE GESTÃO E PROJETOS — GeP. Gestão de riscos em projetos: uma análise comparativa da norma ISO 31000 e o Guia PMBOK®. Revista de Gestão e Projetos — GeP, São Paulo, v. 4, n. 3, p. 46–72, set./dez. 2013. Disponível em: https://www.bibliotecadeseguranca.com.br/wp-content/uploads/2020/05/gerenciamento-de-riscos-em-projetos-uma-comparacao-entre-o-pmbok-e-a-iso-31000.pdf. Acesso em: 29 abr. 2026.
+[37] REVISTA DE GESTÃO E PROJETOS — GeP. Gestão de riscos em projetos: uma análise comparativa da norma ISO 31000 e o Guia PMBOK®. **Revista de Gestão e Projetos — GeP**, São Paulo, v. 4, n. 3, p. 46–72, set./dez. 2013. Disponível em: https://www.bibliotecadeseguranca.com.br/wp-content/uploads/2020/05/gerenciamento-de-riscos-em-projetos-uma-comparacao-entre-o-pmbok-e-a-iso-31000.pdf. Acesso em: 29 abr. 2026.
 
-[38] SNAITH, M.; TORNQVIST, K. Situational Visual Impairment: Designing interfaces for outdoor and mobile usage. JMHCI, v. 12, 2020.
+[38] SNAITH, M.; TORNQVIST, K. Situational Visual Impairment: Designing interfaces for outdoor and mobile usage. **JMHCI**, v. 12, 2020.
 
-[39] SUA IMPRENSA. Guia de estilo da marca: o que é, como fazer e elementos essenciais. Sua Imprensa, 2025. Disponível em: https://suaimprensa.com.br/blog/guia-de-estilo-da-marca/. Acesso em: 28 maio 2026.
+[39] SUA IMPRENSA. **Guia de estilo da marca: o que é, como fazer e elementos essenciais**. Sua Imprensa, 2025. Disponível em: https://suaimprensa.com.br/blog/guia-de-estilo-da-marca/. Acesso em: 28 maio 2026.
 
-[40] UNIÃO EUROPEIA. Regulamento (UE) 2023/1115 — Regulamento Europeu Antidesmatamento (EUDR). Bruxelas: Parlamento Europeu e Conselho da UE, 2023. Disponível em: https://eur-lex.europa.eu. Acesso em: jun. 2026.
+[40] UNIÃO EUROPEIA. **Regulamento (UE) 2023/1115 — Regulamento Europeu Antidesmatamento (EUDR)**. Bruxelas: Parlamento Europeu e Conselho da UE, 2023. Disponível em: https://eur-lex.europa.eu. Acesso em: 15 maio 2026.
 
-[41] UX QUEST. Guia completo sobre paleta de cores para design de interface e UX. UX Quest, 2026. Disponível em: https://www.uxquest.com.br/blog/paleta-de-cores. Acesso em: 28 maio 2026.
+[41] UX QUEST. **Guia completo sobre paleta de cores para design de interface e UX**. UX Quest, 2026. Disponível em: https://www.uxquest.com.br/blog/paleta-de-cores. Acesso em: 28 maio 2026.
 
-[42] UXPIN. Design System vs. Pattern Library vs. Style Guide vs. Component Library. 2026. Disponível em: https://www.uxpin.com/studio/blog/design-systems-vs-pattern-libraries-vs-style-guides-whats-difference/. Acesso em: 18 maio 2026.
+[42] UXPIN. **Design System vs. Pattern Library vs. Style Guide vs. Component Library**. 2026. Disponível em: https://www.uxpin.com/studio/blog/design-systems-vs-pattern-libraries-vs-style-guides-whats-difference/. Acesso em: 18 maio 2026.
 
-[43] W3C. WCAG 2.1 — Success Criterion 1.4.6: Contrast (Enhanced). Disponível em: https://www.w3.org/TR/WCAG21/#contrast-enhanced. Acesso em: maio 2026.
+[43] W3C. **WCAG 2.1 — Success Criterion 1.4.6: Contrast (Enhanced)**. Disponível em: https://www.w3.org/TR/WCAG21/#contrast-enhanced. Acesso em: 15 maio 2026.
+
+[44] IRANCHO. iRancho: sistema de gestão pecuária. [S.l.]: iRancho, [2026]. Disponível em: https://www.irancho.com.br/perguntas-frequentes/. Acesso em: jun. 2026.
+
+[45] JETBOV. JetBov: gestão de pastagem e desempenho animal. [S.l.]: JetBov, [2026]. Disponível em: https://play.google.com/store/apps/details?id=com.ionicframework.jetbovapp459755. Acesso em: jun. 2026.
+
+[46] AEGRO. Aegro: plataforma de gestão rural. [S.l.]: Aegro, [2026]. Disponível em: https://aegro.com.br/. Acesso em: jun. 2026.
+
+[47] IBGE. Censo Agropecuário 2017: resultados definitivos — Mato Grosso do Sul. Rio de Janeiro: IBGE, 2019. Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/21814-2017-censo-agropecuario.html. Acesso em: jun. 2026.
+
+[48] EMBRAPA PANTANAL. Panorama socioeconômico do Pantanal. Corumbá: Embrapa Pantanal, 2020. Disponível em: https://www.embrapa.br/pantanal. Acesso em: jun. 2026.
+
+[49] IBGE. Censo Agropecuário 2017: acesso à internet e educação nos estabelecimentos agropecuários — resultados definitivos. Rio de Janeiro: IBGE, 2019. Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/21814-2017-censo-agropecuario.html. Acesso em: jun. 2026.
+
+[50] IBGE. Pesquisa Nacional por Amostra de Domicílios Contínua — Educação 2022. Rio de Janeiro: IBGE, 2023. Disponível em: https://www.ibge.gov.br/estatisticas/sociais/educacao/17270-pnad-continua.html. Acesso em: jun. 2026.
 
 [51] ANATEL. Serviço de Comunicação Multimídia (SCM): acessos por tecnologia de acesso. Brasília: Anatel, 2024. Disponível em: https://informacoes.anatel.gov.br/paineis/acesso-a-internet-banda-larga. Acesso em: jun. 2026.
 
-[52] DISTRITO. Agtech Report Brasil 2024. São Paulo: Distrito, 2024. Disponível em: https://distrito.me/agtech-report/. Acesso em: jun. 2026.
+[52] DISTRITO. **Agtech Report Brasil 2024**. São Paulo: Distrito, 2024. Disponível em: https://distrito.me/agtech-report/. Acesso em: 10 maio 2026.
 
-[53] KRUG, Steve. Rocket Surgery Made Easy: The Do-It-Yourself Guide to Finding and Fixing Usability Problems. Berkeley: New Riders, 2010. ISBN 978-0-321-65729-5.
+[53] KRUG, Steve. **Rocket Surgery Made Easy: The Do-It-Yourself Guide to Finding and Fixing Usability Problems**. Berkeley: New Riders, 2010. ISBN 978-0-321-65729-5.
 
-[54] NIELSEN, Jakob. Why You Only Need to Test with 5 Users. Nielsen Norman Group, 19 mar. 2000. Disponível em: https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/. Acesso em: jun. 2026.
+[54] NIELSEN, Jakob. **Why You Only Need to Test with 5 Users**. Nielsen Norman Group, 19 mar. 2000. Disponível em: https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/. Acesso em: 10 maio 2026.
 
-[55] ISO 9241-11:2018. Ergonomics of human-system interaction — Part 11: Usability: Definitions and concepts. Geneva: International Organization for Standardization, 2018.
+[55] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO 9241-11:2018: Ergonomics of human-system interaction — Part 11: Usability: Definitions and concepts. Genebra: ISO, 2018.
 
 [56] BROOKE, John. SUS: A 'Quick and Dirty' Usability Scale. In: JORDAN, P. W. et al. (eds.). Usability Evaluation in Industry. London: Taylor & Francis, 1996. p. 189–194.
+
+[57] BANGOR, Aaron; KORTUM, Philip; MILLER, James. Determining What Individual SUS Scores Mean: Adding an Adjective Rating Scale. Journal of Usability Studies, v. 4, n. 3, p. 114–123, 2009.
 
 # <a name="c9"></a>Anexos
 
@@ -7686,4 +7848,3 @@ A modelagem do Domínio (UML) foi confrontada com a implementação na pasta `sr
 Durante a verificação inicial, foi identificada a falta de espelhamento exato em TS para algumas tabelas persistidas: `exportacoes` e `refresh_tokens`.
 - **Exportacao.ts e RefreshToken.ts:** Embora os arquivos de repositório e de banco de dados existissem, as respectivas interfaces *Model* em `src/backend/models/` estavam faltando.
 - **Resolução:** As interfaces TypeScript correspondentes foram devidamente criadas em `src/backend/models/Exportacao.ts` e `RefreshToken.ts`, resolvendo o problema e garantindo 100% de conformidade com os diagramas e tabelas.
-

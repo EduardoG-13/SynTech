@@ -56,17 +56,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       // Feedback ao usuário
       if (resultado.sucesso) {
-        alert('✅ Resolução do chamado registrada com sucesso!');
+        alert(' Resolução do chamado registrada com sucesso!');
         window.history.back();
       } else if (resultado.offline) {
         alert(
-          '📱 ' +
+          ' ' +
             resultado.mensagem +
             '\n\nSua resolução será sincronizada automaticamente quando houver conexão.'
         );
         window.history.back();
       } else {
-        alert('❌ Erro: ' + resultado.mensagem);
+        alert(' Erro: ' + resultado.mensagem);
       }
     } catch (erro) {
       console.error('[Resolver Chamado] Erro ao processar formulário:', erro);

@@ -111,6 +111,25 @@ class AdminRepository {
   public excluirTarefa(id: string) {
     db.prepare('DELETE FROM tarefas WHERE id = ?').run(id);
   }
+
+  public listarDispositivos() {
+    return db.prepare(`
+      SELECT d.id, d.device_token, d.apelido, d.criado_em, d.ultimo_acesso, d.revogado_em,
+             r.nome AS retiro_nome, u.nome AS capataz_nome
+      FROM dispositivos d
+      LEFT JOIN retiros  r ON r.id = d.retiro_id
+      LEFT JOIN usuarios u ON u.id = d.capataz_id
+      ORDER BY d.revogado_em IS NOT NULL, d.ultimo_acesso DESC
+    `).all();
+  }
+
+  public verificarDispositivoExiste(id: string) {
+    return db.prepare('SELECT id FROM dispositivos WHERE id = ?').get(id);
+  }
+
+  public revogarDispositivo(id: string) {
+    db.prepare("UPDATE dispositivos SET revogado_em = datetime('now') WHERE id = ?").run(id);
+  }
 }
 
 export default new AdminRepository();

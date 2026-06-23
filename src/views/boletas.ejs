@@ -7,7 +7,7 @@
 
   <div id="app">
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar"><img src="/public/Icons/coordenador.ico" alt="Coordenador" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <div class="user-avatar"><span class="material-symbols-rounded ui-icon" aria-hidden="true">groups</span></div>
       <h1>Boletas</h1>
       <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %></div>
     </div>
@@ -17,7 +17,7 @@
 
       <div class="boletas-filtros" style="margin-bottom: 1rem;">
         <div class="card" style="padding: 1rem;">
-          <p style="font-size:0.8rem; color:#5c6b5d; margin-bottom:0.5rem;"><img class="ico-sm" src="/public/Icons/lupa.ico" alt="" /> Filtra a lista de boletas pendentes abaixo.</p>
+          <p style="font-size:0.8rem; color:#5c6b5d; margin-bottom:0.5rem;"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">search</span> Filtra a lista de boletas pendentes abaixo.</p>
           <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
             <select id="filtro-retiro" style="flex: 1; min-width:140px; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;">
               <option value="">Todos os retiros</option>
@@ -25,14 +25,16 @@
             <select id="filtro-tipo" style="flex: 1; min-width:140px; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;">
               <option value="">Todos os tipos</option>
               <option value="nascimento">Nascimento</option>
-              <option value="obito">Óbito</option>
+              <option value="obito">Morte</option>
+              <option value="abate">Abate Interno</option>
               <option value="transferencia">Transferência</option>
               <option value="compravenda">Compra/Venda</option>
+              <option value="evolucao">Evolução</option>
               <option value="manejo">Manejo</option>
             </select>
             <input type="date" id="filtro-data-inicio" style="flex: 1; min-width:140px; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;" />
             <input type="date" id="filtro-data-fim" style="flex: 1; min-width:140px; padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px;" />
-            <button type="button" id="btn-limpar-lista" style="padding:0.5rem 0.75rem; border:1px solid #ccc; background:#fff; border-radius:8px; cursor:pointer;">🧹 Limpar</button>
+            <button type="button" id="btn-limpar-lista" class="btn btn-secundario" style="white-space:nowrap;" title="Limpar filtros"><span class="material-symbols-rounded ui-icon" aria-hidden="true">filter_alt_off</span> Limpar</button>
           </div>
         </div>
       </div>
@@ -44,7 +46,7 @@
         </div>
         <div class="card" style="flex: 1; text-align: center; padding: 0.75rem; min-width: 80px;">
           <span style="font-size: 1.5rem; font-weight: 700; color: var(--verde-profundo, #1A4D2E);" id="total-obitos">0</span>
-          <p style="font-size: 0.75rem; color: #8A8A7C;">Óbitos</p>
+          <p style="font-size: 0.75rem; color: #8A8A7C;">Mortes</p>
         </div>
         <div class="card" style="flex: 1; text-align: center; padding: 0.75rem; min-width: 80px;">
           <span style="font-size: 1.5rem; font-weight: 700; color: var(--verde-profundo, #1A4D2E);" id="total-transferencias">0</span>
@@ -61,44 +63,20 @@
         <p style="color:#8A8A7C; text-align:center; padding:1rem;">Carregando boletas...</p>
       </div>
 
-      <!-- Exportação: escolher tipos + intervalo e gerar planilha -->
+      <!-- Exportação: usa os filtros da lista acima -->
       <div class="card" style="margin-top: 1.5rem; padding: 1.25rem;">
-        <h3 style="color: #1A4D2E; margin-bottom: 0.75rem;"><img class="label-ico" src="/public/Icons/sincronizacao.ico" alt="" /> Exportar planilha</h3>
-        <p style="font-size: 0.85rem; color: #5c6b5d; margin-bottom: 0.75rem;">Escolha o que incluir e o período.</p>
-
-        <div class="export-tipos">
-          <label class="export-checkbox"><input type="checkbox" class="exp-tipo" value="movimentacao" checked /><img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /><span>Movimentações / Transferências</span></label>
-          <label class="export-checkbox"><input type="checkbox" class="exp-tipo" value="nascimento" checked /><img class="label-ico" src="/public/Icons/nascimento.ico" alt="" /><span>Nascimentos</span></label>
-          <label class="export-checkbox"><input type="checkbox" class="exp-tipo" value="obito" checked /><img class="label-ico" src="/public/Icons/obto.ico" alt="" /><span>Óbitos / Mortes</span></label>
-          <label class="export-checkbox"><input type="checkbox" class="exp-tipo" value="compravenda" checked /><img class="label-ico" src="/public/Icons/cedula_dinheiro_bovino.ico" alt="" /><span>Compras / Vendas</span></label>
-        </div>
-
-        <div class="export-datas">
-          <div class="export-data-field">
-            <label class="export-field-label"><img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> De</label>
-            <input type="date" id="exp-data-inicio" />
-          </div>
-          <div class="export-data-field">
-            <label class="export-field-label"><img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> Até</label>
-            <input type="date" id="exp-data-fim" />
-          </div>
-          <div class="export-data-field">
-            <label class="export-field-label"><img class="ico-sm" src="/public/Icons/localizacao.ico" alt="" /> Retiro</label>
-            <select id="exp-retiro">
-              <option value="">Todos</option>
-            </select>
-          </div>
-        </div>
+        <h3 style="color: #1A4D2E; margin-bottom: 0.75rem;"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">table_view</span> Exportar planilha</h3>
+        <p style="font-size: 0.85rem; color: #5c6b5d; margin-bottom: 0.75rem;">Exporta as boletas conforme os filtros aplicados acima.</p>
 
         <div class="export-acoes" style="display:flex; gap:0.5rem; flex-wrap:wrap;">
           <button class="btn btn-primario" id="btn-exportar" data-formato="xlsx">
-            📊 Gerar XLSX (filtros)
+            <span class="material-symbols-rounded ui-icon" aria-hidden="true">table_view</span> Exportar XLSX
           </button>
           <button class="btn btn-primario" id="btn-exportar-csv" data-formato="csv" style="background:#5C6B5D;">
-            📄 Gerar CSV (filtros)
+            <span class="material-symbols-rounded ui-icon" aria-hidden="true">description</span> Exportar CSV
           </button>
           <button class="btn btn-secundario-laranja" id="btn-exportar-selecionadas">
-            ⬇️ Exportar selecionadas (<span id="qtd-sel">0</span>)
+            <span class="material-symbols-rounded ui-icon" aria-hidden="true">download</span> Exportar selecionadas (<span id="qtd-sel">0</span>)
           </button>
         </div>
         <p id="export-msg" style="display:none; text-align:center; margin-top:0.75rem; font-weight:600;"></p>
@@ -117,13 +95,12 @@
     fetch('/api/dashboard/retiros', { credentials: 'same-origin' })
       .then(function(r) { return r.json(); })
       .then(function(retiros) {
-        ['exp-retiro', 'filtro-retiro'].forEach(function(id) {
-          var sel = document.getElementById(id);
-          if (!sel) return;
+        var sel = document.getElementById('filtro-retiro');
+        if (sel) {
           (retiros || []).forEach(function(r) {
             sel.insertAdjacentHTML('beforeend', '<option value="' + r.id + '">' + r.nome + '</option>');
           });
-        });
+        }
       }).catch(function(){});
 
     carregarBoletasPendentes();
@@ -182,8 +159,8 @@
     var visiveis = aplicarFiltrosLista();
     if (!visiveis.length) {
       var msg = BOLETAS.length
-        ? '<p style="font-size:1rem; margin-bottom:0.5rem;">🔎 Nenhuma boleta bate com os filtros aplicados.</p>'
-        : '<p style="font-size:1rem; margin-bottom:0.5rem;">📭 Nenhuma boleta pendente de aprovação no momento.</p>';
+        ? '<p style="font-size:1rem; margin-bottom:0.5rem;"> Nenhuma boleta bate com os filtros aplicados.</p>'
+        : '<p style="font-size:1rem; margin-bottom:0.5rem;"> Nenhuma boleta pendente de aprovação no momento.</p>';
       cont.innerHTML =
         '<div style="text-align:center; padding:1.5rem; color:#8A8A7C; background:#fff; border:1px dashed #d7dfd3; border-radius:12px;">' +
         msg +
@@ -191,18 +168,50 @@
         '</div>';
       return;
     }
+    var ROT = { nascimento: 'Nascimento', obito: 'Morte', abate: 'Abate Interno', transferencia: 'Transferência', compravenda: 'Compra/Venda', evolucao: 'Evolução', manejo: 'Manejo' };
+
+    // Identificar divergências em Transferências (Envio vs Recebimento)
+    var transfStats = {};
+    visiveis.forEach(function(b) {
+      if (b.tipo_operacao === 'transferencia') {
+        var key = (b.data || (b.criado_em || '').slice(0,10)) + '_' + b.retiro_origem_id + '_' + b.retiro_destino_id;
+        if (!transfStats[key]) transfStats[key] = { envios: 0, recebimentos: 0, itens: [] };
+        var tipo = (b.tipo === 'recebimento' || b.tipo_negocio === 'recebimento') ? 'recebimento' : 'envio';
+        if (tipo === 'envio') transfStats[key].envios += (b.quantidade || 0);
+        if (tipo === 'recebimento') transfStats[key].recebimentos += (b.quantidade || 0);
+        transfStats[key].itens.push(b);
+      }
+    });
+
+    Object.keys(transfStats).forEach(function(key) {
+      var st = transfStats[key];
+      // Se tivermos as duas pontas da mesma data e origem/destino, e os totais diferem:
+      if (st.envios > 0 && st.recebimentos > 0 && st.envios !== st.recebimentos) {
+        st.itens.forEach(function(b) { b._avisoDivergencia = true; });
+      }
+    });
+
     cont.innerHTML = visiveis.map(function(b) {
       var data = b.data || (b.criado_em || '').slice(0,10);
       var aprovada = !!b.aprovado_por_coordenador_id;
-      return '<div class="card boleta-card" style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem; padding:0.75rem 1rem;">' +
+
+      var rotulo = ROT[b.tipo_operacao] || 'Registro';
+      if (b.tipo_operacao === 'transferencia') {
+        if (b.tipo === 'recebimento' || b.tipo_negocio === 'recebimento') rotulo = 'Transferência (Entrada)';
+        else rotulo = 'Transferência (Saída)';
+      }
+
+      var badgeDivergencia = b._avisoDivergencia ? '<span style="background:#D32F2F; color:#fff; font-size:0.7rem; padding:2px 6px; border-radius:4px; font-weight:700; margin-left:0.5rem;" title="A quantidade enviada difere da recebida!">' + BRPIcons.html('alerta', 'ico-sm') + ' DIVERGÊNCIA</span>' : '';
+
+      return '<div class="card boleta-card" style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem; padding:0.75rem 1rem;' + (b._avisoDivergencia ? ' border-left:4px solid #D32F2F;' : '') + '">' +
         '<input type="checkbox" class="boleta-check" data-id="' + b.id + '" ' + (aprovada ? 'disabled' : '') + ' />' +
         '<div style="flex:1; cursor:pointer;" onclick="window.location.href=\'/boleta/' + (b.grupo_id || b.id) + '\'">' +
-          '<span class="boleta-titulo">' + (b.categoria || 'Movimentação') + ' — ' + (b.quantidade || 0) + ' cabeças</span>' +
-          '<span style="display:block; font-size:0.8rem; color:#8A8A7C;">📅 ' + data + ' · ' + (b.retiro_nome || '') + ' · ' + (b.capataz_nome || '') + '</span>' +
+          '<span class="boleta-titulo" style="font-weight:600; color:#1A4D2E;">' + rotulo + ' — ' + (b.quantidade || 0) + ' cabeças' + badgeDivergencia + '</span>' +
+          '<span style="display:block; font-size:0.8rem; color:#8A8A7C;">' + (b.categoria ? ' ' + b.categoria + ' · ' : '') + ' ' + data + ' · ' + (b.retiro_nome || '') + ' · ' + (b.capataz_nome || '') + '</span>' +
         '</div>' +
         (aprovada
-          ? '<span class="badge concluida">✓ Aprovada</span>'
-          : '<button class="btn-aprovar" data-id="' + b.id + '">✅ Aprovar</button>') +
+          ? '<span class="badge concluida"> Aprovada</span>'
+          : '<button class="btn-aprovar" data-id="' + b.id + '">' + BRPIcons.html('concluido', 'label-ico') + ' Aprovar</button>') +
       '</div>';
     }).join('');
 
@@ -240,50 +249,45 @@
     .then(function(r) { return r.json(); })
     .then(function(d) {
       if (d.mensagem) {
-        msgExport('✅ ' + d.mensagem, '#2E7D52');
+        msgExport(' ' + d.mensagem, '#2E7D52');
         carregarBoletasPendentes();
       } else {
-        msgExport('❌ ' + (d.erro || 'Erro ao aprovar.'), '#D32F2F');
+        msgExport(' ' + (d.erro || 'Erro ao aprovar.'), '#D32F2F');
       }
     });
   }
 
   function exportarSelecionadas() {
     if (SELECIONADAS.size === 0) {
-      msgExport('❌ Selecione ao menos uma boleta nas caixinhas.', '#D32F2F');
+      msgExport(' Selecione ao menos uma boleta nas caixinhas.', '#D32F2F');
       return;
     }
     var ids = Array.from(SELECIONADAS).join(',');
     // Selecionadas vai como XLSX por padrão
     window.location.href = '/api/coordenador/exportar?formato=xlsx&ids=' + encodeURIComponent(ids);
-    msgExport('⬇️ Download da seleção iniciado (XLSX).', '#2E7D52');
+    msgExport('Download da seleção iniciado (XLSX).', '#2E7D52');
   }
 
   function exportarComFiltros(formato) {
     formato = formato || 'xlsx';
-    var tipos = Array.prototype.slice.call(document.querySelectorAll('.exp-tipo:checked'))
-      .map(function(c) { return c.value; });
-
-    if (!tipos.length) {
-      msgExport('❌ Selecione ao menos um tipo para exportar.', '#D32F2F');
-      return;
-    }
-
     var params = new URLSearchParams();
     params.set('formato', formato);
-    params.set('tipos', tipos.join(','));
-    var ini = document.getElementById('exp-data-inicio').value;
-    var fim = document.getElementById('exp-data-fim').value;
-    var retiro = document.getElementById('exp-retiro').value;
+
+    // Usa os mesmos filtros da lista principal
+    var tipo = (document.getElementById('filtro-tipo') || {}).value || '';
+    if (tipo) params.set('tipos', tipo);
+    var ini = (document.getElementById('filtro-data-inicio') || {}).value || '';
+    var fim = (document.getElementById('filtro-data-fim') || {}).value || '';
+    var retiro = (document.getElementById('filtro-retiro') || {}).value || '';
     if (ini) params.set('data_inicio', ini);
     if (fim) params.set('data_fim', fim);
     if (retiro) params.set('retiro_id', retiro);
 
     var url = '/api/coordenador/exportar?' + params.toString();
-    msgExport('⏳ Gerando ' + formato.toUpperCase() + '...', '#A64B00');
+    msgExport('Gerando ' + formato.toUpperCase() + '...', '#A64B00');
     window.location.href = url;
     setTimeout(function() {
-      msgExport('✅ Download iniciado. Se nada baixou, confira o filtro.', '#2E7D52');
+      msgExport(' Download iniciado. Se nada baixou, confira o filtro.', '#2E7D52');
     }, 1500);
   }
 

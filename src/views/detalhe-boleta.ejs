@@ -1,475 +1,509 @@
 <%- include('partials/header') %>
-<link rel="stylesheet" href="/public/css/tarefas.css" />
+  <link rel="stylesheet" href="/public/css/tarefas.css" />
 
-<div id="device" class="logged">
+  <div id="device" class="logged">
 
-  <%- include('partials/sidebar') %>
+    <%- include('partials/sidebar') %>
 
-  <div id="app">
+      <div id="app">
 
-    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar"><img src="/public/Icons/<%= perfil === 'Gerente' ? 'gerente' : (perfil === 'Coordenador' ? 'coordenador' : (perfil === 'Infraestrutura' ? 'infra' : 'capataz')) %>.ico" alt="<%= perfil %>" style="width:32px;height:32px;object-fit:contain;" /></div>
-      <h1>Detalhe da Boleta</h1>
-      <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %></div>
-    </div>
-
-    <main class="detalhe-main">
-
-      <button class="btn-voltar" onclick="window.history.back()">⬅️ Voltar</button>
-
-      <!-- Cabeçalho: tipo + status -->
-      <div class="card detalhe-cabecalho">
-        <div>
-          <h2 id="bol-tipo"><img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Carregando...</h2>
-          <span id="bol-numero" style="display:none; font-size:0.8rem; font-weight:700; color:#5C6B5D; letter-spacing:0.04em;"></span>
+        <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+          <div class="user-avatar" aria-label="Perfil: <%= perfil %>"><span class="material-symbols-rounded" aria-hidden="true"><%= perfil === 'Gerente' ? 'manage_accounts' : (perfil === 'Coordenador' ? 'groups' : (perfil === 'Infraestrutura' ? 'construction' : 'engineering')) %></span></div>
+          <h1>Detalhe da Boleta</h1>
+          <div class="sub">
+            <%= typeof nome !=='undefined' ? nome : '' %> · <%= perfil %>
+          </div>
         </div>
-        <span class="badge pendente" id="bol-status">⏳ Carregando</span>
+
+        <main class="detalhe-main">
+
+          <button class="btn-voltar" onclick="window.history.back()"><span class="material-symbols-rounded ui-icon back-ico" aria-hidden="true">arrow_back</span> Voltar</button>
+
+          <!-- Cabeçalho: tipo + status -->
+          <div class="card detalhe-cabecalho">
+            <div>
+              <h2 id="bol-tipo"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">swap_horiz</span> Carregando...</h2>
+              <span id="bol-numero"
+                style="display:none; font-size:0.8rem; font-weight:700; color:#5C6B5D; letter-spacing:0.04em;"></span>
+            </div>
+            <span class="badge pendente" id="bol-status">Carregando</span>
+          </div>
+
+          <!-- ============ DADOS DA REQUISIÇÃO ============ -->
+          <div class="card detalhe-bloco">
+            <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">assignment</span> Dados do registro</h3>
+            <div class="dados-grid">
+              <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">location_on</span> Retiro</span><span class="dado-valor" id="bol-retiro">—</span></div>
+              <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">calendar_month</span> Data</span><span class="dado-valor"
+                  id="bol-data">—</span></div>
+              <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">grass</span>
+                  Pasto</span><span class="dado-valor" id="bol-pasto">—</span></div>
+              <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">engineering</span> Capataz</span><span class="dado-valor" id="bol-capataz">—</span></div>
+            </div>
+          </div>
+
+          <!-- Transferência (origem/destino) — só aparece pra operação transferência -->
+          <div class="card detalhe-bloco" id="bloco-transferencia" style="display:none;">
+            <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">swap_horiz</span> Transferência</h3>
+            <div class="dados-grid">
+              <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">call_made</span> Origem</span><span class="dado-valor"
+                  id="bol-origem">—</span></div>
+              <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">location_on</span> Destino</span><span class="dado-valor" id="bol-destino">—</span></div>
+              <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">local_shipping</span> Transporte</span><span class="dado-valor"
+                  id="bol-transporte">—</span></div>
+              <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">engineering</span> Motorista</span><span class="dado-valor" id="bol-motorista">—</span></div>
+              <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">pin</span> Placa</span><span class="dado-valor" id="bol-placa">—</span></div>
+              <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">badge</span> RG/CPF</span><span class="dado-valor" id="bol-rgcpf">—</span></div>
+            </div>
+          </div>
+
+          <!-- Morte (causa) — só pra operação morte -->
+          <div class="card detalhe-bloco" id="bloco-obito" style="display:none;">
+            <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">heart_broken</span> Detalhes da morte</h3>
+            <div class="dados-grid">
+              <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">heart_broken</span>
+                  Causa</span><span class="dado-valor" id="bol-causa">—</span></div>
+            </div>
+          </div>
+
+          <!-- Compra/Venda -->
+          <div class="card detalhe-bloco" id="bloco-compravenda" style="display:none;">
+            <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">payments</span> Compra / Venda</h3>
+            <div class="dados-grid">
+              <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">handshake</span> Tipo</span><span class="dado-valor"
+                  id="bol-tipo-negocio">—</span></div>
+              <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">payments</span> Valor</span><span class="dado-valor"
+                  id="bol-valor">—</span></div>
+            </div>
+          </div>
+
+          <!-- Animais (categorias e quantidades) -->
+          <div class="card detalhe-bloco">
+            <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">swap_horiz</span> Animais</h3>
+            <div class="dados-tabela-wrap">
+              <table class="dados-tabela">
+                <colgroup>
+                  <col style="width:68%" />
+                  <col style="width:32%" />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>Categoria</th>
+                    <th>Quantidade</th>
+                  </tr>
+                </thead>
+                <tbody id="bol-animais"></tbody>
+                <tfoot>
+                  <tr>
+                    <td><strong>Total</strong></td>
+                    <td><strong id="bol-total">0</strong></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+
+          <!-- Observações (texto + áudio) -->
+          <div class="card detalhe-bloco">
+            <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">edit</span> Observações</h3>
+            <p id="bol-obs">—</p>
+            <div id="bol-audio-wrap">
+              <p class="ajuda-detalhe"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">mic</span> Áudio
+                gravado pelo capataz:</p>
+              <audio controls id="bol-audio" style="width:100%; display:none;"></audio>
+              <p class="sem-audio" id="bol-sem-audio"> Sem áudio anexado.</p>
+            </div>
+          </div>
+
+          <!-- Foto -->
+          <div class="card detalhe-bloco" id="bloco-foto">
+            <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">photo_camera</span> Foto anexada</h3>
+            <p class="sem-audio" id="bol-sem-foto"> Nenhuma foto anexada.</p>
+            <img id="bol-foto" class="foto-preview" alt="Foto anexada pelo capataz" style="display:none;" />
+            <a id="bol-foto-link" href="#" target="_blank" rel="noopener"
+              style="display:none; text-align:center; font-size:0.85rem; color:#1A4D2E; text-decoration:underline; margin-top:0.5rem;">
+              Abrir foto em tela cheia</a>
+          </div>
+
+          <!-- Georreferência (rastreabilidade) -->
+          <div class="card detalhe-bloco" id="bloco-gps" style="display:none;">
+            <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">my_location</span> Localização do registro</h3>
+            <a id="bol-gps-link" href="#" target="_blank" rel="noopener"
+              style="color:#1A4D2E; text-decoration:underline;">—</a>
+          </div>
+
+          <!-- ============ DADOS DA CONCLUSÃO / VALIDAÇÃO ============ -->
+          <div class="card detalhe-bloco bloco-conclusao">
+            <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">check_circle</span> Status de validação</h3>
+            <div class="dados-grid">
+              <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">pending</span> Situação</span><span class="dado-valor" id="bol-validacao">—</span></div>
+              <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">calendar_month</span> Aprovado em</span><span
+                  class="dado-valor" id="bol-aprovado-em">—</span></div>
+              <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">groups</span> Aprovado por</span><span class="dado-valor" id="bol-aprovado-por">—</span></div>
+              <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">sync</span> Sincronização</span><span class="dado-valor" id="bol-sync">—</span></div>
+            </div>
+          </div>
+
+          <!-- Ações por perfil -->
+          <% if (perfil==='Capataz' ) { %>
+            <button class="btn-enviar-detalhe" id="btn-editar">
+              <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">edit</span> Editar boleta
+            </button>
+            <p id="bloqueio-edicao"
+              style="display:none; text-align:center; color:#A64B00; font-size:0.85rem; margin-top:0.5rem;">
+               Boleta com mais de 30 dias — não pode mais ser editada (ciclo do Coordenador já fechado).
+            </p>
+            <% } else if (perfil==='Coordenador' ) { %>
+              <button class="btn-enviar-detalhe" id="btn-validar"><span class="material-symbols-rounded ui-icon" aria-hidden="true">check_circle</span> Validar e aprovar</button>
+              <button class="btn-baixar" id="btn-baixar"><span class="material-symbols-rounded ui-icon" aria-hidden="true">download</span> Baixar boleta (PDF)</button>
+              <% } else if (perfil==='Gerente' ) { %>
+                <button class="btn-baixar" id="btn-baixar"><span class="material-symbols-rounded ui-icon" aria-hidden="true">download</span> Baixar boleta (PDF)</button>
+                <% } %>
+
+                  <!-- Excluir: só aparece pra Gerente ADM (JS controla via /api/auth/me) -->
+                  <button class="btn-baixar" id="btn-excluir"
+                    style="display:none; background:#D32F2F; color:#fff; margin-top:0.5rem;">
+                    <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">delete</span> Excluir boleta
+                  </button>
+
+                  <p class="form-msg" id="bol-msg" style="display:none;"></p>
+
+        </main>
+
       </div>
-
-      <!-- ============ DADOS DA REQUISIÇÃO ============ -->
-      <div class="card detalhe-bloco">
-        <h3><img class="label-ico" src="/public/Icons/tarefas.ico" alt="" /> Dados do registro</h3>
-        <div class="dados-grid">
-          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/localizacao.ico" alt="" /> Retiro</span><span class="dado-valor" id="bol-retiro">—</span></div>
-          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> Data</span><span class="dado-valor" id="bol-data">—</span></div>
-          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/Pasto.ico" alt="" /> Pasto</span><span class="dado-valor" id="bol-pasto">—</span></div>
-          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/capataz.ico" alt="" /> Capataz</span><span class="dado-valor" id="bol-capataz">—</span></div>
-        </div>
-      </div>
-
-      <!-- Transferência (origem/destino) — só aparece pra operação transferência -->
-      <div class="card detalhe-bloco" id="bloco-transferencia" style="display:none;">
-        <h3><img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Transferência</h3>
-        <div class="dados-grid">
-          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/envio_animais_caixa.ico" alt="" /> Origem</span><span class="dado-valor" id="bol-origem">—</span></div>
-          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/destido.ico" alt="" /> Destino</span><span class="dado-valor" id="bol-destino">—</span></div>
-          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/caminhao_transporte_gado.ico" alt="" /> Transporte</span><span class="dado-valor" id="bol-transporte">—</span></div>
-          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/capataz.ico" alt="" /> Motorista</span><span class="dado-valor" id="bol-motorista">—</span></div>
-          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/Placa_de_carro.ico" alt="" /> Placa</span><span class="dado-valor" id="bol-placa">—</span></div>
-          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/identidade.ico" alt="" /> RG/CPF</span><span class="dado-valor" id="bol-rgcpf">—</span></div>
-        </div>
-      </div>
-
-      <!-- Óbito (causa) — só pra operação óbito -->
-      <div class="card detalhe-bloco" id="bloco-obito" style="display:none;">
-        <h3><img class="label-ico" src="/public/Icons/obto.ico" alt="" /> Detalhes do óbito</h3>
-        <div class="dados-grid">
-          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/obto.ico" alt="" /> Causa</span><span class="dado-valor" id="bol-causa">—</span></div>
-        </div>
-      </div>
-
-      <!-- Compra/Venda -->
-      <div class="card detalhe-bloco" id="bloco-compravenda" style="display:none;">
-        <h3><img class="label-ico" src="/public/Icons/cedula_dinheiro_bovino.ico" alt="" /> Compra / Venda</h3>
-        <div class="dados-grid">
-          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/aperto_maos_acordo.ico" alt="" /> Tipo</span><span class="dado-valor" id="bol-tipo-negocio">—</span></div>
-          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/cedula_dinheiro_bovino.ico" alt="" /> Valor</span><span class="dado-valor" id="bol-valor">—</span></div>
-        </div>
-      </div>
-
-      <!-- Animais (categorias e quantidades) -->
-      <div class="card detalhe-bloco">
-        <h3><img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Animais</h3>
-        <div class="dados-tabela-wrap">
-          <table class="dados-tabela">
-            <colgroup>
-              <col style="width:68%" />
-              <col style="width:32%" />
-            </colgroup>
-            <thead><tr><th>Categoria</th><th>Quantidade</th></tr></thead>
-            <tbody id="bol-animais"></tbody>
-            <tfoot><tr><td><strong>Total</strong></td><td><strong id="bol-total">0</strong></td></tr></tfoot>
-          </table>
-        </div>
-      </div>
-
-      <!-- Observações (texto + áudio) -->
-      <div class="card detalhe-bloco">
-        <h3><img class="label-ico" src="/public/Icons/editar.ico" alt="" /> Observações</h3>
-        <p id="bol-obs">—</p>
-        <div id="bol-audio-wrap">
-          <p class="ajuda-detalhe"><img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" /> Áudio gravado pelo capataz:</p>
-          <audio controls id="bol-audio" style="width:100%; display:none;"></audio>
-          <p class="sem-audio" id="bol-sem-audio">🔇 Sem áudio anexado.</p>
-        </div>
-      </div>
-
-      <!-- Foto -->
-      <div class="card detalhe-bloco" id="bloco-foto">
-        <h3><img class="label-ico" src="/public/Icons/tira_foto.ico" alt="" /> Foto anexada</h3>
-        <p class="sem-audio" id="bol-sem-foto">📭 Nenhuma foto anexada.</p>
-        <img id="bol-foto" class="foto-preview" alt="Foto anexada pelo capataz" style="display:none;" />
-        <a id="bol-foto-link" href="#" target="_blank" rel="noopener" style="display:none; text-align:center; font-size:0.85rem; color:#1A4D2E; text-decoration:underline; margin-top:0.5rem;">🔍 Abrir foto em tela cheia</a>
-      </div>
-
-      <!-- Georreferência (rastreabilidade) -->
-      <div class="card detalhe-bloco" id="bloco-gps" style="display:none;">
-        <h3><img class="label-ico" src="/public/Icons/GPS.ico" alt="" /> Localização do registro</h3>
-        <a id="bol-gps-link" href="#" target="_blank" rel="noopener" style="color:#1A4D2E; text-decoration:underline;">—</a>
-      </div>
-
-      <!-- ============ DADOS DA CONCLUSÃO / VALIDAÇÃO ============ -->
-      <div class="card detalhe-bloco bloco-conclusao">
-        <h3><img class="label-ico" src="/public/Icons/concluido.ico" alt="" /> Status de validação</h3>
-        <div class="dados-grid">
-          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/pendente.ico" alt="" /> Situação</span><span class="dado-valor" id="bol-validacao">—</span></div>
-          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> Aprovado em</span><span class="dado-valor" id="bol-aprovado-em">—</span></div>
-          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/coordenador.ico" alt="" /> Aprovado por</span><span class="dado-valor" id="bol-aprovado-por">—</span></div>
-          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/sincronizacao.ico" alt="" /> Sincronização</span><span class="dado-valor" id="bol-sync">—</span></div>
-        </div>
-      </div>
-
-      <!-- Ações por perfil -->
-      <% if (perfil === 'Capataz') { %>
-        <button class="btn-enviar-detalhe" id="btn-editar">
-          <img class="label-ico" src="/public/Icons/editar.ico" alt="" /> Editar boleta
-        </button>
-        <p id="bloqueio-edicao" style="display:none; text-align:center; color:#A64B00; font-size:0.85rem; margin-top:0.5rem;">
-          🔒 Boleta com mais de 30 dias — não pode mais ser editada (ciclo do Coordenador já fechado).
-        </p>
-      <% } else if (perfil === 'Coordenador') { %>
-        <button class="btn-enviar-detalhe" id="btn-validar">✅ Validar e aprovar</button>
-        <button class="btn-baixar" id="btn-baixar">⬇️ Baixar boleta (PDF)</button>
-      <% } else if (perfil === 'Gerente') { %>
-        <button class="btn-baixar" id="btn-baixar">⬇️ Baixar boleta (PDF)</button>
-      <% } %>
-
-      <!-- Excluir: só aparece pra Gerente ADM (JS controla via /api/auth/me) -->
-      <button class="btn-baixar" id="btn-excluir" style="display:none; background:#D32F2F; color:#fff; margin-top:0.5rem;">
-        <img class="label-ico" src="/public/Icons/excluir.ico" alt="" /> Excluir boleta
-      </button>
-
-      <p class="form-msg" id="bol-msg" style="display:none;"></p>
-
-    </main>
-
   </div>
-</div>
 
-<script>
-  var PERFIL = '<%= perfil %>';
-  var BOLETA_ID = '<%= typeof boletaId !== "undefined" ? boletaId : "" %>';
-  var BOLETA_CARREGADA = null;
+  <script>
+    var PERFIL = '<%= perfil %>';
+    var BOLETA_ID = '<%= typeof boletaId !== "undefined" ? boletaId : "" %>';
+    var BOLETA_CARREGADA = null;
 
-  var TIPOS_META = {
-    nascimento:    { ico: 'nascimento',    label: 'Nascimento' },
-    obito:         { ico: 'obto',          label: 'Óbito' },
-    transferencia: { ico: 'movimentacao',  label: 'Transferência' },
-    compravenda:   { ico: 'movimentacao',  label: 'Compra/Venda' },
-    evolucao:      { ico: 'movimentacao',  label: 'Evolução' },
-    manejo:        { ico: 'tarefas',       label: 'Manejo' }
-  };
+    var TIPOS_META = {
+      nascimento: { ico: 'nascimento', label: 'Nascimento' },
+      obito: { ico: 'obto', label: 'Morte' },
+      abate: { ico: 'abate', label: 'Abate Interno' },
+      transferencia: { ico: 'movimentacao', label: 'Transferência' },
+      compravenda: { ico: 'movimentacao', label: 'Compra/Venda' },
+      evolucao: { ico: 'evolucao', label: 'Evolução' },
+      manejo: { ico: 'tarefas', label: 'Manejo' }
+    };
 
-  document.addEventListener('DOMContentLoaded', function() {
-    carregarBoleta();
+    document.addEventListener('DOMContentLoaded', function () {
+      carregarBoleta();
 
-    // Capataz: edição com janela de 30 dias
-    var btnEditar = document.getElementById('btn-editar');
-    if (btnEditar) {
-      btnEditar.addEventListener('click', function() {
-        window.location.href = '/nova-os?edit=' + encodeURIComponent(BOLETA_ID);
-      });
-    }
+      // Capataz: edição com janela de 30 dias
+      var btnEditar = document.getElementById('btn-editar');
+      if (btnEditar) {
+        btnEditar.addEventListener('click', function () {
+          window.location.href = '/nova-os?edit=' + encodeURIComponent(BOLETA_ID);
+        });
+      }
 
-    // Coordenador: aprovação real
-    var btnValidar = document.getElementById('btn-validar');
-    if (btnValidar) {
-      btnValidar.addEventListener('click', aprovarBoleta);
-    }
+      // Coordenador: aprovação real
+      var btnValidar = document.getElementById('btn-validar');
+      if (btnValidar) {
+        btnValidar.addEventListener('click', aprovarBoleta);
+      }
 
-    // Coordenador/Gerente: PDF
-    var btnBaixar = document.getElementById('btn-baixar');
-    if (btnBaixar) {
-      btnBaixar.addEventListener('click', function() {
-        if (!BOLETA_ID) {
-          mostrarMsg('❌ ID da boleta não encontrado.', 'erro');
-          return;
-        }
-        mostrarMsg('⬇️ Gerando PDF...', 'sucesso');
-        window.location.href = '/api/coordenador/boleta/' + encodeURIComponent(BOLETA_ID) + '/pdf';
-      });
-    }
-
-    // Botão Excluir: só Gerente ADM
-    fetch('/api/auth/me', { credentials: 'same-origin' })
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        if (data.usuario && data.usuario.perfil === 'Gerente' && data.usuario.is_admin) {
-          var btnExcluir = document.getElementById('btn-excluir');
-          if (btnExcluir) {
-            btnExcluir.style.display = '';
-            btnExcluir.addEventListener('click', excluirBoleta);
+      // Coordenador/Gerente: PDF
+      var btnBaixar = document.getElementById('btn-baixar');
+      if (btnBaixar) {
+        btnBaixar.addEventListener('click', function () {
+          if (!BOLETA_ID) {
+            mostrarMsg(' ID da boleta não encontrado.', 'erro');
+            return;
           }
-        }
-      })
-      .catch(function() {});
-  });
+          mostrarMsg('Gerando PDF...', 'sucesso');
+          window.location.href = '/api/coordenador/boleta/' + encodeURIComponent(BOLETA_ID) + '/pdf';
+        });
+      }
 
-  function excluirBoleta() {
-    if (!BOLETA_ID) return;
-    var ok = confirm('Tem certeza que deseja EXCLUIR esta boleta? Essa ação não pode ser desfeita.');
-    if (!ok) return;
-    var btn = document.getElementById('btn-excluir');
-    btn.disabled = true;
-    btn.textContent = '⏳ Excluindo...';
-    fetch('/api/admin/boletas/' + encodeURIComponent(BOLETA_ID), {
-      method: 'DELETE', credentials: 'same-origin'
-    })
-      .then(function(r) { return r.json().then(function(d){ return { ok: r.ok, data: d }; }); })
-      .then(function(res) {
-        if (!res.ok) {
+      // Botão Excluir: só Gerente ADM
+      fetch('/api/auth/me', { credentials: 'same-origin' })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data.usuario && data.usuario.perfil === 'Gerente' && data.usuario.is_admin) {
+            var btnExcluir = document.getElementById('btn-excluir');
+            if (btnExcluir) {
+              btnExcluir.style.display = '';
+              btnExcluir.addEventListener('click', excluirBoleta);
+            }
+          }
+        })
+        .catch(function () { });
+    });
+
+    function excluirBoleta() {
+      if (!BOLETA_ID) return;
+      var ok = confirm('Tem certeza que deseja EXCLUIR esta boleta? Essa ação não pode ser desfeita.');
+      if (!ok) return;
+      var btn = document.getElementById('btn-excluir');
+      btn.disabled = true;
+      btn.textContent = 'Excluindo...';
+      fetch('/api/admin/boletas/' + encodeURIComponent(BOLETA_ID), {
+        method: 'DELETE', credentials: 'same-origin'
+      })
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
+        .then(function (res) {
+          if (!res.ok) {
+            btn.disabled = false;
+            btn.innerHTML = BRPIcons.html('excluir', 'label-ico') + ' Excluir boleta';
+            mostrarMsg(' ' + (res.data.erro || 'Erro ao excluir.'), 'erro');
+            return;
+          }
+          mostrarMsg(' Boleta excluída. Redirecionando...', 'sucesso');
+          setTimeout(function () {
+            window.location.href = (PERFIL === 'Coordenador') ? '/boletas' : '/historico';
+          }, 1200);
+        })
+        .catch(function () {
           btn.disabled = false;
-          btn.innerHTML = '🗑️ Excluir boleta';
-          mostrarMsg('❌ ' + (res.data.erro || 'Erro ao excluir.'), 'erro');
-          return;
-        }
-        mostrarMsg('🗑️ Boleta excluída. Redirecionando...', 'sucesso');
-        setTimeout(function() {
-          window.location.href = (PERFIL === 'Coordenador') ? '/boletas' : '/historico';
-        }, 1200);
-      })
-      .catch(function() {
-        btn.disabled = false;
-        btn.innerHTML = '🗑️ Excluir boleta';
-        mostrarMsg('❌ Erro de conexão.', 'erro');
-      });
-  }
-
-  function mostrarMsg(texto, tipo) {
-    var el = document.getElementById('bol-msg');
-    el.textContent = texto;
-    el.className = 'form-msg ' + tipo;
-    el.style.display = 'block';
-    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-
-  function carregarBoleta() {
-    if (!BOLETA_ID) {
-      document.getElementById('bol-tipo').textContent = 'ID inválido';
-      return;
-    }
-    fetch('/api/boletas/' + encodeURIComponent(BOLETA_ID), { credentials: 'same-origin' })
-      .then(function(r) { return r.ok ? r.json() : null; })
-      .then(function(reg) {
-        if (!reg) {
-          document.getElementById('bol-tipo').textContent = 'Boleta não encontrada';
-          document.getElementById('bol-status').textContent = '—';
-          document.getElementById('bol-status').className = 'badge pendente';
-          return;
-        }
-        BOLETA_CARREGADA = reg;
-        renderBoleta(reg);
-        aplicarJanelaEdicaoCapataz(reg);
-      })
-      .catch(function() {
-        document.getElementById('bol-tipo').textContent = 'Erro ao carregar';
-      });
-  }
-
-  function setText(id, valor) {
-    var el = document.getElementById(id);
-    if (el) el.textContent = (valor === null || valor === undefined || valor === '') ? '—' : valor;
-  }
-
-  function renderBoleta(reg) {
-    var meta = TIPOS_META[reg.operacao] || { ico: 'tarefas', label: reg.operacao || 'Boleta' };
-
-    // Cabeçalho
-    document.getElementById('bol-tipo').innerHTML =
-      '<img class="label-ico" src="/public/Icons/' + meta.ico + '.ico" alt="" /> ' + meta.label;
-
-    // Identificador legível (rastreabilidade)
-    var numEl = document.getElementById('bol-numero');
-    if (numEl && reg.numero_boleta) {
-      numEl.textContent = '🔖 ' + reg.numero_boleta;
-      numEl.style.display = 'block';
+          btn.innerHTML = BRPIcons.html('excluir', 'label-ico') + ' Excluir boleta';
+          mostrarMsg(' Erro de conexão.', 'erro');
+        });
     }
 
-    // Status badge
-    var badge = document.getElementById('bol-status');
-    if (reg.aprovada) {
-      badge.textContent = '✓ Aprovada';
-      badge.className = 'badge concluida';
-    } else {
-      badge.textContent = '⏳ Aguardando aprovação';
-      badge.className = 'badge pendente';
+    function mostrarMsg(texto, tipo) {
+      var el = document.getElementById('bol-msg');
+      el.textContent = texto;
+      el.className = 'form-msg ' + tipo;
+      el.style.display = 'block';
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    // Dados gerais (sempre usar NOME, nunca o id)
-    setText('bol-retiro', reg.retiro_nome || reg.retiro_origem_nome);
-    setText('bol-data', reg.data);
-    setText('bol-pasto', reg.pasto);
-    setText('bol-capataz', reg.capataz_nome);
-
-    // Bloco de transferência (só pra operação transferencia)
-    var blocoTransf = document.getElementById('bloco-transferencia');
-    if (reg.operacao === 'transferencia') {
-      blocoTransf.style.display = '';
-      setText('bol-origem', reg.retiro_origem_nome);
-      setText('bol-destino', reg.retiro_destino_nome);
-      setText('bol-transporte', reg.transporte);
-      setText('bol-motorista', reg.motorista);
-      setText('bol-placa', reg.placa);
-      setText('bol-rgcpf', reg.rgcpf);
-    } else {
-      blocoTransf.style.display = 'none';
+    function carregarBoleta() {
+      if (!BOLETA_ID) {
+        document.getElementById('bol-tipo').textContent = 'ID inválido';
+        return;
+      }
+      fetch('/api/boletas/' + encodeURIComponent(BOLETA_ID), { credentials: 'same-origin' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (reg) {
+          if (!reg) {
+            document.getElementById('bol-tipo').textContent = 'Boleta não encontrada';
+            document.getElementById('bol-status').textContent = '—';
+            document.getElementById('bol-status').className = 'badge pendente';
+            return;
+          }
+          BOLETA_CARREGADA = reg;
+          renderBoleta(reg);
+          aplicarJanelaEdicaoCapataz(reg);
+        })
+        .catch(function () {
+          document.getElementById('bol-tipo').textContent = 'Erro ao carregar';
+        });
     }
 
-    // Óbito
-    var blocoObito = document.getElementById('bloco-obito');
-    if (reg.operacao === 'obito') {
-      blocoObito.style.display = '';
-      setText('bol-causa', reg.causa);
-    } else {
-      blocoObito.style.display = 'none';
+    function setText(id, valor) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = (valor === null || valor === undefined || valor === '') ? '—' : valor;
     }
 
-    // Compra/Venda
-    var blocoCv = document.getElementById('bloco-compravenda');
-    if (reg.operacao === 'compravenda') {
-      blocoCv.style.display = '';
-      setText('bol-tipo-negocio', reg.tipo);
-      var valorFmt = reg.valor != null
-        ? Number(reg.valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-        : '—';
-      var elValor = document.getElementById('bol-valor');
-      if (elValor) elValor.textContent = valorFmt;
-    } else {
-      blocoCv.style.display = 'none';
-    }
+    function renderBoleta(reg) {
+      var meta = TIPOS_META[reg.operacao] || { ico: 'tarefas', label: reg.operacao || 'Boleta' };
 
-    // Animais
-    var tbody = document.getElementById('bol-animais');
-    if (reg.animais && reg.animais.length) {
-      tbody.innerHTML = reg.animais.map(function(a){
-        return '<tr><td>' + (a.categoria || '—') + '</td><td>' + (a.quantidade || 0) + '</td></tr>';
-      }).join('');
-      var total = reg.animais.reduce(function(s, a){ return s + (parseInt(a.quantidade) || 0); }, 0);
-      document.getElementById('bol-total').textContent = total;
-    } else {
-      tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; color:#8A8A7C;">Sem categorias.</td></tr>';
-      document.getElementById('bol-total').textContent = '0';
-    }
+      var labelExibicao = meta.label;
+      if (reg.operacao === 'transferencia') {
+        if (reg.tipo === 'recebimento') labelExibicao = 'Transferência (Entrada)';
+        else labelExibicao = 'Transferência (Saída)';
+      }
 
-    // Observações texto + áudio
-    setText('bol-obs', reg.observacoes);
-    if (reg.observacoes_audio) {
-      var au = document.getElementById('bol-audio');
-      au.src = reg.observacoes_audio;
-      au.style.display = 'block';
-      document.getElementById('bol-sem-audio').style.display = 'none';
-    } else {
-      document.getElementById('bol-audio').style.display = 'none';
-      document.getElementById('bol-sem-audio').style.display = 'block';
-    }
+      // Cabeçalho
+      document.getElementById('bol-tipo').innerHTML =
+        BRPIcons.html(meta.ico, 'label-ico') + ' ' + labelExibicao;
 
-    // Foto
-    var imgFoto = document.getElementById('bol-foto');
-    var linkFoto = document.getElementById('bol-foto-link');
-    var semFoto = document.getElementById('bol-sem-foto');
-    if (reg.foto_base64) {
-      imgFoto.src = reg.foto_base64;
-      imgFoto.style.display = 'block';
-      linkFoto.href = reg.foto_base64;
-      linkFoto.style.display = 'block';
-      semFoto.style.display = 'none';
-    } else if (reg.tem_foto) {
-      // boleta antiga: tem flag mas imagem não foi guardada
-      imgFoto.style.display = 'none';
-      linkFoto.style.display = 'none';
-      semFoto.textContent = '📷 Foto anexada (não disponível para visualização — boleta antiga).';
-      semFoto.style.display = 'block';
-    } else {
-      imgFoto.style.display = 'none';
-      linkFoto.style.display = 'none';
-      semFoto.textContent = '📭 Nenhuma foto anexada.';
-      semFoto.style.display = 'block';
-    }
+      // Identificador legível (rastreabilidade)
+      var numEl = document.getElementById('bol-numero');
+      if (numEl && reg.numero_boleta) {
+        numEl.textContent = ' ' + reg.numero_boleta;
+        numEl.style.display = 'block';
+      }
 
-    // Georreferência (rastreabilidade)
-    var gpsBox = document.getElementById('bloco-gps');
-    var gpsLink = document.getElementById('bol-gps-link');
-    if (gpsBox && reg.latitude && reg.longitude) {
-      gpsBox.style.display = '';
-      var ehMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
-      gpsLink.href = ehMobile
-        ? 'geo:' + reg.latitude + ',' + reg.longitude + '?q=' + reg.latitude + ',' + reg.longitude
-        : 'https://www.google.com/maps?q=' + reg.latitude + ',' + reg.longitude;
-      gpsLink.textContent = Number(reg.latitude).toFixed(5) + ', ' + Number(reg.longitude).toFixed(5) + ' (abrir no Maps)';
-    } else if (gpsBox) {
-      gpsBox.style.display = 'none';
-    }
-
-    // Bloco validação
-    if (reg.aprovada) {
-      setText('bol-validacao', '✓ Aprovada');
-      setText('bol-aprovado-em', (reg.aprovado_em || '').replace('T', ' ').slice(0, 16));
-      setText('bol-aprovado-por', reg.aprovado_por_nome);
-    } else {
-      setText('bol-validacao', 'Aguardando aprovação do coordenador');
-      setText('bol-aprovado-em', null);
-      setText('bol-aprovado-por', null);
-    }
-    setText('bol-sync', reg.sincronizado ? 'Enviado para a nuvem' : 'Pendente de envio');
-
-    // Ajusta botão Validar conforme estado
-    var btnValidar = document.getElementById('btn-validar');
-    if (btnValidar) {
+      // Status badge
+      var badge = document.getElementById('bol-status');
       if (reg.aprovada) {
-        btnValidar.disabled = true;
-        btnValidar.textContent = '✓ Boleta já aprovada';
-        btnValidar.style.opacity = '0.6';
-        btnValidar.style.cursor = 'not-allowed';
+        badge.textContent = ' Aprovada';
+        badge.className = 'badge concluida';
       } else {
-        btnValidar.disabled = false;
-        btnValidar.textContent = '✅ Validar e aprovar';
-        btnValidar.style.opacity = '';
-        btnValidar.style.cursor = '';
+        badge.textContent = 'Aguardando aprovação';
+        badge.className = 'badge pendente';
       }
-    }
-  }
 
-  function aprovarBoleta() {
-    if (!BOLETA_ID) return;
-    var btn = document.getElementById('btn-validar');
-    btn.disabled = true;
-    btn.textContent = '⏳ Aprovando...';
-    fetch('/api/coordenador/boletas/' + encodeURIComponent(BOLETA_ID) + '/aprovar', {
-      method: 'POST', credentials: 'same-origin'
-    })
-      .then(function(r) { return r.json().then(function(d){ return { ok: r.ok, data: d }; }); })
-      .then(function(res) {
-        if (!res.ok) {
-          btn.disabled = false;
-          btn.textContent = '✅ Validar e aprovar';
-          mostrarMsg('❌ ' + (res.data.erro || 'Erro ao aprovar.'), 'erro');
-          return;
+      // Dados gerais (sempre usar NOME, nunca o id)
+      setText('bol-retiro', reg.retiro_nome || reg.retiro_origem_nome);
+      setText('bol-data', reg.data);
+      setText('bol-pasto', reg.pasto);
+      setText('bol-capataz', reg.capataz_nome);
+
+      // Bloco de transferência (só pra operação transferencia)
+      var blocoTransf = document.getElementById('bloco-transferencia');
+      if (reg.operacao === 'transferencia') {
+        blocoTransf.style.display = '';
+        setText('bol-origem', reg.retiro_origem_nome);
+        setText('bol-destino', reg.retiro_destino_nome);
+        setText('bol-transporte', reg.transporte);
+        setText('bol-motorista', reg.motorista);
+        setText('bol-placa', reg.placa);
+        setText('bol-rgcpf', reg.rgcpf);
+      } else {
+        blocoTransf.style.display = 'none';
+      }
+
+      // Morte
+      var blocoObito = document.getElementById('bloco-obito');
+      if (reg.operacao === 'obito') {
+        blocoObito.style.display = '';
+        setText('bol-causa', reg.causa);
+      } else {
+        blocoObito.style.display = 'none';
+      }
+
+      // Compra/Venda
+      var blocoCv = document.getElementById('bloco-compravenda');
+      if (reg.operacao === 'compravenda') {
+        blocoCv.style.display = '';
+        setText('bol-tipo-negocio', reg.tipo);
+        var valorFmt = reg.valor != null
+          ? Number(reg.valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+          : '—';
+        var elValor = document.getElementById('bol-valor');
+        if (elValor) elValor.textContent = valorFmt;
+      } else {
+        blocoCv.style.display = 'none';
+      }
+
+      // Animais
+      var tbody = document.getElementById('bol-animais');
+      if (reg.animais && reg.animais.length) {
+        tbody.innerHTML = reg.animais.map(function (a) {
+          return '<tr><td>' + (a.categoria || '—') + '</td><td>' + (a.quantidade || 0) + '</td></tr>';
+        }).join('');
+        var total = reg.animais.reduce(function (s, a) { return s + (parseInt(a.quantidade) || 0); }, 0);
+        document.getElementById('bol-total').textContent = total;
+      } else {
+        tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; color:#8A8A7C;">Sem categorias.</td></tr>';
+        document.getElementById('bol-total').textContent = '0';
+      }
+
+      // Observações texto + áudio
+      setText('bol-obs', reg.observacoes);
+      if (reg.observacoes_audio) {
+        var au = document.getElementById('bol-audio');
+        au.src = reg.observacoes_audio;
+        au.style.display = 'block';
+        document.getElementById('bol-sem-audio').style.display = 'none';
+      } else {
+        document.getElementById('bol-audio').style.display = 'none';
+        document.getElementById('bol-sem-audio').style.display = 'block';
+      }
+
+      // Foto
+      var imgFoto = document.getElementById('bol-foto');
+      var linkFoto = document.getElementById('bol-foto-link');
+      var semFoto = document.getElementById('bol-sem-foto');
+      if (reg.foto_base64) {
+        imgFoto.src = reg.foto_base64;
+        imgFoto.style.display = 'block';
+        linkFoto.href = reg.foto_base64;
+        linkFoto.style.display = 'block';
+        semFoto.style.display = 'none';
+      } else if (reg.tem_foto) {
+        // boleta antiga: tem flag mas imagem não foi guardada
+        imgFoto.style.display = 'none';
+        linkFoto.style.display = 'none';
+        semFoto.textContent = ' Foto anexada (não disponível para visualização — boleta antiga).';
+        semFoto.style.display = 'block';
+      } else {
+        imgFoto.style.display = 'none';
+        linkFoto.style.display = 'none';
+        semFoto.textContent = ' Nenhuma foto anexada.';
+        semFoto.style.display = 'block';
+      }
+
+      // Georreferência (rastreabilidade)
+      var gpsBox = document.getElementById('bloco-gps');
+      var gpsLink = document.getElementById('bol-gps-link');
+      if (gpsBox && reg.latitude && reg.longitude) {
+        gpsBox.style.display = '';
+        var ehMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+        gpsLink.href = ehMobile
+          ? 'geo:' + reg.latitude + ',' + reg.longitude + '?q=' + reg.latitude + ',' + reg.longitude
+          : 'https://www.google.com/maps?q=' + reg.latitude + ',' + reg.longitude;
+        gpsLink.textContent = Number(reg.latitude).toFixed(5) + ', ' + Number(reg.longitude).toFixed(5) + ' (abrir no Maps)';
+      } else if (gpsBox) {
+        gpsBox.style.display = 'none';
+      }
+
+      // Bloco validação
+      if (reg.aprovada) {
+        setText('bol-validacao', ' Aprovada');
+        setText('bol-aprovado-em', (reg.aprovado_em || '').replace('T', ' ').slice(0, 16));
+        setText('bol-aprovado-por', reg.aprovado_por_nome);
+      } else {
+        setText('bol-validacao', 'Aguardando aprovação do coordenador');
+        setText('bol-aprovado-em', null);
+        setText('bol-aprovado-por', null);
+      }
+      setText('bol-sync', reg.sincronizado ? 'Enviado para a nuvem' : 'Pendente de envio');
+
+      // Ajusta botão Validar conforme estado
+      var btnValidar = document.getElementById('btn-validar');
+      if (btnValidar) {
+        if (reg.aprovada) {
+          btnValidar.disabled = true;
+          btnValidar.textContent = ' Boleta já aprovada';
+          btnValidar.style.opacity = '0.6';
+          btnValidar.style.cursor = 'not-allowed';
+        } else {
+          btnValidar.disabled = false;
+          btnValidar.textContent = ' Validar e aprovar';
+          btnValidar.style.opacity = '';
+          btnValidar.style.cursor = '';
         }
-        mostrarMsg('✅ ' + (res.data.mensagem || 'Boleta aprovada com sucesso!'), 'sucesso');
-        // Recarrega a boleta pra refletir o novo estado
-        carregarBoleta();
-      })
-      .catch(function() {
-        btn.disabled = false;
-        btn.textContent = '✅ Validar e aprovar';
-        mostrarMsg('❌ Erro de conexão.', 'erro');
-      });
-  }
-
-  // Edição do Capataz: bloqueia SÓ quando o Gerente fechou o mês.
-  // (A aprovação do Coordenador não trava mais — o capataz pode corrigir até o fechamento.)
-  function aplicarJanelaEdicaoCapataz(reg) {
-    var btnEditar = document.getElementById('btn-editar');
-    var bloqueio = document.getElementById('bloqueio-edicao');
-    if (!btnEditar) return;
-    if (reg.mes_fechado) {
-      btnEditar.style.display = 'none';
-      if (bloqueio) {
-        bloqueio.style.display = 'block';
-        bloqueio.textContent = '🔒 Mês fechado pelo Gerente — esta boleta não pode mais ser editada.';
       }
     }
-  }
-</script>
 
-<%- include('partials/footer') %>
+    function aprovarBoleta() {
+      if (!BOLETA_ID) return;
+      var btn = document.getElementById('btn-validar');
+      btn.disabled = true;
+      btn.textContent = 'Aprovando...';
+      fetch('/api/coordenador/boletas/' + encodeURIComponent(BOLETA_ID) + '/aprovar', {
+        method: 'POST', credentials: 'same-origin'
+      })
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
+        .then(function (res) {
+          if (!res.ok) {
+            btn.disabled = false;
+            btn.textContent = ' Validar e aprovar';
+            mostrarMsg(' ' + (res.data.erro || 'Erro ao aprovar.'), 'erro');
+            return;
+          }
+          mostrarMsg(' ' + (res.data.mensagem || 'Boleta aprovada com sucesso!'), 'sucesso');
+          // Recarrega a boleta pra refletir o novo estado
+          carregarBoleta();
+        })
+        .catch(function () {
+          btn.disabled = false;
+          btn.textContent = ' Validar e aprovar';
+          mostrarMsg(' Erro de conexão.', 'erro');
+        });
+    }
+
+    // Edição do Capataz: bloqueia SÓ quando o Gerente fechou o mês.
+    // (A aprovação do Coordenador não trava mais — o capataz pode corrigir até o fechamento.)
+    function aplicarJanelaEdicaoCapataz(reg) {
+      var btnEditar = document.getElementById('btn-editar');
+      var bloqueio = document.getElementById('bloqueio-edicao');
+      if (!btnEditar) return;
+      if (reg.mes_fechado) {
+        btnEditar.style.display = 'none';
+        if (bloqueio) {
+          bloqueio.style.display = 'block';
+          bloqueio.textContent = ' Mês fechado pelo Gerente — esta boleta não pode mais ser editada.';
+        }
+      }
+    }
+  </script>
+
+  <%- include('partials/footer') %>

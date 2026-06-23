@@ -1,58 +1,58 @@
 <%- include('partials/header') %>
-<link rel="stylesheet" href="/public/css/login.css" />
+  <link rel="stylesheet" href="/public/css/login.css" />
 
-<div id="device" class="login-page">
-  <div class="login-logo">
-    <img src="/public/syntech-verde.png" alt="Syntech" />
+  <div id="device" class="login-page">
+    <div class="login-logo">
+      <img src="/public/syntech-verde.png" alt="Syntech" />
+    </div>
+    <div class="header-bar">
+      <button class="btn-voltar" onclick="window.location.href='/'"><span class="material-symbols-rounded ui-icon back-ico" aria-hidden="true">arrow_back</span> Voltar</button>
+      <h1>Infraestrutura</h1>
+      <div class="sub">Selecione sua área de atuação</div>
+    </div>
+
+    <div class="perfil-grid">
+      <button class="perfil-btn" onclick="entrarComoInfra('hidraulica')">
+        <span class="ic"><span class="material-symbols-rounded ui-icon" aria-hidden="true">water_drop</span></span>
+        <span class="lbl">Hidráulica</span>
+      </button>
+
+      <button class="perfil-btn" onclick="entrarComoInfra('eletrica')">
+        <span class="ic"><span class="material-symbols-rounded ui-icon" aria-hidden="true">electric_bolt</span></span>
+        <span class="lbl">Elétrica</span>
+      </button>
+
+      <button class="perfil-btn infra-full" onclick="entrarComoInfra('cerca')">
+        <span class="ic"><span class="material-symbols-rounded ui-icon" aria-hidden="true">fence</span></span>
+        <span class="lbl">Cerca</span>
+      </button>
+    </div>
   </div>
-  <div class="header-bar">
-    <button class="back-btn" onclick="window.location.href='/'">⬅️ Voltar</button>
-    <h1>Infraestrutura</h1>
-    <div class="sub">Selecione sua área de atuação</div>
-  </div>
 
-  <div class="perfil-grid">
-    <button class="perfil-btn" onclick="entrarComoInfra('hidraulica')">
-      <span class="ic"><img src="/public/Icons/hidraulica.ico" alt="Hidráulica" /></span>
-      <span class="lbl">Hidráulica</span>
-    </button>
+  <script>
+    function entrarComoInfra(categoria) {
+      fetch('/api/auth/login-infra', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ categoria: categoria })
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data.sucesso) {
+            window.authClient.setAccessToken(data.accessToken);
+            localStorage.setItem('brpec_sessao', JSON.stringify({
+              perfil: 'Infraestrutura', categoria: categoria,
+              logadoEm: new Date().toISOString()
+            }));
+            window.location.href = '/infraestrutura';
+          } else {
+            alert(data.erro || 'Erro ao entrar.');
+          }
+        })
+        .catch(function () {
+          alert('Erro de conexão. Tente novamente.');
+        });
+    }
+  </script>
 
-    <button class="perfil-btn" onclick="entrarComoInfra('eletrica')">
-      <span class="ic"><img src="/public/Icons/eletrica.ico" alt="Elétrica" /></span>
-      <span class="lbl">Elétrica</span>
-    </button>
-
-    <button class="perfil-btn infra-full" onclick="entrarComoInfra('cerca')">
-      <span class="ic"><img src="/public/Icons/cerca.ico" alt="Cerca" /></span>
-      <span class="lbl">Cerca</span>
-    </button>
-  </div>
-</div>
-
-<script>
-  function entrarComoInfra(categoria) {
-    fetch('/api/auth/login-infra', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ categoria: categoria })
-    })
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      if (data.sucesso) {
-        window.authClient.setAccessToken(data.accessToken);
-        localStorage.setItem('brpec_sessao', JSON.stringify({
-          perfil: 'Infraestrutura', categoria: categoria,
-          logadoEm: new Date().toISOString()
-        }));
-        window.location.href = '/infraestrutura';
-      } else {
-        alert(data.erro || 'Erro ao entrar.');
-      }
-    })
-    .catch(function() {
-      alert('Erro de conexão. Tente novamente.');
-    });
-  }
-</script>
-
-<%- include('partials/footer') %>
+  <%- include('partials/footer') %>
