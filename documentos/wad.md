@@ -6824,7 +6824,7 @@ Não foram observadas ocorrências de severidade 0 (sem importância), 1 (cosmé
 
 ### 5.2.2. Relatório de testes SUS (System Usability Scale)
 
-O *System Usability Scale* (SUS) é um questionário padronizado de dez itens, desenvolvido por John Brooke em 1986, amplamente utilizado para medir a percepção subjetiva de usabilidade de sistemas interativos [56]. Cada item é respondido em uma escala Likert de 1 a 5, e as respostas são combinadas em uma fórmula que produz um escore final entre 0 e 100. Apesar de a escala ser numérica, o escore não representa uma porcentagem, mas sim um valor de referência interpretado segundo benchmarks consolidados na literatura: escores acima de 85 são classificados como "excelente"; entre 72 e 85, como "bom"; entre 52 e 71, como "regular"; abaixo de 52, como "pobre" [56][54].
+O *System Usability Scale* (SUS) é um questionário padronizado de dez itens, desenvolvido por John Brooke em 1986, amplamente utilizado para medir a percepção subjetiva de usabilidade de sistemas interativos [56]. Cada item é respondido em uma escala Likert de 1 a 5, e as respostas são combinadas em uma fórmula que produz um escore final entre 0 e 100. Apesar de a escala ser numérica, o escore não representa uma porcentagem. Sua interpretação deve ser feita por comparação com dados de referência e escalas adjetivas próprias do SUS, como a proposta por Bangor, Kortum e Miller [57].
 
 A principal vantagem do SUS está na sua simplicidade de aplicação e na possibilidade de comparar o resultado obtido com bases de dados de referência de centenas de sistemas avaliados, o que confere contexto objetivo à percepção dos usuários [56]. Complementando os testes de guerrilha — que identificam qualitativamente onde e como os usuários encontram dificuldades —, o SUS quantifica o nível geral de satisfação com a interface, permitindo avaliar se a solução atinge um patamar aceitável de usabilidade para o perfil de usuário do projeto.
 
@@ -6854,7 +6854,7 @@ A distribuição das respostas é apresentada a seguir:
 
 **Média: 4,0 / 5,0**
 
-As respostas variaram entre 3 e 5, sem nenhuma expressão de discordância. A maioria dos participantes (71,5%) concordou com a afirmação, atribuindo notas 4 ou 5, o que indica percepção de valor suficiente na ferramenta para utilizá-la com regularidade. Os dois respondentes neutros (nota 3) não chegaram a expressar resistência ao uso contínuo, reforçando uma percepção geral positiva quanto à utilidade recorrente da solução.
+As respostas variaram entre 3 e 5, sem nenhuma expressão de discordância. A maioria dos participantes (71,4%) concordou com a afirmação, atribuindo notas 4 ou 5, o que indica percepção de valor suficiente na ferramenta para utilizá-la com regularidade. Os dois respondentes neutros (nota 3) não chegaram a expressar resistência ao uso contínuo, reforçando uma percepção geral positiva quanto à utilidade recorrente da solução.
 
 ---
 
@@ -7034,7 +7034,7 @@ A distribuição das respostas é apresentada a seguir:
 
 **Média: 3,71 / 5,0**
 
-Esta questão apresenta a maior dispersão de respostas do questionário até o momento. A maioria (57,1%) concordou que o sistema seria aprendido rapidamente, e dois participantes permaneceram neutros. No entanto, um participante (P2) discordou totalmente da afirmação, configurando o único caso de discordância categórica em uma questão positiva ao longo de todo o SUS. Esse resultado, somado às notas neutras de P3 e P4 na Q4, sugere que a percepção de aprendizabilidade do sistema pode variar conforme o grau de familiaridade prévia com ferramentas digitais — o que está alinhado com a diversidade do perfil de usuário-alvo do projeto.
+Esta questão apresenta a maior dispersão de respostas do questionário até o momento. A maioria (57,1%) concordou que o sistema seria aprendido rapidamente, e dois participantes permaneceram neutros. No entanto, um participante (P2) discordou totalmente da afirmação, configurando o único caso de discordância categórica em uma questão positiva ao longo de todo o SUS. Esse resultado, somado à divergência observada na Q4, indica que a percepção de aprendizabilidade não foi uniforme entre os participantes. O SUS, isoladamente, não permite atribuir essa variação ao grau de familiaridade digital; essa hipótese exigiria dados qualitativos adicionais sobre cada participante.
 
 ---
 
@@ -7064,7 +7064,7 @@ A distribuição das respostas é apresentada a seguir:
 
 **Média: 1,86 / 5,0**
 
-Nenhum participante concordou que o sistema é complicado de usar. A grande maioria (85,7%) discordou ativamente da afirmação, e o único respondente neutro (P2, nota 3) é o mesmo que atribuiu discordância total na Q7, o que reforça a hipótese de que sua percepção reflete menor familiaridade com ferramentas digitais em geral, e não necessariamente uma limitação da interface. O resultado é consistente com os dados das Q2 e Q6, consolidando a percepção de que o sistema não é percebido como complexo ou complicado pelo perfil avaliado.
+Nenhum participante concordou que o sistema é complicado de usar. A grande maioria (85,7%) discordou ativamente da afirmação, e o único respondente neutro (P2, nota 3) é o mesmo que atribuiu discordância total na Q7. Isso demonstra que P2 apresentou uma percepção menos favorável em diferentes itens, mas não permite atribuir causalidade sem evidência qualitativa complementar. O resultado agregado é consistente com os dados das Q2 e Q6, consolidando a percepção de que o sistema não foi considerado complexo ou complicado pela maioria do grupo avaliado.
 
 ---
 
@@ -7143,7 +7143,7 @@ A tabela a seguir apresenta o escore individual calculado para cada participante
 | P7 | 97,5 |
 | **Média** | **77,5** |
 
-De acordo com os benchmarks consolidados na literatura [56], o escore médio de **77,5** classifica o sistema como **"Bom"**, situando-se na faixa entre 72 e 85. Seis dos sete participantes obtiveram escores iguais ou superiores a 67, e três deles superaram 85 — limiar da classificação "Excelente". O único escore abaixo do limiar "Regular" (52) pertence a P2 (45,0), participante cujo padrão de respostas ao longo de todo o questionário — discordância total na Q7, neutralidade nas Q4, Q8 e Q10 — indica menor familiaridade com ferramentas digitais, e não necessariamente limitações da interface em si. Desconsiderando esse outlier, a média dos demais seis participantes seria de **83,6**, próxima ao limiar da classificação "Excelente".
+Na escala adjetiva de Bangor, Kortum e Miller [57], o escore médio de **77,5** situa a avaliação geral na categoria **"Bom"**. Seis dos sete participantes obtiveram escores iguais ou superiores a 67,5, enquanto P2 apresentou o menor resultado (45,0). A amplitude observada, de 45,0 a 97,5, evidencia heterogeneidade entre as percepções individuais. O resultado de P2 deve permanecer no cálculo consolidado: não há critério estatístico previamente definido que justifique tratá-lo como *outlier* ou descartá-lo da análise.
 
 O resultado geral indica que a solução desenvolvida atinge um nível de usabilidade percebida compatível com produtos digitais bem avaliados, com margem de melhoria concentrada em fluxos de onboarding e orientação contextual para usuários com menor experiência digital — aspecto coerente com o perfil de capataz descrito nas personas do projeto.
 
@@ -7633,6 +7633,8 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 [55] ISO 9241-11:2018. Ergonomics of human-system interaction — Part 11: Usability: Definitions and concepts. Geneva: International Organization for Standardization, 2018.
 
 [56] BROOKE, John. SUS: A 'Quick and Dirty' Usability Scale. In: JORDAN, P. W. et al. (eds.). Usability Evaluation in Industry. London: Taylor & Francis, 1996. p. 189–194.
+
+[57] BANGOR, Aaron; KORTUM, Philip; MILLER, James. Determining What Individual SUS Scores Mean: Adding an Adjective Rating Scale. Journal of Usability Studies, v. 4, n. 3, p. 114–123, 2009.
 
 # <a name="c9"></a>Anexos
 
