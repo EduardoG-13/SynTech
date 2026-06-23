@@ -228,6 +228,19 @@ describe('Persona Tecnico de Infraestrutura - ciclo de resolucao de chamados', (
     expect(res.body.chamados[0].status).toBe('ABERTO');
   });
 
+  test('tecnico inicia chamado aberto antes da resolucao', async () => {
+    const criacao = await criarChamado();
+
+    const res = await request(app)
+      .patch(`/api/chamados/${criacao.body.id}/iniciar`)
+      .send({ tecnico_id: TECNICO_ID });
+
+    expect(res.status).toBe(200);
+    expect(res.body.mensagem).toBe('Chamado iniciado com sucesso');
+    expect(res.body.status).toBe('EM_ANDAMENTO');
+    expect(res.body.chamado.tecnico_id).toBe(TECNICO_ID);
+  });
+
   test('tecnico resolve chamado com descricao e foto de evidencia', async () => {
     const criacao = await criarChamado();
 

@@ -21,6 +21,18 @@ function enfileirarSync(entidade: string, id: string) {
   ).run(uuidv7(), entidade, id);
 }
 
+function exigeDetalhamento(operacao: string): boolean {
+  return ['obito', 'transferencia', 'compravenda', 'evolucao', 'manejo'].includes(operacao);
+}
+
+function possuiDetalhamento(body: any): boolean {
+  return !!(
+    (typeof body.observacoes === 'string' && body.observacoes.trim()) ||
+    body.observacoes_audio ||
+    body.observacoes_audio_base64
+  );
+}
+
 /**
  * Gera o identificador legível da boleta: BOL-AAAA-NNNN.
  * Sequência por ano, contando boletas distintas (grupo_id) já numeradas naquele ano.
@@ -47,6 +59,9 @@ export function criarBoleta(req: Request, res: Response) {
   const b = req.body || {};
   const operacao: string = b.operacao;
   if (!operacao) return res.status(400).json({ erro: 'operacao é obrigatória.' });
+  if (exigeDetalhamento(operacao) && !possuiDetalhamento(b)) {
+    return res.status(400).json({ erro: 'Informe o detalhamento do registro por texto ou áudio.' });
+  }
 
   // Gerente pode criar em nome de um capataz específico
   let capatazId = sess.id;
@@ -203,6 +218,9 @@ export function atualizarBoleta(req: Request, res: Response) {
   const data = b.data || existentes[0].data;
   const retiro_id = b.retiro || b.retiro_origem || existentes[0].retiro_id;
   const operacao = b.operacao || existentes[0].tipo_operacao;
+  if (exigeDetalhamento(operacao) && !possuiDetalhamento(b)) {
+    return res.status(400).json({ erro: 'Informe o detalhamento do registro por texto ou áudio.' });
+  }
   let animais = Array.isArray(b.animais) ? b.animais : [];
   if (animais.length === 0) animais = [{ categoria: 'AJUSTE', quantidade: 0 }];
 

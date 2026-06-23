@@ -251,8 +251,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (resultado.offline) {
       try {
-        await salvarOffline(payload);
-        irParaSucesso(' Chamado salvo localmente. Será sincronizado quando voltar a conexão.');
+        if (!resultado.idFila) {
+          await salvarOffline(payload);
+        }
+        irParaSucesso('✅ Chamado salvo localmente. Será sincronizado quando voltar a conexão.');
       } catch (erro) {
         console.error('Erro ao salvar chamado localmente:', erro);
         alert('Ocorreu um erro ao salvar o chamado localmente. Tente novamente.');
