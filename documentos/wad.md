@@ -7161,6 +7161,17 @@ A leitura integrada dos testes de guerrilha e do SUS revela padrões consistente
 
 **H1 (ausência de confirmação) e a confiança percebida (Q9).** A heurística mais recorrente nos testes de guerrilha foi H1 — visibilidade do status do sistema — manifestada na falta de feedback após sincronização (Tarefa 1) e após criação de tarefa calendarizada (Tarefa 3). A Q9 do SUS ("senti muito confiante ao usar o sistema") registrou a única discordância (P2, nota 2) entre as questões positivas com média acima de 3,5. A ausência de confirmações visuais em ações críticas é uma das causas mais documentadas de baixa confiança percebida, e a correlação entre as falhas de H1 no guerrilha e a nota de Q9 reforça esse diagnóstico.
 
+#### Lista Unificada de Melhorias
+
+A tabela a seguir consolida todos os problemas identificados nas duas rodadas de teste — guerrilha e SUS —, unificando achados qualitativos e quantitativos em uma lista priorizada por severidade. P1–P6 referem-se aos participantes dos testes de guerrilha (seção 5.2.1); referências ao SUS indicam questões do questionário (Q1–Q10).
+
+| # | Problema | Área | Severidade | Fonte | Referência | Melhoria Sugerida |
+|---|---|---|---|---|---|---|
+| 1 | Endpoint de chamados de infraestrutura retorna HTTP 400 independente dos dados enviados, impedindo qualquer submissão | Funcional | 4 — Catastrófico | Guerrilha | P3, P4, P5 / Tarefa 2 | Corrigir validação e mapeamento do payload no backend; retornar status 2xx e mensagem de sucesso ao usuário |
+| 2 | Ausência de confirmação de sincronização após conclusão de tarefa com foto: registro não aparece para Gerente nem para o Capataz sem indicação visual de que foi salvo | UX | 3 — Grave | Guerrilha + SUS | P1 (falha), P2 (dificuldade) / Tarefa 1; reforçado por Q9 do SUS — único caso de discordância em questão positiva com média acima de 3,5 (H1) | Exibir toast ou snackbar de confirmação após sincronização bem-sucedida; indicar estado pendente enquanto o upload de foto estiver em andamento |
+| 3 | Ausência de feedback visual após criação de tarefa calendarizada: participante não localiza a tarefa recém-registrada e interpreta como falha no cadastro | UX | 3 — Grave | Guerrilha + SUS | P4 / Tarefa 3; reforçado pela recorrência de H1 como heurística mais frequente nas sessões e pela correlação com Q9 do SUS | Exibir confirmação (modal ou snackbar) ao salvar tarefa calendarizada e redirecionar ou destacar o item criado na lista |
+| 4 | Sistema não oferece orientação contextual suficiente para usuários com menor familiaridade digital | UX | 2 — Simples | SUS | Q4 (28,6% concordaram com necessidade de suporte técnico); Q7 (menor média entre questões positivas, 3,71, com único caso de discordância total) | Adicionar tooltips ou textos de orientação em ações críticas — abertura de chamado e conclusão de tarefa com foto — para reduzir dependência de suporte técnico no perfil de capataz com baixa escolaridade digital |
+
 
 # <a name="c6"></a>6. Estudo de Mercado e Plano de Marketing (sprint 4)
 
