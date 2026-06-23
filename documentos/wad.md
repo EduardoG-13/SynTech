@@ -7755,8 +7755,6 @@ Os principais entregáveis funcionais incluem:
 
 # <a name="c9"></a>Anexos
 
-_Inclua aqui quaisquer complementos para seu projeto, como diagramas, imagens, tabelas etc. Organize em sub-tópicos utilizando headings menores (use ## ou ### para isso)_
-
 ## Anexo A: Relatório de Revisão e Conformidade: Modelagem de Banco e Diagramas UML
 
 **Data da Revisão:** 12 de Junho de 2026
