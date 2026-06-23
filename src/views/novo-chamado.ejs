@@ -7,19 +7,19 @@
 
   <div id="app">
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar"><img src="/public/Icons/<%= perfil === 'Capataz' ? 'capataz' : 'infra' %>.ico" alt="<%= perfil %>" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <div class="user-avatar" aria-label="Perfil: <%= perfil %>"><span class="material-symbols-rounded" aria-hidden="true"><%= perfil === 'Gerente' ? 'manage_accounts' : (perfil === 'Capataz' ? 'engineering' : 'construction') %></span></div>
       <h1>Abrir Chamado</h1>
       <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %></div>
     </div>
 
     <main class="chamado-main">
 
-      <button type="button" class="btn-voltar" onclick="window.history.back()">⬅️ Voltar</button>
+      <button type="button" class="btn-voltar" onclick="window.history.back()"><span class="material-symbols-rounded ui-icon back-ico" aria-hidden="true">arrow_back</span> Voltar</button>
 
       <form id="form-novo-chamado" class="form-novo-chamado">
 
         <div class="card-resolucao">
-          <label class="label-bold"><img class="label-ico" src="/public/Icons/infra.ico" alt="" /> Tipo de problema</label>
+          <label class="label-bold"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">construction</span> Tipo de problema <span class="req-star">*</span></label>
           <div class="operacao-grid" id="tipo-grid">
             <button type="button" class="op-card" data-tipo="hidraulica">
               <img class="op-card-ico" src="/public/Icons/hidraulica.ico" alt="" />
@@ -45,26 +45,35 @@
           <input type="hidden" id="tipo-ocorrencia" name="tipo" required />
         </div>
 
+        <% if (perfil === 'Gerente') { %>
         <div class="card-resolucao">
-          <label class="label-bold" for="descricao"><img class="label-ico" src="/public/Icons/editar.ico" alt="" /> Descreva o problema</label>
+          <label class="label-bold"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">location_on</span> Retiro <span class="req-star">*</span></label>
+          <select id="chamado-retiro" style="width:100%; padding:0.5rem; border-radius:8px; border:1px solid #ccc;">
+            <option value="">Carregando retiros...</option>
+          </select>
+        </div>
+        <% } %>
+
+        <div class="card-resolucao">
+          <label class="label-bold" for="descricao"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">edit</span> Descreva o problema <span class="req-star">*</span></label>
           <p class="ajuda">Mínimo 10 caracteres. Seja claro sobre o que aconteceu.</p>
           <textarea id="descricao" name="descricao" rows="4" placeholder="Ex: Bebedouro com vazamento no pasto 4, gado sem água..." minlength="10" required></textarea>
         </div>
 
         <div class="card-resolucao">
-          <label class="label-bold"><img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" /> Áudio (opcional)</label>
+          <label class="label-bold"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">mic</span> Áudio <span class="opcional-txt">(opcional)</span></label>
           <p class="ajuda">Grave detalhes em áudio se preferir não digitar.</p>
           <button type="button" class="btn-audio" id="btn-gravar-audio">
-            <img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" />
+            <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">mic</span>
             <span id="audio-btn-txt">Gravar áudio</span>
           </button>
           <audio id="audio-preview" controls style="display:none; width:100%; margin-top:0.5rem;"></audio>
-          <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;">🗑️ Apagar áudio</button>
+          <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;"><span class="material-symbols-rounded ui-icon" aria-hidden="true">delete</span> Apagar áudio</button>
         </div>
 
         <div class="card-resolucao">
-          <label class="label-bold"><img class="label-ico" src="/public/Icons/GPS.ico" alt="" /> Localização GPS</label>
-          <p id="gps-status" class="gps-status-text"><img class="ico-sm" src="/public/Icons/GPS.ico" alt="" /> Capturando localização...</p>
+          <label class="label-bold"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">my_location</span> Localização GPS <span class="opcional-txt">(automático)</span></label>
+          <p id="gps-status" class="gps-status-text"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">my_location</span> Capturando localização...</p>
           <input id="latitude" name="latitude" type="hidden" />
           <input id="longitude" name="longitude" type="hidden" />
           <input id="capataz_id" name="capataz_id" type="hidden" value="<%= typeof capataz_id !== 'undefined' ? capataz_id : '' %>" />
@@ -72,17 +81,17 @@
         </div>
 
         <div class="card-resolucao">
-          <label class="label-bold" for="local-referencia"><img class="label-ico" src="/public/Icons/bussola_direcao_guia.ico" alt="" /> Local / Referência (texto)</label>
+          <label class="label-bold" for="local-referencia"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">explore</span> Local / Referência <span class="opcional-txt">(opcional)</span></label>
           <p class="ajuda">Ajuda a Infra encontrar o local. Ex: "Pasto 4, perto do bebedouro velho".</p>
           <input id="local-referencia" name="local_referencia" type="text" placeholder="Onde está o problema?" />
         </div>
 
         <div class="card-resolucao">
-          <label class="label-bold"><img class="label-ico" src="/public/Icons/tira_foto.ico" alt="" /> Foto / evidência (opcional)</label>
+          <label class="label-bold"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">photo_camera</span> Foto / evidência <span class="opcional-txt">(opcional)</span></label>
           <div class="upload-foto">
             <label for="foto" class="upload-label">
-              <img class="upload-icon-img" src="/public/Icons/tira_foto.ico" alt="" />
-              <span id="foto-novo-txt">📷 Tirar foto ou escolher do celular</span>
+              <span class="material-symbols-rounded ui-icon upload-icon-img" aria-hidden="true">photo_camera</span>
+              <span id="foto-novo-txt"> Tirar foto ou escolher do celular</span>
             </label>
             <input id="foto" name="foto" type="file" accept="image/*" style="display:none;" />
           </div>
@@ -90,7 +99,7 @@
         </div>
 
         <button type="submit" class="btn-salvar">
-          <img class="label-ico" src="/public/Icons/concluido.ico" alt="" /> Enviar Chamado
+          <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">check_circle</span> Enviar Chamado
         </button>
 
         <p class="form-msg" id="novo-msg" style="display:none;"></p>
@@ -121,7 +130,7 @@
     var input = document.getElementById('foto');
     input.addEventListener('change', function() {
       if (!input.files.length) return;
-      document.getElementById('foto-novo-txt').textContent = '✅ ' + input.files[0].name;
+      document.getElementById('foto-novo-txt').textContent = ' ' + input.files[0].name;
       var r = new FileReader();
       r.onload = function(e) {
         var img = document.getElementById('preview-foto-novo');
@@ -153,9 +162,9 @@
           };
           mediaRecorder.start();
           gravando = true;
-          document.getElementById('audio-btn-txt').textContent = '⏹️ Parar gravação';
+          document.getElementById('audio-btn-txt').textContent = 'Parar gravação';
           btnA.classList.add('gravando');
-        }).catch(function() { alert('🎙️ Permissão de microfone negada.'); });
+        }).catch(function() { alert(' Permissão de microfone negada.'); });
       } else {
         if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
         gravando = false;
@@ -175,5 +184,23 @@
   })();
 </script>
 <script src="/public/js/novo-chamado-handler.js"></script>
+<% if (perfil === 'Gerente') { %>
+<script>
+(function() {
+  var sel = document.getElementById('chamado-retiro');
+  if (!sel) return;
+  fetch('/api/dashboard/retiros', { credentials: 'same-origin' })
+    .then(function(r) { return r.json(); })
+    .then(function(rows) {
+      sel.innerHTML = '<option value="">Selecione o retiro...</option>' +
+        (rows || []).map(function(r) { return '<option value="' + r.id + '">' + r.nome + '</option>'; }).join('');
+    });
+  sel.addEventListener('change', function() {
+    var h = document.getElementById('retiro_id');
+    if (h) h.value = sel.value;
+  });
+})();
+</script>
+<% } %>
 
 <%- include('partials/footer') %>

@@ -366,7 +366,7 @@ export class CoordenadorService {
     doc.text(`Gerado por: ${sess.perfil}`, 48, rodapeY + 8, { width: doc.page.width - 96, align: 'right' });
 
     doc.end();
-    
+
     return { stream: passThrough, filename };
   }
 }

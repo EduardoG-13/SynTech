@@ -6,7 +6,7 @@
 
   <div id="app">
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar"><img src="/public/Icons/gerente.ico" alt="Gerente" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <div class="user-avatar"><span class="material-symbols-rounded ui-icon" aria-hidden="true">manage_accounts</span></div>
       <h1>Configurações</h1>
       <div class="sub">Gestão de retiros e usuários (Gerente)</div>
     </div>
@@ -15,52 +15,52 @@
 
       <!-- Abas -->
       <div class="config-abas">
-        <button class="aba active" data-aba="retiros"><img class="label-ico" src="/public/Icons/home.ico" alt="" /> Retiros</button>
-        <button class="aba" data-aba="usuarios"><img class="label-ico" src="/public/Icons/capataz.ico" alt="" /> Usuários</button>
-        <button class="aba" data-aba="dispositivos"><img class="label-ico" src="/public/Icons/instalar_aplicativo_celular.ico" alt="" /> Dispositivos</button>
+        <button class="aba active" data-aba="retiros"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">home</span> Retiros</button>
+        <button class="aba" data-aba="usuarios"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">engineering</span> Usuários</button>
+        <button class="aba" data-aba="dispositivos"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">install_mobile</span> Dispositivos</button>
       </div>
 
       <!-- Aviso de acesso -->
       <div class="config-aviso" id="config-aviso" style="display:none;">
-        <img class="ico-sm" src="/public/Icons/acesso_restrito.ico" alt="" /> Acesso restrito. Faça login como <strong>Gerente</strong> para gerenciar.
+        <span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">shield_lock</span> Acesso restrito. Faça login como <strong>Gerente</strong> para gerenciar.
       </div>
 
       <!-- ================= ABA RETIROS ================= -->
       <section class="aba-conteudo" id="conteudo-retiros">
 
         <div class="card-config">
-          <h2><img class="label-ico" src="/public/Icons/localizacao.ico" alt="" /> Novo retiro</h2>
+          <h2><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">location_on</span> Novo retiro</h2>
           <form id="form-retiro" class="grid-form">
             <input type="hidden" id="ret-id" />
             <div>
-              <label>Nome do retiro</label>
+              <label>Nome do retiro <span class="req-star">*</span></label>
               <input type="text" id="ret-nome" placeholder="Ex: Acurizal" required />
             </div>
             <div>
-              <label>Número</label>
+              <label>Número <span class="opcional-txt">(opcional)</span></label>
               <input type="text" id="ret-numero" placeholder="Ex: 01" />
             </div>
             <div>
-              <label>Localização</label>
+              <label>Localização <span class="opcional-txt">(opcional)</span></label>
               <input type="text" id="ret-local" placeholder="Ex: Sede Acurizal" />
             </div>
             <div>
-              <label>Capataz responsável</label>
+              <label>Capataz responsável <span class="opcional-txt">(opcional)</span></label>
               <select id="ret-capataz"><option value="">— Sem capataz —</option></select>
             </div>
             <div>
-              <label>Coordenador</label>
+              <label>Coordenador <span class="opcional-txt">(opcional)</span></label>
               <select id="ret-coord"><option value="">— Sem coordenador —</option></select>
             </div>
             <div class="form-acoes">
-              <button type="submit" class="btn-salvar" id="ret-btn-salvar"><img class="label-ico" src="/public/Icons/salvar.ico" alt="" /> Salvar retiro</button>
+              <button type="submit" class="btn-salvar" id="ret-btn-salvar"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">save</span> Salvar retiro</button>
               <button type="button" class="btn-cancelar" id="ret-btn-cancelar" style="display:none;">Cancelar</button>
             </div>
           </form>
         </div>
 
         <div class="card-config">
-          <h2><img class="label-ico" src="/public/Icons/tarefas.ico" alt="" /> Retiros cadastrados</h2>
+          <h2><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">assignment</span> Retiros cadastrados</h2>
           <div id="lista-retiros-admin" class="lista-admin"></div>
         </div>
 
@@ -70,20 +70,20 @@
       <section class="aba-conteudo" id="conteudo-usuarios" style="display:none;">
 
         <div class="card-config">
-          <h2><img class="label-ico" src="/public/Icons/capataz.ico" alt="" /> Novo usuário</h2>
+          <h2><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">engineering</span> Novo usuário</h2>
           <form id="form-usuario" class="grid-form">
             <input type="hidden" id="usr-id" />
             <div>
-              <label>Nome (login)</label>
+              <label>Nome (login) <span class="req-star">*</span></label>
               <input type="text" id="usr-nome" placeholder="Ex: marcos" required />
             </div>
             <div>
-              <label>Senha</label>
+              <label>Senha <span class="req-star">*</span></label>
               <input type="password" id="usr-senha" placeholder="Senha de acesso" />
               <small id="usr-senha-hint" style="display:none; color:#5c6b5d;">Deixe em branco para manter a senha atual</small>
             </div>
             <div>
-              <label>Perfil</label>
+              <label>Perfil <span class="req-star">*</span></label>
               <select id="usr-perfil">
                 <option value="Coordenador">Coordenador</option>
                 <option value="Gerente">Gerente</option>
@@ -92,25 +92,25 @@
               </select>
             </div>
             <div id="usr-retiro-wrap" style="display:none;">
-              <label>Retiro (capataz)</label>
+              <label>Retiro <span class="req-star">*</span></label>
               <select id="usr-retiro"><option value="">— Sem retiro —</option></select>
             </div>
             <div id="usr-admin-wrap" style="display:none;">
               <label style="display:flex; align-items:center; gap:0.5rem;">
                 <input type="checkbox" id="usr-is-admin" />
-                <span><img class="ico-sm" src="/public/Icons/bloqueado.ico" alt="" /> Administrador (acessa Configurações)</span>
+                <span><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">lock</span> Administrador (acessa Configurações)</span>
               </label>
               <small style="color:#5c6b5d;">Marque para conceder acesso à tela de Configurações.</small>
             </div>
             <div class="form-acoes">
-              <button type="submit" class="btn-salvar" id="usr-btn-salvar"><img class="label-ico" src="/public/Icons/salvar.ico" alt="" /> Salvar usuário</button>
+              <button type="submit" class="btn-salvar" id="usr-btn-salvar"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">save</span> Salvar usuário</button>
               <button type="button" class="btn-cancelar" id="usr-btn-cancelar" style="display:none;">Cancelar</button>
             </div>
           </form>
         </div>
 
         <div class="card-config">
-          <h2><img class="label-ico" src="/public/Icons/capataz.ico" alt="" /> Usuários cadastrados</h2>
+          <h2><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">engineering</span> Usuários cadastrados</h2>
           <div id="lista-usuarios-admin" class="lista-admin"></div>
         </div>
 
@@ -119,7 +119,7 @@
       <!-- ================= ABA DISPOSITIVOS ================= -->
       <section class="aba-conteudo" id="conteudo-dispositivos" style="display:none;">
         <div class="card-config">
-          <h2><img class="label-ico" src="/public/Icons/instalar_aplicativo_celular.ico" alt="" /> Dispositivos vinculados</h2>
+          <h2><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">install_mobile</span> Dispositivos vinculados</h2>
           <p style="font-size:0.85rem; color:#5c6b5d; margin-bottom:0.75rem;">
             Aparelhos que entram automaticamente em um retiro (login por dispositivo). Revogue quando um tablet trocar de retiro — ele volta a pedir a seleção no próximo acesso.
           </p>

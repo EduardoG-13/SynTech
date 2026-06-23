@@ -23,14 +23,18 @@
   margin: 1rem 0 1.5rem 0;
   max-width: 100%;
 }
+
 .login-logo img {
   max-width: 220px;
   width: 100%;
   height: auto;
   object-fit: contain;
 }
+
 @media (max-width: 480px) {
-  .login-logo img { max-width: 180px; }
+  .login-logo img {
+    max-width: 180px;
+  }
 }
 
 .login-page .header-bar {
@@ -54,7 +58,7 @@
 /* Container dos botões de perfil */
 .perfil-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 1.25rem;
   max-width: 480px;
   width: 100%;
@@ -63,24 +67,29 @@
 
 /* Botão de perfil */
 .perfil-btn-link {
+  display: block;
+  width: 100%;
   text-decoration: none;
 }
 
 .perfil-btn {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
+  justify-content: flex-start;
+  gap: clamp(0.75rem, 3vw, 1.5rem);
   width: 100%;
-  min-height: 140px;
-  padding: 1.5rem 1rem;
+  max-width: none;
+  min-height: 100px;
+  height: auto;
+  padding: clamp(1rem, 4vw, 1.5rem) clamp(1rem, 4vw, 2rem);
   background: #1A4D2E;
   border: 2px solid transparent;
   border-radius: 16px;
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 4px 12px rgba(26, 77, 46, 0.2);
+  overflow: hidden;
 }
 
 .perfil-btn:hover {
@@ -94,18 +103,36 @@
   transform: translateY(0);
 }
 
+.perfil-btn .ic {
+  display: flex;
+  flex-shrink: 0;
+}
+
 .perfil-btn .ic img {
-  width: 48px;
-  height: 48px;
-  object-fit: contain; 
-  
+  width: clamp(64px, 16vw, 80px);
+  height: clamp(64px, 16vw, 80px);
+  object-fit: contain;
+  background: #fff;
+  border-radius: 50%;
+  padding: 0.5rem;
 }
 
 .perfil-btn .lbl {
   font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: clamp(0.85rem, 5vw, 1.2rem);
+  font-weight: 700;
   color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  text-align: left;
+  word-break: break-word;
+}
+
+/* Avatar do retiro maior — imagem (não ícone) */
+.card-retiro-card .pin img {
+  width: clamp(36px, 10vw, 56px) !important;
+  height: clamp(36px, 10vw, 56px) !important;
+  object-fit: contain;
 }
 
 /* Botão infra centralizado em largura total (3º item no grid 2x2) */
@@ -179,6 +206,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .btn-olho img {
   width: 20px;
   height: 20px;
@@ -237,23 +265,7 @@
   color: #1A4D2E;
 }
 
-/* Botão voltar */
-.back-btn {
-  background: none;
-  border: none;
-  color: #1A4D2E;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-  margin-bottom: 0.5rem;
-  min-height: auto;
-}
-
-.back-btn:hover {
-  background: none;
-  color: #2E7D52;
-}
+/* .back-btn definido globalmente como .btn-voltar em styles.css */
 
 /* Campo de busca */
 .search-box {
@@ -287,29 +299,45 @@
   font-size: 1.25rem;
 }
 
-/* Grid de cards de retiro */
+/* Grid de cards de retiro — sem órfãos, padronizado */
 #lista-retiros {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1rem;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
   max-width: 900px;
   margin: 0 auto;
   padding: 0 1.5rem;
+}
+@media (min-width: 600px) {
+  #lista-retiros { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  /* Último spans 2 col se ímpar */
+  #lista-retiros .card-retiro-card:nth-child(odd):last-child { grid-column: 1 / -1; }
+}
+@media (min-width: 900px) {
+  #lista-retiros { grid-template-columns: repeat(3, 1fr); }
+  /* Último spans até preencher se 3 cols ímpar */
+  #lista-retiros .card-retiro-card:nth-last-child(2):nth-child(3n+1) { grid-column: 1 / -1; }
 }
 
 /* Card de retiro */
 .card-retiro-card {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: clamp(0.75rem, 3vw, 1.25rem);
   background: #fff;
   border: 2px solid #d7dfd3;
-  border-radius: 12px;
-  padding: 1rem 1.25rem;
+  border-radius: clamp(10px, 3vw, 14px);
+  padding: clamp(0.85rem, 3vw, 1.25rem);
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  color: #1B1B1B;
+  font-weight: 400;
+  min-height: 68px;
+  text-align: left;
 }
+
+.retiro-page .btn-voltar { min-height: 48px; }
 
 .card-retiro-card:hover {
   border-color: #1A4D2E;
@@ -319,8 +347,6 @@
 }
 
 .card-retiro-card .pin img {
-  width: 32px;
-  height: 32px;
   object-fit: contain;
   background: none;
   border-radius: 0;
@@ -336,19 +362,19 @@
 
 .card-retiro-card .info .nome {
   font-family: 'Inter', sans-serif;
-  font-size: 1rem;
+  font-size: clamp(1rem, 4vw, 1.2rem);
   font-weight: 600;
   color: #1B1B1B;
 }
 
 .card-retiro-card .info .cap {
-  font-size: 0.85rem;
+  font-size: clamp(0.85rem, 3vw, 0.95rem);
   color: #5c6b5d;
   margin-top: 0.2rem;
 }
 
 .card-retiro-card .arrow {
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 4vw, 1.5rem);
   color: #1A4D2E;
   font-weight: 700;
   padding: 0;
@@ -357,41 +383,64 @@
 
 /* --- Responsivo Mobile --- */
 
-@media (max-width: 768px) {
-  .login-page {
-    padding: 1.5rem 1rem;
-    justify-content: flex-start;
-    padding-top: 3rem;
-  }
-
-  .perfil-grid {
-    grid-template-columns: repeat(2, 1fr);
-    max-width: 100%;
-    padding: 0 1rem;
-    gap: 1rem;
-  }
-
+@media (max-width: 380px) {
   .perfil-btn {
-    min-height: 120px;
-    padding: 1.25rem 0.75rem;
-    border-radius: 14px;
+    min-height: 84px;
+    gap: 0.85rem;
+    padding: 0.9rem 1rem;
   }
 
   .perfil-btn .ic img {
-    width: 40px;
-    height: 40px;
+    width: 64px;
+    height: 64px;
   }
 
   .perfil-btn .lbl {
-    font-size: 0.9rem;
+    font-size: 1rem;
+  }
+}
+
+.perfil-btn .ic .material-symbols-rounded {
+  align-items: center;
+  background: #fff;
+  border-radius: 50%;
+  color: #1A4D2E;
+  display: inline-flex;
+  font-size: clamp(2rem, 9vw, 2.75rem);
+  height: clamp(48px, 14vw, 64px);
+  justify-content: center;
+  padding: 0.5rem;
+  width: clamp(48px, 14vw, 64px);
+}
+
+@media (max-width: 768px) {
+  .login-page {
+    padding: 1.25rem 1rem 2rem;
+    justify-content: flex-start;
+    padding-top: 2.5rem;
+  }
+
+  .perfil-grid {
+    padding: 0 0.75rem;
+    gap: 0.95rem;
   }
 
   .login-page .header-bar h1 {
-    font-size: 2rem;
+    font-size: clamp(1.75rem, 6vw, 2.5rem);
   }
 
   .login-page .header-bar .sub {
-    font-size: 1rem;
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
+  }
+
+  .perfil-btn {
+    min-height: 88px;
+    padding: 0.95rem 1rem;
+  }
+
+  .perfil-btn .lbl {
+    font-size: 1.02rem;
+    line-height: 1.1;
   }
 
   /* Retiros */
@@ -400,28 +449,8 @@
   }
 
   #lista-retiros {
-    grid-template-columns: 1fr;
     padding: 0 1rem;
     gap: 0.75rem;
-  }
-
-  .card-retiro-card {
-    padding: 1rem;
-    border-radius: 10px;
-    min-height: 64px;
-  }
-
-  .card-retiro-card .pin img {
-    width: 28px;
-    height: 28px;
-  }
-
-  .card-retiro-card .info .nome {
-    font-size: 0.95rem;
-  }
-
-  .card-retiro-card .info .cap {
-    font-size: 0.8rem;
   }
 
   .search-box {
@@ -437,23 +466,5 @@
 
   .infra-full {
     max-width: 100%;
-  }
-}
-
-@media (max-width: 380px) {
-  .perfil-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .perfil-btn {
-    min-height: 80px;
-    flex-direction: row;
-    gap: 1rem;
-    padding: 1rem 1.25rem;
-  }
-
-  .perfil-btn .ic img {
-    width: 32px;
-    height: 32px;
   }
 }

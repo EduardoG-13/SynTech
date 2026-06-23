@@ -14,6 +14,7 @@
 
   <link rel="stylesheet" href="/public/styles.css">
   <script src="/public/js/auth-client.js"></script>
+  <script src="/public/js/icons.js"></script>
 
   <!-- PWA: manifest + cor de tema (Android/Chrome) -->
   <link rel="manifest" href="/manifest.json">
@@ -29,4 +30,4 @@
   <script type="module" src="/public/js/db.js"></script>
 </head>
 
-<body>
+<body<% if (typeof perfil !== 'undefined') { %> data-perfil="<%= perfil %>"<% } %>>

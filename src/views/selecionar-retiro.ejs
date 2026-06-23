@@ -6,15 +6,15 @@
     <img src="/public/syntech-verde.png" alt="Syntech" />
   </div>
   <div class="header-bar">
-    <button class="back-btn" onclick="window.location.href='/'">← Voltar</button>
+    <button class="btn-voltar" onclick="window.location.href='/'"><span class="material-symbols-rounded ui-icon back-ico" aria-hidden="true">arrow_back</span> Voltar</button>
     <h1>Olá, Capataz!</h1>
     <div class="sub">Toque no seu retiro para entrar</div>
   </div>
 
   <div class="content">
     <div class="search-box">
-      <span><img class="ico-md" src="/public/Icons/lupa.ico" alt="" /></span>
-      <input id="searchRetiro" placeholder="Buscar retiro..." oninput="filtrarRetiros(this.value)" />
+      <span><span class="material-symbols-rounded ui-icon ico-md" aria-hidden="true">search</span></span>
+      <input id="searchRetiro" aria-label="Buscar retiro" placeholder="Buscar retiro..." oninput="filtrarRetiros(this.value)" />
     </div>
 
     <div id="lista-retiros">
@@ -22,19 +22,20 @@
            var nome = r.nome || '';
            var capataz = r.capataz || '';
       %>
-        <div class="card-retiro-card"
+        <button type="button" class="card-retiro-card"
+             data-id="<%= r.id %>"
+             data-retiro-nome="<%= nome %>"
              data-nome="<%= nome.toLowerCase() %>"
-             data-cap="<%= capataz.toLowerCase() %>"
-             onclick="selecionarRetiro('<%= r.id %>', '<%= nome %>')">
-          <span class="pin"><img src="/public/Icons/localizacao.ico" alt="" /></span>
+             data-cap="<%= capataz.toLowerCase() %>">
+          <span class="pin"><span class="material-symbols-rounded ui-icon" aria-hidden="true">location_on</span></span>
           <div class="info">
             <div class="nome"><%= nome %></div>
             <% if (capataz) { %>
               <div class="cap">Capataz: <%= capataz %></div>
             <% } %>
           </div>
-          <span class="arrow">›</span>
-        </div>
+          <span class="material-symbols-rounded ui-icon arrow" aria-hidden="true">chevron_right</span>
+        </button>
       <% }); %>
     </div>
 
@@ -45,6 +46,12 @@
 </div>
 
 <script>
+  document.querySelectorAll('#lista-retiros .card-retiro-card').forEach(function (card) {
+    card.addEventListener('click', function () {
+      selecionarRetiro(card.dataset.id, card.dataset.retiroNome);
+    });
+  });
+
   // === Device binding: cada dispositivo fica "amarrado" a um retiro ===
   // Gera (1x) um token único guardado no localStorage. Identifica o aparelho.
   function getDeviceToken() {
