@@ -5,7 +5,7 @@
 | Critério | Status |
 |---|---|
 | Testes | ✅ PASSOU |
-| Build | ❌ FALHOU |
+| Build | ✅ PASSOU |
 | Deploy | — não avaliado |
 
 ---
@@ -22,19 +22,8 @@ Detalhamento completo em `testes-quebrados-sprint5.md`.
 
 ## Build
 
-**❌ FALHOU** — `tsc --noEmit` retorna 2 erros:
+**✅ PASSOU** — `tsc --noEmit` sem erros.
 
-```
-controllers/adminController.ts(147,16): error TS2304: Cannot find name 'db'.
-controllers/adminController.ts(165,18): error TS2304: Cannot find name 'db'.
-controllers/adminController.ts(168,3): error TS2304: Cannot find name 'db'.
-controllers/boletaController.ts(5,48): error TS2307: Cannot find module './transferenciaController' or its corresponding type declarations.
-```
-
-**Contexto:** os dois erros também estão presentes na branch `developer` no mesmo estado. Não foram introduzidos pelo trabalho desta sprint — `adminController.ts` usa `db` sem import desde antes, e `boletaController.ts` referencia `transferenciaController.ts`, que pertence a uma PR pendente (`fix(#418)`) ainda não mergeada na `developer`.
+Duas correções foram necessárias: import de `db` ausente em `adminController.ts` e criação de `transferenciaController.ts` (arquivo referenciado por `boletaController.ts` que pertencia a uma PR pendente e não havia sido mergeado).
 
 ---
-
-## Deploy
-
-Não avaliado — deploy não foi realizado nesta sprint.
