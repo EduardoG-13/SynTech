@@ -278,6 +278,42 @@
   font-weight: 500;
 }
 
+.detalhe-registro-card {
+  border-color: #D7DFD3;
+}
+
+.detalhe-registro-topo {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.detalhe-registro-status {
+  border: 1px solid #D7DFD3;
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+  white-space: nowrap;
+}
+
+.detalhe-registro-status.obrigatorio {
+  background: #E6F3EB;
+  border-color: #A8CDB7;
+  color: #1A4D2E;
+  font-weight: 800;
+}
+
+.detalhe-registro-ajuda {
+  background: #F5FAF7;
+  border-left: 4px solid #2E7D52;
+  border-radius: 8px;
+  color: #31573F;
+  font-size: 0.85rem;
+  font-weight: 650;
+  margin: 0.5rem 0 0.75rem;
+  padding: 0.55rem 0.7rem;
+}
+
 /* Gravação de áudio nas observações */
 .audio-rec {
   margin-top: 0.75rem;

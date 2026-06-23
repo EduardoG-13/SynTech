@@ -65,6 +65,24 @@ describe('POST /api/chamados', () => {
     expect(alerta).toHaveProperty('longitude');
   });
 
+
+  it('201 - cria chamado com audio mesmo sem descricao textual', async () => {
+    const res = await request(app)
+      .post('/api/chamados')
+      .send({
+        tipo:       'INFRAESTRUTURA',
+        descricao:  '',
+        audio_base64: 'data:audio/webm;base64,abc123',
+        capataz_id: CAPATAZ_ID,
+        retiro_id:  RETIRO_ID,
+        latitude:   -15.7801,
+        longitude:  -47.9292,
+      });
+
+    expect(res.status).toBe(201);
+    expect(res.body.alerta.audio_base64).toBe('data:audio/webm;base64,abc123');
+  });
+
   it('400 — payload vazio: sem tipo, descrição nem coordenadas (RN06)', async () => {
     const res = await request(app)
       .post('/api/chamados')
@@ -83,6 +101,22 @@ describe('POST /api/chamados', () => {
         retiro_id: RETIRO_ID,
         latitude:  -15.7801,
         longitude: -47.9292,
+      });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('erro');
+  });
+
+  it('400 - rejeita chamado sem descricao e sem audio', async () => {
+    const res = await request(app)
+      .post('/api/chamados')
+      .send({
+        tipo:       'INFRAESTRUTURA',
+        descricao:  '',
+        capataz_id: CAPATAZ_ID,
+        retiro_id:  RETIRO_ID,
+        latitude:   -15.7801,
+        longitude:  -47.9292,
       });
 
     expect(res.status).toBe(400);
