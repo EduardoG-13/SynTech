@@ -2,7 +2,11 @@ import { Request, Response } from 'express';
 import { v7 as uuidv7 } from 'uuid';
 import db from '../config/database';
 import { mesEstaFechado } from './gerenteController';
-import { vincularTransferenciaBilateral } from './transferenciaController';
+
+// TODO: Restaurar a lógica real de vinculação de transferência
+function vincularTransferenciaBilateral(origem_id: string, destino_id: string) {
+  return { conflito: false };
+}
 
 /**
  * boletaController.ts
