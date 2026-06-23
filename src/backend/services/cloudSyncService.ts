@@ -1,3 +1,4 @@
+import db from '../config/database';
 import cloudSyncRepository from '../repositories/cloudSyncRepository';
 
 const MAX_TENTATIVAS_CLOUD = 10;
