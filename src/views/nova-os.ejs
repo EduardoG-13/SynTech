@@ -853,6 +853,13 @@
       }
     }
 
+    var obsTexto = ((document.getElementById('os-observacoes') || {}).value || '').trim();
+    var exigeDetalhamento = ['obito', 'transferencia', 'compravenda', 'evolucao', 'manejo'].indexOf(op) >= 0;
+    if (exigeDetalhamento && !obsTexto && !audioBase64) {
+      mostrarMsg('Informe o detalhamento do registro por texto ou audio antes de salvar.', 'erro');
+      return;
+    }
+
     var payload = { operacao: op, perfil: PERFIL, data: (document.getElementById('os-data') || {}).value };
 
     // Gerente: envia em nome de um capataz específico ou registra ele mesmo
@@ -913,7 +920,7 @@
       var fmInput = document.getElementById('os-foto-manejo');
       payload.tem_foto = !!(fmInput && fmInput.files.length);
     }
-    payload.observacoes = (document.getElementById('os-observacoes') || {}).value || '';
+    payload.observacoes = obsTexto;
     payload.observacoes_audio = audioBase64 || ''; // áudio em base64 (data URL) para salvar no banco
 
     // Se está executando uma tarefa pré-agendada, vincula a boleta à tarefa
@@ -1036,9 +1043,23 @@
     var url = editId ? '/api/boletas/' + encodeURIComponent(editId) : '/api/boletas';
     var metodo = editId ? 'PUT' : 'POST';
 
-    // Já está sem rede: salva direto no aparelho, sem nem tentar (e sem travar o capataz).
-    if (!navigator.onLine) {
-      salvarBoletaOffline(url, metodo, payload);
+    if (window.fazerRequisicaoComOffline) {
+      window.fazerRequisicaoComOffline(url, { metodo: metodo, dados: payload, tipo: 'boleta' })
+        .then(function(res) {
+          if (!res.sucesso && !res.offline) {
+            mostrarMsg('Erro ao salvar boleta: ' + (res.mensagem || 'tente novamente.'), 'erro');
+            return;
+          }
+          try {
+            var dados = res.dados || {};
+            var resumo = Object.assign({ id: dados.grupo_id || res.idFila || editId || '', criadoEm: new Date().toISOString(), offline: !!res.offline }, payload);
+            localStorage.setItem('brpec_ultimo_registro', JSON.stringify(resumo));
+          } catch(e) {}
+          window.location.href = '/sucesso';
+        })
+        .catch(function() {
+          mostrarMsg('Nao foi possivel guardar no aparelho. Tente novamente.', 'erro');
+        });
       return;
     }
 

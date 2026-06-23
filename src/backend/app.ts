@@ -13,6 +13,7 @@ import viewRoutes from './routes/viewRoutes';
 import authRoutes from './routes/authRoutes';
 import { autenticarJWT } from './middlewares/authMiddleware';
 import { requireLogin } from './middlewares/authView';
+import { auditoriaMiddleware } from './middlewares/auditoriaMiddleware';
 
 const app = express();
 // Raiz do projeto (g03/) calculada a partir deste arquivo (src/backend/app.ts),
@@ -141,7 +142,7 @@ app.get('/sw.js', (_req: Request, res: Response) => {
 });
 
 // Rotas da API
-app.use('/api', autenticarJWT, routes);
+app.use('/api', autenticarJWT, auditoriaMiddleware, routes);
 
 // Rotas de views adicionais
 app.use('/', viewRoutes);

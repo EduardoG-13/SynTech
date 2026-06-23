@@ -246,8 +246,8 @@
   function enviarResolucao(e) {
     e.preventDefault();
     var descricao = document.getElementById('descricao-solucao').value.trim();
-    if (descricao.length < 5) {
-      msg(' Descreva a resolução (mínimo 5 caracteres).', 'erro');
+    if (descricao.length < 5 && !audioBase64) {
+      msg('Descreva a resolucao por texto ou grave um audio antes de salvar.', 'erro');
       return;
     }
     var foto = document.getElementById('input-foto-resolucao').files[0];
@@ -265,6 +265,20 @@
         foto_base64: fotoBase64 || undefined,
         audio_base64: audioBase64 || undefined,
       };
+      if (window.fazerRequisicaoComOffline) {
+        window.fazerRequisicaoComOffline('/api/chamados/' + encodeURIComponent(CHAMADO_ID) + '/resolver', {
+          metodo: 'PUT',
+          dados: payload,
+          tipo: 'resolucao_chamado',
+        })
+        .then(function(res) {
+          if (!res.sucesso && !res.offline) { msg('Erro ao salvar: ' + (res.mensagem || 'tente novamente.'), 'erro'); return; }
+          msg(res.offline ? 'Resolucao salva no aparelho. Sera sincronizada automaticamente quando a conexao voltar.' : 'Resolucao registrada com sucesso!', 'sucesso');
+          setTimeout(function() { window.location.href = '/infraestrutura'; }, 1500);
+        })
+        .catch(function() { msg('Nao foi possivel guardar no aparelho. Tente novamente.', 'erro'); });
+        return;
+      }
       fetch('/api/chamados/' + encodeURIComponent(CHAMADO_ID) + '/resolver', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
