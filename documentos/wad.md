@@ -6809,7 +6809,7 @@ Ao todo foram realizadas 22 sessões de teste distribuídas entre os três perfi
 
 Os fluxos do **Coordenador** foram os mais estáveis, com 100% de conclusão em ambas as tarefas. Os fluxos do **Gerente** apresentaram resultado misto: a consulta de infraestrutura (Tarefa 4) foi concluída por todos, mas a criação de tarefa (Tarefa 3) falhou para um participante por ausência de feedback visual após o cadastro. Os fluxos do **Capataz** concentraram os problemas mais críticos: a Tarefa 2 resultou em falha total para todos os participantes devido a um erro HTTP 400 na submissão do chamado de infraestrutura, independente da categoria selecionada; na Tarefa 1, dois participantes encontraram dificuldade ou não conseguiram concluir por falta de confirmação de que o registro havia sido sincronizado.
 
-As heurísticas mais recorrentes nas falhas foram **H1 (Visibilidade do status do sistema)**, ausência de confirmação após ações críticas, e **H9 (Diagnóstico e recuperação de erros)**, erros de backend exibidos sem mensagem orientativa ao usuário. Esses achados orientam os ajustes prioritários antes dos testes SUS: correção do endpoint de chamados de infraestrutura e adição de feedback explícito de confirmação nos fluxos do Capataz e do Gerente.
+As heurísticas mais recorrentes nas falhas foram **H1 (Visibilidade do status do sistema)**, ausência de confirmação após ações críticas, e **H9 (Diagnóstico e recuperação de erros)**, erros de backend exibidos sem mensagem orientativa ao usuário. Esses achados orientam os ajustes prioritários para as próximas iterações: correção do endpoint de chamados de infraestrutura e adição de feedback explícito de confirmação nos fluxos do Capataz e do Gerente.
 
 #### Lista de Melhorias Identificadas
 
@@ -6822,7 +6822,7 @@ Os achados dos testes de guerrilha foram compilados e priorizados segundo a **es
 | 3 | Ausência de feedback visual após criação de tarefa calendarizada: participante não localiza a tarefa recém-registrada e interpreta como falha no cadastro | UX | 3 — Grave | P4 / Tarefa 3 | Exibir confirmação (modal ou snackbar) ao salvar tarefa calendarizada e redirecionar ou destacar o item criado na lista |
 | 4 | Sistema não oferece orientação contextual para usuários com menor familiaridade digital: Q4 do SUS registrou 28,6% de concordância com necessidade de suporte técnico e Q7 obteve a menor média entre questões positivas (3,71), com único caso de discordância total | UX | 2 — Simples | P2 (Q4 nota 4, Q7 nota 1); P3 e P4 (Q4 nota 4, Q7 nota 3) / SUS | Adicionar tooltips ou textos de orientação em ações críticas — abertura de chamado e conclusão de tarefa com foto — para reduzir dependência de suporte técnico no perfil de capataz com baixa escolaridade digital |
 
-Não foram observadas ocorrências de severidade 0 (sem importância) ou 1 (cosmético) durante as sessões. O problema catastrófico (severidade 4) e os dois graves (severidade 3) devem ser corrigidos antes dos testes SUS para garantir que os participantes consigam concluir as tarefas e que os resultados reflitam a usabilidade real da interface, e não falhas funcionais.
+Não foram observadas ocorrências de severidade 0 (sem importância) ou 1 (cosmético) durante as sessões. O problema catastrófico (severidade 4) e os dois graves (severidade 3) devem ser priorizados nas próximas iterações para garantir que os participantes consigam concluir as tarefas e que futuras avaliações reflitam a usabilidade real da interface, e não falhas funcionais.
 
 ### 5.2.2. Relatório de testes SUS (System Usability Scale)
 
