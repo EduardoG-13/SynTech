@@ -6824,7 +6824,341 @@ Não foram observadas ocorrências de severidade 0 (sem importância), 1 (cosmé
 
 ### 5.2.2. Relatório de testes SUS (System Usability Scale)
 
-_Posicione aqui o relatório dos testes SUS realizados._
+O *System Usability Scale* (SUS) é um questionário padronizado de dez itens, desenvolvido por John Brooke em 1986, amplamente utilizado para medir a percepção subjetiva de usabilidade de sistemas interativos [56]. Cada item é respondido em uma escala Likert de 1 a 5, e as respostas são combinadas em uma fórmula que produz um escore final entre 0 e 100. Apesar de a escala ser numérica, o escore não representa uma porcentagem. Sua interpretação deve ser feita por comparação com dados de referência e escalas adjetivas próprias do SUS, como a proposta por Bangor, Kortum e Miller [57].
+
+A principal vantagem do SUS está na sua simplicidade de aplicação e na possibilidade de comparar o resultado obtido com bases de dados de referência de centenas de sistemas avaliados, o que confere contexto objetivo à percepção dos usuários [56]. Complementando os testes de guerrilha — que identificam qualitativamente onde e como os usuários encontram dificuldades —, o SUS quantifica o nível geral de satisfação com a interface, permitindo avaliar se a solução atinge um patamar aceitável de usabilidade para o perfil de usuário do projeto.
+
+**Questão 1 — "Eu acho que gostaria de usar este sistema com frequência."**
+
+Esta é uma questão de polaridade positiva no SUS: pontuações mais altas indicam maior intenção de uso recorrente. As respostas dos sete participantes foram as seguintes:
+
+| Participante | Resposta |
+|---|---|
+| P1 | 4 |
+| P2 | 3 |
+| P3 | 3 |
+| P4 | 4 |
+| P5 | 4 |
+| P6 | 5 |
+| P7 | 5 |
+
+A distribuição das respostas é apresentada a seguir:
+
+| Escala | Frequência | Proporção |
+|---|---|---|
+| 5 — Concordo totalmente | 2 | 28,6% |
+| 4 — Concordo | 3 | 42,9% |
+| 3 — Neutro | 2 | 28,6% |
+| 2 — Discordo | 0 | 0,0% |
+| 1 — Discordo totalmente | 0 | 0,0% |
+
+**Média: 4,0 / 5,0**
+
+As respostas variaram entre 3 e 5, sem nenhuma expressão de discordância. A maioria dos participantes (71,4%) concordou com a afirmação, atribuindo notas 4 ou 5, o que indica percepção de valor suficiente na ferramenta para utilizá-la com regularidade. Os dois respondentes neutros (nota 3) não chegaram a expressar resistência ao uso contínuo, reforçando uma percepção geral positiva quanto à utilidade recorrente da solução.
+
+---
+
+**Questão 2 — "Eu achei o sistema desnecessariamente complexo."**
+
+Esta é uma questão de polaridade negativa no SUS: pontuações mais baixas indicam que os participantes não percebem o sistema como complexo, o que é favorável à usabilidade. As respostas foram as seguintes:
+
+| Participante | Resposta |
+|---|---|
+| P1 | 3 |
+| P2 | 2 |
+| P3 | 2 |
+| P4 | 2 |
+| P5 | 1 |
+| P6 | 1 |
+| P7 | 1 |
+
+A distribuição das respostas é apresentada a seguir:
+
+| Escala | Frequência | Proporção |
+|---|---|---|
+| 5 — Concordo totalmente | 0 | 0,0% |
+| 4 — Concordo | 0 | 0,0% |
+| 3 — Neutro | 1 | 14,3% |
+| 2 — Discordo | 3 | 42,9% |
+| 1 — Discordo totalmente | 3 | 42,9% |
+
+**Média: 1,71 / 5,0**
+
+Nenhum participante concordou que o sistema é desnecessariamente complexo. A maioria expressiva (85,7%) discordou da afirmação, sendo que 42,9% o fizeram de forma categórica (nota 1). O único respondente neutro (nota 3) também não chegou a confirmar a percepção de complexidade. O resultado indica que a interface foi percebida como simples e direta para o perfil de usuário avaliado.
+
+---
+
+**Questão 3 — "Eu achei o sistema fácil de usar."**
+
+Esta é uma questão de polaridade positiva no SUS: pontuações mais altas indicam maior percepção de facilidade de uso. As respostas foram as seguintes:
+
+| Participante | Resposta |
+|---|---|
+| P1 | 4 |
+| P2 | 3 |
+| P3 | 4 |
+| P4 | 4 |
+| P5 | 5 |
+| P6 | 5 |
+| P7 | 5 |
+
+A distribuição das respostas é apresentada a seguir:
+
+| Escala | Frequência | Proporção |
+|---|---|---|
+| 5 — Concordo totalmente | 3 | 42,9% |
+| 4 — Concordo | 3 | 42,9% |
+| 3 — Neutro | 1 | 14,3% |
+| 2 — Discordo | 0 | 0,0% |
+| 1 — Discordo totalmente | 0 | 0,0% |
+
+**Média: 4,29 / 5,0**
+
+A grande maioria dos participantes (85,7%) concordou que o sistema é fácil de usar, com 42,9% expressando concordância total. O único respondente neutro (nota 3) não chegou a contradizer a percepção de facilidade. A ausência de discordância e a média de 4,29 posicionam esta questão como uma das mais bem avaliadas do questionário, indicando que os fluxos e a interface foram percebidos como intuitivos pelo perfil de usuário testado.
+
+---
+
+**Questão 4 — "Eu acho que precisaria de ajuda de uma pessoa técnica para ser capaz de usar este sistema."**
+
+Esta é uma questão de polaridade negativa no SUS: pontuações mais baixas indicam que os participantes se sentem capazes de usar o sistema de forma independente. As respostas foram as seguintes:
+
+| Participante | Resposta |
+|---|---|
+| P1 | 2 |
+| P2 | 4 |
+| P3 | 4 |
+| P4 | 3 |
+| P5 | 1 |
+| P6 | 1 |
+| P7 | 1 |
+
+A distribuição das respostas é apresentada a seguir:
+
+| Escala | Frequência | Proporção |
+|---|---|---|
+| 5 — Concordo totalmente | 0 | 0,0% |
+| 4 — Concordo | 2 | 28,6% |
+| 3 — Neutro | 1 | 14,3% |
+| 2 — Discordo | 1 | 14,3% |
+| 1 — Discordo totalmente | 3 | 42,9% |
+
+**Média: 2,29 / 5,0**
+
+A maioria dos participantes (57,1%) discordou da necessidade de suporte técnico para operar o sistema. No entanto, dois participantes (28,6%) concordaram com a afirmação, o que representa o ponto de maior divergência identificado até agora no questionário. Considerando que o perfil-alvo da aplicação inclui capatazes com baixa familiaridade digital — conforme descrito nas personas do projeto —, este resultado merece atenção: ainda que a média seja favorável, a presença de usuários que percebem necessidade de auxílio técnico indica oportunidade de melhoria em orientações contextuais e fluxos de onboarding da interface.
+
+---
+
+**Questão 5 — "Eu achei que as várias funções neste sistema estão bem integradas."**
+
+Esta é uma questão de polaridade positiva no SUS: pontuações mais altas indicam que os participantes percebem coerência e integração entre as funcionalidades do sistema. As respostas foram as seguintes:
+
+| Participante | Resposta |
+|---|---|
+| P1 | 4 |
+| P2 | 3 |
+| P3 | 5 |
+| P4 | 5 |
+| P5 | 5 |
+| P6 | 5 |
+| P7 | 5 |
+
+A distribuição das respostas é apresentada a seguir:
+
+| Escala | Frequência | Proporção |
+|---|---|---|
+| 5 — Concordo totalmente | 5 | 71,4% |
+| 4 — Concordo | 1 | 14,3% |
+| 3 — Neutro | 1 | 14,3% |
+| 2 — Discordo | 0 | 0,0% |
+| 1 — Discordo totalmente | 0 | 0,0% |
+
+**Média: 4,57 / 5,0**
+
+Esta questão obteve a maior média registrada até o momento no questionário. Cinco dos sete participantes (71,4%) concordaram plenamente que as funções do sistema estão bem integradas, e nenhum expressou discordância. O resultado indica que os fluxos entre os diferentes perfis de usuário — Capataz, Gerente e Coordenador — e entre os módulos da aplicação foram percebidos como coesos e consistentes, o que é especialmente relevante em um sistema com operação offline e sincronização assíncrona.
+
+---
+
+**Questão 6 — "Eu achei que havia muita inconsistência neste sistema."**
+
+Esta é uma questão de polaridade negativa no SUS: pontuações mais baixas indicam que os participantes não percebem inconsistências na interface. As respostas foram as seguintes:
+
+| Participante | Resposta |
+|---|---|
+| P1 | 2 |
+| P2 | 2 |
+| P3 | 2 |
+| P4 | 2 |
+| P5 | 1 |
+| P6 | 1 |
+| P7 | 2 |
+
+A distribuição das respostas é apresentada a seguir:
+
+| Escala | Frequência | Proporção |
+|---|---|---|
+| 5 — Concordo totalmente | 0 | 0,0% |
+| 4 — Concordo | 0 | 0,0% |
+| 3 — Neutro | 0 | 0,0% |
+| 2 — Discordo | 5 | 71,4% |
+| 1 — Discordo totalmente | 2 | 28,6% |
+
+**Média: 1,71 / 5,0**
+
+Esta questão apresenta o resultado mais homogêneo de todo o questionário: todos os sete participantes discordaram da afirmação, sem nenhuma resposta neutra ou de concordância. O resultado reforça o que a Q5 já indicava — os participantes perceberam o sistema como coerente e consistente em seus diferentes fluxos e módulos, o que é um indicador robusto de qualidade na padronização da interface.
+
+---
+
+**Questão 7 — "Eu imagino que a maioria das pessoas aprenderia a usar este sistema muito rapidamente."**
+
+Esta é uma questão de polaridade positiva no SUS: pontuações mais altas indicam que os participantes percebem o sistema como de rápida curva de aprendizado. As respostas foram as seguintes:
+
+| Participante | Resposta |
+|---|---|
+| P1 | 5 |
+| P2 | 1 |
+| P3 | 3 |
+| P4 | 3 |
+| P5 | 5 |
+| P6 | 4 |
+| P7 | 5 |
+
+A distribuição das respostas é apresentada a seguir:
+
+| Escala | Frequência | Proporção |
+|---|---|---|
+| 5 — Concordo totalmente | 3 | 42,9% |
+| 4 — Concordo | 1 | 14,3% |
+| 3 — Neutro | 2 | 28,6% |
+| 2 — Discordo | 0 | 0,0% |
+| 1 — Discordo totalmente | 1 | 14,3% |
+
+**Média: 3,71 / 5,0**
+
+Esta questão apresenta a maior dispersão de respostas do questionário até o momento. A maioria (57,1%) concordou que o sistema seria aprendido rapidamente, e dois participantes permaneceram neutros. No entanto, um participante (P2) discordou totalmente da afirmação, configurando o único caso de discordância categórica em uma questão positiva ao longo de todo o SUS. Esse resultado, somado à divergência observada na Q4, indica que a percepção de aprendizabilidade não foi uniforme entre os participantes. O SUS, isoladamente, não permite atribuir essa variação ao grau de familiaridade digital; essa hipótese exigiria dados qualitativos adicionais sobre cada participante.
+
+---
+
+**Questão 8 — "Eu achei o sistema muito complicado de usar."**
+
+Esta é uma questão de polaridade negativa no SUS: pontuações mais baixas indicam que os participantes não percebem o sistema como complicado. As respostas foram as seguintes:
+
+| Participante | Resposta |
+|---|---|
+| P1 | 2 |
+| P2 | 3 |
+| P3 | 2 |
+| P4 | 2 |
+| P5 | 1 |
+| P6 | 2 |
+| P7 | 1 |
+
+A distribuição das respostas é apresentada a seguir:
+
+| Escala | Frequência | Proporção |
+|---|---|---|
+| 5 — Concordo totalmente | 0 | 0,0% |
+| 4 — Concordo | 0 | 0,0% |
+| 3 — Neutro | 1 | 14,3% |
+| 2 — Discordo | 4 | 57,1% |
+| 1 — Discordo totalmente | 2 | 28,6% |
+
+**Média: 1,86 / 5,0**
+
+Nenhum participante concordou que o sistema é complicado de usar. A grande maioria (85,7%) discordou ativamente da afirmação, e o único respondente neutro (P2, nota 3) é o mesmo que atribuiu discordância total na Q7. Isso demonstra que P2 apresentou uma percepção menos favorável em diferentes itens, mas não permite atribuir causalidade sem evidência qualitativa complementar. O resultado agregado é consistente com os dados das Q2 e Q6, consolidando a percepção de que o sistema não foi considerado complexo ou complicado pela maioria do grupo avaliado.
+
+---
+
+**Questão 9 — "Eu me senti muito confiante ao usar o sistema."**
+
+Esta é uma questão de polaridade positiva no SUS: pontuações mais altas indicam que os participantes se sentiram seguros e à vontade durante o uso. As respostas foram as seguintes:
+
+| Participante | Resposta |
+|---|---|
+| P1 | 4 |
+| P2 | 2 |
+| P3 | 4 |
+| P4 | 4 |
+| P5 | 4 |
+| P6 | 4 |
+| P7 | 5 |
+
+A distribuição das respostas é apresentada a seguir:
+
+| Escala | Frequência | Proporção |
+|---|---|---|
+| 5 — Concordo totalmente | 1 | 14,3% |
+| 4 — Concordo | 5 | 71,4% |
+| 3 — Neutro | 0 | 0,0% |
+| 2 — Discordo | 1 | 14,3% |
+| 1 — Discordo totalmente | 0 | 0,0% |
+
+**Média: 3,86 / 5,0**
+
+A maioria expressiva dos participantes (85,7%) concordou que se sentiu confiante ao usar o sistema, com cinco deles atribuindo nota 4 — o que indica uma concordância consistente, ainda que não categórica. O único ponto de atenção é P2 (nota 2), que novamente destoa do grupo, padrão já observado nas Q7 e Q8. A ausência de respostas neutras nesta questão é relevante: os participantes polarizaram entre confiança e desconfiança, sem ambiguidade, o que sugere que a interface transmite clareza suficiente para a maioria, mas pode gerar insegurança em usuários com menor experiência digital.
+
+---
+
+**Questão 10 — "Eu precisei aprender muitas coisas novas antes de conseguir usar este sistema."**
+
+Esta é uma questão de polaridade negativa no SUS: pontuações mais baixas indicam que os participantes não precisaram de esforço de aprendizado significativo para começar a usar o sistema. As respostas foram as seguintes:
+
+| Participante | Resposta |
+|---|---|
+| P1 | 1 |
+| P2 | 3 |
+| P3 | 2 |
+| P4 | 2 |
+| P5 | 2 |
+| P6 | 2 |
+| P7 | 1 |
+
+A distribuição das respostas é apresentada a seguir:
+
+| Escala | Frequência | Proporção |
+|---|---|---|
+| 5 — Concordo totalmente | 0 | 0,0% |
+| 4 — Concordo | 0 | 0,0% |
+| 3 — Neutro | 1 | 14,3% |
+| 2 — Discordo | 4 | 57,1% |
+| 1 — Discordo totalmente | 2 | 28,6% |
+
+**Média: 1,86 / 5,0**
+
+Nenhum participante concordou que precisou aprender muitas coisas novas para usar o sistema. A maioria (85,7%) discordou ativamente, e o único neutro (P2, nota 3) mantém o padrão já identificado nas questões anteriores. O resultado encerra o questionário com uma percepção positiva de familiaridade imediata com a interface, indicando que os elementos de navegação e interação adotados foram suficientemente reconhecíveis para os participantes, sem exigir aprendizado de novos padrões de uso.
+
+---
+
+**Escore SUS consolidado**
+
+A tabela a seguir apresenta o escore individual calculado para cada participante, obtido pela fórmula padrão do SUS: para cada questão de polaridade positiva (ímpares), a contribuição é `resposta − 1`; para cada questão de polaridade negativa (pares), a contribuição é `5 − resposta`. A soma das dez contribuições é multiplicada por 2,5, resultando em um escore entre 0 e 100.
+
+| Participante | Escore SUS |
+|---|---|
+| P1 | 77,5 |
+| P2 | 45,0 |
+| P3 | 67,5 |
+| P4 | 72,5 |
+| P5 | 92,5 |
+| P6 | 90,0 |
+| P7 | 97,5 |
+| **Média** | **77,5** |
+
+Na escala adjetiva de Bangor, Kortum e Miller [57], o escore médio de **77,5** situa a avaliação geral na categoria **"Bom"**. Seis dos sete participantes obtiveram escores iguais ou superiores a 67,5, enquanto P2 apresentou o menor resultado (45,0). A amplitude observada, de 45,0 a 97,5, evidencia heterogeneidade entre as percepções individuais. O resultado de P2 deve permanecer no cálculo consolidado: não há critério estatístico previamente definido que justifique tratá-lo como *outlier* ou descartá-lo da análise.
+
+O resultado geral indica que a solução desenvolvida atinge um nível de usabilidade percebida compatível com produtos digitais bem avaliados, com margem de melhoria concentrada em fluxos de onboarding e orientação contextual para usuários com menor experiência digital — aspecto coerente com o perfil de capataz descrito nas personas do projeto.
+
+---
+
+#### Triangulação com os testes de guerrilha
+
+A leitura integrada dos testes de guerrilha e do SUS revela padrões consistentes que se reforçam mutuamente, permitindo uma interpretação mais robusta dos dados do que cada método ofereceria isoladamente.
+
+**Tarefa 2 e as questões de suporte técnico (Q4) e aprendizabilidade (Q7).** A Tarefa 2 — abertura de chamado de infraestrutura pelo Capataz — resultou em 100% de falha entre os três participantes, todos impedidos por um erro HTTP 400 sem mensagem orientativa ao usuário (H9). Esse incidente é o principal candidato a explicar por que Q4 ("precisaria de ajuda de uma pessoa técnica") registrou a maior taxa de concordância do questionário (28,6%) e por que Q7 ("maioria aprenderia rapidamente") obteve a média mais baixa entre as questões positivas (3,71) e o único caso de discordância total. Participantes que encontraram uma falha funcional sem diagnóstico claro tendem a atribuir a dificuldade a complexidade do sistema, e não ao bug — o que infla artificialmente a percepção de necessidade de suporte técnico e reduz a confiança na aprendizabilidade.
+
+**Fluxos do Coordenador e a percepção de integração (Q5).** As Tarefas 5 e 6 — visualização de movimentação zootécnica e exportação em CSV pelo Coordenador — registraram 100% de conclusão com sucesso pleno, sem ocorrências de dificuldade ou falha. Esse resultado tem correspondência direta na Q5 ("as várias funções estão bem integradas"), que obteve a maior média de todo o questionário (4,57) e a maior concentração de respostas máximas (71,4%). A coerência entre os fluxos do Coordenador e a percepção de integração sugere que a arquitetura de informação desse perfil — acesso a dados consolidados, filtros e exportação — foi a mais clara e fluida para os participantes.
+
+**H1 (ausência de confirmação) e a confiança percebida (Q9).** A heurística mais recorrente nos testes de guerrilha foi H1 — visibilidade do status do sistema — manifestada na falta de feedback após sincronização (Tarefa 1) e após criação de tarefa calendarizada (Tarefa 3). A Q9 do SUS ("senti muito confiante ao usar o sistema") registrou a única discordância (P2, nota 2) entre as questões positivas com média acima de 3,5. A ausência de confirmações visuais em ações críticas é uma das causas mais documentadas de baixa confiança percebida, e a correlação entre as falhas de H1 no guerrilha e a nota de Q9 reforça esse diagnóstico.
+
 
 # <a name="c6"></a>6. Estudo de Mercado e Plano de Marketing (sprint 4)
 
@@ -7297,6 +7631,10 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 [54] NIELSEN, Jakob. Why You Only Need to Test with 5 Users. Nielsen Norman Group, 19 mar. 2000. Disponível em: https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/. Acesso em: jun. 2026.
 
 [55] ISO 9241-11:2018. Ergonomics of human-system interaction — Part 11: Usability: Definitions and concepts. Geneva: International Organization for Standardization, 2018.
+
+[56] BROOKE, John. SUS: A 'Quick and Dirty' Usability Scale. In: JORDAN, P. W. et al. (eds.). Usability Evaluation in Industry. London: Taylor & Francis, 1996. p. 189–194.
+
+[57] BANGOR, Aaron; KORTUM, Philip; MILLER, James. Determining What Individual SUS Scores Mean: Adding an Adjective Rating Scale. Journal of Usability Studies, v. 4, n. 3, p. 114–123, 2009.
 
 # <a name="c9"></a>Anexos
 
