@@ -49,21 +49,30 @@
       <form id="form-resolver-chamado" class="form-resolucao">
         <input type="hidden" id="chamado-id" value="<%= typeof chamadoId !== 'undefined' ? chamadoId : '' %>" />
 
-        <div class="card-resolucao">
-          <label class="label-bold"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">edit</span> Descrição da Solução <span class="req-star">*</span></label>
-          <textarea id="descricao-solucao" rows="5" maxlength="500" placeholder="Descreva o que foi feito para resolver o problema..."></textarea>
+        <div class="card-resolucao detalhamento-card">
+          <div class="detalhamento-topo">
+            <label class="label-bold" for="descricao-solucao"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">edit</span> Como o chamado foi resolvido</label>
+            <span class="detalhamento-badge">Texto ou &aacute;udio obrigat&oacute;rio</span>
+          </div>
+          <p class="detalhamento-regra">Explique a solu&ccedil;&atilde;o. Voc&ecirc; pode escrever, gravar um &aacute;udio, ou fazer os dois.</p>
+          <textarea id="descricao-solucao" rows="5" maxlength="500" placeholder="Ex: Troquei a fia&ccedil;&atilde;o do bebedouro e testei o funcionamento..."></textarea>
           <div class="char-counter"><span id="char-count">0</span>/500</div>
-        </div>
 
-        <div class="card-resolucao">
-          <label class="label-bold"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">mic</span> Gravar áudio <span class="opcional-txt">(opcional)</span></label>
-          <p class="ajuda">Se preferir, grave um áudio explicando a resolução.</p>
-          <button type="button" class="btn-audio" id="btn-gravar-audio">
-            <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">mic</span>
-            <span id="audio-btn-txt">Gravar áudio</span>
-          </button>
-          <audio id="audio-preview" controls style="display:none; width:100%; margin-top:0.5rem;"></audio>
-          <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;"><span class="material-symbols-rounded ui-icon" aria-hidden="true">delete</span> Apagar áudio</button>
+          <div class="detalhamento-audio">
+            <div class="detalhamento-divisor"><span>ou</span></div>
+            <div class="detalhamento-audio-linha">
+              <div class="detalhamento-audio-texto">
+                <strong><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">mic</span> Gravar &aacute;udio</strong>
+                <span>Bom para explicar a solu&ccedil;&atilde;o sem digitar.</span>
+              </div>
+              <button type="button" class="btn-audio" id="btn-gravar-audio">
+                <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">mic</span>
+                <span id="audio-btn-txt">Gravar &aacute;udio</span>
+              </button>
+            </div>
+            <audio id="audio-preview" controls style="display:none; width:100%; margin-top:0.5rem;"></audio>
+            <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;"><span class="material-symbols-rounded ui-icon" aria-hidden="true">delete</span> Apagar &aacute;udio</button>
+          </div>
         </div>
 
         <div class="card-resolucao">

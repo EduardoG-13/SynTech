@@ -165,9 +165,13 @@
           </select>
         </div>
 
-        <!-- ===================== OBSERVAÇÕES (texto OU áudio) ===================== -->
-        <div class="card campo dinamico" data-op="nascimento obito abate transferencia compravenda evolucao manejo">
-          <label for="os-observacoes"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">edit</span> Observações <span class="opcional-txt">(opcional)</span></label>
+        <!-- ===================== DETALHAMENTO (texto OU áudio) ===================== -->
+        <div class="card campo dinamico detalhe-registro-card" data-op="nascimento obito abate transferencia compravenda evolucao manejo">
+          <div class="detalhe-registro-topo">
+            <label for="os-observacoes"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">edit</span> <span id="detalhe-registro-titulo">Observações</span></label>
+            <span class="opcional-txt detalhe-registro-status" id="detalhe-registro-status">(opcional)</span>
+          </div>
+          <p class="detalhe-registro-ajuda" id="detalhe-registro-ajuda">Se precisar, escreva ou grave um áudio para complementar o registro.</p>
           <textarea id="os-observacoes" rows="3" placeholder="Escreva ou grave um áudio"></textarea>
 
           <div class="audio-rec">
@@ -735,6 +739,7 @@
         var ops = el.getAttribute('data-op').split(' ');
         el.style.display = ops.indexOf(op) >= 0 ? 'block' : 'none';
       });
+      atualizarDetalhamentoObrigatorio(op);
       document.getElementById('btn-enviar').disabled = !op;
 
       // Morte/abate: só uma categoria (mesmo sexo/idade), esconde botão "+"
@@ -754,6 +759,31 @@
         if (!ce.children.length) addLinhaEvolucao();
       }
     });
+  }
+
+  function atualizarDetalhamentoObrigatorio(op) {
+    var exigeDetalhamento = ['obito', 'transferencia', 'compravenda', 'evolucao', 'manejo'].indexOf(op) >= 0;
+    var titulo = document.getElementById('detalhe-registro-titulo');
+    var status = document.getElementById('detalhe-registro-status');
+    var ajuda = document.getElementById('detalhe-registro-ajuda');
+    var textarea = document.getElementById('os-observacoes');
+    if (!titulo || !status || !ajuda || !textarea) return;
+
+    if (exigeDetalhamento) {
+      titulo.textContent = 'Detalhamento do registro';
+      status.textContent = 'Texto ou áudio obrigatório';
+      status.classList.add('obrigatorio');
+      ajuda.textContent = 'Explique o registro por texto ou por áudio. Pode usar os dois se preferir.';
+      textarea.placeholder = 'Ex: animal transferido para manejo no retiro Acurizal...';
+      textarea.setAttribute('aria-required', 'true');
+    } else {
+      titulo.textContent = 'Observações';
+      status.textContent = '(opcional)';
+      status.classList.remove('obrigatorio');
+      ajuda.textContent = 'Se precisar, escreva ou grave um áudio para complementar o registro.';
+      textarea.placeholder = 'Escreva ou grave um áudio';
+      textarea.removeAttribute('aria-required');
+    }
   }
 
   function configurarToggles() {
