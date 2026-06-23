@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { AppError } from '../utils/AppError';
 import adminService from '../services/adminService';
-import db from '../config/database';
 
 // ==================== RETIROS ====================
 
