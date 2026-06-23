@@ -12,8 +12,8 @@
 
 ## Resultado do build (verificado agora)
 
-`tsc --noEmit` passa sem erros após duas correções: import de `db` ausente em `adminController.ts` e criação de `transferenciaController.ts`, que era referenciado por `boletaController.ts` mas pertencia a uma PR pendente não mergeada.
+`tsc --noEmit` falha com 2 erros: import de `db` ausente em `adminController.ts` e `boletaController.ts` referenciando `transferenciaController.ts`, que pertence a uma PR pendente (`fix(#418)`) ainda não mergeada. Correções pendentes em PR separado.
 
 ## Conclusão
 
-A task estava incompleta no formato. O núcleo do trabalho foi feito (diagnóstico e correção dos testes), mas faltou o checklist explícito e a avaliação do critério de build. Os gaps foram endereçados: checklist criado em `checklist-criterios-publicacao-sp5.md`, erros de build corrigidos, todos os critérios avaliados como PASSOU.
+A task estava incompleta no formato. O núcleo do trabalho foi feito (diagnóstico e correção dos testes), mas faltou o checklist explícito e a avaliação do critério de build. O checklist foi criado em `checklist-criterios-publicacao-sp5.md`; os erros de build são pré-existentes e serão corrigidos em PR separado.

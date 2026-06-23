@@ -5,7 +5,7 @@
 | Critério | Status |
 |---|---|
 | Testes | ✅ PASSOU |
-| Build | ✅ PASSOU |
+| Build | ❌ FALHOU |
 
 ---
 
@@ -21,8 +21,11 @@ Detalhamento completo em `testes-quebrados-sprint5.md`.
 
 ## Build
 
-**✅ PASSOU** - `tsc --noEmit` sem erros.
+**❌ FALHOU** - `tsc --noEmit` retorna 2 erros:
 
-Duas correções foram necessárias: import de `db` ausente em `adminController.ts` e criação de `transferenciaController.ts` (arquivo referenciado por `boletaController.ts` que pertencia a uma PR pendente e não havia sido mergeado).
+- `adminController.ts`: `Cannot find name 'db'` - import ausente.
+- `boletaController.ts`: `Cannot find module './transferenciaController'` - arquivo pertencente a uma PR pendente (`fix(#418)`) ainda não mergeada.
+
+Correções pendentes em PR separado.
 
 ---
