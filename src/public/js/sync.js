@@ -113,7 +113,15 @@ function obterTipoEntidade(item) {
     }
   }
 
-  if (item.tipo === 'tarefa' || item.tipo === 'chamado') {
+  if (item.tipo === 'chamado' || item.tipo === 'resolucao_chamado') {
+    return 'alerta';
+  }
+
+  if (item.tipo === 'boleta' || item.tipo === 'movimentacao') {
+    return 'movimentacao';
+  }
+
+  if (item.tipo === 'tarefa') {
     return 'tarefa';
   }
 
@@ -128,8 +136,96 @@ function extrairDadosDoItem(item) {
   return item.dados?.dados ?? item.dados ?? null;
 }
 
+function ehRequisicaoOriginal(item) {
+  return !!(item && item.dados && typeof item.dados.url === 'string');
+}
+
+async function marcarFalhaLocal(registro, erro) {
+  registro.status = 'FALHA';
+  registro.dados = {
+    ...registro.dados,
+    tentativas: (registro.dados?.tentativas || 0) + 1,
+    ultimaTentativa: new Date().toISOString(),
+    erroServidor: erro,
+  };
+  await window.brpecIndexedDb.atualizarFila(registro);
+}
+
+async function enviarRequisicoesOriginais(itensOriginais) {
+  const resultados = [];
+  const idsParaRemover = [];
+  let sucessos = 0;
+  let erros = 0;
+
+  for (const item of itensOriginais) {
+    const dadosFila = item.dados || {};
+    const payload = dadosFila.dados || {};
+    const timeoutMs = payloadPossuiEvidencia(payload)
+      ? SYNC_EVIDENCE_TIMEOUT_MS
+      : SYNC_REQUEST_TIMEOUT_MS;
+
+    const response = await fetchComTimeout(
+      dadosFila.url,
+      {
+        method: dadosFila.metodo || 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: payload ? JSON.stringify(payload) : null,
+      },
+      timeoutMs
+    );
+
+    if (response.ok) {
+      idsParaRemover.push(item.id);
+      sucessos += 1;
+      resultados.push({
+        entidade_tipo: obterTipoEntidade(item),
+        entidade_id: payload.id || payload.grupo_id || String(item.id),
+        status: 'SINCRONIZADO',
+      });
+      continue;
+    }
+
+    const errorText = await response.text();
+    const erro = `Falha ao reenviar requisição original: ${response.status} ${errorText}`;
+    erros += 1;
+    resultados.push({
+      entidade_tipo: obterTipoEntidade(item),
+      entidade_id: payload.id || payload.grupo_id || String(item.id),
+      status: 'ERRO',
+      erro,
+    });
+
+    await marcarFalhaLocal(item, erro);
+  }
+
+  if (idsParaRemover.length > 0) {
+    await window.brpecIndexedDb.removerVarios(idsParaRemover);
+  }
+
+  return {
+    processados: itensOriginais.length,
+    sucessos,
+    erros,
+    resultados,
+  };
+}
+
 async function enviarLoteSemRetry(itensPendentes) {
-  const itensParaEnviar = itensPendentes.map((item) => ({
+  const itensOriginais = itensPendentes.filter(ehRequisicaoOriginal);
+  const itensGenericos = itensPendentes.filter((item) => !ehRequisicaoOriginal(item));
+
+  const resultadoOriginal = itensOriginais.length
+    ? await enviarRequisicoesOriginais(itensOriginais)
+    : { processados: 0, sucessos: 0, erros: 0, resultados: [] };
+
+  if (!itensGenericos.length) {
+    return resultadoOriginal;
+  }
+
+  const itensParaEnviar = itensGenericos.map((item) => ({
     id: item.id,
     entidade_tipo: obterTipoEntidade(item),
     dados: extrairDadosDoItem(item),
@@ -172,7 +268,7 @@ async function enviarLoteSemRetry(itensPendentes) {
 
   for (let index = 0; index < resultado.resultados.length; index += 1) {
     const resultadoItem = resultado.resultados[index];
-    const registro = itensPendentes[index];
+    const registro = itensGenericos[index];
 
     if (resultadoItem.status === 'SINCRONIZADO') {
       idsParaRemover.push(registro.id);
@@ -208,7 +304,15 @@ async function enviarLoteSemRetry(itensPendentes) {
     }
   }
 
-  return resultado;
+  return {
+    processados: resultadoOriginal.processados + (resultado.processados || itensGenericos.length),
+    sucessos: resultadoOriginal.sucessos + (resultado.sucessos || 0),
+    erros: resultadoOriginal.erros + (resultado.erros || 0),
+    resultados: [
+      ...resultadoOriginal.resultados,
+      ...(resultado.resultados || []),
+    ],
+  };
 }
 
 async function enviarLote(itensPendentes) {
@@ -264,7 +368,7 @@ export async function processarFilaSincronizacao() {
       };
     }
 
-    const itensPendentes = itens.filter((item) => item.status === 'PENDENTE' || item.status === 'FALHA');
+    const itensPendentes = itens.filter((item) => ['PENDENTE', 'FALHA', 'pending', 'failed'].includes(item.status));
     console.log(`[Sincronizador] ${itensPendentes.length} itens com status PENDENTE ou FALHA`);
 
     if (itensPendentes.length === 0) {

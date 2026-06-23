@@ -27,11 +27,38 @@ class AlertaService {
     return await alertaRepository.buscarPorId(id);
   }
 
+  async iniciarChamado(id: string, tecnico_id: string) {
+    const usuario = tecnico_id ? await alertaRepository.buscarUsuarioPorId(tecnico_id) : null;
+    const perfisPermitidos = ['Tecnico', 'Infraestrutura'];
+
+    if (!usuario && tecnico_id?.startsWith('tecnico-')) {
+      // Login simplificado da Infra nao persiste no banco: aceitar pelo padrao de id.
+    } else if (!usuario || !perfisPermitidos.includes(usuario.perfil)) {
+      throw new Error('ACESSO_NEGADO: Apenas tÃ©cnicos da infraestrutura podem iniciar chamados');
+    }
+
+    const chamado = await alertaRepository.buscarPorId(id);
+    if (!chamado) {
+      throw new Error('CHAMADO_NAO_ENCONTRADO');
+    }
+
+    if (chamado.status === 'RESOLVIDO') {
+      throw new Error('CHAMADO_JA_RESOLVIDO');
+    }
+
+    if (chamado.status === 'EM_ANDAMENTO') {
+      return chamado;
+    }
+
+    return alertaRepository.iniciar(id, tecnico_id);
+  }
+
   async resolverChamado(
     id: string,
     tecnico_id: string,
     solucao: string,
-    foto_base64: string
+    foto_base64: string,
+    audio_base64 = ''
   ) {
     const usuario = await alertaRepository.buscarUsuarioPorId(tecnico_id);
     // Aceita tanto 'Tecnico' (modelo antigo) quanto 'Infraestrutura' (novo perfil de sessão)
@@ -52,7 +79,11 @@ class AlertaService {
       throw new Error('CHAMADO_JA_RESOLVIDO');
     }
 
-    return alertaRepository.resolver(id, tecnico_id, solucao, foto_base64);
+    if (!solucao && !audio_base64) {
+      throw new Error('DETALHAMENTO_OBRIGATORIO: informe texto ou audio para a solucao');
+    }
+
+    return alertaRepository.resolver(id, tecnico_id, solucao, foto_base64, audio_base64);
   }
 }
 

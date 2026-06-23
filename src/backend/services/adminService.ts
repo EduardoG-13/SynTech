@@ -141,7 +141,7 @@ export class AdminService {
   public revogarDispositivo(id: string) {
     const existe = adminRepository.verificarDispositivoExiste(id);
     if (!existe) throw new Error('Dispositivo não encontrado.');
-    
+
     adminRepository.revogarDispositivo(id);
   }
 }

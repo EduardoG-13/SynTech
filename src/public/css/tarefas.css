@@ -90,6 +90,10 @@
   background: #2E7D52;
 }
 
+.bar-lateral.bloqueada {
+  background: #666;
+}
+
 /* Corpo do card */
 .tarefa-card .body {
   display: flex;
@@ -173,6 +177,37 @@
 .badge.concluida {
   background: #E6F3EB;
   color: #2E7D52;
+}
+
+.badge.bloqueada {
+  background: #E8E8E8;
+  color: #666;
+}
+
+/* Conflito icon inline no título */
+.conflito-icon {
+  font-size: 1.1rem;
+  margin-left: 0.3rem;
+  cursor: help;
+  vertical-align: middle;
+}
+
+/* Boleta number highlight */
+.boleta-num {
+  font-weight: 600 !important;
+  color: #1A4D2E !important;
+}
+
+/* Badge "NOVA" para tarefas do gerente */
+.badge-nova {
+  background: #D32F2F;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  margin-left: 0.3rem;
+  vertical-align: middle;
 }
 
 .tarefa-card .arrow {
@@ -273,22 +308,7 @@
   padding: 0;
 }
 
-.btn-voltar {
-  background: none;
-  border: none;
-  color: #1A4D2E;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-  margin-bottom: 1rem;
-  min-height: auto;
-}
-
-.btn-voltar:hover {
-  background: none;
-  color: #2E7D52;
-}
+/* .btn-voltar definido globalmente em styles.css */
 
 .detalhe-cabecalho {
   background: #fff;
@@ -861,3 +881,4 @@ body[data-perfil="Capataz"] .dado-valor {
     font-size: 0.9rem;
   }
 }
+.sucesso-icone .material-symbols-rounded { font-size: 4rem; color: #2E7D52; }

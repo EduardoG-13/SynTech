@@ -6,13 +6,13 @@
 
   <div id="app">
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar">🐄</div>
+      <div class="user-avatar" aria-label="Perfil: <%= perfil %>"><span class="material-symbols-rounded" aria-hidden="true"><%= perfil === 'Capataz' ? 'engineering' : 'pets' %></span></div>
       <h1>Nova Boleta Zootécnica</h1>
       <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %> · <%= retiro %></div>
     </div>
 
     <main class="form-main">
-      <button class="btn btn-voltar" onclick="window.location.href='/boletas?perfil=<%= perfil %>&retiro=<%= retiro %>'">⬅️ Voltar</button>
+      <button class="btn-voltar" onclick="window.location.href='/boletas?perfil=<%= perfil %>&retiro=<%= retiro %>'"><span class="material-symbols-rounded ui-icon back-ico" aria-hidden="true">arrow_back</span> Voltar</button>
 
       <form id="form-nova-boleta" class="boleta-form">
         <section class="boleta-card">
@@ -20,7 +20,7 @@
           <p class="descricao-texto">Preencha os dados básicos. Campos adicionais são exibidos apenas para mortes.</p>
 
           <label for="tipo-boleta">
-            Tipo de boleta
+            Tipo de boleta <span class="req-star">*</span>
             <select id="tipo-boleta" name="tipo_boleta" required>
               <option value="">Selecione o tipo de evento</option>
               <option value="nascimento">Nascimento</option>
@@ -29,12 +29,12 @@
           </label>
 
           <label for="data-boleta">
-            Data do evento
+            Data do evento <span class="req-star">*</span>
             <input id="data-boleta" name="data_boleta" type="date" required />
           </label>
 
           <label for="categoria-boleta">
-            Categoria do animal
+            Categoria do animal <span class="req-star">*</span>
             <select id="categoria-boleta" name="categoria_boleta" required>
               <option value="">Selecione a categoria</option>
               <option value="boi">Boi</option>
@@ -47,20 +47,20 @@
           </label>
 
           <label for="chip-id">
-            Identificador do chip
+            Identificador do chip <span class="opcional-txt">(opcional)</span>
             <input id="chip-id" name="chip_id" type="text" placeholder="Ex: 985123001" />
           </label>
 
           <div id="quantidade-wrap">
             <label for="quantidade-boleta">
-              Quantidade de animais
+              Quantidade de animais <span class="req-star">*</span>
               <input id="quantidade-boleta" name="quantidade_boleta" type="number" min="1" value="1" required />
             </label>
           </div>
 
           <div id="morte-fields" class="morte-campos hidden">
             <label for="causa-morte">
-              Causa da morte
+              Causa da morte <span class="req-star">*</span>
               <select id="causa-morte" name="causa_morte">
                 <option value="">Selecione a causa</option>
                 <option value="morte_natural">Morte natural</option>
@@ -71,7 +71,7 @@
             </label>
 
             <label class="upload-label" for="foto-morte">
-              Anexo de foto
+              Anexo de foto <span class="opcional-txt">(opcional)</span>
               <input id="foto-morte" name="foto_morte" type="file" accept="image/*" />
             </label>
           </div>

@@ -111,18 +111,107 @@ As variáveis abaixo são carregadas pelo `dotenv`: primeiro a partir do diretó
 
 | Variável | Obrigatória | Padrão | Descrição |
 |---|---|---|---|
-| `PORT` | Não | `3000` | Porta em que o servidor HTTP é iniciado. |
 | `NODE_ENV` | Não | `development` | Modo de execução. Em produção, deve ser definida como `production`. |
-| `DB_PATH` | Não | `./database/brpec.sqlite` | Caminho do arquivo SQLite local, criado automaticamente na primeira execução. |
-| `DATABASE_URL` | **Sim** | — | String de conexão PostgreSQL (Supabase) exigida pelo backend independentemente do valor de `ENABLE_CLOUD_SYNC`. Formato: `postgresql://usuario:senha@host:5432/database`. |
-| `ENABLE_CLOUD_SYNC` | Não | `false` | Habilita a sincronização automática com o banco remoto. Deve ser definida como `true` apenas quando `DATABASE_URL` estiver configurada. |
-| `SESSION_SECRET` | **Sim** | — | Segredo utilizado para assinar os cookies de sessão. Deve ser gerado com `crypto.randomBytes(64)` e nunca exposto em repositórios públicos. Na ausência desse valor, é utilizado um fallback inseguro embutido no código. |
-| `JWT_ACCESS_SECRET` | **Sim** | — | Chave de assinatura do token de acesso JWT. Sem esse valor o servidor retorna erro na autenticação. Deve ser gerada com `crypto.randomBytes(64)`. |
-| `JWT_REFRESH_SECRET` | **Sim** | — | Chave de assinatura do token de renovação JWT. Sem esse valor o servidor retorna erro na autenticação. Deve ser gerada com `crypto.randomBytes(64)`. |
-| `ACCESS_TOKEN_EXPIRES_IN` | Não | `15m` | Tempo de expiração do token de acesso JWT. |
-| `REFRESH_TOKEN_EXPIRES_IN` | Não | `7d` | Tempo de expiração do token de renovação JWT. |
+| `PORT` | Não | `3000` | Porta em que o servidor HTTP é iniciado. Configurável por ambiente. |
+| `DB_PATH` | Não | `./database/brpec.sqlite` | Caminho do arquivo SQLite local (relativo a `src/backend/`), criado automaticamente. Em produção, usar caminho absoluto em volume persistente (ex: `/data/brpec.sqlite`). |
+| `DATABASE_URL` | **Sim*** | — | String de conexão PostgreSQL (Supabase). **Obrigatória em produção mesmo com `ENABLE_CLOUD_SYNC=false`**. Formato: `postgresql://usuario:senha@host:5432/database?sslmode=require`. Guia: criar projeto no Supabase, copiar connection string em Settings → Database. |
+| `ENABLE_CLOUD_SYNC` | Não | `false` | Habilita sincronização automática com banco remoto (outbox agendado). Requer `DATABASE_URL`. Use `true` em produção. |
+| `SESSION_SECRET` | **Sim** | — | **Obrigatória em produção.** Segredo para assinar cookies de sessão. Gere com: `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"` Nunca exponha em repositórios públicos. |
+| `JWT_ACCESS_SECRET` | **Sim** | — | **Obrigatória em produção.** Chave de assinatura de tokens de acesso JWT (15m). Gere com: `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"` Deve ser diferente de `JWT_REFRESH_SECRET`. |
+| `JWT_REFRESH_SECRET` | **Sim** | — | **Obrigatória em produção.** Chave de assinatura de tokens de renovação JWT (7d). Gere com: `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"` Deve ser diferente de `JWT_ACCESS_SECRET`. |
+| `ACCESS_TOKEN_EXPIRES_IN` | Não | `15m` | Tempo de expiração do token de acesso JWT (aceita: `ms`, `s`, `m`, `h`, `d`). |
+| `REFRESH_TOKEN_EXPIRES_IN` | Não | `7d` | Tempo de expiração do token de renovação JWT (aceita: `ms`, `s`, `m`, `h`, `d`). |
 
 > **Segurança:** o arquivo `.env` está registrado no `.gitignore` e não deve ser versionado. Apenas `.env.example` — sem valores reais — é mantido no repositório.
+> Variáveis marcadas com **\*Sim** são obrigatórias em `NODE_ENV=production`; em desenvolvimento podem ser opcionais.
+
+### Configuração para Produção
+
+Antes de fazer deploy em ambiente de produção, complete os passos abaixo:
+
+#### 1. Preparar arquivo de configuração
+
+```sh
+cp .env.production.example .env.production
+```
+
+#### 2. Gerar valores de segurança
+
+Abra um terminal e execute 3 vezes o comando abaixo, salvando cada resultado:
+
+```sh
+node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+```
+
+Você terá:
+- `SESSION_SECRET` (resultado 1)
+- `JWT_ACCESS_SECRET` (resultado 2)
+- `JWT_REFRESH_SECRET` (resultado 3 — **deve ser diferente dos anteriores**)
+
+Atualize `.env.production` com esses valores:
+
+```env
+NODE_ENV=production
+SESSION_SECRET=<resultado-1>
+JWT_ACCESS_SECRET=<resultado-2>
+JWT_REFRESH_SECRET=<resultado-3>
+```
+
+#### 3. Configurar banco de dados remoto (Supabase)
+
+1. Acesse [supabase.com](https://supabase.com) e crie um novo projeto
+2. Vá a **Settings → Database → Connection pooling** e copie a string de conexão
+3. Adicione `?sslmode=require` ao final da string
+4. Configure em `.env.production`:
+
+```env
+DATABASE_URL=postgresql://postgres.abcdef:senha@db.supabase.co:5432/postgres?sslmode=require
+ENABLE_CLOUD_SYNC=true
+```
+
+#### 4. Configurar caminhos persistentes (Docker/Container)
+
+Se estiver usando Docker, certifique-se de que `DB_PATH` aponta para um volume mapeado:
+
+```env
+DB_PATH=/data/brpec.sqlite
+```
+
+No `docker-compose.yml` ou `Dockerfile`, monte o volume:
+
+```yaml
+volumes:
+  - data:/data  # SQLite será persistido neste diretório
+```
+
+#### 5. Checklist Pré-Deploy
+
+Antes de fazer deploy, verifique todos os itens:
+
+- [ ] `NODE_ENV=production` configurado
+- [ ] `DATABASE_URL` definida e testada (conectar com `psql` ou DBeaver)
+- [ ] `SESSION_SECRET` gerado e configurado (valor aleatório de 64 bytes)
+- [ ] `JWT_ACCESS_SECRET` gerado e configurado (valor aleatório de 64 bytes)
+- [ ] `JWT_REFRESH_SECRET` gerado e diferente dos anteriores
+- [ ] `DB_PATH` aponta para volume persistente (em container)
+- [ ] `ENABLE_CLOUD_SYNC=true` (para sincronização automática)
+- [ ] `npm run build` executa sem erros
+- [ ] `npm test` passa com sucesso
+- [ ] Porta `3000` disponível ou `PORT` configurada para porta alternativa
+- [ ] Health-check responde: `curl http://localhost:3000/api/health` → `{"status": "ok"}`
+
+#### 6. Iniciar em produção
+
+```sh
+# Da pasta src/backend:
+NODE_ENV=production npm start
+```
+
+Ou com PM2 (recomendado para manter o processo vivo):
+
+```sh
+pm2 start src/backend/dist/server.js --name brpec -- --env production
+```
 
 ### Executando o Backend
 
@@ -191,10 +280,14 @@ Resposta esperada:
 |---|---|---|
 | `Cannot find module 'node:sqlite'` | Node.js abaixo de v22.5.0 | Atualize o Node.js para v22.5.0 ou superior. Verifique com `node --version`. |
 | `banco: "desconectado"` no health-check | Node.js incompatível ou caminho do SQLite incorreto | Confirme a versão do Node.js e o valor de `DB_PATH` no `.env`. |
-| `Error: SESSION_SECRET is not defined` ou sessão inválida | Variável ausente ou usando o valor placeholder do `.env.example` | Gere e defina `SESSION_SECRET` conforme descrito na seção de Variáveis de Ambiente. |
-| `JsonWebTokenError` ou erro 401 na autenticação | `JWT_ACCESS_SECRET` ou `JWT_REFRESH_SECRET` não definidas | Defina ambas as variáveis no `.env` com valores gerados por `crypto.randomBytes(64)`. |
-| `Error: connect ECONNREFUSED` ou falha no cloud sync | `DATABASE_URL` ausente ou inválida | Verifique a string de conexão PostgreSQL no `.env`. |
-| `[initDb] ERRO: Arquivo de migration base não encontrado` | Execução a partir de diretório incorreto | Execute o servidor a partir de `src/backend/`, não da raiz do projeto. |
+| `Error: SESSION_SECRET is not defined` ou sessão inválida | Variável ausente ou usando valor placeholder | Gere e defina `SESSION_SECRET` com: `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"` Substitua no `.env`. |
+| `JsonWebTokenError` ou erro 401 na autenticação | `JWT_ACCESS_SECRET` ou `JWT_REFRESH_SECRET` não definidas | Gere ambas com `crypto.randomBytes(64)` e atualize `.env.production`. Valores devem ser diferentes. |
+| `Error: connect ECONNREFUSED` ou falha no cloud sync | `DATABASE_URL` ausente, inválida ou banco remoto offline | Teste a conexão: `psql postgresql://usuario:senha@host:5432/database`. Verifique se o Supabase está acessível. |
+| `[initDb] ERRO: Arquivo de migration base não encontrado` | Execução a partir de diretório incorreto | Execute o servidor a partir de `src/backend/` com `NODE_ENV=production npm start`. |
+| Servidor inicia mas não sincroniza dados | `ENABLE_CLOUD_SYNC=false` ou `DATABASE_URL` não configurada | Defina `ENABLE_CLOUD_SYNC=true` e valide `DATABASE_URL` no `.env.production`. |
+| Banco SQLite corrompido ou muito grande | Arquivo não foi backed-up ou disco cheio | Faça backup regular de `DB_PATH`. Em produção, monitore espaço em disco. Parar servidor, verificar integridade: `sqlite3 brpec.sqlite "PRAGMA integrity_check;"`. |
+| Erro de permissão ao criar/escrever banco | `DB_PATH` aponta para diretório sem permissão de escrita | Verifique permissões: `ls -la /data/`. Recomendação: usar volume Docker com permissões corretas. |
+| Performance degradada ou timeouts em produção | Fila de sincronização acumulada ou muitos usuários simultâneos | Monitorar `GET /api/health` para uptime. Considerar índices no banco remoto (Supabase). Aumentar pool de conexões se disponível. |
 
 ### Testes
 

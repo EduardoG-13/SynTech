@@ -58,7 +58,7 @@ function disparaGeolocation() {
 
     const latFmt = parseFloat(lat).toFixed(6);
     const lonFmt = parseFloat(lon).toFixed(6);
-    setGpsStatus(`✅ GPS capturado: ${latFmt}, ${lonFmt}`);
+    setGpsStatus(` GPS capturado: ${latFmt}, ${lonFmt}`);
   };
 
   const onError = (err) => {
@@ -66,11 +66,11 @@ function disparaGeolocation() {
     if (err && err.code === 1) {
       // Permissão negada — limpa flag local pra perguntar de novo na próxima sessão
       try { localStorage.removeItem(STORAGE_KEY_AUTORIZADO); } catch (e) {}
-      setGpsStatus('🚫 Permissão de localização negada. Habilite o GPS para abrir o chamado.');
+      setGpsStatus(' Permissão de localização negada. Habilite o GPS para abrir o chamado.');
     } else if (err && err.code === 3) {
-      setGpsStatus('⏱️ GPS demorou para responder. Toque em "Registrar" novamente para tentar de novo.');
+      setGpsStatus('O GPS demorou para responder. Toque em "Registrar" novamente para tentar de novo.');
     } else {
-      setGpsStatus('❌ Falha ao capturar coordenadas. Verifique se o GPS do dispositivo está ativo.');
+      setGpsStatus(' Falha ao capturar coordenadas. Verifique se o GPS do dispositivo está ativo.');
     }
   };
 
@@ -96,9 +96,9 @@ function capturarCoordenadas() {
     preencherInputs(ultima.lat, ultima.lon);
     const latFmt = parseFloat(ultima.lat).toFixed(6);
     const lonFmt = parseFloat(ultima.lon).toFixed(6);
-    setGpsStatus(`📍 Última posição: ${latFmt}, ${lonFmt} (atualizando...)`);
+    setGpsStatus(` Última posição: ${latFmt}, ${lonFmt} (atualizando...)`);
   } else {
-    setGpsStatus('🛰️ Capturando localização...');
+    setGpsStatus(' Capturando localização...');
   }
 
   // Usa Permissions API quando disponível para evitar prompt repetido
@@ -111,7 +111,7 @@ function capturarCoordenadas() {
           // jaAutorizado = guardamos manualmente no localStorage como reforço
           disparaGeolocation();
         } else if (res.state === 'denied') {
-          setGpsStatus('🚫 Acesso ao GPS bloqueado nas permissões do navegador. Reative para usar o app.');
+          setGpsStatus(' Acesso ao GPS bloqueado nas permissões do navegador. Reative para usar o app.');
         }
       })
       .catch(() => {
@@ -131,7 +131,7 @@ function bloquearSubmitSemGps() {
     const lon = document.getElementById('longitude');
     if (!lat?.value || !lon?.value) {
       ev.preventDefault();
-      setGpsStatus('📍 Aguardando GPS. Tentando capturar novamente...');
+      setGpsStatus(' Aguardando GPS. Tentando capturar novamente...');
       capturarCoordenadas();
     }
   });

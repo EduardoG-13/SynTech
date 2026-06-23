@@ -68,14 +68,44 @@ class AlertaController {
     }
   }
 
+  async iniciarChamado(req, res, next) {
+    const sess = (req.session as any)?.usuario;
+    const tecnico_id = req.body?.tecnico_id || sess?.id;
+
+    try {
+      const chamado = await alertaService.iniciarChamado(req.params.id, tecnico_id);
+      return res.status(200).json({
+        id: chamado.id,
+        status: chamado.status,
+        mensagem: 'Chamado iniciado com sucesso',
+        chamado
+      });
+    } catch (erro: any) {
+      if (erro.message?.includes('ACESSO_NEGADO')) {
+        return next(new AppError(403, erro.message));
+      }
+
+      if (erro.message === 'CHAMADO_NAO_ENCONTRADO') {
+        return next(new AppError(404, erro.message));
+      }
+
+      if (erro.message === 'CHAMADO_JA_RESOLVIDO') {
+        return next(new AppError(409, erro.message));
+      }
+
+      next(erro);
+    }
+  }
+
   async resolverChamado(req, res, next) {
     // Aceita nomes alternativos vindos do JS antigo (descricaoSolucao, fotoBase64)
     const sess = (req.session as any)?.usuario;
     const tecnico_id = req.body.tecnico_id || sess?.id;
     const solucao = req.body.solucao || req.body.descricaoSolucao || req.body.descricao_solucao;
+    const audio_base64 = req.body.audio_base64 || req.body.audioBase64 || req.body.solucao_audio_base64;
     const foto_base64 = req.body.foto_base64 || req.body.fotoBase64;
 
-    if (!tecnico_id || !solucao) {
+    if (!tecnico_id || (!solucao && !audio_base64)) {
       return next(new AppError(400, 'Campos obrigatórios não preenchidos: solucao (e técnico via sessão)'));
     }
     // foto_base64 é OPCIONAL agora — algumas resoluções não exigem foto
@@ -87,8 +117,9 @@ class AlertaController {
       const chamado = await alertaService.resolverChamado(
         req.params.id,
         tecnico_id,
-        solucao,
-        foto_base64 || ''
+        solucao || '',
+        foto_base64 || '',
+        audio_base64 || ''
       );
 
       return res.status(200).json({

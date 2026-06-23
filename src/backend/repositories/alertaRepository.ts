@@ -111,24 +111,59 @@ class AlertaRepository {
     return stmt.all(...params) as any[];
   }
 
+  async iniciar(id: string, tecnico_id: string): Promise<any | null> {
+    db.exec('BEGIN TRANSACTION');
+    try {
+      const stmtAlerta = db.prepare(`
+        UPDATE alertas
+        SET status = 'EM_ANDAMENTO',
+            tecnico_id = ?,
+            sincronizado = 0
+        WHERE id = ?
+          AND status = 'ABERTO'
+      `);
+      const info = stmtAlerta.run(tecnico_id, id);
+
+      if ((info as any).changes === 0) {
+        db.exec('ROLLBACK');
+        return this.buscarPorId(id);
+      }
+
+      const stmtSyncAl = db.prepare(`
+        INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas, ultima_tentativa)
+        VALUES (?, 'alerta', ?, 'PENDENTE', 0, null)
+      `);
+      stmtSyncAl.run(uuidv7(), id);
+
+      db.exec('COMMIT');
+      return this.buscarPorId(id);
+    } catch (erro) {
+      db.exec('ROLLBACK');
+      throw erro;
+    }
+  }
+
   async resolver(
     id: string,
     tecnico_id: string,
     solucao: string,
-    foto_base64: string
+    foto_base64: string,
+    audio_base64 = ''
   ): Promise<any | null> {
-    const evidenciaId = uuidv7();
+    const evidenciaId = foto_base64 ? uuidv7() : null;
 
     db.exec('BEGIN TRANSACTION');
     try {
       // 1. Insert evidence FOTO
-      const stmtEvidencia = db.prepare(`
-        INSERT INTO evidencias (
-          id, alerta_id, tipo, arquivo_base64, sincronizada
-        )
-        VALUES (?, ?, 'FOTO', ?, 0)
-      `);
-      stmtEvidencia.run(evidenciaId, id, foto_base64);
+      if (evidenciaId) {
+        const stmtEvidencia = db.prepare(`
+          INSERT INTO evidencias (
+            id, alerta_id, tipo, arquivo_base64, sincronizada
+          )
+          VALUES (?, ?, 'FOTO', ?, 0)
+        `);
+        stmtEvidencia.run(evidenciaId, id, foto_base64);
+      }
 
       // 2. Update alerta (using fields defined in migration.sql)
       const stmtAlerta = db.prepare(`
@@ -136,10 +171,13 @@ class AlertaRepository {
         SET status = 'RESOLVIDO',
             tecnico_id = ?,
             foto_id = ?,
+            solucao_resolucao = ?,
+            solucao_audio_base64 = ?,
+            resolvido_em = datetime('now'),
             sincronizado = 0
         WHERE id = ?
       `);
-      const info = stmtAlerta.run(tecnico_id, evidenciaId, id);
+      const info = stmtAlerta.run(tecnico_id, evidenciaId, solucao || null, audio_base64 || null, id);
 
       if ((info as any).changes === 0) {
         db.exec('ROLLBACK');
@@ -147,11 +185,13 @@ class AlertaRepository {
       }
 
       // 3. Register outbox sync entries for both evidence and alert update
-      const stmtSyncEv = db.prepare(`
-        INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas, ultima_tentativa)
-        VALUES (?, 'evidencia', ?, 'PENDENTE', 0, null)
-      `);
-      stmtSyncEv.run(uuidv7(), evidenciaId);
+      if (evidenciaId) {
+        const stmtSyncEv = db.prepare(`
+          INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas, ultima_tentativa)
+          VALUES (?, 'evidencia', ?, 'PENDENTE', 0, null)
+        `);
+        stmtSyncEv.run(uuidv7(), evidenciaId);
+      }
 
       const stmtSyncAl = db.prepare(`
         INSERT INTO sincronizacoes (id, entidade_tipo, entidade_id, status_envio, tentativas, ultima_tentativa)

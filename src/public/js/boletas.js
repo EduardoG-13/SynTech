@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (causaMorte) causaMorte.required = isMorte;
     if (fotoMorte) fotoMorte.required = isMorte;
 
-    // quantidade só faz sentido para nascimento (óbito = 1 por chip)
+    // quantidade só faz sentido para nascimento (morte = 1 por chip)
     if (quantidadeWrap) {
       quantidadeWrap.classList.toggle('hidden', isMorte);
     }
@@ -155,17 +155,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (tipo === 'morte') {
-      // RN07: foto e causa são obrigatórios para óbito
+      // RN07: foto e causa são obrigatórios para morte
       const fotoInput = document.getElementById('foto-morte');
       const causaMorte = document.getElementById('causa-morte')?.value || '';
 
       if (!causaMorte) {
-        alert('A causa da morte é obrigatória para registrar um óbito.');
+        alert('A causa da morte é obrigatória para registrar uma morte.');
         return;
       }
 
       if (!fotoInput?.files?.length) {
-        alert('É obrigatório anexar uma foto para registrar um óbito.');
+        alert('É obrigatório anexar uma foto para registrar uma morte.');
         return;
       }
 
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         resultado = await enviarParaApi(OBITO_API_PATH, payload);
       } catch (err) {
-        console.error('[Boletas] Falha ao enviar óbito:', err);
+        console.error('[Boletas] Falha ao enviar morte:', err);
         resultado = { sucesso: false, offline: !navigator.onLine, mensagem: err.message };
       }
 

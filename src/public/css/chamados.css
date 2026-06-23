@@ -101,21 +101,7 @@
   display: none;
 }
 
-.btn-voltar {
-  background: transparent;
-  border: 1px solid #c8d3c3;
-  border-radius: 12px;
-  color: #31443c;
-  padding: 0.9rem 1.2rem;
-  font-weight: 700;
-  cursor: pointer;
-  margin-bottom: 1.5rem;
-  width: max-content;
-}
-
-.btn-voltar:hover {
-  background: var(--chamado-soft);
-}
+/* .btn-voltar definido globalmente em styles.css */
 
 @media (max-width: 800px) {
   .gps-grid {
