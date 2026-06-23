@@ -59,26 +59,24 @@
             <label class="label-bold" for="descricao"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">edit</span> Explique o problema</label>
             <span class="detalhamento-badge">Texto ou &aacute;udio obrigat&oacute;rio</span>
           </div>
-          <p id="detalhamento-ajuda" class="ajuda detalhamento-regra">Escolha uma forma de explicar para a Infra: escreva pelo menos 10 caracteres, grave um &aacute;udio, ou use os dois.</p>
+          <p id="detalhamento-ajuda" class="ajuda detalhamento-regra">Explique para a Infra o que aconteceu. Voc&ecirc; pode escrever, gravar um &aacute;udio, ou fazer os dois.</p>
 
-          <div class="detalhamento-opcoes">
-            <div class="detalhamento-opcao">
-              <span class="detalhamento-opcao-titulo"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">edit_note</span> Escrever</span>
-              <textarea id="descricao" name="descricao" rows="4" placeholder="Ex: Bebedouro com vazamento no pasto 4, gado sem &aacute;gua..." minlength="10" aria-describedby="detalhamento-ajuda"></textarea>
-            </div>
+          <textarea id="descricao" name="descricao" rows="4" placeholder="Ex: Bebedouro com vazamento no pasto 4, gado sem &aacute;gua..." minlength="10" aria-describedby="detalhamento-ajuda"></textarea>
 
-            <div class="detalhamento-ou" aria-hidden="true">ou</div>
-
-            <div class="detalhamento-opcao">
-              <span class="detalhamento-opcao-titulo"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">mic</span> Gravar &aacute;udio</span>
-              <p class="ajuda">Bom para explicar r&aacute;pido sem digitar.</p>
+          <div class="detalhamento-audio">
+            <div class="detalhamento-divisor"><span>ou grave um &aacute;udio</span></div>
+            <div class="detalhamento-audio-linha">
+              <div class="detalhamento-audio-texto">
+                <strong>Prefere falar?</strong>
+                <span>Grave uma explica&ccedil;&atilde;o r&aacute;pida para a equipe de Infra.</span>
+              </div>
               <button type="button" class="btn-audio" id="btn-gravar-audio">
                 <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">mic</span>
                 <span id="audio-btn-txt">Gravar &aacute;udio</span>
               </button>
-              <audio id="audio-preview" controls style="display:none; width:100%; margin-top:0.5rem;"></audio>
-              <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;"><span class="material-symbols-rounded ui-icon" aria-hidden="true">delete</span> Apagar &aacute;udio</button>
             </div>
+            <audio id="audio-preview" controls style="display:none; width:100%; margin-top:0.5rem;"></audio>
+            <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;"><span class="material-symbols-rounded ui-icon" aria-hidden="true">delete</span> Apagar &aacute;udio</button>
           </div>
         </div>
 
