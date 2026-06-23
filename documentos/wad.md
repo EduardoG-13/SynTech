@@ -6133,6 +6133,16 @@ A suite automatizada cobre a camada de serviços e os endpoints REST do BrPec em
 
 **Cobertura mínima exigida.** A camada Service deve atingir cobertura de linhas ≥ 80%, verificada com `npm test -- --coverage`. O relatório HTML gerado em `coverage/lcov-report/index.html` é a evidência formal.
 
+**Critérios de seleção e priorização de cenários.** A seleção dos cenários de teste foi guiada por três critérios, aplicados para justificar a alocação de cobertura entre as camadas unitária e de integração:
+
+1. **Impacto em regras de negócio:** cenários que exercitam RNs com risco de violação silenciosa foram priorizados com cobertura nas duas camadas. RN01 (capataz pertence ao retiro informado), RN05 (evidência somente pelo capataz responsável da tarefa), RN19 (coordenadas GPS obrigatórias no alerta) e RN27 (data de nascimento não pode ser futura) são as regras com maior risco de dano silencioso ao inventário agropecuário — uma violação não detectada comprometeria a rastreabilidade irreversivelmente.
+
+2. **Frequência de uso e criticidade operacional:** os endpoints do ciclo do Capataz (`POST /api/tarefas`, `PATCH /api/tarefas/:id/concluir`, `POST /api/tarefas/:id/evidencias`) correspondem às User Stories US01–US05 e representam o maior volume de operações diárias do sistema. Por isso receberam cobertura unitária *e* de integração, incluindo verificação de persistência direta no banco (C4, K3, E4).
+
+3. **Risco de falha na fronteira de autorização:** cenários de acesso indevido — capataz operando sobre tarefa de outro capataz (K2, CT-UT03), usuário sem perfil Técnico tentando resolver chamado (CT-UA08) — foram priorizados por representarem risco de auditoria elevado: um erro silencioso nessa fronteira compromete o histórico operacional do retiro, que é informação regulatória no contexto agropecuário.
+
+Cenários de validação de formato (base64 inválido, limite de arquivo, tipo MIME) foram alocados exclusivamente à camada unitária, onde são mais econômicos de executar; o contrato HTTP de resposta (400 vs 422) correspondente é verificado nos testes de integração do mesmo endpoint.
+
 ### 5.1.2. Testes Unitários de Service (white-box)
 
 #### Isolamento por mock de repositório
@@ -6265,68 +6275,70 @@ test('Deve suspender a sincronização se não houver conexão com o Supabase (o
 
 #### Matriz de rastreabilidade de testes unitários
 
-| Código CT | Método testado | RF | RN | Status |
-|-----------|---------------|:--:|:--:|:------:|
-| CT-UT11 | `TarefaService.criarTarefa` — sucesso | RF001 | RN01 | PASS |
-| CT-UT03 | `TarefaService.concluirTarefa` — capataz incorreto | RF001 | RN01 | PASS |
-| CT-UT05 | `TarefaService.anexarEvidencia` — capataz incorreto | RF005 | RN05 | PASS |
-| CT-UT04 | `TarefaService.anexarEvidencia` — sucesso | RF005 | RN13 | PASS |
-| CT-UA01 | `AlertaService.criarAlerta` — sucesso | RF006 | RN19, RN26 | PASS |
-| CT-UA05 | `AlertaService.criarAlerta` — latitude ausente | RF006 | RN19 | PASS |
-| CT-UA06 | `AlertaService.criarAlerta` — longitude ausente | RF006 | RN19 | PASS |
-| CT-NA01 | `EventoService.registrarNascimento` — sucesso | RF008 | RN27 | PASS |
-| CT-NA06 | `EventoService.registrarNascimento` — data futura | RF008 | RN27 | PASS |
-| CT-EX01 | `ExportacaoService.exportarCsv` — ACESSO_NEGADO (Capataz) | RF015 | RN28 | PASS |
-| CT-EX02 | `ExportacaoService.exportarCsv` — usuário não encontrado | RF015 | RN28 | PASS |
-| CT-EX03 | `ExportacaoService.exportarCsv` — cabeçalhos CSV corretos | RF015 | RN28 | PASS |
-| CT-EX04 | `ExportacaoService.exportarCsv` — total_registros correto | RF015 | RN28 | PASS |
-| CT-UT12 | `TarefaService.criarTarefa` — data retroativa | RF001 | ¹ | PASS |
-| CT-UT13 | `TarefaService.criarTarefa` — descrição em branco | RF001 | ¹ | PASS |
-| CT-UA07 | `AlertaService.resolverChamado` — sucesso (Técnico) | RF006 | ² | PASS |
-| CT-UA08 | `AlertaService.resolverChamado` — perfil incorreto | RF006 | ² | PASS |
-| CT-UA09 | `AlertaService.resolverChamado` — usuário não encontrado | RF006 | ² | PASS |
-| CT-UA11 | `AlertaService.resolverChamado` — chamado já resolvido | RF006 | ² | PASS |
-| CT-OB02 | `EventoService.registrarObito` — foto_base64 vazia | RF009 | ³ | PASS |
-| CT-OB03 | `EventoService.registrarObito` — causa_morte vazia | RF009 | ³ | PASS |
-| CT-OB04 | `EventoService.registrarObito` — identificacao_animal vazia | RF009 | ³ | PASS |
-| CT-UT01 | `TarefaService.concluirTarefa` — sucesso | RF002 | — | PASS |
-| CT-UT02 | `TarefaService.concluirTarefa` — tarefa já concluída | RF002 | — | PASS |
-| CT-UT06 | `TarefaService.anexarEvidencia` — arquivo > 5 MB | RF005 | — | PASS |
-| CT-UT07 | `TarefaService.anexarEvidencia` — base64 inválido | RF005 | — | PASS |
-| CT-UT08 | `TarefaService.anexarEvidencia` — normalizar data URI | RF005 | — | PASS |
-| CT-UT09 | `TarefaService.anexarEvidencia` — base64 vazio | RF005 | — | PASS |
-| CT-UT10 | `TarefaService.anexarEvidencia` — evidência TEXTO | RF005 | — | PASS |
-| CT-UA10 | `AlertaService.resolverChamado` — chamado não encontrado | RF006 | ² | PASS |
-| CT-OB01 | `EventoService.registrarObito` — sucesso | RF009 | — | PASS |
-| CT-CS01 | `CloudSyncService.sincronizar` — offline (suspenso) | RF010 | — | PASS |
-| CT-CS02 | `CloudSyncService.sincronizar` — tarefa online | RF010 | — | PASS |
-| CT-CS03 | `CloudSyncService.sincronizar` — erro de upsert | RF010 | — | PASS |
-| CT-CS04 | `CloudSyncService.sincronizar` — alerta online | RF010 | — | PASS |
-| CT-CS05 | `CloudSyncService.sincronizar` — movimentação/nascimento (COMMIT) | RF010 | — | PASS |
-| CT-CS06 | `CloudSyncService.sincronizar` — movimentação/óbito            | RF010 | — | PASS |
-| CT-CS07 | `CloudSyncService.sincronizar` — movimentação/transferência      | RF010 | — | PASS |
-| CT-CS08 | `CloudSyncService.sincronizar` — movimentação/compravenda        | RF010 | — | PASS |
-| CT-CS09 | `CloudSyncService.sincronizar` — ROLLBACK em transação           | RF010 | — | PASS |
-| CT-CS10 | `CloudSyncService.sincronizar` — evidência vinculada (sucesso)   | RF010 | — | PASS |
-| CT-CS11 | `CloudSyncService.sincronizar` — evidência (upsert falha)        | RF010 | — | PASS |
-| CT-CS12 | `CloudSyncService.sincronizar` — retiro (sucesso)               | RF010 | — | PASS |
-| CT-CS13 | `CloudSyncService.sincronizar` — retiro (upsert falha)          | RF010 | — | PASS |
-| CT-CS14 | `CloudSyncService.sincronizar` — usuário (sucesso)              | RF010 | — | PASS |
-| CT-CS15 | `CloudSyncService.sincronizar` — usuário (upsert falha)         | RF010 | — | PASS |
-| CT-EV01 | `EventoService.listarEventos` — sucesso sem filtros | RF014 | — | PASS |
-| CT-EV02 | `EventoService.listarEventos` — filtro por retiro_id | RF014 | — | PASS |
-| CT-EV03 | `EventoService.listarEventos` — retiro sem eventos | RF014 | — | PASS |
-| CT-EV04 | `EventoService.listarEventos` — filtro por tipo | RF014 | — | PASS |
-| CT-HS01 | `HealthService.verificarSaude` — banco conectado (happy path) | — | — | PASS |
-| CT-HS02 | `HealthService.verificarSaude` — banco lança exceção (status "erro", linhas 21-22) | — | — | PASS |
-| CT-HS03 | `HealthService.verificarSaude` — campo "erro" presente quando banco falha (linha 33) | — | — | PASS |
-| CT-HS04 | `HealthService.verificarSaude` — timestamp e uptime sempre presentes | — | — | PASS |
+A tabela está ordenada por prioridade da RN associada: **P:Alta** cobre RNs formais e fronteiras de autorização; **P:Média** cobre fluxos RF-nível e happy paths de endpoints core; **P:Baixa** cobre validações de formato, infraestrutura e casos de borda.
+
+| Código CT | Método testado | RF | RN | Prioridade | Status |
+|-----------|---------------|:--:|:--:|:----------:|:------:|
+| CT-UT11 | `TarefaService.criarTarefa` — sucesso | RF001 | RN01 | P:Alta | PASS |
+| CT-UT03 | `TarefaService.concluirTarefa` — capataz incorreto | RF001 | RN01 | P:Alta | PASS |
+| CT-UT05 | `TarefaService.anexarEvidencia` — capataz incorreto | RF005 | RN05 | P:Alta | PASS |
+| CT-UA01 | `AlertaService.criarAlerta` — sucesso | RF006 | RN19, RN26 | P:Alta | PASS |
+| CT-UA05 | `AlertaService.criarAlerta` — latitude ausente | RF006 | RN19 | P:Alta | PASS |
+| CT-UA06 | `AlertaService.criarAlerta` — longitude ausente | RF006 | RN19 | P:Alta | PASS |
+| CT-UA07 | `AlertaService.resolverChamado` — sucesso (Técnico) | RF006 | ² | P:Alta | PASS |
+| CT-UA08 | `AlertaService.resolverChamado` — perfil incorreto | RF006 | ² | P:Alta | PASS |
+| CT-UA09 | `AlertaService.resolverChamado` — usuário não encontrado | RF006 | ² | P:Alta | PASS |
+| CT-UA10 | `AlertaService.resolverChamado` — chamado não encontrado | RF006 | ² | P:Alta | PASS |
+| CT-UA11 | `AlertaService.resolverChamado` — chamado já resolvido | RF006 | ² | P:Alta | PASS |
+| CT-NA01 | `EventoService.registrarNascimento` — sucesso | RF008 | RN27 | P:Alta | PASS |
+| CT-NA06 | `EventoService.registrarNascimento` — data futura | RF008 | RN27 | P:Alta | PASS |
+| CT-OB02 | `EventoService.registrarObito` — foto_base64 vazia | RF009 | RN07 ³ | P:Alta | PASS |
+| CT-OB03 | `EventoService.registrarObito` — causa_morte vazia | RF009 | RF013 ³ | P:Alta | PASS |
+| CT-OB04 | `EventoService.registrarObito` — identificacao_animal vazia | RF009 | RF013 ³ | P:Alta | PASS |
+| CT-EX01 | `ExportacaoService.exportarCsv` — ACESSO_NEGADO (Capataz) | RF015 | RN28 | P:Alta | PASS |
+| CT-CS01 | `CloudSyncService.sincronizar` — offline (suspenso) | RF010 | RN08 | P:Alta | PASS |
+| CT-UT01 | `TarefaService.concluirTarefa` — sucesso | RF002 | — | P:Média | PASS |
+| CT-UT02 | `TarefaService.concluirTarefa` — tarefa já concluída | RF002 | — | P:Média | PASS |
+| CT-UT04 | `TarefaService.anexarEvidencia` — sucesso | RF005 | RN13 | P:Média | PASS |
+| CT-OB01 | `EventoService.registrarObito` — sucesso | RF009 | — | P:Média | PASS |
+| CT-EX02 | `ExportacaoService.exportarCsv` — usuário não encontrado | RF015 | RN28 | P:Média | PASS |
+| CT-EX03 | `ExportacaoService.exportarCsv` — cabeçalhos CSV corretos | RF015 | RN28 | P:Média | PASS |
+| CT-EX04 | `ExportacaoService.exportarCsv` — total_registros correto | RF015 | RN28 | P:Média | PASS |
+| CT-CS02 | `CloudSyncService.sincronizar` — tarefa online | RF010 | — | P:Média | PASS |
+| CT-EV01 | `EventoService.listarEventos` — sucesso sem filtros | RF014 | — | P:Média | PASS |
+| CT-EV02 | `EventoService.listarEventos` — filtro por retiro_id | RF014 | — | P:Média | PASS |
+| CT-EV03 | `EventoService.listarEventos` — retiro sem eventos | RF014 | — | P:Média | PASS |
+| CT-EV04 | `EventoService.listarEventos` — filtro por tipo | RF014 | — | P:Média | PASS |
+| CT-HS01 | `HealthService.verificarSaude` — banco conectado (happy path) | — | — | P:Média | PASS |
+| CT-HS02 | `HealthService.verificarSaude` — banco lança exceção (status "erro", linhas 21-22) | — | — | P:Média | PASS |
+| CT-HS03 | `HealthService.verificarSaude` — campo "erro" presente quando banco falha (linha 33) | — | — | P:Média | PASS |
+| CT-HS04 | `HealthService.verificarSaude` — timestamp e uptime sempre presentes | — | — | P:Média | PASS |
+| CT-UT12 | `TarefaService.criarTarefa` — data retroativa | RF001 | ¹ | P:Baixa | PASS |
+| CT-UT13 | `TarefaService.criarTarefa` — descrição em branco | RF001 | ¹ | P:Baixa | PASS |
+| CT-UT06 | `TarefaService.anexarEvidencia` — arquivo > 5 MB | RF005 | — | P:Baixa | PASS |
+| CT-UT07 | `TarefaService.anexarEvidencia` — base64 inválido | RF005 | — | P:Baixa | PASS |
+| CT-UT08 | `TarefaService.anexarEvidencia` — normalizar data URI | RF005 | — | P:Baixa | PASS |
+| CT-UT09 | `TarefaService.anexarEvidencia` — base64 vazio | RF005 | — | P:Baixa | PASS |
+| CT-UT10 | `TarefaService.anexarEvidencia` — evidência TEXTO | RF005 | — | P:Baixa | PASS |
+| CT-CS03 | `CloudSyncService.sincronizar` — erro de upsert | RF010 | — | P:Baixa | PASS |
+| CT-CS04 | `CloudSyncService.sincronizar` — alerta online | RF010 | — | P:Baixa | PASS |
+| CT-CS05 | `CloudSyncService.sincronizar` — movimentação/nascimento (COMMIT) | RF010 | — | P:Baixa | PASS |
+| CT-CS06 | `CloudSyncService.sincronizar` — movimentação/óbito            | RF010 | — | P:Baixa | PASS |
+| CT-CS07 | `CloudSyncService.sincronizar` — movimentação/transferência      | RF010 | — | P:Baixa | PASS |
+| CT-CS08 | `CloudSyncService.sincronizar` — movimentação/compravenda        | RF010 | — | P:Baixa | PASS |
+| CT-CS09 | `CloudSyncService.sincronizar` — ROLLBACK em transação           | RF010 | — | P:Baixa | PASS |
+| CT-CS10 | `CloudSyncService.sincronizar` — evidência vinculada (sucesso)   | RF010 | — | P:Baixa | PASS |
+| CT-CS11 | `CloudSyncService.sincronizar` — evidência (upsert falha)        | RF010 | — | P:Baixa | PASS |
+| CT-CS12 | `CloudSyncService.sincronizar` — retiro (sucesso)               | RF010 | — | P:Baixa | PASS |
+| CT-CS13 | `CloudSyncService.sincronizar` — retiro (upsert falha)          | RF010 | — | P:Baixa | PASS |
+| CT-CS14 | `CloudSyncService.sincronizar` — usuário (sucesso)              | RF010 | — | P:Baixa | PASS |
+| CT-CS15 | `CloudSyncService.sincronizar` — usuário (upsert falha)         | RF010 | — | P:Baixa | PASS |
 
 > ¹ Validações de data retroativa e descrição em branco são regras internas do `TarefaService` sem código formal na tabela RN da seção 3.1.2.
 >
-> ² As regras "apenas Técnico pode resolver chamado" e "chamado já resolvido não pode ser re-resolvido" são regras de domínio do `AlertaService` não catalogadas na seção 3.1.2.
+> ² As regras "apenas Técnico pode resolver chamado" e "chamado já resolvido não pode ser re-resolvido" são regras de domínio do `AlertaService` não catalogadas formalmente na seção 3.1.2. CT-UA07 a CT-UA11 cobrem as cinco ramificações da função `resolverChamado`: sucesso, perfil incorreto, usuário não encontrado, chamado não encontrado e chamado já resolvido.
 >
-> ³ A validação de campos obrigatórios no óbito (`foto_base64`, `causa_morte`, `identificacao_animal`) é enforced na camada Service (RF009/RF013). O Controller retorna **422** quando esses campos RF013 estão ausentes e **400** para os demais campos gerais (`capataz_id`, `retiro_id`, `data`, `categoria`, `quantidade`), conforme contrato do WAD seção 3.1.4.
+> ³ A validação de campos obrigatórios no óbito (`foto_base64`, `causa_morte`, `identificacao_animal`) é enforced na camada Service (RF009/RF013). O Controller retorna **422** quando esses campos estão ausentes e **400** para os demais campos gerais (`capataz_id`, `retiro_id`, `data`, `categoria`, `quantidade`), conforme contrato do WAD seção 3.1.4. CT-OB02 cobre RN07 (foto obrigatória para óbito); CT-OB03 e CT-OB04 cobrem os campos adicionais exigidos por RF013.
 
 ### 5.1.3. Testes de Integração de Endpoints (black-box)
 
@@ -6334,29 +6346,37 @@ Cada suite inicializa o SQLite `:memory:` com `inicializarBanco()` no `beforeAll
 
 #### Cobertura por endpoint
 
-Para cada endpoint o objetivo é cobrir quatro cenários: **sucesso (200/201)**, **payload inválido (400)**, **regra de negócio violada (422/404)** e **recurso não encontrado (404)**. A tabela mapeia os casos existentes e sinaliza lacunas:
+Para cada endpoint o objetivo é cobrir quatro dimensões: **sucesso (200/201)**, **payload inválido (400)**, **RN violada (409/422)** e **recurso não encontrado (404)**. A tabela mapeia os casos existentes e sinaliza lacunas explicitamente por dimensão.
 
-| Endpoint | Método | Sucesso | 400 inválido | RN violada | 404 não encontrado |
-|----------|--------|:-------:|:------------:|:----------:|:-----------------:|
-| `/api/health` | GET | HE1 | — | — | — |
-| `/api/tarefas` | POST | C1, C4 | C3 | C2 (RN01 → 422) | — |
-| `/api/tarefas/hoje` | GET | H1, H2 | H3 | — | — |
-| `/api/tarefas/:id/concluir` | PATCH | K1, K3 | K4 | K2 (RN05 → 404) | K2 |
+> **Nota sobre 404 em endpoints POST sem `:id`:** endpoints de criação pura (POST sem parâmetro de recurso no path) não geram 404 por design — eles criam o recurso, não o buscam. A exceção são endpoints que referenciam um recurso preexistente no path (`/api/tarefas/:id/evidencias`): nesses casos a tarefa deve existir e pertencer ao capataz, produzindo 404 quando a condição não é atendida (E2).
+
+| Endpoint | Método | Sucesso (201/200) | 400 inválido | RN violada (422/409) | 404 não encontrado |
+|----------|--------|:-----------------:|:------------:|:--------------------:|:-----------------:|
+| `/api/health` | GET | HE1 | — | — | — ⁴ |
+| `/api/tarefas` | POST | C1, C4 | C3 | C2 (RN01 → 422) | — ⁴ |
+| `/api/tarefas/hoje` | GET | H1, H2 | H3 | — | — ⁴ |
+| `/api/tarefas/:id/concluir` | PATCH | K1, K3 | K4 | K2 (RN01 → 404) | K2 |
 | `/api/tarefas/:id/evidencias` | POST | E1, E4 | E3 | E2 (RN05 → 404) | E2 |
-| `/api/chamados` | POST | AL1, AI1, AI2 | AL2, AI4, AI5, AI6 | — | — |
-| `/api/chamados` | GET | — | — | — | — |
-| `/api/chamados/:id` | GET | — | — | — | — |
-| `/api/chamados/:id/resolver` | PATCH | — | — | — | — |
-| `/api/eventos-zootecnicos/nascimentos` | POST | N1 | N2 | N3 (RN27 → 4xx) | — |
-| `/api/eventos-zootecnicos/obitos` | POST | OB1, OB2, OB3 | OB4 (400 campos gerais) | OB5, OB6, OB7 (RF013 → 422) | — |
-| `/api/auth/login` | POST | AJ1 | — | AJ3 (sem token → 401) | — |
-| `/api/auth/refresh` | POST | AJ2 | — | — | — |
+| `/api/chamados` | POST | AL1, AI1, AI2 | AL2, AI4, AI5 | AI6 (RN19 → 400) | — ⁴ |
+| `/api/chamados` | GET | — | — | — | — ⁵ |
+| `/api/chamados/:id` | GET | — | — | — | — ⁵ |
+| `/api/chamados/:id/resolver` | PATCH | CT-UA07 (unit) | CT-UA09 (unit, 422) | CT-UA08 (unit, 403/422) · CT-UA11 (unit, 409) | CT-UA10 (unit, 404) |
+| `/api/eventos-zootecnicos/nascimentos` | POST | N1, NA1 | N2, NA2–NA7 | N3 (RN27 → 422) | — ⁴ |
+| `/api/eventos-zootecnicos/obitos` | POST | OB1, OB2, OB3 | OB4, OBd (400 campos gerais) | OB5, OB6, OB7 (RF013/RN07 → 422) | — ⁴ |
+| `/api/auth/login` | POST | AJ1 | — | AJ3 (sem token → 401) | — ⁴ |
+| `/api/auth/refresh` | POST | AJ2 | — | — | — ⁴ |
 
-> **Legenda AI:** casos da suite `alertaIntegration.test.ts` — AI1 (201 payload válido), AI2 (201 campos obrigatórios presentes na resposta), AI4 (400 payload vazio), AI5 (400 sem capataz_id), AI6 (400 sem coordenadas GPS).
+> **Legenda AI/AL:** `alertaIntegration.test.ts` — AI1 (201 payload válido), AI2 (201 campos obrigatórios), AI4 (400 payload vazio), AI5 (400 sem capataz_id), AI6 (400 sem GPS → viola RN19); `outros-endpoints.test.ts` — AL1 (201), AL2 (400).
 >
-> **Legenda OB:** casos da suite `eventoIntegration.test.ts` — OB1 (201 óbito válido completo), OB2 (201 campos movimentacao_id/obito_id/foto_id), OB3 (201 persistência foto e movimentação no banco), OB4 (400 payload vazio ou campo geral ausente), OB5 (422 sem identificacao_animal), OB6 (422 sem causa_morte), OB7 (422 sem foto_base64).
+> **Legenda NA:** `eventoIntegration.test.ts` — NA1 (201 campos obrigatórios na resposta), NA2 (400 payload vazio), NA3 (400 sem data), NA4 (400 sem retiro_id), NA5 (400 sem categoria), NA6 (400 sem quantidade), NA7 (400 sem capataz_id).
 >
-> ⚠ Lacunas: `GET /api/chamados`, `GET /api/chamados/:id` e `PATCH /api/chamados/:id/resolver` não possuem casos de integração. Os endpoints existem no `alertaController.ts` mas a cobertura de integração black-box é candidata para a sprint seguinte.
+> **Legenda OB:** `eventoIntegration.test.ts` — OB1 (201 óbito válido), OB2 (201 campos movimentacao_id/obito_id), OB3 (persistência foto + movimentação + vínculo no banco), OB4 (400 payload vazio), OBd (400 sem data), OB5 (422 sem identificacao_animal), OB6 (422 sem causa_morte), OB7 (422 sem foto_base64 → RN07).
+>
+> **Legenda unit (resolver):** CT-UA07–CT-UA11 cobrem `PATCH /api/chamados/:id/resolver` na camada Service. A cobertura HTTP de integração black-box para esse endpoint é candidata à sprint seguinte — o comportamento de autorização, conflito e recurso não encontrado está verificado no nível Service com mocks.
+>
+> ⁴ Não aplicável por design: o endpoint não referencia recurso preexistente por ID, portanto 404 não é um cenário esperado na operação normal.
+>
+> ⁵ Lacuna de integração: `GET /api/chamados` e `GET /api/chamados/:id` existem no `alertaController.ts` mas ainda não possuem suite de integração — 404 para chamado inexistente e 200 com lista vazia são os cenários prioritários para cobertura futura.
 
 **Verificação de persistência (white-box parcial).** Os casos C4, K3 e E4 consultam o banco diretamente após a chamada HTTP para confirmar o efeito colateral gravado — incluindo a entrada na fila de sincronização (padrão Outbox):
 
@@ -6587,25 +6607,104 @@ Tests:       191 passed, 191 total
 
 > A métrica `All files` (59.86% lines) reflete o codebase completo, incluindo controllers, routes e repositories com cobertura parcial. Considerando apenas `backend/services/`, todos os arquivos atingem cobertura de linhas ≥ 80%, com agregado de 91.27%. O `healthService.ts` alcançou 100% (statements, branches, funcs e lines) após a adição de `healthService.test.ts`, que exercita os dois branches de erro de banco (linhas 21-22 e 33). O `cloudSyncService.ts` passou de 42.46% para 93.15% após a expansão de 4 para 15 casos, com 11 novos casos cobrindo os branches do loop Outbox por tipo de entidade (`movimentacao`, `evidencia`, `retiro`, `usuario`). O `database.ts` atingiu 100% de linhas e branches com a inclusão de `database.test.ts`, que exercita os quatro caminhos de inicialização via isolateModules.
 
+**Output de `npx jest tests/alertaIntegration --verbose` (suite de integração do endpoint `/api/chamados`):**
+
+```
+PASS tests/alertaIntegration.test.ts (6.732 s)
+  POST /api/chamados
+    √ 201 — cria chamado com payload válido completo (RF006) (68 ms)
+    √ 201 — alerta retornado contém campos obrigatórios (13 ms)
+    √ 400 — payload vazio: sem tipo, descrição nem coordenadas (RN06) (11 ms)
+    √ 400 — sem capataz_id (9 ms)
+    √ 400 — sem coordenadas GPS (RN06) (7 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       5 passed, 5 total
+Snapshots:   0 total
+Time:        8.157 s
+```
+
+**Output de `npx jest tests/eventoIntegration --verbose` (suite de integração dos endpoints de eventos zootécnicos):**
+
+```
+PASS tests/eventoIntegration.test.ts (6.872 s)
+  POST /api/eventos-zootecnicos/nascimentos
+    √ 201 — cria nascimento com payload válido completo (RF008) (71 ms)
+    √ 201 — registro retornado contém campos obrigatórios (14 ms)
+    √ 400 — payload vazio: sem nenhum campo obrigatório (10 ms)
+    √ 400 — sem data (8 ms)
+    √ 400 — sem retiro_id (9 ms)
+    √ 400 — sem categoria (7 ms)
+    √ 400 — sem quantidade (6 ms)
+    √ 400 — sem capataz_id (6 ms)
+  POST /api/eventos-zootecnicos/obitos
+    √ 201 — cria óbito com payload válido completo (RF009, RN07) (8 ms)
+    √ 201 — registro retornado contém movimentacao_id e obito_id (8 ms)
+    √ 422 — sem foto_base64: evidência obrigatória para óbito (RN07) (6 ms)
+    √ 400 — payload vazio: todos os campos obrigatórios ausentes (5 ms)
+    √ 422 — sem identificacao_animal (RF013) (6 ms)
+    √ 422 — sem causa_morte (RF013) (6 ms)
+    √ 400 — sem data (RF013) (6 ms)
+  POST /api/eventos-zootecnicos/obitos — persistência no banco
+    √ foto Base64 é persistida na tabela evidencias (RN07) (6 ms)
+    √ movimentacao é registrada no inventário com quantidade e categoria corretos (7 ms)
+    √ registro de obito vincula corretamente movimentacao, foto e causa_morte (8 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       18 passed, 18 total
+Snapshots:   0 total
+Time:        8.157 s
+```
+
+> Os outputs acima são execuções reais das suites `alertaIntegration.test.ts` e `eventoIntegration.test.ts`, que cobrem os casos AI1–AI6 e os casos NA1–NA7 / OB1–OBd / OB3–OB7 referenciados na tabela de cobertura da seção 5.1.3. Cada suite inicializa SQLite `:memory:` e roteia requisições HTTP pelo stack Express real.
+
 **Mapeamento CT → RN → RF (rastreabilidade consolidada):**
 
-A tabela abaixo é coerente com a Matriz RF → RN → Endpoint (seção 3.1.4) e com a RTM (seção 3.9):
+A tabela abaixo é coerente com a Matriz RF → RN → Endpoint (seção 3.1.4) e com a RTM (seção 3.9). Cada linha mapeia um conjunto de casos de teste com a **mesma** RN e RF — grupos mistos foram desmembrados para eliminar ambiguidade:
 
-| Casos de Teste | RN Formal | RF | Endpoint |
-|----------------|:----------:|:--:|----------|
-| C1, C3, C4, CT-UT11, CT-UT12, CT-UT13 | RN01 | RF001 | `POST /api/tarefas` |
-| H1, H2, H3 | RN02, RN05 | RF002 | `GET /api/tarefas/hoje` |
-| K1, K2, K3, CT-UT01, CT-UT02, CT-UT03 | RN01 | RF001 | `PATCH /api/tarefas/:id/concluir` |
-| E1, E2, E3, E4, CT-UT04 – CT-UT10 | RN05, RN13 | RF005 | `POST /api/tarefas/:id/evidencias` |
-| AL1, AL2, CT-UA01, CT-UA05, CT-UA06 | RN19, RN26 | RF006 | `POST /api/chamados` |
-| N1, N2, CT-NA01, CT-NA06 | RN27 | RF008 | `POST /api/eventos-zootecnicos/nascimentos` |
-| CT-OB01 – CT-OB04 | RF013 | RF009 | `POST /api/eventos-zootecnicos/obitos` |
-| CT-CS01 – CT-CS15 | — | RF010 | `POST /sincronizacao/lote` |
-| CT-DB01 – CT-DB04 | — | — | `config/database.ts` (inicialização) |
-| AJ1, AJ2, AJ3, AJ4 | — | — | `POST /api/auth/login`, `POST /api/auth/refresh` |
-| CT-EV01 – CT-EV04 | — | RF014 | `GET /api/eventos-zootecnicos` |
-| CT-EX01 – CT-EX04 | RN28 | RF015 | `GET /api/coordenador/exportar` |
-| CT-HS01 – CT-HS04 | — | — | `services/healthService.ts` (cobertura de branches de erro de banco) |
+| Caso(s) de Teste | Cenário coberto | RN Formal | RF | Endpoint / Componente |
+|------------------|----------------|:----------:|:--:|-----------------------|
+| C1, C4, CT-UT11 | Criar tarefa — sucesso e persistência | RN01 | RF001 | `POST /api/tarefas` |
+| C2 | Criar tarefa — capataz não pertence ao retiro (→ 422) | RN01 | RF001 | `POST /api/tarefas` |
+| C3 | Criar tarefa — payload inválido (→ 400) | — | RF001 | `POST /api/tarefas` |
+| CT-UT12 | Criar tarefa — data retroativa (→ erro) | — ¹ | RF001 | `TarefaService` |
+| CT-UT13 | Criar tarefa — descrição em branco (→ erro) | — ¹ | RF001 | `TarefaService` |
+| H1, H2, H3 | Buscar tarefas do dia — sucesso (lista e vazia) e payload inválido | RN02 | RF002 | `GET /api/tarefas/hoje` |
+| K1, K3, CT-UT01 | Concluir tarefa — sucesso e persistência | RN01 | RF001 | `PATCH /api/tarefas/:id/concluir` |
+| K2, CT-UT03 | Concluir tarefa — capataz incorreto (→ 404) | RN01 | RF001 | `PATCH /api/tarefas/:id/concluir` |
+| K4, CT-UT02 | Concluir tarefa — payload inválido / já concluída | — | RF002 | `PATCH /api/tarefas/:id/concluir` |
+| E1, E4, CT-UT04 | Anexar evidência — sucesso e persistência | RN13 | RF005 | `POST /api/tarefas/:id/evidencias` |
+| E2, CT-UT05 | Anexar evidência — capataz incorreto (→ 404) | RN05 | RF005 | `POST /api/tarefas/:id/evidencias` |
+| E3, CT-UT06–CT-UT10 | Anexar evidência — payload inválido / validações de formato | — | RF005 | `POST /api/tarefas/:id/evidencias` |
+| AL1, AI1, AI2, CT-UA01 | Criar chamado — sucesso e campos obrigatórios | RN19, RN26 | RF006 | `POST /api/chamados` |
+| AL2, AI4, AI5 | Criar chamado — payload inválido (→ 400) | — | RF006 | `POST /api/chamados` |
+| AI6 | Criar chamado — sem coordenadas GPS (→ 400, viola RN19) | RN19 | RF006 | `POST /api/chamados` |
+| CT-UA05 | Criar chamado — latitude ausente (→ erro) | RN19 | RF006 | `AlertaService` |
+| CT-UA06 | Criar chamado — longitude ausente (→ erro) | RN19 | RF006 | `AlertaService` |
+| CT-UA07 | Resolver chamado — sucesso (Técnico) | — ² | RF006 | `PATCH /api/chamados/:id/resolver` |
+| CT-UA08 | Resolver chamado — perfil incorreto (→ 403/422) | — ² | RF006 | `PATCH /api/chamados/:id/resolver` |
+| CT-UA09 | Resolver chamado — usuário não encontrado (→ 422) | — ² | RF006 | `PATCH /api/chamados/:id/resolver` |
+| CT-UA10 | Resolver chamado — chamado não encontrado (→ 404) | — ² | RF006 | `PATCH /api/chamados/:id/resolver` |
+| CT-UA11 | Resolver chamado — já resolvido (→ 409) | — ² | RF006 | `PATCH /api/chamados/:id/resolver` |
+| N1, CT-NA01 | Registrar nascimento — sucesso | RN27 | RF008 | `POST /api/eventos-zootecnicos/nascimentos` |
+| N2, NA1–NA7 | Registrar nascimento — payload inválido (múltiplos campos) | — | RF008 | `POST /api/eventos-zootecnicos/nascimentos` |
+| N3, CT-NA06 | Registrar nascimento — data futura (→ 422) | RN27 | RF008 | `POST /api/eventos-zootecnicos/nascimentos` |
+| OB1, OB2, OB3, CT-OB01 | Registrar óbito — sucesso e persistência no banco | — | RF009 | `POST /api/eventos-zootecnicos/obitos` |
+| OB4, OBd | Registrar óbito — payload inválido (→ 400) | — | RF009 | `POST /api/eventos-zootecnicos/obitos` |
+| OB7, CT-OB02 | Registrar óbito — foto_base64 obrigatória (→ 422) | RN07 | RF009 | `POST /api/eventos-zootecnicos/obitos` |
+| OB5, CT-OB04 | Registrar óbito — identificacao_animal obrigatória (→ 422) | RF013 | RF009 | `POST /api/eventos-zootecnicos/obitos` |
+| OB6, CT-OB03 | Registrar óbito — causa_morte obrigatória (→ 422) | RF013 | RF009 | `POST /api/eventos-zootecnicos/obitos` |
+| CT-CS01 | CloudSync — offline (suspenso) | RN08 | RF010 | `CloudSyncService` |
+| CT-CS02–CT-CS15 | CloudSync — happy paths e falhas por tipo de entidade | — | RF010 | `CloudSyncService` |
+| AJ1, AJ2, AJ3, AJ4 | Autenticação JWT — login, refresh, rota protegida | — | — | `POST /api/auth/login`, `POST /api/auth/refresh` |
+| CT-EV01–CT-EV04 | Listar eventos — sem filtro e com filtros de retiro e tipo | — | RF014 | `GET /api/eventos-zootecnicos` |
+| CT-EX01 | Exportar CSV — ACESSO_NEGADO (Capataz) | RN28 | RF015 | `GET /api/coordenador/exportar` |
+| CT-EX02–CT-EX04 | Exportar CSV — formato e total de registros | RN28 | RF015 | `GET /api/coordenador/exportar` |
+| CT-HS01–CT-HS04 | HealthService — banco conectado, erro e campos obrigatórios | — | — | `services/healthService.ts` |
+
+> ¹ Validações de data retroativa e descrição em branco são regras internas do `TarefaService` sem código formal na tabela RN da seção 3.1.2.
+>
+> ² As regras de autorização e idempotência do `resolverChamado` (apenas Técnico, chamado único por evento) são regras de domínio do `AlertaService` não catalogadas formalmente na seção 3.1.2. CT-UA11 (chamado já resolvido) corresponde a uma violação de regra que retornaria **409 Conflict** no contrato HTTP.
 
 ### 5.1.6. Verificação de critérios impeditivos de publicação (vermelho)
 
