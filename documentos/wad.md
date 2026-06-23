@@ -7004,7 +7004,7 @@ atividade econômica há mais de 200 anos [48].
 Do ponto de vista tecnológico, o segmento é caracterizado por baixa adoção de
 ferramentas digitais de gestão. Segundo o Censo Agropecuário 2017 do IBGE, menos
 de 28% dos estabelecimentos rurais brasileiros possuem acesso à internet, e desses,
-apenas 46% contam com banda larga [49]. Esse cenário é ainda mais restritivo
+apenas 46% contam com banda larga. Esse cenário é ainda mais restritivo
 no Pantanal, onde a conectividade depende de tecnologias satelitais como o Starlink,
 disponíveis apenas no retiro.
 
@@ -7027,8 +7027,8 @@ sem acesso contínuo à internet, em condições adversas de luminosidade e mobi
 Responsável pelo registro diário de nascimentos, mortes, entradas, saídas e
 transferências do rebanho. O nível de escolaridade reflete o padrão da força de
 trabalho rural brasileira: 21% dos trabalhadores rurais são analfabetos e 43% possuem
-apenas ensino fundamental incompleto [49]. Apenas 26,5% da população rural
-maior de 18 anos possui ensino fundamental completo [50]. O WhatsApp é o
+apenas ensino fundamental incompleto. Apenas 26,5% da população rural
+maior de 18 anos possui ensino fundamental completo [49]. O WhatsApp é o
 principal canal de comunicação utilizado, indicando familiaridade com smartphones,
 mas não com interfaces de software estruturadas.
 
@@ -7202,101 +7202,113 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 
 # <a name="c8"></a>8. Referências (sprints 1 a 5)
 
-[1] ABIEC. Brasil bate recorde nas exportações de carne bovina em 2025. São Paulo: ABIEC, 2026. Disponível em: https://abiec.com.br/brasil-bate-recorde-nas-exportacoes-de-carne-bovina-em-2025/. Acesso em: jun. 2026.
+[1] ABIEC. **Brasil bate recorde nas exportações de carne bovina em 2025**. São Paulo: ABIEC, 2026. Disponível em: https://abiec.com.br/brasil-bate-recorde-nas-exportacoes-de-carne-bovina-em-2025/. Acesso em: 10 maio 2026.
 
-[2] BABICH, Nick. Principles of Typography in UI Design. UX Planet, 2016. Disponível em: https://uxplanet.org/principles-of-typography-in-ui-design-bc28f1f9666d. Acesso em: 19 maio 2026.
+[2] BABICH, Nick. **Principles of Typography in UI Design**. UX Planet, 2016. Disponível em: https://uxplanet.org/principles-of-typography-in-ui-design-bc28f1f9666d. Acesso em: 19 maio 2026.
 
-[3] BOOCH, Grady; RUMBAUGH, James; JACOBSON, Ivar. The Unified Modeling Language User Guide. 2. ed. Boston: Addison-Wesley Professional, 2005. 494 p. ISBN 978-0-321-26797-9.
+[3] BOOCH, Grady; RUMBAUGH, James; JACOBSON, Ivar. **The Unified Modeling Language User Guide**. 2. ed. Boston: Addison-Wesley Professional, 2005. 494 p. ISBN 978-0-321-26797-9.
 
-[4] BRASIL. Ministério do Trabalho e Emprego. Classificação Brasileira de Ocupações (CBO): capataz na Agropecuária - CBO 6210-05. [S.d.]. Disponível em: https://www.mtecbo.gov.br. Acesso em: 28 abr. 2026.
+[4] BRASIL. Ministério do Trabalho e Emprego. **Classificação Brasileira de Ocupações (CBO): capataz na Agropecuária - CBO 6210-05**. [S.d.]. Disponível em: https://www.mtecbo.gov.br. Acesso em: 28 abr. 2026.
 
-[5] CEPEA. PIB do Agronegócio Brasileiro. Disponível em: https://www.cepea.esalq.usp.br. Acesso em: 29 abr. 2026.
+[5] CEPEA. **PIB do Agronegócio Brasileiro**. [S.d.]. Disponível em: https://www.cepea.esalq.usp.br. Acesso em: 29 abr. 2026.
 
-[6] CHEN, Peter Pin-Shan. The entity-relationship model: toward a unified view of data. ACM Transactions on Database Systems, v. 1, n. 1, p. 9–36, 1976.
+[6] CHEN, Peter Pin-Shan. The entity-relationship model: toward a unified view of data. **ACM Transactions on Database Systems**, v. 1, n. 1, p. 9–36, 1976.
 
-[7] COHN, Mike. User Stories Applied: For Agile Software Development. Boston: Addison-Wesley, 2004.
+[7] COHN, Mike. **User Stories Applied: For Agile Software Development**. Boston: Addison-Wesley, 2004.
 
-[8] CONFEDERAÇÃO DA AGRICULTURA E PECUÁRIA DO BRASIL. Conheça as 4 carreiras mais quentes do agronegócio brasileiro. CNA Brasil, [S.d.]. Disponível em: https://www.cnabrasil.org.br/noticias/conheca-as-4-carreiras-mais-quentes-do-agronegocio-brasileiro. Acesso em: 28 abr. 2026.
+[8] CONFEDERAÇÃO DA AGRICULTURA E PECUÁRIA DO BRASIL. **Conheça as 4 carreiras mais quentes do agronegócio brasileiro**. CNA Brasil, [S.d.]. Disponível em: https://www.cnabrasil.org.br/noticias/conheca-as-4-carreiras-mais-quentes-do-agronegocio-brasileiro. Acesso em: 28 abr. 2026.
 
-[9] CONFEDERAÇÃO DA AGRICULTURA E PECUÁRIA DO BRASIL. Pesquisa Trimestral do Abate, Leite e Ovos — 1º trimestre de 2025. Brasília: CNA, 2025. Disponível em: https://www.cnabrasil.org.br. Acesso em: jun. 2026.
+[9] CONFEDERAÇÃO DA AGRICULTURA E PECUÁRIA DO BRASIL. **Pesquisa Trimestral do Abate, Leite e Ovos — 1º trimestre de 2025**. Brasília: CNA, 2025. Disponível em: https://www.cnabrasil.org.br. Acesso em: 10 maio 2026.
 
-[10] COOPER, Alan; REIMANN, Robert; CRONIN, David; NOESSEL, Christopher. About Face: The Essentials of Interaction Design. 4. ed. Indianapolis: John Wiley & Sons, 2014. ISBN 978-1-118-76657-6.
+[10] COOPER, Alan; REIMANN, Robert; CRONIN, David; NOESSEL, Christopher. **About Face: The Essentials of Interaction Design**. 4. ed. Indianapolis: John Wiley & Sons, 2014. ISBN 978-1-118-76657-6.
 
-[11] COSGROVE, J.; CACHIA, R. DigComp 3.0: European Digital Competence Framework. 5. ed. Luxembourg: Publications Office of the European Union, 2025. Disponível em: https://data.europa.eu/doi/10.2760/0001149. Acesso em: 28 abr. 2026.
+[11] COSGROVE, J.; CACHIA, R. **DigComp 3.0: European Digital Competence Framework**. 5. ed. Luxembourg: Publications Office of the European Union, 2025. Disponível em: https://data.europa.eu/doi/10.2760/0001149. Acesso em: 28 abr. 2026.
 
-[12] EVANS, Eric. Domain-Driven Design: Tackling Complexity in the Heart of Software. Boston: Addison-Wesley, 2003. ISBN 978-0-321-12521-7.
+[12] EVANS, Eric. **Domain-Driven Design: Tackling Complexity in the Heart of Software**. Boston: Addison-Wesley, 2003. ISBN 978-0-321-12521-7.
 
-[13] FOWLER, Martin. Patterns of Enterprise Application Architecture. Boston: Addison-Wesley, 2002. ISBN 978-0-321-12742-6.
+[13] FOWLER, Martin. **Patterns of Enterprise Application Architecture**. Boston: Addison-Wesley, 2002. ISBN 978-0-321-12742-6.
 
-[14] FOWLER, Martin. UML Distilled: A Brief Guide to the Standard Object Modeling Language. 3. ed. Boston: Addison-Wesley Professional, 2004. 175 p. ISBN 978-0-321-19368-1.
+[14] FOWLER, Martin. **UML Distilled: A Brief Guide to the Standard Object Modeling Language**. 3. ed. Boston: Addison-Wesley Professional, 2004. 175 p. ISBN 978-0-321-19368-1.
 
-[15] GAMMA, Erich; HELM, Richard; JOHNSON, Ralph; VLISSIDES, John. Design Patterns: Elements of Reusable Object-Oriented Software. Boston: Addison-Wesley, 1994. ISBN 978-0-201-63361-0.
+[15] GAMMA, Erich; HELM, Richard; JOHNSON, Ralph; VLISSIDES, John. **Design Patterns: Elements of Reusable Object-Oriented Software**. Boston: Addison-Wesley, 1994. ISBN 978-0-201-63361-0.
 
-[16] HOHPE, Gregor; WOOLF, Bobby. Enterprise Integration Patterns: Designing, Building, and Deploying Messaging Solutions. Boston: Addison-Wesley, 2003. ISBN 978-0-321-20068-6.
+[16] HOHPE, Gregor; WOOLF, Bobby. **Enterprise Integration Patterns: Designing, Building, and Deploying Messaging Solutions**. Boston: Addison-Wesley, 2003. ISBN 978-0-321-20068-6.
 
-[17] IBGE. Estatísticas da Produção Pecuária — Resultados do 4º trimestre de 2024. Rio de Janeiro: IBGE, 2025. Disponível em: https://agenciadenoticias.ibge.gov.br/agencia-noticias/2012-agencia-de-noticias/noticias/42899-abate-de-bovinos-atinge-recorde-em-2024. Acesso em: jun. 2026.
+[17] IBGE. **Estatísticas da Produção Pecuária — Resultados do 4º trimestre de 2024**. Rio de Janeiro: IBGE, 2025. Disponível em: https://agenciadenoticias.ibge.gov.br/agencia-noticias/2012-agencia-de-noticias/noticias/42899-abate-de-bovinos-atinge-recorde-em-2024. Acesso em: 10 maio 2026.
 
-[18] IBGE. Pesquisa da Pecuária Municipal 2024. Rio de Janeiro: IBGE, 2025. Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/9107-producao-da-pecuaria-municipal.html. Acesso em: jun. 2026.
+[18] IBGE. **Pesquisa da Pecuária Municipal 2024**. Rio de Janeiro: IBGE, 2025. Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/9107-producao-da-pecuaria-municipal.html. Acesso em: 10 maio 2026.
 
-[19] ILLUMINATING ENGINEERING SOCIETY. The Lighting Handbook. 10. ed. New York: IES, 2011.
+[19] ILLUMINATING ENGINEERING SOCIETY. **The Lighting Handbook**. 10. ed. New York: IES, 2011.
 
-[20] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO 9241-303:2011: Ergonomics of human-system interaction — Part 303: Requirements for electronic visual displays. Genebra: ISO, 2011.
+[20] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. **ISO 9241-303:2011**: Ergonomics of human-system interaction — Part 303: Requirements for electronic visual displays. Genebra: ISO, 2011.
 
-[21] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC 19505-2:2012: Information technology — Object Management Group Unified Modeling Language (OMG UML) — Part 2: Superstructure. Genebra: ISO, 2012. Disponível em: https://www.iso.org/standard/52854.html. Acesso em: mai. 2026.
+[21] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. **ISO/IEC 19505-2:2012**: Information technology — Object Management Group Unified Modeling Language (OMG UML) — Part 2: Superstructure. Genebra: ISO, 2012. Disponível em: https://www.iso.org/standard/52854.html. Acesso em: 15 maio 2026.
 
-[22] IPOG. Gestão do Agronegócio: como está o mercado de trabalho?. [S.d.]. Disponível em: https://blog.ipog.edu.br/gestao-e-negocios/gestao-do-agronegocio/. Acesso em: 28 abr. 2026.
+[22] IPOG. **Gestão do Agronegócio: como está o mercado de trabalho?**. [S.d.]. Disponível em: https://blog.ipog.edu.br/gestao-e-negocios/gestao-do-agronegocio/. Acesso em: 28 abr. 2026.
 
-[23] KOTLER, Philip; KELLER, Kevin Lane. Administração de marketing. 14. ed. São Paulo: Pearson Education do Brasil, 2012. ISBN 978-85-430-0199-4.
+[23] KOTLER, Philip; KELLER, Kevin Lane. **Administração de marketing**. 14. ed. São Paulo: Pearson Education do Brasil, 2012. ISBN 978-85-430-0199-4.
 
-[24] LARMAN, Craig. Applying UML and Patterns: An Introduction to Object-Oriented Analysis and Design and Iterative Development. 3. ed. Upper Saddle River: Prentice Hall, 2004. 736 p. ISBN 978-0-131-48906-6.
+[24] LARMAN, Craig. **Applying UML and Patterns: An Introduction to Object-Oriented Analysis and Design and Iterative Development**. 3. ed. Upper Saddle River: Prentice Hall, 2004. 736 p. ISBN 978-0-131-48906-6.
 
-[25] LEACH, P. et al. RFC 9562: Universally Unique IDentifiers (UUID). Internet Engineering Task Force, 2024. Disponível em: https://www.rfc-editor.org/rfc/rfc9562. Acesso em: 07 mai. 2026.
+[25] LEACH, P. et al. **RFC 9562**: Universally Unique IDentifiers (UUID). Internet Engineering Task Force, 2024. Disponível em: https://www.rfc-editor.org/rfc/rfc9562. Acesso em: 07 maio 2026.
 
-[26] MACHADO, João Guilherme de Camargo Ferraz; NANTES, José Flávio Diniz. Adoção da tecnologia da informação em organizações rurais: o caso da pecuária de corte. Gestão & Produção, São Carlos, v. 18, n. 3, p. 555-570, 2011. Disponível em: https://www.scielo.br/j/gp/a/cwVwLsPgq8FBq5kvgXZPpLQ/. Acesso em: 28 abr. 2026.
+[26] MACHADO, João Guilherme de Camargo Ferraz; NANTES, José Flávio Diniz. Adoção da tecnologia da informação em organizações rurais: o caso da pecuária de corte. **Gestão & Produção**, São Carlos, v. 18, n. 3, p. 555-570, 2011. Disponível em: https://www.scielo.br/j/gp/a/cwVwLsPgq8FBq5kvgXZPpLQ/. Acesso em: 28 abr. 2026.
 
-[27] MARTIN, Robert C. Clean Architecture: A Craftsman’s Guide to Software Structure and Design. Boston: Prentice Hall, 2017. ISBN 978-0-134-49416-6.
+[27] MARTIN, Robert C. **Clean Architecture: A Craftsman’s Guide to Software Structure and Design**. Boston: Prentice Hall, 2017. ISBN 978-0-134-49416-6.
 
-[28] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. MAPA fortalece agropecuária pantaneira. Brasília: MAPA, 2023. Disponível em: https://www.gov.br/agricultura/pt-br/assuntos/noticias/mapa-fortalece-agropecuaria-pantaneira. Acesso em: jun. 2026.
+[28] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. **MAPA fortalece agropecuária pantaneira**. Brasília: MAPA, 2023. Disponível em: https://www.gov.br/agricultura/pt-br/assuntos/noticias/mapa-fortalece-agropecuaria-pantaneira. Acesso em: 15 maio 2026.
 
-[29] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. Plano Nacional de Identificação de Bovinos e Búfalos (PNIB). Brasília: MAPA, 2024. Disponível em: https://www.gov.br/agricultura. Acesso em: jun. 2026.
+[29] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. **Plano Nacional de Identificação de Bovinos e Búfalos (PNIB)**. Brasília: MAPA, 2024. Disponível em: https://www.gov.br/agricultura. Acesso em: 15 maio 2026.
 
-[30] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. Produção e exportações de carne bovina 2024. Brasília: MAPA/SCRI, 2024. Disponível em: https://www.gov.br/agricultura. Acesso em: jun. 2026.
+[30] MINISTÉRIO DA AGRICULTURA E PECUÁRIA. **Produção e exportações de carne bovina 2024**. Brasília: MAPA/SCRI, 2024. Disponível em: https://www.gov.br/agricultura. Acesso em: 15 maio 2026.
 
-[31] NIELSEN NORMAN GROUP. Design Systems vs. Style Guides. 2024. Disponível em: https://www.nngroup.com/articles/design-systems-vs-style-guides/. Acesso em: 18 maio 2026.
+[31] NIELSEN NORMAN GROUP. **Design Systems vs. Style Guides**. 2024. Disponível em: https://www.nngroup.com/articles/design-systems-vs-style-guides/. Acesso em: 18 maio 2026.
 
-[32] OBJECT MANAGEMENT GROUP. Unified Modeling Language Specification: Version 2.5.1. Needham, MA: OMG, 2017. Disponível em: https://www.omg.org/spec/UML/2.5.1. Acesso em: mai. 2026.
+[32] OBJECT MANAGEMENT GROUP. **Unified Modeling Language Specification: Version 2.5.1**. Needham, MA: OMG, 2017. Disponível em: https://www.omg.org/spec/UML/2.5.1. Acesso em: 15 maio 2026.
 
-[33] PORTAL SALÁRIO. Capataz na Pecuária - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/capataz-na-pecuaria-cbo-620115/. Acesso em: 28 abr. 2026.
+[33] PORTAL SALÁRIO. **Capataz na Pecuária - Salário 2026, Piso Salarial**. 2026. Disponível em: https://www.salario.com.br/profissao/capataz-na-pecuaria-cbo-620115/. Acesso em: 28 abr. 2026.
 
-[34] PORTAL SALÁRIO. Gerente de Produção e Operações Agropecuárias - Salário 2026, Piso Salarial. 2026. Disponível em: https://www.salario.com.br/profissao/gerente-de-producao-e-operacoes-agropecuarias-cbo-141115/. Acesso em: 28 abr. 2026.
+[34] PORTAL SALÁRIO. **Gerente de Produção e Operações Agropecuárias - Salário 2026, Piso Salarial**. 2026. Disponível em: https://www.salario.com.br/profissao/gerente-de-producao-e-operacoes-agropecuarias-cbo-141115/. Acesso em: 28 abr. 2026.
 
-[35] PORTER, Michael E. Competitive Strategy: Techniques for Analyzing Industries and Competitors. New York: Free Press, 2008. ISBN 978-0-7432-7275-4.
+[35] PORTER, Michael E. **Competitive Strategy: Techniques for Analyzing Industries and Competitors**. New York: Free Press, 2008. ISBN 978-0-7432-7275-4.
 
-[36] PROJECT MANAGEMENT INSTITUTE. Um guia do conhecimento em gerenciamento de projetos (Guia PMBOK). 7. ed. Newtown Square: PMI, 2021. ISBN 978-1-62825-664-2.
+[36] PROJECT MANAGEMENT INSTITUTE. **Um guia do conhecimento em gerenciamento de projetos (Guia PMBOK)**. 7. ed. Newtown Square: PMI, 2021. ISBN 978-1-62825-664-2.
 
-[37] REVISTA DE GESTÃO E PROJETOS — GeP. Gestão de riscos em projetos: uma análise comparativa da norma ISO 31000 e o Guia PMBOK®. Revista de Gestão e Projetos — GeP, São Paulo, v. 4, n. 3, p. 46–72, set./dez. 2013. Disponível em: https://www.bibliotecadeseguranca.com.br/wp-content/uploads/2020/05/gerenciamento-de-riscos-em-projetos-uma-comparacao-entre-o-pmbok-e-a-iso-31000.pdf. Acesso em: 29 abr. 2026.
+[37] REVISTA DE GESTÃO E PROJETOS — GeP. Gestão de riscos em projetos: uma análise comparativa da norma ISO 31000 e o Guia PMBOK®. **Revista de Gestão e Projetos — GeP**, São Paulo, v. 4, n. 3, p. 46–72, set./dez. 2013. Disponível em: https://www.bibliotecadeseguranca.com.br/wp-content/uploads/2020/05/gerenciamento-de-riscos-em-projetos-uma-comparacao-entre-o-pmbok-e-a-iso-31000.pdf. Acesso em: 29 abr. 2026.
 
-[38] SNAITH, M.; TORNQVIST, K. Situational Visual Impairment: Designing interfaces for outdoor and mobile usage. JMHCI, v. 12, 2020.
+[38] SNAITH, M.; TORNQVIST, K. Situational Visual Impairment: Designing interfaces for outdoor and mobile usage. **JMHCI**, v. 12, 2020.
 
-[39] SUA IMPRENSA. Guia de estilo da marca: o que é, como fazer e elementos essenciais. Sua Imprensa, 2025. Disponível em: https://suaimprensa.com.br/blog/guia-de-estilo-da-marca/. Acesso em: 28 maio 2026.
+[39] SUA IMPRENSA. **Guia de estilo da marca: o que é, como fazer e elementos essenciais**. Sua Imprensa, 2025. Disponível em: https://suaimprensa.com.br/blog/guia-de-estilo-da-marca/. Acesso em: 28 maio 2026.
 
-[40] UNIÃO EUROPEIA. Regulamento (UE) 2023/1115 — Regulamento Europeu Antidesmatamento (EUDR). Bruxelas: Parlamento Europeu e Conselho da UE, 2023. Disponível em: https://eur-lex.europa.eu. Acesso em: jun. 2026.
+[40] UNIÃO EUROPEIA. **Regulamento (UE) 2023/1115 — Regulamento Europeu Antidesmatamento (EUDR)**. Bruxelas: Parlamento Europeu e Conselho da UE, 2023. Disponível em: https://eur-lex.europa.eu. Acesso em: 15 maio 2026.
 
-[41] UX QUEST. Guia completo sobre paleta de cores para design de interface e UX. UX Quest, 2026. Disponível em: https://www.uxquest.com.br/blog/paleta-de-cores. Acesso em: 28 maio 2026.
+[41] UX QUEST. **Guia completo sobre paleta de cores para design de interface e UX**. UX Quest, 2026. Disponível em: https://www.uxquest.com.br/blog/paleta-de-cores. Acesso em: 28 maio 2026.
 
-[42] UXPIN. Design System vs. Pattern Library vs. Style Guide vs. Component Library. 2026. Disponível em: https://www.uxpin.com/studio/blog/design-systems-vs-pattern-libraries-vs-style-guides-whats-difference/. Acesso em: 18 maio 2026.
+[42] UXPIN. **Design System vs. Pattern Library vs. Style Guide vs. Component Library**. 2026. Disponível em: https://www.uxpin.com/studio/blog/design-systems-vs-pattern-libraries-vs-style-guides-whats-difference/. Acesso em: 18 maio 2026.
 
-[43] W3C. WCAG 2.1 — Success Criterion 1.4.6: Contrast (Enhanced). Disponível em: https://www.w3.org/TR/WCAG21/#contrast-enhanced. Acesso em: maio 2026.
+[43] W3C. **WCAG 2.1 — Success Criterion 1.4.6: Contrast (Enhanced)**. Disponível em: https://www.w3.org/TR/WCAG21/#contrast-enhanced. Acesso em: 15 maio 2026.
 
-[51] ANATEL. Serviço de Comunicação Multimídia (SCM): acessos por tecnologia de acesso. Brasília: Anatel, 2024. Disponível em: https://informacoes.anatel.gov.br/paineis/acesso-a-internet-banda-larga. Acesso em: jun. 2026.
+[44] IRANCHO. **iRancho**. [S.d.]. Disponível em: https://irancho-fg5cl9i4.manus.space/. Acesso em: 28 abr. 2026.
 
-[52] DISTRITO. Agtech Report Brasil 2024. São Paulo: Distrito, 2024. Disponível em: https://distrito.me/agtech-report/. Acesso em: jun. 2026.
+[45] JETBOV. **JetBov**. [S.d.]. Disponível em: https://jetbov.com/. Acesso em: 28 abr. 2026.
 
-[53] KRUG, Steve. Rocket Surgery Made Easy: The Do-It-Yourself Guide to Finding and Fixing Usability Problems. Berkeley: New Riders, 2010. ISBN 978-0-321-65729-5.
+[46] AEGRO. **Aegro**. [S.d.]. Disponível em: https://aegro.com.br/. Acesso em: 28 abr. 2026.
 
-[54] NIELSEN, Jakob. Why You Only Need to Test with 5 Users. Nielsen Norman Group, 19 mar. 2000. Disponível em: https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/. Acesso em: jun. 2026.
+[47] SISTEMA FAMASUL. **Um olhar socioeconômico e ambiental ao Pantanal de MS**. [S.d.]. Disponível em: https://portal.sistemafamasul.com.br/artigos/um-olhar-socioecon%C3%B4mico-e-ambiental-ao-pantanal-de-ms. Acesso em: 28 abr. 2026.
 
-[55] ISO 9241-11:2018. Ergonomics of human-system interaction — Part 11: Usability: Definitions and concepts. Geneva: International Organization for Standardization, 2018.
+[48] SISTEMA FAMASUL. **Um olhar socioeconômico e ambiental ao Pantanal de MS**. [S.d.]. Disponível em: https://portal.sistemafamasul.com.br/artigos/um-olhar-socioecon%C3%B4mico-e-ambiental-ao-pantanal-de-ms. Acesso em: 28 abr. 2026.
+
+[49] INSTITUTO DE PESQUISA ECONÔMICA APLICADA. **Boletim Regional, Urbano e Ambiental**. Brasília: IPEA, [S.d.]. Disponível em: https://repositorio.ipea.gov.br/server/api/core/bitstreams/28dde356-c808-4251-b9b5-1734046737a7/content. Acesso em: 28 abr. 2026.
+
+[51] ANATEL. **Serviço de Comunicação Multimídia (SCM): acessos por tecnologia de acesso**. Brasília: Anatel, 2024. Disponível em: https://informacoes.anatel.gov.br/paineis/acesso-a-internet-banda-larga. Acesso em: 10 maio 2026.
+
+[52] DISTRITO. **Agtech Report Brasil 2024**. São Paulo: Distrito, 2024. Disponível em: https://distrito.me/agtech-report/. Acesso em: 10 maio 2026.
+
+[53] KRUG, Steve. **Rocket Surgery Made Easy: The Do-It-Yourself Guide to Finding and Fixing Usability Problems**. Berkeley: New Riders, 2010. ISBN 978-0-321-65729-5.
+
+[54] NIELSEN, Jakob. **Why You Only Need to Test with 5 Users**. Nielsen Norman Group, 19 mar. 2000. Disponível em: https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/. Acesso em: 10 maio 2026.
+
+[55] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. **ISO 9241-11:2018**: Ergonomics of human-system interaction — Part 11: Usability: Definitions and concepts. Geneva: ISO, 2018.
 
 # <a name="c9"></a>Anexos
 
