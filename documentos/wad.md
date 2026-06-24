@@ -6671,38 +6671,39 @@ Os testes de guerrilha (*guerrilla usability testing*) são uma modalidade de av
 A principal importância dessa abordagem está na capacidade de gerar retroalimentação qualitativa rápida sobre dificuldades reais de uso ainda em fases iniciais do desenvolvimento, quando ajustes são menos custosos. Por envolverem pessoas reais em contexto natural, os testes de guerrilha expõem problemas de navegação, nomenclatura e fluxo que costumam passar despercebidos em revisões internas e inspeções heurísticas [53]. Para este projeto, o método foi adotado para validar os principais fluxos da aplicação junto a participantes que representam os perfis de Capataz, Gerente e Coordenador definidos nas personas do sistema, complementando as avaliações técnicas realizadas nas etapas anteriores.
 
 [Link para a planilha dos testes de Guerrilha:] (https://docs.google.com/spreadsheets/d/1qdGcS9gtkIaFlHcXa6VoyoqdvRIejTfKeiD6Zggm5aI/edit?usp=sharing) 
-#### Perfil dos Participantes
 
-Os testes foram conduzidos com **6 participantes**, todos estudantes de graduação recrutados por conveniência entre colegas de faculdade dos integrantes do grupo. Os perfis de sistema (Capataz, Gerente e Coordenador) foram atribuídos como cenários de tarefa durante a sessão, nenhum participante ocupa esses cargos na BrPec e nem em outra agropecuária. O principal critério de diversidade adotado foi a familiaridade com o contexto agropecuário: Gregory cresceu em propriedade rural, enquanto os demais não têm experiência com o setor.
+**Perfil dos Participantes**
+
+Os testes foram conduzidos com **6 participantes**, todos estudantes de graduação recrutados por conveniência entre colegas de faculdade dos integrantes do grupo. Os perfis de sistema (Capataz, Gerente e Coordenador) foram atribuídos como cenários de tarefa durante a sessão, nenhum participante ocupa esses cargos na BrPec e nem em outra agropecuária. O principal critério de diversidade adotado foi a familiaridade com o contexto agropecuário: P1 cresceu em propriedade rural, enquanto os demais não têm experiência com o setor.
 
 | Participante | Perfil de experiência |
 |---|---|
-| Gregory | Experiência com ambiente rural (cresceu em fazenda, pai tem propriedade) |
-| Gabriel | Sem experiência com agronegócio |
-| Gabriel Cristino | Sem experiência com agronegócio |
-| Fernanda | Sem experiência com agronegócio |
-| Davi | Sem experiência com agronegócio |
-| Rafael | Sem experiência com agronegócio |
+| P1 | Experiência com ambiente rural (cresceu em fazenda, pai tem propriedade) |
+| P2 | Sem experiência com agronegócio |
+| P3 | Sem experiência com agronegócio |
+| P4 | Sem experiência com agronegócio |
+| P5 | Sem experiência com agronegócio |
+| P6 | Sem experiência com agronegócio |
 
 A distribuição por perfil testado foi a seguinte:
 
 | Perfil de sistema testado | Tarefas | Participantes |
 |---|---|---|
-| Capataz | 1 e 2 | Gregory, Gabriel, Gabriel Cristino, Fernanda, Davi, Rafael (6) |
-| Gerente | 3 e 4 | Fernanda, Davi, Rafael (3) |
-| Coordenador | 5 e 6 | Gregory, Gabriel Cristino, Fernanda, Davi, Rafael (5) |
+| Capataz | 1 e 2 | P1, P2, P3, P4, P5, P6 (6) |
+| Gerente | 3 e 4 | P4, P5, P6 (3) |
+| Coordenador | 5 e 6 | P1, P3, P4, P5, P6 (5) |
 
 Cada participante executou entre 1 e 5 tarefas conforme a disponibilidade na sessão. Nenhum recebeu instruções sobre o sistema antes da interação — o contato com a interface foi o primeiro de cada um.
 
-# Resultados por Tarefa
+#### Resultados por Tarefa
  
 ---
  
-## 1. Capataz — Concluir Tarefa com Foto
+*1. Capataz — Concluir Tarefa com Foto*
  
 **Cenário:** Suponha que você é Gabriel, capataz do retiro Barra Bonita, terminou de transferir alguns animais para outro retiro, utilize o sistema para marcar a tarefa como concluída e anexar uma foto como evidência do serviço realizado.
  
-### Etapas
+**Etapas**
  
 | Etapa | Descrição | Expectativa |
 |---|---|---|
@@ -6711,24 +6712,24 @@ Cada participante executou entre 1 e 5 tarefas conforme a disponibilidade na ses
 | 3 | Marcar a tarefa como concluída e anexar a foto. | O sistema registra a conclusão e salva tudo localmente no dispositivo até a sincronização (RN08, RN10). |
 | 4 | Informações referentes à tarefa vão para o Coordenador e Gerente. | O status da tarefa é atualizado para o Coordenador e o sistema exibe mensagem de confirmação (RN09, RN11). |
  
-### Resultados
+**Resultados**
  
 | # | Nome | Perfil do Participante | Resultado | Etapa 1 | Etapa 2 | Etapa 3 | Etapa 4 | Heurística(s) Relacionada(s) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | Gregory | Tem experiência com fazenda (cresceu em uma, pai tem propriedade). |  Não conseguiu | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O registro não apareceu para o Gerente nem para o próprio Capataz. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
-| 2 | Gabriel | Sem experiência com agronegócio. |  Conseguiu com dificuldade | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O registro não apareceu para o Gerente nem para o próprio Capataz. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
-| 3 | Gabriel Cristino | Sem experiência com agronegócio. |  Sucesso | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O status da tarefa é atualizado para o Coordenador e o sistema exibe mensagem de confirmação. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
-| 4 | Fernanda | Sem experiência com agronegócio. |  Sucesso | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O status da tarefa é atualizado para o Coordenador e o sistema exibe mensagem de confirmação. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
-| 5 | Davi | Sem experiência com agronegócio. |  Sucesso | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O status da tarefa é atualizado para o Coordenador e o sistema exibe mensagem de confirmação. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
-| 6 | Rafael | Sem experiência com agronegócio. |  Sucesso | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O status da tarefa é atualizado para o Coordenador e o sistema exibe mensagem de confirmação. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
+| 1 | P1 | Experiência com ambiente rural (cresceu em fazenda, pai tem propriedade). |  Não conseguiu | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O registro não apareceu para o Gerente nem para o próprio Capataz. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
+| 2 | P2 | Sem experiência com agronegócio. |  Conseguiu com dificuldade | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O registro não apareceu para o Gerente nem para o próprio Capataz. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
+| 3 | P3 | Sem experiência com agronegócio. |  Sucesso | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O status da tarefa é atualizado para o Coordenador e o sistema exibe mensagem de confirmação. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
+| 4 | P4 | Sem experiência com agronegócio. |  Sucesso | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O status da tarefa é atualizado para o Coordenador e o sistema exibe mensagem de confirmação. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
+| 5 | P5 | Sem experiência com agronegócio. |  Sucesso | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O status da tarefa é atualizado para o Coordenador e o sistema exibe mensagem de confirmação. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
+| 6 | P6 | Sem experiência com agronegócio. |  Sucesso | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O status da tarefa é atualizado para o Coordenador e o sistema exibe mensagem de confirmação. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
  
 ---
  
-## 2. Capataz — Abrir Chamado de Infraestrutura
+**2. Capataz — Abrir Chamado de Infraestrutura**
  
 **Cenário:** Suponha que você é capataz e percebeu que o bebedouro do curral está quebrado, comprometendo o acesso de água ao rebanho, utilize o sistema para abrir um chamado de infraestrutura informando o tipo de problema, o retiro e a localização.
  
-### Etapas
+**Etapas**
  
 | Etapa | Descrição | Expectativa |
 |---|---|---|
@@ -6737,21 +6738,21 @@ Cada participante executou entre 1 e 5 tarefas conforme a disponibilidade na ses
 | 3 | Preencher o tipo de problema (ex.: hidráulica) e o retiro | O sistema captura automaticamente as coordenadas GPS e as exibe como imutáveis, sem permitir edição manual (RN19, RN24). |
 | 4 | Enviar o chamado | Se houver conexão, o alerta é enviado imediatamente com mensagem de confirmação; se offline, o sistema informa que o registro foi salvo localmente e será enviado na próxima sincronização (RN20–RN23, RN25, RN26). |
  
-### Resultados
+**Resultados**
  
 | # | Nome | Perfil do Participante | Resultado | Etapa 1 | Etapa 2 | Etapa 3 | Etapa 4 | Heurística(s) Relacionada(s) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | Fernanda | Sem experiência com agronegócio. | Não conseguiu | Sistema autentica o Capataz e libera o acesso apenas às funções vinculadas ao retiro selecionado. | Formulário exibido com os campos obrigatórios (tipo de problema, retiro, localização). | Sistema captura automaticamente as coordenadas GPS e as exibe como imutáveis. | Alerta não foi enviado — erro 400 (independente da categoria do chamado de infraestrutura). | H5 - Prevenção de erros; H9 - Diagnóstico e recuperação de erros |
-| 2 | Gabriel Cristino | Sem experiência com agronegócio. | Não conseguiu | Sistema autentica o Capataz e libera o acesso apenas às funções vinculadas ao retiro selecionado. | Formulário exibido com os campos obrigatórios (tipo de problema, retiro, localização). | Sistema captura automaticamente as coordenadas GPS e as exibe como imutáveis. | Alerta não foi enviado — erro 400 (independente da categoria do chamado de infraestrutura). | H5 - Prevenção de erros; H9 - Diagnóstico e recuperação de erros |
-| 3 | Davi | Sem experiência com agronegócio. | Não conseguiu | Sistema autentica o Capataz e libera o acesso apenas às funções vinculadas ao retiro selecionado. | Formulário exibido com os campos obrigatórios (tipo de problema, retiro, localização). | Sistema captura automaticamente as coordenadas GPS e as exibe como imutáveis. | Alerta não foi enviado — erro 400 (independente da categoria do chamado de infraestrutura). | H5 - Prevenção de erros; H9 - Diagnóstico e recuperação de erros |
+| 1 | P4 | Sem experiência com agronegócio. | Não conseguiu | Sistema autentica o Capataz e libera o acesso apenas às funções vinculadas ao retiro selecionado. | Formulário exibido com os campos obrigatórios (tipo de problema, retiro, localização). | Sistema captura automaticamente as coordenadas GPS e as exibe como imutáveis. | Alerta não foi enviado — erro 400 (independente da categoria do chamado de infraestrutura). | H5 - Prevenção de erros; H9 - Diagnóstico e recuperação de erros |
+| 2 | P3 | Sem experiência com agronegócio. | Não conseguiu | Sistema autentica o Capataz e libera o acesso apenas às funções vinculadas ao retiro selecionado. | Formulário exibido com os campos obrigatórios (tipo de problema, retiro, localização). | Sistema captura automaticamente as coordenadas GPS e as exibe como imutáveis. | Alerta não foi enviado — erro 400 (independente da categoria do chamado de infraestrutura). | H5 - Prevenção de erros; H9 - Diagnóstico e recuperação de erros |
+| 3 | P5 | Sem experiência com agronegócio. | Não conseguiu | Sistema autentica o Capataz e libera o acesso apenas às funções vinculadas ao retiro selecionado. | Formulário exibido com os campos obrigatórios (tipo de problema, retiro, localização). | Sistema captura automaticamente as coordenadas GPS e as exibe como imutáveis. | Alerta não foi enviado — erro 400 (independente da categoria do chamado de infraestrutura). | H5 - Prevenção de erros; H9 - Diagnóstico e recuperação de erros |
  
 ---
  
-## 3. Gerente — Criar Tarefa Calendarizada
+**3. Gerente — Criar Tarefa Calendarizada**
  
 **Cenário:** Suponha que você é o gerente geral e precisa que o capataz de um retiro específico verifique as cercas na próxima segunda-feira, utilize o sistema para criar essa tarefa calendarizada e associá-la ao retiro correto.
  
-### Etapas
+**Etapas**
  
 | Etapa | Descrição | Expectativa |
 |---|---|---|
@@ -6760,21 +6761,21 @@ Cada participante executou entre 1 e 5 tarefas conforme a disponibilidade na ses
 | 3 | Preencher "verificar as cercas", definir a data de segunda-feira e associar a um único retiro | O sistema exige obrigatoriamente o vínculo a um único retiro, não permitindo associação a múltiplos retiros (RN01). |
 | 4 | Salvar a tarefa | A tarefa fica registrada como calendarizada e fica disponível para o Capataz responsável pelo retiro assim que o dispositivo dele sincronizar (CR2 da US01). |
  
-### Resultados
+**Resultados**
  
 | # | Nome | Perfil do Participante | Resultado | Etapa 1 | Etapa 2 | Etapa 3 | Etapa 4 | Heurística(s) Relacionada(s) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | Fernanda | Sem experiência com agronegócio. | Não conseguiu | Fez login com o perfil Gerente. | Formulário de criação de tarefa exibido com campos de descrição, data e retiro. | O sistema exigiu obrigatoriamente o vínculo a um retiro. | A tarefa não foi encontrada, apesar de registrada. | H4 - Consistência e padrões; H1 - Visibilidade do status do sistema |
-| 2 | Davi | Sem experiência com agronegócio. | Sucesso | Fez login com o perfil Gerente. | Formulário de criação de tarefa exibido com campos de descrição, data e retiro. | O sistema exigiu obrigatoriamente o vínculo a um retiro. | A tarefa fica registrada e disponível para o Capataz responsável pelo retiro. | H4 - Consistência e padrões; H1 - Visibilidade do status do sistema |
-| 3 | Rafael | Sem experiência com agronegócio. | Sucesso | Fez login com o perfil Gerente. | Formulário de criação de tarefa exibido com campos de descrição, data e retiro. | O sistema exigiu obrigatoriamente o vínculo a um retiro. | A tarefa fica registrada e disponível para o Capataz responsável pelo retiro. | H4 - Consistência e padrões; H1 - Visibilidade do status do sistema |
+| 1 | P4 | Sem experiência com agronegócio. | Não conseguiu | Fez login com o perfil Gerente. | Formulário de criação de tarefa exibido com campos de descrição, data e retiro. | O sistema exigiu obrigatoriamente o vínculo a um retiro. | A tarefa não foi encontrada, apesar de registrada. | H4 - Consistência e padrões; H1 - Visibilidade do status do sistema |
+| 2 | P5 | Sem experiência com agronegócio. | Sucesso | Fez login com o perfil Gerente. | Formulário de criação de tarefa exibido com campos de descrição, data e retiro. | O sistema exigiu obrigatoriamente o vínculo a um retiro. | A tarefa fica registrada e disponível para o Capataz responsável pelo retiro. | H4 - Consistência e padrões; H1 - Visibilidade do status do sistema |
+| 3 | P6 | Sem experiência com agronegócio. | Sucesso | Fez login com o perfil Gerente. | Formulário de criação de tarefa exibido com campos de descrição, data e retiro. | O sistema exigiu obrigatoriamente o vínculo a um retiro. | A tarefa fica registrada e disponível para o Capataz responsável pelo retiro. | H4 - Consistência e padrões; H1 - Visibilidade do status do sistema |
  
 ---
  
-## 4. Gerente — Consultar Tela de Infraestrutura
+**4. Gerente — Consultar Tela de Infraestrutura**
  
 **Cenário:** Suponha que você é o gerente geral e quer saber quantos chamados de infraestrutura estão abertos antes de priorizar a equipe de manutenção, utilize o sistema para acessar a tela de infraestrutura e consultar o status de cada chamado registrado pelos capatazes.
  
-### Etapas
+**Etapas**
  
 | Etapa | Descrição | Expectativa |
 |---|---|---|
@@ -6783,21 +6784,21 @@ Cada participante executou entre 1 e 5 tarefas conforme a disponibilidade na ses
 | 3 | Filtrar/observar os chamados pelo status "aberto" | Somente os chamados com status ABERTO permanecem visíveis na listagem, permitindo contar quantos aguardam atendimento. |
 | 4 | Abrir um chamado específico para conferir detalhes | Sistema exibe Capataz que abriu, retiro, data/hora e descrição do problema, permitindo ao Gerente priorizar a equipe de manutenção. |
  
-### Resultados
+**Resultados**
  
 | # | Nome | Perfil do Participante | Resultado | Etapa 1 | Etapa 2 | Etapa 3 | Etapa 4 | Heurística(s) Relacionada(s) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | Fernanda | Sem experiência com agronegócio. | Sucesso | Sistema autentica o Gerente e dá acesso ao dashboard principal. | Lista de chamados exibida com o status de cada um (RF007). | Somente os chamados com status ABERTO permanecem visíveis na listagem. | Sistema exibe Capataz que abriu, retiro, data/hora e descrição do problema. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
-| 2 | Davi | Sem experiência com agronegócio. | Sucesso | Sistema autentica o Gerente e dá acesso ao dashboard principal. | Lista de chamados exibida com o status de cada um (RF007). | Somente os chamados com status ABERTO permanecem visíveis na listagem. | Sistema exibe Capataz que abriu, retiro, data/hora e descrição do problema. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
-| 3 | Rafael | Sem experiência com agronegócio. | Sucesso | Sistema autentica o Gerente e dá acesso ao dashboard principal. | Lista de chamados exibida com o status de cada um (RF007). | Somente os chamados com status ABERTO permanecem visíveis na listagem. | Sistema exibe Capataz que abriu, retiro, data/hora e descrição do problema. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
+| 1 | P4 | Sem experiência com agronegócio. | Sucesso | Sistema autentica o Gerente e dá acesso ao dashboard principal. | Lista de chamados exibida com o status de cada um (RF007). | Somente os chamados com status ABERTO permanecem visíveis na listagem. | Sistema exibe Capataz que abriu, retiro, data/hora e descrição do problema. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
+| 2 | P5 | Sem experiência com agronegócio. | Sucesso | Sistema autentica o Gerente e dá acesso ao dashboard principal. | Lista de chamados exibida com o status de cada um (RF007). | Somente os chamados com status ABERTO permanecem visíveis na listagem. | Sistema exibe Capataz que abriu, retiro, data/hora e descrição do problema. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
+| 3 | P6 | Sem experiência com agronegócio. | Sucesso | Sistema autentica o Gerente e dá acesso ao dashboard principal. | Lista de chamados exibida com o status de cada um (RF007). | Somente os chamados com status ABERTO permanecem visíveis na listagem. | Sistema exibe Capataz que abriu, retiro, data/hora e descrição do problema. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
  
 ---
  
-## 5. Coordenador — Visualizar Movimentação Zootécnica
+**5. Coordenador — Visualizar Movimentação Zootécnica**
  
 **Cenário:** Suponha que você é o coordenador e foi notificado de que um capataz registrou o nascimento de bezerros em um retiro, utilize o sistema para visualizar essa movimentação zootécnica e validar as informações antes da consolidação.
  
-### Etapas
+**Etapas**
  
 | Etapa | Descrição | Expectativa |
 |---|---|---|
@@ -6806,22 +6807,22 @@ Cada participante executou entre 1 e 5 tarefas conforme a disponibilidade na ses
 | 3 | Abrir o detalhe da movimentação | Sistema apresenta todas as informações do registro, incluindo evidências fotográficas anexadas pelo Capataz, quando aplicável (CR3). |
 | 4 | Validar o registro antes da consolidação | Dados estão íntegros e disponíveis sem necessidade de redigitação manual, prontos para consolidação final. |
  
-### Resultados
+**Resultados**
  
 | # | Nome | Perfil do Participante | Resultado | Etapa 1 | Etapa 2 | Etapa 3 | Etapa 4 | Heurística(s) Relacionada(s) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | Gregory | Tem experiência com fazenda (cresceu em uma, pai tem propriedade). | Sucesso | Fez login com o perfil Coordenador e acessou o painel de movimentações zootécnicas. | Listagem atualizada exibindo os registros que atendem aos critérios selecionados. | Sistema apresenta todas as informações do registro, incluindo evidências fotográficas quando aplicável. | Dados íntegros e disponíveis sem necessidade de redigitação manual, prontos para consolidação final. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
-| 2 | Gabriel Cristino | Sem experiência com agronegócio. | Sucesso | Fez login com o perfil Coordenador e acessou o painel de movimentações zootécnicas. | Listagem atualizada exibindo os registros que atendem aos critérios selecionados. | Sistema apresenta todas as informações do registro, incluindo evidências fotográficas quando aplicável. | Dados íntegros e disponíveis sem necessidade de redigitação manual, prontos para consolidação final. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
-| 3 | Davi | Sem experiência com agronegócio. | Sucesso | Fez login com o perfil Coordenador e acessou o painel de movimentações zootécnicas. | Listagem atualizada exibindo os registros que atendem aos critérios selecionados. | Sistema apresenta todas as informações do registro, incluindo evidências fotográficas quando aplicável. | Dados íntegros e disponíveis sem necessidade de redigitação manual, prontos para consolidação final. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
-| 4 | Rafael | Sem experiência com agronegócio. | Sucesso | Fez login com o perfil Coordenador e acessou o painel de movimentações zootécnicas. | Listagem atualizada exibindo os registros que atendem aos critérios selecionados. | Sistema apresenta todas as informações do registro, incluindo evidências fotográficas quando aplicável. | Dados íntegros e disponíveis sem necessidade de redigitação manual, prontos para consolidação final. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
+| 1 | P1 | Experiência com ambiente rural (cresceu em fazenda, pai tem propriedade). | Sucesso | Fez login com o perfil Coordenador e acessou o painel de movimentações zootécnicas. | Listagem atualizada exibindo os registros que atendem aos critérios selecionados. | Sistema apresenta todas as informações do registro, incluindo evidências fotográficas quando aplicável. | Dados íntegros e disponíveis sem necessidade de redigitação manual, prontos para consolidação final. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
+| 2 | P3 | Sem experiência com agronegócio. | Sucesso | Fez login com o perfil Coordenador e acessou o painel de movimentações zootécnicas. | Listagem atualizada exibindo os registros que atendem aos critérios selecionados. | Sistema apresenta todas as informações do registro, incluindo evidências fotográficas quando aplicável. | Dados íntegros e disponíveis sem necessidade de redigitação manual, prontos para consolidação final. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
+| 3 | P5 | Sem experiência com agronegócio. | Sucesso | Fez login com o perfil Coordenador e acessou o painel de movimentações zootécnicas. | Listagem atualizada exibindo os registros que atendem aos critérios selecionados. | Sistema apresenta todas as informações do registro, incluindo evidências fotográficas quando aplicável. | Dados íntegros e disponíveis sem necessidade de redigitação manual, prontos para consolidação final. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
+| 4 | P6 | Sem experiência com agronegócio. | Sucesso | Fez login com o perfil Coordenador e acessou o painel de movimentações zootécnicas. | Listagem atualizada exibindo os registros que atendem aos critérios selecionados. | Sistema apresenta todas as informações do registro, incluindo evidências fotográficas quando aplicável. | Dados íntegros e disponíveis sem necessidade de redigitação manual, prontos para consolidação final. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
  
 ---
  
-## 6. Coordenador — Exportar Dados Consolidados em CSV
+**6. Coordenador — Exportar Dados Consolidados em CSV**
  
 **Cenário:** Suponha que você é o coordenador e precisa enviar os dados consolidados de movimentações do mês para os controles centrais da empresa, utilize o sistema para exportar esses registros em formato CSV.
  
-### Etapas
+**Etapas**
  
 | Etapa | Descrição | Expectativa |
 |---|---|---|
@@ -6830,13 +6831,13 @@ Cada participante executou entre 1 e 5 tarefas conforme a disponibilidade na ses
 | 3 | Acionar o botão de exportação e selecionar o formato CSV | Sistema gera o arquivo com colunas padronizadas contendo data, retiro, tipo de evento, categoria animal, quantidade e Capataz responsável (RF015). |
 | 4 | Baixar o arquivo gerado | Conteúdo reflete estritamente os dados já validados estruturalmente no banco, eliminando redigitação manual e assegurando a integridade das informações enviadas aos controles da empresa (RN28). |
  
-### Resultados
+**Resultados**
  
 | # | Nome | Perfil do Participante | Resultado | Etapa 1 | Etapa 2 | Etapa 3 | Etapa 4 | Heurística(s) Relacionada(s) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | Gabriel Cristino | Sem experiência com agronegócio. | Sucesso | Fez login corretamente e todos os registros foram exibidos. | Listagem atualizada refletindo os registros que atendem aos parâmetros definidos. | Sistema gerou arquivo com colunas padronizadas (data, retiro, tipo de evento, categoria animal, quantidade, Capataz). | Conteúdo refletiu os dados validados no banco, eliminando redigitação manual. | H3 - Controle e liberdade do usuário; H7 - Flexibilidade e eficiência de uso |
-| 2 | Fernanda | Sem experiência com agronegócio. | Sucesso | Fez login corretamente e todos os registros foram exibidos. | Listagem atualizada refletindo os registros que atendem aos parâmetros definidos. | Sistema gerou arquivo com colunas padronizadas (data, retiro, tipo de evento, categoria animal, quantidade, Capataz). | Conteúdo refletiu os dados validados no banco, eliminando redigitação manual. | H3 - Controle e liberdade do usuário; H7 - Flexibilidade e eficiência de uso |
-| 3 | Rafael | Sem experiência com agronegócio. | Sucesso | Fez login corretamente e todos os registros foram exibidos. | Listagem atualizada refletindo os registros que atendem aos parâmetros definidos. | Sistema gerou arquivo com colunas padronizadas (data, retiro, tipo de evento, categoria animal, quantidade, Capataz). | Conteúdo refletiu os dados validados no banco, eliminando redigitação manual. | H3 - Controle e liberdade do usuário; H7 - Flexibilidade e eficiência de uso |
+| 1 | P3 | Sem experiência com agronegócio. | Sucesso | Fez login corretamente e todos os registros foram exibidos. | Listagem atualizada refletindo os registros que atendem aos parâmetros definidos. | Sistema gerou arquivo com colunas padronizadas (data, retiro, tipo de evento, categoria animal, quantidade, Capataz). | Conteúdo refletiu os dados validados no banco, eliminando redigitação manual. | H3 - Controle e liberdade do usuário; H7 - Flexibilidade e eficiência de uso |
+| 2 | P4 | Sem experiência com agronegócio. | Sucesso | Fez login corretamente e todos os registros foram exibidos. | Listagem atualizada refletindo os registros que atendem aos parâmetros definidos. | Sistema gerou arquivo com colunas padronizadas (data, retiro, tipo de evento, categoria animal, quantidade, Capataz). | Conteúdo refletiu os dados validados no banco, eliminando redigitação manual. | H3 - Controle e liberdade do usuário; H7 - Flexibilidade e eficiência de uso |
+| 3 | P6 | Sem experiência com agronegócio. | Sucesso | Fez login corretamente e todos os registros foram exibidos. | Listagem atualizada refletindo os registros que atendem aos parâmetros definidos. | Sistema gerou arquivo com colunas padronizadas (data, retiro, tipo de evento, categoria animal, quantidade, Capataz). | Conteúdo refletiu os dados validados no banco, eliminando redigitação manual. | H3 - Controle e liberdade do usuário; H7 - Flexibilidade e eficiência de uso |
 
 
 ---
@@ -6856,19 +6857,7 @@ Ao todo foram realizadas 22 sessões de teste distribuídas entre os três perfi
 
 Os fluxos do **Coordenador** foram os mais estáveis, com 100% de conclusão em ambas as tarefas. Os fluxos do **Gerente** apresentaram resultado misto: a consulta de infraestrutura (Tarefa 4) foi concluída por todos, mas a criação de tarefa (Tarefa 3) falhou para um participante por ausência de feedback visual após o cadastro. Os fluxos do **Capataz** concentraram os problemas mais críticos: a Tarefa 2 resultou em falha total para todos os participantes devido a um erro HTTP 400 na submissão do chamado de infraestrutura, independente da categoria selecionada; na Tarefa 1, dois participantes encontraram dificuldade ou não conseguiram concluir por falta de confirmação de que o registro havia sido sincronizado.
 
-As heurísticas mais recorrentes nas falhas foram **H1 (Visibilidade do status do sistema)**, ausência de confirmação após ações críticas, e **H9 (Diagnóstico e recuperação de erros)**, erros de backend exibidos sem mensagem orientativa ao usuário. Esses achados orientam os ajustes prioritários antes dos testes SUS: correção do endpoint de chamados de infraestrutura e adição de feedback explícito de confirmação nos fluxos do Capataz e do Gerente.
-
-#### Lista de Melhorias Identificadas
-
-Os achados dos testes de guerrilha foram compilados e priorizados segundo a **escala de severidade de Nielsen**: 0 — Sem importância; 1 — Cosmético; 2 — Simples; 3 — Grave; 4 — Catastrófico. Problemas com severidade 3 ou 4 devem ser corrigidos antes da entrega.
-
-| # | Problema | Área | Severidade | Participante(s) / Tarefa | Melhoria Sugerida |
-|---|---|---|---|---|---|
-| 1 | Endpoint de chamados de infraestrutura retorna HTTP 400 independente dos dados enviados, impedindo qualquer submissão | Funcional | 4 — Catastrófico | Fernanda, Gabriel Cristino, Davi / Tarefa 2 | Corrigir validação e mapeamento do payload no backend; retornar status 2xx e mensagem de sucesso ao usuário |
-| 2 | Ausência de confirmação de sincronização após conclusão de tarefa com foto: o registro não aparece imediatamente para Gerente nem para o Capataz, sem indicação visual de que foi salvo | UX | 3 — Grave | Gregory (falha), Gabriel (dificuldade) / Tarefa 1 | Exibir toast ou snackbar de confirmação após sincronização bem-sucedida; indicar estado pendente enquanto o upload de foto estiver em andamento |
-| 3 | Ausência de feedback visual após criação de tarefa calendarizada: participante não localiza a tarefa recém-registrada e interpreta como falha no cadastro | UX | 3 — Grave | Fernanda / Tarefa 3 | Exibir confirmação (modal ou snackbar) ao salvar tarefa calendarizada e redirecionar ou destacar o item criado na lista |
-
-Não foram observadas ocorrências de severidade 0 (sem importância), 1 (cosmético) ou 2 (simples) durante as sessões. O problema catastrófico (severidade 4) e os dois graves (severidade 3) devem ser corrigidos antes dos testes SUS para garantir que os participantes consigam concluir as tarefas e que os resultados reflitam a usabilidade real da interface, e não falhas funcionais.
+As heurísticas mais recorrentes nas falhas foram **H1 (Visibilidade do status do sistema)**, ausência de confirmação após ações críticas, e **H9 (Diagnóstico e recuperação de erros)**, erros de backend exibidos sem mensagem orientativa ao usuário. Esses achados orientam os ajustes prioritários para as próximas iterações: correção do endpoint de chamados de infraestrutura e adição de feedback explícito de confirmação nos fluxos do Capataz e do Gerente.
 
 ### 5.2.2. Relatório de testes SUS (System Usability Scale)
 
@@ -7176,7 +7165,7 @@ Nenhum participante concordou que precisou aprender muitas coisas novas para usa
 
 ---
 
-**Escore SUS consolidado**
+#### Escore SUS consolidado
 
 A tabela a seguir apresenta o escore individual calculado para cada participante, obtido pela fórmula padrão do SUS: para cada questão de polaridade positiva (ímpares), a contribuição é `resposta − 1`; para cada questão de polaridade negativa (pares), a contribuição é `5 − resposta`. A soma das dez contribuições é multiplicada por 2,5, resultando em um escore entre 0 e 100.
 
@@ -7197,7 +7186,7 @@ O resultado geral indica que a solução desenvolvida atinge um nível de usabil
 
 ---
 
-#### Triangulação com os testes de guerrilha
+**5.2.3 Triangulação com os testes de guerrilha**
 
 A leitura integrada dos testes de guerrilha e do SUS revela padrões consistentes que se reforçam mutuamente, permitindo uma interpretação mais robusta dos dados do que cada método ofereceria isoladamente.
 
@@ -7206,6 +7195,41 @@ A leitura integrada dos testes de guerrilha e do SUS revela padrões consistente
 **Fluxos do Coordenador e a percepção de integração (Q5).** As Tarefas 5 e 6 — visualização de movimentação zootécnica e exportação em CSV pelo Coordenador — registraram 100% de conclusão com sucesso pleno, sem ocorrências de dificuldade ou falha. Esse resultado tem correspondência direta na Q5 ("as várias funções estão bem integradas"), que obteve a maior média de todo o questionário (4,57) e a maior concentração de respostas máximas (71,4%). A coerência entre os fluxos do Coordenador e a percepção de integração sugere que a arquitetura de informação desse perfil — acesso a dados consolidados, filtros e exportação — foi a mais clara e fluida para os participantes.
 
 **H1 (ausência de confirmação) e a confiança percebida (Q9).** A heurística mais recorrente nos testes de guerrilha foi H1 — visibilidade do status do sistema — manifestada na falta de feedback após sincronização (Tarefa 1) e após criação de tarefa calendarizada (Tarefa 3). A Q9 do SUS ("senti muito confiante ao usar o sistema") registrou a única discordância (P2, nota 2) entre as questões positivas com média acima de 3,5. A ausência de confirmações visuais em ações críticas é uma das causas mais documentadas de baixa confiança percebida, e a correlação entre as falhas de H1 no guerrilha e a nota de Q9 reforça esse diagnóstico.
+
+### 5.2.3. Lista Unificada de Melhorias
+
+A tabela a seguir consolida todos os problemas identificados nas duas rodadas de teste — guerrilha e SUS —, unificando achados qualitativos e quantitativos em uma lista priorizada por severidade.
+
+**Legenda — coluna Tipo:**
+- **Funcional** — bug técnico que impede a execução da tarefa independentemente do comportamento do usuário
+- **Usabilidade** — dificuldade originada pelo design da interface: navegação, feedback visual, convenções ou posicionamento de elementos
+- **Compreensão de conteúdo** — dificuldade originada pelo vocabulário ou pela lógica do domínio agropecuário, não pelo design em si
+
+**Legenda — colunas de participantes (P1–P6):**
+- **teve** — participante encontrou o problema durante a sessão
+- **não** — participante executou a tarefa sem encontrar o problema
+- **n/t** — participante não testou essa tarefa na sessão
+- **n/a** — item derivado exclusivamente do SUS; não possui mapeamento por participante de guerrilha
+
+**Legenda — severidade (escala Nielsen):**
+- **1 — Cosmético** — não interfere na execução; pode ser corrigido se houver tempo
+- **2 — Simples** — causa lentidão ou confusão pontual; baixa prioridade
+- **3 — Grave** — dificulta ou impede a conclusão da tarefa para parte dos usuários; deve ser corrigido
+- **4 — Catastrófico** — impede a conclusão da tarefa para todos os usuários; correção imediata
+
+| \# | Tarefa | Tipo | Problema | Severidade | P1 | P2 | P3 | P4 | P5 | P6 | Melhoria Sugerida |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | Capataz: Registrar nascimentos | Usabilidade | Nem o Coordenador nem o Capataz conseguem localizar movimentações registradas pelo Capataz; tarefas concluídas desaparecem do fluxo | 4 — Catastrófico | teve | teve | não | teve | não | n/t | Garantir persistência e visibilidade dos registros sincronizados na listagem do Coordenador e na confirmação do Capataz |
+| 2 | Capataz: Abrir chamado de infraestrutura | Funcional | Endpoint retorna HTTP 400 independente dos dados enviados, impedindo qualquer submissão | 3 — Grave | n/t | n/t | teve | teve | teve | n/t | Corrigir validação e mapeamento do payload no backend; retornar status 2xx e mensagem de sucesso ao usuário |
+| 3 | Gerente: Criar tarefa calendarizada | Usabilidade | Confusão ao abrir configurações: participantes esperavam nova tela; botão com posicionamento inadequado e nomenclatura pouco clara | 3 — Grave | não | não | não | teve | teve | teve | Reposicionar aba de configurações para local mais visível e renomear o botão de acesso |
+| 4 | Capataz: Concluir tarefa com foto | Usabilidade | Ausência de confirmação de sincronização: registro não aparece para Gerente nem para o Capataz sem indicação visual de que foi salvo; reforçado por Q9 do SUS (única discordância em questão positiva com média acima de 3,5) | 3 — Grave | teve | teve | não | não | não | não | Exibir toast ou snackbar de confirmação após sincronização bem-sucedida; indicar estado pendente durante upload de foto |
+| 5 | Gerente: Criar tarefa calendarizada | Usabilidade | Ausência de feedback visual após criação: participante não localiza a tarefa recém-registrada e interpreta como falha no cadastro; reforçado pela recorrência de H1 nas sessões e correlação com Q9 do SUS | 3 — Grave | n/t | n/t | n/t | teve | não | não | Exibir confirmação (modal ou snackbar) ao salvar tarefa calendarizada e redirecionar ou destacar o item criado na lista |
+| 6 | Capataz: Abrir chamado de infraestrutura | Usabilidade | Cor do indicador de GPS capturado gera confusão com estado de erro; ausência de sinalização de sucesso | 2 — Simples | não | não | não | não | teve | não | Alterar cor do indicador de GPS para verde quando as coordenadas forem capturadas com sucesso |
+| 7 | Gerente: Criar tarefa calendarizada | Usabilidade | Dificuldade de leitura na tela de revisão: hífens e tamanho reduzido de texto prejudicam a leitura | 2 — Simples | não | não | não | não | teve | não | Remover hífens desnecessários e aumentar tamanho do texto na tela de revisão |
+| 8 | Geral | Usabilidade | Sistema não oferece orientação contextual suficiente para usuários com menor familiaridade digital — SUS Q4: 28,6% indicaram necessidade de suporte técnico; Q7: menor média entre questões positivas, 3,71, com único caso de discordância total | 2 — Simples | n/a | n/a | n/a | n/a | n/a | n/a | Adicionar tooltips ou textos de orientação em ações críticas — abertura de chamado e conclusão de tarefa com foto — para reduzir dependência de suporte técnico no perfil de capataz com baixa escolaridade digital |
+| 9 | Capataz: Registrar nascimentos | Compreensão de conteúdo | Confusão ao registrar transferências: participante consegue selecionar o próprio retiro como destino, gerando registro inválido | 1 — Cosmético | não | não | não | não | teve | não | Bloquear seleção do retiro de origem como destino no formulário de transferências |
+| 10 | Capataz: Registrar nascimentos | Compreensão de conteúdo | Dificuldade em localizar tipo de animal por faixa etária: ordenação atual mistura categorias de forma não intuitiva | 1 — Cosmético | não | não | não | não | teve | não | Ordenar seleção de categoria de animais por espécie primeiro, depois por faixa etária |
+| 11 | Coordenador: Visualizar movimentação | Usabilidade | Participante sentiu falta de poder ordenar colunas na tabela de movimentações; visualização percebida como limitada | 1 — Cosmético | não | não | n/t | teve | não | não | Adicionar ordenação por coluna na tabela de movimentações do Coordenador |
 
 
 # <a name="c6"></a>6. Estudo de Mercado e Plano de Marketing (sprint 4)
