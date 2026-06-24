@@ -6146,7 +6146,7 @@ PASS tests/unit/exportacaoService.test.ts   (3 casos — acesso, CSV, total_regi
 
 ## 4.3. Versão final da aplicação web
 
-A versão final da BrPec foi consolidada na sprint 5, com foco em quatro frentes: expansão das rotas de administração e gerência, introdução do login por dispositivo (QR/token), correção das dependências da suíte de testes e refinamento das rotas de coordenador e histórico. O sistema passou de 24 para 26 suítes de testes automatizados, atingindo 196 casos com 100% de aprovação.
+A versão final da BrPec foi consolidada na sprint 5, com foco em quatro frentes: expansão das rotas de administração e gerência, introdução do login por dispositivo (QR/token), correção das dependências da suíte de testes e refinamento das rotas de coordenador e histórico. O sistema passou de 24 para 26 suítes de testes automatizados, atingindo 206 casos com 100% de aprovação.
 
 ### (a) O que foi implementado
 
@@ -6223,7 +6223,7 @@ Na sprint 4, 13 das 24 suítes de integração estavam inoperantes por dependên
 | Integração de endpoints | 13 | 118 | ✅ Todos passando |
 | Frontend / jsdom | 1 | 2 | ✅ Todos passando |
 | Inicialização e smoke | 3 | 18 | ✅ Todos passando |
-| **Total** | **26** | **196** | **✅ 100% aprovação** |
+| **Total** | **26** | **206** | **✅ 100% aprovação** |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -7732,7 +7732,7 @@ O Business Model Canvas abaixo sintetiza a estrutura de negócio da solução de
 | **Parcerias Principais** | BrPec Agropecuária S.A. (cliente âncora e validador em campo). Provedores de infraestrutura cloud (hospedagem e banco de dados). SpaceX/Starlink (conectividade dos retiros como infraestrutura de sincronização). MAPA, ABIEC e CNA para acompanhamento de exigências regulatórias. |
 | **Estrutura de Custos** | Desenvolvimento e manutenção de software (custo principal). Infraestrutura de servidores e banco de dados em nuvem. Equipe de implementação e suporte presencial em campo. Participação em feiras agropecuárias. Deslocamento para treinamento nas propriedades clientes. |
 
-## 6.6 Estratégia de Marketing
+## 6.7 Estratégia de Marketing
 
 A solução é uma aplicação web progressiva (PWA) voltada à digitalização do
 gerenciamento de campo em fazendas de pecuária de corte. É composta por dois
@@ -7810,9 +7810,9 @@ ao da BrPec, aproveitando a rede de confiança já estabelecida no setor.
 
 # <a name="c7"></a>7. Conclusões e trabalhos futuros
 
-### 7.1. O que foi entregue
+## 7.1. O que foi entregue
 
-Ao longo de cinco sprints, a equipe desenvolveu uma aplicação web progressiva (PWA) offline-first para digitalizar a operação de campo da BrPec Agropecuária. O sistema substituiu o fluxo manual de boletas de papel e redigitação em planilhas por uma interface móvel que opera sem conectividade contínua e sincroniza dados automaticamente nas janelas de acesso à rede disponíveis nos retiros.
+Ao longo de cinco sprints, foi desenvolvida uma aplicação web progressiva (PWA) offline-first destinada à digitalização da operação de campo da BrPec Agropecuária. O fluxo manual de boletas de papel e redigitação em planilhas foi substituído por uma interface móvel que opera sem conectividade contínua e sincroniza dados automaticamente nas janelas de acesso à rede disponíveis nos retiros.
 
 A solução foi entregue com quatro perfis de uso funcionais — Capataz, Coordenador, Gerente e Infraestrutura — cada um com autenticação independente e fluxos adaptados às suas responsabilidades operacionais. As 12 User Stories (US01–US12), os 15 Requisitos Funcionais (RF001–RF015) e as 28 Regras de Negócio (RN01–RN28) foram implementados e rastreados na Matriz RTM da seção 3.9. Os oito eixos de qualidade da ISO/IEC 25010 (RNF:USAB, RNF:CONF, RNF:DES, RNF:SUP, RNF:SEG, RNF:CAP, RNF:REST e um eixo adicional de resiliência) foram endereçados ao longo das sprints e documentados na seção 3.1.3.
 
@@ -7828,7 +7828,7 @@ Os principais entregáveis funcionais incluem:
 
 ---
 
-### 7.2. Principais desafios e como foram superados
+## 7.2. Principais desafios e como foram superados
 
 **Arquitetura offline-first em ambiente sem framework.** A principal exigência técnica do projeto — funcionamento sem internet com sincronização posterior — foi implementada sem bibliotecas de gestão de estado ou frameworks reativos. A solução combina Service Worker para interceptação de requisições, IndexedDB para persistência local no cliente e um endpoint `POST /api/sincronizacao/lote` no backend para processar a fila acumulada. O desafio de garantir determinismo nas janelas de reconexão foi resolvido com um loop de retry configurável no `sync.js` e um agendador no `cloudSyncService` com limite de tentativas e ordem topológica de envio para respeitar chaves estrangeiras do Supabase.
 
@@ -7842,7 +7842,7 @@ Os principais entregáveis funcionais incluem:
 
 ---
 
-### 7.3. Resultados mensuráveis
+## 7.3. Resultados mensuráveis
 
 ### Cobertura de requisitos
 
@@ -7886,7 +7886,7 @@ Os principais entregáveis funcionais incluem:
 
 ---
 
-### 7.4. Limitações identificadas
+## 7.4. Limitações identificadas
 
 **Deploy em ambiente público.** O sistema opera exclusivamente em execução local (`npm start`). Não foi versionado artefato de deploy compatível com nenhuma plataforma de hospedagem (Render, Railway, Fly.io ou similar), e nenhuma URL de homologação foi publicada.
 
@@ -7900,15 +7900,7 @@ Os principais entregáveis funcionais incluem:
 
 **Onboarding para usuários com baixa literacia digital.** O perfil de Capataz descrito nas personas inclui usuários com dificuldade com leitura e escrita formal. Os testes de guerrilha indicaram que a terminologia e a navegação foram mais acessíveis para participantes com experiência rural, mas o escore SUS de P2 (45,0) sinaliza que parte do público-alvo pode ter dificuldades com a curva de aprendizado.
 
-### 7.5. Planejamentos futuros
-
-Os achados dos testes de usabilidade documentados na seção 5.2, combinados com as limitações técnicas descritas na seção 7.4, apontam dois eixos de evolução para ciclos futuros: correções de interface identificadas nos testes e expansões funcionais que ampliam o escopo do produto.
-
-No eixo de interface, as correções de maior impacto envolvem a adição de feedback explícito nos fluxos do Capataz e do Gerente: exibição de toast ou snackbar de confirmação após a conclusão de tarefa com foto — endereçando a ausência de visibilidade do status de sincronização identificada pela heurística H1 — e confirmação visual após a criação de tarefa calendarizada, impedindo que o registro seja interpretado como falha de cadastro. Também deve ser corrigida a tela de configurações do Gerente, cujo botão de acesso deve ser reposicionado e renomeado. Em prioridade intermediária, destacam-se a alteração da cor do indicador de GPS para verde no formulário de chamado de infraestrutura, a melhoria da legibilidade na tela de revisão com remoção de hífens e aumento do tamanho do texto, e a criação de orientações contextuais — como tooltips em ações críticas — para reduzir a dependência de suporte técnico entre usuários com menor familiaridade digital, aspecto evidenciado pelas questões Q4 e Q7 do SUS. Em caráter cosmético, recomendam-se ainda bloquear a seleção do retiro de origem como destino no formulário de transferências, reordenar a listagem de categorias de animais por espécie antes da faixa etária, e habilitar ordenação por coluna na tabela de movimentações do Coordenador.
-
-No eixo de expansão funcional, quatro oportunidades foram identificadas para ciclos posteriores. A primeira é a criação de um módulo sanitário e veterinário, cobrindo o registro de vacinações, medicamentos e tratamentos por animal — dado atualmente não capturado pelo sistema e relevante para fazendas que operam sob exigências de rastreabilidade sanitária. A segunda é a implementação de notificações push, permitindo que Gerente e Coordenador recebam alertas em tempo real quando um chamado for aberto ou uma tarefa crítica for concluída, eliminando a dependência de verificação manual do painel. A terceira é a criação de alertas automáticos por threshold, como notificações disparadas quando a taxa de mortalidade de um retiro ultrapassa um limite configurável ou quando um chamado permanece aberto por mais de um número definido de dias sem resolução, apoiando a tomada de decisão proativa do Gerente. Por fim, a integração com balanças e brincos eletrônicos permitiria o registro automático de peso individual durante manejos de campo, eliminando digitação manual e reduzindo erros de transcrição — caminho já adotado por concorrentes como o iRancho no mercado nacional.
-
-### 7.5. Planejamentos futuros
+## 7.5. Planejamentos futuros
 
 Os achados dos testes de usabilidade documentados na seção 5.2, combinados com as limitações técnicas descritas na seção 7.4, apontam dois eixos de evolução para ciclos futuros: correções de interface identificadas nos testes e expansões funcionais que ampliam o escopo do produto.
 
@@ -8004,21 +7996,21 @@ No eixo de expansão funcional, quatro oportunidades foram identificadas para ci
 
 [43] W3C. **WCAG 2.1 — Success Criterion 1.4.6: Contrast (Enhanced)**. Disponível em: https://www.w3.org/TR/WCAG21/#contrast-enhanced. Acesso em: 15 maio 2026.
 
-[44] IRANCHO. iRancho: sistema de gestão pecuária. [S.l.]: iRancho, [2026]. Disponível em: https://www.irancho.com.br/perguntas-frequentes/. Acesso em: jun. 2026.
+[44] IRANCHO. **iRancho: sistema de gestão pecuária**. [S.l.]: iRancho, [2026]. Disponível em: https://www.irancho.com.br/perguntas-frequentes/. Acesso em: jun. 2026.
 
-[45] JETBOV. JetBov: gestão de pastagem e desempenho animal. [S.l.]: JetBov, [2026]. Disponível em: https://play.google.com/store/apps/details?id=com.ionicframework.jetbovapp459755. Acesso em: jun. 2026.
+[45] JETBOV. **JetBov: gestão de pastagem e desempenho animal**. [S.l.]: JetBov, [2026]. Disponível em: https://play.google.com/store/apps/details?id=com.ionicframework.jetbovapp459755. Acesso em: jun. 2026.
 
-[46] AEGRO. Aegro: plataforma de gestão rural. [S.l.]: Aegro, [2026]. Disponível em: https://aegro.com.br/. Acesso em: jun. 2026.
+[46] AEGRO. **Aegro: plataforma de gestão rural**. [S.l.]: Aegro, [2026]. Disponível em: https://aegro.com.br/. Acesso em: jun. 2026.
 
-[47] IBGE. Censo Agropecuário 2017: resultados definitivos — Mato Grosso do Sul. Rio de Janeiro: IBGE, 2019. Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/21814-2017-censo-agropecuario.html. Acesso em: jun. 2026.
+[47] IBGE. **Censo Agropecuário 2017: resultados definitivos — Mato Grosso do Sul**. Rio de Janeiro: IBGE, 2019. Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/21814-2017-censo-agropecuario.html. Acesso em: jun. 2026.
 
-[48] EMBRAPA PANTANAL. Panorama socioeconômico do Pantanal. Corumbá: Embrapa Pantanal, 2020. Disponível em: https://www.embrapa.br/pantanal. Acesso em: jun. 2026.
+[48] EMBRAPA PANTANAL. **Panorama socioeconômico do Pantanal**. Corumbá: Embrapa Pantanal, 2020. Disponível em: https://www.embrapa.br/pantanal. Acesso em: jun. 2026.
 
-[49] IBGE. Censo Agropecuário 2017: acesso à internet e educação nos estabelecimentos agropecuários — resultados definitivos. Rio de Janeiro: IBGE, 2019. Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/21814-2017-censo-agropecuario.html. Acesso em: jun. 2026.
+[49] IBGE. **Censo Agropecuário 2017: acesso à internet e educação nos estabelecimentos agropecuários — resultados definitivos**. Rio de Janeiro: IBGE, 2019. Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/21814-2017-censo-agropecuario.html. Acesso em: jun. 2026.
 
-[50] IBGE. Pesquisa Nacional por Amostra de Domicílios Contínua — Educação 2022. Rio de Janeiro: IBGE, 2023. Disponível em: https://www.ibge.gov.br/estatisticas/sociais/educacao/17270-pnad-continua.html. Acesso em: jun. 2026.
+[50] IBGE. **Pesquisa Nacional por Amostra de Domicílios Contínua — Educação 2022**. Rio de Janeiro: IBGE, 2023. Disponível em: https://www.ibge.gov.br/estatisticas/sociais/educacao/17270-pnad-continua.html. Acesso em: jun. 2026.
 
-[51] ANATEL. Serviço de Comunicação Multimídia (SCM): acessos por tecnologia de acesso. Brasília: Anatel, 2024. Disponível em: https://informacoes.anatel.gov.br/paineis/acesso-a-internet-banda-larga. Acesso em: jun. 2026.
+[51] ANATEL. **Serviço de Comunicação Multimídia (SCM): acessos por tecnologia de acesso**. Brasília: Anatel, 2024. Disponível em: https://informacoes.anatel.gov.br/paineis/acesso-a-internet-banda-larga. Acesso em: jun. 2026.
 
 [52] DISTRITO. **Agtech Report Brasil 2024**. São Paulo: Distrito, 2024. Disponível em: https://distrito.me/agtech-report/. Acesso em: 10 maio 2026.
 
@@ -8026,11 +8018,11 @@ No eixo de expansão funcional, quatro oportunidades foram identificadas para ci
 
 [54] NIELSEN, Jakob. **Why You Only Need to Test with 5 Users**. Nielsen Norman Group, 19 mar. 2000. Disponível em: https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/. Acesso em: 10 maio 2026.
 
-[55] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO 9241-11:2018: Ergonomics of human-system interaction — Part 11: Usability: Definitions and concepts. Genebra: ISO, 2018.
+[55] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. **ISO 9241-11:2018: Ergonomics of human-system interaction — Part 11: Usability: Definitions and concepts**. Genebra: ISO, 2018.
 
-[56] BROOKE, John. SUS: A 'Quick and Dirty' Usability Scale. In: JORDAN, P. W. et al. (eds.). Usability Evaluation in Industry. London: Taylor & Francis, 1996. p. 189–194.
+[56] BROOKE, John. SUS: A 'Quick and Dirty' Usability Scale. In: JORDAN, P. W. et al. (eds.). **Usability Evaluation in Industry**. London: Taylor & Francis, 1996. p. 189–194.
 
-[57] BANGOR, Aaron; KORTUM, Philip; MILLER, James. Determining What Individual SUS Scores Mean: Adding an Adjective Rating Scale. Journal of Usability Studies, v. 4, n. 3, p. 114–123, 2009.
+[57] BANGOR, Aaron; KORTUM, Philip; MILLER, James. Determining What Individual SUS Scores Mean: Adding an Adjective Rating Scale. **Journal of Usability Studies**, v. 4, n. 3, p. 114–123, 2009.
 
 # <a name="c9"></a>Anexos
 
