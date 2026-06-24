@@ -418,7 +418,7 @@
           return;
         }
         cont.innerHTML = rows.map(function (r) {
-          return '<div class="retiro-card-dash">' +
+          return '<a href="/retiro/' + r.id + '" class="retiro-card-dash retiro-card-link" aria-label="Ver detalhes do retiro ' + r.nome + '">' +
             '<div class="retiro-dash-nome">' + BRPIcons.html('home', 'label-ico') + ' <strong>' + r.nome + '</strong>' +
               (r.numero ? ' (' + r.numero + ')' : '') + '</div>' +
             '<div class="retiro-dash-info">' +
@@ -429,7 +429,8 @@
               '<span class="dash-pill">' + BRPIcons.html('boleta', 'ico-sm') + ' ' + r.total_boletas + ' boletas</span>' +
               '<span class="dash-pill alert">' + BRPIcons.html('alerta', 'ico-sm') + ' ' + r.chamados_abertos + ' chamados</span>' +
             '</div>' +
-          '</div>';
+            '<span class="retiro-dash-arrow material-symbols-rounded">chevron_right</span>' +
+          '</a>';
         }).join('');
       })
       .catch(function () {

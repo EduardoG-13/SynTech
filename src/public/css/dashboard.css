@@ -212,3 +212,37 @@
   background: #FFF4E5;
   color: #A64B00;
 }
+
+/* Card de retiro clicável (link) */
+a.retiro-card-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+  position: relative;
+}
+a.retiro-card-link:hover {
+  border-color: #1A4D2E;
+  box-shadow: 0 4px 12px rgba(26, 77, 46, 0.10);
+  transform: translateY(-2px);
+}
+a.retiro-card-link:active {
+  transform: translateY(0);
+}
+.retiro-dash-arrow {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  font-size: 1.4rem;
+  color: #1A4D2E;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+a.retiro-card-link:hover .retiro-dash-arrow {
+  opacity: 1;
+}
+/* Espaço extra à direita para a seta não sobrepor o conteúdo */
+a.retiro-card-link {
+  padding-right: 2.5rem;
+}

@@ -106,6 +106,12 @@ app.get('/historico', requireLogin(['Capataz', 'Infraestrutura', 'Coordenador', 
   res.render('historico', { perfil: u.perfil, retiro: u.retiro_id || 'Geral' });
 });
 
+// Detalhe de um retiro — Gerente e Coordenador (escopo filtrado no endpoint)
+app.get('/retiro/:id', requireLogin(['Gerente', 'Coordenador']), (req, res) => {
+  const u = (res.locals as any).usuarioLogado;
+  res.render('retiro-detalhe', { perfil: u.perfil, retiro: u.retiro_id || 'Geral', retiroId: req.params.id });
+});
+
 // Detalhe de uma boleta (somente leitura) — Capataz e Coordenador
 app.get('/boleta/:id', requireLogin(['Capataz', 'Coordenador', 'Gerente']), (req, res) => {
   const u = (res.locals as any).usuarioLogado;
