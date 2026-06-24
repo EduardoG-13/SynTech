@@ -112,6 +112,7 @@ class AdminRepository {
     db.prepare('DELETE FROM tarefas WHERE id = ?').run(id);
   }
 
+  // ==================== DISPOSITIVOS ====================
   public listarDispositivos() {
     return db.prepare(`
       SELECT d.id, d.device_token, d.apelido, d.criado_em, d.ultimo_acesso, d.revogado_em,

@@ -146,7 +146,8 @@ export function excluirTarefa(req: Request, res: Response, next: NextFunction) {
  */
 export function listarDispositivos(_req: Request, res: Response, next: NextFunction) {
   try {
-    return res.json(adminService.listarDispositivos());
+    const rows = adminService.listarDispositivos();
+    return res.json(rows);
   } catch (error: any) {
     next(error);
   }
@@ -157,11 +158,15 @@ export function listarDispositivos(_req: Request, res: Response, next: NextFunct
  * Revoga um dispositivo (ex: tablet trocou de retiro). Ele volta a pedir
  * seleção de retiro no próximo acesso.
  */
-export function revogarDispositivo(req: Request, res: Response) {
+export function revogarDispositivo(req: Request, res: Response, next: NextFunction) {
   const id = String(req.params.id);
-  const existe = db.prepare('SELECT id FROM dispositivos WHERE id = ?').get(id);
-  if (!existe) return res.status(404).json({ erro: 'Dispositivo não encontrado.' });
-
-  db.prepare("UPDATE dispositivos SET revogado_em = datetime('now') WHERE id = ?").run(id);
-  return res.json({ mensagem: 'Dispositivo revogado. Vai pedir seleção de retiro no próximo acesso.' });
+  try {
+    adminService.revogarDispositivo(id);
+    return res.json({ mensagem: 'Dispositivo revogado. Vai pedir seleção de retiro no próximo acesso.' });
+  } catch (error: any) {
+    if (error.message === 'Dispositivo não encontrado.') {
+      return next(new AppError(404, error.message));
+    }
+    next(new AppError(400, error.message));
+  }
 }
