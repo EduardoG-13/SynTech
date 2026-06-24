@@ -6548,7 +6548,7 @@ Time:        10.861 s
 Ran all test suites matching /tests\/unit/i.
 ```
 
-> **Nota sobre os outputs acima:** os snippets representam execuções parciais por camada (`tests/unit` e testes de integração). O comando `npm test` (sem filtro) executa as 26 suites e 207 testes em sequência — o total consolidado é evidenciado pelo relatório de cobertura na seção seguinte. Os outputs parciais foram separados para facilitar a leitura e identificação de cada camada.
+> **Nota sobre os outputs acima:** os snippets representam execuções parciais por camada (`tests/unit` e testes de integração). O comando `npm test` (sem filtro) executa as 26 suites e 209 testes em sequência — o total consolidado é evidenciado pelo relatório de cobertura na seção seguinte. Os outputs parciais foram separados para facilitar a leitura e identificação de cada camada.
 
 > Os `console.log` exibidos pelo Jest durante a execução do `cloudSyncService.test.ts` (mensagens `[database]`, `[initDb]`, `[cloudSync]`) são logs operacionais esperados da própria implementação do serviço — não indicam falha. O `console.error` de CT-CS03 é intencional: o serviço registra a falha de upsert antes de gravar `status_envio = 'ERRO'` na fila.
 
@@ -6588,7 +6588,7 @@ All files                |   86.25 |    73.79 |      84 |   92.16 |
  tarefaService.ts        |   94.73 |     91.3 |     100 |   94.73 | 17,48
 -------------------------|---------|----------|---------|---------|------------------------
 Test Suites: 26 passed, 26 total
-Tests:       207 passed, 207 total
+Tests:       209 passed, 209 total
 ```
 
 **Análise por arquivo de serviço:**
@@ -6715,7 +6715,7 @@ Foi realizada, em 22 de junho de 2026, uma auditoria técnica dos critérios imp
 | Critério impeditivo | Status | Evidência verificada | Observação |
 |---|---|---|---|
 | Build quebrando | PASSOU | Foi executado `npm run build`, definido em [`package.json`](../package.json), com conclusão bem-sucedida do `tsc`. | Não foi observado erro de compilação TypeScript. |
-| Testes falhando | PASSOU | Foi executado `npm test`, definido em [`package.json`](../package.json), com resultado `26 passed, 26 total` em suites e `207 passed, 207 total` em testes. | A suíte completa de regressão foi aprovada. |
+| Testes falhando | PASSOU | Foi executado `npm test`, definido em [`package.json`](../package.json), com resultado `26 passed, 26 total` em suites e `209 passed, 209 total` em testes. | A suíte completa de regressão foi aprovada. |
 | Funcionalidades core inoperantes | PASSOU | Foram aprovadas suites de endpoints, autenticação, sincronização, offline, timeout, retry, contratos RNF e serviços em [`src/backend/tests`](../src/backend/tests). | Os fluxos core cobertos por testes automatizados permaneceram operacionais. |
 | Deploy ausente | FALHOU | Foram inspecionados artefatos de publicação no repositório. Não foram encontrados `Dockerfile`, `docker-compose.yml`, `render.yaml`, `vercel.json`, `netlify.toml`, `fly.toml`, `Procfile`, `railway.json` ou workflows em `.github/workflows`. | Foi identificado apenas suporte local por `npm start` e `npm run build`; recomenda-se priorizar a criação de configuração de deploy e URL pública de homologação. |
 
@@ -6744,7 +6744,7 @@ Resultado observado:
 
 ```text
 Test Suites: 26 passed, 26 total
-Tests:       207 passed, 207 total
+Tests:       209 passed, 209 total
 Snapshots:   0 total
 ```
 
@@ -7724,8 +7724,8 @@ Os principais entregáveis funcionais incluem:
 |---|---|
 | Suites executadas | 26 |
 | Suites aprovadas | 26 (100%) |
-| Casos de teste | 206 |
-| Casos aprovados | 206 (100%) |
+| Casos de teste | 209 |
+| Casos aprovados | 209 (100%) |
 | Cobertura global de statements | 45,2% |
 | Cobertura de statements — áreas críticas (auth, sync, eventos) | 55–89% |
 
@@ -7746,7 +7746,7 @@ Os principais entregáveis funcionais incluem:
 | Critério | Status |
 |---|---|
 | Build (`tsc --noEmit`) | PASSOU |
-| Suite completa (`npm test`) | PASSOU — 26/26 suites, 206/206 testes |
+| Suite completa (`npm test`) | PASSOU — 26/26 suites, 209/209 testes |
 | Deploy | FALHOU — configuração de deploy não versionada; ausência de URL pública |
 
 ---
