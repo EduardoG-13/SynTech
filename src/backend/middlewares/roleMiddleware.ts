@@ -4,7 +4,7 @@ export function checkRoleRedirect(roles: string[], redirectUrl?: string) {
   return (req: Request, res: Response, next: NextFunction) => {
     const sess = (req.session as any)?.usuario;
     if (!sess) return res.redirect('/');
-    
+
     if (!roles.includes(sess.perfil)) {
       if (redirectUrl) {
         // Exemplo: redirectUrl pode ser dinamico se a rota possuir params

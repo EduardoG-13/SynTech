@@ -90,6 +90,10 @@
   background: #2E7D52;
 }
 
+.bar-lateral.bloqueada {
+  background: #666;
+}
+
 /* Corpo do card */
 .tarefa-card .body {
   display: flex;
@@ -175,6 +179,37 @@
   color: #2E7D52;
 }
 
+.badge.bloqueada {
+  background: #E8E8E8;
+  color: #666;
+}
+
+/* Conflito icon inline no título */
+.conflito-icon {
+  font-size: 1.1rem;
+  margin-left: 0.3rem;
+  cursor: help;
+  vertical-align: middle;
+}
+
+/* Boleta number highlight */
+.boleta-num {
+  font-weight: 600 !important;
+  color: #1A4D2E !important;
+}
+
+/* Badge "NOVA" para tarefas do gerente */
+.badge-nova {
+  background: #D32F2F;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  margin-left: 0.3rem;
+  vertical-align: middle;
+}
+
 .tarefa-card .arrow {
   font-size: 1.5rem;
   color: #1A4D2E;
@@ -254,6 +289,23 @@
 }
 
 @media (max-width: 480px) {
+  .tarefa-card .body {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .tarefa-card .status-area {
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .tarefa-card .status-area .badge {
+    max-width: calc(100vw - 7rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
   /* Esconde descrição em telas muito pequenas pra economizar espaço */
   .tarefa-card .descricao {
@@ -273,22 +325,7 @@
   padding: 0;
 }
 
-.btn-voltar {
-  background: none;
-  border: none;
-  color: #1A4D2E;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-  margin-bottom: 1rem;
-  min-height: auto;
-}
-
-.btn-voltar:hover {
-  background: none;
-  color: #2E7D52;
-}
+/* .btn-voltar definido globalmente em styles.css */
 
 .detalhe-cabecalho {
   background: #fff;
@@ -684,7 +721,7 @@
 
 .dados-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 0.85rem;
   margin-top: 0.5rem;
 }
@@ -861,3 +898,4 @@ body[data-perfil="Capataz"] .dado-valor {
     font-size: 0.9rem;
   }
 }
+.sucesso-icone .material-symbols-rounded { font-size: 4rem; color: #2E7D52; }

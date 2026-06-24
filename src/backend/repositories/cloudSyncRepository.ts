@@ -2,10 +2,10 @@ import db from '../config/database';
 import supabasePool from '../config/supabasePool';
 
 class CloudSyncRepository {
-  public obterSincronizacoesPendentes() {
+  public obterSincronizacoesPendentes(maxTentativas = 10) {
     return db.prepare(`
       SELECT * FROM sincronizacoes
-      WHERE status_envio IN ('PENDENTE', 'ERRO')
+      WHERE status_envio IN ('PENDENTE', 'ERRO') AND tentativas < ?
       ORDER BY
         CASE entidade_tipo
           WHEN 'retiro'       THEN 0
@@ -17,7 +17,7 @@ class CloudSyncRepository {
           ELSE 9
         END ASC,
         criada_em ASC
-    `).all() as any[];
+    `).all(maxTentativas) as any[];
   }
 
   public async verificarConexaoSupabase() {

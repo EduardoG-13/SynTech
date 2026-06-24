@@ -6,8 +6,8 @@
 import { processarFilaSincronizacao } from '/public/js/sync.js';
 
 let isOnline = navigator.onLine;
-const REQUEST_TIMEOUT_MS = Number(window.CRITICAL_REQUEST_TIMEOUT_MS || 5000);
-const EVIDENCE_REQUEST_TIMEOUT_MS = Number(window.CRITICAL_EVIDENCE_REQUEST_TIMEOUT_MS || 10000);
+const REQUEST_TIMEOUT_MS = Number(window.CRITICAL_REQUEST_TIMEOUT_MS || 15000);
+const EVIDENCE_REQUEST_TIMEOUT_MS = Number(window.CRITICAL_EVIDENCE_REQUEST_TIMEOUT_MS || 60000);
 
 function payloadPossuiEvidencia(valor) {
   if (!valor || typeof valor !== 'object') {
@@ -180,10 +180,10 @@ function atualizarStatusBadge() {
   const badge = document.getElementById('onlineStatus');
   if (badge) {
     if (isOnline) {
-      badge.textContent = '🟢 Online';
+      badge.textContent = 'Online';
       badge.style.backgroundColor = '#4CAF50';
     } else {
-      badge.textContent = '🔴 Offline';
+      badge.textContent = 'Offline';
       badge.style.backgroundColor = '#f44336';
     }
   }

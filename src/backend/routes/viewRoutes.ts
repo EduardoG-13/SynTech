@@ -10,7 +10,7 @@
 
 import { Router, Request, Response } from 'express';
 import { RETIROS } from '../config/retiros';
-import { checkRoleRedirect } from '../middleware/roleMiddleware';
+import { checkRoleRedirect } from '../middlewares/roleMiddleware';
 
 export class ViewRoutes {
   public router: Router;
