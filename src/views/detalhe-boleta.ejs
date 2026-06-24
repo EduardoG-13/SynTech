@@ -190,6 +190,7 @@
 
     document.addEventListener('DOMContentLoaded', function () {
       carregarBoleta();
+      prepararPdfOffline();
 
       // Capataz: edição com janela de 30 dias
       var btnEditar = document.getElementById('btn-editar');
@@ -292,6 +293,13 @@
         .catch(function () {
           document.getElementById('bol-tipo').textContent = 'Erro ao carregar';
         });
+    }
+
+    function prepararPdfOffline() {
+      if (!BOLETA_ID || !navigator.onLine) return;
+      fetch('/api/coordenador/boleta/' + encodeURIComponent(BOLETA_ID) + '/pdf', {
+        credentials: 'same-origin'
+      }).catch(function () { /* cache offline é tentativa; falha não bloqueia a tela */ });
     }
 
     function setText(id, valor) {
@@ -405,6 +413,10 @@
         imgFoto.src = reg.foto_base64;
         imgFoto.style.display = 'block';
         linkFoto.href = reg.foto_base64;
+        linkFoto.onclick = function(ev) {
+          ev.preventDefault();
+          abrirFotoOffline(reg.foto_base64);
+        };
         linkFoto.style.display = 'block';
         semFoto.style.display = 'none';
       } else if (reg.tem_foto) {
@@ -463,8 +475,23 @@
       }
     }
 
+    function abrirFotoOffline(src) {
+      if (!src) return;
+      var win = window.open('', '_blank');
+      if (!win) {
+        window.location.href = src;
+        return;
+      }
+      win.document.write('<!doctype html><html><head><title>Foto anexada</title><meta name="viewport" content="width=device-width, initial-scale=1"><style>body{margin:0;background:#111;display:flex;align-items:center;justify-content:center;min-height:100vh}img{max-width:100%;max-height:100vh;object-fit:contain}</style></head><body><img alt="Foto anexada" src="' + src + '"></body></html>');
+      win.document.close();
+    }
+
     function aprovarBoleta() {
       if (!BOLETA_ID) return;
+      if (!navigator.onLine) {
+        mostrarMsg(' Não é possível validar boleta offline. Conecte à internet para aprovar.', 'erro');
+        return;
+      }
       var btn = document.getElementById('btn-validar');
       btn.disabled = true;
       btn.textContent = 'Aprovando...';

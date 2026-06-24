@@ -72,6 +72,7 @@
             </div>
             <audio id="audio-preview" controls style="display:none; width:100%; margin-top:0.5rem;"></audio>
             <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;"><span class="material-symbols-rounded ui-icon" aria-hidden="true">delete</span> Apagar &aacute;udio</button>
+            <p class="transcricao-status" id="transcricao-status-resolucao" style="display:none;"></p>
           </div>
         </div>
 
@@ -100,6 +101,7 @@
   </div>
 </div>
 
+<script src="/public/js/audio-transcricao-local.js"></script>
 <script>
   var CHAMADO_ID = '<%= typeof chamadoId !== "undefined" ? chamadoId : "" %>';
 
@@ -200,9 +202,14 @@
 
   // === Áudio (gravação) ===
   var mediaRecorder = null, audioChunks = [], audioBase64 = '', gravando = false;
+  var transcritorResolucao = null;
   function configurarAudio() {
     var btn = document.getElementById('btn-gravar-audio');
     var rem = document.getElementById('btn-remover-audio');
+    transcritorResolucao = window.brpecTranscricaoLocal && window.brpecTranscricaoLocal.criar({
+      textarea: document.getElementById('descricao-solucao'),
+      status: document.getElementById('transcricao-status-resolucao')
+    });
     btn.addEventListener('click', function() {
       if (!gravando) iniciarGravacao(); else pararGravacao();
     });
@@ -211,6 +218,7 @@
       var p = document.getElementById('audio-preview');
       p.src = ''; p.style.display = 'none';
       rem.style.display = 'none';
+      if (transcritorResolucao) transcritorResolucao.limparStatus();
     });
   }
   function iniciarGravacao() {
@@ -232,6 +240,7 @@
         stream.getTracks().forEach(function(t) { t.stop(); });
       };
       mediaRecorder.start();
+      if (transcritorResolucao) transcritorResolucao.iniciar();
       gravando = true;
       document.getElementById('audio-btn-txt').textContent = 'Parar gravação';
       document.getElementById('btn-gravar-audio').classList.add('gravando');
@@ -239,6 +248,7 @@
   }
   function pararGravacao() {
     if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+    if (transcritorResolucao) transcritorResolucao.parar();
     gravando = false;
     document.getElementById('audio-btn-txt').textContent = 'Gravar novamente';
     document.getElementById('btn-gravar-audio').classList.remove('gravando');

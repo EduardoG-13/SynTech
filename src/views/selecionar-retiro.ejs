@@ -46,8 +46,23 @@
 </div>
 
 <script>
+  var selecaoBloqueada = false;
+
+  function setSelecaoBloqueada(bloqueada) {
+    selecaoBloqueada = !!bloqueada;
+    document.querySelectorAll('#lista-retiros .card-retiro-card').forEach(function(card) {
+      card.disabled = selecaoBloqueada;
+      card.classList.toggle('selecionando', selecaoBloqueada);
+      if (selecaoBloqueada) card.setAttribute('aria-busy', 'true');
+      else card.removeAttribute('aria-busy');
+    });
+    var busca = document.getElementById('searchRetiro');
+    if (busca) busca.disabled = selecaoBloqueada;
+  }
+
   document.querySelectorAll('#lista-retiros .card-retiro-card').forEach(function (card) {
     card.addEventListener('click', function () {
+      if (selecaoBloqueada) return;
       selecionarRetiro(card.dataset.id, card.dataset.retiroNome);
     });
   });
@@ -67,10 +82,14 @@
   // Ao abrir a tela: se o aparelho já está vinculado a um retiro, entra direto.
   (function autoLoginDispositivo() {
     var token = getDeviceToken();
+    setSelecaoBloqueada(true);
     fetch('/api/auth/dispositivo/' + encodeURIComponent(token), { credentials: 'same-origin' })
       .then(function(r) { return r.json(); })
       .then(function(d) {
-        if (!d || !d.vinculado) return; // aparelho novo → mostra a lista de retiros
+        if (!d || !d.vinculado) {
+          setSelecaoBloqueada(false);
+          return;
+        } // aparelho novo → mostra a lista de retiros
         // Faz login automático e vai direto pras tarefas
         return fetch('/api/auth/login-dispositivo', {
           method: 'POST',
@@ -83,13 +102,17 @@
           if (login && login.sucesso) {
             if (window.authClient) window.authClient.setAccessToken(login.accessToken);
             window.location.href = '/tarefas';
+          } else {
+            setSelecaoBloqueada(false);
           }
         });
       })
-      .catch(function() { /* offline ou sem vínculo: fica na tela de seleção */ });
+      .catch(function() { setSelecaoBloqueada(false); /* offline ou sem vínculo: fica na tela de seleção */ });
   })();
 
   function selecionarRetiro(retiroId, nome) {
+    if (selecaoBloqueada) return;
+    setSelecaoBloqueada(true);
     // Cria a SESSÃO no servidor (cookie) + vincula este dispositivo ao retiro
     fetch('/api/auth/login-capataz', {
       method: 'POST',
@@ -107,10 +130,12 @@
         }));
         window.location.href = '/tarefas';
       } else {
+        setSelecaoBloqueada(false);
         alert(data.erro || 'Não foi possível entrar neste retiro.');
       }
     })
     .catch(function() {
+      setSelecaoBloqueada(false);
       alert('Erro de conexão. Tente novamente.');
     });
   }

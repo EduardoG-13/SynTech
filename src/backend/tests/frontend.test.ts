@@ -31,4 +31,13 @@ describe('Front-end offline IndexedDB setup', () => {
     expect(response.text).toContain('salvarFila,');
   });
 
+  it('serve o modulo experimental de transcricao local de audio', async () => {
+    const response = await request(app).get('/public/js/audio-transcricao-local.js');
+
+    expect(response.status).toBe(200);
+    expect(response.text).toContain('window.brpecTranscricaoLocal');
+    expect(response.text).toContain('processLocally');
+    expect(response.text).toContain('Transcrição indisponível neste navegador ou sem internet');
+  });
+
 });

@@ -200,6 +200,14 @@
 }
 .btn-aprovar:hover { background: #2E7D52; }
 
+@media (max-width: 480px) {
+  .btn-aprovar {
+    width: 100%;
+    justify-content: center;
+    min-height: 44px;
+  }
+}
+
 .boletas-main .btn-primario {
   background: #1A4D2E;
   color: #fff;

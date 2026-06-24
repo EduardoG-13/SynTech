@@ -77,6 +77,7 @@
             </div>
             <audio id="audio-preview" controls style="display:none; width:100%; margin-top:0.5rem;"></audio>
             <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;"><span class="material-symbols-rounded ui-icon" aria-hidden="true">delete</span> Apagar &aacute;udio</button>
+            <p class="transcricao-status" id="transcricao-status-chamado" style="display:none;"></p>
           </div>
         </div>
 
@@ -119,6 +120,7 @@
 </div>
 
 <script src="/public/js/chamados.js"></script>
+<script src="/public/js/audio-transcricao-local.js"></script>
 <script>
   // Grid de cards do tipo de problema → preenche input hidden #tipo-ocorrencia
   (function() {
@@ -151,6 +153,10 @@
     var mediaRecorder = null, audioChunks = [], audioBase64 = '', gravando = false;
     var btnA = document.getElementById('btn-gravar-audio');
     var btnR = document.getElementById('btn-remover-audio');
+    var transcritor = window.brpecTranscricaoLocal && window.brpecTranscricaoLocal.criar({
+      textarea: document.getElementById('descricao'),
+      status: document.getElementById('transcricao-status-chamado')
+    });
     btnA.addEventListener('click', function() {
       if (!gravando) {
         navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
@@ -170,12 +176,14 @@
             stream.getTracks().forEach(function(t) { t.stop(); });
           };
           mediaRecorder.start();
+          if (transcritor) transcritor.iniciar();
           gravando = true;
           document.getElementById('audio-btn-txt').textContent = 'Parar gravação';
           btnA.classList.add('gravando');
         }).catch(function() { alert(' Permissão de microfone negada.'); });
       } else {
         if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+        if (transcritor) transcritor.parar();
         gravando = false;
         document.getElementById('audio-btn-txt').textContent = 'Gravar novamente';
         btnA.classList.remove('gravando');
@@ -186,6 +194,7 @@
       var p = document.getElementById('audio-preview');
       p.src = ''; p.style.display = 'none';
       btnR.style.display = 'none';
+      if (transcritor) transcritor.limparStatus();
     });
 
     // Expor para o novo-chamado-handler poder pegar (compatibilidade)

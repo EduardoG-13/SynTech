@@ -181,6 +181,7 @@
             </button>
             <audio id="audio-preview" controls style="display:none; width:100%; margin-top:0.5rem;"></audio>
             <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;"><span class="material-symbols-rounded ui-icon" aria-hidden="true">delete</span> Apagar áudio</button>
+            <p class="transcricao-status" id="transcricao-status-os" style="display:none;"></p>
           </div>
         </div>
 
@@ -220,6 +221,7 @@
   </div>
 </div>
 
+<script src="/public/js/audio-transcricao-local.js"></script>
 <script>
   var RETIRO_LOGADO = '<%= retiro %>';
   var PERFIL = '<%= perfil %>';
@@ -477,11 +479,16 @@
   var audioChunks = [];
   var audioBase64 = '';
   var gravando = false;
+  var transcritorBoleta = null;
 
   function configurarAudio() {
     var btn = document.getElementById('btn-gravar-audio');
     var btnRemover = document.getElementById('btn-remover-audio');
     if (!btn) return;
+    transcritorBoleta = window.brpecTranscricaoLocal && window.brpecTranscricaoLocal.criar({
+      textarea: document.getElementById('os-observacoes'),
+      status: document.getElementById('transcricao-status-os')
+    });
 
     btn.addEventListener('click', function() {
       if (!gravando) iniciarGravacao(); else pararGravacao();
@@ -492,6 +499,7 @@
       preview.src = '';
       preview.style.display = 'none';
       btnRemover.style.display = 'none';
+      if (transcritorBoleta) transcritorBoleta.limparStatus();
     });
   }
 
@@ -518,6 +526,7 @@
         stream.getTracks().forEach(function(t) { t.stop(); });
       };
       mediaRecorder.start();
+      if (transcritorBoleta) transcritorBoleta.iniciar();
       gravando = true;
       document.getElementById('audio-btn-txt').textContent = 'Parar gravação';
       document.getElementById('btn-gravar-audio').classList.add('gravando');
@@ -528,6 +537,7 @@
 
   function pararGravacao() {
     if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+    if (transcritorBoleta) transcritorBoleta.parar();
     gravando = false;
     document.getElementById('audio-btn-txt').textContent = 'Gravar novamente';
     document.getElementById('btn-gravar-audio').classList.remove('gravando');

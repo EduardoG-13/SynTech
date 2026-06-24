@@ -243,6 +243,10 @@
   }
 
   function aprovarBoleta(id) {
+    if (!navigator.onLine) {
+      msgExport('Não é possível aprovar boleta offline. Conecte à internet para validar.', '#D32F2F');
+      return;
+    }
     fetch('/api/coordenador/boletas/' + id + '/aprovar', {
       method: 'POST', credentials: 'same-origin'
     })

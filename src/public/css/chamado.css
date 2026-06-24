@@ -250,6 +250,31 @@
   align-self: flex-start;
 }
 
+.transcricao-status {
+  border-radius: 8px;
+  color: #31573F;
+  font-size: 0.82rem;
+  font-weight: 650;
+  margin-top: 0.65rem;
+  padding: 0.55rem 0.7rem;
+}
+
+.transcricao-status[data-tipo="info"] {
+  background: #F5FAF7;
+  border-left: 4px solid #2E7D52;
+}
+
+.transcricao-status[data-tipo="ok"] {
+  background: #E6F3EB;
+  border-left: 4px solid #1A4D2E;
+}
+
+.transcricao-status[data-tipo="aviso"] {
+  background: #FFF4E6;
+  border-left: 4px solid #F28C28;
+  color: #5C4630;
+}
+
 /* Upload de foto */
 .upload-foto {
   border: 2px dashed #c8d3c3;
