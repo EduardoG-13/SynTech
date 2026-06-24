@@ -7810,7 +7810,7 @@ ao da BrPec, aproveitando a rede de confiança já estabelecida no setor.
 
 # <a name="c7"></a>7. Conclusões e trabalhos futuros
 
-## 7.1. O que foi entregue
+### 7.1. O que foi entregue
 
 Ao longo de cinco sprints, a equipe desenvolveu uma aplicação web progressiva (PWA) offline-first para digitalizar a operação de campo da BrPec Agropecuária. O sistema substituiu o fluxo manual de boletas de papel e redigitação em planilhas por uma interface móvel que opera sem conectividade contínua e sincroniza dados automaticamente nas janelas de acesso à rede disponíveis nos retiros.
 
@@ -7828,7 +7828,7 @@ Os principais entregáveis funcionais incluem:
 
 ---
 
-## 7.2. Principais desafios e como foram superados
+### 7.2. Principais desafios e como foram superados
 
 **Arquitetura offline-first em ambiente sem framework.** A principal exigência técnica do projeto — funcionamento sem internet com sincronização posterior — foi implementada sem bibliotecas de gestão de estado ou frameworks reativos. A solução combina Service Worker para interceptação de requisições, IndexedDB para persistência local no cliente e um endpoint `POST /api/sincronizacao/lote` no backend para processar a fila acumulada. O desafio de garantir determinismo nas janelas de reconexão foi resolvido com um loop de retry configurável no `sync.js` e um agendador no `cloudSyncService` com limite de tentativas e ordem topológica de envio para respeitar chaves estrangeiras do Supabase.
 
@@ -7842,7 +7842,7 @@ Os principais entregáveis funcionais incluem:
 
 ---
 
-## 7.3. Resultados mensuráveis
+### 7.3. Resultados mensuráveis
 
 ### Cobertura de requisitos
 
@@ -7886,7 +7886,7 @@ Os principais entregáveis funcionais incluem:
 
 ---
 
-## 7.4. Limitações identificadas
+### 7.4. Limitações identificadas
 
 **Deploy em ambiente público.** O sistema opera exclusivamente em execução local (`npm start`). Não foi versionado artefato de deploy compatível com nenhuma plataforma de hospedagem (Render, Railway, Fly.io ou similar), e nenhuma URL de homologação foi publicada.
 
@@ -7899,6 +7899,22 @@ Os principais entregáveis funcionais incluem:
 **Sincronização bidirecional e resolução de conflitos.** A arquitetura atual implementa sincronização unidirecional (campo → nuvem via Outbox). Cenários de edição concorrente — dois capatazes registrando movimentações para o mesmo lote de animais em retiros diferentes sem conexão — não possuem mecanismo de detecção ou resolução de conflito.
 
 **Onboarding para usuários com baixa literacia digital.** O perfil de Capataz descrito nas personas inclui usuários com dificuldade com leitura e escrita formal. Os testes de guerrilha indicaram que a terminologia e a navegação foram mais acessíveis para participantes com experiência rural, mas o escore SUS de P2 (45,0) sinaliza que parte do público-alvo pode ter dificuldades com a curva de aprendizado.
+
+### 7.5. Planejamentos futuros
+
+Os achados dos testes de usabilidade documentados na seção 5.2, combinados com as limitações técnicas descritas na seção 7.4, apontam dois eixos de evolução para ciclos futuros: correções de interface identificadas nos testes e expansões funcionais que ampliam o escopo do produto.
+
+No eixo de interface, as correções de maior impacto envolvem a adição de feedback explícito nos fluxos do Capataz e do Gerente: exibição de toast ou snackbar de confirmação após a conclusão de tarefa com foto — endereçando a ausência de visibilidade do status de sincronização identificada pela heurística H1 — e confirmação visual após a criação de tarefa calendarizada, impedindo que o registro seja interpretado como falha de cadastro. Também deve ser corrigida a tela de configurações do Gerente, cujo botão de acesso deve ser reposicionado e renomeado. Em prioridade intermediária, destacam-se a alteração da cor do indicador de GPS para verde no formulário de chamado de infraestrutura, a melhoria da legibilidade na tela de revisão com remoção de hífens e aumento do tamanho do texto, e a criação de orientações contextuais — como tooltips em ações críticas — para reduzir a dependência de suporte técnico entre usuários com menor familiaridade digital, aspecto evidenciado pelas questões Q4 e Q7 do SUS. Em caráter cosmético, recomendam-se ainda bloquear a seleção do retiro de origem como destino no formulário de transferências, reordenar a listagem de categorias de animais por espécie antes da faixa etária, e habilitar ordenação por coluna na tabela de movimentações do Coordenador.
+
+No eixo de expansão funcional, quatro oportunidades foram identificadas para ciclos posteriores. A primeira é a criação de um módulo sanitário e veterinário, cobrindo o registro de vacinações, medicamentos e tratamentos por animal — dado atualmente não capturado pelo sistema e relevante para fazendas que operam sob exigências de rastreabilidade sanitária. A segunda é a implementação de notificações push, permitindo que Gerente e Coordenador recebam alertas em tempo real quando um chamado for aberto ou uma tarefa crítica for concluída, eliminando a dependência de verificação manual do painel. A terceira é a criação de alertas automáticos por threshold, como notificações disparadas quando a taxa de mortalidade de um retiro ultrapassa um limite configurável ou quando um chamado permanece aberto por mais de um número definido de dias sem resolução, apoiando a tomada de decisão proativa do Gerente. Por fim, a integração com balanças e brincos eletrônicos permitiria o registro automático de peso individual durante manejos de campo, eliminando digitação manual e reduzindo erros de transcrição — caminho já adotado por concorrentes como o iRancho no mercado nacional.
+
+### 7.5. Planejamentos futuros
+
+Os achados dos testes de usabilidade documentados na seção 5.2, combinados com as limitações técnicas descritas na seção 7.4, apontam dois eixos de evolução para ciclos futuros: correções de interface identificadas nos testes e expansões funcionais que ampliam o escopo do produto.
+
+No eixo de interface, as correções de maior impacto envolvem a adição de feedback explícito nos fluxos do Capataz e do Gerente: exibição de toast ou snackbar de confirmação após a conclusão de tarefa com foto — endereçando a ausência de visibilidade do status de sincronização identificada pela heurística H1 — e confirmação visual após a criação de tarefa calendarizada, impedindo que o registro seja interpretado como falha de cadastro. Também deve ser corrigida a tela de configurações do Gerente, cujo botão de acesso deve ser reposicionado e renomeado. Em prioridade intermediária, destacam-se a alteração da cor do indicador de GPS para verde no formulário de chamado de infraestrutura, a melhoria da legibilidade na tela de revisão com remoção de hífens e aumento do tamanho do texto, e a criação de orientações contextuais — como tooltips em ações críticas — para reduzir a dependência de suporte técnico entre usuários com menor familiaridade digital, aspecto evidenciado pelas questões Q4 e Q7 do SUS. Em caráter cosmético, recomendam-se ainda bloquear a seleção do retiro de origem como destino no formulário de transferências, reordenar a listagem de categorias de animais por espécie antes da faixa etária, e habilitar ordenação por coluna na tabela de movimentações do Coordenador.
+
+No eixo de expansão funcional, quatro oportunidades foram identificadas para ciclos posteriores. A primeira é a criação de um módulo sanitário e veterinário, cobrindo o registro de vacinações, medicamentos e tratamentos por animal — dado atualmente não capturado pelo sistema e relevante para fazendas que operam sob exigências de rastreabilidade sanitária. A segunda é a implementação de notificações push, permitindo que Gerente e Coordenador recebam alertas em tempo real quando um chamado for aberto ou uma tarefa crítica for concluída, eliminando a dependência de verificação manual do painel. A terceira é a criação de alertas automáticos por threshold, como notificações disparadas quando a taxa de mortalidade de um retiro ultrapassa um limite configurável ou quando um chamado permanece aberto por mais de um número definido de dias sem resolução, apoiando a tomada de decisão proativa do Gerente. Por fim, a integração com balanças e brincos eletrônicos permitiria o registro automático de peso individual durante manejos de campo, eliminando digitação manual e reduzindo erros de transcrição — caminho já adotado por concorrentes como o iRancho no mercado nacional.
 
 # <a name="c8"></a>8. Referências
 
