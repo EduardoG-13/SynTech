@@ -76,6 +76,7 @@ const executarNaFila = async (mode, callback) => {
 
 export async function salvarFila(tipo, dados) {
   const tiposPermitidos = ['tarefa', 'obito', 'nascimento', 'chamado'];
+  tiposPermitidos.push('boleta', 'movimentacao', 'resolucao_chamado', 'evidencia');
 
   if (!tiposPermitidos.includes(tipo)) {
     throw new Error('Tipo invalido para salvar na fila offline.');

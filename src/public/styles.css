@@ -781,11 +781,11 @@ th {
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.01em;
-  color: #fff;
+  color: var(--primary);
   cursor: pointer;
   user-select: none;
-  border: 1px solid transparent;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--line);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
   transition: background 0.2s, opacity 0.2s, transform 0.15s;
 }
 .status-conexao:hover { transform: translateY(1px); }
@@ -794,26 +794,52 @@ th {
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+  background: currentColor;
+  box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.12);
   flex-shrink: 0;
 }
 
-/* Online: verde Syntech */
+#onlineStatus {
+  background: transparent !important;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  color: currentColor;
+  display: inline;
+  padding: 0;
+  text-decoration: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#onlineStatus::selection {
+  background: transparent;
+  color: currentColor;
+}
+
+/* Online: indicador neutro, sem parecer aba selecionada */
 .status-conexao.online {
-  background: var(--primary-light);
-  border-color: rgba(255, 255, 255, 0.25);
+  background: var(--surface);
+  border-color: rgba(26, 77, 46, 0.28);
+  color: var(--primary);
 }
 /* Offline: cinza/vermelho discreto */
 .status-conexao.offline {
   background: var(--muted);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
 }
-.status-conexao.offline .status-dot { background: #ffd5d5; animation: pulso-offline 1.4s ease-in-out infinite; }
+.status-conexao.offline .status-dot {
+  background: #ffd5d5;
+  box-shadow: 0 0 0 3px rgba(255, 213, 213, 0.2);
+  animation: pulso-offline 1.4s ease-in-out infinite;
+}
 
 /* Há itens aguardando envio: vira âmbar pra chamar atenção */
 .status-conexao.tem-pendencia {
   background: var(--warning);
   border-color: rgba(255, 255, 255, 0.35);
+  color: #fff;
 }
 .status-conexao.sincronizando { opacity: 0.85; }
 

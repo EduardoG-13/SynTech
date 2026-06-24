@@ -158,10 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    if (descricao.length < 10) {
-      alert('A descrição deve conter ao menos 10 caracteres.');
-      return;
-    }
 
     if (!latitude || !longitude) {
       alert('Preencha as coordenadas GPS.');
@@ -198,6 +194,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const audioBase64 = (typeof window.__audioChamadoBase64 === 'function')
       ? window.__audioChamadoBase64()
       : '';
+
+    if (descricao.length < 10 && !audioBase64) {
+      alert('Informe o detalhamento do problema: escreva pelo menos 10 caracteres ou grave um audio.');
+      return;
+    }
 
     const payload = buildRequestPayload({
       descricao,
@@ -251,8 +252,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (resultado.offline) {
       try {
-        await salvarOffline(payload);
-        irParaSucesso(' Chamado salvo localmente. Será sincronizado quando voltar a conexão.');
+        if (!resultado.idFila) {
+          await salvarOffline(payload);
+        }
+        irParaSucesso('✅ Chamado salvo localmente. Será sincronizado quando voltar a conexão.');
       } catch (erro) {
         console.error('Erro ao salvar chamado localmente:', erro);
         alert('Ocorreu um erro ao salvar o chamado localmente. Tente novamente.');
