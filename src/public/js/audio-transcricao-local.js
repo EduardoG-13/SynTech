@@ -107,18 +107,12 @@
             return prepararOnline();
           }
 
-          if (
-            disponibilidade !== 'available' &&
-            typeof Recognition.install === 'function' &&
-            navigator.onLine
-          ) {
-            escreverStatus(statusEl, 'Baixando pacote de transcrição local. Tente gravar novamente ao terminar.', 'info');
-            await Recognition.install({ langs: [lang], processLocally: true });
-            return null;
+          if (disponibilidade !== 'available') {
+            return prepararOnline();
           }
         } catch (erro) {
           // Alguns navegadores expõem processLocally, mas ainda não implementam
-          // available/install. Nesse caso tentamos iniciar e tratamos o erro abaixo.
+          // a checagem de disponibilidade. Nesse caso tentamos iniciar e tratamos o erro abaixo.
         }
       }
 
