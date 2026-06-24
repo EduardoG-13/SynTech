@@ -2156,7 +2156,21 @@ Cada camada possui responsabilidade única e bem delimitada [14][24]:
 - **Repository:** abstrai o acesso à camada de persistência (SQLite no servidor), expondo métodos de consulta e escrita ao Service por meio de uma interface uniforme.
 - **Model:** representa as entidades persistidas no banco de dados (tabelas SQLite), correspondendo às classes do domínio com seus atributos e tipos de dado.
 
-O diagrama a seguir utiliza a notação UML 2.5.1 [32], com dependências de uso (`..>`) entre Controller → Service e Service → Repository, e associações de composição entre Repository e os Models correspondentes. As classes de mesmo domínio funcional são agrupadas por módulo: **Autenticação**, **Tarefas**, **Eventos Zootécnicos**, **Alertas de Infraestrutura**, **Sincronização** e **Exportação**. 
+O diagrama a seguir utiliza notação adaptada UML 2.5.1 [32]: setas sólidas (`-->`) representam dependências de uso entre camadas (Controller → Service → Repository → Banco), e setas tracejadas (`-.->`) representam realizações de interface (concreto implementa contrato). Os cinco subgrafos correspondem às cinco camadas da arquitetura. As classes de mesmo domínio funcional são agrupadas por módulo: **Autenticação**, **Tarefas**, **Eventos Zootécnicos**, **Alertas de Infraestrutura**, **Sincronização** e **Exportação**.
+
+A tabela a seguir documenta as multiplicidades e o tipo de cada associação entre camadas:
+
+| Origem | Destino | Multiplicidade | Tipo de associação |
+|---|---|---|---|
+| `Route` | `Controller` | 1 : 1 | Dependência de uso — cada rota delega para exatamente um Controller |
+| `Controller` | `Service` | 1 : 1 | Dependência de uso — um Controller orquestra exatamente um Service |
+| `Service` | `«interface» Repository` | 1 : 1..* | Dependência de uso — um Service pode depender de uma ou mais interfaces de repositório |
+| `«interface» Repository` | Repositório concreto | 1 : 1 | Realização — cada interface possui exatamente uma implementação concreta (SQLite) |
+| Repositório concreto | `SQLite DB` | * : 1 | Associação de acesso — múltiplos repositórios acessam o mesmo banco local |
+| `TarefaRepository` | `TarefaPgRepository` | — | Realiza interface adicional `ITarefaPgRepository` para o banco Supabase/PostgreSQL |
+| Repositório concreto | Model | cria 0..* | Associação de resultado — cada método de busca retorna 0 ou N objetos Model |
+
+**Nota sobre a camada de Model:** os tipos TypeScript `Tarefa`, `Alerta`, `Evidencia`, `Movimentacao`, `RefreshToken`, `Retiro`, `Sincronizacao` e `Usuario` (em `src/backend/models/`) funcionam como DTOs de resultado retornados pelos repositórios. Esses tipos não possuem comportamento próprio de persistência — a responsabilidade de acesso ao banco pertence exclusivamente à camada Repository. Por esse motivo, a camada de Model não é representada como subgrafo independente no diagrama abaixo; ela aparece implicitamente como o tipo de retorno de cada método de repositório.
 
 ```mermaid
 ---
@@ -2944,49 +2958,55 @@ flowchart TD
     classDef hardware fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
     classDef software fill:#efebe9,stroke:#4e342e,stroke-width:1px;
     classDef database fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
-    
-    subgraph Capataz["Celular do Capataz (Dispositivo Móvel)"]
+    classDef satellite fill:#fff9c4,stroke:#f9a825,stroke-width:2px;
+
+    subgraph Capataz["Celular do Capataz (Dispositivo Móvel — Android/Chrome)"]
         direction TB
-        PWA["Cliente Web (Chrome / PWA)"]:::software
-        IDB[("Camada 1: IndexedDB<br>(brpec_local)")]:::database
-        PWA <-->|"Leitura/Escrita"| IDB
+        PWA["Cliente Web (PWA — Chrome)"]:::software
+        SW["Service Worker (sw.js)<br/>intercepta requisições · cache offline<br/>estratégia: Network-first + Cache fallback"]:::software
+        IDB[("Camada 1: IndexedDB<br>brpec_local<br>store: sincronizacoes — fila de operações pendentes")]:::database
+        PWA -->|"registra / ativa"| SW
+        SW <-->|"lê/grava fila PENDENTE"| IDB
+        SW -->|"requisição HTTP (online)"| PWA
     end
     style Capataz fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
 
-    subgraph FarmServer["Servidor Local (Sede da Fazenda)"]
+    subgraph FarmServer["Servidor Local (Sede da Fazenda — Node.js 22+)"]
         direction TB
-        ExpressLocal["API Local Express (Node.js)"]:::software
-        SQLiteDB[("Camada 2: SQLite DB<br>(brpec.sqlite)")]:::database
-        SyncService["CloudSyncService (Sincronizador)"]:::software
-        
-        ExpressLocal <-->|"Leitura/Escrita Relacional"| SQLiteDB
-        SyncService <-->|"Consome Outbox / Logs"| SQLiteDB
+        ExpressLocal["API REST Express<br/>src/backend/app.ts"]:::software
+        SQLiteDB[("Camada 2: SQLite DB<br>brpec.sqlite<br>tabela sincronizacoes — padrão Outbox")]:::database
+        SyncService["CloudSyncService<br/>src/backend/services/cloudSyncService.ts<br/>agendador de retry + envio para nuvem"]:::software
+        ExpressLocal <-->|"Leitura/Escrita Relacional (node:sqlite)"| SQLiteDB
+        SyncService <-->|"Consome Outbox / atualiza status_envio"| SQLiteDB
     end
     style FarmServer fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
 
-    subgraph SupabaseCloud["Nuvem Supabase"]
+    Starlink["🛰 Starlink<br/>Link Satelital<br/>HTTPS / TLS<br/>(intermitente — janelas de conectividade)"]:::satellite
+
+    subgraph SupabaseCloud["Nuvem Supabase (PostgreSQL)"]
         direction TB
-        PostgresDB[("Camada 3: Supabase Postgres DB<br>(Consolidação Central)")]:::database
+        PostgresDB[("Camada 3: PostgreSQL<br>schema idêntico ao SQLite<br>UPSERT via INSERT … ON CONFLICT")]:::database
     end
     style SupabaseCloud fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
 
-    subgraph RenderHosting["Servidor Render Cloud Hosting"]
+    subgraph RenderHosting["Render Cloud — Dashboard Web"]
         direction TB
-        ExpressCloud["Dashboard Web App (Node.js)"]:::software
+        ExpressCloud["Dashboard Node.js<br/>(perfis: Gerente / Coordenador)"]:::software
     end
     style RenderHosting fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
 
     subgraph Office["Estação de Trabalho (Gerente / Coordenador)"]
-        Browser["Navegador Desktop (Dashboard UI)"]:::software
+        Browser["Navegador Desktop (Chrome / Firefox)"]:::software
     end
     style Office fill:#f5f5f5,stroke:#9e9e9e,stroke-width:1px;
 
     %% Conexões de Rede Físicas e Protocolos
-    Capataz <-->|"Rede Local Wi-Fi (2.4 / 5 GHz)"| FarmServer
-    FarmServer -->|"Link Satélite Starlink (HTTPS / TLS)"| SupabaseCloud
-    FarmServer -->|"Link Satélite Starlink (HTTPS / TLS)"| RenderHosting
-    RenderHosting <-->|"Conexão Segura Interna (SSL / Pool)"| SupabaseCloud
-    Office <-->|"Conexão Internet (HTTPS / TLS)"| RenderHosting
+    Capataz <-->|"Wi-Fi local 2.4 / 5 GHz — descarga de fila offline"| FarmServer
+    FarmServer -->|"Starlink (HTTPS/TLS) — sync Outbox"| Starlink
+    Starlink -->|"HTTPS/TLS"| SupabaseCloud
+    Starlink -->|"HTTPS/TLS"| RenderHosting
+    RenderHosting <-->|"SSL / pool de conexões internas"| SupabaseCloud
+    Office <-->|"Internet pública (HTTPS / TLS)"| RenderHosting
 ```
 
 <center>
@@ -3841,6 +3861,47 @@ A evolução conceitual está apresentada nas seções 3.6.1 e 3.6.2. Nesta seç
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
+#### Mapeamento de coerência ER ↔ DER ↔ Modelo Físico
+
+A tabela abaixo correlaciona explicitamente as entidades do modelo conceitual (ER, seção 3.6.1), o DER da sprint 2 (seção 3.6.2) e as tabelas do modelo físico, verificando consistência de nomes, chaves e cardinalidades entre os três modelos.
+
+| Entidade ER | Entidade DER (sprint 2) | Tabela física | Atributos-chave verificados | Cardinalidade ER → Física |
+| ----------- | ----------------------- | ------------- | --------------------------- | ------------------------- |
+| USUÁRIO | USUÁRIO | `usuarios` | `nome`, `senha`, `perfil` CHECK, `retiro_id` (FK) | `perfil` ∈ {Gerente, Coordenador, Capataz, Técnico} — idêntico |
+| RETIRO | RETIRO | `retiros` | `nome`, `numero`, `localizacao`, `coordenador_id`, `capataz_id` | USUÁRIO 0..n ↔ RETIRO 1..1 — idêntico |
+| TAREFA | TAREFA | `tarefas` | `gerente_id` (criador), `capataz_id` (executor), `retiro_id` | Criador 1..1, Executor 1..1, Retiro 1..1 — idêntico |
+| ALERTA | ALERTA | `alertas` | `capataz_id`, `tecnico_id`, `retiro_id`, `latitude`, `longitude` | Emissor 1..1, Técnico 0..1, Retiro 1..1 — idêntico |
+| MOVIMENTAÇÃO | BOLETA* | `movimentacoes` | `capataz_id`, `retiro_id`, `data`, `categoria`, `quantidade` | Capataz 1..1, Retiro 1..1 — idêntico |
+| EVIDÊNCIA | EVIDÊNCIA | `evidencias` | `tarefa_id`, `alerta_id`, `movimentacao_id` (exatamente um preenchido) | Exclusividade 1..1 — app-enforced (ver divergências) |
+| Nascimento (subtipo) | Nascimento | `nascimentos` | `movimentacao_id` (FK) | 1:1 com `movimentacoes` — idêntico |
+| Óbito (subtipo) | Óbito | `obitos` | `movimentacao_id`, `foto_id` (FK → `evidencias`) | 1:1 com `movimentacoes` — idêntico |
+| Transferência (subtipo) | Transferência | `transferencias` | `movimentacao_id`, `retiro_origem_id`, `retiro_destino_id` | 1:1 com `movimentacoes` — idêntico |
+| CompraVenda (subtipo) | Compra/Venda | `compravendas` | `movimentacao_id` (FK) | 1:1 com `movimentacoes` — idêntico |
+| — | — | `refresh_tokens` | `usuario_id`, `token_hash`, `revoked_at` | Tabela de infraestrutura JWT — sem equivalente conceitual |
+| — | — | `sincronizacoes` | `entidade_tipo`, `entidade_id`, `status_envio` | Tabela de infraestrutura Outbox — sem equivalente conceitual |
+| — | — | `exportacoes` | `coordenador_id`, `formato`, `arquivo_path` | Tabela de log técnico — sem equivalente conceitual |
+
+<center>
+  <p><strong>Tabela 50</strong> — Mapeamento de coerência ER ↔ DER ↔ Modelo Físico</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+> *A entidade **BOLETA** do DER (sprint 2) foi desmembrada no modelo físico em `movimentacoes` (entidade-pai) + quatro tabelas especializadas (`nascimentos`, `obitos`, `transferencias`, `compravendas`). Essa refatoração está documentada na seção 3.6.2.
+
+**Divergências documentadas e mitigação:**
+
+| Divergência | Situação no ER/DER | Situação no Modelo Físico | Mitigação |
+| ----------- | ------------------ | ------------------------- | --------- |
+| Exclusividade de EVIDÊNCIA | Três relacionamentos *comprova* mutuamente exclusivos (regra conceptual) | Sem `CHECK` constraint — três FKs nullable coexistem | Validação na camada de serviço: `EvidenciaRepository` garante que apenas uma FK seja preenchida no `INSERT` |
+| Unicidade 1:1 nas especializações | Especialização total e disjunta (cada movimentação → exatamente um subtipo) | Sem `UNIQUE(movimentacao_id)` nas tabelas `nascimentos`, `obitos`, `transferencias`, `compravendas` | Restrição aplicada pelo `boletaService` no momento do registro; migration de `CREATE UNIQUE INDEX` identificada como dívida técnica |
+| Valor `CANCELADA` no StatusTarefa | Não modelado no ER/DER | DDL: `CHECK(status IN ('PENDENTE','EM_ANDAMENTO','CONCLUIDA'))` — `'CANCELADA'` ausente | Model TypeScript (`Tarefa.ts`) inclui `'CANCELADA'` como tipo; valor nunca persistido — dívida técnica identificada |
+| Entidade BOLETA (DER sprint 2) | Presente no DER como entidade central com atributos consolidados | Não existe como tabela — desmembrada em `movimentacoes` + especializações | Evolução intencional de design, documentada na nota histórica de 3.6.2 |
+| Tabelas de infraestrutura | Ausentes no ER/DER (fora do escopo do modelo de domínio) | `refresh_tokens`, `sincronizacoes`, `exportacoes` existem no schema | Tabelas técnicas sem semântica de domínio; corretamente excluídas do modelo conceitual |
+
+<center>
+  <p><strong>Tabela 51</strong> — Divergências entre modelos e respectivas mitigações</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 **Decisões de modelagem física:**
 
@@ -4050,6 +4111,8 @@ CREATE TABLE IF NOT EXISTS refresh_tokens (
 CREATE INDEX IF NOT EXISTS idx_refresh_tokens_usuario_id ON refresh_tokens(usuario_id);
 CREATE INDEX IF NOT EXISTS idx_refresh_tokens_token_hash ON refresh_tokens(token_hash);
 ```
+
+> **Motivação:** A implementação de autenticação JWT (sprint 4) exige que o Refresh Token seja persistido no servidor para viabilizar revogação explícita — sem essa tabela, um token vazado não poderia ser invalidado antes de sua expiração natural. O campo `token_hash` armazena um hash SHA-256 do token (não o token em texto plano), protegendo contra exposição em caso de dump do banco. O campo `revoked_at` registra o momento exato da revogação sem apagar o registro, preservando o log de ciclo de vida do token. Os dois índices aceleram a consulta por `usuario_id` (para listar/revogar todos os tokens de um usuário) e por `token_hash` (para validação em cada requisição), evitando varredura completa na tabela a cada chamada autenticada.
 
 ###### Migration 002 — `002_gerente_admin.sql` — Distinção Gerente ADM
 
@@ -5280,10 +5343,30 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
   ```json
   { "nome": "Retiro Sul", "numero": "003", "localizacao": "Pantanal Sul", "coordenador_id": "uuid", "capataz_id": "uuid" }
   ```
-- **Resposta POST (201)**: `{ "id": "uuid", "mensagem": "Retiro criado com sucesso." }`
-- **Resposta PUT (200)**: `{ "mensagem": "Retiro atualizado com sucesso." }`
-- **Resposta DELETE (200)**: `{ "mensagem": "Retiro excluído com sucesso." }`
-- **Status Codes**: `200/201 OK/Created` | `400 Bad Request` (nome ausente) | `403 Forbidden` (sem permissão) | `404 Not Found` (retiro inexistente)
+- **Resposta POST (201 Created)**:
+  ```json
+  { "id": "uuid-novo-retiro", "mensagem": "Retiro criado com sucesso." }
+  ```
+- **Resposta PUT (200 OK)**:
+  ```json
+  { "mensagem": "Retiro atualizado com sucesso." }
+  ```
+- **Resposta DELETE (200 OK)**:
+  ```json
+  { "mensagem": "Retiro excluído com sucesso." }
+  ```
+- **Resposta (400 Bad Request)** — _campo `nome` ausente no corpo da requisição_:
+  ```json
+  { "erro": "Campo 'nome' é obrigatório." }
+  ```
+- **Resposta (403 Forbidden)** — _sessão sem perfil `Gerente` ou com `is_admin = false`_:
+  ```json
+  { "erro": "Acesso restrito ao Gerente Administrador." }
+  ```
+- **Resposta (404 Not Found)** — _`PUT` ou `DELETE` com `:id` inexistente no banco_:
+  ```json
+  { "erro": "Retiro não encontrado." }
+  ```
 
 ##### C5–C8. CRUD de Usuários
 | Método | Endpoint | Descrição |
@@ -5298,10 +5381,38 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
   { "nome": "capataz-novo", "senha": "senhaSegura", "perfil": "Capataz", "retiro_id": "retiro-1", "is_admin": false }
   ```
   > Perfis válidos: `Gerente`, `Coordenador`, `Capataz`, `Tecnico`. `is_admin` só é aplicável ao perfil `Gerente`.
-- **Resposta POST (201)**: `{ "id": "uuid", "mensagem": "Usuário criado com sucesso." }`
-- **Resposta PUT (200)**: `{ "mensagem": "Usuário atualizado com sucesso." }`
-- **Resposta DELETE (200)**: `{ "mensagem": "Usuário excluído com sucesso." }`
-- **Status Codes**: `200/201` | `400` (campos inválidos) | `403` (sem permissão) | `404` (não encontrado) | `409 Conflict` (nome+perfil duplicado) | `422 Unprocessable Entity` (tentativa de remover único Gerente ADM ou único Gerente)
+- **Resposta POST (201 Created)**:
+  ```json
+  { "id": "uuid-novo-usuario", "mensagem": "Usuário criado com sucesso." }
+  ```
+- **Resposta PUT (200 OK)**:
+  ```json
+  { "mensagem": "Usuário atualizado com sucesso." }
+  ```
+- **Resposta DELETE (200 OK)**:
+  ```json
+  { "mensagem": "Usuário excluído com sucesso." }
+  ```
+- **Resposta (400 Bad Request)** — _campos `nome`, `senha` ou `perfil` ausentes, ou `perfil` fora do conjunto válido_:
+  ```json
+  { "erro": "Campos obrigatórios ausentes ou inválidos." }
+  ```
+- **Resposta (403 Forbidden)** — _sessão sem perfil `Gerente` ou com `is_admin = false`_:
+  ```json
+  { "erro": "Acesso restrito ao Gerente Administrador." }
+  ```
+- **Resposta (404 Not Found)** — _`PUT` ou `DELETE` com `:id` inexistente_:
+  ```json
+  { "erro": "Usuário não encontrado." }
+  ```
+- **Resposta (409 Conflict)** — _`POST` com combinação `nome` + `perfil` já existente no banco_:
+  ```json
+  { "erro": "Já existe um usuário com esse nome e perfil." }
+  ```
+- **Resposta (422 Unprocessable Entity)** — _tentativa de excluir o único `Gerente` ou o único `Gerente` com `is_admin = true`_:
+  ```json
+  { "erro": "Não é possível remover o único Gerente Administrador do sistema." }
+  ```
 
 ##### C9–C11. Exclusão de Registros (Admin Only)
 | Método | Endpoint | Descrição |
@@ -5310,8 +5421,22 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
 | `DELETE` | `/api/admin/chamados/:id` | Exclui um chamado/alerta |
 | `DELETE` | `/api/admin/tarefas/:id` | Exclui uma tarefa |
 
-- **Resposta (200 OK)**: `{ "mensagem": "Boleta excluída com sucesso.", "linhas_apagadas": 3 }` (boleta); `{ "mensagem": "Chamado excluído com sucesso." }` (chamado/tarefa)
-- **Status Codes**: `200 OK` | `403 Forbidden` | `404 Not Found`
+- **Resposta DELETE boleta (200 OK)**:
+  ```json
+  { "mensagem": "Boleta excluída com sucesso.", "linhas_apagadas": 3 }
+  ```
+- **Resposta DELETE chamado/tarefa (200 OK)**:
+  ```json
+  { "mensagem": "Chamado excluído com sucesso." }
+  ```
+- **Resposta (403 Forbidden)** — _sessão sem perfil `Gerente` com `is_admin = true`_:
+  ```json
+  { "erro": "Acesso restrito ao Gerente Administrador." }
+  ```
+- **Resposta (404 Not Found)** — _`grupo_id` ou `:id` inexistente no banco_:
+  ```json
+  { "erro": "Registro não encontrado." }
+  ```
 
 ##### C12–C13. Gestão de Dispositivos de Campo
 | Método | Endpoint | Descrição |
@@ -5319,9 +5444,24 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
 | `GET` | `/api/admin/dispositivos` | Lista todos os dispositivos registrados com status de ativação |
 | `DELETE` | `/api/admin/dispositivos/:id` | Revoga o token de um dispositivo, impedindo novos logins por aquele aparelho |
 
-- **Resposta GET (200 OK)**: Array de dispositivos com `id`, `nome`, `token`, `ativo`, `criado_em`.
-- **Resposta DELETE (200 OK)**: `{ "mensagem": "Dispositivo revogado com sucesso." }`
-- **Status Codes**: `200 OK` | `403 Forbidden` | `404 Not Found`
+- **Resposta GET (200 OK)**:
+  ```json
+  [
+    { "id": "uuid-dispositivo", "nome": "Tablet Retiro Sul", "token": "tok_...", "ativo": true, "criado_em": "2026-06-01T08:00:00.000Z" }
+  ]
+  ```
+- **Resposta DELETE (200 OK)**:
+  ```json
+  { "mensagem": "Dispositivo revogado com sucesso." }
+  ```
+- **Resposta (403 Forbidden)** — _sessão sem perfil `Gerente` com `is_admin = true`_:
+  ```json
+  { "erro": "Acesso restrito ao Gerente Administrador." }
+  ```
+- **Resposta (404 Not Found)** — _`:id` de dispositivo inexistente ou já revogado_:
+  ```json
+  { "erro": "Dispositivo não encontrado." }
+  ```
 
 ---
 
@@ -5343,7 +5483,10 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
     }
   ]
   ```
-- **Status Codes**: `200 OK` | `401 Unauthorized`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
 
 ##### D2. Aprovar Boleta
 - **Endpoint**: `POST /api/coordenador/boletas/:id/aprovar`
@@ -5352,7 +5495,18 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
   ```json
   { "mensagem": "Boleta aprovada.", "linhas_atualizadas": 2 }
   ```
-- **Status Codes**: `200 OK` | `401 Unauthorized` | `403 Forbidden` (retiro fora do escopo do coordenador) | `404 Not Found`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
+- **Resposta (403 Forbidden)** — _coordenador tentando aprovar boleta de retiro fora do seu escopo_:
+  ```json
+  { "erro": "Acesso negado: boleta pertence a retiro fora do seu escopo." }
+  ```
+- **Resposta (404 Not Found)** — _`grupo_id` inexistente no banco_:
+  ```json
+  { "erro": "Boleta não encontrada." }
+  ```
 
 ##### D3. Exportar Boletas (XLSX / CSV)
 - **Endpoint**: `GET /api/coordenador/exportar`
@@ -5366,13 +5520,27 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
   - `somente_aprovadas` _(opcional)_ — `1` para filtrar apenas aprovadas
 - **Resposta (200 OK) — XLSX**: `Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` — arquivo Excel estilizado com cabeçalho BRPec, dados zebrados e totalizador.
 - **Resposta (200 OK) — CSV**: `Content-Type: text/csv; charset=utf-8` — CSV com vírgula como delimitador e BOM UTF-8. Colunas: `Retiro`, `Data`, `Tipo`, `Categoria`, `Quantidade`, `Origem`, `Destino`, `Mês-Ano`, `Ano`, `Mês`, `Causa Morte`, `Obs`, `Fazenda`.
-- **Status Codes**: `200 OK` | `401 Unauthorized`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
 
 ##### D4. Exportar Boleta Individual em PDF
 - **Endpoint**: `GET /api/coordenador/boleta/:grupo_id/pdf`
 - **Path Parameter**: `grupo_id` — identificador da boleta
 - **Resposta (200 OK)**: `Content-Type: application/pdf` — PDF estilizado com cabeçalho BRPec, tabela de animais, foto anexada (se houver) e status de validação.
-- **Status Codes**: `200 OK` | `401 Unauthorized` | `403 Forbidden` (retiro fora do escopo) | `404 Not Found`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
+- **Resposta (403 Forbidden)** — _coordenador tentando gerar PDF de boleta de retiro fora do seu escopo_:
+  ```json
+  { "erro": "Acesso negado: boleta pertence a retiro fora do seu escopo." }
+  ```
+- **Resposta (404 Not Found)** — _`grupo_id` inexistente no banco_:
+  ```json
+  { "erro": "Boleta não encontrada." }
+  ```
 
 ---
 
@@ -5402,7 +5570,18 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
   ```json
   { "grupo_id": "uuid-grupo", "ids": ["uuid-row1", "uuid-row2"], "mensagem": "Boleta registrada." }
   ```
-- **Status Codes**: `201 Created` | `400 Bad Request` | `401 Unauthorized` | `422 Unprocessable Entity` (obito sem foto)
+- **Resposta (400 Bad Request)** — _campo `operacao` ausente ou `animais` vazio para operações que exigem animais_:
+  ```json
+  { "erro": "Campo 'operacao' é obrigatório." }
+  ```
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
+- **Resposta (422 Unprocessable Entity)** — _operação `obito` enviada sem campo `tem_foto: true` e sem foto base64_:
+  ```json
+  { "erro": "Óbito requer registro fotográfico da carcaça." }
+  ```
 
 ##### E2. Atualizar Boleta
 - **Endpoint**: `PUT /api/boletas/:grupo_id`
@@ -5412,7 +5591,18 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
   ```json
   { "grupo_id": "uuid-grupo", "mensagem": "Boleta atualizada." }
   ```
-- **Status Codes**: `200 OK` | `401 Unauthorized` | `404 Not Found` | `422 Unprocessable Entity` (boleta > 30 dias ou já aprovada)
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
+- **Resposta (404 Not Found)** — _`grupo_id` inexistente ou não pertence ao capataz da sessão_:
+  ```json
+  { "erro": "Boleta não encontrada." }
+  ```
+- **Resposta (422 Unprocessable Entity)** — _boleta com mais de 30 dias de criação ou já aprovada pelo coordenador_:
+  ```json
+  { "erro": "Boleta já aprovada não pode ser editada." }
+  ```
 
 ##### E3. Listar Minhas Boletas
 - **Endpoint**: `GET /api/boletas/minhas`
@@ -5430,7 +5620,10 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
     }
   ]
   ```
-- **Status Codes**: `200 OK` | `401 Unauthorized`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
 
 ##### E4. Detalhe de Boleta
 - **Endpoint**: `GET /api/boletas/:grupo_id`
@@ -5451,7 +5644,14 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
     "animais": [{ "categoria": "Bezerro 0 a 7 meses", "quantidade": 3 }]
   }
   ```
-- **Status Codes**: `200 OK` | `401 Unauthorized` | `404 Not Found`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
+- **Resposta (404 Not Found)** — _`grupo_id` inexistente no banco_:
+  ```json
+  { "erro": "Boleta não encontrada." }
+  ```
 
 ---
 
@@ -5473,7 +5673,14 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
   }
   ```
   > Coordenador vê `"escopo": "meus-retiros"` com dados filtrados. Gerente vê `"escopo": "todos"`.
-- **Status Codes**: `200 OK` | `401 Unauthorized` | `403 Forbidden`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
+- **Resposta (403 Forbidden)** — _sessão com perfil `Capataz` ou `Tecnico`, que não têm acesso ao dashboard_:
+  ```json
+  { "erro": "Acesso restrito a Gerente e Coordenador." }
+  ```
 
 ##### F2. Listar Retiros (Dashboard)
 - **Endpoint**: `GET /api/dashboard/retiros`
@@ -5491,7 +5698,14 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
     }
   ]
   ```
-- **Status Codes**: `200 OK` | `401 Unauthorized` | `403 Forbidden`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
+- **Resposta (403 Forbidden)** — _sessão com perfil `Capataz` ou `Tecnico`_:
+  ```json
+  { "erro": "Acesso restrito a Gerente e Coordenador." }
+  ```
 
 ---
 
@@ -5520,7 +5734,10 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
     }
   ]
   ```
-- **Status Codes**: `200 OK` | `401 Unauthorized`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
 
 ##### G2. Histórico de Chamados
 - **Endpoint**: `GET /api/historico/chamados`
@@ -5541,7 +5758,10 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
     }
   ]
   ```
-- **Status Codes**: `200 OK` | `401 Unauthorized`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
 
 ---
 
@@ -5552,24 +5772,52 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
 ##### I1. Listar Fechamentos Mensais
 - **Endpoint**: `GET /api/gerente/fechamentos`
 - **Resposta (200 OK)**: Array de fechamentos com `mes` (formato `YYYY-MM`), `fechado_em` e `fechado_por`.
-- **Status Codes**: `200 OK` | `401 Unauthorized` | `403 Forbidden`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
+- **Resposta (403 Forbidden)** — _sessão com perfil diferente de `Gerente`_:
+  ```json
+  { "erro": "Acesso restrito ao Gerente." }
+  ```
 
 ##### I2. Fechar Mês
 - **Endpoint**: `POST /api/gerente/fechamento`
 - **Payload (Body)**: `{ "mes": "2026-06" }`
 - **Resposta (201 Created)**: `{ "mensagem": "Mês fechado com sucesso.", "mes": "2026-06" }`
-- **Status Codes**: `201 Created` | `400 Bad Request` (mês ausente ou já fechado) | `401 Unauthorized`
+- **Resposta (400 Bad Request)** — _campo `mes` ausente no corpo da requisição_:
+  ```json
+  { "erro": "Campo 'mes' é obrigatório (formato YYYY-MM)." }
+  ```
+- **Resposta (400 Bad Request)** — _mês informado já possui fechamento registrado_:
+  ```json
+  { "erro": "Este mês já está fechado." }
+  ```
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
 
 ##### I3. Reabrir Mês
 - **Endpoint**: `DELETE /api/gerente/fechamento/:mes`
 - **Path Parameter**: `mes` — formato `YYYY-MM`
 - **Resposta (200 OK)**: `{ "mensagem": "Mês reaberto com sucesso." }`
-- **Status Codes**: `200 OK` | `403 Forbidden` | `404 Not Found` (mês não estava fechado)
+- **Resposta (403 Forbidden)** — _sessão com perfil diferente de `Gerente`_:
+  ```json
+  { "erro": "Acesso restrito ao Gerente." }
+  ```
+- **Resposta (404 Not Found)** — _`:mes` não possui registro de fechamento no banco_:
+  ```json
+  { "erro": "Mês não está fechado." }
+  ```
 
 ##### I4. Exportar Planilha Oficial
 - **Endpoint**: `GET /api/gerente/planilha-oficial`
 - **Resposta (200 OK)**: `Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` — planilha Excel com consolidado oficial de movimentações zootécnicas do período.
-- **Status Codes**: `200 OK` | `401 Unauthorized`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
 
 ---
 
@@ -6146,7 +6394,7 @@ PASS tests/unit/exportacaoService.test.ts   (3 casos — acesso, CSV, total_regi
 
 ## 4.3. Versão final da aplicação web
 
-A versão final da BrPec foi consolidada na sprint 5, com foco em quatro frentes: expansão das rotas de administração e gerência, introdução do login por dispositivo (QR/token), correção das dependências da suíte de testes e refinamento das rotas de coordenador e histórico. O sistema passou de 24 para 26 suítes de testes automatizados, atingindo 196 casos com 100% de aprovação.
+A versão final da BrPec foi consolidada na sprint 5, com foco em quatro frentes: expansão das rotas de administração e gerência, introdução do login por dispositivo (QR/token), correção das dependências da suíte de testes e refinamento das rotas de coordenador e histórico. O sistema passou de 24 para 26 suítes de testes automatizados, atingindo 206 casos com 100% de aprovação.
 
 ### (a) O que foi implementado
 
@@ -6223,7 +6471,7 @@ Na sprint 4, 13 das 24 suítes de integração estavam inoperantes por dependên
 | Integração de endpoints | 13 | 118 | ✅ Todos passando |
 | Frontend / jsdom | 1 | 2 | ✅ Todos passando |
 | Inicialização e smoke | 3 | 18 | ✅ Todos passando |
-| **Total** | **26** | **196** | **✅ 100% aprovação** |
+| **Total** | **26** | **206** | **✅ 100% aprovação** |
 
 <center>
   <p>Fonte: Próprios autores (2026).</p>
@@ -7732,7 +7980,7 @@ O Business Model Canvas abaixo sintetiza a estrutura de negócio da solução de
 | **Parcerias Principais** | BrPec Agropecuária S.A. (cliente âncora e validador em campo). Provedores de infraestrutura cloud (hospedagem e banco de dados). SpaceX/Starlink (conectividade dos retiros como infraestrutura de sincronização). MAPA, ABIEC e CNA para acompanhamento de exigências regulatórias. |
 | **Estrutura de Custos** | Desenvolvimento e manutenção de software (custo principal). Infraestrutura de servidores e banco de dados em nuvem. Equipe de implementação e suporte presencial em campo. Participação em feiras agropecuárias. Deslocamento para treinamento nas propriedades clientes. |
 
-## 6.6 Estratégia de Marketing
+## 6.7 Estratégia de Marketing
 
 A solução é uma aplicação web progressiva (PWA) voltada à digitalização do
 gerenciamento de campo em fazendas de pecuária de corte. É composta por dois
@@ -7810,9 +8058,9 @@ ao da BrPec, aproveitando a rede de confiança já estabelecida no setor.
 
 # <a name="c7"></a>7. Conclusões e trabalhos futuros
 
-### 7.1. O que foi entregue
+## 7.1. O que foi entregue
 
-Ao longo de cinco sprints, a equipe desenvolveu uma aplicação web progressiva (PWA) offline-first para digitalizar a operação de campo da BrPec Agropecuária. O sistema substituiu o fluxo manual de boletas de papel e redigitação em planilhas por uma interface móvel que opera sem conectividade contínua e sincroniza dados automaticamente nas janelas de acesso à rede disponíveis nos retiros.
+Ao longo de cinco sprints, foi desenvolvida uma aplicação web progressiva (PWA) offline-first destinada à digitalização da operação de campo da BrPec Agropecuária. O fluxo manual de boletas de papel e redigitação em planilhas foi substituído por uma interface móvel que opera sem conectividade contínua e sincroniza dados automaticamente nas janelas de acesso à rede disponíveis nos retiros.
 
 A solução foi entregue com quatro perfis de uso funcionais — Capataz, Coordenador, Gerente e Infraestrutura — cada um com autenticação independente e fluxos adaptados às suas responsabilidades operacionais. As 12 User Stories (US01–US12), os 15 Requisitos Funcionais (RF001–RF015) e as 28 Regras de Negócio (RN01–RN28) foram implementados e rastreados na Matriz RTM da seção 3.9. Os oito eixos de qualidade da ISO/IEC 25010 (RNF:USAB, RNF:CONF, RNF:DES, RNF:SUP, RNF:SEG, RNF:CAP, RNF:REST e um eixo adicional de resiliência) foram endereçados ao longo das sprints e documentados na seção 3.1.3.
 
@@ -7828,7 +8076,7 @@ Os principais entregáveis funcionais incluem:
 
 ---
 
-### 7.2. Principais desafios e como foram superados
+## 7.2. Principais desafios e como foram superados
 
 **Arquitetura offline-first em ambiente sem framework.** A principal exigência técnica do projeto — funcionamento sem internet com sincronização posterior — foi implementada sem bibliotecas de gestão de estado ou frameworks reativos. A solução combina Service Worker para interceptação de requisições, IndexedDB para persistência local no cliente e um endpoint `POST /api/sincronizacao/lote` no backend para processar a fila acumulada. O desafio de garantir determinismo nas janelas de reconexão foi resolvido com um loop de retry configurável no `sync.js` e um agendador no `cloudSyncService` com limite de tentativas e ordem topológica de envio para respeitar chaves estrangeiras do Supabase.
 
@@ -7842,7 +8090,7 @@ Os principais entregáveis funcionais incluem:
 
 ---
 
-### 7.3. Resultados mensuráveis
+## 7.3. Resultados mensuráveis
 
 ### Cobertura de requisitos
 
@@ -7886,7 +8134,7 @@ Os principais entregáveis funcionais incluem:
 
 ---
 
-### 7.4. Limitações identificadas
+## 7.4. Limitações identificadas
 
 **Deploy em ambiente público.** O sistema opera exclusivamente em execução local (`npm start`). Não foi versionado artefato de deploy compatível com nenhuma plataforma de hospedagem (Render, Railway, Fly.io ou similar), e nenhuma URL de homologação foi publicada.
 
@@ -7900,15 +8148,7 @@ Os principais entregáveis funcionais incluem:
 
 **Onboarding para usuários com baixa literacia digital.** O perfil de Capataz descrito nas personas inclui usuários com dificuldade com leitura e escrita formal. Os testes de guerrilha indicaram que a terminologia e a navegação foram mais acessíveis para participantes com experiência rural, mas o escore SUS de P2 (45,0) sinaliza que parte do público-alvo pode ter dificuldades com a curva de aprendizado.
 
-### 7.5. Planejamentos futuros
-
-Os achados dos testes de usabilidade documentados na seção 5.2, combinados com as limitações técnicas descritas na seção 7.4, apontam dois eixos de evolução para ciclos futuros: correções de interface identificadas nos testes e expansões funcionais que ampliam o escopo do produto.
-
-No eixo de interface, as correções de maior impacto envolvem a adição de feedback explícito nos fluxos do Capataz e do Gerente: exibição de toast ou snackbar de confirmação após a conclusão de tarefa com foto — endereçando a ausência de visibilidade do status de sincronização identificada pela heurística H1 — e confirmação visual após a criação de tarefa calendarizada, impedindo que o registro seja interpretado como falha de cadastro. Também deve ser corrigida a tela de configurações do Gerente, cujo botão de acesso deve ser reposicionado e renomeado. Em prioridade intermediária, destacam-se a alteração da cor do indicador de GPS para verde no formulário de chamado de infraestrutura, a melhoria da legibilidade na tela de revisão com remoção de hífens e aumento do tamanho do texto, e a criação de orientações contextuais — como tooltips em ações críticas — para reduzir a dependência de suporte técnico entre usuários com menor familiaridade digital, aspecto evidenciado pelas questões Q4 e Q7 do SUS. Em caráter cosmético, recomendam-se ainda bloquear a seleção do retiro de origem como destino no formulário de transferências, reordenar a listagem de categorias de animais por espécie antes da faixa etária, e habilitar ordenação por coluna na tabela de movimentações do Coordenador.
-
-No eixo de expansão funcional, quatro oportunidades foram identificadas para ciclos posteriores. A primeira é a criação de um módulo sanitário e veterinário, cobrindo o registro de vacinações, medicamentos e tratamentos por animal — dado atualmente não capturado pelo sistema e relevante para fazendas que operam sob exigências de rastreabilidade sanitária. A segunda é a implementação de notificações push, permitindo que Gerente e Coordenador recebam alertas em tempo real quando um chamado for aberto ou uma tarefa crítica for concluída, eliminando a dependência de verificação manual do painel. A terceira é a criação de alertas automáticos por threshold, como notificações disparadas quando a taxa de mortalidade de um retiro ultrapassa um limite configurável ou quando um chamado permanece aberto por mais de um número definido de dias sem resolução, apoiando a tomada de decisão proativa do Gerente. Por fim, a integração com balanças e brincos eletrônicos permitiria o registro automático de peso individual durante manejos de campo, eliminando digitação manual e reduzindo erros de transcrição — caminho já adotado por concorrentes como o iRancho no mercado nacional.
-
-### 7.5. Planejamentos futuros
+## 7.5. Planejamentos futuros
 
 Os achados dos testes de usabilidade documentados na seção 5.2, combinados com as limitações técnicas descritas na seção 7.4, apontam dois eixos de evolução para ciclos futuros: correções de interface identificadas nos testes e expansões funcionais que ampliam o escopo do produto.
 
@@ -8004,21 +8244,21 @@ No eixo de expansão funcional, quatro oportunidades foram identificadas para ci
 
 [43] W3C. **WCAG 2.1 — Success Criterion 1.4.6: Contrast (Enhanced)**. Disponível em: https://www.w3.org/TR/WCAG21/#contrast-enhanced. Acesso em: 15 maio 2026.
 
-[44] IRANCHO. iRancho: sistema de gestão pecuária. [S.l.]: iRancho, [2026]. Disponível em: https://www.irancho.com.br/perguntas-frequentes/. Acesso em: jun. 2026.
+[44] IRANCHO. **iRancho: sistema de gestão pecuária**. [S.l.]: iRancho, [2026]. Disponível em: https://www.irancho.com.br/perguntas-frequentes/. Acesso em: jun. 2026.
 
-[45] JETBOV. JetBov: gestão de pastagem e desempenho animal. [S.l.]: JetBov, [2026]. Disponível em: https://play.google.com/store/apps/details?id=com.ionicframework.jetbovapp459755. Acesso em: jun. 2026.
+[45] JETBOV. **JetBov: gestão de pastagem e desempenho animal**. [S.l.]: JetBov, [2026]. Disponível em: https://play.google.com/store/apps/details?id=com.ionicframework.jetbovapp459755. Acesso em: jun. 2026.
 
-[46] AEGRO. Aegro: plataforma de gestão rural. [S.l.]: Aegro, [2026]. Disponível em: https://aegro.com.br/. Acesso em: jun. 2026.
+[46] AEGRO. **Aegro: plataforma de gestão rural**. [S.l.]: Aegro, [2026]. Disponível em: https://aegro.com.br/. Acesso em: jun. 2026.
 
-[47] IBGE. Censo Agropecuário 2017: resultados definitivos — Mato Grosso do Sul. Rio de Janeiro: IBGE, 2019. Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/21814-2017-censo-agropecuario.html. Acesso em: jun. 2026.
+[47] IBGE. **Censo Agropecuário 2017: resultados definitivos — Mato Grosso do Sul**. Rio de Janeiro: IBGE, 2019. Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/21814-2017-censo-agropecuario.html. Acesso em: jun. 2026.
 
-[48] EMBRAPA PANTANAL. Panorama socioeconômico do Pantanal. Corumbá: Embrapa Pantanal, 2020. Disponível em: https://www.embrapa.br/pantanal. Acesso em: jun. 2026.
+[48] EMBRAPA PANTANAL. **Panorama socioeconômico do Pantanal**. Corumbá: Embrapa Pantanal, 2020. Disponível em: https://www.embrapa.br/pantanal. Acesso em: jun. 2026.
 
-[49] IBGE. Censo Agropecuário 2017: acesso à internet e educação nos estabelecimentos agropecuários — resultados definitivos. Rio de Janeiro: IBGE, 2019. Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/21814-2017-censo-agropecuario.html. Acesso em: jun. 2026.
+[49] IBGE. **Censo Agropecuário 2017: acesso à internet e educação nos estabelecimentos agropecuários — resultados definitivos**. Rio de Janeiro: IBGE, 2019. Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/21814-2017-censo-agropecuario.html. Acesso em: jun. 2026.
 
-[50] IBGE. Pesquisa Nacional por Amostra de Domicílios Contínua — Educação 2022. Rio de Janeiro: IBGE, 2023. Disponível em: https://www.ibge.gov.br/estatisticas/sociais/educacao/17270-pnad-continua.html. Acesso em: jun. 2026.
+[50] IBGE. **Pesquisa Nacional por Amostra de Domicílios Contínua — Educação 2022**. Rio de Janeiro: IBGE, 2023. Disponível em: https://www.ibge.gov.br/estatisticas/sociais/educacao/17270-pnad-continua.html. Acesso em: jun. 2026.
 
-[51] ANATEL. Serviço de Comunicação Multimídia (SCM): acessos por tecnologia de acesso. Brasília: Anatel, 2024. Disponível em: https://informacoes.anatel.gov.br/paineis/acesso-a-internet-banda-larga. Acesso em: jun. 2026.
+[51] ANATEL. **Serviço de Comunicação Multimídia (SCM): acessos por tecnologia de acesso**. Brasília: Anatel, 2024. Disponível em: https://informacoes.anatel.gov.br/paineis/acesso-a-internet-banda-larga. Acesso em: jun. 2026.
 
 [52] DISTRITO. **Agtech Report Brasil 2024**. São Paulo: Distrito, 2024. Disponível em: https://distrito.me/agtech-report/. Acesso em: 10 maio 2026.
 
@@ -8026,11 +8266,11 @@ No eixo de expansão funcional, quatro oportunidades foram identificadas para ci
 
 [54] NIELSEN, Jakob. **Why You Only Need to Test with 5 Users**. Nielsen Norman Group, 19 mar. 2000. Disponível em: https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/. Acesso em: 10 maio 2026.
 
-[55] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO 9241-11:2018: Ergonomics of human-system interaction — Part 11: Usability: Definitions and concepts. Genebra: ISO, 2018.
+[55] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. **ISO 9241-11:2018: Ergonomics of human-system interaction — Part 11: Usability: Definitions and concepts**. Genebra: ISO, 2018.
 
-[56] BROOKE, John. SUS: A 'Quick and Dirty' Usability Scale. In: JORDAN, P. W. et al. (eds.). Usability Evaluation in Industry. London: Taylor & Francis, 1996. p. 189–194.
+[56] BROOKE, John. SUS: A 'Quick and Dirty' Usability Scale. In: JORDAN, P. W. et al. (eds.). **Usability Evaluation in Industry**. London: Taylor & Francis, 1996. p. 189–194.
 
-[57] BANGOR, Aaron; KORTUM, Philip; MILLER, James. Determining What Individual SUS Scores Mean: Adding an Adjective Rating Scale. Journal of Usability Studies, v. 4, n. 3, p. 114–123, 2009.
+[57] BANGOR, Aaron; KORTUM, Philip; MILLER, James. Determining What Individual SUS Scores Mean: Adding an Adjective Rating Scale. **Journal of Usability Studies**, v. 4, n. 3, p. 114–123, 2009.
 
 # <a name="c9"></a>Anexos
 
