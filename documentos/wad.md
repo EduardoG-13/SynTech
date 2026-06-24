@@ -37,7 +37,7 @@
 
 <br>
 
-# <a name="c1"></a>1. Introdução (sprints 1 a 5)
+# <a name="c1"></a>1. Introdução
 
 O agronegócio brasileiro desempenha papel central na economia nacional, sendo responsável
 por aproximadamente 25% do PIB e pela geração de empregos em larga escala, especialmente
@@ -83,11 +83,11 @@ informações. Com isso, torna-se possível atualizar os dados com mais agilidad
 a transparência das operações e dar suporte à tomada de decisão dos gestores, atendendo
 às necessidades reais da BrPec e ao seu contexto operacional. 
 
-# <a name="c2"></a>2. Visão Geral da Aplicação Web (sprint 1)
+# <a name="c2"></a>2. Visão Geral da Aplicação Web
 
-## 2.1. Escopo do Projeto (sprints 1 e 4)
+## 2.1. Escopo do Projeto
 
-### 2.1.1. Modelo de 5 Forças de Porter (sprint 1)
+### 2.1.1. Modelo de 5 Forças de Porter
 
 As 5 forças de Porter são uma metodologia de análise estratégica criada por Michael Porter para avaliar a competitividade e o potencial de lucro de uma indústria. Assim, o objetivo é analisar as principais forças do ambiente externo de uma empresa, e como elas impactam na entrega de valor ao cliente e a rentabilidade do negócio.
 
@@ -127,7 +127,7 @@ A concentração do lado comprador, JBS, Marfrig e Minerva Foods, confere alto p
 **Ameaça de substitutos**
 A pressão de substituição é moderada e crescente nos mercados interno e externo. Internamente, frango e suíno concorrem com a carne bovina por apresentarem custo de produção estruturalmente inferior; em períodos de retração do poder de compra das famílias, essa substituição se intensifica de forma recorrente (CEPEA, 2023). Proteínas de origem vegetal e alternativas produzidas por fermentação avançam em nichos de maior renda, especialmente entre consumidores sensíveis a posicionamentos ambientais e de saúde. No mercado externo, o Regulamento Europeu Antidesmatamento (EUDR), em vigor a partir de dezembro de 2025, vincula o acesso ao bloco à comprovação de rastreabilidade georreferenciada, o que favorece origens concorrentes com histórico consolidado de conformidade, como Austrália e Nova Zelândia (REHAGRO, 2024). A conformidade ambiental documentada em biomas de alta sensibilidade, como o Pantanal, representa variável estratégica para preservar o acesso a segmentos de maior valor agregado e menor exposição à substituição por outras proteínas.
 
-### 2.1.2. Análise SWOT da Instituição Parceira (sprint 1)
+### 2.1.2. Análise SWOT da Instituição Parceira
 
 A análise SWOT é uma ferramenta de planejamento estratégico que avalia quatro dimensões de uma organização: forças (Strengths), fraquezas (Weaknesses), oportunidades (Opportunities) e ameaças (Threats). As duas primeiras referem-se ao ambiente interno da organização, enquanto as duas últimas dizem respeito a fatores externos [23].
 
@@ -149,7 +149,7 @@ As **ameaças** abrangem a pressão regulatória ambiental crescente, o risco re
 
 A leitura cruzada dos quadrantes revela que a principal alavanca estratégica da BrPec reside na transformação da escala fundiária, força latente, em vantagem competitiva efetiva, condição que depende da qualidade dos dados operacionais e da rastreabilidade documentada como pré-requisitos para acessar mercados mais exigentes e mitigar riscos reputacionais e regulatórios.
 
-### 2.1.3. Solução (sprints 1 a 5)
+### 2.1.3. Solução
 
 #### 1. Definição do Problema
 
@@ -219,7 +219,7 @@ O projeto será considerado bem-sucedido quando:
 
 - **Canvas:** O bloco de "Proposta de Valor" deve estar coerente com os benefícios esperados; "Segmentos de Clientes" com os atores; "Canais" com a interface web/offline
 
-### 2.1.4. Value Proposition Canvas (sprint 1):
+### 2.1.4. Value Proposition Canvas
 
 A proposta de valor constitui uma declaração objetiva que sintetiza a essência da aplicação web desenvolvida, definindo as funcionalidades entregues, o público-alvo atendido e os benefícios operacionais gerados. Essa ferramenta atua como o eixo analítico do projeto, fundamentando as decisões de arquitetura de software e comunicando o diferencial competitivo da solução digital de modo estruturado. A análise do canvas evidencia que o sistema mitiga ineficiências operacionais concretas enfrentadas pelos capatazes em campo, tais como a dependência exclusiva de registros físicos, a inviabilidade de uso de sistemas convencionais em áreas desprovidas de cobertura de internet e a assincronicidade na comunicação com as instâncias gerenciais.
 
@@ -231,7 +231,7 @@ A proposta de valor constitui uma declaração objetiva que sintetiza a essênci
 
 Os benefícios gerados pela adoção do sistema - incluindo a supressão do retrabalho de transcrição de dados, o registro otimizado de eventos zootécnicos em interface acessível e a confirmação documental de ordens de serviço com suporte a evidências fotográficas - estão em conformidade direta com os requisitos estabelecidos pela propriedade rural. Conclui-se, portanto, que a proposta de valor promovida não se restringe à mera digitalização de planilhas de controle, mas consolida a reestruturação integral do fluxo de dados operacionais, assegurando que o inventário pecuário e o status das infraestruturas se tornem mais precisos, rastreáveis e tempestivos para o suporte à tomada de decisão administrativa.
 
-### 2.1.5. Matriz de Riscos do Projeto (sprint 1)
+### 2.1.5. Matriz de Riscos do Projeto
 
 A matriz de riscos é uma ferramenta que permite identificar, analisar e priorizar ameaças e oportunidades de um projeto. A classificação é feita com base na probabilidade de ocorrência e no impacto, auxiliando na definição de ações para cada caso [36]. Dessa forma, foi elaborada a matriz de riscos para o desenvolvimento da aplicação web da BrPec Agropecuária S.A, considerando seus principais desafios.
 
@@ -381,7 +381,7 @@ Identifica-se que a potencialização desta oportunidade requer a garantia de qu
 
 A matriz de riscos evidencia que os principais desafios do projeto estão relacionados à operação offline, à adoção pelos usuários de campo, à qualidade dos registros e à compatibilidade dos dados exportados com os processos já utilizados pela BrPec. Ao mesmo tempo, o projeto apresenta oportunidades relevantes, como redução de retrabalho, melhoria da tomada de decisão, aumento da rastreabilidade e fortalecimento da eficiência operacional. Dessa forma, os planos de ação definidos buscam reduzir ameaças técnicas, humanas e operacionais, ao mesmo tempo em que potencializam os ganhos esperados com a digitalização dos registros de campo.
 
-## 2.2. Personas (sprint 1)
+## 2.2. Personas
 
 Personas são, de forma resumida, representaçôes fictícia dos diferentes tipos de usuários. Elas permitem que a ferramenta seja mais eficiente e focada para atender as necessidades reais do cliente [36]. Dessa forma, as Figuras 5, 6 e 7 mostram as personas criadas para o projeto.
 
@@ -672,7 +672,7 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 
 "Quando o bicho adoece ou a cerca arrebenta, não tem tempo de procurar papel, tem que resolver na hora. O que não ficou na cabeça, ficou perdido."
 
-## 2.3. User Stories (sprints 1 a 5)
+## 2.3. User Stories
 
 User Stories são descrições concisas de uma funcionalidade do sistema sob a perspectiva do usuário final. Diferente de requisitos técnicos tradicionais, elas focam no valor de negócio e na necessidade do usuário, servindo como ponto de partida para a implementação técnica. [7]
 
@@ -978,9 +978,9 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 
 ---
 
-# <a name="c3"></a>3. Projeto da Aplicação Web (sprints 1 a 5)
+# <a name="c3"></a>3. Projeto da Aplicação Web
 
-## 3.1. Requisitos do Sistema (sprints 1 a 5)
+## 3.1. Requisitos do Sistema
 
 O sistema a ser desenvolvido abrange a modernização do fluxo de informações operacionais e zootécnicas entre o campo e o escritório da fazenda BRPec. Atualmente, a comunicação de ordens de serviço e o registro de movimentações do rebanho dependem de processos manuais e anotações em papel (boletas), o que exige tempo para consolidação e redigitação em planilhas. O problema central é solucionado por meio de uma plataforma digital integrada, na qual o planejamento de tarefas e o reporte de eventos do rebanho (como nascimentos, óbitos e transferências) são registrados digitalmente na fonte, com suporte a operação offline. Com isso, os registros de campo são padronizados e a atualização do inventário pecuário é agilizada.
 
@@ -992,35 +992,35 @@ O sistema a ser desenvolvido abrange a modernização do fluxo de informações 
 
 - **Coordenadores:** As informações e movimentações enviadas pelos Capatazes são visualizadas e validadas. Os dados consolidados são exportados em formato de planilha (Excel/CSV) para a atualização dos controles centrais da empresa, eliminando a necessidade de redigitação manual.
 
-### 3.1.1. Requisitos Funcionais (sprint 1, refinar até sprint 5)
+### 3.1.1. Requisitos Funcionais
 
 Os Requisitos Funcionais (RF) determinam a competência computacional e os serviços intrínsecos que devem compor a governança operacional do sistema modelado. A especificação formal destas asserções delineia a delimitação funcional entre dados, entrada, transformação interativa e respostas previstas frente aos perfis autorizados de acesso.
 
 
 | ID    | Descrição                                                                                                                                                                                                                                                             | Prioridade | Status    |
 | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------- |
-| RF001 | O sistema deve permitir que o Gerente crie tarefas e as associe a um retiro específico                                                                                                                                                                                | Alta       | Planejado |
-| RF002 | O sistema deve permitir que o Capataz visualize as tarefas do dia mesmo sem conexão com a internet                                                                                                                                                                    | Alta       | Planejado |
-| RF003 | O sistema deve armazenar localmente as tarefas sincronizadas para acesso offline                                                                                                                                                                                      | Alta       | Planejado |
-| RF004 | O sistema deve exibir mensagem simples quando não houver tarefas disponíveis offline                                                                                                                                                                                  | Média      | Planejado |
-| RF005 | O sistema deve permitir que o Capataz grave um áudio curto e o anexe a uma tarefa                                                                                                                                                                                     | Média      | Planejado |
-| RF006 | O sistema deve permitir que o Capataz crie alertas de infraestrutura (ticket), informando: tipo de problema, retirada e localização                                                                                                                                   | Média      | Planejado |
-| RF007 | O sistema deve exibir ao Gerente um painel com o status de todas as tarefas (pendente, em andamento, concluída) e alertas em aberto, agrupados por retiro.                                                                                                            | Média      | Em desenvolvimento |
-| RF008 | O sistema deve permitir que o Capataz registre o nascimento de bezerros de forma offline, informando: data, retiro, categoria e quantidade                                                                                                                            | Média      | Planejado |
-| RF009 | O sistema deve permitir que o Capataz preencha e confirme o formulário de registro de morte de animal mesmo sem conexão com a internet, salvando os dados localmente no dispositivo                                                                                   | Alta       | Planejado |
-| RF010 | O sistema deve detectar automaticamente o restabelecimento da conexão com a rede e iniciar a transmissão dos registros locais pendentes para o servidor remoto, sem exigir nenhuma ação manual do Capataz                                                             | Alta       | Em desenvolvimento |
-| RF011 | O sistema deve notificar o Capataz com uma mensagem de confirmação após a sincronização bem-sucedida dos dados com o servidor ("Registro sincronizado com sucesso")                                                                                                   | Média      | Planejado |
-| RF012 | O sistema deve manter os registros com falha de envio salvos localmente e tentar reenvio automático a cada nova conexão disponível, até que a sincronização seja concluída com sucesso                                                                                | Alta       | Planejado |
-| RF013 | O sistema deve validar o preenchimento dos campos obrigatórios do formulário de óbito (identificação do animal, categoria, causa da morte e data) antes de permitir o salvamento local, bloqueando o registro incompleto e sinalizando visualmente os campos faltante | Alta       | Planejado |
-| RF014 | Após a sincronização, o sistema deve disponibilizar automaticamente o registro de óbito no painel do Coordenador, vinculado ao retiro do Capataz que realizou o lançamento                                                                                            | Média      | Em desenvolvimento |
-| RF015 | O sistema deve permitir que o Coordenador exporte os dados consolidados das movimentações zootécnicas e do status operacional em arquivos formatados como planilha eletrônica (Excel/CSV)                                                                             | Alta       | Em desenvolvimento |
+| RF001 | O sistema deve permitir que o Gerente crie tarefas e as associe a um retiro específico                                                                                                                                                                                | Alta       | Implementado |
+| RF002 | O sistema deve permitir que o Capataz visualize as tarefas do dia mesmo sem conexão com a internet                                                                                                                                                                    | Alta       | Implementado |
+| RF003 | O sistema deve armazenar localmente as tarefas sincronizadas para acesso offline                                                                                                                                                                                      | Alta       | Implementado |
+| RF004 | O sistema deve exibir mensagem simples quando não houver tarefas disponíveis offline                                                                                                                                                                                  | Média      | Implementado |
+| RF005 | O sistema deve permitir que o Capataz grave um áudio curto e o anexe a uma tarefa                                                                                                                                                                                     | Média      | Implementado |
+| RF006 | O sistema deve permitir que o Capataz crie alertas de infraestrutura (ticket), informando: tipo de problema, retirada e localização                                                                                                                                   | Média      | Implementado |
+| RF007 | O sistema deve exibir ao Gerente um painel com o status de todas as tarefas (pendente, em andamento, concluída) e alertas em aberto, agrupados por retiro.                                                                                                            | Média      | Implementado |
+| RF008 | O sistema deve permitir que o Capataz registre o nascimento de bezerros de forma offline, informando: data, retiro, categoria e quantidade                                                                                                                            | Média      | Implementado |
+| RF009 | O sistema deve permitir que o Capataz preencha e confirme o formulário de registro de morte de animal mesmo sem conexão com a internet, salvando os dados localmente no dispositivo                                                                                   | Alta       | Implementado |
+| RF010 | O sistema deve detectar automaticamente o restabelecimento da conexão com a rede e iniciar a transmissão dos registros locais pendentes para o servidor remoto, sem exigir nenhuma ação manual do Capataz                                                             | Alta       | Implementado |
+| RF011 | O sistema deve notificar o Capataz com uma mensagem de confirmação após a sincronização bem-sucedida dos dados com o servidor ("Registro sincronizado com sucesso")                                                                                                   | Média      | Implementado |
+| RF012 | O sistema deve manter os registros com falha de envio salvos localmente e tentar reenvio automático a cada nova conexão disponível, até que a sincronização seja concluída com sucesso                                                                                | Alta       | Implementado |
+| RF013 | O sistema deve validar o preenchimento dos campos obrigatórios do formulário de óbito (identificação do animal, categoria, causa da morte e data) antes de permitir o salvamento local, bloqueando o registro incompleto e sinalizando visualmente os campos faltante | Alta       | Implementado |
+| RF014 | Após a sincronização, o sistema deve disponibilizar automaticamente o registro de óbito no painel do Coordenador, vinculado ao retiro do Capataz que realizou o lançamento                                                                                            | Média      | Implementado |
+| RF015 | O sistema deve permitir que o Coordenador exporte os dados consolidados das movimentações zootécnicas e do status operacional em arquivos formatados como planilha eletrônica (Excel/CSV)                                                                             | Alta       | Implementado |
 
 <center>
   <p><strong>Tabela 16</strong> — Requisitos Funcionais</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-### 3.1.2. Regras de Negócio (sprint 1, refinar até sprint 5)
+### 3.1.2. Regras de Negócio
 
 As Regras de Negócio (RN) balizam as lógicas limitantes, condições contingenciais e políticas mandatórias herdadas das rotinas produtivas e normativas da instituição parceira. A formalização axiomática das regras impõe que a instrumentação sistêmica, embora escalável em seu código subjacente, reproduza em escopo fechado a exatidão empírica da governança operacional do manejo bovino atual.
 
@@ -1061,7 +1061,7 @@ As Regras de Negócio (RN) balizam as lógicas limitantes, condições contingen
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-### 3.1.3. Requisitos Não Funcionais — 8 Eixos ISO/IEC 25010 (sprints 1 a 5)
+### 3.1.3. Requisitos Não Funcionais — 8 Eixos ISO/IEC 25010
 
 Os Requisitos Não Funcionais (RNF) definem os critérios de qualidade da aplicação. Ou seja, eles não descrevem o que o sistema faz (as suas funcionalidades), mas sim como ele deve se comportar. Eles garantem que o software entregue tenha um bom desempenho, seja seguro, fácil de usar e não apresente falhas.
 
@@ -1126,7 +1126,7 @@ No contexto do nosso projeto para a BrPec, esses requisitos são fundamentais, p
 - **O que é:** Trata do nível de conformidade e padronização das informações exportadas em relação aos ecossistemas computacionais adotados pela entidade parceira.
 - **Explicação:** O tratamento de dados foi arquitetado para extinguir os processos passivos de transcrição manual, que tradicionalmente incitam a geração de inconsistências qualitativas. O artefato consolida a geração de relatórios diretos, padronizados e homologados, viabilizando o consumo nativo e direto desses arquivos por manipuladores de planilhas eletrônicas.
 
-### 3.1.4. Matriz RF → RN → Endpoint (sprints 3 a 5)
+### 3.1.4. Matriz RF → RN → Endpoint
 
 A matriz a seguir consolida a rastreabilidade entre Requisitos Funcionais (RF, seção 3.1.1), Regras de Negócio (RN, seção 3.1.2) e os endpoints REST que materializam cada requisito no backend do BrPec. Os endpoints listados refletem a implementação real em `src/backend/routes/`, validada com os cards #191, #192, #203 e #211. A coluna "Camada principal (CSR)" indica o caminho da requisição através da arquitetura em camadas descrita na seção 3.2.1.
 
@@ -1298,9 +1298,9 @@ Códigos de erro: `400` (campos obrigatórios — validação RF013 com `campos_
 
 Para a documentação completa de todos os endpoints (incluindo `GET /tarefas/hoje`, `PATCH /tarefas/:id/concluir`, `GET /painel-gerencial`, `POST /sincronizacao/lote` e `GET /exportacao/csv`), consulte a seção 3.7 (WebAPI e endpoints).
 
-## 3.2. Arquitetura (sprints 1 a 5)
+## 3.2. Arquitetura
 
-### 3.2.1. Diagrama de Arquitetura e Camadas (sprints 3 e 4)
+### 3.2.1. Diagrama de Arquitetura e Camadas
 
 O Sistema BrPec é estruturado sob uma **arquitetura física de três camadas (3-Tier Architecture)**, projetada com base nos princípios do paradigma **Local-First / Offline-First** (KLEPPMANN et al., 2019) [1]. Essa decisão arquitetural é fundamental para mitigar a restrição de conectividade intermitente em ambientes rurais (pastos), garantindo que a operação de campo não dependa de conexões com a internet satelital (Starlink) para funcionar, ao mesmo tempo em que provê consistência eventual global.
 
@@ -1395,17 +1395,17 @@ A solução é composta por **cinco camadas lógicas** no backend, implementadas
 
 **2. Controller (Camada de Apresentação)**
 - **Responsabilidade:** traduzir a requisição HTTP em uma chamada à camada de Service, validar o formato do payload (presença e tipo dos campos), e formatar a resposta (status code, JSON de retorno, mensagens de erro). **Não** acessa o banco de dados nem implementa regras de negócio.
-- **Localização:** `g03/src/backend/controllers/` (pasta criada, controllers serão implementados ao longo das sprints 3 e 4).
+- **Localização:** `src/backend/controllers/` (14 controllers implementados na versão final).
 - **Quem chama / chama quem:** chamado pelas Routes, chama a camada de Service.
 
 **3. Service (Camada de Regras de Negócio)**
 - **Responsabilidade:** concentrar a lógica de negócio do domínio pecuário — orquestrar operações, aplicar validações de regra (ex.: usuário tem permissão para criar tarefa em determinado retiro?), gerar identificadores offline (UUID), montar entradas para a `sincronizacoes` e coordenar chamadas a um ou mais repositórios. **Não** conhece HTTP nem detalhes do dialeto SQL.
-- **Localização:** `src/backend/services/` (ex.: `services/healthService.ts` já implementado como referência da camada).
+- **Localização:** `src/backend/services/` (8 services implementados: `tarefaService`, `alertaService`, `eventoService`, `exportacaoService`, `cloudSyncService`, `sincronizacaoService`, `painelService`, `healthService`).
 - **Quem chama / chama quem:** chamado pelos Controllers, chama um ou mais Repositories.
 
 **4. Repository (Camada de Acesso a Dados)**
 - **Responsabilidade:** encapsular todo o acesso ao banco de dados — consultas SQL, inserts, updates, deletes e chamadas ao cliente Supabase. Cada Repository corresponde, em geral, a uma entidade (`tarefasRepository`, `usuariosRepository`, etc.). **Não** contém regras de negócio: opera sobre dados.
-- **Localização:** `src/backend/repositories/` (implementado nesta sprint: `tarefaRepository.ts`, `alertaRepository.ts`, `eventoRepository.ts`, etc.). A conexão com o banco local é gerenciada em `src/backend/config/database.ts`.
+- **Localização:** `src/backend/repositories/` (10 repositories implementados, incluindo `tarefaRepository.ts`, `alertaRepository.ts`, `eventoRepository.ts` e `pg/tarefaPgRepository.ts`). A conexão com o banco local é gerenciada em `src/backend/config/database.ts`.
 - **Quem chama / chama quem:** chamado pelos Services, chama o driver do banco (`pg` ou `@supabase/supabase-js`).
 
 **5. Model (Camada de Entidades de Domínio)**
@@ -1479,7 +1479,7 @@ A arquitetura descrita acima é a **arquitetura-alvo** do projeto. O estado da i
 
 A configuração do banco (`src/backend/config/database.ts`) já está preparada e em uso pela camada Repository implementada nesta sprint.
 
-### 3.2.2. Diagrama de Casos de Uso (sprint 1)
+### 3.2.2. Diagrama de Casos de Uso
 
 Os casos de uso do Sistema BrPec foram definidos com o objetivo de representar, de forma estruturada, as principais interações entre os atores do sistema e as funcionalidades disponibilizadas pela plataforma. Esses casos de uso refletem os processos críticos da operação pecuária, com foco na gestão de tarefas, registro de movimentações e consolidação de dados para tomada de decisão.
 
@@ -1634,7 +1634,7 @@ UC09 — Exportar relatórios (RF009)
 </center>
 
 
-### 3.2.3. Diagrama de Classes do Dominio (sprint 2) 
+### 3.2.3. Diagrama de Classes do Dominio 
 
 O Diagrama de Classes do Domínio representa, em notação UML, a estrutura estática
 do sistema BrPec: suas entidades principais, os atributos que as compõem, os métodos
@@ -2145,7 +2145,7 @@ A Tabela 19 consolida todos os relacionamentos modelados no diagrama, com seus t
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-#### 3.2.3.1. Diagrama de Classes Arquitetural (sprint 3)
+#### 3.2.3.1. Diagrama de Classes Arquitetural
 
 O Diagrama de Classes Arquitetural representa a estrutura técnica do backend do sistema BrPec, com foco nas responsabilidades e nos relacionamentos entre as classes concretas distribuídas pelas quatro camadas da arquitetura em camadas adotada: **Controller**, **Service**, **Repository** e **Model**. Diferentemente do Diagrama de Classes do Domínio (seção 3.2.3), que modela os conceitos do negócio e suas relações semânticas, este diagrama evidencia como o código está organizado no servidor Node.js, quais classes dependem de quais e de que forma as requisições HTTP percorrem as camadas até atingir a persistência — conforme o padrão Controller–Service–Repository descrito na seção 3.2.4.
 
@@ -2179,8 +2179,9 @@ flowchart TD
         SincronizacaoRoutes["SincronizacaoRoutes<br/>POST /sincronizacao/lote"]:::route
         ExportacaoRoutes["ExportacaoRoutes<br/>GET /exportacao/csv"]:::route
         PainelRoutes["PainelRoutes<br/>GET /painel-gerencial"]:::route
-        AuthRoutes["AuthRoutes<br/>POST /auth/login<br/>POST /auth/login-capataz<br/>POST /auth/login-infra<br/>POST /auth/refresh<br/>POST /auth/logout<br/>GET /auth/me"]:::route
-        AdminRoutes["AdminRoutes<br/>GET/POST /admin/retiros<br/>PUT/DELETE /admin/retiros/:id<br/>GET/POST /admin/usuarios<br/>PUT/DELETE /admin/usuarios/:id<br/>DELETE /admin/boletas/:grupo_id<br/>DELETE /admin/chamados/:id<br/>DELETE /admin/tarefas/:id"]:::route
+        AuthRoutes["AuthRoutes<br/>POST /auth/login<br/>POST /auth/login-capataz<br/>POST /auth/login-infra<br/>POST /auth/login-dispositivo<br/>GET /auth/dispositivo/:token<br/>POST /auth/refresh<br/>POST /auth/logout<br/>GET /auth/me"]:::route
+        AdminRoutes["AdminRoutes<br/>GET/POST /admin/retiros<br/>PUT/DELETE /admin/retiros/:id<br/>GET/POST /admin/usuarios<br/>PUT/DELETE /admin/usuarios/:id<br/>DELETE /admin/boletas/:grupo_id<br/>DELETE /admin/chamados/:id<br/>DELETE /admin/tarefas/:id<br/>GET /admin/dispositivos<br/>DELETE /admin/dispositivos/:id"]:::route
+        GerenteRoutes["GerenteRoutes<br/>GET /gerente/fechamentos<br/>POST /gerente/fechamento<br/>DELETE /gerente/fechamento/:mes<br/>GET /gerente/planilha-oficial"]:::route
         CoordenadorRoutes["CoordenadorRoutes<br/>GET /coordenador/boletas-pendentes<br/>POST /coordenador/boletas/:id/aprovar<br/>GET /coordenador/exportar<br/>GET /coordenador/boleta/:grupo_id/pdf"]:::route
         BoletaRoutes["BoletaRoutes<br/>POST /boletas<br/>PUT /boletas/:grupo_id<br/>GET /boletas/minhas<br/>GET /boletas/:grupo_id"]:::route
         DashboardRoutes["DashboardRoutes<br/>GET /dashboard/resumo<br/>GET /dashboard/retiros"]:::route
@@ -2198,8 +2199,9 @@ flowchart TD
         SincronizacaoController["SincronizacaoController<br/>+processarLote()"]:::controller
         ExportacaoController["ExportacaoController<br/>+exportarCsv()"]:::controller
         PainelController["PainelController<br/>+obterPainel()"]:::controller
-        AuthController["AuthController<br/>+login()<br/>+loginCapataz()<br/>+loginInfraestrutura()<br/>+refresh()<br/>+logout()<br/>+me()"]:::controller
-        AdminController["AdminController<br/>+listarRetiros()<br/>+criarRetiro()<br/>+atualizarRetiro()<br/>+excluirRetiro()<br/>+listarUsuarios()<br/>+criarUsuario()<br/>+atualizarUsuario()<br/>+excluirUsuario()<br/>+excluirBoleta()<br/>+excluirChamado()<br/>+excluirTarefa()"]:::controller
+        AuthController["AuthController<br/>+login()<br/>+loginCapataz()<br/>+loginInfraestrutura()<br/>+loginDispositivo()<br/>+verificarDispositivo()<br/>+refresh()<br/>+logout()<br/>+me()"]:::controller
+        AdminController["AdminController<br/>+listarRetiros()<br/>+criarRetiro()<br/>+atualizarRetiro()<br/>+excluirRetiro()<br/>+listarUsuarios()<br/>+criarUsuario()<br/>+atualizarUsuario()<br/>+excluirUsuario()<br/>+excluirBoleta()<br/>+excluirChamado()<br/>+excluirTarefa()<br/>+listarDispositivos()<br/>+revogarDispositivo()"]:::controller
+        GerenteController["GerenteController<br/>+listarFechamentos()<br/>+fecharMes()<br/>+reabrirMes()<br/>+exportarPlanilhaOficial()"]:::controller
         CoordenadorController["CoordenadorController<br/>+listarBoletasPendentes()<br/>+aprovarBoleta()<br/>+exportarCsv()<br/>+exportarBoletaPdf()"]:::controller
         BoletaController["BoletaController<br/>+criarBoleta()<br/>+atualizarBoleta()<br/>+listarMinhas()<br/>+obterBoleta()"]:::controller
         DashboardController["DashboardController<br/>+obterResumo()<br/>+listarRetirosDashboard()"]:::controller
@@ -2264,8 +2266,8 @@ flowchart TD
     end
 
     %% Layout horizontal interno (força alinhamento lado a lado)
-    HealthRoutes ~~~ TarefaRoutes ~~~ AlertaRoutes ~~~ EventoRoutes ~~~ SincronizacaoRoutes ~~~ ExportacaoRoutes ~~~ PainelRoutes ~~~ AuthRoutes ~~~ AdminRoutes ~~~ CoordenadorRoutes ~~~ BoletaRoutes ~~~ DashboardRoutes ~~~ HistoricoRoutes
-    HealthController ~~~ TarefaController ~~~ AlertaController ~~~ EventoController ~~~ SincronizacaoController ~~~ ExportacaoController ~~~ PainelController ~~~ AuthController ~~~ AdminController ~~~ CoordenadorController ~~~ BoletaController ~~~ DashboardController ~~~ HistoricoController
+    HealthRoutes ~~~ TarefaRoutes ~~~ AlertaRoutes ~~~ EventoRoutes ~~~ SincronizacaoRoutes ~~~ ExportacaoRoutes ~~~ PainelRoutes ~~~ AuthRoutes ~~~ AdminRoutes ~~~ CoordenadorRoutes ~~~ BoletaRoutes ~~~ DashboardRoutes ~~~ HistoricoRoutes ~~~ GerenteRoutes
+    HealthController ~~~ TarefaController ~~~ AlertaController ~~~ EventoController ~~~ SincronizacaoController ~~~ ExportacaoController ~~~ PainelController ~~~ AuthController ~~~ AdminController ~~~ CoordenadorController ~~~ BoletaController ~~~ DashboardController ~~~ HistoricoController ~~~ GerenteController
     HealthService ~~~ TarefaService ~~~ AlertaService ~~~ EventoService ~~~ SincronizacaoService ~~~ ExportacaoService ~~~ PainelService ~~~ AuthService ~~~ AdminService ~~~ CoordenadorService ~~~ BoletaService ~~~ DashboardService ~~~ HistoricoService
     IHealthRepository ~~~ ITarefaRepository ~~~ ITarefaPgRepository ~~~ IAlertaRepository ~~~ IEventoRepository ~~~ ISincronizacaoRepository ~~~ IExportacaoRepository ~~~ IUsuarioRepository ~~~ IPainelRepository
     HealthRepository ~~~ TarefaRepository ~~~ TarefaPgRepository ~~~ AlertaRepository ~~~ EventoRepository ~~~ SincronizacaoRepository ~~~ ExportacaoRepository ~~~ PainelRepository ~~~ UsuarioRepository
@@ -2285,6 +2287,7 @@ flowchart TD
     BoletaRoutes --> BoletaController
     DashboardRoutes --> DashboardController
     HistoricoRoutes --> HistoricoController
+    GerenteRoutes --> GerenteController
 
     %% Conexões de Controllers para Services (Dependência de Injeção)
     HealthController --> HealthService
@@ -2336,6 +2339,8 @@ flowchart TD
     PainelRepository --> SQLiteDB
     UsuarioRepository --> SQLiteDB
     
+    GerenteController --> SQLiteDB
+
     %% Sincronização offline-first
     SQLiteDB -.->|sincronização| PostgresDB
 ```
@@ -2355,7 +2360,7 @@ A camada **Model** corresponde às interfaces TypeScript das entidades persistid
 
 A separação em camadas garante que alterações na tecnologia de persistência (ex.: migração de SQLite para PostgreSQL) impactem apenas os Repositories, sem afetar Services ou Controllers — critério alinhado ao requisito não funcional de Suportabilidade (RNF — SUP), que limita o MTTR a 8 horas para defeitos críticos.
 
-### 3.2.4. Diagrama de Sequência UML (sprint 3)
+### 3.2.4. Diagrama de Sequência UML
 
 O Diagrama de Sequência UML constitui um dos quatro tipos de diagrama de interação previstos pela especificação UML 2.5.1, sendo formalmente classificado como um diagrama comportamental que enfatiza a troca ordenada de mensagens entre participantes ao longo do tempo [6]. Segundo o Object Management Group (OMG), a semântica de uma interação é definida como um par de conjuntos de *traces* — sequências válidas e inválidas de ocorrências de eventos —, de modo que cada diagrama de sequência representa, de forma gráfica, os cenários de comunicação aceitos pelo sistema modelado [6][36]. A notação adotada emprega linhas de vida (*lifelines*) para representar os participantes, setas contínuas para mensagens síncronas e setas tracejadas para retornos, com fragmentos combinados (*combined fragments*) do tipo `alt` para expressar ramificações condicionais no fluxo de execução, conforme as convenções consolidadas por Fowler [14] e detalhadas na norma ISO/IEC 19505-2:2012 [21].
 
@@ -2919,7 +2924,7 @@ sequenceDiagram
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-### 3.2.5. Diagrama de Atividades ou Estados (sprint 3)
+### 3.2.5. Diagrama de Atividades ou Estados
 
 O diagrama de atividades abaixo representa o fluxo de execução de tarefas no sistema BrPec, contemplando o funcionamento offline-first da aplicação. O processo inicia com a criação da tarefa pelo gerente, passando pela disponibilização ao capataz, execução da atividade em campo e sincronização dos dados com o sistema central. O fluxo foi modelado utilizando UML, mantendo consistência de notação ao longo de toda a representação.
 
@@ -2929,7 +2934,7 @@ O diagrama de atividades abaixo representa o fluxo de execução de tarefas no s
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-### 3.2.6. Diagrama de Implantação (sprints 4 e 5)
+### 3.2.6. Diagrama de Implantação
 
 O diagrama de implantação física do sistema BrPec descreve a infraestrutura de hardware e de rede projetada para operar no cenário real do Pantanal, onde a conectividade com a internet é restrita e intermitente. A arquitetura distribui a computação e a persistência em três níveis físicos isolados (dispositivo de campo, servidor local na fazenda e nuvem), utilizando canais de comunicação adequados a cada contexto.
 
@@ -3001,11 +3006,11 @@ Para garantir a operação contínua e mitigar riscos de perda de dados sob cone
 3. **Conexão Interna Segura (Render/Supabase):** Roteamento em nuvem otimizado via SSL com pooling de conexões ativo para suportar múltiplas requisições simultâneas do Dashboard Web App ao Supabase Postgres.
 4. **Internet HTTPS/TLS:** Acesso padrão de rede pública utilizado pelos Gerentes e Coordenadores para interagir com o Dashboard hospedado na Render Cloud a partir de suas estações de trabalho administrativas.
 
-### 3.2.7. Padrões de Projeto Aplicados (sprints 3 a 5)
+### 3.2.7. Padrões de Projeto Aplicados
 
 O Sistema BrPec aplica padrões de projeto motivados por **três restrições estruturais** documentadas neste WAD: (i) a **conectividade satelital intermitente** via Starlink, que impõe arquitetura offline-first (seções 1 e 3.1.3); (ii) os **quatro perfis distintos de usuário** — Gerente, Coordenador, Capataz e Técnico — com regras de operação diferentes (seção 2.2); e (iii) a possibilidade de **evolução da camada de persistência**, hoje implementada com o módulo nativo `node:sqlite` (Node.js 22+) para o cache local e `pg` (driver PostgreSQL) para o servidor central (seção 3.2.1). Cada padrão a seguir é apresentado com categoria GoF [15], localização no repositório, necessidade de negócio que atende e princípios SOLID materializados [27].
 
-A tabela a seguir consolida os quatro padrões adotados nesta sprint, indicando para cada um a categoria GoF, a pasta/arquivo correspondente no repositório, a necessidade de negócio atendida e os princípios SOLID materializados. O padrão com status "previsto" está planejado para sprint posterior e será implementado conforme as funcionalidades correspondentes forem desenvolvidas.
+A tabela a seguir consolida os sete padrões adotados no projeto, indicando para cada um a categoria GoF, a pasta/arquivo correspondente no repositório, a necessidade de negócio atendida e os princípios SOLID materializados. Todos os padrões estão implementados na versão final do sistema.
 
 <center>
   <p><strong>Quadro 22</strong> — Padrões de projeto aplicados ao Sistema BrPec</p>
@@ -3139,9 +3144,9 @@ Linha persistida em `tarefas` (migration.sql) — o que o banco efetivamente gua
 
 Note que o response **omite** campos internos como `criada_em`, `concluida_em` e `sincronizada` (relevantes só para o backend) e simplifica a estrutura para o consumidor da API. Esse é exatamente o papel do DTO: nenhum dos três representa "a tarefa" sozinho — cada um é a forma apropriada da entidade para sua fronteira específica. Exemplos completos de request/response dos demais endpoints encontram-se na seção 3.1.4.
 
-#### 7. Middleware Chain (Chain of Responsibility) *(comportamental — planejado para as sprints 4-5)*
+#### 7. Middleware Chain (Chain of Responsibility) *(comportamental)*
 
-**Localização planejada:** `src/backend/middlewares/` (autenticação, autorização, validação de payload, tratamento de erros), a implementar ao longo das sprints 4 a 5 conforme os requisitos da seção 3.8 forem desenvolvidos.
+**Localização:** `src/backend/middlewares/` (autenticação, autorização, validação de payload, tratamento de erros), implementado na versão final conforme os requisitos da seção 3.8.
 
 **Necessidade que atende:** cada requisição ao backend precisa passar por uma sequência de verificações antes de chegar ao Controller — autenticar o usuário (seção 3.8.1), autorizar a operação (seção 3.8.3), validar o payload contra o DTO esperado e, ao final, tratar exceções de forma uniforme (seção 3.8.4). O Middleware Chain do Express materializa esse pipeline de forma plugável: cada novo cross-cutting concern (logging, métricas, rate-limiting) entra como um novo middleware sem alterar os existentes — instância concreta do padrão Chain of Responsibility [15].
 
@@ -3158,7 +3163,7 @@ Em conjunto, os padrões adotados materializam os cinco princípios SOLID [27]:
 - **I — Interface Segregation:** DTOs garantem que clientes da API recebam apenas os campos pertinentes.
 - **D — Dependency Inversion:** Services dependem de abstrações de Repository, não de drivers concretos; os Singletons de conexão (SQLite e Supabase Pool) e controladores são injetados e importados como instâncias únicas, mantendo o controle centralizado.
 
-## 3.3. Wireframes (sprint 2)
+## 3.3. Wireframes
 
 Os wireframes apresentados nesta seção foram elaborados para representar as User Stories priorizadas junto ao orientador: **US01** (Gerente cria e distribui tarefas), **US02** (Capataz visualiza lista de tarefas offline), **US03** (Capataz conclui tarefa), **US04** (Capataz anexa fotos como evidência), **US06/US07** (Capataz emite alerta de infraestrutura; Gerente acompanha painel de tarefas e alertas) e **US11/US12** (Coordenador visualiza movimentações e exporta dados consolidados). O design foi desenvolvido no Figma, priorizando clareza e uso de grid para organização dos elementos. O arquivo completo pode ser acessado pelo link público: [Wireframes BRPec — Figma](https://www.figma.com/design/jJjDkweFhygUKwONkyivtb/Untitled?node-id=0-1&t=QpPbn00WVpCx2EiT-0).
 
@@ -3327,7 +3332,7 @@ O quadro a seguir consolida a relação entre personas, User Stories priorizadas
 </center>
 
 
-## 3.4. Guia de estilos (sprint 3)
+## 3.4. Guia de estilos
 
 Um guia de estilo (style guide) é um documento de referência que centraliza todas as decisões visuais de um produto digital, como cores, tipografia, ícones, espaçamentos, componentes e outros, garantindo consistência em todo o sistema. É tanto um instrumento de comunicação entre designers e desenvolvedores quanto um repositório vivo de decisões de design [31][42].
 
@@ -3481,7 +3486,7 @@ No caso desta solução, o único asset de imagem utilizado é o **logotipo da S
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-## 3.5 Protótipo de alta fidelidade (sprint 3)
+## 3.5 Protótipo de alta fidelidade
 
 O protótipo de alta fidelidade foi desenvolvido no Figma com base nas personas, User
 Stories priorizadas e no Guia de Estilos definido na seção 3.4. As decisões visuais
@@ -3756,9 +3761,9 @@ A tabela abaixo relaciona cada Requisito Funcional prioritário à tela do prot�
 
 Todos os RFs prioritários definidos na seção 3.1.1 possuem representação visual em ao menos uma tela do protótipo. As telas 3.5.2 (Detalhe da Tarefa) e 3.5.6 (Registrar Resolução) complementam o fluxo de execução e encerramento de chamados, respectivamente, cobrindo os critérios de aceite das US02, US03 e US06 que não se esgotam em uma única tela.
 
-## 3.6. Modelagem do banco de dados (sprints 2 e 4)
+## 3.6. Modelagem do banco de dados
 
-### 3.6.1. Modelo Entidade-Relacionamento (ER) (sprint 2)
+### 3.6.1. Modelo Entidade-Relacionamento (ER)
 
 O modelo Entidade-Relacionamento (ER) conceitual descreve as principais entidades do domínio da aplicação, seus atributos e os relacionamentos existentes entre elas. O objetivo é estruturar conceitualmente os dados necessários para suportar o gerenciamento operacional da BRPec Agropecuária, contemplando usuários, retiros, tarefas, alertas, movimentações de rebanho e evidências.
 
@@ -3783,7 +3788,7 @@ No contexto do projeto, a boleta representa o formulário digital utilizado pelo
 
 Dessa forma, o ER cobre os principais fluxos de dados do sistema: planejamento e execução de tarefas, emissão e atendimento de alertas, registro de eventos zootécnicos, anexação de evidências e sincronização posterior dos dados coletados em campo.
 
-### 3.6.2. Diagrama Entidade-Relacionamento (DER) (sprint 2)
+### 3.6.2. Diagrama Entidade-Relacionamento (DER)
 
 > **Nota histórica:** este DER representa o modelo conceitual produzido na sprint 2. A entidade **Boleta** modelada neste diagrama **não existe no banco de dados real** (`migration.sql`). A evolução do design optou por substituí-la pelas entidades `movimentacoes`, `nascimentos`, `obitos`, `transferencias` e `compravendas`, que implementam os mesmos conceitos de forma normalizada. O DDL atualizado com o esquema vigente encontra-se na seção 3.6.3.
 
@@ -3805,7 +3810,7 @@ A seção 3.6.1 apresenta a versão conceitual consolidada após a evolução de
 
 
 
-### 3.6.3.1 Modelo Relacional e Modelo Físico (sprints 2 e 4)
+### 3.6.3.1 Modelo Relacional e Modelo Físico
 
 O modelo físico deriva do modelo conceitual (ER) apresentado na seção 3.6.1 e materializa as entidades em tabelas SQLite, usando chaves primárias textuais em UUID v7, chaves estrangeiras explícitas, constraints de domínio e índices para consultas frequentes. A escolha por SQLite está associada ao requisito offline-first: os dados operacionais são gravados no dispositivo antes de qualquer tentativa de sincronização, evitando dependência exclusiva de cache do navegador.
 
@@ -4196,7 +4201,7 @@ UPSERT é uma operação que combina UPdate (atualizar) e inSERT (inserir). Ele 
   Justificativa: O UUIDv4 funcionaria perfeitamente para o problema de conflito de IDs, porém, ele é puramente aleatório. Isso significa que os registros inseridos no banco não ficam em nenhuma ordem que possa ser utilizada para organizar o banco ou para outras ações. Nele, cada novo UUID vai para uma posição aleatória no índice, causando fragmentação ao longo do tempo e prejudicando a performance de consultas.
 
 
-### 3.6.4. Consultas SQL e lógica proposicional (sprint 2)
+### 3.6.4. Consultas SQL e lógica proposicional
 
 Consultas SQL são instruções que permitem ao sistema recuperar, inserir, atualizar ou remover dados em um banco de dados relacional. Cada consulta é composta por cláusulas que definem quais tabelas serão acessadas (`FROM`, `JOIN`), quais registros serão selecionados (`WHERE`) e como o resultado será apresentado (`ORDER BY`, `LIMIT`). A cláusula `WHERE`, em particular, especifica um conjunto de condições que cada linha precisa satisfazer para ser incluída no resultado, exatamente o ponto onde a lógica proposicional se aplica.
 
@@ -4460,7 +4465,7 @@ As consultas SQL apresentadas demonstram operações relevantes implementadas no
 Além de atenderem necessidades práticas do domínio do negócio, essas consultas reforçam requisitos funcionais e não funcionais previamente definidos, especialmente aqueles associados ao suporte offline, rastreabilidade das informações e monitoramento das atividades executadas em campo.
 
 ---
-## 3.7. WebAPI e endpoints (sprints 3 e 4)
+## 3.7. WebAPI e endpoints
 
 A arquitetura da WebAPI do BrPec Agropecuária segue o padrão RESTful, expondo serviços estruturados sob o prefixo `/api` para comunicação síncrona e eficiente com o banco local gerenciado pelo módulo embutido `node:sqlite`.
 
@@ -5308,6 +5313,16 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
 - **Resposta (200 OK)**: `{ "mensagem": "Boleta excluída com sucesso.", "linhas_apagadas": 3 }` (boleta); `{ "mensagem": "Chamado excluído com sucesso." }` (chamado/tarefa)
 - **Status Codes**: `200 OK` | `403 Forbidden` | `404 Not Found`
 
+##### C12–C13. Gestão de Dispositivos de Campo
+| Método | Endpoint | Descrição |
+|---|---|---|
+| `GET` | `/api/admin/dispositivos` | Lista todos os dispositivos registrados com status de ativação |
+| `DELETE` | `/api/admin/dispositivos/:id` | Revoga o token de um dispositivo, impedindo novos logins por aquele aparelho |
+
+- **Resposta GET (200 OK)**: Array de dispositivos com `id`, `nome`, `token`, `ativo`, `criado_em`.
+- **Resposta DELETE (200 OK)**: `{ "mensagem": "Dispositivo revogado com sucesso." }`
+- **Status Codes**: `200 OK` | `403 Forbidden` | `404 Not Found`
+
 ---
 
 #### Grupo D — Coordenação (`/api/coordenador`)
@@ -5530,6 +5545,34 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
 
 ---
 
+#### Grupo I — Gerência (`/api/gerente`)
+
+> Todos os endpoints exigem sessão com perfil `Gerente`. Retorna `401` se não autenticado, `403` se perfil inválido.
+
+##### I1. Listar Fechamentos Mensais
+- **Endpoint**: `GET /api/gerente/fechamentos`
+- **Resposta (200 OK)**: Array de fechamentos com `mes` (formato `YYYY-MM`), `fechado_em` e `fechado_por`.
+- **Status Codes**: `200 OK` | `401 Unauthorized` | `403 Forbidden`
+
+##### I2. Fechar Mês
+- **Endpoint**: `POST /api/gerente/fechamento`
+- **Payload (Body)**: `{ "mes": "2026-06" }`
+- **Resposta (201 Created)**: `{ "mensagem": "Mês fechado com sucesso.", "mes": "2026-06" }`
+- **Status Codes**: `201 Created` | `400 Bad Request` (mês ausente ou já fechado) | `401 Unauthorized`
+
+##### I3. Reabrir Mês
+- **Endpoint**: `DELETE /api/gerente/fechamento/:mes`
+- **Path Parameter**: `mes` — formato `YYYY-MM`
+- **Resposta (200 OK)**: `{ "mensagem": "Mês reaberto com sucesso." }`
+- **Status Codes**: `200 OK` | `403 Forbidden` | `404 Not Found` (mês não estava fechado)
+
+##### I4. Exportar Planilha Oficial
+- **Endpoint**: `GET /api/gerente/planilha-oficial`
+- **Resposta (200 OK)**: `Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` — planilha Excel com consolidado oficial de movimentações zootécnicas do período.
+- **Status Codes**: `200 OK` | `401 Unauthorized`
+
+---
+
 #### Grupo H — Chamados — Endpoints Adicionais (`/api/chamados`)
 
 > Além do `POST /api/chamados` documentado na seção 3.7.1, o módulo expõe os seguintes endpoints:
@@ -5589,22 +5632,24 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
   ```
 - **Status Codes**: `200 OK` | `400 Bad Request` | `403 Forbidden` | `404 Not Found` | `409 Conflict`
 
-## 3.8. Autenticação, Autorização e Resiliência (sprints 4 e 5)
+## 3.8. Autenticação, Autorização e Resiliência
 
 ### 3.8.1. Autenticação
 
 Para viabilizar o funcionamento offline-first nos retiros do Pantanal da BrPec, a autenticação local do aplicativo (PWA) confia no cadastro de usuários sincronizado localmente. No backend (sprint 3/4), as rotas operam de forma simplificada por razões de conectividade intermitente, associando as transações ao ID do usuário enviado no corpo da requisição (`capataz_id`, `gerente_id`). Para a versão final (sprint 5), as senhas são persistidas com o algoritmo hash `bcrypt` (fator de custo `saltRounds = 12`, otimizado para equilibrar segurança e desempenho em dispositivos de campo de baixo desempenho), impedindo o armazenamento de senhas em texto plano no banco de dados.
 
-**Endpoints de autenticação implementados (sprint 4/5).** O sistema expõe seis rotas sob `/api/auth/`, implementadas em `src/backend/routes/authRoutes.ts`:
+**Endpoints de autenticação implementados.** O sistema expõe oito rotas sob `/api/auth/`, implementadas em `src/backend/routes/authRoutes.ts`:
 
-| Endpoint                      | Método | Descrição                                                                                          |
-|-------------------------------|--------|----------------------------------------------------------------------------------------------------|
-| `/api/auth/login`             | POST   | Autentica Gerente ou Coordenador com nome de usuário, senha e perfil; retorna JWT + seta cookie RT |
-| `/api/auth/login-capataz`     | POST   | Autentica Capataz pelo `retiro_id`; retorna JWT sem necessidade de senha                           |
-| `/api/auth/login-infra`       | POST   | Autentica Técnico de Infraestrutura pela `categoria`; retorna JWT                                  |
-| `/api/auth/refresh`           | POST   | Renova o Access Token usando o Refresh Token armazenado no cookie `brpec_rt`                       |
-| `/api/auth/logout`            | POST   | Revoga o `refresh_token` e destrói a sessão server-side                                            |
-| `/api/auth/me`                | GET    | Retorna dados do usuário autenticado a partir do Access Token ou sessão ativa                      |
+| Endpoint                          | Método | Descrição                                                                                          |
+|-----------------------------------|--------|----------------------------------------------------------------------------------------------------|
+| `/api/auth/login`                 | POST   | Autentica Gerente ou Coordenador com nome de usuário, senha e perfil; retorna JWT + seta cookie RT |
+| `/api/auth/login-capataz`         | POST   | Autentica Capataz pelo `retiro_id`; retorna JWT sem necessidade de senha                           |
+| `/api/auth/login-infra`           | POST   | Autentica Técnico de Infraestrutura pela `categoria`; retorna JWT                                  |
+| `/api/auth/login-dispositivo`     | POST   | Autentica dispositivo de campo via token pré-gerado, sem inserção manual de credenciais            |
+| `/api/auth/dispositivo/:token`    | GET    | Verifica validade de um token de dispositivo registrado                                            |
+| `/api/auth/refresh`               | POST   | Renova o Access Token usando o Refresh Token armazenado no cookie `brpec_rt`                       |
+| `/api/auth/logout`                | POST   | Revoga o `refresh_token` e destrói a sessão server-side                                            |
+| `/api/auth/me`                    | GET    | Retorna dados do usuário autenticado a partir do Access Token ou sessão ativa                      |
 
 O `refresh_token` é persistido em `refresh_tokens` (SQLite) para suportar revogação explícita e renovação do token em cenários offline; o `access_token` tem validade curta (15 min) e não é armazenado no servidor.
 
@@ -5628,7 +5673,7 @@ A resiliência de rede é um pilar crítico no BrPec. Utiliza-se um mecanismo de
 - **Inbound (PWA → backend SQLite):** O PWA empilha registros pendentes na `sincronizacoes` (IndexedDB do navegador) e os transmite em lote ao reconectar via `POST /sincronizacao/lote`. O `sincronizacaoController` delega para o `sincronizacaoService`, que persiste cada registro no SQLite local (`src/backend/services/sincronizacaoService.ts`).
 - **Outbound (backend SQLite → Supabase PostgreSQL):** O `cloudSyncService` (`src/backend/services/cloudSyncService.ts`) executa periodicamente, lê a tabela `sincronizacoes` (SQLite) filtrando registros com `status_envio = 'PENDENTE'` e replica as entidades monitoradas — `movimentacoes`, `alertas` (chamados), `compravendas`, `transferencias`, `retiros` e `usuarios` — ao Supabase PostgreSQL por upsert. Ao final de cada lote, cada registro é marcado como `SINCRONIZADO` (sucesso) ou `ERRO` (falha de rede ou validação remota), implementando o padrão Outbox descrito na seção 3.2.7.
 
-## 3.9. Matriz de Rastreabilidade (RTM) (sprints 3 a 5)
+## 3.9. Matriz de Rastreabilidade (RTM)
 
 A matriz a seguir consolida a rastreabilidade entre User Stories (US), Requisitos Funcionais (RF),
 Regras de Negócio (RN) e a implementação correspondente no backend da BrPec.
@@ -5686,7 +5731,7 @@ Uma linha por combinação RF + RN; onde não existe RN dedicada para o RF na se
 
 # <a name="c4"></a>4. Desenvolvimento da Aplicação Web
 
-## 4.1. Primeira versão da aplicação web (sprint 3)
+## 4.1. Primeira versão da aplicação web
 
 A primeira versão da aplicação web SyncTech foi desenvolvida ao longo da sprint 3, materializando a arquitetura em camadas descrita na seção 3.2.1 e os protótipos de alta fidelidade documentados na seção 3.5. O sistema é composto por dois módulos principais: o **frontend estático** (`synctech-app/`), que implementa todas as telas navegáveis do protótipo usando HTML, CSS e JavaScript puro, e o **backend REST** (`src/backend/`), que expõe a WebAPI documentada na seção 3.7 utilizando Node.js, Express e SQLite.
 
@@ -5918,7 +5963,7 @@ A suíte de testes automatizados utiliza Jest 29 + ts-jest + Supertest sobre ban
 
 4. **Validação de regras de negócio nos testes:** A implementação do teste de RN01 (capataz deve pertencer ao retiro da tarefa) exigiu seed cuidadoso de dados de teste, com inserção controlada de retiros e usuários no `beforeEach` para garantir determinismo nos cenários de sucesso e falha.
 
-### Próximos passos (sprint 4)
+### Próximos passos
 
 - Integrar frontend com backend via chamadas `fetch()` à API REST
 - Implementar Service Workers para funcionamento offline-first
@@ -5928,7 +5973,7 @@ A suíte de testes automatizados utiliza Jest 29 + ts-jest + Supertest sobre ban
 - Adicionar biblioteca de gráficos ao dashboard (Chart.js ou similar)
 - Expandir suíte de testes para cobrir US09 (óbito) e US12 (exportação)
 
-## 4.2. Segunda versão da aplicação web (sprint 4)
+## 4.2. Segunda versão da aplicação web
 
 A segunda versão da BrPec foi desenvolvida ao longo da sprint 4, consolidando a integração entre o frontend e o backend REST estabelecido na sprint 3. O sistema evoluiu em duas frentes principais: no frontend, os formulários e telas foram conectados à API real e ganhou a arquitetura offline-first (Service Worker + IndexedDB + sincronização em lote); no backend, foram adicionadas rotas de autenticação JWT, dashboard e renderização server-side via EJS, além de uma significativa expansão da suíte de testes.
 
@@ -6091,7 +6136,7 @@ PASS tests/unit/exportacaoService.test.ts   (3 casos — acesso, CSV, total_regi
 
 4. **Migração de SPA para EJS:** A refatoração da renderização client-side para server-side exigiu a reescrita dos templates de página e a criação das view routes. Partes da lógica de estado global que estavam em `app.js` precisaram ser movidas para o servidor, com dados iniciais injetados nos templates via `res.render()`.
 
-### Próximos passos (sprint 5)
+### Próximos passos
 
 - Implementar captura de foto via `<input type="file" accept="image/*" capture="environment">` e conversão para Base64 nos formulários de evidência
 - Ativar `AUTH_ENFORCE_IN_TEST = true` por padrão e implementar renovação automática de token no cliente
@@ -6099,9 +6144,104 @@ PASS tests/unit/exportacaoService.test.ts   (3 casos — acesso, CSV, total_regi
 - Conectar o painel do Coordenador ao backend real com filtros funcionais por retiro e período
 - Implementar os gráficos dinâmicos no painel de infraestrutura.
 
-## 4.3. Versão final da aplicação web (sprint 5)
+## 4.3. Versão final da aplicação web
 
-_Descreva e ilustre aqui o desenvolvimento da versão final do sistema web, com foco em refatorações, correções finais e na camada de autenticação/autorização entregue. Utilize prints de tela para ilustrar. Indique obrigatoriamente: (a) o que foi refinado ou adicionado desde a sprint 4, (b) pendências remanescentes, (c) dificuldades técnicas enfrentadas._
+A versão final da BrPec foi consolidada na sprint 5, com foco em quatro frentes: expansão das rotas de administração e gerência, introdução do login por dispositivo (QR/token), correção das dependências da suíte de testes e refinamento das rotas de coordenador e histórico. O sistema passou de 24 para 26 suítes de testes automatizados, atingindo 196 casos com 100% de aprovação.
+
+### (a) O que foi implementado
+
+#### Backend — Rotas Administrativas e de Gerência
+
+O módulo de administração (`src/backend/routes/adminRoutes.ts`) foi expandido com endpoints completos de CRUD, acessíveis exclusivamente ao Gerente Administrador (`is_admin = 1`):
+
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| GET / POST | `/api/admin/retiros` | Listar e criar retiros |
+| PUT / DELETE | `/api/admin/retiros/:id` | Atualizar e excluir retiro |
+| GET / POST | `/api/admin/usuarios` | Listar e criar usuários |
+| PUT / DELETE | `/api/admin/usuarios/:id` | Atualizar e excluir usuário |
+| DELETE | `/api/admin/boletas/:grupo_id` | Excluir boleta por grupo |
+| DELETE | `/api/admin/chamados/:id` | Excluir chamado |
+| DELETE | `/api/admin/tarefas/:id` | Excluir tarefa |
+| GET | `/api/admin/dispositivos` | Listar dispositivos registrados |
+| DELETE | `/api/admin/dispositivos/:id` | Revogar token de dispositivo |
+
+O módulo de gerência (`src/backend/routes/gerenteRoutes.ts`) adicionou o ciclo de fechamento mensal e a exportação da planilha oficial:
+
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| GET | `/api/gerente/fechamentos` | Listar fechamentos mensais |
+| POST | `/api/gerente/fechamento` | Fechar mês corrente |
+| DELETE | `/api/gerente/fechamento/:mes` | Reabrir mês fechado |
+| GET | `/api/gerente/planilha-oficial` | Exportar planilha oficial de movimentações |
+
+#### Backend — Login por Dispositivo
+
+Dois novos endpoints de autenticação foram adicionados em `src/backend/routes/authRoutes.ts` para suportar o fluxo de login automático via aparelho (QR code / token pré-gerado):
+
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| POST | `/api/auth/login-dispositivo` | Autenticar via token de dispositivo |
+| GET | `/api/auth/dispositivo/:token` | Verificar validade de token de dispositivo |
+
+Esses endpoints permitem que dispositivos de campo (tablets dos capatazes) se autentiquem sem inserção manual de credenciais, reduzindo fricção em ambientes de baixa conectividade.
+
+#### Backend — Histórico e Coordenador
+
+O módulo de histórico (`src/backend/routes/historicoRoutes.ts`) expõe os endpoints de consulta de registros históricos para todos os perfis autenticados:
+
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| GET | `/api/historico/boletas` | Listar histórico de boletas |
+| GET | `/api/historico/chamados` | Listar histórico de chamados |
+
+O módulo do coordenador (`src/backend/routes/coordenadorRoutes.ts`) foi completado com aprovação de boletas e exportação dupla (CSV e PDF):
+
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| GET | `/api/coordenador/boletas-pendentes` | Listar boletas aguardando aprovação |
+| POST | `/api/coordenador/boletas/:id/aprovar` | Aprovar boleta |
+| GET | `/api/coordenador/exportar` | Exportar movimentações em CSV |
+| GET | `/api/coordenador/boleta/:grupo_id/pdf` | Exportar boleta individual em PDF |
+
+#### Testes — Correção e Expansão da Suíte
+
+Na sprint 4, 13 das 24 suítes de integração estavam inoperantes por dependências ausentes em `node_modules` (`cookie-parser` e `jest-environment-jsdom` declarados no `package.json` mas nunca instalados). Na sprint 5, a execução de `npm install` sincronizou as dependências e desbloqueou todas as suítes afetadas. Foram adicionadas ainda duas novas suítes:
+
+- `critical-timeout.test.ts` — valida que endpoints críticos respondem dentro dos limites de latência (RNF02);
+- `sync-retry.test.ts` — valida o comportamento de reenvio automático do outbox após falha de rede (RF012).
+
+**Estado final da suíte (sprint 5):**
+
+<center>
+  <p><strong>Tabela 22</strong> — Estado da suíte de testes ao final da sprint 5</p>
+</center>
+
+| Camada | Suítes | Casos | Status |
+| --- | --- | --- | --- |
+| Unitários de serviço | 9 | 58 | ✅ Todos passando |
+| Integração de endpoints | 13 | 118 | ✅ Todos passando |
+| Frontend / jsdom | 1 | 2 | ✅ Todos passando |
+| Inicialização e smoke | 3 | 18 | ✅ Todos passando |
+| **Total** | **26** | **196** | **✅ 100% aprovação** |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+### (b) O que não foi concluído
+
+- **Captura de foto no frontend:** a implementação de `<input type="file" accept="image/*" capture="environment">` nos formulários de evidência de tarefa e óbito não foi concluída. A rota de backend (`POST /api/tarefas/:id/evidencias`) aceita Base64, mas o componente de captura no cliente não chegou à versão final.
+- **Gráficos dinâmicos no painel de infraestrutura:** o painel do técnico de infraestrutura permanece com dados estáticos; os gráficos Chart.js planejados para ele (chamados por status e por retiro) não foram integrados ao `GET /api/dashboard/resumo`.
+- **Cobertura de casos de borda nos serviços de nascimento e alerta:** os casos CT-NA02–05 (validação de `retiro_id`, `categoria`, `quantidade`, `capataz_id` ausentes em nascimentos) e CT-UA02–04 (validação de campos obrigatórios em alertas) não foram escritos; os fluxos felizes são cobertos, mas as validações individuais de campos ficaram sem teste unitário.
+
+### (c) Dificuldades técnicas enfrentadas
+
+1. **Dependências ausentes em `node_modules`:** `cookie-parser`, `@types/cookie-parser` e `jest-environment-jsdom` estavam declarados no `package.json` mas nunca haviam sido instalados após serem adicionados. O efeito foi a falha silenciosa de 13 suítes de integração com erro de tipagem TypeScript (`TS2307`) em vez de erro de teste, dificultando o diagnóstico. A correção exigiu rastrear a cadeia de erros até a causa raiz antes de aplicar o `npm install`.
+
+2. **Autorização por subperfil de Gerente:** a diferenciação entre Gerente comum (`is_admin = 0`) e Gerente Administrador (`is_admin = 1`) não estava prevista no schema inicial. A adição da coluna `is_admin` exigiu uma migration dedicada (`migrations/002_gerente_admin.sql`) e a criação de middlewares de guarda específicos em `adminRoutes.ts` e `gerenteRoutes.ts`, além de atualização do seed para refletir os dois subperfis.
+
+3. **Isolamento de contexto nos testes de dispositivo:** os testes de `login-dispositivo` e `verificarDispositivo` dependem de tokens pré-inseridos no banco. Garantir que cada caso de teste parta de um estado limpo (sem tokens residuais de execuções anteriores) exigiu blocos `beforeEach` com `DELETE FROM dispositivos` adicionados às suítes afetadas, aumentando a complexidade do setup.
 
 # <a name="c5"></a>5. Testes
 
@@ -6356,7 +6496,7 @@ Para cada endpoint o objetivo é cobrir quatro cenários: **sucesso (200/201)**,
 >
 > **Legenda OB:** casos da suite `eventoIntegration.test.ts` — OB1 (201 óbito válido completo), OB2 (201 campos movimentacao_id/obito_id/foto_id), OB3 (201 persistência foto e movimentação no banco), OB4 (400 payload vazio ou campo geral ausente), OB5 (422 sem identificacao_animal), OB6 (422 sem causa_morte), OB7 (422 sem foto_base64).
 >
-> ⚠ Lacunas: `GET /api/chamados`, `GET /api/chamados/:id` e `PATCH /api/chamados/:id/resolver` não possuem casos de integração. Os endpoints existem no `alertaController.ts` mas a cobertura de integração black-box é candidata para a sprint seguinte.
+> ⚠ Lacunas de cobertura identificadas: `GET /api/chamados`, `GET /api/chamados/:id` e `PATCH /api/chamados/:id/resolver` não possuem casos de integração black-box. Os endpoints existem e funcionam em `alertaController.ts`, mas a cobertura automatizada desses fluxos permanece como dívida técnica na versão final.
 
 **Verificação de persistência (white-box parcial).** Os casos C4, K3 e E4 consultam o banco diretamente após a chamada HTTP para confirmar o efeito colateral gravado — incluindo a entrada na fila de sincronização (padrão Outbox):
 
@@ -6655,7 +6795,7 @@ Foi verificado que os scripts formais de execução estão declarados no [`packa
 
 Conclui-se que a aplicação não apresenta bloqueio por compilação, regressão automatizada ou inoperância das funcionalidades core cobertas por testes. No entanto, a publicação ainda permanece impedida pela ausência de configuração de deploy versionada e evidência de ambiente publicado. Recomenda-se que a correção priorizada seja a criação de um artefato de deploy compatível com a estratégia definida para o projeto, acompanhado de URL de homologação e instruções de operação.
 
-## 5.2. Testes de usabilidade (sprint 5)
+## 5.2. Testes de usabilidade
 
 Os testes de usabilidade consistem em observar usuários reais executando tarefas representativas em um produto ou sistema, com o objetivo de identificar dificuldades, erros e pontos de fricção na interface antes que cheguem ao ambiente de produção. Segundo a norma ISO 9241-11:2018, usabilidade é definida como a medida em que um produto pode ser utilizado por usuários específicos para atingir objetivos específicos com eficácia, eficiência e satisfação em um dado contexto de uso [55].
 
@@ -7232,7 +7372,7 @@ A tabela a seguir consolida todos os problemas identificados nas duas rodadas de
 | 11 | Coordenador: Visualizar movimentação | Usabilidade | Participante sentiu falta de poder ordenar colunas na tabela de movimentações; visualização percebida como limitada | 1 — Cosmético | não | não | n/t | teve | não | não | Adicionar ordenação por coluna na tabela de movimentações do Coordenador |
 
 
-# <a name="c6"></a>6. Estudo de Mercado e Plano de Marketing (sprint 4)
+# <a name="c6"></a>6. Estudo de Mercado e Plano de Marketing
 
 ## 6.1 Resumo Executivo
 
@@ -7569,7 +7709,7 @@ Como estratégia de relacionamento, o programa de indicação entre clientes ati
 reduz o custo de aquisição e acelera a expansão para fazendas com perfil semelhante
 ao da BrPec, aproveitando a rede de confiança já estabelecida no setor.
 
-# <a name="c7"></a>7. Conclusões e trabalhos futuros (sprint 5)
+# <a name="c7"></a>7. Conclusões e trabalhos futuros
 
 ## 7.1. O que foi entregue
 
@@ -7661,7 +7801,7 @@ Os principais entregáveis funcionais incluem:
 
 **Onboarding para usuários com baixa literacia digital.** O perfil de Capataz descrito nas personas inclui usuários com dificuldade com leitura e escrita formal. Os testes de guerrilha indicaram que a terminologia e a navegação foram mais acessíveis para participantes com experiência rural, mas o escore SUS de P2 (45,0) sinaliza que parte do público-alvo pode ter dificuldades com a curva de aprendizado.
 
-# <a name="c8"></a>8. Referências (sprints 1 a 5)
+# <a name="c8"></a>8. Referências
 
 [1] ABIEC. **Brasil bate recorde nas exportações de carne bovina em 2025**. São Paulo: ABIEC, 2026. Disponível em: https://abiec.com.br/brasil-bate-recorde-nas-exportacoes-de-carne-bovina-em-2025/. Acesso em: 10 maio 2026.
 
