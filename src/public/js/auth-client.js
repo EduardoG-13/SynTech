@@ -1,7 +1,7 @@
 (function () {
   var ACCESS_TOKEN_KEY = 'brpec_access_token';
   var SESSION_KEY = 'brpec_sessao';
-  var AUTH_REQUEST_TIMEOUT_MS = Number(window.AUTH_REQUEST_TIMEOUT_MS || 5000);
+  var AUTH_REQUEST_TIMEOUT_MS = Number(window.AUTH_REQUEST_TIMEOUT_MS || 15000);
   var originalFetch = window.fetch.bind(window);
   var refreshPromise = null;
 

@@ -55,10 +55,10 @@ describe('Retry de sincronizacao offline-online', () => {
   it('calcula backoff exponencial com jitter controlado', () => {
     const { api } = carregarModuloSync();
 
-    expect(api.calcularAtrasoRetry(1, 0)).toBe(1000);
-    expect(api.calcularAtrasoRetry(2, 0)).toBe(2000);
-    expect(api.calcularAtrasoRetry(3, 0)).toBe(4000);
-    expect(api.calcularAtrasoRetry(2, 250)).toBe(2250);
+    expect(api.calcularAtrasoRetry(1, 0)).toBe(2000);
+    expect(api.calcularAtrasoRetry(2, 0)).toBe(4000);
+    expect(api.calcularAtrasoRetry(3, 0)).toBe(8000);
+    expect(api.calcularAtrasoRetry(2, 250)).toBe(4250);
   });
 
   it('retenta falha de comunicacao ate sucesso sem intervencao do usuario', async () => {
@@ -68,7 +68,7 @@ describe('Retry de sincronizacao offline-online', () => {
     const resultado = await api.executarComRetry(async () => {
       tentativas += 1;
 
-      if (tentativas < 3) {
+      if (tentativas < 5) {
         throw new Error('Falha simulada de comunicacao');
       }
 
@@ -76,12 +76,12 @@ describe('Retry de sincronizacao offline-online', () => {
     });
 
     expect(resultado).toEqual({ sucesso: true });
-    expect(tentativas).toBe(3);
-    expect(delays).toHaveLength(2);
-    expect(delays[0]).toBeGreaterThanOrEqual(1000);
-    expect(delays[0]).toBeLessThan(1500);
-    expect(delays[1]).toBeGreaterThanOrEqual(2000);
-    expect(delays[1]).toBeLessThan(2500);
+    expect(tentativas).toBe(5);
+    expect(delays).toHaveLength(4);
+    expect(delays[0]).toBeGreaterThanOrEqual(2000);
+    expect(delays[0]).toBeLessThan(2500);
+    expect(delays[1]).toBeGreaterThanOrEqual(4000);
+    expect(delays[1]).toBeLessThan(4500);
   });
 
   it('nao retenta erro marcado como nao transitorio', async () => {
@@ -112,8 +112,8 @@ describe('Retry de sincronizacao offline-online', () => {
       })
     ).rejects.toThrow('Servico indisponivel');
 
-    expect(tentativas).toBe(3);
-    expect(delays).toHaveLength(2);
+    expect(tentativas).toBe(5);
+    expect(delays).toHaveLength(4);
   });
 });
 
