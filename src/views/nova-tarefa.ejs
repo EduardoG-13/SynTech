@@ -1,0 +1,358 @@
+<%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/nova-os.css" />
+<link rel="stylesheet" href="/public/css/chamado.css" />
+
+<div id="device" class="logged">
+  <%- include('partials/sidebar') %>
+
+  <div id="app">
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar"><img src="/public/Icons/gerente.ico" alt="Gerente" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <h1>Nova Tarefa</h1>
+      <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %></div>
+    </div>
+
+    <main class="form-main">
+
+      <button type="button" class="btn-voltar" onclick="window.history.back()">⬅️ Voltar</button>
+
+      <form id="form-nova-tarefa">
+
+        <!-- 1. Tipo da tarefa (grid de cards) -->
+        <div class="card campo">
+          <label><img class="label-ico" src="/public/Icons/tarefas.ico" alt="" /> Tipo de tarefa</label>
+          <div class="operacao-grid" id="operacao-grid"></div>
+          <input type="hidden" id="tarefa-tipo" required />
+        </div>
+
+        <!-- 2. Retiro -->
+        <div class="card campo">
+          <label for="tarefa-retiro"><img class="label-ico" src="/public/Icons/localizacao.ico" alt="" /> Retiro</label>
+          <select id="tarefa-retiro" required></select>
+        </div>
+
+        <!-- 3. Capataz responsável -->
+        <div class="card campo">
+          <label for="tarefa-capataz"><img class="label-ico" src="/public/Icons/capataz.ico" alt="" /> Capataz responsável</label>
+          <select id="tarefa-capataz" required>
+            <option value="">— Selecione um retiro primeiro —</option>
+          </select>
+        </div>
+
+        <!-- 4. Data + Prioridade -->
+        <div class="card campo">
+          <div class="dois-campos">
+            <div>
+              <label for="tarefa-data"><img class="label-ico" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> Data de execução</label>
+              <input type="date" id="tarefa-data" required />
+            </div>
+            <div>
+              <label><img class="label-ico" src="/public/Icons/alerta.ico" alt="" /> Prioridade</label>
+              <div class="toggle-pills">
+                <button type="button" class="pill" data-prioridade="alta">🔴 Alta</button>
+                <button type="button" class="pill active" data-prioridade="media">🟡 Média</button>
+                <button type="button" class="pill" data-prioridade="baixa">🟢 Baixa</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Título -->
+        <div class="card campo">
+          <label for="tarefa-titulo"><img class="label-ico" src="/public/Icons/editar.ico" alt="" /> Título da tarefa</label>
+          <input type="text" id="tarefa-titulo" placeholder="Ex: Verificar nascimentos no Pasto 3" maxlength="120" required />
+        </div>
+
+        <!-- 6. Observações (texto) -->
+        <div class="card campo">
+          <label for="tarefa-observacoes"><img class="label-ico" src="/public/Icons/editar.ico" alt="" /> Observações / Instruções</label>
+          <textarea id="tarefa-observacoes" rows="4" placeholder="Detalhes para o Capataz executar a tarefa..."></textarea>
+        </div>
+
+        <!-- 7. Áudio de instrução -->
+        <div class="card campo">
+          <label><img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" /> Áudio de instrução (opcional)</label>
+          <p class="ajuda">Grave instruções faladas. O capataz vai ouvir antes de iniciar a tarefa.</p>
+          <button type="button" class="btn-audio" id="btn-gravar-audio">
+            <img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" />
+            <span id="audio-btn-txt">Gravar áudio</span>
+          </button>
+          <audio id="audio-preview" controls style="display:none; width:100%; margin-top:0.5rem;"></audio>
+          <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;">🗑️ Apagar áudio</button>
+        </div>
+
+        <!-- 8. Foto de referência -->
+        <div class="card campo">
+          <label><img class="label-ico" src="/public/Icons/tira_foto.ico" alt="" /> Foto de referência (opcional)</label>
+          <p class="ajuda">Ex: cerca quebrada, mapa do pasto. O capataz ainda precisará tirar foto na execução se o tipo exigir.</p>
+          <div class="upload-foto">
+            <label for="tarefa-foto" class="upload-label">
+              <img class="upload-icon-img" src="/public/Icons/tira_foto.ico" alt="" />
+              <span id="foto-txt">📷 Tirar foto ou escolher do celular</span>
+            </label>
+            <input type="file" id="tarefa-foto" accept="image/*" />
+          </div>
+          <img id="foto-preview" class="foto-preview" style="display:none; max-width:100%; border-radius:10px; margin-top:0.75rem;" />
+        </div>
+
+        <button type="submit" class="btn-enviar" id="btn-enviar" disabled>
+          <img class="btn-ico" src="/public/Icons/concluido.ico" alt="" /> Criar Tarefa
+        </button>
+
+        <p class="form-msg" id="form-msg" style="display:none;"></p>
+
+      </form>
+    </main>
+  </div>
+</div>
+
+<script>
+  var PRIORIDADE = 'media';
+  var TIPO_TAREFA = '';
+  var audioBase64 = '';
+  var fotoBase64 = '';
+  var RETIROS = [];
+  var CAPATAZES_POR_RETIRO = {};
+
+  var ICO_OPERACAO = {
+    nascimento:    'nascimento',
+    obito:         'obto',
+    transferencia: 'movimentacao',
+    compravenda:   'cedula_dinheiro_bovino',
+    evolucao:      'evolucao',
+    manejo:        'tarefas'
+  };
+
+  document.addEventListener('DOMContentLoaded', function() {
+    carregarDados();
+    configurarPrioridade();
+    configurarAudio();
+    configurarFoto();
+
+    document.getElementById('tarefa-retiro').addEventListener('change', popularCapatazes);
+    document.getElementById('form-nova-tarefa').addEventListener('submit', enviar);
+  });
+
+  function carregarDados() {
+    // Operações: mesma lista da Nova OS
+    fetch('/api/dados/form-nova-os', { credentials: 'same-origin' })
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        var grid = document.getElementById('operacao-grid');
+        grid.innerHTML = d.operacoes.map(function(o) {
+          var ico = ICO_OPERACAO[o.valor] || 'tarefas';
+          return '<button type="button" class="op-card" data-op="' + o.valor + '">' +
+            '<img class="op-card-ico" src="/public/Icons/' + ico + '.ico" alt="" />' +
+            '<span class="op-card-label">' + o.label + '</span>' +
+          '</button>';
+        }).join('');
+        grid.querySelectorAll('.op-card').forEach(function(card) {
+          card.addEventListener('click', function() {
+            grid.querySelectorAll('.op-card').forEach(function(c) { c.classList.remove('active'); });
+            card.classList.add('active');
+            TIPO_TAREFA = card.dataset.op;
+            document.getElementById('tarefa-tipo').value = TIPO_TAREFA;
+            validarFormulario();
+          });
+        });
+      });
+
+    // Retiros + capatazes
+    fetch('/api/dashboard/retiros', { credentials: 'same-origin' })
+      .then(function(r) { return r.json(); })
+      .then(function(retiros) {
+        RETIROS = retiros || [];
+        var sel = document.getElementById('tarefa-retiro');
+        sel.innerHTML = '<option value="">Selecione o retiro</option>' +
+          RETIROS.map(function(r) { return '<option value="' + r.id + '">' + r.nome + '</option>'; }).join('');
+      });
+
+    // Lista todos os capatazes pra agrupar por retiro
+    fetch('/api/admin/usuarios?perfil=Capataz', { credentials: 'same-origin' })
+      .then(function(r) { return r.ok ? r.json() : []; })
+      .then(function(usrs) {
+        (usrs || []).forEach(function(u) {
+          if (!u.retiro_id) return;
+          if (!CAPATAZES_POR_RETIRO[u.retiro_id]) CAPATAZES_POR_RETIRO[u.retiro_id] = [];
+          CAPATAZES_POR_RETIRO[u.retiro_id].push(u);
+        });
+      });
+
+    // Data padrão: hoje
+    var hoje = new Date().toISOString().slice(0, 10);
+    document.getElementById('tarefa-data').value = hoje;
+    document.getElementById('tarefa-data').min = hoje;
+  }
+
+  function popularCapatazes() {
+    var retiroId = document.getElementById('tarefa-retiro').value;
+    var sel = document.getElementById('tarefa-capataz');
+    var lista = CAPATAZES_POR_RETIRO[retiroId] || [];
+    if (!retiroId) {
+      sel.innerHTML = '<option value="">— Selecione um retiro primeiro —</option>';
+    } else if (lista.length === 0) {
+      sel.innerHTML = '<option value="">Sem capataz vinculado</option>';
+    } else {
+      sel.innerHTML = '<option value="">Selecione o capataz</option>' +
+        lista.map(function(u) { return '<option value="' + u.id + '">' + u.nome + '</option>'; }).join('');
+    }
+    validarFormulario();
+  }
+
+  function configurarPrioridade() {
+    document.querySelectorAll('.toggle-pills .pill[data-prioridade]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.toggle-pills .pill[data-prioridade]').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        PRIORIDADE = btn.dataset.prioridade;
+      });
+    });
+  }
+
+  // === Áudio (gravação) ===
+  var mediaRecorder = null, audioChunks = [], gravando = false;
+  function configurarAudio() {
+    var btn = document.getElementById('btn-gravar-audio');
+    var rem = document.getElementById('btn-remover-audio');
+    btn.addEventListener('click', function() {
+      if (!gravando) iniciarGravacao(); else pararGravacao();
+    });
+    rem.addEventListener('click', function() {
+      audioBase64 = '';
+      var p = document.getElementById('audio-preview');
+      p.src = ''; p.style.display = 'none';
+      rem.style.display = 'none';
+    });
+  }
+  function iniciarGravacao() {
+    if (!navigator.mediaDevices) { alert('Navegador não suporta gravação.'); return; }
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+      mediaRecorder = new MediaRecorder(stream);
+      audioChunks = [];
+      mediaRecorder.ondataavailable = function(e) { audioChunks.push(e.data); };
+      mediaRecorder.onstop = function() {
+        var blob = new Blob(audioChunks, { type: 'audio/webm' });
+        var r = new FileReader();
+        r.onloadend = function() {
+          audioBase64 = r.result;
+          var p = document.getElementById('audio-preview');
+          p.src = audioBase64; p.style.display = 'block';
+          document.getElementById('btn-remover-audio').style.display = 'inline-block';
+        };
+        r.readAsDataURL(blob);
+        stream.getTracks().forEach(function(t) { t.stop(); });
+      };
+      mediaRecorder.start();
+      gravando = true;
+      document.getElementById('audio-btn-txt').textContent = '⏹️ Parar gravação';
+      document.getElementById('btn-gravar-audio').classList.add('gravando');
+    }).catch(function() { alert('Permissão de microfone negada.'); });
+  }
+  function pararGravacao() {
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+    gravando = false;
+    document.getElementById('audio-btn-txt').textContent = 'Gravar novamente';
+    document.getElementById('btn-gravar-audio').classList.remove('gravando');
+  }
+
+  function configurarFoto() {
+    var input = document.getElementById('tarefa-foto');
+    input.addEventListener('change', function() {
+      if (!input.files.length) { fotoBase64 = ''; return; }
+      var file = input.files[0];
+      document.getElementById('foto-txt').textContent = '✅ ' + file.name;
+      var r = new FileReader();
+      r.onload = function(e) {
+        fotoBase64 = e.target.result;
+        var img = document.getElementById('foto-preview');
+        img.src = e.target.result; img.style.display = 'block';
+      };
+      r.readAsDataURL(file);
+    });
+  }
+
+  function validarFormulario() {
+    var ok = TIPO_TAREFA &&
+             document.getElementById('tarefa-retiro').value &&
+             document.getElementById('tarefa-capataz').value &&
+             document.getElementById('tarefa-data').value &&
+             document.getElementById('tarefa-titulo').value.trim().length > 0;
+    document.getElementById('btn-enviar').disabled = !ok;
+  }
+
+  ['tarefa-capataz', 'tarefa-data', 'tarefa-titulo'].forEach(function(id) {
+    document.addEventListener('input', function(e) {
+      if (e.target && e.target.id === id) validarFormulario();
+    });
+    document.addEventListener('change', function(e) {
+      if (e.target && e.target.id === id) validarFormulario();
+    });
+  });
+
+  function mostrarMsg(texto, tipo) {
+    var msg = document.getElementById('form-msg');
+    msg.textContent = texto;
+    msg.className = 'form-msg ' + tipo;
+    msg.style.display = 'block';
+    msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function enviar(e) {
+    e.preventDefault();
+    var payload = {
+      tipo_operacao: TIPO_TAREFA,
+      retiro_id: document.getElementById('tarefa-retiro').value,
+      capataz_id: document.getElementById('tarefa-capataz').value,
+      data_execucao: document.getElementById('tarefa-data').value,
+      prioridade: PRIORIDADE,
+      titulo: document.getElementById('tarefa-titulo').value.trim(),
+      descricao: document.getElementById('tarefa-titulo').value.trim(),
+      observacoes: document.getElementById('tarefa-observacoes').value.trim(),
+      audio_base64: audioBase64 || null,
+      foto_base64: fotoBase64 || null,
+    };
+
+    var btn = document.getElementById('btn-enviar');
+    btn.disabled = true;
+    var txtOriginal = btn.innerHTML;
+    btn.innerHTML = '⏳ Criando...';
+
+    fetch('/api/tarefas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify(payload),
+    })
+    .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
+    .then(function(res) {
+      if (!res.ok) {
+        btn.disabled = false;
+        btn.innerHTML = txtOriginal;
+        mostrarMsg('❌ ' + (res.data.erro || 'Erro ao criar tarefa.'), 'erro');
+        return;
+      }
+      try {
+        var resumo = {
+          operacao: 'tarefa-gerada',
+          data: payload.data_execucao,
+          retiro: payload.retiro_id,
+          titulo: payload.titulo,
+          tipo: payload.tipo_operacao,
+          tem_foto: !!payload.foto_base64,
+          observacoes: payload.observacoes,
+          criadoEm: new Date().toISOString(),
+        };
+        localStorage.setItem('brpec_ultimo_registro', JSON.stringify(resumo));
+      } catch (_) {}
+      mostrarMsg('✅ Tarefa criada!', 'sucesso');
+      setTimeout(function() { window.location.href = '/sucesso'; }, 800);
+    })
+    .catch(function() {
+      btn.disabled = false;
+      btn.innerHTML = txtOriginal;
+      mostrarMsg('❌ Erro de conexão.', 'erro');
+    });
+  }
+</script>
+
+<%- include('partials/footer') %>

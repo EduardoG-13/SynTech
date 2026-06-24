@@ -34,9 +34,10 @@ class ExportacaoService {
 
     // Gerar CSV compatível com Excel (UTF-8 BOM + delimitador regional ;)
     const BOM = '\uFEFF';
-    const cabecalho = 'data;retiro;tipo_evento;categoria;quantidade;capataz_responsavel;criado_em';
+    const cabecalho = 'numero_boleta;data;retiro;tipo_evento;categoria;quantidade;capataz_responsavel;criado_em';
     const linhas = registros.map((r: any) => {
       return [
+        r.numero_boleta,
         r.data,
         r.retiro,
         r.tipo_evento,

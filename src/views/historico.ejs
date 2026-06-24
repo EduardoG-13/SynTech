@@ -2,81 +2,46 @@
 <link rel="stylesheet" href="/public/css/tarefas.css" />
 <link rel="stylesheet" href="/public/css/boletas.css" />
 
-<style>
-  /* Histórico — ajustes de proporção mobile/desktop */
-  .hist-filtros-capataz { display:flex; gap:0.4rem; overflow-x:auto; -webkit-overflow-scrolling:touch; padding-bottom:0.25rem; margin-bottom:1rem; }
-  .hist-filtros-capataz .pill { flex:0 0 auto; font-size:0.8rem; padding:0.4rem 0.85rem; white-space:nowrap; }
-  .hist-secao-titulo { color:#1A4D2E; font-size:0.95rem; font-weight:600; margin:0 0 0.5rem 0; display:flex; align-items:center; gap:0.4rem; }
-  .hist-cards { display:flex; flex-direction:column; gap:0.6rem; }
-
-  /* Card de transferência pendente — segue exatamente o mesmo padrão do .tarefa-card */
-  .transf-card { display:flex; background:#fff; border:1px solid #d7dfd3; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.04); }
-  .transf-card .bar-lateral { width:6px; flex-shrink:0; background:#1A4D2E; }
-  .transf-card .transf-body { display:flex; align-items:center; justify-content:space-between; flex:1; padding:0.85rem 1rem; gap:0.85rem; }
-  .transf-card .transf-info { flex:1; min-width:0; display:flex; flex-direction:column; gap:0.25rem; }
-  .transf-card .transf-titulo { font-weight:700; font-size:0.95rem; color:#1B1B1B; }
-  .transf-card .transf-sub { font-size:0.8rem; color:#5C6B5D; }
-  .transf-card .transf-meta { display:flex; gap:0.55rem; font-size:0.72rem; color:#5C6B5D; margin-top:0.1rem; flex-wrap:wrap; }
-  .transf-card .transf-actions { display:flex; flex-direction:column; gap:0.4rem; align-items:flex-end; flex-shrink:0; }
-  .transf-card .badge { font-size:0.7rem; padding:0.25rem 0.6rem; }
-  .transf-card .btn-criar { background:#1A4D2E; color:#fff; border:none; border-radius:8px; font-size:0.78rem; font-weight:700; padding:0.45rem 0.8rem; cursor:pointer; white-space:nowrap; min-height:auto; text-transform:uppercase; letter-spacing:0.03em; }
-  .transf-card .btn-criar:hover { background:#2E7D52; }
-  @media(max-width:480px) {
-    .transf-card .transf-titulo { font-size:0.88rem; }
-    .transf-card .transf-sub { font-size:0.75rem; }
-    .transf-card .transf-meta { font-size:0.68rem; }
-    .transf-card .transf-body { padding:0.7rem 0.85rem; gap:0.5rem; }
-  }
-
-  @media(max-width:768px) {
-    .header-bar h1 { font-size:1.3rem !important; }
-    .header-bar .sub { font-size:0.8rem !important; }
-    .hist-filtros-capataz .pill { font-size:0.75rem; padding:0.35rem 0.7rem; }
-  }
-</style>
-
 <div id="device" class="logged">
   <%- include('partials/sidebar') %>
 
   <div id="app">
-    <div class="header-bar" style="margin-top: 0; margin-bottom: 1.5rem;">
-      <div class="user-avatar" aria-label="Perfil: <%= perfil %>"><span class="material-symbols-rounded" aria-hidden="true"><%= perfil === 'Gerente' ? 'manage_accounts' : (perfil === 'Coordenador' ? 'groups' : (perfil === 'Infraestrutura' ? 'construction' : 'engineering')) %></span></div>
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar"><img src="/public/Icons/<%= perfil === 'Gerente' ? 'gerente' : (perfil === 'Coordenador' ? 'coordenador' : (perfil === 'Infraestrutura' ? 'infra' : 'capataz')) %>.ico" alt="<%= perfil %>" style="width:32px;height:32px;object-fit:contain;" /></div>
       <h1>Histórico</h1>
       <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %></div>
     </div>
 
     <main class="tarefas-main">
 
-      <!-- Abas Boletas/Chamados (só Gerente e Coordenador — Capataz só vê boletas, Infra só vê chamados) -->
+      <!-- Abas: Boletas | Chamados (só exibe se tiver mais de uma aba, ou seja, Gerente e Coordenador) -->
       <% if (perfil === 'Gerente' || perfil === 'Coordenador') { %>
-        <div class="filter-pills" id="abas-hist" style="margin-bottom:1rem;">
-          <button class="pill active" data-aba="boletas"><span class="material-symbols-rounded ui-icon ico-md" aria-hidden="true">description</span> Boletas</button>
-          <button class="pill" data-aba="chamados"><span class="material-symbols-rounded ui-icon ico-md" aria-hidden="true">construction</span> Chamados</button>
+        <div class="filter-pills" id="abas-hist" style="margin-bottom: 1rem;">
+          <button class="pill active" data-aba="boletas"><img class="ico-md" src="/public/Icons/movimentacao.ico" alt="" /> Boletas</button>
+          <button class="pill" data-aba="chamados"><img class="ico-md" src="/public/Icons/infra.ico" alt="" /> Chamados</button>
         </div>
-      <% } else if (perfil === 'Infraestrutura') { %>
-        <!-- Infra não precisa de abas, só vê chamados -->
       <% } %>
 
-      <!-- Filtros avançados (Gerente e Coordenador) -->
+      <!-- Filtros (Gerente e Coordenador) -->
       <% if (perfil === 'Gerente' || perfil === 'Coordenador') { %>
         <div class="card-filtros" style="background:#fff; border:1px solid #d7dfd3; border-radius:12px; padding:1rem; margin-bottom:1rem;">
           <div class="export-datas" style="margin-bottom:0.5rem;">
             <div class="export-data-field" id="campo-filtro-busca" style="flex:2; min-width:200px;">
-              <label class="export-field-label"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">search</span> Pesquisar</label>
+              <label class="export-field-label"><img class="ico-sm" src="/public/Icons/lupa.ico" alt="" /> Pesquisar</label>
               <input type="text" id="filtro-busca" placeholder="Nº boleta, capataz..." style="width:100%; padding:0.45rem 0.7rem; border:1px solid #ccc; border-radius:8px; font-size:0.9rem;" />
             </div>
           </div>
           <div class="export-datas">
             <div class="export-data-field">
-              <label class="export-field-label"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">location_on</span> Retiro</label>
+              <label class="export-field-label"><img class="ico-sm" src="/public/Icons/localizacao.ico" alt="" /> Retiro</label>
               <select id="filtro-retiro"><option value="">Todos</option></select>
             </div>
             <div class="export-data-field" id="campo-filtro-tipo">
-              <label class="export-field-label"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">swap_horiz</span> Tipo</label>
+              <label class="export-field-label"><img class="ico-sm" src="/public/Icons/movimentacao.ico" alt="" /> Tipo</label>
               <select id="filtro-tipo">
                 <option value="">Todos</option>
                 <option value="nascimento">Nascimento</option>
-                <option value="obito">Morte</option>
+                <option value="obito">Óbito</option>
                 <option value="abate">Abate Interno</option>
                 <option value="transferencia">Transferência</option>
                 <option value="compravenda">Compra/Venda</option>
@@ -85,7 +50,7 @@
               </select>
             </div>
             <div class="export-data-field" id="campo-filtro-status">
-              <label class="export-field-label"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">check_circle</span> Status</label>
+              <label class="export-field-label"><img class="ico-sm" src="/public/Icons/concluido.ico" alt="" /> Status</label>
               <select id="filtro-status">
                 <option value="">Todos</option>
                 <option value="aprovada">Aprovadas</option>
@@ -93,48 +58,40 @@
               </select>
             </div>
             <div class="export-data-field">
-              <label class="export-field-label"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">calendar_month</span> De</label>
+              <label class="export-field-label"><img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> De</label>
               <input type="date" id="filtro-data-ini" />
             </div>
             <div class="export-data-field">
-              <label class="export-field-label"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">calendar_month</span> Até</label>
+              <label class="export-field-label"><img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> Até</label>
               <input type="date" id="filtro-data-fim" />
             </div>
           </div>
           <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.75rem;">
-            <button type="button" id="btn-aplicar-filtros" class="btn-primario"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">search</span> Aplicar filtros</button>
-            <button type="button" id="btn-limpar-filtros" class="btn btn-secundario" style="white-space:nowrap;" title="Limpar filtros"><span class="material-symbols-rounded ui-icon" aria-hidden="true">filter_alt_off</span> Limpar</button>
+            <button type="button" id="btn-aplicar-filtros" class="btn-primario"><img class="label-ico" src="/public/Icons/lupa.ico" alt="" /> Aplicar filtros</button>
+            <button type="button" id="btn-limpar-filtros" class="btn-secundario-laranja">🧹 Limpar</button>
             <% if (perfil === 'Coordenador') { %>
-              <button type="button" id="btn-exportar-xlsx" class="btn-secundario-laranja"><span class="material-symbols-rounded ui-icon" aria-hidden="true">table_view</span> Exportar XLSX</button>
-              <button type="button" id="btn-exportar-csv" class="btn-secundario-laranja" style="background:#5C6B5D; color:#fff;"><span class="material-symbols-rounded ui-icon" aria-hidden="true">description</span> Exportar CSV</button>
+              <button type="button" id="btn-exportar-xlsx" class="btn-secundario-laranja">📊 Exportar para Excel</button>
+              <button type="button" id="btn-exportar-csv" class="btn-secundario-laranja" style="background:#5C6B5D; color:#fff;">📄 Exportar CSV</button>
             <% } %>
           </div>
         </div>
       <% } %>
 
       <% if (perfil === 'Capataz') { %>
-      <!-- Filtros de status do Capataz -->
-      <div class="filter-pills hist-filtros-capataz" id="filtros-status-capataz">
-        <button class="pill active" data-st="">Todos</button>
-        <button class="pill" data-st="pendente"><span class="material-symbols-rounded ui-icon" aria-hidden="true">pending</span> Pendentes</button>
-        <button class="pill" data-st="aprovada"><span class="material-symbols-rounded ui-icon" aria-hidden="true">check_circle</span> Aprovadas</button>
-        <button class="pill" data-st="bloqueada"><span class="material-symbols-rounded ui-icon" aria-hidden="true">lock</span> Bloqueadas</button>
+      <!-- Filtros de status (Capataz) -->
+      <div class="filter-pills" id="filtros-status-capataz" style="margin-bottom:1.5rem; display:flex; gap:0.5rem; overflow-x:auto; padding-bottom:0.5rem; -webkit-overflow-scrolling: touch;">
+        <button class="pill active" data-st="" style="flex: 0 0 auto;">Todos</button>
+        <button class="pill" data-st="pendente" style="flex: 0 0 auto;">⏳ Pendentes</button>
+        <button class="pill" data-st="aprovada" style="flex: 0 0 auto;">✅ Aprovadas</button>
+        <button class="pill" data-st="bloqueada" style="flex: 0 0 auto;">🔒 Bloqueadas</button>
       </div>
 
-      <!-- Transferências para confirmar (bilateral) -->
-      <div id="transf-pendentes" style="display:none; margin-bottom:1.25rem;">
-        <p class="hist-secao-titulo"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">swap_horiz</span> Transferências para Confirmar</p>
-        <div id="transf-pendentes-lista" class="hist-cards"></div>
+      <div id="tarefas-gerente" style="display:none; margin-bottom:1.5rem;">
+        <h3 style="color:#1A4D2E; font-size:1rem; margin-bottom:0.75rem;"><img class="ico-sm" src="/public/Icons/tarefas.ico" alt="" /> Tarefas do Gerente</h3>
+        <div id="tarefas-gerente-lista" style="display:flex; flex-direction:column; gap:0.75rem;"></div>
       </div>
 
-      <!-- Tarefas do Gerente (se houver) -->
-      <div id="tarefas-gerente" style="display:none; margin-bottom:1.25rem;">
-        <p class="hist-secao-titulo"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">assignment</span> Tarefas do Gerente</p>
-        <div id="tarefas-gerente-lista" class="hist-cards"></div>
-      </div>
-
-      <!-- Título boletas (escondido se vazio) -->
-      <p class="hist-secao-titulo" id="titulo-boletas-cap" style="display:none;"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">description</span> Minhas Boletas</p>
+      <h3 id="titulo-boletas-cap" style="color:#1A4D2E; font-size:1rem; margin-bottom:0.75rem;"><img class="ico-sm" src="/public/Icons/movimentacao.ico" alt="" /> Minhas Boletas</h3>
       <% } %>
 
       <div class="tarefas-lista" id="hist-lista">
@@ -145,13 +102,6 @@
         <p>Nenhum registro encontrado.</p>
       </div>
 
-      <% if (perfil === 'Capataz') { %>
-      <!-- FAB Nova Boleta -->
-      <button class="btn btn-primario fab-nova-boleta" style="position:fixed; bottom:1.5rem; right:1.5rem; z-index:100; box-shadow:0 4px 16px rgba(26,77,46,0.3); border-radius:999px;" onclick="window.location.href='/nova-os'">
-        <span class="material-symbols-rounded ui-icon btn-ico" aria-hidden="true">add</span> Nova Boleta
-      </button>
-      <% } %>
-
     </main>
   </div>
 </div>
@@ -159,7 +109,6 @@
 <script>
   var PERFIL = '<%= perfil %>';
   var ABA_ATIVA = (PERFIL === 'Infraestrutura') ? 'chamados' : 'boletas';
-  var buscaTimer = null;
 
   document.addEventListener('DOMContentLoaded', function() {
     if (PERFIL === 'Gerente' || PERFIL === 'Coordenador') {
@@ -167,11 +116,7 @@
       document.getElementById('btn-aplicar-filtros').addEventListener('click', carregar);
       document.getElementById('btn-limpar-filtros').addEventListener('click', limparFiltros);
       var campoBusca = document.getElementById('filtro-busca');
-      if (campoBusca) campoBusca.addEventListener('input', function() {
-        filtrarPorBusca();
-        clearTimeout(buscaTimer);
-        buscaTimer = setTimeout(carregar, 350);
-      });
+      if (campoBusca) campoBusca.addEventListener('input', filtrarPorBusca);
       var btnXlsx = document.getElementById('btn-exportar-xlsx');
       if (btnXlsx) btnXlsx.addEventListener('click', function() { exportar('xlsx'); });
       var btnCsv = document.getElementById('btn-exportar-csv');
@@ -179,7 +124,6 @@
       ajustarFiltrosPorAba();
     }
     if (PERFIL === 'Capataz') {
-      carregarTransfPendentes();
       carregarTarefasGerente();
       document.querySelectorAll('#filtros-status-capataz .pill').forEach(function(btn) {
         btn.addEventListener('click', function() {
@@ -211,6 +155,7 @@
     });
   }
 
+  // Tipo e Status só fazem sentido pra boletas; aba "Chamados" esconde
   function ajustarFiltrosPorAba() {
     var campoTipo = document.getElementById('campo-filtro-tipo');
     var campoStatus = document.getElementById('campo-filtro-status');
@@ -224,13 +169,13 @@
 
   function limparFiltros() {
     ['filtro-retiro', 'filtro-tipo', 'filtro-status'].forEach(function(id) {
-      var el = document.getElementById(id); if (el) el.value = '';
+      var el = document.getElementById(id);
+      if (el) el.value = '';
     });
     ['filtro-data-ini', 'filtro-data-fim'].forEach(function(id) {
-      var el = document.getElementById(id); if (el) el.value = '';
+      var el = document.getElementById(id);
+      if (el) el.value = '';
     });
-    var busca = document.getElementById('filtro-busca');
-    if (busca) busca.value = '';
     carregar();
   }
 
@@ -252,44 +197,36 @@
     var status = document.getElementById('filtro-status');
     var ini = document.getElementById('filtro-data-ini');
     var fim = document.getElementById('filtro-data-fim');
-    var busca = document.getElementById('filtro-busca');
     if (ret && ret.value) p.set('retiro_id', ret.value);
     if (tipo && tipo.value && ABA_ATIVA === 'boletas') p.set('tipo', tipo.value);
     if (status && status.value && ABA_ATIVA === 'boletas') p.set('status', status.value);
     if (ini && ini.value) p.set('data_inicio', ini.value);
     if (fim && fim.value) p.set('data_fim', fim.value);
-    if (busca && busca.value.trim() && ABA_ATIVA === 'boletas') p.set('busca', busca.value.trim());
     return p.toString();
   }
 
   function carregar() {
     var cont = document.getElementById('hist-lista');
     var vazio = document.getElementById('hist-vazio');
-    cont.innerHTML = '<p style="text-align:center; color:#8A8A7C; padding:0.75rem; font-size:0.9rem;">Carregando...</p>';
+    cont.innerHTML = '<p style="text-align:center; color:#8A8A7C; padding:1rem;">Carregando...</p>';
     vazio.style.display = 'none';
 
-    var url = ABA_ATIVA === 'boletas'
-      ? '/api/historico/boletas?perfil_cache=' + encodeURIComponent(PERFIL)
-      : '/api/historico/chamados?perfil_cache=' + encodeURIComponent(PERFIL);
+    var url = ABA_ATIVA === 'boletas' ? '/api/historico/boletas' : '/api/historico/chamados';
     var qs = montarParams();
-    if (qs) url += '&' + qs;
+    if (qs) url += '?' + qs;
 
     fetch(url, { credentials: 'same-origin' })
       .then(function(r) { return r.json(); })
       .then(function(rows) {
-        var tituloCap = document.getElementById('titulo-boletas-cap');
         if (!rows || !rows.length) {
           cont.innerHTML = '';
           vazio.style.display = 'block';
-          if (tituloCap) tituloCap.style.display = 'none';
           return;
         }
-        if (tituloCap) tituloCap.style.display = 'flex';
         cont.innerHTML = ABA_ATIVA === 'boletas' ? renderBoletas(rows) : renderChamados(rows);
-        filtrarPorBusca();
       })
       .catch(function() {
-        cont.innerHTML = '<p style="color:#D32F2F; text-align:center; font-size:0.9rem;">Erro ao carregar.</p>';
+        cont.innerHTML = '<p style="color:#D32F2F; text-align:center;">Erro ao carregar.</p>';
       });
   }
 
@@ -297,56 +234,65 @@
     var cards = document.querySelectorAll('#hist-lista .tarefa-card');
     cards.forEach(function(card) {
       if (!st) { card.style.display = ''; return; }
-      card.style.display = (card.getAttribute('data-status') === st) ? '' : 'none';
+      var ds = card.getAttribute('data-status') || '';
+      card.style.display = (ds === st) ? '' : 'none';
     });
   }
 
   function renderBoletas(rows) {
-    var ICOS = { nascimento:'nascimento', obito:'obto', abate:'abate', transferencia:'movimentacao', compravenda:'cedula_dinheiro_bovino', evolucao:'evolucao', manejo:'tarefas' };
-    var ROT = { nascimento:'Nascimento', obito:'Morte', abate:'Abate Interno', transferencia:'Transferência', compravenda:'Compra/Venda', evolucao:'Evolução', manejo:'Manejo' };
-    return '<div class="hist-cards">' + rows.map(function(r) {
+    var ICOS = { nascimento: 'nascimento', obito: 'obto', abate: 'obto', transferencia: 'movimentacao', compravenda: 'movimentacao', evolucao: 'evolucao', manejo: 'tarefas' };
+    var ROT = { nascimento: 'Nascimento', obito: 'Óbito', abate: 'Abate Interno', transferencia: 'Transferência', compravenda: 'Compra/Venda', evolucao: 'Evolução', manejo: 'Manejo' };
+    return '<div style="display:flex; flex-direction:column; gap:0.75rem;">' + rows.map(function(r) {
       var ico = ICOS[r.operacao] || 'tarefas';
       var rotulo = ROT[r.operacao] || 'Registro';
+      if (r.operacao === 'transferencia') {
+        if (r.tipo === 'recebimento') rotulo = 'Transferência (Entrada)';
+        else rotulo = 'Transferência (Saída)';
+      }
       var data = r.data || (r.criadoEm || '').slice(0,10);
       var total = (r.animais || []).reduce(function(s,a){return s+(parseInt(a.quantidade)||0);},0);
       var statusKey = r.bloqueada ? 'bloqueada' : (r.aprovada ? 'aprovada' : 'pendente');
-      var badgeClass = r.bloqueada ? 'bloqueada' : (r.aprovada ? 'concluida' : 'pendente');
-      var badgeText = r.bloqueada ? 'Bloqueada' : (r.aprovada ? 'Aprovada' : 'Pendente');
-      var conflitoIcon = r.transferencia_conflito
-        ? '<span class="conflito-icon" title="Conflito: quantidades divergem">' + BRPIcons.html('alerta', 'ico-sm') + '</span>'
-        : '';
-      return '<div class="card tarefa-card" data-status="' + statusKey + '" onclick="window.location.href=\'/boleta/' + r.id + '\'">' +
-        '<div class="bar-lateral ' + badgeClass + '"></div>' +
+      var badge = r.bloqueada
+        ? '<span class="badge concluida" style="background:#666; color:#fff;">🔒 Bloqueada</span>'
+        : r.aprovada
+          ? '<span class="badge concluida">✅ Aprovada</span>'
+          : '<span class="badge pendente">⏳ Pendente</span>';
+
+      var badgeDivergencia = r.avisoDivergencia ? '<span style="background:#D32F2F; color:#fff; font-size:0.7rem; padding:2px 6px; border-radius:4px; font-weight:700; margin-left:0.5rem;" title="Coordenador relatou divergência nesta transferência!">⚠️ DIVERGÊNCIA</span>' : '';
+
+      return '<div class="card tarefa-card" data-status="' + statusKey + '" onclick="window.location.href=\'/boleta/' + r.id + '\'" style="' + (r.avisoDivergencia ? 'border-left:4px solid #D32F2F;' : '') + '">' +
+        '<div class="bar-lateral ' + (r.bloqueada ? 'bloqueada' : (r.aprovada ? 'concluida' : 'pendente')) + '"></div>' +
         '<div class="body">' +
           '<div class="info">' +
-            '<span class="titulo">' + rotulo + ' — ' + total + ' cab.' + conflitoIcon + '</span>' +
-            (r.numero_boleta ? '<span class="descricao boleta-num">' + r.numero_boleta + '</span>' : '') +
-            '<span class="descricao">' + (r.retiro_nome || '') + (r.capataz_nome ? ' · ' + r.capataz_nome : '') + '</span>' +
-            '<div class="meta"><span>' + data + '</span></div>' +
+            '<span class="titulo"><img class="label-ico" src="/public/Icons/' + ico + '.ico" alt="" /> ' + rotulo + ' — ' + total + ' cabeças' + badgeDivergencia + '</span>' +
+            (r.numero_boleta ? '<span class="descricao" style="font-weight:600; color:#1A4D2E;">' + r.numero_boleta + '</span>' : '') +
+            '<span class="descricao">' + (r.retiro_nome || '') + ' · ' + (r.capataz_nome || '') + '</span>' +
+            '<div class="meta"><span class="retiro-tag">📅 ' + data + '</span></div>' +
           '</div>' +
-          '<div class="status-area"><span class="badge ' + badgeClass + '">' + badgeText + '</span><span class="arrow">›</span></div>' +
+          '<div class="status-area">' + badge + '<span class="arrow">›</span></div>' +
         '</div>' +
       '</div>';
     }).join('') + '</div>';
   }
 
   function renderChamados(rows) {
-    var ICOS = { hidraulica:'hidraulica', eletrica:'eletrica', cerca:'cerca', bebedouro:'bebedouro' };
-    return '<div class="hist-cards">' + rows.map(function(c) {
+    var ICOS = { hidraulica: 'hidraulica', eletrica: 'eletrica', cerca: 'cerca', bebedouro: 'bebedouro' };
+    return '<div style="display:flex; flex-direction:column; gap:0.75rem;">' + rows.map(function(c) {
       var ico = ICOS[c.tipo] || 'alerta';
-      var sc = c.status === 'RESOLVIDO' ? 'concluida' : (c.status === 'EM_ANDAMENTO' ? 'andamento' : 'pendente');
-      var sl = c.status === 'RESOLVIDO' ? 'Resolvido' : (c.status === 'EM_ANDAMENTO' ? 'Em andamento' : 'Aberto');
+      var statusClasse = c.status === 'RESOLVIDO' ? 'concluida' : (c.status === 'EM_ANDAMENTO' ? 'andamento' : 'pendente');
+      var statusLabel = c.status === 'RESOLVIDO' ? 'Resolvido' : (c.status === 'EM_ANDAMENTO' ? 'Em andamento' : 'Aberto');
       var data = (c.criado_em || '').slice(0,10);
+      // Capataz/Gerente/Coord vão pra detalhe read-only; Infra vai pra resolver
       var rota = (PERFIL === 'Infraestrutura' || PERFIL === 'Tecnico') ? '/chamado/' + c.id + '/resolver' : '/chamado/' + c.id;
       return '<div class="card tarefa-card" onclick="window.location.href=\'' + rota + '\'">' +
-        '<div class="bar-lateral ' + sc + '"></div>' +
+        '<div class="bar-lateral ' + statusClasse + '"></div>' +
         '<div class="body">' +
           '<div class="info">' +
-            '<span class="titulo">' + BRPIcons.html(ico, 'label-ico') + ' ' + (c.descricao || '').slice(0, 50) + '</span>' +
+            '<span class="titulo"><img class="label-ico" src="/public/Icons/' + ico + '.ico" alt="" /> ' + (c.descricao || '').slice(0, 50) + '</span>' +
             '<span class="descricao">' + (c.tipo || '').toUpperCase() + ' · ' + (c.retiro_nome || '') + '</span>' +
-            '<div class="meta"><span class="retiro-tag"> ' + data + '</span></div>' +
+            '<div class="meta"><span class="retiro-tag">📅 ' + data + '</span></div>' +
           '</div>' +
-          '<div class="status-area"><span class="badge ' + sc + '">' + sl + '</span><span class="arrow">›</span></div>' +
+          '<div class="status-area"><span class="badge ' + statusClasse + '">' + statusLabel + '</span><span class="arrow">›</span></div>' +
         '</div>' +
       '</div>';
     }).join('') + '</div>';
@@ -357,18 +303,18 @@
     var qs = montarParams();
     var p = new URLSearchParams(qs);
     p.set('formato', formato);
+    // Se o filtro tipo foi escolhido, exporta só ele; senão, todos
     var tipoSel = document.getElementById('filtro-tipo');
     if (tipoSel && tipoSel.value) {
       p.set('tipos', tipoSel.value);
     } else {
-      p.set('tipos', ['nascimento','obito','abate','transferencia','compravenda','evolucao','manejo'].join(','));
+      p.set('tipos', ['nascimento', 'obito', 'abate', 'transferencia', 'compravenda', 'evolucao', 'manejo'].join(','));
     }
     window.location.href = '/api/coordenador/exportar?' + p.toString();
   }
 
-  // === Tarefas do Gerente (Capataz) ===
   var ICO_TAREFA = { nascimento:'nascimento', obito:'obto', transferencia:'movimentacao', compravenda:'cedula_dinheiro_bovino', evolucao:'evolucao', manejo:'tarefas' };
-  var ROT_TAREFA = { nascimento:'Nascimento', obito:'Morte', transferencia:'Transferência', compravenda:'Compra/Venda', evolucao:'Evolução', manejo:'Manejo' };
+  var ROT_TAREFA = { nascimento:'Nascimento', obito:'Óbito', transferencia:'Transferência', compravenda:'Compra/Venda', evolucao:'Evolução', manejo:'Manejo' };
 
   function carregarTarefasGerente() {
     fetch('/api/tarefas?status=ABERTA', { credentials: 'same-origin' })
@@ -383,54 +329,18 @@
           var ico = ICO_TAREFA[t.tipo_operacao] || 'tarefas';
           var rotulo = ROT_TAREFA[t.tipo_operacao] || t.tipo_operacao || 'Tarefa';
           var ehNova = (t.gerente_id && !t.vista_em && t.status !== 'CONCLUIDA');
-          var badgeNova = ehNova ? '<span class="badge-nova">NOVA</span>' : '';
-          var prio = t.prioridade ? '<span style="font-size:0.7rem;">● ' + t.prioridade.toUpperCase() + '</span>' : '';
-          return '<div class="card tarefa-card" onclick="window.location.href=\'/tarefa/' + t.id + '\'">' +
-            '<div class="bar-lateral andamento"></div>' +
+          var badgeNova = ehNova ? '<span style="background:#D32F2F;color:#fff;padding:2px 8px;border-radius:999px;font-size:0.7rem;font-weight:700;margin-left:0.4rem;">NOVA</span>' : '';
+          var prio = t.prioridade ? '<span style="font-size:0.75rem;">● ' + t.prioridade.toUpperCase() + '</span>' : '';
+          return '<div class="card tarefa-card" onclick="window.location.href=\'/tarefa/' + t.id + '\'" style="border-left:4px solid #E8A838;">' +
             '<div class="body"><div class="info">' +
-              '<span class="titulo">' + (t.titulo || rotulo) + badgeNova + '</span>' +
-              '<span class="descricao">Tarefa · ' + rotulo + ' · ' + (t.retiro_nome || '') + '</span>' +
-              '<div class="meta"><span>' + (t.data_execucao || '') + '</span> ' + prio + '</div>' +
-            '</div><div class="status-area"><span class="badge pendente">Pendente</span><span class="arrow">›</span></div></div>' +
+              '<span class="titulo"><img class="label-ico" src="/public/Icons/' + ico + '.ico" alt="" /> ' + (t.titulo || rotulo) + ' ' + badgeNova + '</span>' +
+              '<span class="descricao">📋 Tarefa do Gerente · ' + rotulo + ' · ' + (t.retiro_nome || '') + '</span>' +
+              '<div class="meta"><span class="retiro-tag">📅 ' + (t.data_execucao || '') + '</span> ' + prio + '</div>' +
+            '</div><div class="status-area"><span class="badge pendente">⏳ Pendente</span><span class="arrow">›</span></div></div>' +
           '</div>';
         }).join('');
       });
   }
-
-  // === Transferências bilaterais pendentes (Capataz) ===
-  function carregarTransfPendentes() {
-    fetch('/api/transferencias/pendentes', { credentials: 'same-origin' })
-      .then(function(r) { return r.ok ? r.json() : []; })
-      .then(function(lista) {
-        var bloco = document.getElementById('transf-pendentes');
-        var cont = document.getElementById('transf-pendentes-lista');
-        if (!lista.length || !bloco || !cont) return;
-        bloco.style.display = 'block';
-        cont.innerHTML = lista.map(function(t) {
-          var boleta = t.numero_boleta ? '<span class="transf-sub" style="font-weight:600; color:#1A4D2E;">' + t.numero_boleta + '</span>' : '';
-          return '<div class="transf-card">' +
-            '<div class="bar-lateral"></div>' +
-            '<div class="transf-body">' +
-              '<div class="transf-info">' +
-                '<span class="transf-titulo"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">swap_horiz</span> Recebimento — ' + t.total_cabecas + ' cab.</span>' +
-                boleta +
-                '<span class="transf-sub">' + (t.retiro_origem_nome || '?') + ' → ' + (t.retiro_destino_nome || '?') + '</span>' +
-                '<div class="transf-meta">' +
-                  '<span>' + (t.data || '') + '</span>' +
-                  (t.tipo_transporte ? '<span>' + t.tipo_transporte + '</span>' : '') +
-                  '<span>' + (t.categorias_resumo || '') + '</span>' +
-                '</div>' +
-              '</div>' +
-              '<div class="transf-actions">' +
-                '<span class="badge pendente">AGUARDANDO</span>' +
-                '<button class="btn-criar" onclick="event.stopPropagation(); window.location.href=\'/nova-os?transferencia_ref=' + t.grupo_id + '\'">Criar Boleta</button>' +
-              '</div>' +
-            '</div>' +
-          '</div>';
-        }).join('');
-      });
-  }
-
 </script>
 
 <%- include('partials/footer') %>

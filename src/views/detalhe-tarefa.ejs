@@ -8,63 +8,63 @@
   <div id="app">
 
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar"><span class="material-symbols-rounded ui-icon" aria-hidden="true">engineering</span></div>
+      <div class="user-avatar"><img src="/public/Icons/capataz.ico" alt="Capataz" style="width:32px;height:32px;object-fit:contain;" /></div>
       <h1>Detalhe da Tarefa</h1>
       <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %> · <%= retiro %></div>
     </div>
 
     <main class="detalhe-main">
 
-      <button class="btn-voltar" onclick="window.history.back()"><span class="material-symbols-rounded ui-icon back-ico" aria-hidden="true">arrow_back</span> Voltar</button>
+      <button class="btn-voltar" onclick="window.history.back()">⬅️ Voltar</button>
 
       <!-- Cabeçalho: tipo + status -->
       <div class="card detalhe-cabecalho">
         <h2 id="t-titulo">Carregando...</h2>
-        <span class="badge pendente" id="t-status">Carregando</span>
+        <span class="badge pendente" id="t-status">⏳ Carregando</span>
       </div>
 
       <!-- Dados principais -->
       <div class="card detalhe-bloco">
-        <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">assignment</span> Dados da tarefa</h3>
+        <h3><img class="label-ico" src="/public/Icons/tarefas.ico" alt="" /> Dados da tarefa</h3>
         <div class="dados-grid">
-          <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">swap_horiz</span> Tipo</span><span class="dado-valor" id="t-tipo">—</span></div>
-          <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">location_on</span> Retiro</span><span class="dado-valor" id="t-retiro">—</span></div>
-          <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">calendar_month</span> Data de execução</span><span class="dado-valor" id="t-data">—</span></div>
-          <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">warning</span> Prioridade</span><span class="dado-valor" id="t-prioridade">—</span></div>
-          <div class="dado"><span class="dado-label"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">manage_accounts</span> Criada por</span><span class="dado-valor" id="t-gerente">—</span></div>
+          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/movimentacao.ico" alt="" /> Tipo</span><span class="dado-valor" id="t-tipo">—</span></div>
+          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/localizacao.ico" alt="" /> Retiro</span><span class="dado-valor" id="t-retiro">—</span></div>
+          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/calendario_pagina_agenda.ico" alt="" /> Data de execução</span><span class="dado-valor" id="t-data">—</span></div>
+          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/alerta.ico" alt="" /> Prioridade</span><span class="dado-valor" id="t-prioridade">—</span></div>
+          <div class="dado"><span class="dado-label"><img class="label-ico" src="/public/Icons/gerente.ico" alt="" /> Criada por</span><span class="dado-valor" id="t-gerente">—</span></div>
         </div>
       </div>
 
       <!-- Instruções do gerente -->
       <div class="card detalhe-bloco">
-        <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">edit</span> Instruções</h3>
+        <h3><img class="label-ico" src="/public/Icons/editar.ico" alt="" /> Instruções</h3>
         <p id="t-observacoes">—</p>
       </div>
 
       <!-- Áudio do gerente -->
       <div class="card detalhe-bloco" id="bloco-audio">
-        <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">mic</span> Áudio de instrução</h3>
+        <h3><img class="label-ico" src="/public/Icons/grava_audio.ico" alt="" /> Áudio de instrução</h3>
         <audio controls id="t-audio" style="width:100%; display:none;"></audio>
-        <p class="sem-audio" id="t-sem-audio"> Sem áudio anexado.</p>
+        <p class="sem-audio" id="t-sem-audio">🔇 Sem áudio anexado.</p>
       </div>
 
       <!-- Foto de referência -->
       <div class="card detalhe-bloco" id="bloco-foto">
-        <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">photo_camera</span> Foto de referência</h3>
+        <h3><img class="label-ico" src="/public/Icons/tira_foto.ico" alt="" /> Foto de referência</h3>
         <img id="t-foto" class="foto-preview" style="display:none;" />
-        <p class="sem-audio" id="t-sem-foto"> Sem foto de referência.</p>
-        <p class="ajuda-detalhe" style="margin-top:0.5rem; color:#A64B00;" id="aviso-foto-extra"> Você ainda precisará tirar a foto na execução, conforme o tipo da tarefa.</p>
+        <p class="sem-audio" id="t-sem-foto">📭 Sem foto de referência.</p>
+        <p class="ajuda-detalhe" style="margin-top:0.5rem; color:#A64B00;" id="aviso-foto-extra">📷 Você ainda precisará tirar a foto na execução, conforme o tipo da tarefa.</p>
       </div>
 
       <!-- Botão Iniciar -->
       <button class="btn-enviar-detalhe" id="btn-iniciar" style="display:none;">
-        <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">play_arrow</span> Iniciar tarefa
+        <img class="label-ico" src="/public/Icons/iniciar_task.ico" alt="" /> Iniciar tarefa
       </button>
       <p id="t-msg" class="form-msg" style="display:none;"></p>
 
       <!-- Resultado se já concluída -->
       <div class="card detalhe-bloco" id="bloco-concluida" style="display:none;">
-        <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">check_circle</span> Tarefa concluída</h3>
+        <h3><img class="label-ico" src="/public/Icons/concluido.ico" alt="" /> Tarefa concluída</h3>
         <p>Esta tarefa já foi executada por você em <strong id="t-concluida-em">—</strong>.</p>
       </div>
 
@@ -78,7 +78,7 @@
   var TAREFA = null;
   var ROTULOS_OP = {
     nascimento:    'Nascimento',
-    obito:         'Morte',
+    obito:         'Óbito',
     transferencia: 'Transferência',
     compravenda:   'Compra / Venda',
     evolucao:      'Evolução',
@@ -127,16 +127,16 @@
 
     var badge = document.getElementById('t-status');
     if (t.status === 'CONCLUIDA') {
-      badge.textContent = ' Concluída';
+      badge.textContent = '✓ Concluída';
       badge.className = 'badge concluida';
       document.getElementById('bloco-concluida').style.display = 'block';
       setText('t-concluida-em', (t.concluida_em || '').replace('T', ' ').slice(0, 16));
     } else if (t.status === 'EM_ANDAMENTO') {
-      badge.textContent = 'Em andamento';
+      badge.textContent = '⏳ Em andamento';
       badge.className = 'badge andamento';
       document.getElementById('btn-iniciar').style.display = 'block';
     } else {
-      badge.textContent = 'Pendente';
+      badge.textContent = '⏳ Pendente';
       badge.className = 'badge pendente';
       document.getElementById('btn-iniciar').style.display = 'block';
     }

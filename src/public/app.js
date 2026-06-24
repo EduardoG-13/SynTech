@@ -8,6 +8,13 @@ const statusMessage = document.querySelector('#statusMessage');
 const recordsBody = document.querySelector('#recordsBody');
 const apiBaseUrl = window.location.port === '3000' ? '' : 'http://localhost:3000';
 
+// Este app.js é da tela de demonstração antiga. Em todas as outras páginas
+// (tarefas, dashboard, etc.) esses elementos não existem — então sai cedo
+// pra não quebrar a página inteira com "Cannot read properties of null".
+if (!seedButton || !form || !recordsBody) {
+  // não é a página de demo; nada a fazer aqui
+} else {
+
 const setStatus = (message, variant = 'neutral') => {
   statusMessage.textContent = message;
   statusMessage.className = `status ${variant}`;
@@ -122,3 +129,4 @@ loadRecords().catch((error) => {
   setStatus(error.error || 'Nao foi possivel carregar registros.', 'error');
   showResponse(error);
 });
+} // fim do guard da tela de demo

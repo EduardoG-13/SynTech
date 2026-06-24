@@ -14,6 +14,7 @@ class ExportacaoRepository {
     let sql = `
       SELECT
         m.id,
+        m.numero_boleta,
         m.data,
         r.nome AS retiro,
         CASE

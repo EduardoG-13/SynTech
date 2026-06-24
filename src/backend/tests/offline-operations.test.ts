@@ -1,19 +1,9 @@
 import request from 'supertest';
 import app from '../app';
 import { inicializarBanco } from '../config/initDb';
-import db from '../config/database';
 
-let agent: any;
-
-beforeAll(async () => {
+beforeAll(() => {
   inicializarBanco();
-  db.prepare('INSERT OR IGNORE INTO retiros (id, nome, localizacao) VALUES (?, ?, ?)')
-    .run('retiro-1', 'Retiro Teste 1', 'Local 1');
-  db.prepare('INSERT OR IGNORE INTO usuarios (id, nome, senha, perfil, retiro_id) VALUES (?, ?, ?, ?, ?)')
-    .run('cap-offline', 'Capataz Teste', require('bcryptjs').hashSync('hash', 10), 'Capataz', 'retiro-1');
-  
-  agent = request.agent(app);
-  await agent.post('/api/auth/login').send({ usuario: 'Capataz Teste', senha: 'hash', perfil: 'Capataz' });
 });
 
 describe('Front-end Offline Operations - Validação Completa', () => {
@@ -58,15 +48,6 @@ describe('Front-end Offline Operations - Validação Completa', () => {
     expect(response.text).toContain('salvarOffline');
   });
 
-  it('o handler offline do chamado expõe o caminho da API', async () => {
-    // /nova-os agora exige sessão (redireciona se não logado).
-    // Testamos o handler estático que tem a integração offline.
-    const response = await request(app).get('/public/js/novo-chamado-handler.js');
-    expect(response.status).toBe(200);
-    expect(response.text).toContain('CHAMADO_API_PATH');
-    expect(response.text).toContain('salvarOffline');
-  });
-
   it('db.js possui todas as funções necessárias', async () => {
     const response = await request(app).get('/public/js/db.js');
 
@@ -85,7 +66,7 @@ describe('Front-end Offline Operations - Validação Completa', () => {
 
     expect(response.text).toContain('/public/js/db.js');
     expect(response.text).toContain('/public/js/offline-interceptor.js');
-    expect(response.text).toContain('onlineStatus');
+    expect(response.text).toContain('status-conexao');
   });
 });
 

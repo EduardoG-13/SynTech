@@ -65,11 +65,14 @@ export class ViewRoutes {
       res.render('tarefa-concluir', { perfil, retiro, tarefaId: req.params.id });
     });
 
-    // Nova Ordem de Serviço (US01)
+    // Nova Ordem de Serviço (US01) — perfil e retiro vêm da sessão
     this.router.get('/nova-os', (req: Request, res: Response) => {
-      const perfil = req.query.perfil || 'Gerente';
-      const retiro = req.query.retiro || 'Geral';
-      res.render('nova-os', { perfil, retiro });
+      const sess = (req.session as any)?.usuario;
+      if (!sess) return res.redirect('/');
+      const perfil = sess.perfil;
+      const retiro = sess.retiro_id || '';
+      const nome = sess.nome || '';
+      res.render('nova-os', { perfil, retiro, nome });
     });
 
     // Novo Chamado de Infraestrutura (US03 / US06)

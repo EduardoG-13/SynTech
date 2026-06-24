@@ -9,7 +9,7 @@
 
           <div class="sucesso-card">
             <div class="sucesso-icone">
-              <span class="material-symbols-rounded ui-icon" aria-hidden="true">check_circle</span>
+              <img src="/public/Icons/concluido.ico" alt="" />
             </div>
             <h1 id="sucesso-titulo">Registro concluído!</h1>
             <p class="sucesso-sub" id="sucesso-sub">Seu registro foi salvo no dispositivo.</p>
@@ -27,10 +27,10 @@
 
             <div class="sucesso-acoes">
               <button class="btn-secundario" id="btn-historico">
-                <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">history</span> Ver histórico
+                <img class="label-ico" src="/public/Icons/historico_tempo_voltar.ico" alt="" /> Ver histórico
               </button>
               <button class="btn-primario-grande" id="btn-inicio">
-                <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">home</span> Voltar ao início
+                <img class="label-ico" src="/public/Icons/home.ico" alt="" /> Voltar ao início
               </button>
             </div>
           </div>
@@ -57,7 +57,7 @@
 
       // Botões de ação dependem do perfil
       document.getElementById('btn-historico').addEventListener('click', function () {
-        window.location.href = '/historico?perfil=' + encodeURIComponent(PERFIL || 'Capataz');
+        window.location.href = '/historico';
       });
       document.getElementById('btn-inicio').addEventListener('click', function () {
         if (PERFIL === 'Capataz') window.location.href = '/nova-os';
@@ -81,12 +81,12 @@
       function aplicar(pendentes) {
         box.classList.remove('ok');
         if (!navigator.onLine) {
-          txt.textContent = ' Salvo no aparelho — será enviado quando a conexão voltar.';
+          txt.textContent = '📴 Salvo no aparelho — será enviado quando a conexão voltar.';
         } else if (pendentes > 0) {
-          txt.textContent = 'Salvo no aparelho — sincronizando (' + pendentes + ' na fila)...';
+          txt.textContent = '⏳ Salvo no aparelho — sincronizando (' + pendentes + ' na fila)...';
         } else {
           box.classList.add('ok');
-          txt.textContent = ' Enviado para a nuvem.';
+          txt.textContent = '✓ Enviado para a nuvem.';
         }
       }
 
@@ -107,8 +107,8 @@
     function rotuloOperacao(op) {
       var map = {
         'nascimento': { ico: 'nascimento', label: 'Nascimento' },
-        'obito': { ico: 'obto', label: 'Morte' },
-        'abate': { ico: 'abate', label: 'Abate Interno' },
+        'obito': { ico: 'obto', label: 'Óbito' },
+        'abate': { ico: 'obto', label: 'Abate Interno' },
         'transferencia': { ico: 'movimentacao', label: 'Transferência' },
         'compravenda': { ico: 'movimentacao', label: 'Compra / Venda' },
         'evolucao': { ico: 'evolucao', label: 'Evolução' },
@@ -123,26 +123,26 @@
       document.getElementById('sucesso-titulo').textContent = info.label + ' registrado!';
 
       var html = '';
-      html += linhaResumo('Tipo', BRPIcons.html(info.ico, 'label-ico') + ' ' + info.label);
-      if (r.data) html += linhaResumo('<span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">calendar_month</span> Data', r.data);
-      if (r.retiro || r.retiro_origem) html += linhaResumo('<span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">location_on</span> Retiro', r.retiro || r.retiro_origem);
-      if (r.retiro_destino) html += linhaResumo('<span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">location_on</span> Destino', r.retiro_destino);
-      if (r.pasto) html += linhaResumo('<span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">grass</span> Pasto', r.pasto);
+      html += linhaResumo('Tipo', '<img class="label-ico" src="/public/Icons/' + info.ico + '.ico" alt="" /> ' + info.label);
+      if (r.data) html += linhaResumo('<img class="ico-sm" src="/public/Icons/calendario_pagina_agenda.ico" alt=""/> Data', r.data);
+      if (r.retiro || r.retiro_origem) html += linhaResumo('<img class="ico-sm" src="/public/Icons/localizacao.ico" alt=""/> Retiro', r.retiro || r.retiro_origem);
+      if (r.retiro_destino) html += linhaResumo('<img class="ico-sm" src="/public/Icons/destido.ico" alt=""/> Destino', r.retiro_destino);
+      if (r.pasto) html += linhaResumo('<img class="ico-sm" src="/public/Icons/Pasto.ico" alt=""/> Pasto', r.pasto);
 
       if (r.animais && r.animais.length) {
         var lista = r.animais.map(function (a) { return a.quantidade + ' × ' + a.categoria; }).join('<br>');
-        html += linhaResumo('<span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">swap_horiz</span> Animais', lista);
+        html += linhaResumo('<img class="ico-sm" src="/public/Icons/movimentacao.ico" alt=""/> Animais', lista);
         var total = r.animais.reduce(function (s, a) { return s + (parseInt(a.quantidade) || 0); }, 0);
-        html += linhaResumo('<span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">calculate</span> Total', '<strong>' + total + ' cabeças</strong>');
+        html += linhaResumo('<img class="ico-sm" src="/public/Icons/abaco_calculo_total.ico" alt=""/> Total', '<strong>' + total + ' cabeças</strong>');
       }
 
-      if (r.brinco) html += linhaResumo('<span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">sell</span> Brinco', r.brinco);
-      if (r.causa) html += linhaResumo('<span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">heart_broken</span> Causa', r.causa);
-      if (r.valor) html += linhaResumo('<span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">payments</span> Valor', 'R$ ' + r.valor);
-      if (r.titulo) html += linhaResumo('<span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">assignment</span> Título', r.titulo);
-      if (r.observacoes) html += linhaResumo('<span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">edit</span> Observações', r.observacoes);
-      if (r.observacoes_audio) html += linhaResumo('<span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">mic</span> Áudio', 'Anexado');
-      if (r.tem_foto) html += linhaResumo('<span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">photo_camera</span> Foto', 'Anexada');
+      if (r.brinco) html += linhaResumo('<img class="ico-sm" src="/public/Icons/Brinco.ico" alt=""/> Brinco', r.brinco);
+      if (r.causa) html += linhaResumo('<img class="ico-sm" src="/public/Icons/obto.ico" alt=""/> Causa', r.causa);
+      if (r.valor) html += linhaResumo('<img class="ico-sm" src="/public/Icons/cedula_dinheiro_bovino.ico" alt=""/> Valor', 'R$ ' + r.valor);
+      if (r.titulo) html += linhaResumo('<img class="ico-sm" src="/public/Icons/tarefas.ico" alt=""/> Título', r.titulo);
+      if (r.observacoes) html += linhaResumo('<img class="ico-sm" src="/public/Icons/editar.ico" alt=""/> Observações', r.observacoes);
+      if (r.observacoes_audio) html += linhaResumo('<img class="ico-sm" src="/public/Icons/grava_audio.ico" alt=""/> Áudio', 'Anexado');
+      if (r.tem_foto) html += linhaResumo('<img class="ico-sm" src="/public/Icons/tira_foto.ico" alt=""/> Foto', 'Anexada');
 
       document.getElementById('sucesso-resumo').innerHTML = html;
     }

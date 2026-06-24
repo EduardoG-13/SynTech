@@ -45,7 +45,7 @@ class SincronizacaoRepository {
         concluida_em,
         sincronizada
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 1)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, TRUE)
       ON CONFLICT (id) DO UPDATE SET
         titulo = EXCLUDED.titulo,
         descricao = EXCLUDED.descricao,
@@ -55,7 +55,7 @@ class SincronizacaoRepository {
         capataz_id = EXCLUDED.capataz_id,
         gerente_id = EXCLUDED.gerente_id,
         concluida_em = EXCLUDED.concluida_em,
-        sincronizada = 1
+        sincronizada = TRUE
       `,
       [
         id,
@@ -91,7 +91,7 @@ class SincronizacaoRepository {
         criado_em,
         sincronizado
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 1)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, TRUE)
       ON CONFLICT (id) DO UPDATE SET
         tipo = EXCLUDED.tipo,
         descricao = EXCLUDED.descricao,
@@ -100,7 +100,7 @@ class SincronizacaoRepository {
         retiro_id = EXCLUDED.retiro_id,
         latitude = EXCLUDED.latitude,
         longitude = EXCLUDED.longitude,
-        sincronizado = 1
+        sincronizado = TRUE
       `,
       [
         id,
@@ -135,14 +135,14 @@ class SincronizacaoRepository {
         coordenador_id,
         criado_em
       )
-      VALUES ($1, $2, $3, $4, $5, $6, 1, $7, $8, $9)
+      VALUES ($1, $2, $3, $4, $5, $6, TRUE, $7, $8, $9)
       ON CONFLICT (id) DO UPDATE SET
         capataz_id = EXCLUDED.capataz_id,
         retiro_id = EXCLUDED.retiro_id,
         data = EXCLUDED.data,
         categoria = EXCLUDED.categoria,
         quantidade = EXCLUDED.quantidade,
-        sincronizado = 1,
+        sincronizado = TRUE,
         validado = EXCLUDED.validado,
         coordenador_id = EXCLUDED.coordenador_id
       `,
@@ -182,7 +182,7 @@ class SincronizacaoRepository {
         criada_em,
         sincronizada
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, 1)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, TRUE)
       ON CONFLICT (id) DO UPDATE SET
         tarefa_id = EXCLUDED.tarefa_id,
         alerta_id = EXCLUDED.alerta_id,
@@ -194,7 +194,7 @@ class SincronizacaoRepository {
         duracao_segundos = EXCLUDED.duracao_segundos,
         conteudo = EXCLUDED.conteudo,
         tamanho_bytes = EXCLUDED.tamanho_bytes,
-        sincronizada = 1
+        sincronizada = TRUE
       `,
       [
         id,
@@ -229,7 +229,7 @@ class SincronizacaoRepository {
               id, titulo, descricao, status, data_execucao,
               retiro_id, capataz_id, gerente_id, criada_em, concluida_em, sincronizada
             )
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 1)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, TRUE)
             ON CONFLICT (id) DO UPDATE SET
               titulo = EXCLUDED.titulo,
               descricao = EXCLUDED.descricao,
@@ -239,7 +239,7 @@ class SincronizacaoRepository {
               capataz_id = EXCLUDED.capataz_id,
               gerente_id = EXCLUDED.gerente_id,
               concluida_em = EXCLUDED.concluida_em,
-              sincronizada = 1
+              sincronizada = TRUE
             `,
             [
               registro.id || uuidv7(),
@@ -263,7 +263,7 @@ class SincronizacaoRepository {
               id, tipo, descricao, status, capataz_id,
               retiro_id, latitude, longitude, criado_em, sincronizado
             )
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 1)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, TRUE)
             ON CONFLICT (id) DO UPDATE SET
               tipo = EXCLUDED.tipo,
               descricao = EXCLUDED.descricao,
@@ -272,7 +272,7 @@ class SincronizacaoRepository {
               retiro_id = EXCLUDED.retiro_id,
               latitude = EXCLUDED.latitude,
               longitude = EXCLUDED.longitude,
-              sincronizado = 1
+              sincronizado = TRUE
             `,
             [
               registro.id || uuidv7(),
@@ -295,14 +295,14 @@ class SincronizacaoRepository {
               id, capataz_id, retiro_id, data, categoria,
               quantidade, sincronizado, validado, coordenador_id, criado_em
             )
-            VALUES ($1, $2, $3, $4, $5, $6, 1, $7, $8, $9)
+            VALUES ($1, $2, $3, $4, $5, $6, TRUE, $7, $8, $9)
             ON CONFLICT (id) DO UPDATE SET
               capataz_id = EXCLUDED.capataz_id,
               retiro_id = EXCLUDED.retiro_id,
               data = EXCLUDED.data,
               categoria = EXCLUDED.categoria,
               quantidade = EXCLUDED.quantidade,
-              sincronizado = 1,
+              sincronizado = TRUE,
               validado = EXCLUDED.validado,
               coordenador_id = EXCLUDED.coordenador_id
             `,
@@ -328,7 +328,7 @@ class SincronizacaoRepository {
               arquivo_base64, url_arquivo, geolocalizacao,
               duracao_segundos, conteudo, tamanho_bytes, criada_em, sincronizada
             )
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, 1)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, TRUE)
             ON CONFLICT (id) DO UPDATE SET
               tarefa_id = EXCLUDED.tarefa_id,
               alerta_id = EXCLUDED.alerta_id,
@@ -340,7 +340,7 @@ class SincronizacaoRepository {
               duracao_segundos = EXCLUDED.duracao_segundos,
               conteudo = EXCLUDED.conteudo,
               tamanho_bytes = EXCLUDED.tamanho_bytes,
-              sincronizada = 1
+              sincronizada = TRUE
             `,
             [
               registro.id || uuidv7(),

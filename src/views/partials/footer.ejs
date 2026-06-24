@@ -1,7 +1,7 @@
 <!-- Indicador de conexão — fixo no TOPO, visível em todas as telas logadas -->
 <div id="status-conexao" class="status-conexao online" role="status" aria-live="polite" title="Status de conexão. Toque para sincronizar.">
   <span class="status-dot"></span>
-  <span id="onlineStatus">Online</span>
+  <span id="status-conexao-txt">Online</span>
   <span id="status-conexao-pend" class="status-pend" style="display:none;"></span>
 </div>
 
@@ -31,7 +31,7 @@
     function iniciarStatusConexao() {
       var pill = document.getElementById('status-conexao');
       if (!pill) return;
-      var txt = document.getElementById('onlineStatus');
+      var txt = document.getElementById('status-conexao-txt');
       var pend = document.getElementById('status-conexao-pend');
 
       // Conta itens ainda não enviados na fila local (IndexedDB)
@@ -97,7 +97,7 @@
 
 <!-- Botão flutuante "Instalar app" — só aparece quando o browser permite -->
 <button id="btn-instalar-pwa" class="pwa-install-btn" style="display:none;" onclick="instalarPWA()">
-  <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">install_mobile</span> Instalar app
+  <img class="label-ico" src="/public/Icons/instalar_aplicativo_celular.ico" alt="" /> Instalar app
 </button>
 
 <!-- Registro do Service Worker + handler de instalação do PWA -->
@@ -105,9 +105,9 @@
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
       navigator.serviceWorker.register('/sw.js')
-        .then(function (reg) {
-          console.log('[SW] Registrado:', reg.scope);
-
+        .then(function (reg) { 
+          console.log('[SW] Registrado:', reg.scope); 
+          
           var perfil = '<%= typeof usuario !== "undefined" ? usuario.perfil : "" %>';
           if (perfil) {
             navigator.serviceWorker.ready.then(function(registration) {

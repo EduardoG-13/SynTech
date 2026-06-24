@@ -4,96 +4,6 @@
  */
 
 const MAX_ITEMS_POR_LOTE = 500;
-const MAX_TENTATIVAS_RETRY = 3;
-const BACKOFF_BASE_MS = 1000;
-const JITTER_MAX_MS = 500;
-const SYNC_REQUEST_TIMEOUT_MS = Number(window.SYNC_REQUEST_TIMEOUT_MS || 5000);
-const SYNC_EVIDENCE_TIMEOUT_MS = Number(window.SYNC_EVIDENCE_TIMEOUT_MS || 10000);
-
-let syncInProgress = false;
-
-const aguardar = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-export function calcularAtrasoRetry(tentativa, jitter = Math.floor(Math.random() * JITTER_MAX_MS)) {
-  const expoente = Math.max(tentativa - 1, 0);
-  return BACKOFF_BASE_MS * (2 ** expoente) + jitter;
-}
-
-function criarErroRetryable(mensagem, retryable = true) {
-  const erro = new Error(mensagem);
-  erro.retryable = retryable;
-  return erro;
-}
-
-async function fetchComTimeout(url, opcoes = {}, timeoutMs = SYNC_REQUEST_TIMEOUT_MS) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-
-  try {
-    return await fetch(url, {
-      ...opcoes,
-      signal: controller.signal,
-    });
-  } catch (erro) {
-    if (erro && erro.name === 'AbortError') {
-      throw criarErroRetryable('TIMEOUT');
-    }
-
-    throw criarErroRetryable(erro.message || 'Falha de comunicacao');
-  } finally {
-    clearTimeout(timeoutId);
-  }
-}
-
-function deveRetentarStatus(status) {
-  return status === 408 || status === 429 || status >= 500;
-}
-
-function payloadPossuiEvidencia(valor) {
-  if (!valor || typeof valor !== 'object') {
-    return false;
-  }
-
-  const camposDeMidia = ['fotoBase64', 'audioBase64', 'audio_base64', 'arquivo_base64'];
-
-  for (const campo of camposDeMidia) {
-    if (valor[campo]) {
-      return true;
-    }
-  }
-
-  return Object.values(valor).some((item) => payloadPossuiEvidencia(item));
-}
-
-export async function executarComRetry(operacao, opcoes = {}) {
-  const maxTentativas = opcoes.maxTentativas || MAX_TENTATIVAS_RETRY;
-  let ultimoErro;
-
-  for (let tentativa = 1; tentativa <= maxTentativas; tentativa += 1) {
-    try {
-      return await operacao(tentativa);
-    } catch (erro) {
-      ultimoErro = erro;
-
-      if (erro && erro.retryable === false) {
-        throw erro;
-      }
-
-      if (tentativa >= maxTentativas) {
-        break;
-      }
-
-      const atraso = calcularAtrasoRetry(tentativa);
-      console.warn(
-        `[Sincronizador] Falha de comunicacao na tentativa ${tentativa}/${maxTentativas}. Retentando em ${atraso}ms.`,
-        erro
-      );
-      await aguardar(atraso);
-    }
-  }
-
-  throw ultimoErro;
-}
 
 function obterTipoEntidade(item) {
   const url = item.dados?.url;
@@ -113,15 +23,7 @@ function obterTipoEntidade(item) {
     }
   }
 
-  if (item.tipo === 'chamado' || item.tipo === 'resolucao_chamado') {
-    return 'alerta';
-  }
-
-  if (item.tipo === 'boleta' || item.tipo === 'movimentacao') {
-    return 'movimentacao';
-  }
-
-  if (item.tipo === 'tarefa') {
+  if (item.tipo === 'tarefa' || item.tipo === 'chamado') {
     return 'tarefa';
   }
 
@@ -136,124 +38,69 @@ function extrairDadosDoItem(item) {
   return item.dados?.dados ?? item.dados ?? null;
 }
 
-function ehRequisicaoOriginal(item) {
-  return !!(item && item.dados && typeof item.dados.url === 'string');
+// Boletas são polimórficas (N movimentações + numero_boleta/grupo_id gerados no
+// servidor), então NÃO cabem no /lote genérico: reenviamos a requisição ORIGINAL
+// (POST/PUT em /api/boletas), que já executa toda a lógica de criação/edição.
+function ehReplayDireto(item) {
+  const url = item?.dados?.url;
+  return typeof url === 'string' && url.includes('/api/boletas');
 }
 
-async function marcarFalhaLocal(registro, erro) {
-  registro.status = 'FALHA';
-  registro.dados = {
-    ...registro.dados,
-    tentativas: (registro.dados?.tentativas || 0) + 1,
-    ultimaTentativa: new Date().toISOString(),
-    erroServidor: erro,
-  };
-  await window.brpecIndexedDb.atualizarFila(registro);
-}
+async function replayItemDireto(item) {
+  const url = item.dados.url;
+  const metodo = item.dados.metodo || 'POST';
+  const corpo = extrairDadosDoItem(item);
 
-async function enviarRequisicoesOriginais(itensOriginais) {
-  const resultados = [];
-  const idsParaRemover = [];
-  let sucessos = 0;
-  let erros = 0;
+  const resp = await fetch(url, {
+    method: metodo,
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'same-origin',
+    body: corpo ? JSON.stringify(corpo) : null,
+  });
 
-  for (const item of itensOriginais) {
-    const dadosFila = item.dados || {};
-    const payload = dadosFila.dados || {};
-    const timeoutMs = payloadPossuiEvidencia(payload)
-      ? SYNC_EVIDENCE_TIMEOUT_MS
-      : SYNC_REQUEST_TIMEOUT_MS;
-
-    const response = await fetchComTimeout(
-      dadosFila.url,
-      {
-        method: dadosFila.metodo || 'POST',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: payload ? JSON.stringify(payload) : null,
-      },
-      timeoutMs
-    );
-
-    if (response.ok) {
-      idsParaRemover.push(item.id);
-      sucessos += 1;
-      resultados.push({
-        entidade_tipo: obterTipoEntidade(item),
-        entidade_id: payload.id || payload.grupo_id || String(item.id),
-        status: 'SINCRONIZADO',
-      });
-      continue;
+  if (resp.status >= 200 && resp.status < 300) {
+    try {
+      await window.brpecIndexedDb.removerVarios([item.id]);
+    } catch (e) {
+      console.error('[Sincronizador] Falha ao remover boleta sincronizada localmente:', e);
     }
-
-    const errorText = await response.text();
-    const erro = `Falha ao reenviar requisição original: ${response.status} ${errorText}`;
-    erros += 1;
-    resultados.push({
-      entidade_tipo: obterTipoEntidade(item),
-      entidade_id: payload.id || payload.grupo_id || String(item.id),
-      status: 'ERRO',
-      erro,
-    });
-
-    await marcarFalhaLocal(item, erro);
+    return true;
   }
 
-  if (idsParaRemover.length > 0) {
-    await window.brpecIndexedDb.removerVarios(idsParaRemover);
+  // Mantém PENDENTE para nova tentativa na próxima conexão; apenas registra a tentativa.
+  try {
+    item.dados = {
+      ...item.dados,
+      tentativas: (item.dados.tentativas || 0) + 1,
+      ultimaTentativa: new Date().toISOString(),
+      erroServidor: `HTTP ${resp.status}`,
+    };
+    await window.brpecIndexedDb.atualizarFila(item);
+  } catch (e) {
+    console.error('[Sincronizador] Falha ao registrar tentativa de boleta:', e);
   }
-
-  return {
-    processados: itensOriginais.length,
-    sucessos,
-    erros,
-    resultados,
-  };
+  return false;
 }
 
-async function enviarLoteSemRetry(itensPendentes) {
-  const itensOriginais = itensPendentes.filter(ehRequisicaoOriginal);
-  const itensGenericos = itensPendentes.filter((item) => !ehRequisicaoOriginal(item));
-
-  const resultadoOriginal = itensOriginais.length
-    ? await enviarRequisicoesOriginais(itensOriginais)
-    : { processados: 0, sucessos: 0, erros: 0, resultados: [] };
-
-  if (!itensGenericos.length) {
-    return resultadoOriginal;
-  }
-
-  const itensParaEnviar = itensGenericos.map((item) => ({
+async function enviarLote(itensPendentes) {
+  const itensParaEnviar = itensPendentes.map((item) => ({
     id: item.id,
     entidade_tipo: obterTipoEntidade(item),
     dados: extrairDadosDoItem(item),
   }));
 
-  const timeoutMs = itensParaEnviar.some((item) => payloadPossuiEvidencia(item.dados))
-    ? SYNC_EVIDENCE_TIMEOUT_MS
-    : SYNC_REQUEST_TIMEOUT_MS;
-
-  const response = await fetchComTimeout(
-    '/api/sincronizacao/lote',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ itens: itensParaEnviar }),
+  const response = await fetch('/api/sincronizacao/lote', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
-    timeoutMs
-  );
+    body: JSON.stringify({ itens: itensParaEnviar }),
+  });
 
   // Exigir confirmação explícita (200 ou 201) antes de considerar os itens enviados
   if (response.status !== 200 && response.status !== 201) {
     const errorText = await response.text();
-    throw criarErroRetryable(
-      `Falha no envio do lote: ${response.status} ${errorText}`,
-      deveRetentarStatus(response.status)
-    );
+    throw new Error(`Falha no envio do lote: ${response.status} ${errorText}`);
   }
 
   const resultado = await response.json();
@@ -268,7 +115,7 @@ async function enviarLoteSemRetry(itensPendentes) {
 
   for (let index = 0; index < resultado.resultados.length; index += 1) {
     const resultadoItem = resultado.resultados[index];
-    const registro = itensGenericos[index];
+    const registro = itensPendentes[index];
 
     if (resultadoItem.status === 'SINCRONIZADO') {
       idsParaRemover.push(registro.id);
@@ -304,19 +151,7 @@ async function enviarLoteSemRetry(itensPendentes) {
     }
   }
 
-  return {
-    processados: resultadoOriginal.processados + (resultado.processados || itensGenericos.length),
-    sucessos: resultadoOriginal.sucessos + (resultado.sucessos || 0),
-    erros: resultadoOriginal.erros + (resultado.erros || 0),
-    resultados: [
-      ...resultadoOriginal.resultados,
-      ...(resultado.resultados || []),
-    ],
-  };
-}
-
-async function enviarLote(itensPendentes) {
-  return executarComRetry(() => enviarLoteSemRetry(itensPendentes));
+  return resultado;
 }
 
 /**
@@ -325,19 +160,8 @@ async function enviarLote(itensPendentes) {
  * @returns {Promise<Object>} Resultado da sincronização
  */
 export async function processarFilaSincronizacao() {
-  let syncLockAdquirido = false;
-
   try {
     console.log('[Sincronizador] Iniciando processamento da fila...');
-
-    if (syncInProgress) {
-      console.warn('[Sincronizador] Sincronização já em andamento - ignorando nova execução');
-      return {
-        sucesso: false,
-        mensagem: 'Sincronização já em andamento',
-        emAndamento: true,
-      };
-    }
 
     if (!navigator.onLine) {
       console.warn('[Sincronizador] Dispositivo offline - aguardando conexão');
@@ -352,9 +176,6 @@ export async function processarFilaSincronizacao() {
       throw new Error('IndexedDB não está inicializado');
     }
 
-    syncInProgress = true;
-    syncLockAdquirido = true;
-
     const itens = await window.brpecIndexedDb.listarFila();
     console.log(`[Sincronizador] Encontrados ${itens.length} itens na fila`);
 
@@ -368,13 +189,13 @@ export async function processarFilaSincronizacao() {
       };
     }
 
-    const itensPendentes = itens.filter((item) => ['PENDENTE', 'FALHA', 'pending', 'failed'].includes(item.status));
-    console.log(`[Sincronizador] ${itensPendentes.length} itens com status PENDENTE ou FALHA`);
+    const itensPendentes = itens.filter((item) => item.status === 'PENDENTE');
+    console.log(`[Sincronizador] ${itensPendentes.length} itens com status PENDENTE`);
 
     if (itensPendentes.length === 0) {
       return {
         sucesso: true,
-        mensagem: 'Nenhum item pendente ou com falha',
+        mensagem: 'Nenhum item pendente',
         processados: 0,
         sucessos: 0,
         erros: 0,
@@ -386,8 +207,24 @@ export async function processarFilaSincronizacao() {
     let erros = 0;
     const resultados = [];
 
-    for (let i = 0; i < itensPendentes.length; i += MAX_ITEMS_POR_LOTE) {
-      const lote = itensPendentes.slice(i, i + MAX_ITEMS_POR_LOTE);
+    // 1) Replay direto: boletas reenviam a requisição original ao /api/boletas
+    const itensReplay = itensPendentes.filter(ehReplayDireto);
+    const itensLote = itensPendentes.filter((item) => !ehReplayDireto(item));
+
+    for (const item of itensReplay) {
+      processados += 1;
+      try {
+        const ok = await replayItemDireto(item);
+        if (ok) sucessos += 1; else erros += 1;
+      } catch (e) {
+        erros += 1;
+        console.error('[Sincronizador] Erro ao reenviar boleta offline:', e);
+      }
+    }
+
+    // 2) Lote genérico: tarefas, chamados/alertas, movimentações, evidências
+    for (let i = 0; i < itensLote.length; i += MAX_ITEMS_POR_LOTE) {
+      const lote = itensLote.slice(i, i + MAX_ITEMS_POR_LOTE);
       console.log(`[Sincronizador] Enviando lote de ${lote.length} itens para /api/sincronizacao/lote`);
 
       const resultadoLote = await enviarLote(lote);
@@ -400,6 +237,13 @@ export async function processarFilaSincronizacao() {
     console.log(
       `[Sincronizador] Sincronização concluída: processados=${processados}, sucessos=${sucessos}, erros=${erros}`
     );
+
+    // Avisa a UI (pill de status no topo) para recontar a fila
+    try {
+      window.dispatchEvent(new CustomEvent('brpec:sincronizacaoConcluida', {
+        detail: { processados, sucessos, erros },
+      }));
+    } catch (e) { /* ambiente sem window/CustomEvent */ }
 
     return {
       sucesso: true,
@@ -416,10 +260,6 @@ export async function processarFilaSincronizacao() {
       mensagem: erro.message,
       erros: 1,
     };
-  } finally {
-    if (syncLockAdquirido) {
-      syncInProgress = false;
-    }
   }
 }
 

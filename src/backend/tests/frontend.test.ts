@@ -24,7 +24,7 @@ describe('Front-end offline IndexedDB setup', () => {
 
     expect(response.status).toBe(200);
     expect(response.text).toContain('export async function salvarFila(tipo, dados)');
-    expect(response.text).toContain("const tiposPermitidos = ['tarefa', 'obito', 'nascimento', 'chamado']");
+    expect(response.text).toContain("const tiposPermitidos = ['tarefa', 'obito', 'nascimento', 'chamado', 'boleta']");
     expect(response.text).toContain("status: 'PENDENTE'");
     expect(response.text).toContain('timestamp: new Date().toISOString()');
     expect(response.text).toContain("return executarNaFila('readwrite', (store) => store.add(registro))");

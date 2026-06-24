@@ -6,55 +6,6 @@
 import { processarFilaSincronizacao } from '/public/js/sync.js';
 
 let isOnline = navigator.onLine;
-const REQUEST_TIMEOUT_MS = Number(window.CRITICAL_REQUEST_TIMEOUT_MS || 5000);
-const EVIDENCE_REQUEST_TIMEOUT_MS = Number(window.CRITICAL_EVIDENCE_REQUEST_TIMEOUT_MS || 10000);
-
-function payloadPossuiEvidencia(valor) {
-  if (!valor || typeof valor !== 'object') {
-    return false;
-  }
-
-  const camposDeMidia = ['fotoBase64', 'audioBase64', 'audio_base64', 'arquivo_base64'];
-
-  for (const campo of camposDeMidia) {
-    if (valor[campo]) {
-      return true;
-    }
-  }
-
-  return Object.values(valor).some((item) => payloadPossuiEvidencia(item));
-}
-
-function erroDeComunicacao(erro) {
-  return erro && (erro.name === 'AbortError' || erro.name === 'TypeError' || erro.comunicacao === true);
-}
-
-async function fetchComTimeout(url, opcoes = {}, timeoutMs = REQUEST_TIMEOUT_MS) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-
-  try {
-    return await fetch(url, {
-      ...opcoes,
-      signal: controller.signal,
-    });
-  } catch (erro) {
-    if (erro && erro.name === 'AbortError') {
-      const timeoutError = new Error('TIMEOUT');
-      timeoutError.name = 'AbortError';
-      timeoutError.comunicacao = true;
-      throw timeoutError;
-    }
-
-    if (erro) {
-      erro.comunicacao = erroDeComunicacao(erro);
-    }
-
-    throw erro;
-  } finally {
-    clearTimeout(timeoutId);
-  }
-}
 
 // Atualizar status quando mudar conectividade
 window.addEventListener('online', () => {
@@ -76,21 +27,16 @@ window.addEventListener('offline', () => {
  */
 export async function fazerRequisicaoComOffline(url, opcoes = {}) {
   const { metodo = 'POST', dados = null, tipo = 'chamado' } = opcoes;
-  const timeoutMs = opcoes.timeoutMs || (payloadPossuiEvidencia(dados) ? EVIDENCE_REQUEST_TIMEOUT_MS : REQUEST_TIMEOUT_MS);
 
   try {
-    const response = await fetchComTimeout(
-      url,
-      {
-        method: metodo,
-        headers: {
-          'Content-Type': 'application/json',
-          ...opcoes.headers,
-        },
-        body: dados ? JSON.stringify(dados) : null,
+    const response = await fetch(url, {
+      method: metodo,
+      headers: {
+        'Content-Type': 'application/json',
+        ...opcoes.headers,
       },
-      timeoutMs
-    );
+      body: dados ? JSON.stringify(dados) : null,
+    });
 
     if (!response.ok) {
       throw new Error(`Erro na requisição: ${response.status}`);
@@ -102,9 +48,9 @@ export async function fazerRequisicaoComOffline(url, opcoes = {}) {
   } catch (erro) {
     console.error('[Offline Interceptor] Erro na requisição:', erro);
 
-    // Se estiver offline, em timeout ou com falha de rede, salvar na fila
-    if (!isOnline || erroDeComunicacao(erro)) {
-      console.log('[Offline Interceptor] Falha de comunicação - salvando na fila local');
+    // Se estiver offline, salvar na fila
+    if (!isOnline) {
+      console.log('[Offline Interceptor] Dispositivo offline - salvando na fila local');
       try {
         const id = await salvarNaFila(tipo, {
           url,
@@ -112,7 +58,6 @@ export async function fazerRequisicaoComOffline(url, opcoes = {}) {
           dados,
           tentativas: 0,
           ultimaTentativa: new Date().toISOString(),
-          erroComunicacao: erro.name === 'AbortError' ? 'TIMEOUT' : erro.message,
         });
 
         return {
@@ -174,18 +119,14 @@ async function salvarNaFila(tipo, dados) {
 }
 
 /**
- * Atualizar badge de status online/offline
+ * Notifica a UI (pill de status no topo) que a conexão mudou.
+ * O componente visual fica no footer (escuta 'brpec:conexao' + online/offline).
  */
 function atualizarStatusBadge() {
-  const badge = document.getElementById('onlineStatus');
-  if (badge) {
-    if (isOnline) {
-      badge.textContent = 'Online';
-      badge.style.backgroundColor = '#4CAF50';
-    } else {
-      badge.textContent = 'Offline';
-      badge.style.backgroundColor = '#f44336';
-    }
+  try {
+    window.dispatchEvent(new CustomEvent('brpec:conexao', { detail: { online: isOnline } }));
+  } catch (e) {
+    /* CustomEvent indisponível: o pill ainda reage aos eventos nativos online/offline */
   }
 }
 

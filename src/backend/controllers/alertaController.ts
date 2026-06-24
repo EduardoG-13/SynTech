@@ -1,5 +1,4 @@
 import alertaService from '../services/alertaService';
-import { AppError } from '../utils/AppError';
 
 class AlertaController {
   async criarAlerta(req, res, next) {
@@ -12,13 +11,16 @@ class AlertaController {
     if (latitude === undefined || latitude === null || latitude === '') faltando.push('latitude');
     if (longitude === undefined || longitude === null || longitude === '') faltando.push('longitude');
     if (faltando.length) {
-      return next(new AppError(400, 'Campos obrigatórios não preenchidos: ' + faltando.join(', ') + '. Recebido: ' + JSON.stringify({ tipo, capataz_id, retiro_id, latitude, longitude })));
+      return res.status(400).json({
+        erro: 'Campos obrigatórios não preenchidos: ' + faltando.join(', '),
+        recebido: { tipo, capataz_id, retiro_id, latitude, longitude },
+      });
     }
 
-    const temDescricao = !!descricao && descricao.trim().length >= 10;
-    const temAudio = !!audio_base64;
-    if (!temDescricao && !temAudio) {
-      return next(new AppError(400, 'RN-ALERTA: informe uma descricao com ao menos 10 caracteres ou grave um audio'));
+    if (!descricao || descricao.trim().length <= 10) {
+      return res.status(400).json({
+        erro: 'RN-ALERTA: descrição deve ter mais de 10 caracteres'
+      });
     }
 
     try {
@@ -63,7 +65,7 @@ class AlertaController {
     try {
       // Usa buscarPorId — traz a foto anexada pelo capataz, áudio, retiro_nome, capataz_nome etc.
       const c = await alertaService.obterPorId(req.params.id);
-      if (!c) throw new AppError(404, 'Chamado não encontrado.');
+      if (!c) return res.status(404).json({ erro: 'Chamado não encontrado.' });
       return res.json(c);
     } catch (erro) {
       next(erro);
@@ -72,29 +74,16 @@ class AlertaController {
 
   async iniciarChamado(req, res, next) {
     const sess = (req.session as any)?.usuario;
-    const tecnico_id = req.body?.tecnico_id || sess?.id;
-
+    if (!sess || !['Infraestrutura', 'Tecnico'].includes(sess.perfil)) {
+      return res.status(403).json({ erro: 'Apenas Infraestrutura/Técnico pode iniciar um chamado.' });
+    }
     try {
-      const chamado = await alertaService.iniciarChamado(req.params.id, tecnico_id);
-      return res.status(200).json({
-        id: chamado.id,
-        status: chamado.status,
-        mensagem: 'Chamado iniciado com sucesso',
-        chamado
-      });
-    } catch (erro: any) {
-      if (erro.message?.includes('ACESSO_NEGADO')) {
-        return next(new AppError(403, erro.message));
-      }
-
-      if (erro.message === 'CHAMADO_NAO_ENCONTRADO') {
-        return next(new AppError(404, erro.message));
-      }
-
-      if (erro.message === 'CHAMADO_JA_RESOLVIDO') {
-        return next(new AppError(409, erro.message));
-      }
-
+      const c = await alertaService.obterPorId(req.params.id);
+      if (!c) return res.status(404).json({ erro: 'Chamado não encontrado.' });
+      if (c.status !== 'ABERTO') return res.status(409).json({ erro: 'Chamado já foi iniciado ou resolvido.' });
+      await alertaService.atualizarStatus(req.params.id, 'EM_ANDAMENTO');
+      return res.json({ mensagem: 'Chamado iniciado.', status: 'EM_ANDAMENTO' });
+    } catch (erro) {
       next(erro);
     }
   }
@@ -104,11 +93,12 @@ class AlertaController {
     const sess = (req.session as any)?.usuario;
     const tecnico_id = req.body.tecnico_id || sess?.id;
     const solucao = req.body.solucao || req.body.descricaoSolucao || req.body.descricao_solucao;
-    const audio_base64 = req.body.audio_base64 || req.body.audioBase64 || req.body.solucao_audio_base64;
     const foto_base64 = req.body.foto_base64 || req.body.fotoBase64;
 
-    if (!tecnico_id || (!solucao && !audio_base64)) {
-      return next(new AppError(400, 'Campos obrigatórios não preenchidos: solucao (e técnico via sessão)'));
+    if (!tecnico_id || !solucao) {
+      return res.status(400).json({
+        erro: 'Campos obrigatórios não preenchidos: solucao (e técnico via sessão)'
+      });
     }
     // foto_base64 é OPCIONAL agora — algumas resoluções não exigem foto
     if (!foto_base64) {
@@ -119,9 +109,8 @@ class AlertaController {
       const chamado = await alertaService.resolverChamado(
         req.params.id,
         tecnico_id,
-        solucao || '',
-        foto_base64 || '',
-        audio_base64 || ''
+        solucao,
+        foto_base64 || ''
       );
 
       return res.status(200).json({
@@ -130,15 +119,15 @@ class AlertaController {
       });
     } catch (erro: any) {
       if (erro.message.includes('ACESSO_NEGADO')) {
-        return next(new AppError(403, erro.message));
+        return res.status(403).json({ erro: erro.message });
       }
 
       if (erro.message === 'CHAMADO_NAO_ENCONTRADO') {
-        return next(new AppError(404, erro.message));
+        return res.status(404).json({ erro: erro.message });
       }
 
       if (erro.message === 'CHAMADO_JA_RESOLVIDO') {
-        return next(new AppError(409, erro.message));
+        return res.status(409).json({ erro: erro.message });
       }
 
       next(erro);
