@@ -125,18 +125,16 @@ export function vincularTransferenciaBilateral(grupoIdOrigem: string, grupoIdDes
   }
 
   db.prepare(
-    `UPDATE movimentacoes SET transferencia_par_grupo_id = ?, transferencia_confirmada = 1 WHERE grupo_id = ?`
-  ).run(grupoIdDestino, grupoIdOrigem);
+    `UPDATE movimentacoes
+     SET transferencia_par_grupo_id = ?, transferencia_confirmada = 1, transferencia_conflito = ?
+     WHERE grupo_id = ?`
+  ).run(grupoIdDestino, conflito ? 1 : 0, grupoIdOrigem);
 
   db.prepare(
-    `UPDATE movimentacoes SET transferencia_par_grupo_id = ? WHERE grupo_id = ?`
-  ).run(grupoIdOrigem, grupoIdDestino);
-
-  if (conflito) {
-    db.prepare(
-      `UPDATE movimentacoes SET transferencia_conflito = 1 WHERE grupo_id IN (?, ?)`
-    ).run(grupoIdOrigem, grupoIdDestino);
-  }
+    `UPDATE movimentacoes
+     SET transferencia_par_grupo_id = ?, transferencia_confirmada = 1, transferencia_conflito = ?
+     WHERE grupo_id = ?`
+  ).run(grupoIdOrigem, conflito ? 1 : 0, grupoIdDestino);
 
   return { conflito };
 }
