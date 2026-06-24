@@ -57,7 +57,7 @@
 
       // Botões de ação dependem do perfil
       document.getElementById('btn-historico').addEventListener('click', function () {
-        window.location.href = '/historico';
+        window.location.href = '/historico?perfil=' + encodeURIComponent(PERFIL || 'Capataz');
       });
       document.getElementById('btn-inicio').addEventListener('click', function () {
         if (PERFIL === 'Capataz') window.location.href = '/nova-os';

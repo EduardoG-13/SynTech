@@ -181,18 +181,20 @@
 
 /* Botão remover linha */
 .btn-remover {
-  background: #FCE8E8;
-  border: none;
+  background: #FFF;
+  border: 2px solid #D32F2F;
   border-radius: 8px;
+  color: #D32F2F;
   padding: 0.5rem 0.6rem;
   cursor: pointer;
   font-size: 1rem;
+  font-weight: 800;
   flex-shrink: 0;
   min-height: auto;
 }
 
 .btn-remover:hover {
-  background: #f8d0d0;
+  background: #FCE8E8;
 }
 
 /* Botão adicionar */

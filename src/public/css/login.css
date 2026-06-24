@@ -346,6 +346,14 @@
   box-shadow: 0 4px 12px rgba(26, 77, 46, 0.12);
 }
 
+.card-retiro-card:disabled,
+.card-retiro-card.selecionando {
+  cursor: wait;
+  opacity: 0.65;
+  pointer-events: none;
+  transform: none;
+}
+
 .card-retiro-card .pin img {
   object-fit: contain;
   background: none;
