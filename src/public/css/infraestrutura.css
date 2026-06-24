@@ -134,3 +134,19 @@
     font-size: 1.5rem;
   }
 }
+
+/* Botão "Começar" dentro do card de chamado — tamanho fixo */
+.btn-comecar {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: auto !important;
+  min-width: 120px;
+  min-height: 40px !important;
+  padding: 0.45rem 1rem !important;
+  font-size: 0.85rem !important;
+  font-weight: 700;
+  margin-top: 0.4rem;
+  border-radius: 8px !important;
+  white-space: nowrap;
+}

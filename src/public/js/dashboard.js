@@ -71,8 +71,8 @@
   function fecharPeriodo() {
     var de  = (document.getElementById('fechar-de')  || {}).value;
     var ate = (document.getElementById('fechar-ate') || {}).value;
-    if (!de || !ate) { fecharMsg('❌ Escolha o período (de e até).', '#D32F2F'); return; }
-    if (de > ate)   { fecharMsg('❌ A data inicial não pode ser maior que a final.', '#D32F2F'); return; }
+    if (!de || !ate) { fecharMsg(' Escolha o período (de e até).', '#D32F2F'); return; }
+    if (de > ate)   { fecharMsg(' A data inicial não pode ser maior que a final.', '#D32F2F'); return; }
     if (!confirm('Fechar o período de ' + de + ' a ' + ate + '? As boletas ficarão travadas.')) return;
     fetch('/api/gerente/fechamento', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin',
@@ -80,11 +80,11 @@
     })
       .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (res) {
-        if (!res.ok) { fecharMsg('❌ ' + (res.d.erro || 'Erro.'), '#D32F2F'); return; }
-        fecharMsg('✅ ' + res.d.mensagem, '#2E7D52');
+        if (!res.ok) { fecharMsg(' ' + (res.d.erro || 'Erro.'), '#D32F2F'); return; }
+        fecharMsg(' ' + res.d.mensagem, '#2E7D52');
         carregarFechamentos();
       })
-      .catch(function () { fecharMsg('❌ Erro de conexão.', '#D32F2F'); });
+      .catch(function () { fecharMsg(' Erro de conexão.', '#D32F2F'); });
   }
 
   function carregarFechamentos() {
@@ -101,7 +101,7 @@
           rows.map(function (f) {
             var label = (f.data_inicio && f.data_fim) ? (f.data_inicio + ' → ' + f.data_fim) : f.mes;
             return '<div style="display:flex; align-items:center; justify-content:space-between; gap:0.5rem; padding:0.4rem 0.6rem; border:1px solid #e5e5e0; border-radius:8px; margin-bottom:0.3rem;">' +
-              '<span>🔒 <strong>' + label + '</strong> <small style="color:#8A8A7C;">por ' + (f.fechado_por_nome || '—') + '</small></span>' +
+              '<span>' + BRPIcons.html('bloqueado', 'ico-sm') + ' <strong>' + label + '</strong> <small style="color:#8A8A7C;">por ' + (f.fechado_por_nome || '—') + '</small></span>' +
               '<button class="btn-reabrir" data-id="' + f.id + '" style="background:none; border:1px solid #A64B00; color:#A64B00; border-radius:6px; padding:0.2rem 0.6rem; cursor:pointer; font-size:0.8rem;">Reabrir</button>' +
             '</div>';
           }).join('');
@@ -119,10 +119,10 @@
     })
       .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (res) {
-        fecharMsg(res.ok ? ('✅ ' + res.d.mensagem) : ('❌ ' + (res.d.erro || 'Erro.')), res.ok ? '#2E7D52' : '#D32F2F');
+        fecharMsg(res.ok ? (' ' + res.d.mensagem) : (' ' + (res.d.erro || 'Erro.')), res.ok ? '#2E7D52' : '#D32F2F');
         carregarFechamentos();
       })
-      .catch(function () { fecharMsg('❌ Erro de conexão.', '#D32F2F'); });
+      .catch(function () { fecharMsg(' Erro de conexão.', '#D32F2F'); });
   }
 
   // Exporta planilha XLSX respeitando os filtros atuais (retiro + data)
@@ -180,7 +180,7 @@
     var el = document.createElement('div');
     el.className = 'db-error card';
     el.style.cssText = 'padding:1rem;margin-bottom:1rem;background:#FFF0F0;border-color:#C0392B;color:#C0392B;text-align:center;';
-    el.textContent = '⚠️ Não foi possível carregar os dados do painel. Tente recarregar a página.';
+    el.textContent = ' Não foi possível carregar os dados do painel. Tente recarregar a página.';
     main.insertAdjacentElement('afterbegin', el);
   }
 
@@ -203,7 +203,7 @@
             if (main && !main.querySelector('.db-no-retiros')) {
               main.insertAdjacentHTML('afterbegin',
                 '<div class="db-no-retiros card" style="padding:1rem;margin-bottom:1rem;background:#FFF4E5;border-color:#A64B00;">' +
-                '<strong>⚠️ Você ainda não gerencia nenhum retiro.</strong><br>' +
+                '<strong> Você ainda não gerencia nenhum retiro.</strong><br>' +
                 '<small>Peça ao Gerente para te atribuir como coordenador de algum retiro nas Configurações.</small>' +
                 '</div>');
             }
@@ -418,22 +418,23 @@
           return;
         }
         cont.innerHTML = rows.map(function (r) {
-          return '<div class="retiro-card-dash">' +
-            '<div class="retiro-dash-nome">🏠 <strong>' + r.nome + '</strong>' +
+          return '<a href="/retiro/' + r.id + '" class="retiro-card-dash retiro-card-link" aria-label="Ver detalhes do retiro ' + r.nome + '">' +
+            '<div class="retiro-dash-nome">' + BRPIcons.html('home', 'label-ico') + ' <strong>' + r.nome + '</strong>' +
               (r.numero ? ' (' + r.numero + ')' : '') + '</div>' +
             '<div class="retiro-dash-info">' +
-              '<span>👷 ' + (r.capataz_nome     || '—') + '</span>' +
-              '<span>📋 ' + (r.coordenador_nome || '—') + '</span>' +
+              '<span>' + BRPIcons.html('capataz', 'ico-sm') + ' ' + (r.capataz_nome || '—') + '</span>' +
+              '<span>' + BRPIcons.html('coordenador', 'ico-sm') + ' ' + (r.coordenador_nome || '—') + '</span>' +
             '</div>' +
             '<div class="retiro-dash-stats">' +
-              '<span class="dash-pill">📝 ' + r.total_boletas    + ' boletas</span>' +
-              '<span class="dash-pill alert">⚠️ ' + r.chamados_abertos + ' chamados</span>' +
+              '<span class="dash-pill">' + BRPIcons.html('boleta', 'ico-sm') + ' ' + r.total_boletas + ' boletas</span>' +
+              '<span class="dash-pill alert">' + BRPIcons.html('alerta', 'ico-sm') + ' ' + r.chamados_abertos + ' chamados</span>' +
             '</div>' +
-          '</div>';
+            '<span class="retiro-dash-arrow material-symbols-rounded">chevron_right</span>' +
+          '</a>';
         }).join('');
       })
       .catch(function () {
-        if (cont) cont.innerHTML = '<p style="color:#C0392B;text-align:center;">⚠️ Não foi possível carregar os retiros.</p>';
+        if (cont) cont.innerHTML = '<p style="color:#C0392B;text-align:center;"> Não foi possível carregar os retiros.</p>';
       });
   }
 })();

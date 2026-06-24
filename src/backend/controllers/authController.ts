@@ -11,6 +11,7 @@ import {
   salvarRefreshToken,
   tokenEstaExpirado,
 } from '../repositories/refreshTokenRepository';
+import auditoriaService from '../services/auditoriaService';
 
 function gerarAccessToken(usuario: JwtUserPayload) {
   return jwt.sign(usuario, authConfig.accessSecret, {
@@ -94,6 +95,16 @@ export function login(req: Request, res: Response) {
 
   criarSessao(req, usuarioAutenticado);
   const { accessToken } = emitirTokens(res, usuarioAutenticado);
+  auditoriaService.registrar({
+    usuario_id: usuarioAutenticado.id,
+    usuario_nome: usuarioAutenticado.nome,
+    perfil: usuarioAutenticado.perfil,
+    acao: 'login',
+    entidade_tipo: 'sessao',
+    metodo: 'POST',
+    rota: req.originalUrl,
+    status_http: 200,
+  });
 
   return res.json({
     sucesso: true,
@@ -218,6 +229,16 @@ export function loginCapataz(req: Request, res: Response) {
 
   criarSessao(req, usuario);
   const { accessToken } = emitirTokens(res, usuario);
+  auditoriaService.registrar({
+    usuario_id: usuario.id,
+    usuario_nome: usuario.nome,
+    perfil: usuario.perfil,
+    acao: 'login',
+    entidade_tipo: 'sessao',
+    metodo: 'POST',
+    rota: req.originalUrl,
+    status_http: 200,
+  });
 
   return res.json({ sucesso: true, perfil: row.perfil, retiro_id: row.retiro_id, usuario, accessToken });
 }
@@ -273,6 +294,17 @@ export function loginDispositivo(req: Request, res: Response) {
   };
   criarSessao(req, usuario);
   const { accessToken } = emitirTokens(res, usuario);
+  auditoriaService.registrar({
+    usuario_id: usuario.id,
+    usuario_nome: usuario.nome,
+    perfil: usuario.perfil,
+    acao: 'login',
+    entidade_tipo: 'sessao',
+    metodo: 'POST',
+    rota: req.originalUrl,
+    status_http: 200,
+    detalhes: { origem: 'dispositivo' },
+  });
 
   return res.json({ sucesso: true, perfil: row.perfil, retiro_id: row.retiro_id, usuario, accessToken });
 }
@@ -297,6 +329,17 @@ export function loginInfraestrutura(req: Request, res: Response) {
 
   criarSessao(req, usuario);
   const { accessToken } = emitirTokens(res, usuario);
+  auditoriaService.registrar({
+    usuario_id: usuario.id,
+    usuario_nome: usuario.nome,
+    perfil: usuario.perfil,
+    acao: 'login',
+    entidade_tipo: 'sessao',
+    metodo: 'POST',
+    rota: req.originalUrl,
+    status_http: 200,
+    detalhes: { categoria },
+  });
 
   return res.json({ sucesso: true, perfil: 'Infraestrutura', categoria, usuario, accessToken });
 }

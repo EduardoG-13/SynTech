@@ -56,20 +56,20 @@ document.addEventListener('DOMContentLoaded', async () => {
       // Feedback ao usuário
       if (resultado.sucesso) {
         alert(
-          '✅ Ordem de Serviço enviada com sucesso!'
+          ' Ordem de Serviço enviada com sucesso!'
         );
         form.reset();
         window.history.back();
       } else if (resultado.offline) {
         alert(
-          '📱 ' +
+          ' ' +
             resultado.mensagem +
             '\n\nSua ordem será sincronizada automaticamente quando houver conexão.'
         );
         form.reset();
         window.history.back();
       } else {
-        alert('❌ Erro: ' + resultado.mensagem);
+        alert(' Erro: ' + resultado.mensagem);
       }
     } catch (erro) {
       console.error('[Nova OS] Erro ao processar formulário:', erro);

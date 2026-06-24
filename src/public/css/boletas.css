@@ -8,20 +8,7 @@
   padding: 0;
 }
 
-.btn-voltar {
-  background: none;
-  border: none;
-  color: #1A4D2E;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-  margin-bottom: 1.25rem;
-}
-
-.btn-voltar:hover {
-  color: #2E7D52;
-}
+/* .btn-voltar definido globalmente em styles.css */
 
 .boleta-card {
   background: #fff;
@@ -210,8 +197,23 @@
   font-weight: 600;
   cursor: pointer;
   min-height: auto;
+  min-width: 110px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
 }
 .btn-aprovar:hover { background: #2E7D52; }
+
+@media (max-width: 480px) {
+  .btn-aprovar {
+    width: 100%;
+    justify-content: center;
+    min-height: 44px;
+  }
+}
 
 .boletas-main .btn-primario {
   background: #1A4D2E;

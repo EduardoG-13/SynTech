@@ -167,7 +167,7 @@ describe('POST /api/sincronizacao/lote — lote misto com tarefas concluídas', 
 
     expect(res.status).toBe(413);
     expect(res.body).toHaveProperty('erro');
-    expect(res.body).toHaveProperty('itens_recebidos', 501);
+    expect(res.body.erro).toContain('Limite excedido');
   });
 
 });

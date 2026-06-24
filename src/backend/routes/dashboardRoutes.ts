@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { obterResumo, listarRetirosDashboard } from '../controllers/dashboardController';
+import { obterResumo, listarRetirosDashboard, obterRetiroDashboard } from '../controllers/dashboardController';
 
 const router = Router();
 
@@ -14,6 +14,7 @@ function exigeGerenteOuCoordenador(req: Request, res: Response, next: NextFuncti
 
 router.use(exigeGerenteOuCoordenador);
 router.get('/resumo', obterResumo);
+router.get('/retiros/:id', obterRetiroDashboard);
 router.get('/retiros', listarRetirosDashboard);
 
 export default router;

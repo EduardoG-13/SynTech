@@ -16,6 +16,10 @@
 }
 
 .config-abas .aba {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
   flex: 1;
   background: #fff;
   border: 2px solid #d7dfd3;
@@ -160,18 +164,178 @@
 }
 
 .btn-edit, .btn-del {
-  border: none;
+  border: 1px solid transparent;
   border-radius: 8px;
   padding: 0.5rem 0.65rem;
   cursor: pointer;
   font-size: 1rem;
   min-height: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #1A4D2E;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
 }
 
-.btn-edit { background: #E6F3EB; }
-.btn-edit:hover { background: #d4eadd; }
-.btn-del { background: #FCE8E8; }
-.btn-del:hover { background: #f8d0d0; }
+.btn-edit {
+  background: #DCEFE5;
+  border-color: #A8CDB7;
+  color: #0F5132;
+}
+
+.btn-edit:hover {
+  background: #C9E5D6;
+  border-color: #2E7D52;
+  transform: translateY(-1px);
+}
+
+.btn-del {
+  background: #FDE1E1;
+  border-color: #F4B4B4;
+  color: #B42318;
+}
+
+.btn-del:hover {
+  background: #F9CACA;
+  border-color: #D32F2F;
+  transform: translateY(-1px);
+}
+
+/* Auditoria */
+.audit-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem;
+  padding: 0.85rem;
+  border: 1px solid #E2E9DE;
+  border-left: 5px solid #8A8A7C;
+  border-radius: 12px;
+  background: #FAFDFB;
+  box-shadow: 0 1px 3px rgba(26, 77, 46, 0.05);
+}
+
+.audit-card.audit-ok { border-left-color: #2E7D52; }
+.audit-card.audit-erro { border-left-color: #D32F2F; }
+.audit-card.audit-alerta { border-left-color: #ED9024; }
+
+.audit-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: #E6F3EB;
+  color: #1A4D2E;
+}
+
+.audit-erro .audit-icon {
+  background: #FCE8E8;
+  color: #B42318;
+}
+
+.audit-alerta .audit-icon {
+  background: #FFF4E5;
+  color: #A64B00;
+}
+
+.audit-content {
+  min-width: 0;
+}
+
+.audit-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+}
+
+.audit-title {
+  color: #1B1B1B;
+  font-size: 0.98rem;
+}
+
+.audit-status {
+  flex-shrink: 0;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.2rem 0.55rem;
+}
+
+.audit-status.ok {
+  background: #E6F3EB;
+  color: #1A4D2E;
+}
+
+.audit-status.erro {
+  background: #FCE8E8;
+  color: #B42318;
+}
+
+.audit-status.alerta,
+.audit-status.neutro {
+  background: #FFF4E5;
+  color: #A64B00;
+}
+
+.audit-meta,
+.audit-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.65rem;
+}
+
+.audit-meta {
+  color: #5C6B5D;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.audit-meta span {
+  display: inline-flex;
+  align-items: center;
+}
+
+.audit-tag {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #D7DFD3;
+  border-radius: 999px;
+  background: #fff;
+  color: #3C4A3E;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.18rem 0.55rem;
+}
+
+.audit-tag-id {
+  color: #1A4D2E;
+}
+
+.audit-route {
+  margin-top: 0.55rem;
+  color: #6F766D;
+  font-size: 0.78rem;
+}
+
+.audit-route summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.audit-route code {
+  display: block;
+  margin-top: 0.35rem;
+  padding: 0.45rem 0.55rem;
+  border-radius: 8px;
+  background: #F5F0E8;
+  color: #3C4A3E;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
 
 /* Badge de perfil */
 .badge-perfil {

@@ -7,7 +7,7 @@
 
   <div id="app">
     <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
-      <div class="user-avatar"><img src="/public/Icons/<%= perfil === 'Coordenador' ? 'coordenador' : 'gerente' %>.ico" alt="<%= perfil %>" style="width:32px;height:32px;object-fit:contain;" /></div>
+      <div class="user-avatar" aria-label="Perfil: <%= perfil %>"><span class="material-symbols-rounded" aria-hidden="true"><%= perfil === 'Coordenador' ? 'groups' : 'manage_accounts' %></span></div>
       <h1>Dashboard</h1>
       <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %></div>
     </div>
@@ -31,9 +31,9 @@
             <input type="date" id="filter-data-fim" class="db-filtro-input" />
           </div>
           <div class="db-filtro-acoes">
-            <button id="btn-limpar-filtro" class="btn btn-secundario" style="white-space:nowrap;" title="Limpar período">✕ Limpar</button>
+            <button id="btn-limpar-filtro" class="btn btn-secundario" style="white-space:nowrap;" title="Limpar período"><span class="material-symbols-rounded ui-icon" aria-hidden="true">filter_alt_off</span> Limpar</button>
             <button id="btn-exportar-dashboard" class="btn btn-secundario-laranja" style="white-space:nowrap;">
-              <img class="label-ico" src="/public/Icons/sincronizacao.ico" alt="" /> Exportar planilha
+              <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">sync</span> Exportar planilha
             </button>
           </div>
         </div>
@@ -42,19 +42,19 @@
       <!-- KPIs -->
       <div class="db-stats" style="margin-bottom: 1rem;">
         <div class="card db-stat-card" style="padding: 1rem;">
-          <p class="db-stat-card__label">📝 Boletas (total)</p>
+          <p class="db-stat-card__label"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">description</span> Boletas (total)</p>
           <div class="db-stat-card__value" id="stat-boletas-total">—</div>
         </div>
         <div class="card db-stat-card" style="padding: 1rem;">
-          <p class="db-stat-card__label">⏳ Pendentes</p>
+          <p class="db-stat-card__label"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">pending_actions</span> Pendentes</p>
           <div class="db-stat-card__value" id="stat-pendentes">—</div>
         </div>
         <div class="card db-stat-card" style="padding: 1rem;">
-          <p class="db-stat-card__label">✓ Aprovadas</p>
+          <p class="db-stat-card__label"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">check_circle</span> Aprovadas</p>
           <div class="db-stat-card__value" id="stat-aprovadas">—</div>
         </div>
         <div class="card db-stat-card" style="padding: 1rem;">
-          <p class="db-stat-card__label">🛠️ Chamados abertos</p>
+          <p class="db-stat-card__label"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">warning</span> Chamados abertos</p>
           <div class="db-stat-card__value" id="stat-alertas">—</div>
         </div>
       </div>
@@ -92,21 +92,21 @@
       <% if (perfil === 'Gerente') { %>
       <!-- Fechamento por período (só Gerente) -->
       <div class="card" style="margin-bottom: 1rem; padding: 1rem;">
-        <h3><img class="label-ico" src="/public/Icons/bloqueado.ico" alt="" /> Fechamento de período</h3>
+        <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">lock</span> Fechamento de período</h3>
         <p style="font-size:0.85rem; color:#5c6b5d; margin-bottom:0.75rem;">
           Escolha o intervalo (de — até). Todas as boletas do período ficam <strong>travadas</strong> — nem o capataz edita. Use no fim do ciclo contábil.
         </p>
-        <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:flex-end;">
-          <div>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:flex-end; width: 100%;">
+          <div style="flex: 1; min-width: 120px;">
             <label style="display:block; font-size:0.75rem; color:#5c6b5d;">De</label>
-            <input type="date" id="fechar-de" style="padding:0.5rem; border:1px solid #ccc; border-radius:8px;" />
+            <input type="date" id="fechar-de" style="padding:0.5rem; border:1px solid #ccc; border-radius:8px; width: 100%;" />
           </div>
-          <div>
+          <div style="flex: 1; min-width: 120px;">
             <label style="display:block; font-size:0.75rem; color:#5c6b5d;">Até</label>
-            <input type="date" id="fechar-ate" style="padding:0.5rem; border:1px solid #ccc; border-radius:8px;" />
+            <input type="date" id="fechar-ate" style="padding:0.5rem; border:1px solid #ccc; border-radius:8px; width: 100%;" />
           </div>
-          <button id="btn-fechar-mes" class="btn btn-primario" style="white-space:nowrap;">🔒 Fechar período</button>
-          <button id="btn-planilha-oficial" class="btn btn-secundario-laranja" style="white-space:nowrap;">📑 Planilha oficial (boletas + chamados)</button>
+          <button id="btn-fechar-mes" class="btn btn-primario" style="flex: 1; min-width: 180px;"><span class="material-symbols-rounded ui-icon" aria-hidden="true">lock</span> Fechar período</button>
+          <button id="btn-planilha-oficial" class="btn btn-secundario-laranja" style="flex: 1; min-width: 250px; white-space: normal; line-height: 1.2;"><span class="material-symbols-rounded ui-icon" aria-hidden="true">table_view</span> Planilha oficial (boletas + chamados)</button>
         </div>
         <p id="fechar-msg" style="display:none; margin-top:0.5rem; font-weight:600;"></p>
         <div id="lista-fechamentos" style="margin-top:1rem;"></div>
@@ -115,7 +115,7 @@
 
       <!-- Lista de retiros: status operacional -->
       <div class="card" style="margin-bottom: 1rem; padding: 1rem;">
-        <h3><img class="label-ico" src="/public/Icons/localizacao.ico" alt="" /> Retiros da fazenda</h3>
+        <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">location_on</span> Retiros da fazenda</h3>
         <div id="lista-retiros-dashboard" class="retiros-grid"></div>
       </div>
 

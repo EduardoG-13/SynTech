@@ -1,0 +1,208 @@
+<%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/dashboard.css" />
+<link rel="stylesheet" href="/public/css/tarefas.css" />
+
+<div id="device" class="logged">
+  <%- include('partials/sidebar') %>
+
+  <div id="app">
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar" aria-label="Perfil: <%= perfil %>"><span class="material-symbols-rounded ui-icon" aria-hidden="true"><%= perfil === 'Coordenador' ? 'groups' : 'manage_accounts' %></span></div>
+      <h1 id="retiro-titulo">Retiro</h1>
+      <div class="sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %></div>
+    </div>
+
+    <main class="dashboard-main">
+
+      <a href="/dashboard" class="btn-voltar" style="display:inline-flex; margin-bottom:1rem;">
+        <span class="material-symbols-rounded ui-icon back-ico" aria-hidden="true">arrow_back</span> Voltar ao Dashboard
+      </a>
+
+      <!-- Resumo KPIs do retiro -->
+      <div class="db-stats" style="margin-bottom: 1rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem;">
+        <div class="card db-stat-card" style="padding: 1rem; min-width: 0;">
+          <p class="db-stat-card__label" style="white-space: normal; line-height: 1.2; word-break: break-word;"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">description</span> Boletas</p>
+          <div class="db-stat-card__value" id="ret-total-boletas">—</div>
+        </div>
+        <div class="card db-stat-card" style="padding: 1rem; min-width: 0;">
+          <p class="db-stat-card__label" style="white-space: normal; line-height: 1.2; word-break: break-word;"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">pending_actions</span> Pendentes</p>
+          <div class="db-stat-card__value" id="ret-boletas-pendentes">—</div>
+        </div>
+        <div class="card db-stat-card" style="padding: 1rem; min-width: 0;">
+          <p class="db-stat-card__label" style="white-space: normal; line-height: 1.2; word-break: break-word;"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">warning</span> Chamados</p>
+          <div class="db-stat-card__value" id="ret-chamados-abertos">—</div>
+        </div>
+        <div class="card db-stat-card" style="padding: 1rem; min-width: 0;">
+          <p class="db-stat-card__label" style="white-space: normal; line-height: 1.2; word-break: break-word;"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">check_circle</span> Resolvidos</p>
+          <div class="db-stat-card__value" id="ret-chamados-resolvidos">—</div>
+        </div>
+      </div>
+
+      <!-- Info do retiro -->
+      <div class="card" style="margin-bottom: 1rem; padding: 1rem;">
+        <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">info</span> Informações do Retiro</h3>
+        <div class="dados-grid" style="margin-top: 0.5rem;">
+          <div class="dado">
+            <span class="dado-label">Nome</span>
+            <span class="dado-valor" id="ret-nome">—</span>
+          </div>
+          <div class="dado">
+            <span class="dado-label">Número</span>
+            <span class="dado-valor" id="ret-numero">—</span>
+          </div>
+          <div class="dado">
+            <span class="dado-label">Coordenador</span>
+            <span class="dado-valor" id="ret-coordenador">—</span>
+          </div>
+          <div class="dado">
+            <span class="dado-label">Capataz</span>
+            <span class="dado-valor" id="ret-capataz">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chamados por status -->
+      <div class="card" style="margin-bottom: 1rem; padding: 1rem;">
+        <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">construction</span> Chamados</h3>
+        <div class="chamados-resumo-retiro" style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.75rem;">
+          <span class="dash-pill" id="ret-ch-abertos">0 abertos</span>
+          <span class="dash-pill alert" id="ret-ch-andamento">0 em andamento</span>
+          <span class="dash-pill" style="background:#E8E8E8; color:#666;" id="ret-ch-resolvidos">0 resolvidos</span>
+        </div>
+        <div id="ret-chamados-lista" class="tarefas-lista" style="gap: 0.5rem;"></div>
+      </div>
+
+      <!-- Boletas recentes -->
+      <div class="card" style="margin-bottom: 1rem; padding: 1rem;">
+        <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">description</span> Boletas recentes</h3>
+        <div id="ret-boletas-lista" class="tarefas-lista" style="gap: 0.5rem;"></div>
+      </div>
+
+    </main>
+
+    <%- include('partials/bottom-nav') %>
+  </div>
+</div>
+
+<script>
+(function() {
+  var retiroId = '<%= retiroId %>';
+
+  function carregarDetalhe() {
+    fetch('/api/dashboard/retiros/' + encodeURIComponent(retiroId), { credentials: 'same-origin' })
+      .then(function(r) {
+        if (!r.ok) throw new Error('Erro ' + r.status);
+        return r.json();
+      })
+      .then(function(d) {
+        var ret = d.retiro || {};
+        var res = d.resumo || {};
+
+        // Título da página
+        document.getElementById('retiro-titulo').textContent = ret.nome || 'Retiro';
+        document.title = 'BRPec | ' + (ret.nome || 'Retiro');
+
+        // Info
+        setText('ret-nome', ret.nome || '—');
+        setText('ret-numero', ret.numero || '—');
+        setText('ret-coordenador', ret.coordenador_nome || '—');
+        setText('ret-capataz', ret.capataz_nome || '—');
+
+        // KPIs
+        setText('ret-total-boletas', res.total_boletas || 0);
+        setText('ret-boletas-pendentes', res.boletas_pendentes || 0);
+        setText('ret-chamados-abertos', res.chamados_abertos || 0);
+        setText('ret-chamados-resolvidos', res.chamados_resolvidos || 0);
+
+        // Chamados pills
+        setText('ret-ch-abertos', (res.chamados_abertos || 0) + ' abertos');
+        setText('ret-ch-andamento', (res.chamados_andamento || 0) + ' em andamento');
+        setText('ret-ch-resolvidos', (res.chamados_resolvidos || 0) + ' resolvidos');
+
+        // Chamados recentes
+        renderChamados(d.chamadosRecentes || []);
+        renderBoletas(d.boletasRecentes || []);
+      })
+      .catch(function(err) {
+        console.error('[RetiroDetalhe]', err);
+        var main = document.querySelector('.dashboard-main');
+        if (main) {
+          main.insertAdjacentHTML('afterbegin',
+            '<div class="card" style="padding:1rem; margin-bottom:1rem; background:#FFF0F0; border-color:#C0392B; color:#C0392B; text-align:center;">' +
+            'Não foi possível carregar os dados deste retiro. <a href="/dashboard">Voltar ao dashboard</a>' +
+            '</div>');
+        }
+      });
+  }
+
+  function setText(id, val) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = val;
+  }
+
+  var STATUS_CLS = { ABERTO: 'pendente', EM_ANDAMENTO: 'andamento', RESOLVIDO: 'concluida' };
+  var STATUS_LBL = { ABERTO: 'Aberto', EM_ANDAMENTO: 'Em andamento', RESOLVIDO: 'Resolvido' };
+
+  function renderChamados(lista) {
+    var cont = document.getElementById('ret-chamados-lista');
+    if (!cont) return;
+    if (!lista.length) {
+      cont.innerHTML = '<p style="color:#8A8A7C; text-align:center; padding:0.75rem;">Nenhum chamado registrado neste retiro.</p>';
+      return;
+    }
+    cont.innerHTML = lista.map(function(c) {
+      var cls = STATUS_CLS[c.status] || 'pendente';
+      var lbl = STATUS_LBL[c.status] || c.status;
+      var data = (c.criado_em || '').slice(0, 10);
+      return '<div class="card tarefa-card" onclick="window.location.href=\'/chamado/' + c.id + '\'" style="cursor:pointer;">' +
+        '<div class="bar-lateral ' + cls + '"></div>' +
+        '<div class="body">' +
+          '<div class="info">' +
+            '<span class="titulo">' + (c.tipo || '').toUpperCase() + '</span>' +
+            '<span class="descricao">' + ((c.descricao || '').slice(0, 60)) + '</span>' +
+            '<div class="meta"><span class="retiro-tag"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">calendar_month</span> ' + data + '</span></div>' +
+          '</div>' +
+          '<div class="status-area">' +
+            '<span class="badge ' + cls + '">' + lbl + '</span>' +
+            '<span class="arrow">›</span>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  var ROT = { nascimento: 'Nascimento', obito: 'Morte', transferencia: 'Transferência', compravenda: 'Compra/Venda', evolucao: 'Evolução', manejo: 'Manejo' };
+
+  function renderBoletas(lista) {
+    var cont = document.getElementById('ret-boletas-lista');
+    if (!cont) return;
+    if (!lista.length) {
+      cont.innerHTML = '<p style="color:#8A8A7C; text-align:center; padding:0.75rem;">Nenhuma boleta registrada neste retiro.</p>';
+      return;
+    }
+    cont.innerHTML = lista.map(function(b) {
+      var rotulo = ROT[b.operacao] || b.operacao || 'Boleta';
+      var aprovClasse = b.aprovada ? 'concluida' : 'pendente';
+      var aprovLabel = b.aprovada ? 'Aprovada' : 'Pendente';
+      return '<div class="card tarefa-card" onclick="window.location.href=\'/boleta/' + b.id + '\'" style="cursor:pointer;">' +
+        '<div class="bar-lateral ' + aprovClasse + '"></div>' +
+        '<div class="body">' +
+          '<div class="info">' +
+            '<span class="titulo">' + rotulo + ' — ' + (b.total_animais || 0) + ' cab.</span>' +
+            (b.numero_boleta ? '<span class="descricao"> Boleta ' + b.numero_boleta + ' · ' + (b.capataz_nome || '') + '</span>' : '<span class="descricao"> ' + (b.capataz_nome || '') + '</span>') +
+            '<div class="meta"><span class="retiro-tag"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">calendar_month</span> ' + (b.data || '') + '</span></div>' +
+          '</div>' +
+          '<div class="status-area">' +
+            '<span class="badge ' + aprovClasse + '">' + aprovLabel + '</span>' +
+            '<span class="arrow">›</span>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  document.addEventListener('DOMContentLoaded', carregarDetalhe);
+})();
+</script>
+
+<%- include('partials/footer') %>

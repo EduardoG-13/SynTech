@@ -105,6 +105,7 @@ dist
 .tern-port
 
 # Backend - variaveis de ambiente
+.env.production
 src/backend/.env
 src/backend/.env.test
 src/backend/.env.local

@@ -1,4 +1,5 @@
 import exportacaoService from '../services/exportacaoService';
+import { AppError } from '../utils/AppError';
 
 class ExportacaoController {
   /**
@@ -7,12 +8,12 @@ class ExportacaoController {
    *
    * Query: coordenador_id (obrigatório), retiro_id, data_inicio, data_fim (opcionais)
    */
-  exportarCsv(req, res) {
+  exportarCsv(req, res, next) {
     try {
       const { coordenador_id, retiro_id, data_inicio, data_fim } = req.query;
 
       if (!coordenador_id) {
-        return res.status(400).json({ erro: 'Parâmetro obrigatório ausente: coordenador_id (query string)' });
+        throw new AppError(400, 'Parâmetro obrigatório ausente: coordenador_id (query string)');
       }
 
       const resultado = exportacaoService.exportarCsv(
@@ -34,12 +35,12 @@ class ExportacaoController {
       return res.status(200).send(resultado.csv);
     } catch (erro) {
       if (erro.message.includes('ACESSO_NEGADO')) {
-        return res.status(403).json({ erro: erro.message });
+        return next(new AppError(403, erro.message));
       }
       if (erro.message.includes('não encontrado')) {
-        return res.status(404).json({ erro: erro.message });
+        return next(new AppError(404, erro.message));
       }
-      return res.status(500).json({ erro: 'Erro ao exportar dados', detalhe: erro.message });
+      next(erro);
     }
   }
 }

@@ -11,8 +11,9 @@ import { RETIROS } from './config/retiros';
 import routes from './routes/index';
 import viewRoutes from './routes/viewRoutes';
 import authRoutes from './routes/authRoutes';
-import { autenticarJWT } from './middleware/authMiddleware';
+import { autenticarJWT } from './middlewares/authMiddleware';
 import { requireLogin } from './middlewares/authView';
+import { auditoriaMiddleware } from './middlewares/auditoriaMiddleware';
 
 const app = express();
 // Raiz do projeto (g03/) calculada a partir deste arquivo (src/backend/app.ts),
@@ -30,8 +31,12 @@ app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 app.use(cookieParser());
 app.use('/public', express.static(path.join(projectRoot, 'src/public')));
+const sessionSecret = process.env.SESSION_SECRET;
+if (!sessionSecret && process.env.NODE_ENV === 'production') {
+  throw new Error('SESSION_SECRET precisa ser definido em producao');
+}
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'brpec-syntech-2026',
+  secret: sessionSecret || 'brpec-syntech-dev',
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 365 * 24 * 60 * 60 * 1000 }
@@ -142,6 +147,12 @@ app.get('/historico', requireLogin(['Capataz', 'Infraestrutura', 'Coordenador', 
   res.render('historico', { perfil: u.perfil, retiro: u.retiro_id || 'Geral' });
 });
 
+// Detalhe de um retiro — Gerente e Coordenador (escopo filtrado no endpoint)
+app.get('/retiro/:id', requireLogin(['Gerente', 'Coordenador']), (req, res) => {
+  const u = (res.locals as any).usuarioLogado;
+  res.render('retiro-detalhe', { perfil: u.perfil, retiro: u.retiro_id || 'Geral', retiroId: req.params.id });
+});
+
 // Detalhe de uma boleta (somente leitura) — Capataz e Coordenador
 app.get('/boleta/:id', requireLogin(['Capataz', 'Coordenador', 'Gerente']), (req, res) => {
   const u = (res.locals as any).usuarioLogado;
@@ -183,15 +194,13 @@ app.get('/sw.js', (_req: Request, res: Response) => {
 });
 
 // Rotas da API
-app.use('/api', autenticarJWT, routes);
+app.use('/api', autenticarJWT, auditoriaMiddleware, routes);
 
 // Rotas de views adicionais
 app.use('/', viewRoutes);
 
-// Error handler global
-app.use((erro: Error, _req: Request, res: Response, _next: NextFunction) => {
-  console.error(erro);
-  res.status(500).json({ erro: 'Erro interno do servidor' });
-});
+import { errorHandler } from './middlewares/errorHandler';
+app.use(errorHandler);
+
 
 export default app;

@@ -93,34 +93,82 @@ cd src/backend
 npm install
 ```
 
-4. Crie o arquivo `.env` a partir do modelo:
+4. Crie o arquivo `.env` a partir do modelo (na raiz do projeto):
 
 ```sh
 cp .env.example .env
 ```
 
-O arquivo `.env` já vem com valores padrão funcionais. Não é necessário preencher credenciais externas — o banco SQLite é criado automaticamente na primeira execução.
+5. Gere um valor único para `SESSION_SECRET` e substitua o placeholder no `.env`:
 
-### Execucao
+```sh
+node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+```
 
-A partir da pasta `src/backend`, inicie o servidor em modo desenvolvimento:
+#### Variáveis de Ambiente
+
+As variáveis abaixo são carregadas pelo `dotenv`: primeiro a partir do diretório de execução do comando e depois a partir do `.env` na raiz do projeto.
+
+| Variável | Obrigatória | Padrão | Descrição |
+|---|---|---|---|
+| `PORT` | Não | `3000` | Porta em que o servidor HTTP é iniciado. |
+| `NODE_ENV` | Não | `development` | Modo de execução. Em produção, deve ser definida como `production`. |
+| `DB_PATH` | Não | `./database/brpec.sqlite` | Caminho do arquivo SQLite local, criado automaticamente na primeira execução. |
+| `DATABASE_URL` | **Sim** | — | String de conexão PostgreSQL (Supabase) exigida pelo backend independentemente do valor de `ENABLE_CLOUD_SYNC`. Formato: `postgresql://usuario:senha@host:5432/database`. |
+| `ENABLE_CLOUD_SYNC` | Não | `false` | Habilita a sincronização automática com o banco remoto. Deve ser definida como `true` apenas quando `DATABASE_URL` estiver configurada. |
+| `SESSION_SECRET` | **Sim** | — | Segredo utilizado para assinar os cookies de sessão. Deve ser gerado com `crypto.randomBytes(64)` e nunca exposto em repositórios públicos. Na ausência desse valor, é utilizado um fallback inseguro embutido no código. |
+| `JWT_ACCESS_SECRET` | **Sim** | — | Chave de assinatura do token de acesso JWT. Sem esse valor o servidor retorna erro na autenticação. Deve ser gerada com `crypto.randomBytes(64)`. |
+| `JWT_REFRESH_SECRET` | **Sim** | — | Chave de assinatura do token de renovação JWT. Sem esse valor o servidor retorna erro na autenticação. Deve ser gerada com `crypto.randomBytes(64)`. |
+| `ACCESS_TOKEN_EXPIRES_IN` | Não | `15m` | Tempo de expiração do token de acesso JWT. |
+| `REFRESH_TOKEN_EXPIRES_IN` | Não | `7d` | Tempo de expiração do token de renovação JWT. |
+
+> **Segurança:** o arquivo `.env` está registrado no `.gitignore` e não deve ser versionado. Apenas `.env.example` — sem valores reais — é mantido no repositório.
+
+### Executando o Backend
+
+#### Migrations do banco de dados
+
+As migrations são executadas **automaticamente** a cada inicialização do servidor — não é necessário nenhum comando manual. O sistema lê os arquivos `src/backend/database/migration.sql` e os arquivos `.sql` em `src/backend/database/migrations/` em ordem alfabética, registrando cada migration aplicada na tabela `schema_migrations` para evitar reexecução.
+
+Na primeira execução com o banco vazio, um seed inicial é aplicado automaticamente com os retiros e usuários padrão da BrPec.
+
+#### Iniciando o servidor
+
+A partir da pasta `src/backend`:
+
+**Modo desenvolvimento** (reinicia automaticamente ao salvar arquivos):
 
 ```sh
 npm run dev
 ```
 
-O terminal deve exibir:
+**Modo produção:**
+
+```sh
+npm start
+```
+
+#### Saída esperada na inicialização
 
 ```
-[database] Banco SQLite conectado: .../database/brpec.sqlite
+[database] Banco SQLite conectado: .../src/backend/database/brpec.sqlite
 [initDb] Banco de dados inicializado com sucesso
+[server] Banco vazio detectado — rodando seed inicial...   ← apenas na primeira execução
+[server] Banco já populado (N usuário(s)) — pulando seed. ← nas execuções seguintes
 [server] Servidor BrPec rodando na porta 3000
    Health-check: http://localhost:3000/api/health
+[server] Sincronização automática em nuvem (outbox) DESATIVADA via flag ENABLE_CLOUD_SYNC.
 ```
 
-### Verificacao
+#### Portas utilizadas
 
-Acesse `http://localhost:3000/api/health` no navegador ou execute no terminal:
+| Porta | Protocolo | Descrição |
+|---|---|---|
+| `3000` | HTTP | Servidor principal (API REST + interface web). Configurável via `PORT` no `.env`. |
+
+#### Verificando a operação
+
+Acesse no navegador ou execute no terminal:
 
 ```sh
 curl http://localhost:3000/api/health
@@ -137,7 +185,90 @@ Resposta esperada:
 }
 ```
 
-Se o campo `banco` retornar `"desconectado"`, verifique se o Node.js esta na versão 22.5.0 ou superior.
+#### Troubleshooting
+
+| Sintoma | Causa provável | Solução |
+|---|---|---|
+| `Cannot find module 'node:sqlite'` | Node.js abaixo de v22.5.0 | Atualize o Node.js para v22.5.0 ou superior. Verifique com `node --version`. |
+| `banco: "desconectado"` no health-check | Node.js incompatível ou caminho do SQLite incorreto | Confirme a versão do Node.js e o valor de `DB_PATH` no `.env`. |
+| `Error: SESSION_SECRET is not defined` ou sessão inválida | Variável ausente ou usando o valor placeholder do `.env.example` | Gere e defina `SESSION_SECRET` conforme descrito na seção de Variáveis de Ambiente. |
+| `JsonWebTokenError` ou erro 401 na autenticação | `JWT_ACCESS_SECRET` ou `JWT_REFRESH_SECRET` não definidas | Defina ambas as variáveis no `.env` com valores gerados por `crypto.randomBytes(64)`. |
+| `Error: connect ECONNREFUSED` ou falha no cloud sync | `DATABASE_URL` ausente ou inválida | Verifique a string de conexão PostgreSQL no `.env`. |
+| `[initDb] ERRO: Arquivo de migration base não encontrado` | Execução a partir de diretório incorreto | Execute o servidor a partir de `src/backend/`, não da raiz do projeto. |
+
+### Testes
+
+Os testes são executados a partir da pasta `src/backend` com o comando:
+
+```sh
+npm test
+```
+
+O comando aciona o Jest com as flags `--runInBand` (execução sequencial, necessária para evitar conflitos de banco SQLite) e `--forceExit` (encerra o processo ao terminar, independentemente de conexões abertas). O banco de dados utilizado nos testes é um SQLite em memória (`DB_PATH=:memory:`), isolado do banco de desenvolvimento.
+
+#### Interpretando o output
+
+```
+PASS tests/endpoints.test.ts
+PASS tests/uc01-planejar-tarefas.test.ts
+FAIL tests/auth-jwt.test.ts
+  ● login › deve retornar 401 para senha incorreta
+
+Test Suites: 1 failed, 11 passed, 12 total
+Tests:       2 failed, 47 passed, 49 total
+Snapshots:   0 total
+Time:        4.321 s
+```
+
+| Indicador | Significado |
+|---|---|
+| `PASS` | Todos os testes do arquivo passaram. |
+| `FAIL` | Ao menos um teste do arquivo falhou. O nome do teste com falha é exibido abaixo. |
+| `Tests: X failed` | Quantidade de casos de teste com falha no total da suite. |
+| `--runInBand` | Testes executados em série; obrigatório para bancos SQLite compartilhados. |
+
+#### Suites disponíveis
+
+| Arquivo | O que cobre |
+|---|---|
+| `auth-jwt.test.ts` | Autenticação, emissão e validação de tokens JWT. |
+| `endpoints.test.ts` | Contratos de entrada/saída dos endpoints REST principais. |
+| `uc01-planejar-tarefas.test.ts` | Fluxo completo do UC01 — planejamento de tarefas pelo Coordenador. |
+| `tarefaIntegration.test.ts` | CRUD e regras de negócio de tarefas. |
+| `alertaIntegration.test.ts` | Criação e consulta de alertas. |
+| `eventoIntegration.test.ts` | Registro de eventos de rebanho. |
+| `sincronizacaoIntegration.test.ts` | Fila de sincronização (outbox) e lote. |
+| `contratos-rnf.test.ts` | Requisitos não funcionais (tempo de resposta, formato de resposta). |
+| `offline-operations.test.ts` | Operações offline e reprocessamento da fila. |
+| `viewRoutes.test.ts` | Rotas de renderização de views EJS. |
+| `initDb.test.ts` | Inicialização e idempotência das migrations. |
+| `swagger.test.ts` | Disponibilidade e validade da documentação OpenAPI. |
+
+### Fluxos de Autenticação
+
+O sistema possui quatro perfis de acesso com fluxos de login distintos. As credenciais abaixo são criadas automaticamente pelo seed na primeira execução do servidor.
+
+> **Atenção:** as credenciais de desenvolvimento não devem ser utilizadas em ambientes de produção.
+
+#### Credenciais de desenvolvimento
+
+| Perfil | Usuário | Senha | Endpoint de login |
+|---|---|---|---|
+| Gerente (ADM) | `admin` | `123456` | `POST /api/auth/login` |
+| Coordenador | `marcos`, `rafael`, `carlos`, `anderson`, `fernando`, `lucas`, `pedro` | `123456` | `POST /api/auth/login` |
+| Capataz | `Rogério`, `Lucas`, `Marcelo`, `Fabiano`, `Valdineis`, `Daniel`, `João Paulo`, `Alberto`, `José Carlos`, `Valdeci`, `Manoel`, `Wilson`, `Ariovaldo` | `123456` | `POST /api/auth/login-capataz` |
+| Infraestrutura | `tecnico-hidraulica`, `tecnico-eletrica`, `tecnico-cerca` | `123456` | `POST /api/auth/login-infra` |
+
+#### Descrição dos perfis
+
+**Gerente (ADM)**
+É o único perfil com permissão de excluir qualquer registro do sistema, controlada pela flag `is_admin` verificada em duas camadas: interface e backend. Acessa o dashboard consolidado com visão de todos os retiros, chamados e tarefas. Autentica via `POST /api/auth/login` com `{ usuario, senha, perfil: "Gerente" }`.
+
+**Coordenador**
+Aprova ou rejeita boletas registradas pelos capatazes dos retiros sob sua responsabilidade. Exporta relatórios em XLSX, CSV e PDF. Cada coordenador está vinculado a dois retiros no seed inicial. Autentica via `POST /api/auth/login` com `{ usuario, senha, perfil: "Coordenador" }`.
+
+**Capataz**
+Registra boletas de movimentação de rebanho (nascimento, óbito, transferência, compra/venda, evolução, manejo) e abre chamados de infraestrutura, com funcionamento offline nativo. Cada capataz está vinculado a um retiro. O login é feito por seleção de retiro — o sistema identifica o capataz pelo `retiro_id` — via `POST /api/auth/login-capataz`.
 
 ### Estrutura do backend
 
