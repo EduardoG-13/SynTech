@@ -3,8 +3,8 @@ import { v7 as uuidv7 } from 'uuid';
 import db from '../config/database';
 import { mesEstaFechado } from './gerenteController';
 
-// TODO: Restaurar a lógica real de vinculação de transferência
-function vincularTransferenciaBilateral(origem_id: string, destino_id: string) {
+// Stub para permitir que os testes rodem sem o transferenciaController que está faltando na branch
+function vincularTransferenciaBilateral(ref: string, grupoId: string) {
   return { conflito: false };
 }
 

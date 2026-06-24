@@ -1,5 +1,5 @@
 /* Service Worker BRPec — offline-first */
-const CACHE_NAME = 'brpec-v21';
+const CACHE_NAME = 'brpec-v22';
 
 // 1) Assets estáticos: cacheados imediatamente na instalação do SW
 const ASSETS_ESTATICOS = [
@@ -13,6 +13,7 @@ const ASSETS_ESTATICOS = [
   '/public/js/dashboard.js',
   '/public/js/configuracoes.js',
   '/public/js/chamados.js',
+  '/public/js/audio-transcricao-local.js',
   '/public/js/novo-chamado-handler.js',
   '/public/js/chamado-resolver-handler.js',
   '/public/js/offline-interceptor.js',
@@ -51,20 +52,20 @@ const ASSETS_ESTATICOS = [
 // 2) Rotas autenticadas: pré-cacheadas DEPOIS do login (cliente avisa via postMessage)
 // Por perfil — só baixa o que faz sentido pra quem está logado.
 const ROTAS_POR_PERFIL = {
-  Capataz:        ['/tarefas', '/nova-os', '/historico', '/novo-chamado', '/sucesso',
-                   '/api/dados/form-nova-os', '/api/boletas/minhas', '/api/historico/boletas',
+  Capataz:        ['/tarefas', '/nova-os', '/historico?perfil=Capataz', '/novo-chamado', '/sucesso',
+                   '/api/dados/form-nova-os', '/api/boletas/minhas', '/api/historico/boletas?perfil_cache=Capataz',
                    '/api/tarefas?status=ABERTA', '/api/tarefas?status=CONCLUIDA',
-                   '/api/historico/chamados', '/api/transferencias/pendentes'],
-  Gerente:        ['/dashboard', '/configuracoes', '/infraestrutura', '/historico',
+                   '/api/historico/chamados?perfil_cache=Capataz', '/api/transferencias/pendentes'],
+  Gerente:        ['/dashboard', '/configuracoes', '/infraestrutura', '/historico?perfil=Gerente',
                    '/api/dashboard/resumo', '/api/dashboard/retiros',
                    '/api/admin/retiros', '/api/admin/usuarios',
-                   '/api/historico/boletas', '/api/historico/chamados'],
-  Coordenador:    ['/dashboard', '/boletas', '/historico',
+                   '/api/historico/boletas?perfil_cache=Gerente', '/api/historico/chamados?perfil_cache=Gerente'],
+  Coordenador:    ['/dashboard', '/boletas', '/historico?perfil=Coordenador',
                    '/api/dashboard/resumo', '/api/dashboard/retiros',
                    '/api/coordenador/boletas-pendentes',
-                   '/api/historico/boletas', '/api/historico/chamados'],
-  Infraestrutura: ['/infraestrutura', '/historico',
-                   '/api/chamados', '/api/historico/chamados'],
+                   '/api/historico/boletas?perfil_cache=Coordenador', '/api/historico/chamados?perfil_cache=Coordenador'],
+  Infraestrutura: ['/infraestrutura', '/historico?perfil=Infraestrutura',
+                   '/api/chamados', '/api/historico/chamados?perfil_cache=Infraestrutura'],
 };
 
 async function buscarECachear(cache, url) {
@@ -95,11 +96,12 @@ function adicionarId(set, valor) {
 
 async function cachearBoletasRelacionadas(cache, listasJson) {
   const ids = new Set();
-  [
-    '/api/boletas/minhas',
-    '/api/historico/boletas',
-    '/api/coordenador/boletas-pendentes',
-  ].forEach((url) => {
+  Object.keys(listasJson).forEach((url) => {
+    if (
+      url !== '/api/boletas/minhas' &&
+      url !== '/api/coordenador/boletas-pendentes' &&
+      !url.startsWith('/api/historico/boletas')
+    ) return;
     extrairLista(listasJson[url], 'boletas').forEach((b) => {
       adicionarId(ids, b.grupo_id || b.id);
       adicionarId(ids, b.id);
@@ -110,6 +112,7 @@ async function cachearBoletasRelacionadas(cache, listasJson) {
     const encoded = encodeURIComponent(id);
     await buscarECachear(cache, `/boleta/${encoded}`);
     await buscarECachear(cache, `/api/boletas/${encoded}`);
+    await buscarECachear(cache, `/api/coordenador/boleta/${encoded}/pdf`);
   }));
 }
 
@@ -131,10 +134,8 @@ async function cachearTarefasRelacionadas(cache, listasJson) {
 
 async function cachearChamadosRelacionados(cache, listasJson, perfil) {
   const ids = new Set();
-  [
-    '/api/chamados',
-    '/api/historico/chamados',
-  ].forEach((url) => {
+  Object.keys(listasJson).forEach((url) => {
+    if (url !== '/api/chamados' && !url.startsWith('/api/historico/chamados')) return;
     extrairLista(listasJson[url], 'chamados').forEach((c) => adicionarId(ids, c.id));
   });
 
@@ -231,6 +232,10 @@ self.addEventListener('fetch', (event) => {
         }
         return response;
       })
-      .catch(() => caches.match(event.request, { ignoreSearch: true }))
+      .catch(async () => {
+        const exata = await caches.match(event.request);
+        if (exata) return exata;
+        return caches.match(event.request, { ignoreSearch: true });
+      })
   );
 });

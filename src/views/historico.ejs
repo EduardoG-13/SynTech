@@ -268,9 +268,11 @@
     cont.innerHTML = '<p style="text-align:center; color:#8A8A7C; padding:0.75rem; font-size:0.9rem;">Carregando...</p>';
     vazio.style.display = 'none';
 
-    var url = ABA_ATIVA === 'boletas' ? '/api/historico/boletas' : '/api/historico/chamados';
+    var url = ABA_ATIVA === 'boletas'
+      ? '/api/historico/boletas?perfil_cache=' + encodeURIComponent(PERFIL)
+      : '/api/historico/chamados?perfil_cache=' + encodeURIComponent(PERFIL);
     var qs = montarParams();
-    if (qs) url += '?' + qs;
+    if (qs) url += '&' + qs;
 
     fetch(url, { credentials: 'same-origin' })
       .then(function(r) { return r.json(); })

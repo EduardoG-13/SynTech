@@ -1,4 +1,4 @@
-<img src="../assets/logointeli.png">
+﻿<img src="../assets/logointeli.png">
 
 # WAD - Web Application Document - Módulo 2 - Inteli
 
@@ -37,7 +37,7 @@
 
 <br>
 
-# <a name="c1"></a>1. Introdução (sprints 1 a 5)
+# <a name="c1"></a>1. Introdução
 
 O agronegócio brasileiro desempenha papel central na economia nacional, sendo responsável
 por aproximadamente 25% do PIB e pela geração de empregos em larga escala, especialmente
@@ -83,11 +83,11 @@ informações. Com isso, torna-se possível atualizar os dados com mais agilidad
 a transparência das operações e dar suporte à tomada de decisão dos gestores, atendendo
 às necessidades reais da BrPec e ao seu contexto operacional. 
 
-# <a name="c2"></a>2. Visão Geral da Aplicação Web (sprint 1)
+# <a name="c2"></a>2. Visão Geral da Aplicação Web
 
-## 2.1. Escopo do Projeto (sprints 1 e 4)
+## 2.1. Escopo do Projeto
 
-### 2.1.1. Modelo de 5 Forças de Porter (sprint 1)
+### 2.1.1. Modelo de 5 Forças de Porter
 
 As 5 forças de Porter são uma metodologia de análise estratégica criada por Michael Porter para avaliar a competitividade e o potencial de lucro de uma indústria. Assim, o objetivo é analisar as principais forças do ambiente externo de uma empresa, e como elas impactam na entrega de valor ao cliente e a rentabilidade do negócio.
 
@@ -127,7 +127,7 @@ A concentração do lado comprador, JBS, Marfrig e Minerva Foods, confere alto p
 **Ameaça de substitutos**
 A pressão de substituição é moderada e crescente nos mercados interno e externo. Internamente, frango e suíno concorrem com a carne bovina por apresentarem custo de produção estruturalmente inferior; em períodos de retração do poder de compra das famílias, essa substituição se intensifica de forma recorrente (CEPEA, 2023). Proteínas de origem vegetal e alternativas produzidas por fermentação avançam em nichos de maior renda, especialmente entre consumidores sensíveis a posicionamentos ambientais e de saúde. No mercado externo, o Regulamento Europeu Antidesmatamento (EUDR), em vigor a partir de dezembro de 2025, vincula o acesso ao bloco à comprovação de rastreabilidade georreferenciada, o que favorece origens concorrentes com histórico consolidado de conformidade, como Austrália e Nova Zelândia (REHAGRO, 2024). A conformidade ambiental documentada em biomas de alta sensibilidade, como o Pantanal, representa variável estratégica para preservar o acesso a segmentos de maior valor agregado e menor exposição à substituição por outras proteínas.
 
-### 2.1.2. Análise SWOT da Instituição Parceira (sprint 1)
+### 2.1.2. Análise SWOT da Instituição Parceira
 
 A análise SWOT é uma ferramenta de planejamento estratégico que avalia quatro dimensões de uma organização: forças (Strengths), fraquezas (Weaknesses), oportunidades (Opportunities) e ameaças (Threats). As duas primeiras referem-se ao ambiente interno da organização, enquanto as duas últimas dizem respeito a fatores externos [23].
 
@@ -149,7 +149,7 @@ As **ameaças** abrangem a pressão regulatória ambiental crescente, o risco re
 
 A leitura cruzada dos quadrantes revela que a principal alavanca estratégica da BrPec reside na transformação da escala fundiária, força latente, em vantagem competitiva efetiva, condição que depende da qualidade dos dados operacionais e da rastreabilidade documentada como pré-requisitos para acessar mercados mais exigentes e mitigar riscos reputacionais e regulatórios.
 
-### 2.1.3. Solução (sprints 1 a 5)
+### 2.1.3. Solução
 
 #### 1. Definição do Problema
 
@@ -219,7 +219,7 @@ O projeto será considerado bem-sucedido quando:
 
 - **Canvas:** O bloco de "Proposta de Valor" deve estar coerente com os benefícios esperados; "Segmentos de Clientes" com os atores; "Canais" com a interface web/offline
 
-### 2.1.4. Value Proposition Canvas (sprint 1):
+### 2.1.4. Value Proposition Canvas
 
 A proposta de valor constitui uma declaração objetiva que sintetiza a essência da aplicação web desenvolvida, definindo as funcionalidades entregues, o público-alvo atendido e os benefícios operacionais gerados. Essa ferramenta atua como o eixo analítico do projeto, fundamentando as decisões de arquitetura de software e comunicando o diferencial competitivo da solução digital de modo estruturado. A análise do canvas evidencia que o sistema mitiga ineficiências operacionais concretas enfrentadas pelos capatazes em campo, tais como a dependência exclusiva de registros físicos, a inviabilidade de uso de sistemas convencionais em áreas desprovidas de cobertura de internet e a assincronicidade na comunicação com as instâncias gerenciais.
 
@@ -231,7 +231,7 @@ A proposta de valor constitui uma declaração objetiva que sintetiza a essênci
 
 Os benefícios gerados pela adoção do sistema - incluindo a supressão do retrabalho de transcrição de dados, o registro otimizado de eventos zootécnicos em interface acessível e a confirmação documental de ordens de serviço com suporte a evidências fotográficas - estão em conformidade direta com os requisitos estabelecidos pela propriedade rural. Conclui-se, portanto, que a proposta de valor promovida não se restringe à mera digitalização de planilhas de controle, mas consolida a reestruturação integral do fluxo de dados operacionais, assegurando que o inventário pecuário e o status das infraestruturas se tornem mais precisos, rastreáveis e tempestivos para o suporte à tomada de decisão administrativa.
 
-### 2.1.5. Matriz de Riscos do Projeto (sprint 1)
+### 2.1.5. Matriz de Riscos do Projeto
 
 A matriz de riscos é uma ferramenta que permite identificar, analisar e priorizar ameaças e oportunidades de um projeto. A classificação é feita com base na probabilidade de ocorrência e no impacto, auxiliando na definição de ações para cada caso [36]. Dessa forma, foi elaborada a matriz de riscos para o desenvolvimento da aplicação web da BrPec Agropecuária S.A, considerando seus principais desafios.
 
@@ -381,7 +381,7 @@ Identifica-se que a potencialização desta oportunidade requer a garantia de qu
 
 A matriz de riscos evidencia que os principais desafios do projeto estão relacionados à operação offline, à adoção pelos usuários de campo, à qualidade dos registros e à compatibilidade dos dados exportados com os processos já utilizados pela BrPec. Ao mesmo tempo, o projeto apresenta oportunidades relevantes, como redução de retrabalho, melhoria da tomada de decisão, aumento da rastreabilidade e fortalecimento da eficiência operacional. Dessa forma, os planos de ação definidos buscam reduzir ameaças técnicas, humanas e operacionais, ao mesmo tempo em que potencializam os ganhos esperados com a digitalização dos registros de campo.
 
-## 2.2. Personas (sprint 1)
+## 2.2. Personas
 
 Personas são, de forma resumida, representaçôes fictícia dos diferentes tipos de usuários. Elas permitem que a ferramenta seja mais eficiente e focada para atender as necessidades reais do cliente [36]. Dessa forma, as Figuras 5, 6 e 7 mostram as personas criadas para o projeto.
 
@@ -672,7 +672,7 @@ Comprometido com o sustento da família e com o bom funcionamento do retiro, Gab
 
 "Quando o bicho adoece ou a cerca arrebenta, não tem tempo de procurar papel, tem que resolver na hora. O que não ficou na cabeça, ficou perdido."
 
-## 2.3. User Stories (sprints 1 a 5)
+## 2.3. User Stories
 
 User Stories são descrições concisas de uma funcionalidade do sistema sob a perspectiva do usuário final. Diferente de requisitos técnicos tradicionais, elas focam no valor de negócio e na necessidade do usuário, servindo como ponto de partida para a implementação técnica. [7]
 
@@ -978,9 +978,9 @@ User Stories são descrições concisas de uma funcionalidade do sistema sob a p
 
 ---
 
-# <a name="c3"></a>3. Projeto da Aplicação Web (sprints 1 a 5)
+# <a name="c3"></a>3. Projeto da Aplicação Web
 
-## 3.1. Requisitos do Sistema (sprints 1 a 5)
+## 3.1. Requisitos do Sistema
 
 O sistema a ser desenvolvido abrange a modernização do fluxo de informações operacionais e zootécnicas entre o campo e o escritório da fazenda BRPec. Atualmente, a comunicação de ordens de serviço e o registro de movimentações do rebanho dependem de processos manuais e anotações em papel (boletas), o que exige tempo para consolidação e redigitação em planilhas. O problema central é solucionado por meio de uma plataforma digital integrada, na qual o planejamento de tarefas e o reporte de eventos do rebanho (como nascimentos, óbitos e transferências) são registrados digitalmente na fonte, com suporte a operação offline. Com isso, os registros de campo são padronizados e a atualização do inventário pecuário é agilizada.
 
@@ -992,35 +992,35 @@ O sistema a ser desenvolvido abrange a modernização do fluxo de informações 
 
 - **Coordenadores:** As informações e movimentações enviadas pelos Capatazes são visualizadas e validadas. Os dados consolidados são exportados em formato de planilha (Excel/CSV) para a atualização dos controles centrais da empresa, eliminando a necessidade de redigitação manual.
 
-### 3.1.1. Requisitos Funcionais (sprint 1, refinar até sprint 5)
+### 3.1.1. Requisitos Funcionais
 
 Os Requisitos Funcionais (RF) determinam a competência computacional e os serviços intrínsecos que devem compor a governança operacional do sistema modelado. A especificação formal destas asserções delineia a delimitação funcional entre dados, entrada, transformação interativa e respostas previstas frente aos perfis autorizados de acesso.
 
 
 | ID    | Descrição                                                                                                                                                                                                                                                             | Prioridade | Status    |
 | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------- |
-| RF001 | O sistema deve permitir que o Gerente crie tarefas e as associe a um retiro específico                                                                                                                                                                                | Alta       | Planejado |
-| RF002 | O sistema deve permitir que o Capataz visualize as tarefas do dia mesmo sem conexão com a internet                                                                                                                                                                    | Alta       | Planejado |
-| RF003 | O sistema deve armazenar localmente as tarefas sincronizadas para acesso offline                                                                                                                                                                                      | Alta       | Planejado |
-| RF004 | O sistema deve exibir mensagem simples quando não houver tarefas disponíveis offline                                                                                                                                                                                  | Média      | Planejado |
-| RF005 | O sistema deve permitir que o Capataz grave um áudio curto e o anexe a uma tarefa                                                                                                                                                                                     | Média      | Planejado |
-| RF006 | O sistema deve permitir que o Capataz crie alertas de infraestrutura (ticket), informando: tipo de problema, retirada e localização                                                                                                                                   | Média      | Planejado |
-| RF007 | O sistema deve exibir ao Gerente um painel com o status de todas as tarefas (pendente, em andamento, concluída) e alertas em aberto, agrupados por retiro.                                                                                                            | Média      | Em desenvolvimento |
-| RF008 | O sistema deve permitir que o Capataz registre o nascimento de bezerros de forma offline, informando: data, retiro, categoria e quantidade                                                                                                                            | Média      | Planejado |
-| RF009 | O sistema deve permitir que o Capataz preencha e confirme o formulário de registro de morte de animal mesmo sem conexão com a internet, salvando os dados localmente no dispositivo                                                                                   | Alta       | Planejado |
-| RF010 | O sistema deve detectar automaticamente o restabelecimento da conexão com a rede e iniciar a transmissão dos registros locais pendentes para o servidor remoto, sem exigir nenhuma ação manual do Capataz                                                             | Alta       | Em desenvolvimento |
-| RF011 | O sistema deve notificar o Capataz com uma mensagem de confirmação após a sincronização bem-sucedida dos dados com o servidor ("Registro sincronizado com sucesso")                                                                                                   | Média      | Planejado |
-| RF012 | O sistema deve manter os registros com falha de envio salvos localmente e tentar reenvio automático a cada nova conexão disponível, até que a sincronização seja concluída com sucesso                                                                                | Alta       | Planejado |
-| RF013 | O sistema deve validar o preenchimento dos campos obrigatórios do formulário de óbito (identificação do animal, categoria, causa da morte e data) antes de permitir o salvamento local, bloqueando o registro incompleto e sinalizando visualmente os campos faltante | Alta       | Planejado |
-| RF014 | Após a sincronização, o sistema deve disponibilizar automaticamente o registro de óbito no painel do Coordenador, vinculado ao retiro do Capataz que realizou o lançamento                                                                                            | Média      | Em desenvolvimento |
-| RF015 | O sistema deve permitir que o Coordenador exporte os dados consolidados das movimentações zootécnicas e do status operacional em arquivos formatados como planilha eletrônica (Excel/CSV)                                                                             | Alta       | Em desenvolvimento |
+| RF001 | O sistema deve permitir que o Gerente crie tarefas e as associe a um retiro específico                                                                                                                                                                                | Alta       | Implementado |
+| RF002 | O sistema deve permitir que o Capataz visualize as tarefas do dia mesmo sem conexão com a internet                                                                                                                                                                    | Alta       | Implementado |
+| RF003 | O sistema deve armazenar localmente as tarefas sincronizadas para acesso offline                                                                                                                                                                                      | Alta       | Implementado |
+| RF004 | O sistema deve exibir mensagem simples quando não houver tarefas disponíveis offline                                                                                                                                                                                  | Média      | Implementado |
+| RF005 | O sistema deve permitir que o Capataz grave um áudio curto e o anexe a uma tarefa                                                                                                                                                                                     | Média      | Implementado |
+| RF006 | O sistema deve permitir que o Capataz crie alertas de infraestrutura (ticket), informando: tipo de problema, retirada e localização                                                                                                                                   | Média      | Implementado |
+| RF007 | O sistema deve exibir ao Gerente um painel com o status de todas as tarefas (pendente, em andamento, concluída) e alertas em aberto, agrupados por retiro.                                                                                                            | Média      | Implementado |
+| RF008 | O sistema deve permitir que o Capataz registre o nascimento de bezerros de forma offline, informando: data, retiro, categoria e quantidade                                                                                                                            | Média      | Implementado |
+| RF009 | O sistema deve permitir que o Capataz preencha e confirme o formulário de registro de morte de animal mesmo sem conexão com a internet, salvando os dados localmente no dispositivo                                                                                   | Alta       | Implementado |
+| RF010 | O sistema deve detectar automaticamente o restabelecimento da conexão com a rede e iniciar a transmissão dos registros locais pendentes para o servidor remoto, sem exigir nenhuma ação manual do Capataz                                                             | Alta       | Implementado |
+| RF011 | O sistema deve notificar o Capataz com uma mensagem de confirmação após a sincronização bem-sucedida dos dados com o servidor ("Registro sincronizado com sucesso")                                                                                                   | Média      | Implementado |
+| RF012 | O sistema deve manter os registros com falha de envio salvos localmente e tentar reenvio automático a cada nova conexão disponível, até que a sincronização seja concluída com sucesso                                                                                | Alta       | Implementado |
+| RF013 | O sistema deve validar o preenchimento dos campos obrigatórios do formulário de óbito (identificação do animal, categoria, causa da morte e data) antes de permitir o salvamento local, bloqueando o registro incompleto e sinalizando visualmente os campos faltante | Alta       | Implementado |
+| RF014 | Após a sincronização, o sistema deve disponibilizar automaticamente o registro de óbito no painel do Coordenador, vinculado ao retiro do Capataz que realizou o lançamento                                                                                            | Média      | Implementado |
+| RF015 | O sistema deve permitir que o Coordenador exporte os dados consolidados das movimentações zootécnicas e do status operacional em arquivos formatados como planilha eletrônica (Excel/CSV)                                                                             | Alta       | Implementado |
 
 <center>
   <p><strong>Tabela 16</strong> — Requisitos Funcionais</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-### 3.1.2. Regras de Negócio (sprint 1, refinar até sprint 5)
+### 3.1.2. Regras de Negócio
 
 As Regras de Negócio (RN) balizam as lógicas limitantes, condições contingenciais e políticas mandatórias herdadas das rotinas produtivas e normativas da instituição parceira. A formalização axiomática das regras impõe que a instrumentação sistêmica, embora escalável em seu código subjacente, reproduza em escopo fechado a exatidão empírica da governança operacional do manejo bovino atual.
 
@@ -1061,7 +1061,7 @@ As Regras de Negócio (RN) balizam as lógicas limitantes, condições contingen
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-### 3.1.3. Requisitos Não Funcionais — 8 Eixos ISO/IEC 25010 (sprints 1 a 5)
+### 3.1.3. Requisitos Não Funcionais — 8 Eixos ISO/IEC 25010
 
 Os Requisitos Não Funcionais (RNF) definem os critérios de qualidade da aplicação. Ou seja, eles não descrevem o que o sistema faz (as suas funcionalidades), mas sim como ele deve se comportar. Eles garantem que o software entregue tenha um bom desempenho, seja seguro, fácil de usar e não apresente falhas.
 
@@ -1126,7 +1126,7 @@ No contexto do nosso projeto para a BrPec, esses requisitos são fundamentais, p
 - **O que é:** Trata do nível de conformidade e padronização das informações exportadas em relação aos ecossistemas computacionais adotados pela entidade parceira.
 - **Explicação:** O tratamento de dados foi arquitetado para extinguir os processos passivos de transcrição manual, que tradicionalmente incitam a geração de inconsistências qualitativas. O artefato consolida a geração de relatórios diretos, padronizados e homologados, viabilizando o consumo nativo e direto desses arquivos por manipuladores de planilhas eletrônicas.
 
-### 3.1.4. Matriz RF → RN → Endpoint (sprints 3 a 5)
+### 3.1.4. Matriz RF → RN → Endpoint
 
 A matriz a seguir consolida a rastreabilidade entre Requisitos Funcionais (RF, seção 3.1.1), Regras de Negócio (RN, seção 3.1.2) e os endpoints REST que materializam cada requisito no backend do BrPec. Os endpoints listados refletem a implementação real em `src/backend/routes/`, validada com os cards #191, #192, #203 e #211. A coluna "Camada principal (CSR)" indica o caminho da requisição através da arquitetura em camadas descrita na seção 3.2.1.
 
@@ -1298,9 +1298,9 @@ Códigos de erro: `400` (campos obrigatórios — validação RF013 com `campos_
 
 Para a documentação completa de todos os endpoints (incluindo `GET /tarefas/hoje`, `PATCH /tarefas/:id/concluir`, `GET /painel-gerencial`, `POST /sincronizacao/lote` e `GET /exportacao/csv`), consulte a seção 3.7 (WebAPI e endpoints).
 
-## 3.2. Arquitetura (sprints 1 a 5)
+## 3.2. Arquitetura
 
-### 3.2.1. Diagrama de Arquitetura e Camadas (sprints 3 e 4)
+### 3.2.1. Diagrama de Arquitetura e Camadas
 
 O Sistema BrPec é estruturado sob uma **arquitetura física de três camadas (3-Tier Architecture)**, projetada com base nos princípios do paradigma **Local-First / Offline-First** (KLEPPMANN et al., 2019) [1]. Essa decisão arquitetural é fundamental para mitigar a restrição de conectividade intermitente em ambientes rurais (pastos), garantindo que a operação de campo não dependa de conexões com a internet satelital (Starlink) para funcionar, ao mesmo tempo em que provê consistência eventual global.
 
@@ -1395,17 +1395,17 @@ A solução é composta por **cinco camadas lógicas** no backend, implementadas
 
 **2. Controller (Camada de Apresentação)**
 - **Responsabilidade:** traduzir a requisição HTTP em uma chamada à camada de Service, validar o formato do payload (presença e tipo dos campos), e formatar a resposta (status code, JSON de retorno, mensagens de erro). **Não** acessa o banco de dados nem implementa regras de negócio.
-- **Localização:** `g03/src/backend/controllers/` (pasta criada, controllers serão implementados ao longo das sprints 3 e 4).
+- **Localização:** `src/backend/controllers/` (14 controllers implementados na versão final).
 - **Quem chama / chama quem:** chamado pelas Routes, chama a camada de Service.
 
 **3. Service (Camada de Regras de Negócio)**
 - **Responsabilidade:** concentrar a lógica de negócio do domínio pecuário — orquestrar operações, aplicar validações de regra (ex.: usuário tem permissão para criar tarefa em determinado retiro?), gerar identificadores offline (UUID), montar entradas para a `sincronizacoes` e coordenar chamadas a um ou mais repositórios. **Não** conhece HTTP nem detalhes do dialeto SQL.
-- **Localização:** `src/backend/services/` (ex.: `services/healthService.ts` já implementado como referência da camada).
+- **Localização:** `src/backend/services/` (8 services implementados: `tarefaService`, `alertaService`, `eventoService`, `exportacaoService`, `cloudSyncService`, `sincronizacaoService`, `painelService`, `healthService`).
 - **Quem chama / chama quem:** chamado pelos Controllers, chama um ou mais Repositories.
 
 **4. Repository (Camada de Acesso a Dados)**
 - **Responsabilidade:** encapsular todo o acesso ao banco de dados — consultas SQL, inserts, updates, deletes e chamadas ao cliente Supabase. Cada Repository corresponde, em geral, a uma entidade (`tarefasRepository`, `usuariosRepository`, etc.). **Não** contém regras de negócio: opera sobre dados.
-- **Localização:** `src/backend/repositories/` (implementado nesta sprint: `tarefaRepository.ts`, `alertaRepository.ts`, `eventoRepository.ts`, etc.). A conexão com o banco local é gerenciada em `src/backend/config/database.ts`.
+- **Localização:** `src/backend/repositories/` (10 repositories implementados, incluindo `tarefaRepository.ts`, `alertaRepository.ts`, `eventoRepository.ts` e `pg/tarefaPgRepository.ts`). A conexão com o banco local é gerenciada em `src/backend/config/database.ts`.
 - **Quem chama / chama quem:** chamado pelos Services, chama o driver do banco (`pg` ou `@supabase/supabase-js`).
 
 **5. Model (Camada de Entidades de Domínio)**
@@ -1479,7 +1479,7 @@ A arquitetura descrita acima é a **arquitetura-alvo** do projeto. O estado da i
 
 A configuração do banco (`src/backend/config/database.ts`) já está preparada e em uso pela camada Repository implementada nesta sprint.
 
-### 3.2.2. Diagrama de Casos de Uso (sprint 1)
+### 3.2.2. Diagrama de Casos de Uso
 
 Os casos de uso do Sistema BrPec foram definidos com o objetivo de representar, de forma estruturada, as principais interações entre os atores do sistema e as funcionalidades disponibilizadas pela plataforma. Esses casos de uso refletem os processos críticos da operação pecuária, com foco na gestão de tarefas, registro de movimentações e consolidação de dados para tomada de decisão.
 
@@ -1634,7 +1634,7 @@ UC09 — Exportar relatórios (RF009)
 </center>
 
 
-### 3.2.3. Diagrama de Classes do Dominio (sprint 2) 
+### 3.2.3. Diagrama de Classes do Dominio 
 
 O Diagrama de Classes do Domínio representa, em notação UML, a estrutura estática
 do sistema BrPec: suas entidades principais, os atributos que as compõem, os métodos
@@ -1905,7 +1905,7 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
 | criadoEm | DateTime | Sim         | Timestamp de criação do registro, gerado pelo sistema                   |
 
 <center>
-  <p><strong>Tabela 31</strong> — Atributos da classe Usuario</p>
+  <p><strong>Tabela 22</strong> — Atributos da classe Usuario</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1921,7 +1921,7 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
 | visualizarAlertas()  | void         | Acessa os alertas de infraestrutura abertos pelos Capatazes (RF006) |
 
 <center>
-  <p><strong>Tabela 32</strong> — Métodos da classe Gerente</p>
+  <p><strong>Tabela 23</strong> — Métodos da classe Gerente</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1935,7 +1935,7 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
 | exportarRelatorio()       | Exportacao               | Gera e disponibiliza arquivo CSV/XLSX com os dados consolidados (RF015)            |
 
 <center>
-  <p><strong>Tabela 33</strong> — Métodos da classe Coordenador</p>
+  <p><strong>Tabela 24</strong> — Métodos da classe Coordenador</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1951,7 +1951,7 @@ A hierarquia de usuários é fundamentada em uma superclasse abstrata `Usuario`,
 | registrarEventoZootecnico() | MovimentacaoBase     | Preenche e persiste localmente um evento zootécnico (RF008, RF009)                       |
 
 <center>
-  <p><strong>Tabela 34</strong> — Métodos da classe Capataz</p>
+  <p><strong>Tabela 25</strong> — Métodos da classe Capataz</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1969,7 +1969,7 @@ Essa camada concentra as entidades que sustentam o fluxo principal de trabalho d
 | criadoEm       | DateTime | Sim         | Timestamp de cadastro do retiro no sistema                   |
 
 <center>
-  <p><strong>Tabela 35</strong> — Atributos da classe Retiro</p>
+  <p><strong>Tabela 26</strong> — Atributos da classe Retiro</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -1991,7 +1991,7 @@ Essa camada concentra as entidades que sustentam o fluxo principal de trabalho d
 | sincronizada | Boolean  | Sim         | Indica se o registro já foi transmitido ao servidor central (RF010)               |
 
 <center>
-  <p><strong>Tabela 36</strong> — Atributos da classe Tarefa</p>
+  <p><strong>Tabela 27</strong> — Atributos da classe Tarefa</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2013,7 +2013,7 @@ A classe `Evidencia` é modelada como abstrata por reunir o comportamento comum 
 | **TextoComplementar** | conteudo        | String   | Sim         | Conteúdo textual inserido pelo Capataz como complemento da tarefa |
 
 <center>
-  <p><strong>Tabela 37</strong> — Atributos da classe Evidencia</p>
+  <p><strong>Tabela 28</strong> — Atributos da classe Evidencia</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2034,7 +2034,7 @@ A classe `Evidencia` é modelada como abstrata por reunir o comportamento comum 
 | foto_id      | UUID     | Não         | Chave estrangeira opcional para uma Foto associada ao chamado                 |
 
 <center>
-  <p><strong>Tabela 38</strong> — Atributos da classe Alerta</p>
+  <p><strong>Tabela 29</strong> — Atributos da classe Alerta</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2067,7 +2067,7 @@ Essa camada concentra os registros de eventos do rebanho e as entidades de supor
 | **Compravenda**        | valorFinanceiro              | Decimal  | Sim         | Valor financeiro associado ao negócio                                                    |
 
 <center>
-  <p><strong>Tabela 39</strong> — Atributos da classe MovimentacaoBase e suas subclasses</p>
+  <p><strong>Tabela 30</strong> — Atributos da classe MovimentacaoBase e suas subclasses</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2085,7 +2085,7 @@ Essa camada concentra os registros de eventos do rebanho e as entidades de supor
 | criadaEm        | DateTime | Sim         | Timestamp de criação do registro de controle, gerado no momento do salvamento local |
 
 <center>
-  <p><strong>Tabela 40</strong> — Atributos da classe Sincronizacao</p>
+  <p><strong>Tabela 31</strong> — Atributos da classe Sincronizacao</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2102,7 +2102,7 @@ Essa camada concentra os registros de eventos do rebanho e as entidades de supor
 | geradaEm         | DateTime | Sim         | Timestamp de geração do arquivo, registrado automaticamente pelo sistema      |
 
 <center>
-  <p><strong>Tabela 41</strong> — Atributos da classe Exportacao</p>
+  <p><strong>Tabela 32</strong> — Atributos da classe Exportacao</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2141,11 +2141,11 @@ A Tabela 19 consolida todos os relacionamentos modelados no diagrama, com seus t
 | Sincronizacao        | Dependência (- - →) | MovimentacaoBase     | 1 para 1       | RF010, RF012       |
 
 <center>
-  <p><strong>Tabela 42</strong> — Síntese de Relacionamentos</p>
+  <p><strong>Tabela 33</strong> — Síntese de Relacionamentos</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-#### 3.2.3.1. Diagrama de Classes Arquitetural (sprint 3)
+#### 3.2.3.1. Diagrama de Classes Arquitetural
 
 O Diagrama de Classes Arquitetural representa a estrutura técnica do backend do sistema BrPec, com foco nas responsabilidades e nos relacionamentos entre as classes concretas distribuídas pelas quatro camadas da arquitetura em camadas adotada: **Controller**, **Service**, **Repository** e **Model**. Diferentemente do Diagrama de Classes do Domínio (seção 3.2.3), que modela os conceitos do negócio e suas relações semânticas, este diagrama evidencia como o código está organizado no servidor Node.js, quais classes dependem de quais e de que forma as requisições HTTP percorrem as camadas até atingir a persistência — conforme o padrão Controller–Service–Repository descrito na seção 3.2.4.
 
@@ -2156,7 +2156,21 @@ Cada camada possui responsabilidade única e bem delimitada [14][24]:
 - **Repository:** abstrai o acesso à camada de persistência (SQLite no servidor), expondo métodos de consulta e escrita ao Service por meio de uma interface uniforme.
 - **Model:** representa as entidades persistidas no banco de dados (tabelas SQLite), correspondendo às classes do domínio com seus atributos e tipos de dado.
 
-O diagrama a seguir utiliza a notação UML 2.5.1 [32], com dependências de uso (`..>`) entre Controller → Service e Service → Repository, e associações de composição entre Repository e os Models correspondentes. As classes de mesmo domínio funcional são agrupadas por módulo: **Autenticação**, **Tarefas**, **Eventos Zootécnicos**, **Alertas de Infraestrutura**, **Sincronização** e **Exportação**. 
+O diagrama a seguir utiliza notação adaptada UML 2.5.1 [32]: setas sólidas (`-->`) representam dependências de uso entre camadas (Controller → Service → Repository → Banco), e setas tracejadas (`-.->`) representam realizações de interface (concreto implementa contrato). Os cinco subgrafos correspondem às cinco camadas da arquitetura. As classes de mesmo domínio funcional são agrupadas por módulo: **Autenticação**, **Tarefas**, **Eventos Zootécnicos**, **Alertas de Infraestrutura**, **Sincronização** e **Exportação**.
+
+A tabela a seguir documenta as multiplicidades e o tipo de cada associação entre camadas:
+
+| Origem | Destino | Multiplicidade | Tipo de associação |
+|---|---|---|---|
+| `Route` | `Controller` | 1 : 1 | Dependência de uso — cada rota delega para exatamente um Controller |
+| `Controller` | `Service` | 1 : 1 | Dependência de uso — um Controller orquestra exatamente um Service |
+| `Service` | `«interface» Repository` | 1 : 1..* | Dependência de uso — um Service pode depender de uma ou mais interfaces de repositório |
+| `«interface» Repository` | Repositório concreto | 1 : 1 | Realização — cada interface possui exatamente uma implementação concreta (SQLite) |
+| Repositório concreto | `SQLite DB` | * : 1 | Associação de acesso — múltiplos repositórios acessam o mesmo banco local |
+| `TarefaRepository` | `TarefaPgRepository` | — | Realiza interface adicional `ITarefaPgRepository` para o banco Supabase/PostgreSQL |
+| Repositório concreto | Model | cria 0..* | Associação de resultado — cada método de busca retorna 0 ou N objetos Model |
+
+**Nota sobre a camada de Model:** os tipos TypeScript `Tarefa`, `Alerta`, `Evidencia`, `Movimentacao`, `RefreshToken`, `Retiro`, `Sincronizacao` e `Usuario` (em `src/backend/models/`) funcionam como DTOs de resultado retornados pelos repositórios. Esses tipos não possuem comportamento próprio de persistência — a responsabilidade de acesso ao banco pertence exclusivamente à camada Repository. Por esse motivo, a camada de Model não é representada como subgrafo independente no diagrama abaixo; ela aparece implicitamente como o tipo de retorno de cada método de repositório.
 
 ```mermaid
 ---
@@ -2179,8 +2193,9 @@ flowchart TD
         SincronizacaoRoutes["SincronizacaoRoutes<br/>POST /sincronizacao/lote"]:::route
         ExportacaoRoutes["ExportacaoRoutes<br/>GET /exportacao/csv"]:::route
         PainelRoutes["PainelRoutes<br/>GET /painel-gerencial"]:::route
-        AuthRoutes["AuthRoutes<br/>POST /auth/login<br/>POST /auth/login-capataz<br/>POST /auth/login-infra<br/>POST /auth/refresh<br/>POST /auth/logout<br/>GET /auth/me"]:::route
-        AdminRoutes["AdminRoutes<br/>GET/POST /admin/retiros<br/>PUT/DELETE /admin/retiros/:id<br/>GET/POST /admin/usuarios<br/>PUT/DELETE /admin/usuarios/:id<br/>DELETE /admin/boletas/:grupo_id<br/>DELETE /admin/chamados/:id<br/>DELETE /admin/tarefas/:id"]:::route
+        AuthRoutes["AuthRoutes<br/>POST /auth/login<br/>POST /auth/login-capataz<br/>POST /auth/login-infra<br/>POST /auth/login-dispositivo<br/>GET /auth/dispositivo/:token<br/>POST /auth/refresh<br/>POST /auth/logout<br/>GET /auth/me"]:::route
+        AdminRoutes["AdminRoutes<br/>GET/POST /admin/retiros<br/>PUT/DELETE /admin/retiros/:id<br/>GET/POST /admin/usuarios<br/>PUT/DELETE /admin/usuarios/:id<br/>DELETE /admin/boletas/:grupo_id<br/>DELETE /admin/chamados/:id<br/>DELETE /admin/tarefas/:id<br/>GET /admin/dispositivos<br/>DELETE /admin/dispositivos/:id"]:::route
+        GerenteRoutes["GerenteRoutes<br/>GET /gerente/fechamentos<br/>POST /gerente/fechamento<br/>DELETE /gerente/fechamento/:mes<br/>GET /gerente/planilha-oficial"]:::route
         CoordenadorRoutes["CoordenadorRoutes<br/>GET /coordenador/boletas-pendentes<br/>POST /coordenador/boletas/:id/aprovar<br/>GET /coordenador/exportar<br/>GET /coordenador/boleta/:grupo_id/pdf"]:::route
         BoletaRoutes["BoletaRoutes<br/>POST /boletas<br/>PUT /boletas/:grupo_id<br/>GET /boletas/minhas<br/>GET /boletas/:grupo_id"]:::route
         DashboardRoutes["DashboardRoutes<br/>GET /dashboard/resumo<br/>GET /dashboard/retiros"]:::route
@@ -2198,8 +2213,9 @@ flowchart TD
         SincronizacaoController["SincronizacaoController<br/>+processarLote()"]:::controller
         ExportacaoController["ExportacaoController<br/>+exportarCsv()"]:::controller
         PainelController["PainelController<br/>+obterPainel()"]:::controller
-        AuthController["AuthController<br/>+login()<br/>+loginCapataz()<br/>+loginInfraestrutura()<br/>+refresh()<br/>+logout()<br/>+me()"]:::controller
-        AdminController["AdminController<br/>+listarRetiros()<br/>+criarRetiro()<br/>+atualizarRetiro()<br/>+excluirRetiro()<br/>+listarUsuarios()<br/>+criarUsuario()<br/>+atualizarUsuario()<br/>+excluirUsuario()<br/>+excluirBoleta()<br/>+excluirChamado()<br/>+excluirTarefa()"]:::controller
+        AuthController["AuthController<br/>+login()<br/>+loginCapataz()<br/>+loginInfraestrutura()<br/>+loginDispositivo()<br/>+verificarDispositivo()<br/>+refresh()<br/>+logout()<br/>+me()"]:::controller
+        AdminController["AdminController<br/>+listarRetiros()<br/>+criarRetiro()<br/>+atualizarRetiro()<br/>+excluirRetiro()<br/>+listarUsuarios()<br/>+criarUsuario()<br/>+atualizarUsuario()<br/>+excluirUsuario()<br/>+excluirBoleta()<br/>+excluirChamado()<br/>+excluirTarefa()<br/>+listarDispositivos()<br/>+revogarDispositivo()"]:::controller
+        GerenteController["GerenteController<br/>+listarFechamentos()<br/>+fecharMes()<br/>+reabrirMes()<br/>+exportarPlanilhaOficial()"]:::controller
         CoordenadorController["CoordenadorController<br/>+listarBoletasPendentes()<br/>+aprovarBoleta()<br/>+exportarCsv()<br/>+exportarBoletaPdf()"]:::controller
         BoletaController["BoletaController<br/>+criarBoleta()<br/>+atualizarBoleta()<br/>+listarMinhas()<br/>+obterBoleta()"]:::controller
         DashboardController["DashboardController<br/>+obterResumo()<br/>+listarRetirosDashboard()"]:::controller
@@ -2264,8 +2280,8 @@ flowchart TD
     end
 
     %% Layout horizontal interno (força alinhamento lado a lado)
-    HealthRoutes ~~~ TarefaRoutes ~~~ AlertaRoutes ~~~ EventoRoutes ~~~ SincronizacaoRoutes ~~~ ExportacaoRoutes ~~~ PainelRoutes ~~~ AuthRoutes ~~~ AdminRoutes ~~~ CoordenadorRoutes ~~~ BoletaRoutes ~~~ DashboardRoutes ~~~ HistoricoRoutes
-    HealthController ~~~ TarefaController ~~~ AlertaController ~~~ EventoController ~~~ SincronizacaoController ~~~ ExportacaoController ~~~ PainelController ~~~ AuthController ~~~ AdminController ~~~ CoordenadorController ~~~ BoletaController ~~~ DashboardController ~~~ HistoricoController
+    HealthRoutes ~~~ TarefaRoutes ~~~ AlertaRoutes ~~~ EventoRoutes ~~~ SincronizacaoRoutes ~~~ ExportacaoRoutes ~~~ PainelRoutes ~~~ AuthRoutes ~~~ AdminRoutes ~~~ CoordenadorRoutes ~~~ BoletaRoutes ~~~ DashboardRoutes ~~~ HistoricoRoutes ~~~ GerenteRoutes
+    HealthController ~~~ TarefaController ~~~ AlertaController ~~~ EventoController ~~~ SincronizacaoController ~~~ ExportacaoController ~~~ PainelController ~~~ AuthController ~~~ AdminController ~~~ CoordenadorController ~~~ BoletaController ~~~ DashboardController ~~~ HistoricoController ~~~ GerenteController
     HealthService ~~~ TarefaService ~~~ AlertaService ~~~ EventoService ~~~ SincronizacaoService ~~~ ExportacaoService ~~~ PainelService ~~~ AuthService ~~~ AdminService ~~~ CoordenadorService ~~~ BoletaService ~~~ DashboardService ~~~ HistoricoService
     IHealthRepository ~~~ ITarefaRepository ~~~ ITarefaPgRepository ~~~ IAlertaRepository ~~~ IEventoRepository ~~~ ISincronizacaoRepository ~~~ IExportacaoRepository ~~~ IUsuarioRepository ~~~ IPainelRepository
     HealthRepository ~~~ TarefaRepository ~~~ TarefaPgRepository ~~~ AlertaRepository ~~~ EventoRepository ~~~ SincronizacaoRepository ~~~ ExportacaoRepository ~~~ PainelRepository ~~~ UsuarioRepository
@@ -2285,6 +2301,7 @@ flowchart TD
     BoletaRoutes --> BoletaController
     DashboardRoutes --> DashboardController
     HistoricoRoutes --> HistoricoController
+    GerenteRoutes --> GerenteController
 
     %% Conexões de Controllers para Services (Dependência de Injeção)
     HealthController --> HealthService
@@ -2336,6 +2353,8 @@ flowchart TD
     PainelRepository --> SQLiteDB
     UsuarioRepository --> SQLiteDB
     
+    GerenteController --> SQLiteDB
+
     %% Sincronização offline-first
     SQLiteDB -.->|sincronização| PostgresDB
 ```
@@ -2355,7 +2374,7 @@ A camada **Model** corresponde às interfaces TypeScript das entidades persistid
 
 A separação em camadas garante que alterações na tecnologia de persistência (ex.: migração de SQLite para PostgreSQL) impactem apenas os Repositories, sem afetar Services ou Controllers — critério alinhado ao requisito não funcional de Suportabilidade (RNF — SUP), que limita o MTTR a 8 horas para defeitos críticos.
 
-### 3.2.4. Diagrama de Sequência UML (sprint 3)
+### 3.2.4. Diagrama de Sequência UML
 
 O Diagrama de Sequência UML constitui um dos quatro tipos de diagrama de interação previstos pela especificação UML 2.5.1, sendo formalmente classificado como um diagrama comportamental que enfatiza a troca ordenada de mensagens entre participantes ao longo do tempo [6]. Segundo o Object Management Group (OMG), a semântica de uma interação é definida como um par de conjuntos de *traces* — sequências válidas e inválidas de ocorrências de eventos —, de modo que cada diagrama de sequência representa, de forma gráfica, os cenários de comunicação aceitos pelo sistema modelado [6][36]. A notação adotada emprega linhas de vida (*lifelines*) para representar os participantes, setas contínuas para mensagens síncronas e setas tracejadas para retornos, com fragmentos combinados (*combined fragments*) do tipo `alt` para expressar ramificações condicionais no fluxo de execução, conforme as convenções consolidadas por Fowler [14] e detalhadas na norma ISO/IEC 19505-2:2012 [21].
 
@@ -2464,7 +2483,7 @@ sequenceDiagram
 | Alternativo 2 | Capataz não pertence ao retiro → Service lança erro → Controller retorna 422    |
 
 <center>
-  <p><strong>Tabela 43</strong> — Fluxos Cobertos</p>
+  <p><strong>Tabela 34</strong> — Fluxos Cobertos</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2479,7 +2498,7 @@ sequenceDiagram
 | RNF — DES | Endpoint responde em p95 < 200ms com até 200 registros no banco                                  |
 
 <center>
-  <p><strong>Tabela 44</strong> — Rastreabilidade (RF001, RN01, RNF-SEG, RNF-DES)</p>
+  <p><strong>Tabela 35</strong> — Rastreabilidade (RF001, RN01, RNF-SEG, RNF-DES)</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2549,7 +2568,7 @@ sequenceDiagram
 | Alternativo 3 | Perfil não autorizado → acesso negado com 403                                                        |
 
 <center>
-  <p><strong>Tabela 45</strong> — Fluxos Cobertos</p>
+  <p><strong>Tabela 36</strong> — Fluxos Cobertos</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2570,7 +2589,7 @@ sequenceDiagram
 | RNF — DES    | Latência p95 < 200ms para salvar e ler registros no banco de dados local                                |
 
 <center>
-  <p><strong>Tabela 46</strong> — Mapa de Rastreabilidade</p>
+  <p><strong>Tabela 37</strong> — Mapa de Rastreabilidade</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2657,7 +2676,7 @@ sequenceDiagram
 | Alternativo 3 | Falha na sincronização com o servidor → tentativa registrada e reenvio automático na próxima conexão (RF012) |
 
 <center>
-  <p><strong>Tabela 47</strong> — Fluxos Cobertos</p>
+  <p><strong>Tabela 38</strong> — Fluxos Cobertos</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2678,7 +2697,7 @@ sequenceDiagram
 | RNF — CONF   | 0% de perda de dados em falhas de conexão; estratégia offline-first com reenvio automático              |
 
 <center>
-  <p><strong>Tabela 48</strong> — Mapa de Rastreabilidade (RF003, RF010, RF011, RF012, RN05, RN08, RN09, RN12, RNF-SEG, RNF-CONF)</p>
+  <p><strong>Tabela 39</strong> — Mapa de Rastreabilidade (RF003, RF010, RF011, RF012, RN05, RN08, RN09, RN12, RNF-SEG, RNF-CONF)</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2767,7 +2786,7 @@ sequenceDiagram
 | Alternativo 3 | Falha na sincronização → tentativa registrada e reenvio automático na próxima conexão (RF012)                      |
 
 <center>
-  <p><strong>Tabela 49</strong> — Fluxos cobertos</p>
+  <p><strong>Tabela 40</strong> — Fluxos cobertos</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2789,7 +2808,7 @@ sequenceDiagram
 | RNF — CAP    | Suporte a sincronização em lote de até 500 eventos                                                           |
 
 <center>
-  <p><strong>Tabela 50</strong> — Mapa de Rastreabilidade</p>
+  <p><strong>Tabela 41</strong> — Mapa de Rastreabilidade</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2899,7 +2918,7 @@ sequenceDiagram
 | Alternativo 3 | Falha de rede na sincronização ou replicação → Reenvio automático no próximo ciclo de conexões restabelecidas (RF012)                               |
 
 <center>
-  <p><strong>Tabela 51</strong> — Fluxos cobertos (DS05)</p>
+  <p><strong>Tabela 42</strong> — Fluxos cobertos (DS05)</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -2915,11 +2934,11 @@ sequenceDiagram
 | RNF — CONF   | Integridade transacional em SQLite (local) e PostgreSQL Supabase (nuvem) para evitar inconsistências               |
 
 <center>
-  <p><strong>Tabela 52</strong> — Mapa de Rastreabilidade (DS05)</p>
+  <p><strong>Tabela 43</strong> — Mapa de Rastreabilidade (DS05)</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-### 3.2.5. Diagrama de Atividades ou Estados (sprint 3)
+### 3.2.5. Diagrama de Atividades ou Estados
 
 O diagrama de atividades abaixo representa o fluxo de execução de tarefas no sistema BrPec, contemplando o funcionamento offline-first da aplicação. O processo inicia com a criação da tarefa pelo gerente, passando pela disponibilização ao capataz, execução da atividade em campo e sincronização dos dados com o sistema central. O fluxo foi modelado utilizando UML, mantendo consistência de notação ao longo de toda a representação.
 
@@ -2929,7 +2948,7 @@ O diagrama de atividades abaixo representa o fluxo de execução de tarefas no s
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-### 3.2.6. Diagrama de Implantação (sprints 4 e 5)
+### 3.2.6. Diagrama de Implantação
 
 O diagrama de implantação física do sistema BrPec descreve a infraestrutura de hardware e de rede projetada para operar no cenário real do Pantanal, onde a conectividade com a internet é restrita e intermitente. A arquitetura distribui a computação e a persistência em três níveis físicos isolados (dispositivo de campo, servidor local na fazenda e nuvem), utilizando canais de comunicação adequados a cada contexto.
 
@@ -2939,49 +2958,55 @@ flowchart TD
     classDef hardware fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
     classDef software fill:#efebe9,stroke:#4e342e,stroke-width:1px;
     classDef database fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
-    
-    subgraph Capataz["Celular do Capataz (Dispositivo Móvel)"]
+    classDef satellite fill:#fff9c4,stroke:#f9a825,stroke-width:2px;
+
+    subgraph Capataz["Celular do Capataz (Dispositivo Móvel — Android/Chrome)"]
         direction TB
-        PWA["Cliente Web (Chrome / PWA)"]:::software
-        IDB[("Camada 1: IndexedDB<br>(brpec_local)")]:::database
-        PWA <-->|"Leitura/Escrita"| IDB
+        PWA["Cliente Web (PWA — Chrome)"]:::software
+        SW["Service Worker (sw.js)<br/>intercepta requisições · cache offline<br/>estratégia: Network-first + Cache fallback"]:::software
+        IDB[("Camada 1: IndexedDB<br>brpec_local<br>store: sincronizacoes — fila de operações pendentes")]:::database
+        PWA -->|"registra / ativa"| SW
+        SW <-->|"lê/grava fila PENDENTE"| IDB
+        SW -->|"requisição HTTP (online)"| PWA
     end
     style Capataz fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
 
-    subgraph FarmServer["Servidor Local (Sede da Fazenda)"]
+    subgraph FarmServer["Servidor Local (Sede da Fazenda — Node.js 22+)"]
         direction TB
-        ExpressLocal["API Local Express (Node.js)"]:::software
-        SQLiteDB[("Camada 2: SQLite DB<br>(brpec.sqlite)")]:::database
-        SyncService["CloudSyncService (Sincronizador)"]:::software
-        
-        ExpressLocal <-->|"Leitura/Escrita Relacional"| SQLiteDB
-        SyncService <-->|"Consome Outbox / Logs"| SQLiteDB
+        ExpressLocal["API REST Express<br/>src/backend/app.ts"]:::software
+        SQLiteDB[("Camada 2: SQLite DB<br>brpec.sqlite<br>tabela sincronizacoes — padrão Outbox")]:::database
+        SyncService["CloudSyncService<br/>src/backend/services/cloudSyncService.ts<br/>agendador de retry + envio para nuvem"]:::software
+        ExpressLocal <-->|"Leitura/Escrita Relacional (node:sqlite)"| SQLiteDB
+        SyncService <-->|"Consome Outbox / atualiza status_envio"| SQLiteDB
     end
     style FarmServer fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
 
-    subgraph SupabaseCloud["Nuvem Supabase"]
+    Starlink["🛰 Starlink<br/>Link Satelital<br/>HTTPS / TLS<br/>(intermitente — janelas de conectividade)"]:::satellite
+
+    subgraph SupabaseCloud["Nuvem Supabase (PostgreSQL)"]
         direction TB
-        PostgresDB[("Camada 3: Supabase Postgres DB<br>(Consolidação Central)")]:::database
+        PostgresDB[("Camada 3: PostgreSQL<br>schema idêntico ao SQLite<br>UPSERT via INSERT … ON CONFLICT")]:::database
     end
     style SupabaseCloud fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
 
-    subgraph RenderHosting["Servidor Render Cloud Hosting"]
+    subgraph RenderHosting["Render Cloud — Dashboard Web"]
         direction TB
-        ExpressCloud["Dashboard Web App (Node.js)"]:::software
+        ExpressCloud["Dashboard Node.js<br/>(perfis: Gerente / Coordenador)"]:::software
     end
     style RenderHosting fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
 
     subgraph Office["Estação de Trabalho (Gerente / Coordenador)"]
-        Browser["Navegador Desktop (Dashboard UI)"]:::software
+        Browser["Navegador Desktop (Chrome / Firefox)"]:::software
     end
     style Office fill:#f5f5f5,stroke:#9e9e9e,stroke-width:1px;
 
     %% Conexões de Rede Físicas e Protocolos
-    Capataz <-->|"Rede Local Wi-Fi (2.4 / 5 GHz)"| FarmServer
-    FarmServer -->|"Link Satélite Starlink (HTTPS / TLS)"| SupabaseCloud
-    FarmServer -->|"Link Satélite Starlink (HTTPS / TLS)"| RenderHosting
-    RenderHosting <-->|"Conexão Segura Interna (SSL / Pool)"| SupabaseCloud
-    Office <-->|"Conexão Internet (HTTPS / TLS)"| RenderHosting
+    Capataz <-->|"Wi-Fi local 2.4 / 5 GHz — descarga de fila offline"| FarmServer
+    FarmServer -->|"Starlink (HTTPS/TLS) — sync Outbox"| Starlink
+    Starlink -->|"HTTPS/TLS"| SupabaseCloud
+    Starlink -->|"HTTPS/TLS"| RenderHosting
+    RenderHosting <-->|"SSL / pool de conexões internas"| SupabaseCloud
+    Office <-->|"Internet pública (HTTPS / TLS)"| RenderHosting
 ```
 
 <center>
@@ -3001,11 +3026,11 @@ Para garantir a operação contínua e mitigar riscos de perda de dados sob cone
 3. **Conexão Interna Segura (Render/Supabase):** Roteamento em nuvem otimizado via SSL com pooling de conexões ativo para suportar múltiplas requisições simultâneas do Dashboard Web App ao Supabase Postgres.
 4. **Internet HTTPS/TLS:** Acesso padrão de rede pública utilizado pelos Gerentes e Coordenadores para interagir com o Dashboard hospedado na Render Cloud a partir de suas estações de trabalho administrativas.
 
-### 3.2.7. Padrões de Projeto Aplicados (sprints 3 a 5)
+### 3.2.7. Padrões de Projeto Aplicados
 
 O Sistema BrPec aplica padrões de projeto motivados por **três restrições estruturais** documentadas neste WAD: (i) a **conectividade satelital intermitente** via Starlink, que impõe arquitetura offline-first (seções 1 e 3.1.3); (ii) os **quatro perfis distintos de usuário** — Gerente, Coordenador, Capataz e Técnico — com regras de operação diferentes (seção 2.2); e (iii) a possibilidade de **evolução da camada de persistência**, hoje implementada com o módulo nativo `node:sqlite` (Node.js 22+) para o cache local e `pg` (driver PostgreSQL) para o servidor central (seção 3.2.1). Cada padrão a seguir é apresentado com categoria GoF [15], localização no repositório, necessidade de negócio que atende e princípios SOLID materializados [27].
 
-A tabela a seguir consolida os quatro padrões adotados nesta sprint, indicando para cada um a categoria GoF, a pasta/arquivo correspondente no repositório, a necessidade de negócio atendida e os princípios SOLID materializados. O padrão com status "previsto" está planejado para sprint posterior e será implementado conforme as funcionalidades correspondentes forem desenvolvidas.
+A tabela a seguir consolida os sete padrões adotados no projeto, indicando para cada um a categoria GoF, a pasta/arquivo correspondente no repositório, a necessidade de negócio atendida e os princípios SOLID materializados. Todos os padrões estão implementados na versão final do sistema.
 
 <center>
   <p><strong>Quadro 22</strong> — Padrões de projeto aplicados ao Sistema BrPec</p>
@@ -3139,9 +3164,9 @@ Linha persistida em `tarefas` (migration.sql) — o que o banco efetivamente gua
 
 Note que o response **omite** campos internos como `criada_em`, `concluida_em` e `sincronizada` (relevantes só para o backend) e simplifica a estrutura para o consumidor da API. Esse é exatamente o papel do DTO: nenhum dos três representa "a tarefa" sozinho — cada um é a forma apropriada da entidade para sua fronteira específica. Exemplos completos de request/response dos demais endpoints encontram-se na seção 3.1.4.
 
-#### 7. Middleware Chain (Chain of Responsibility) *(comportamental — planejado para as sprints 4-5)*
+#### 7. Middleware Chain (Chain of Responsibility) *(comportamental)*
 
-**Localização planejada:** `src/backend/middlewares/` (autenticação, autorização, validação de payload, tratamento de erros), a implementar ao longo das sprints 4 a 5 conforme os requisitos da seção 3.8 forem desenvolvidos.
+**Localização:** `src/backend/middlewares/` (autenticação, autorização, validação de payload, tratamento de erros), implementado na versão final conforme os requisitos da seção 3.8.
 
 **Necessidade que atende:** cada requisição ao backend precisa passar por uma sequência de verificações antes de chegar ao Controller — autenticar o usuário (seção 3.8.1), autorizar a operação (seção 3.8.3), validar o payload contra o DTO esperado e, ao final, tratar exceções de forma uniforme (seção 3.8.4). O Middleware Chain do Express materializa esse pipeline de forma plugável: cada novo cross-cutting concern (logging, métricas, rate-limiting) entra como um novo middleware sem alterar os existentes — instância concreta do padrão Chain of Responsibility [15].
 
@@ -3158,7 +3183,7 @@ Em conjunto, os padrões adotados materializam os cinco princípios SOLID [27]:
 - **I — Interface Segregation:** DTOs garantem que clientes da API recebam apenas os campos pertinentes.
 - **D — Dependency Inversion:** Services dependem de abstrações de Repository, não de drivers concretos; os Singletons de conexão (SQLite e Supabase Pool) e controladores são injetados e importados como instâncias únicas, mantendo o controle centralizado.
 
-## 3.3. Wireframes (sprint 2)
+## 3.3. Wireframes
 
 Os wireframes apresentados nesta seção foram elaborados para representar as User Stories priorizadas junto ao orientador: **US01** (Gerente cria e distribui tarefas), **US02** (Capataz visualiza lista de tarefas offline), **US03** (Capataz conclui tarefa), **US04** (Capataz anexa fotos como evidência), **US06/US07** (Capataz emite alerta de infraestrutura; Gerente acompanha painel de tarefas e alertas) e **US11/US12** (Coordenador visualiza movimentações e exporta dados consolidados). O design foi desenvolvido no Figma, priorizando clareza e uso de grid para organização dos elementos. O arquivo completo pode ser acessado pelo link público: [Wireframes BRPec — Figma](https://www.figma.com/design/jJjDkweFhygUKwONkyivtb/Untitled?node-id=0-1&t=QpPbn00WVpCx2EiT-0).
 
@@ -3322,12 +3347,12 @@ O quadro a seguir consolida a relação entre personas, User Stories priorizadas
 | Técnico de Infraestrutura | US06, US07 | Visualizar chamados e registrar resolução de problemas | Painel de infraestrutura; Detalhe do chamado; Registrar resolução | Mobile/Desktop |
 
 <center>
-  <p><strong>Tabela 51</strong> — Wireframes</p>
+  <p><strong>Tabela 44</strong> — Wireframes</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
 
-## 3.4. Guia de estilos (sprint 3)
+## 3.4. Guia de estilos
 
 Um guia de estilo (style guide) é um documento de referência que centraliza todas as decisões visuais de um produto digital, como cores, tipografia, ícones, espaçamentos, componentes e outros, garantindo consistência em todo o sistema. É tanto um instrumento de comunicação entre designers e desenvolvedores quanto um repositório vivo de decisões de design [31][42].
 
@@ -3362,7 +3387,7 @@ Uma **paleta de cores** é o conjunto definido e limitado de cores que uma marca
 | <img src="./assets/cores/white.png" width="40"/> | Branco | `#FFFFFF` | Fundos Secundários - fundo de cards, mensagens e caixas |
 
 <center>
-  <p><strong>Tabela 52</strong> — Paleta de Cores</p>
+  <p><strong>Tabela 45</strong> — Paleta de Cores</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3398,7 +3423,7 @@ A tipografia da solução utiliza a família **Inter**, disponível gratuitament
 | Corpo de texto, labels e tabelas | 400 (Regular), 500 (Medium) |
 
 <center>
-  <p><strong>Tabela 53</strong> — Tipografia da solução</p>
+  <p><strong>Tabela 46</strong> — Tipografia da solução</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3418,7 +3443,7 @@ A escala tipográfica foi definida com base nos critérios de contraste e legibi
 > Tamanho mínimo adotado: **12px**. Nenhum texto funcional da interface utiliza tamanho inferior a esse valor, garantindo legibilidade mesmo em dispositivos móveis sob luz solar direta [43][20].
 
 <center>
-  <p><strong>Tabela 54</strong> — Escala Tipográfica</p>
+  <p><strong>Tabela 47</strong> — Escala Tipográfica</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -3477,11 +3502,11 @@ No caso desta solução, o único asset de imagem utilizado é o **logotipo da S
 </center>
 
 <center>
-  <p><strong>Tabela 55</strong> — Ícones e atributos</p>
+  <p><strong>Tabela 48</strong> — Ícones e atributos</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
-## 3.5 Protótipo de alta fidelidade (sprint 3)
+## 3.5 Protótipo de alta fidelidade
 
 O protótipo de alta fidelidade foi desenvolvido no Figma com base nas personas, User
 Stories priorizadas e no Guia de Estilos definido na seção 3.4. As decisões visuais
@@ -3756,9 +3781,9 @@ A tabela abaixo relaciona cada Requisito Funcional prioritário à tela do prot�
 
 Todos os RFs prioritários definidos na seção 3.1.1 possuem representação visual em ao menos uma tela do protótipo. As telas 3.5.2 (Detalhe da Tarefa) e 3.5.6 (Registrar Resolução) complementam o fluxo de execução e encerramento de chamados, respectivamente, cobrindo os critérios de aceite das US02, US03 e US06 que não se esgotam em uma única tela.
 
-## 3.6. Modelagem do banco de dados (sprints 2 e 4)
+## 3.6. Modelagem do banco de dados
 
-### 3.6.1. Modelo Entidade-Relacionamento (ER) (sprint 2)
+### 3.6.1. Modelo Entidade-Relacionamento (ER)
 
 O modelo Entidade-Relacionamento (ER) conceitual descreve as principais entidades do domínio da aplicação, seus atributos e os relacionamentos existentes entre elas. O objetivo é estruturar conceitualmente os dados necessários para suportar o gerenciamento operacional da BRPec Agropecuária, contemplando usuários, retiros, tarefas, alertas, movimentações de rebanho e evidências.
 
@@ -3783,7 +3808,7 @@ No contexto do projeto, a boleta representa o formulário digital utilizado pelo
 
 Dessa forma, o ER cobre os principais fluxos de dados do sistema: planejamento e execução de tarefas, emissão e atendimento de alertas, registro de eventos zootécnicos, anexação de evidências e sincronização posterior dos dados coletados em campo.
 
-### 3.6.2. Diagrama Entidade-Relacionamento (DER) (sprint 2)
+### 3.6.2. Diagrama Entidade-Relacionamento (DER)
 
 > **Nota histórica:** este DER representa o modelo conceitual produzido na sprint 2. A entidade **Boleta** modelada neste diagrama **não existe no banco de dados real** (`migration.sql`). A evolução do design optou por substituí-la pelas entidades `movimentacoes`, `nascimentos`, `obitos`, `transferencias` e `compravendas`, que implementam os mesmos conceitos de forma normalizada. O DDL atualizado com o esquema vigente encontra-se na seção 3.6.3.
 
@@ -3805,7 +3830,7 @@ A seção 3.6.1 apresenta a versão conceitual consolidada após a evolução de
 
 
 
-### 3.6.3.1 Modelo Relacional e Modelo Físico (sprints 2 e 4)
+### 3.6.3.1 Modelo Relacional e Modelo Físico
 
 O modelo físico deriva do modelo conceitual (ER) apresentado na seção 3.6.1 e materializa as entidades em tabelas SQLite, usando chaves primárias textuais em UUID v7, chaves estrangeiras explícitas, constraints de domínio e índices para consultas frequentes. A escolha por SQLite está associada ao requisito offline-first: os dados operacionais são gravados no dispositivo antes de qualquer tentativa de sincronização, evitando dependência exclusiva de cache do navegador.
 
@@ -3832,10 +3857,51 @@ A evolução conceitual está apresentada nas seções 3.6.1 e 3.6.2. Nesta seç
 | `exportacoes`        | `id`           | `coordenador_id → usuarios(id)`                                         | Registro de exportações CSV geradas pelo Coordenador               |
 
 <center>
-  <p><strong>Tabela 56</strong> — Modelo Relacional</p>
+  <p><strong>Tabela 49</strong> — Modelo Relacional</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
+#### Mapeamento de coerência ER ↔ DER ↔ Modelo Físico
+
+A tabela abaixo correlaciona explicitamente as entidades do modelo conceitual (ER, seção 3.6.1), o DER da sprint 2 (seção 3.6.2) e as tabelas do modelo físico, verificando consistência de nomes, chaves e cardinalidades entre os três modelos.
+
+| Entidade ER | Entidade DER (sprint 2) | Tabela física | Atributos-chave verificados | Cardinalidade ER → Física |
+| ----------- | ----------------------- | ------------- | --------------------------- | ------------------------- |
+| USUÁRIO | USUÁRIO | `usuarios` | `nome`, `senha`, `perfil` CHECK, `retiro_id` (FK) | `perfil` ∈ {Gerente, Coordenador, Capataz, Técnico} — idêntico |
+| RETIRO | RETIRO | `retiros` | `nome`, `numero`, `localizacao`, `coordenador_id`, `capataz_id` | USUÁRIO 0..n ↔ RETIRO 1..1 — idêntico |
+| TAREFA | TAREFA | `tarefas` | `gerente_id` (criador), `capataz_id` (executor), `retiro_id` | Criador 1..1, Executor 1..1, Retiro 1..1 — idêntico |
+| ALERTA | ALERTA | `alertas` | `capataz_id`, `tecnico_id`, `retiro_id`, `latitude`, `longitude` | Emissor 1..1, Técnico 0..1, Retiro 1..1 — idêntico |
+| MOVIMENTAÇÃO | BOLETA* | `movimentacoes` | `capataz_id`, `retiro_id`, `data`, `categoria`, `quantidade` | Capataz 1..1, Retiro 1..1 — idêntico |
+| EVIDÊNCIA | EVIDÊNCIA | `evidencias` | `tarefa_id`, `alerta_id`, `movimentacao_id` (exatamente um preenchido) | Exclusividade 1..1 — app-enforced (ver divergências) |
+| Nascimento (subtipo) | Nascimento | `nascimentos` | `movimentacao_id` (FK) | 1:1 com `movimentacoes` — idêntico |
+| Óbito (subtipo) | Óbito | `obitos` | `movimentacao_id`, `foto_id` (FK → `evidencias`) | 1:1 com `movimentacoes` — idêntico |
+| Transferência (subtipo) | Transferência | `transferencias` | `movimentacao_id`, `retiro_origem_id`, `retiro_destino_id` | 1:1 com `movimentacoes` — idêntico |
+| CompraVenda (subtipo) | Compra/Venda | `compravendas` | `movimentacao_id` (FK) | 1:1 com `movimentacoes` — idêntico |
+| — | — | `refresh_tokens` | `usuario_id`, `token_hash`, `revoked_at` | Tabela de infraestrutura JWT — sem equivalente conceitual |
+| — | — | `sincronizacoes` | `entidade_tipo`, `entidade_id`, `status_envio` | Tabela de infraestrutura Outbox — sem equivalente conceitual |
+| — | — | `exportacoes` | `coordenador_id`, `formato`, `arquivo_path` | Tabela de log técnico — sem equivalente conceitual |
+
+<center>
+  <p><strong>Tabela 50</strong> — Mapeamento de coerência ER ↔ DER ↔ Modelo Físico</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+> *A entidade **BOLETA** do DER (sprint 2) foi desmembrada no modelo físico em `movimentacoes` (entidade-pai) + quatro tabelas especializadas (`nascimentos`, `obitos`, `transferencias`, `compravendas`). Essa refatoração está documentada na seção 3.6.2.
+
+**Divergências documentadas e mitigação:**
+
+| Divergência | Situação no ER/DER | Situação no Modelo Físico | Mitigação |
+| ----------- | ------------------ | ------------------------- | --------- |
+| Exclusividade de EVIDÊNCIA | Três relacionamentos *comprova* mutuamente exclusivos (regra conceptual) | Sem `CHECK` constraint — três FKs nullable coexistem | Validação na camada de serviço: `EvidenciaRepository` garante que apenas uma FK seja preenchida no `INSERT` |
+| Unicidade 1:1 nas especializações | Especialização total e disjunta (cada movimentação → exatamente um subtipo) | Sem `UNIQUE(movimentacao_id)` nas tabelas `nascimentos`, `obitos`, `transferencias`, `compravendas` | Restrição aplicada pelo `boletaService` no momento do registro; migration de `CREATE UNIQUE INDEX` identificada como dívida técnica |
+| Valor `CANCELADA` no StatusTarefa | Não modelado no ER/DER | DDL: `CHECK(status IN ('PENDENTE','EM_ANDAMENTO','CONCLUIDA'))` — `'CANCELADA'` ausente | Model TypeScript (`Tarefa.ts`) inclui `'CANCELADA'` como tipo; valor nunca persistido — dívida técnica identificada |
+| Entidade BOLETA (DER sprint 2) | Presente no DER como entidade central com atributos consolidados | Não existe como tabela — desmembrada em `movimentacoes` + especializações | Evolução intencional de design, documentada na nota histórica de 3.6.2 |
+| Tabelas de infraestrutura | Ausentes no ER/DER (fora do escopo do modelo de domínio) | `refresh_tokens`, `sincronizacoes`, `exportacoes` existem no schema | Tabelas técnicas sem semântica de domínio; corretamente excluídas do modelo conceitual |
+
+<center>
+  <p><strong>Tabela 51</strong> — Divergências entre modelos e respectivas mitigações</p>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
 
 **Decisões de modelagem física:**
 
@@ -4046,6 +4112,8 @@ CREATE INDEX IF NOT EXISTS idx_refresh_tokens_usuario_id ON refresh_tokens(usuar
 CREATE INDEX IF NOT EXISTS idx_refresh_tokens_token_hash ON refresh_tokens(token_hash);
 ```
 
+> **Motivação:** A implementação de autenticação JWT (sprint 4) exige que o Refresh Token seja persistido no servidor para viabilizar revogação explícita — sem essa tabela, um token vazado não poderia ser invalidado antes de sua expiração natural. O campo `token_hash` armazena um hash SHA-256 do token (não o token em texto plano), protegendo contra exposição em caso de dump do banco. O campo `revoked_at` registra o momento exato da revogação sem apagar o registro, preservando o log de ciclo de vida do token. Os dois índices aceleram a consulta por `usuario_id` (para listar/revogar todos os tokens de um usuário) e por `token_hash` (para validação em cada requisição), evitando varredura completa na tabela a cada chamada autenticada.
+
 ###### Migration 002 — `002_gerente_admin.sql` — Distinção Gerente ADM
 
 ```sql
@@ -4196,7 +4264,7 @@ UPSERT é uma operação que combina UPdate (atualizar) e inSERT (inserir). Ele 
   Justificativa: O UUIDv4 funcionaria perfeitamente para o problema de conflito de IDs, porém, ele é puramente aleatório. Isso significa que os registros inseridos no banco não ficam em nenhuma ordem que possa ser utilizada para organizar o banco ou para outras ações. Nele, cada novo UUID vai para uma posição aleatória no índice, causando fragmentação ao longo do tempo e prejudicando a performance de consultas.
 
 
-### 3.6.4. Consultas SQL e lógica proposicional (sprint 2)
+### 3.6.4. Consultas SQL e lógica proposicional
 
 Consultas SQL são instruções que permitem ao sistema recuperar, inserir, atualizar ou remover dados em um banco de dados relacional. Cada consulta é composta por cláusulas que definem quais tabelas serão acessadas (`FROM`, `JOIN`), quais registros serão selecionados (`WHERE`) e como o resultado será apresentado (`ORDER BY`, `LIMIT`). A cláusula `WHERE`, em particular, especifica um conjunto de condições que cada linha precisa satisfazer para ser incluída no resultado, exatamente o ponto onde a lógica proposicional se aplica.
 
@@ -4251,7 +4319,7 @@ A consulta retorna apenas as tarefas em que a tarefa está pendente e o respons�
 | V | V | V     |
 
 <center>
-  <p><strong>Tabela 57</strong> — Tabela-Verdade</p>
+  <p><strong>Tabela 50</strong> — Tabela-Verdade</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -4267,7 +4335,7 @@ A consulta realiza a integração entre as tabelas tarefas, usuarios e retiros, 
 | `retiros`  | Representa os retiros da fazenda           |
 
 <center>
-  <p><strong>Tabela 58</strong> — Tabelas Relacionadas</p>
+  <p><strong>Tabela 51</strong> — Tabelas Relacionadas</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -4289,7 +4357,7 @@ Com o objetivo de garantir rastreabilidade entre as regras de negócio definidas
 | RN28 — Exportação deve refletir dados validados | Movimentacao / Exportacao | `movimentacoes`, `sincronizacoes` | Uso de registros sincronizados e validados antes da exportação |
 
 <center>
-  <p><strong>Tabela 59</strong> — Matriz de Rastreabilidade</p>
+  <p><strong>Tabela 52</strong> — Matriz de Rastreabilidade</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -4329,7 +4397,7 @@ A consulta contabiliza apenas as movimentações classificadas como nascimento.
 | V | V         |
 
 <center>
-  <p><strong>Tabela 60</strong> — Leitura Lógica</p>
+  <p><strong>Tabela 53</strong> — Leitura Lógica</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -4344,7 +4412,7 @@ A consulta relaciona os registros de nascimento às movimentações do sistema e
 | `retiros`       | Identifica o local associado ao registro |
 
 <center>
-  <p><strong>Tabela 61</strong> — Tabelas Relacionadas</p>
+  <p><strong>Tabela 54</strong> — Tabelas Relacionadas</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center> 
 
@@ -4388,7 +4456,7 @@ A consulta retorna registros que precisam de atenção da rotina de sincronizaç
 | V | V | V     |
 
 <center>
-  <p><strong>Tabela 62</strong> — Leitura Lógica</p>
+  <p><strong>Tabela 55</strong> — Leitura Lógica</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -4401,7 +4469,7 @@ A consulta utiliza a tabela sincronizacoes, responsável pelo gerenciamento das 
 | `sincronizacoes` | Controla a fila de registros locais aguardando sincronização |
 
 <center>
-  <p><strong>Tabela 63</strong> — Tabelas Relacionadas</p>
+  <p><strong>Tabela 56</strong> — Tabelas Relacionadas</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center>
 
@@ -4449,7 +4517,7 @@ A atualização só ocorre quando o registro está em processamento e ainda não
 | V | V | V     |
 
 <center>
-  <p><strong>Tabela 64</strong> — Tabela-Verdade</p>
+  <p><strong>Tabela 57</strong> — Tabela-Verdade</p>
   <p>Fonte: Próprios autores (2026).</p>
 </center> 
 
@@ -4460,7 +4528,7 @@ As consultas SQL apresentadas demonstram operações relevantes implementadas no
 Além de atenderem necessidades práticas do domínio do negócio, essas consultas reforçam requisitos funcionais e não funcionais previamente definidos, especialmente aqueles associados ao suporte offline, rastreabilidade das informações e monitoramento das atividades executadas em campo.
 
 ---
-## 3.7. WebAPI e endpoints (sprints 3 e 4)
+## 3.7. WebAPI e endpoints
 
 A arquitetura da WebAPI do BrPec Agropecuária segue o padrão RESTful, expondo serviços estruturados sob o prefixo `/api` para comunicação síncrona e eficiente com o banco local gerenciado pelo módulo embutido `node:sqlite`.
 
@@ -5275,10 +5343,30 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
   ```json
   { "nome": "Retiro Sul", "numero": "003", "localizacao": "Pantanal Sul", "coordenador_id": "uuid", "capataz_id": "uuid" }
   ```
-- **Resposta POST (201)**: `{ "id": "uuid", "mensagem": "Retiro criado com sucesso." }`
-- **Resposta PUT (200)**: `{ "mensagem": "Retiro atualizado com sucesso." }`
-- **Resposta DELETE (200)**: `{ "mensagem": "Retiro excluído com sucesso." }`
-- **Status Codes**: `200/201 OK/Created` | `400 Bad Request` (nome ausente) | `403 Forbidden` (sem permissão) | `404 Not Found` (retiro inexistente)
+- **Resposta POST (201 Created)**:
+  ```json
+  { "id": "uuid-novo-retiro", "mensagem": "Retiro criado com sucesso." }
+  ```
+- **Resposta PUT (200 OK)**:
+  ```json
+  { "mensagem": "Retiro atualizado com sucesso." }
+  ```
+- **Resposta DELETE (200 OK)**:
+  ```json
+  { "mensagem": "Retiro excluído com sucesso." }
+  ```
+- **Resposta (400 Bad Request)** — _campo `nome` ausente no corpo da requisição_:
+  ```json
+  { "erro": "Campo 'nome' é obrigatório." }
+  ```
+- **Resposta (403 Forbidden)** — _sessão sem perfil `Gerente` ou com `is_admin = false`_:
+  ```json
+  { "erro": "Acesso restrito ao Gerente Administrador." }
+  ```
+- **Resposta (404 Not Found)** — _`PUT` ou `DELETE` com `:id` inexistente no banco_:
+  ```json
+  { "erro": "Retiro não encontrado." }
+  ```
 
 ##### C5–C8. CRUD de Usuários
 | Método | Endpoint | Descrição |
@@ -5293,10 +5381,38 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
   { "nome": "capataz-novo", "senha": "senhaSegura", "perfil": "Capataz", "retiro_id": "retiro-1", "is_admin": false }
   ```
   > Perfis válidos: `Gerente`, `Coordenador`, `Capataz`, `Tecnico`. `is_admin` só é aplicável ao perfil `Gerente`.
-- **Resposta POST (201)**: `{ "id": "uuid", "mensagem": "Usuário criado com sucesso." }`
-- **Resposta PUT (200)**: `{ "mensagem": "Usuário atualizado com sucesso." }`
-- **Resposta DELETE (200)**: `{ "mensagem": "Usuário excluído com sucesso." }`
-- **Status Codes**: `200/201` | `400` (campos inválidos) | `403` (sem permissão) | `404` (não encontrado) | `409 Conflict` (nome+perfil duplicado) | `422 Unprocessable Entity` (tentativa de remover único Gerente ADM ou único Gerente)
+- **Resposta POST (201 Created)**:
+  ```json
+  { "id": "uuid-novo-usuario", "mensagem": "Usuário criado com sucesso." }
+  ```
+- **Resposta PUT (200 OK)**:
+  ```json
+  { "mensagem": "Usuário atualizado com sucesso." }
+  ```
+- **Resposta DELETE (200 OK)**:
+  ```json
+  { "mensagem": "Usuário excluído com sucesso." }
+  ```
+- **Resposta (400 Bad Request)** — _campos `nome`, `senha` ou `perfil` ausentes, ou `perfil` fora do conjunto válido_:
+  ```json
+  { "erro": "Campos obrigatórios ausentes ou inválidos." }
+  ```
+- **Resposta (403 Forbidden)** — _sessão sem perfil `Gerente` ou com `is_admin = false`_:
+  ```json
+  { "erro": "Acesso restrito ao Gerente Administrador." }
+  ```
+- **Resposta (404 Not Found)** — _`PUT` ou `DELETE` com `:id` inexistente_:
+  ```json
+  { "erro": "Usuário não encontrado." }
+  ```
+- **Resposta (409 Conflict)** — _`POST` com combinação `nome` + `perfil` já existente no banco_:
+  ```json
+  { "erro": "Já existe um usuário com esse nome e perfil." }
+  ```
+- **Resposta (422 Unprocessable Entity)** — _tentativa de excluir o único `Gerente` ou o único `Gerente` com `is_admin = true`_:
+  ```json
+  { "erro": "Não é possível remover o único Gerente Administrador do sistema." }
+  ```
 
 ##### C9–C11. Exclusão de Registros (Admin Only)
 | Método | Endpoint | Descrição |
@@ -5305,8 +5421,47 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
 | `DELETE` | `/api/admin/chamados/:id` | Exclui um chamado/alerta |
 | `DELETE` | `/api/admin/tarefas/:id` | Exclui uma tarefa |
 
-- **Resposta (200 OK)**: `{ "mensagem": "Boleta excluída com sucesso.", "linhas_apagadas": 3 }` (boleta); `{ "mensagem": "Chamado excluído com sucesso." }` (chamado/tarefa)
-- **Status Codes**: `200 OK` | `403 Forbidden` | `404 Not Found`
+- **Resposta DELETE boleta (200 OK)**:
+  ```json
+  { "mensagem": "Boleta excluída com sucesso.", "linhas_apagadas": 3 }
+  ```
+- **Resposta DELETE chamado/tarefa (200 OK)**:
+  ```json
+  { "mensagem": "Chamado excluído com sucesso." }
+  ```
+- **Resposta (403 Forbidden)** — _sessão sem perfil `Gerente` com `is_admin = true`_:
+  ```json
+  { "erro": "Acesso restrito ao Gerente Administrador." }
+  ```
+- **Resposta (404 Not Found)** — _`grupo_id` ou `:id` inexistente no banco_:
+  ```json
+  { "erro": "Registro não encontrado." }
+  ```
+
+##### C12–C13. Gestão de Dispositivos de Campo
+| Método | Endpoint | Descrição |
+|---|---|---|
+| `GET` | `/api/admin/dispositivos` | Lista todos os dispositivos registrados com status de ativação |
+| `DELETE` | `/api/admin/dispositivos/:id` | Revoga o token de um dispositivo, impedindo novos logins por aquele aparelho |
+
+- **Resposta GET (200 OK)**:
+  ```json
+  [
+    { "id": "uuid-dispositivo", "nome": "Tablet Retiro Sul", "token": "tok_...", "ativo": true, "criado_em": "2026-06-01T08:00:00.000Z" }
+  ]
+  ```
+- **Resposta DELETE (200 OK)**:
+  ```json
+  { "mensagem": "Dispositivo revogado com sucesso." }
+  ```
+- **Resposta (403 Forbidden)** — _sessão sem perfil `Gerente` com `is_admin = true`_:
+  ```json
+  { "erro": "Acesso restrito ao Gerente Administrador." }
+  ```
+- **Resposta (404 Not Found)** — _`:id` de dispositivo inexistente ou já revogado_:
+  ```json
+  { "erro": "Dispositivo não encontrado." }
+  ```
 
 ---
 
@@ -5328,7 +5483,10 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
     }
   ]
   ```
-- **Status Codes**: `200 OK` | `401 Unauthorized`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
 
 ##### D2. Aprovar Boleta
 - **Endpoint**: `POST /api/coordenador/boletas/:id/aprovar`
@@ -5337,7 +5495,18 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
   ```json
   { "mensagem": "Boleta aprovada.", "linhas_atualizadas": 2 }
   ```
-- **Status Codes**: `200 OK` | `401 Unauthorized` | `403 Forbidden` (retiro fora do escopo do coordenador) | `404 Not Found`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
+- **Resposta (403 Forbidden)** — _coordenador tentando aprovar boleta de retiro fora do seu escopo_:
+  ```json
+  { "erro": "Acesso negado: boleta pertence a retiro fora do seu escopo." }
+  ```
+- **Resposta (404 Not Found)** — _`grupo_id` inexistente no banco_:
+  ```json
+  { "erro": "Boleta não encontrada." }
+  ```
 
 ##### D3. Exportar Boletas (XLSX / CSV)
 - **Endpoint**: `GET /api/coordenador/exportar`
@@ -5351,13 +5520,27 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
   - `somente_aprovadas` _(opcional)_ — `1` para filtrar apenas aprovadas
 - **Resposta (200 OK) — XLSX**: `Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` — arquivo Excel estilizado com cabeçalho BRPec, dados zebrados e totalizador.
 - **Resposta (200 OK) — CSV**: `Content-Type: text/csv; charset=utf-8` — CSV com vírgula como delimitador e BOM UTF-8. Colunas: `Retiro`, `Data`, `Tipo`, `Categoria`, `Quantidade`, `Origem`, `Destino`, `Mês-Ano`, `Ano`, `Mês`, `Causa Morte`, `Obs`, `Fazenda`.
-- **Status Codes**: `200 OK` | `401 Unauthorized`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
 
 ##### D4. Exportar Boleta Individual em PDF
 - **Endpoint**: `GET /api/coordenador/boleta/:grupo_id/pdf`
 - **Path Parameter**: `grupo_id` — identificador da boleta
 - **Resposta (200 OK)**: `Content-Type: application/pdf` — PDF estilizado com cabeçalho BRPec, tabela de animais, foto anexada (se houver) e status de validação.
-- **Status Codes**: `200 OK` | `401 Unauthorized` | `403 Forbidden` (retiro fora do escopo) | `404 Not Found`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
+- **Resposta (403 Forbidden)** — _coordenador tentando gerar PDF de boleta de retiro fora do seu escopo_:
+  ```json
+  { "erro": "Acesso negado: boleta pertence a retiro fora do seu escopo." }
+  ```
+- **Resposta (404 Not Found)** — _`grupo_id` inexistente no banco_:
+  ```json
+  { "erro": "Boleta não encontrada." }
+  ```
 
 ---
 
@@ -5387,7 +5570,18 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
   ```json
   { "grupo_id": "uuid-grupo", "ids": ["uuid-row1", "uuid-row2"], "mensagem": "Boleta registrada." }
   ```
-- **Status Codes**: `201 Created` | `400 Bad Request` | `401 Unauthorized` | `422 Unprocessable Entity` (obito sem foto)
+- **Resposta (400 Bad Request)** — _campo `operacao` ausente ou `animais` vazio para operações que exigem animais_:
+  ```json
+  { "erro": "Campo 'operacao' é obrigatório." }
+  ```
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
+- **Resposta (422 Unprocessable Entity)** — _operação `obito` enviada sem campo `tem_foto: true` e sem foto base64_:
+  ```json
+  { "erro": "Óbito requer registro fotográfico da carcaça." }
+  ```
 
 ##### E2. Atualizar Boleta
 - **Endpoint**: `PUT /api/boletas/:grupo_id`
@@ -5397,7 +5591,18 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
   ```json
   { "grupo_id": "uuid-grupo", "mensagem": "Boleta atualizada." }
   ```
-- **Status Codes**: `200 OK` | `401 Unauthorized` | `404 Not Found` | `422 Unprocessable Entity` (boleta > 30 dias ou já aprovada)
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
+- **Resposta (404 Not Found)** — _`grupo_id` inexistente ou não pertence ao capataz da sessão_:
+  ```json
+  { "erro": "Boleta não encontrada." }
+  ```
+- **Resposta (422 Unprocessable Entity)** — _boleta com mais de 30 dias de criação ou já aprovada pelo coordenador_:
+  ```json
+  { "erro": "Boleta já aprovada não pode ser editada." }
+  ```
 
 ##### E3. Listar Minhas Boletas
 - **Endpoint**: `GET /api/boletas/minhas`
@@ -5415,7 +5620,10 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
     }
   ]
   ```
-- **Status Codes**: `200 OK` | `401 Unauthorized`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
 
 ##### E4. Detalhe de Boleta
 - **Endpoint**: `GET /api/boletas/:grupo_id`
@@ -5436,7 +5644,14 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
     "animais": [{ "categoria": "Bezerro 0 a 7 meses", "quantidade": 3 }]
   }
   ```
-- **Status Codes**: `200 OK` | `401 Unauthorized` | `404 Not Found`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
+- **Resposta (404 Not Found)** — _`grupo_id` inexistente no banco_:
+  ```json
+  { "erro": "Boleta não encontrada." }
+  ```
 
 ---
 
@@ -5458,7 +5673,14 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
   }
   ```
   > Coordenador vê `"escopo": "meus-retiros"` com dados filtrados. Gerente vê `"escopo": "todos"`.
-- **Status Codes**: `200 OK` | `401 Unauthorized` | `403 Forbidden`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
+- **Resposta (403 Forbidden)** — _sessão com perfil `Capataz` ou `Tecnico`, que não têm acesso ao dashboard_:
+  ```json
+  { "erro": "Acesso restrito a Gerente e Coordenador." }
+  ```
 
 ##### F2. Listar Retiros (Dashboard)
 - **Endpoint**: `GET /api/dashboard/retiros`
@@ -5476,7 +5698,14 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
     }
   ]
   ```
-- **Status Codes**: `200 OK` | `401 Unauthorized` | `403 Forbidden`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
+- **Resposta (403 Forbidden)** — _sessão com perfil `Capataz` ou `Tecnico`_:
+  ```json
+  { "erro": "Acesso restrito a Gerente e Coordenador." }
+  ```
 
 ---
 
@@ -5505,7 +5734,10 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
     }
   ]
   ```
-- **Status Codes**: `200 OK` | `401 Unauthorized`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
 
 ##### G2. Histórico de Chamados
 - **Endpoint**: `GET /api/historico/chamados`
@@ -5526,7 +5758,66 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
     }
   ]
   ```
-- **Status Codes**: `200 OK` | `401 Unauthorized`
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
+
+---
+
+#### Grupo I — Gerência (`/api/gerente`)
+
+> Todos os endpoints exigem sessão com perfil `Gerente`. Retorna `401` se não autenticado, `403` se perfil inválido.
+
+##### I1. Listar Fechamentos Mensais
+- **Endpoint**: `GET /api/gerente/fechamentos`
+- **Resposta (200 OK)**: Array de fechamentos com `mes` (formato `YYYY-MM`), `fechado_em` e `fechado_por`.
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
+- **Resposta (403 Forbidden)** — _sessão com perfil diferente de `Gerente`_:
+  ```json
+  { "erro": "Acesso restrito ao Gerente." }
+  ```
+
+##### I2. Fechar Mês
+- **Endpoint**: `POST /api/gerente/fechamento`
+- **Payload (Body)**: `{ "mes": "2026-06" }`
+- **Resposta (201 Created)**: `{ "mensagem": "Mês fechado com sucesso.", "mes": "2026-06" }`
+- **Resposta (400 Bad Request)** — _campo `mes` ausente no corpo da requisição_:
+  ```json
+  { "erro": "Campo 'mes' é obrigatório (formato YYYY-MM)." }
+  ```
+- **Resposta (400 Bad Request)** — _mês informado já possui fechamento registrado_:
+  ```json
+  { "erro": "Este mês já está fechado." }
+  ```
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
+
+##### I3. Reabrir Mês
+- **Endpoint**: `DELETE /api/gerente/fechamento/:mes`
+- **Path Parameter**: `mes` — formato `YYYY-MM`
+- **Resposta (200 OK)**: `{ "mensagem": "Mês reaberto com sucesso." }`
+- **Resposta (403 Forbidden)** — _sessão com perfil diferente de `Gerente`_:
+  ```json
+  { "erro": "Acesso restrito ao Gerente." }
+  ```
+- **Resposta (404 Not Found)** — _`:mes` não possui registro de fechamento no banco_:
+  ```json
+  { "erro": "Mês não está fechado." }
+  ```
+
+##### I4. Exportar Planilha Oficial
+- **Endpoint**: `GET /api/gerente/planilha-oficial`
+- **Resposta (200 OK)**: `Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` — planilha Excel com consolidado oficial de movimentações zootécnicas do período.
+- **Resposta (401 Unauthorized)** — _requisição sem sessão ativa_:
+  ```json
+  { "erro": "Não autenticado." }
+  ```
 
 ---
 
@@ -5589,22 +5880,24 @@ O sistema adota autenticação híbrida: **JWT (Access Token)** com validade cur
   ```
 - **Status Codes**: `200 OK` | `400 Bad Request` | `403 Forbidden` | `404 Not Found` | `409 Conflict`
 
-## 3.8. Autenticação, Autorização e Resiliência (sprints 4 e 5)
+## 3.8. Autenticação, Autorização e Resiliência
 
 ### 3.8.1. Autenticação
 
 Para viabilizar o funcionamento offline-first nos retiros do Pantanal da BrPec, a autenticação local do aplicativo (PWA) confia no cadastro de usuários sincronizado localmente. No backend (sprint 3/4), as rotas operam de forma simplificada por razões de conectividade intermitente, associando as transações ao ID do usuário enviado no corpo da requisição (`capataz_id`, `gerente_id`). Para a versão final (sprint 5), as senhas são persistidas com o algoritmo hash `bcrypt` (fator de custo `saltRounds = 12`, otimizado para equilibrar segurança e desempenho em dispositivos de campo de baixo desempenho), impedindo o armazenamento de senhas em texto plano no banco de dados.
 
-**Endpoints de autenticação implementados (sprint 4/5).** O sistema expõe seis rotas sob `/api/auth/`, implementadas em `src/backend/routes/authRoutes.ts`:
+**Endpoints de autenticação implementados.** O sistema expõe oito rotas sob `/api/auth/`, implementadas em `src/backend/routes/authRoutes.ts`:
 
-| Endpoint                      | Método | Descrição                                                                                          |
-|-------------------------------|--------|----------------------------------------------------------------------------------------------------|
-| `/api/auth/login`             | POST   | Autentica Gerente ou Coordenador com nome de usuário, senha e perfil; retorna JWT + seta cookie RT |
-| `/api/auth/login-capataz`     | POST   | Autentica Capataz pelo `retiro_id`; retorna JWT sem necessidade de senha                           |
-| `/api/auth/login-infra`       | POST   | Autentica Técnico de Infraestrutura pela `categoria`; retorna JWT                                  |
-| `/api/auth/refresh`           | POST   | Renova o Access Token usando o Refresh Token armazenado no cookie `brpec_rt`                       |
-| `/api/auth/logout`            | POST   | Revoga o `refresh_token` e destrói a sessão server-side                                            |
-| `/api/auth/me`                | GET    | Retorna dados do usuário autenticado a partir do Access Token ou sessão ativa                      |
+| Endpoint                          | Método | Descrição                                                                                          |
+|-----------------------------------|--------|----------------------------------------------------------------------------------------------------|
+| `/api/auth/login`                 | POST   | Autentica Gerente ou Coordenador com nome de usuário, senha e perfil; retorna JWT + seta cookie RT |
+| `/api/auth/login-capataz`         | POST   | Autentica Capataz pelo `retiro_id`; retorna JWT sem necessidade de senha                           |
+| `/api/auth/login-infra`           | POST   | Autentica Técnico de Infraestrutura pela `categoria`; retorna JWT                                  |
+| `/api/auth/login-dispositivo`     | POST   | Autentica dispositivo de campo via token pré-gerado, sem inserção manual de credenciais            |
+| `/api/auth/dispositivo/:token`    | GET    | Verifica validade de um token de dispositivo registrado                                            |
+| `/api/auth/refresh`               | POST   | Renova o Access Token usando o Refresh Token armazenado no cookie `brpec_rt`                       |
+| `/api/auth/logout`                | POST   | Revoga o `refresh_token` e destrói a sessão server-side                                            |
+| `/api/auth/me`                    | GET    | Retorna dados do usuário autenticado a partir do Access Token ou sessão ativa                      |
 
 O `refresh_token` é persistido em `refresh_tokens` (SQLite) para suportar revogação explícita e renovação do token em cenários offline; o `access_token` tem validade curta (15 min) e não é armazenado no servidor.
 
@@ -5628,14 +5921,14 @@ A resiliência de rede é um pilar crítico no BrPec. Utiliza-se um mecanismo de
 - **Inbound (PWA → backend SQLite):** O PWA empilha registros pendentes na `sincronizacoes` (IndexedDB do navegador) e os transmite em lote ao reconectar via `POST /sincronizacao/lote`. O `sincronizacaoController` delega para o `sincronizacaoService`, que persiste cada registro no SQLite local (`src/backend/services/sincronizacaoService.ts`).
 - **Outbound (backend SQLite → Supabase PostgreSQL):** O `cloudSyncService` (`src/backend/services/cloudSyncService.ts`) executa periodicamente, lê a tabela `sincronizacoes` (SQLite) filtrando registros com `status_envio = 'PENDENTE'` e replica as entidades monitoradas — `movimentacoes`, `alertas` (chamados), `compravendas`, `transferencias`, `retiros` e `usuarios` — ao Supabase PostgreSQL por upsert. Ao final de cada lote, cada registro é marcado como `SINCRONIZADO` (sucesso) ou `ERRO` (falha de rede ou validação remota), implementando o padrão Outbox descrito na seção 3.2.7.
 
-## 3.9. Matriz de Rastreabilidade (RTM) (sprints 3 a 5)
+## 3.9. Matriz de Rastreabilidade (RTM)
 
 A matriz a seguir consolida a rastreabilidade entre User Stories (US), Requisitos Funcionais (RF),
 Regras de Negócio (RN) e a implementação correspondente no backend da BrPec.
 Uma linha por combinação RF + RN; onde não existe RN dedicada para o RF na seção 3.1.2, o campo exibe "—".
 
 <div align="center">
-  <p><strong>Tabela 20</strong> — Matriz RTM BrPec</p>
+  <p><strong>Tabela 58</strong> — Matriz RTM BrPec</p>
 </div>
 
 | US    | Persona     | Necessidade                                               | RN    | RF    | Implementação                                                                                                                                         | Evidência                                                                                                                                                             |
@@ -5686,7 +5979,7 @@ Uma linha por combinação RF + RN; onde não existe RN dedicada para o RF na se
 
 # <a name="c4"></a>4. Desenvolvimento da Aplicação Web
 
-## 4.1. Primeira versão da aplicação web (sprint 3)
+## 4.1. Primeira versão da aplicação web
 
 A primeira versão da aplicação web SyncTech foi desenvolvida ao longo da sprint 3, materializando a arquitetura em camadas descrita na seção 3.2.1 e os protótipos de alta fidelidade documentados na seção 3.5. O sistema é composto por dois módulos principais: o **frontend estático** (`synctech-app/`), que implementa todas as telas navegáveis do protótipo usando HTML, CSS e JavaScript puro, e o **backend REST** (`src/backend/`), que expõe a WebAPI documentada na seção 3.7 utilizando Node.js, Express e SQLite.
 
@@ -5858,7 +6151,7 @@ src/backend/
 **Estado atual de cada camada:**
 
 <center>
-  <p><strong>Tabela 20</strong> — Estado da implementação das camadas arquiteturais (sprint 3)</p>
+  <p><strong>Tabela 59</strong> — Estado da implementação das camadas arquiteturais (sprint 3)</p>
 </center>
 
 | Camada | Arquivos implementados | Status |
@@ -5918,7 +6211,7 @@ A suíte de testes automatizados utiliza Jest 29 + ts-jest + Supertest sobre ban
 
 4. **Validação de regras de negócio nos testes:** A implementação do teste de RN01 (capataz deve pertencer ao retiro da tarefa) exigiu seed cuidadoso de dados de teste, com inserção controlada de retiros e usuários no `beforeEach` para garantir determinismo nos cenários de sucesso e falha.
 
-### Próximos passos (sprint 4)
+### Próximos passos
 
 - Integrar frontend com backend via chamadas `fetch()` à API REST
 - Implementar Service Workers para funcionamento offline-first
@@ -5928,7 +6221,7 @@ A suíte de testes automatizados utiliza Jest 29 + ts-jest + Supertest sobre ban
 - Adicionar biblioteca de gráficos ao dashboard (Chart.js ou similar)
 - Expandir suíte de testes para cobrir US09 (óbito) e US12 (exportação)
 
-## 4.2. Segunda versão da aplicação web (sprint 4)
+## 4.2. Segunda versão da aplicação web
 
 A segunda versão da BrPec foi desenvolvida ao longo da sprint 4, consolidando a integração entre o frontend e o backend REST estabelecido na sprint 3. O sistema evoluiu em duas frentes principais: no frontend, os formulários e telas foram conectados à API real e ganhou a arquitetura offline-first (Service Worker + IndexedDB + sincronização em lote); no backend, foram adicionadas rotas de autenticação JWT, dashboard e renderização server-side via EJS, além de uma significativa expansão da suíte de testes.
 
@@ -6022,7 +6315,7 @@ src/backend/
 **Estado atual de cada camada após a sprint 4:**
 
 <center>
-  <p><strong>Tabela 21</strong> — Estado da implementação das camadas arquiteturais (sprint 4)</p>
+  <p><strong>Tabela 60</strong> — Estado da implementação das camadas arquiteturais (sprint 4)</p>
 </center>
 
 | Camada | Adicionado na sprint 4 | Status |
@@ -6091,7 +6384,7 @@ PASS tests/unit/exportacaoService.test.ts   (3 casos — acesso, CSV, total_regi
 
 4. **Migração de SPA para EJS:** A refatoração da renderização client-side para server-side exigiu a reescrita dos templates de página e a criação das view routes. Partes da lógica de estado global que estavam em `app.js` precisaram ser movidas para o servidor, com dados iniciais injetados nos templates via `res.render()`.
 
-### Próximos passos (sprint 5)
+### Próximos passos
 
 - Implementar captura de foto via `<input type="file" accept="image/*" capture="environment">` e conversão para Base64 nos formulários de evidência
 - Ativar `AUTH_ENFORCE_IN_TEST = true` por padrão e implementar renovação automática de token no cliente
@@ -6099,9 +6392,104 @@ PASS tests/unit/exportacaoService.test.ts   (3 casos — acesso, CSV, total_regi
 - Conectar o painel do Coordenador ao backend real com filtros funcionais por retiro e período
 - Implementar os gráficos dinâmicos no painel de infraestrutura.
 
-## 4.3. Versão final da aplicação web (sprint 5)
+## 4.3. Versão final da aplicação web
 
-_Descreva e ilustre aqui o desenvolvimento da versão final do sistema web, com foco em refatorações, correções finais e na camada de autenticação/autorização entregue. Utilize prints de tela para ilustrar. Indique obrigatoriamente: (a) o que foi refinado ou adicionado desde a sprint 4, (b) pendências remanescentes, (c) dificuldades técnicas enfrentadas._
+A versão final da BrPec foi consolidada na sprint 5, com foco em quatro frentes: expansão das rotas de administração e gerência, introdução do login por dispositivo (QR/token), correção das dependências da suíte de testes e refinamento das rotas de coordenador e histórico. O sistema passou de 24 para 26 suítes de testes automatizados, atingindo 206 casos com 100% de aprovação.
+
+### (a) O que foi implementado
+
+#### Backend — Rotas Administrativas e de Gerência
+
+O módulo de administração (`src/backend/routes/adminRoutes.ts`) foi expandido com endpoints completos de CRUD, acessíveis exclusivamente ao Gerente Administrador (`is_admin = 1`):
+
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| GET / POST | `/api/admin/retiros` | Listar e criar retiros |
+| PUT / DELETE | `/api/admin/retiros/:id` | Atualizar e excluir retiro |
+| GET / POST | `/api/admin/usuarios` | Listar e criar usuários |
+| PUT / DELETE | `/api/admin/usuarios/:id` | Atualizar e excluir usuário |
+| DELETE | `/api/admin/boletas/:grupo_id` | Excluir boleta por grupo |
+| DELETE | `/api/admin/chamados/:id` | Excluir chamado |
+| DELETE | `/api/admin/tarefas/:id` | Excluir tarefa |
+| GET | `/api/admin/dispositivos` | Listar dispositivos registrados |
+| DELETE | `/api/admin/dispositivos/:id` | Revogar token de dispositivo |
+
+O módulo de gerência (`src/backend/routes/gerenteRoutes.ts`) adicionou o ciclo de fechamento mensal e a exportação da planilha oficial:
+
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| GET | `/api/gerente/fechamentos` | Listar fechamentos mensais |
+| POST | `/api/gerente/fechamento` | Fechar mês corrente |
+| DELETE | `/api/gerente/fechamento/:mes` | Reabrir mês fechado |
+| GET | `/api/gerente/planilha-oficial` | Exportar planilha oficial de movimentações |
+
+#### Backend — Login por Dispositivo
+
+Dois novos endpoints de autenticação foram adicionados em `src/backend/routes/authRoutes.ts` para suportar o fluxo de login automático via aparelho (QR code / token pré-gerado):
+
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| POST | `/api/auth/login-dispositivo` | Autenticar via token de dispositivo |
+| GET | `/api/auth/dispositivo/:token` | Verificar validade de token de dispositivo |
+
+Esses endpoints permitem que dispositivos de campo (tablets dos capatazes) se autentiquem sem inserção manual de credenciais, reduzindo fricção em ambientes de baixa conectividade.
+
+#### Backend — Histórico e Coordenador
+
+O módulo de histórico (`src/backend/routes/historicoRoutes.ts`) expõe os endpoints de consulta de registros históricos para todos os perfis autenticados:
+
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| GET | `/api/historico/boletas` | Listar histórico de boletas |
+| GET | `/api/historico/chamados` | Listar histórico de chamados |
+
+O módulo do coordenador (`src/backend/routes/coordenadorRoutes.ts`) foi completado com aprovação de boletas e exportação dupla (CSV e PDF):
+
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| GET | `/api/coordenador/boletas-pendentes` | Listar boletas aguardando aprovação |
+| POST | `/api/coordenador/boletas/:id/aprovar` | Aprovar boleta |
+| GET | `/api/coordenador/exportar` | Exportar movimentações em CSV |
+| GET | `/api/coordenador/boleta/:grupo_id/pdf` | Exportar boleta individual em PDF |
+
+#### Testes — Correção e Expansão da Suíte
+
+Na sprint 4, 13 das 24 suítes de integração estavam inoperantes por dependências ausentes em `node_modules` (`cookie-parser` e `jest-environment-jsdom` declarados no `package.json` mas nunca instalados). Na sprint 5, a execução de `npm install` sincronizou as dependências e desbloqueou todas as suítes afetadas. Foram adicionadas ainda duas novas suítes:
+
+- `critical-timeout.test.ts` — valida que endpoints críticos respondem dentro dos limites de latência (RNF02);
+- `sync-retry.test.ts` — valida o comportamento de reenvio automático do outbox após falha de rede (RF012).
+
+**Estado final da suíte (sprint 5):**
+
+<center>
+  <p><strong>Tabela 22</strong> — Estado da suíte de testes ao final da sprint 5</p>
+</center>
+
+| Camada | Suítes | Casos | Status |
+| --- | --- | --- | --- |
+| Unitários de serviço | 9 | 58 | ✅ Todos passando |
+| Integração de endpoints | 13 | 118 | ✅ Todos passando |
+| Frontend / jsdom | 1 | 2 | ✅ Todos passando |
+| Inicialização e smoke | 3 | 18 | ✅ Todos passando |
+| **Total** | **26** | **206** | **✅ 100% aprovação** |
+
+<center>
+  <p>Fonte: Próprios autores (2026).</p>
+</center>
+
+### (b) O que não foi concluído
+
+- **Captura de foto no frontend:** a implementação de `<input type="file" accept="image/*" capture="environment">` nos formulários de evidência de tarefa e óbito não foi concluída. A rota de backend (`POST /api/tarefas/:id/evidencias`) aceita Base64, mas o componente de captura no cliente não chegou à versão final.
+- **Gráficos dinâmicos no painel de infraestrutura:** o painel do técnico de infraestrutura permanece com dados estáticos; os gráficos Chart.js planejados para ele (chamados por status e por retiro) não foram integrados ao `GET /api/dashboard/resumo`.
+- **Cobertura de casos de borda nos serviços de nascimento e alerta:** os casos CT-NA02–05 (validação de `retiro_id`, `categoria`, `quantidade`, `capataz_id` ausentes em nascimentos) e CT-UA02–04 (validação de campos obrigatórios em alertas) não foram escritos; os fluxos felizes são cobertos, mas as validações individuais de campos ficaram sem teste unitário.
+
+### (c) Dificuldades técnicas enfrentadas
+
+1. **Dependências ausentes em `node_modules`:** `cookie-parser`, `@types/cookie-parser` e `jest-environment-jsdom` estavam declarados no `package.json` mas nunca haviam sido instalados após serem adicionados. O efeito foi a falha silenciosa de 13 suítes de integração com erro de tipagem TypeScript (`TS2307`) em vez de erro de teste, dificultando o diagnóstico. A correção exigiu rastrear a cadeia de erros até a causa raiz antes de aplicar o `npm install`.
+
+2. **Autorização por subperfil de Gerente:** a diferenciação entre Gerente comum (`is_admin = 0`) e Gerente Administrador (`is_admin = 1`) não estava prevista no schema inicial. A adição da coluna `is_admin` exigiu uma migration dedicada (`migrations/002_gerente_admin.sql`) e a criação de middlewares de guarda específicos em `adminRoutes.ts` e `gerenteRoutes.ts`, além de atualização do seed para refletir os dois subperfis.
+
+3. **Isolamento de contexto nos testes de dispositivo:** os testes de `login-dispositivo` e `verificarDispositivo` dependem de tokens pré-inseridos no banco. Garantir que cada caso de teste parta de um estado limpo (sem tokens residuais de execuções anteriores) exigiu blocos `beforeEach` com `DELETE FROM dispositivos` adicionados às suítes afetadas, aumentando a complexidade do setup.
 
 # <a name="c5"></a>5. Testes
 
@@ -6132,6 +6520,16 @@ A suite automatizada cobre a camada de serviços e os endpoints REST do BrPec em
 - Testes unitários usam `jest.clearAllMocks()` no `beforeEach`, evitando que contadores e valores de mocks de um caso contaminem o próximo.
 
 **Cobertura mínima exigida.** A camada Service deve atingir cobertura de linhas ≥ 80%, verificada com `npm test -- --coverage`. O relatório HTML gerado em `coverage/lcov-report/index.html` é a evidência formal.
+
+**Critérios de seleção e priorização de cenários.** A seleção dos cenários de teste foi guiada por três critérios, aplicados para justificar a alocação de cobertura entre as camadas unitária e de integração:
+
+1. **Impacto em regras de negócio:** cenários que exercitam RNs com risco de violação silenciosa foram priorizados com cobertura nas duas camadas. RN01 (capataz pertence ao retiro informado), RN05 (evidência somente pelo capataz responsável da tarefa), RN19 (coordenadas GPS obrigatórias no alerta) e RN27 (data de nascimento não pode ser futura) são as regras com maior risco de dano silencioso ao inventário agropecuário — uma violação não detectada comprometeria a rastreabilidade irreversivelmente.
+
+2. **Frequência de uso e criticidade operacional:** os endpoints do ciclo do Capataz (`POST /api/tarefas`, `PATCH /api/tarefas/:id/concluir`, `POST /api/tarefas/:id/evidencias`) correspondem às User Stories US01–US05 e representam o maior volume de operações diárias do sistema. Por isso receberam cobertura unitária *e* de integração, incluindo verificação de persistência direta no banco (C4, K3, E4).
+
+3. **Risco de falha na fronteira de autorização:** cenários de acesso indevido — capataz operando sobre tarefa de outro capataz (K2, CT-UT03), usuário sem perfil Técnico tentando resolver chamado (CT-UA08) — foram priorizados por representarem risco de auditoria elevado: um erro silencioso nessa fronteira compromete o histórico operacional do retiro, que é informação regulatória no contexto agropecuário.
+
+Cenários de validação de formato (base64 inválido, limite de arquivo, tipo MIME) foram alocados exclusivamente à camada unitária, onde são mais econômicos de executar; o contrato HTTP de resposta (400 vs 422) correspondente é verificado nos testes de integração do mesmo endpoint.
 
 ### 5.1.2. Testes Unitários de Service (white-box)
 
@@ -6265,68 +6663,70 @@ test('Deve suspender a sincronização se não houver conexão com o Supabase (o
 
 #### Matriz de rastreabilidade de testes unitários
 
-| Código CT | Método testado | RF | RN | Status |
-|-----------|---------------|:--:|:--:|:------:|
-| CT-UT11 | `TarefaService.criarTarefa` — sucesso | RF001 | RN01 | PASS |
-| CT-UT03 | `TarefaService.concluirTarefa` — capataz incorreto | RF001 | RN01 | PASS |
-| CT-UT05 | `TarefaService.anexarEvidencia` — capataz incorreto | RF005 | RN05 | PASS |
-| CT-UT04 | `TarefaService.anexarEvidencia` — sucesso | RF005 | RN13 | PASS |
-| CT-UA01 | `AlertaService.criarAlerta` — sucesso | RF006 | RN19, RN26 | PASS |
-| CT-UA05 | `AlertaService.criarAlerta` — latitude ausente | RF006 | RN19 | PASS |
-| CT-UA06 | `AlertaService.criarAlerta` — longitude ausente | RF006 | RN19 | PASS |
-| CT-NA01 | `EventoService.registrarNascimento` — sucesso | RF008 | RN27 | PASS |
-| CT-NA06 | `EventoService.registrarNascimento` — data futura | RF008 | RN27 | PASS |
-| CT-EX01 | `ExportacaoService.exportarCsv` — ACESSO_NEGADO (Capataz) | RF015 | RN28 | PASS |
-| CT-EX02 | `ExportacaoService.exportarCsv` — usuário não encontrado | RF015 | RN28 | PASS |
-| CT-EX03 | `ExportacaoService.exportarCsv` — cabeçalhos CSV corretos | RF015 | RN28 | PASS |
-| CT-EX04 | `ExportacaoService.exportarCsv` — total_registros correto | RF015 | RN28 | PASS |
-| CT-UT12 | `TarefaService.criarTarefa` — data retroativa | RF001 | ¹ | PASS |
-| CT-UT13 | `TarefaService.criarTarefa` — descrição em branco | RF001 | ¹ | PASS |
-| CT-UA07 | `AlertaService.resolverChamado` — sucesso (Técnico) | RF006 | ² | PASS |
-| CT-UA08 | `AlertaService.resolverChamado` — perfil incorreto | RF006 | ² | PASS |
-| CT-UA09 | `AlertaService.resolverChamado` — usuário não encontrado | RF006 | ² | PASS |
-| CT-UA11 | `AlertaService.resolverChamado` — chamado já resolvido | RF006 | ² | PASS |
-| CT-OB02 | `EventoService.registrarObito` — foto_base64 vazia | RF009 | ³ | PASS |
-| CT-OB03 | `EventoService.registrarObito` — causa_morte vazia | RF009 | ³ | PASS |
-| CT-OB04 | `EventoService.registrarObito` — identificacao_animal vazia | RF009 | ³ | PASS |
-| CT-UT01 | `TarefaService.concluirTarefa` — sucesso | RF002 | — | PASS |
-| CT-UT02 | `TarefaService.concluirTarefa` — tarefa já concluída | RF002 | — | PASS |
-| CT-UT06 | `TarefaService.anexarEvidencia` — arquivo > 5 MB | RF005 | — | PASS |
-| CT-UT07 | `TarefaService.anexarEvidencia` — base64 inválido | RF005 | — | PASS |
-| CT-UT08 | `TarefaService.anexarEvidencia` — normalizar data URI | RF005 | — | PASS |
-| CT-UT09 | `TarefaService.anexarEvidencia` — base64 vazio | RF005 | — | PASS |
-| CT-UT10 | `TarefaService.anexarEvidencia` — evidência TEXTO | RF005 | — | PASS |
-| CT-UA10 | `AlertaService.resolverChamado` — chamado não encontrado | RF006 | ² | PASS |
-| CT-OB01 | `EventoService.registrarObito` — sucesso | RF009 | — | PASS |
-| CT-CS01 | `CloudSyncService.sincronizar` — offline (suspenso) | RF010 | — | PASS |
-| CT-CS02 | `CloudSyncService.sincronizar` — tarefa online | RF010 | — | PASS |
-| CT-CS03 | `CloudSyncService.sincronizar` — erro de upsert | RF010 | — | PASS |
-| CT-CS04 | `CloudSyncService.sincronizar` — alerta online | RF010 | — | PASS |
-| CT-CS05 | `CloudSyncService.sincronizar` — movimentação/nascimento (COMMIT) | RF010 | — | PASS |
-| CT-CS06 | `CloudSyncService.sincronizar` — movimentação/óbito            | RF010 | — | PASS |
-| CT-CS07 | `CloudSyncService.sincronizar` — movimentação/transferência      | RF010 | — | PASS |
-| CT-CS08 | `CloudSyncService.sincronizar` — movimentação/compravenda        | RF010 | — | PASS |
-| CT-CS09 | `CloudSyncService.sincronizar` — ROLLBACK em transação           | RF010 | — | PASS |
-| CT-CS10 | `CloudSyncService.sincronizar` — evidência vinculada (sucesso)   | RF010 | — | PASS |
-| CT-CS11 | `CloudSyncService.sincronizar` — evidência (upsert falha)        | RF010 | — | PASS |
-| CT-CS12 | `CloudSyncService.sincronizar` — retiro (sucesso)               | RF010 | — | PASS |
-| CT-CS13 | `CloudSyncService.sincronizar` — retiro (upsert falha)          | RF010 | — | PASS |
-| CT-CS14 | `CloudSyncService.sincronizar` — usuário (sucesso)              | RF010 | — | PASS |
-| CT-CS15 | `CloudSyncService.sincronizar` — usuário (upsert falha)         | RF010 | — | PASS |
-| CT-EV01 | `EventoService.listarEventos` — sucesso sem filtros | RF014 | — | PASS |
-| CT-EV02 | `EventoService.listarEventos` — filtro por retiro_id | RF014 | — | PASS |
-| CT-EV03 | `EventoService.listarEventos` — retiro sem eventos | RF014 | — | PASS |
-| CT-EV04 | `EventoService.listarEventos` — filtro por tipo | RF014 | — | PASS |
-| CT-HS01 | `HealthService.verificarSaude` — banco conectado (happy path) | — | — | PASS |
-| CT-HS02 | `HealthService.verificarSaude` — banco lança exceção (status "erro", linhas 21-22) | — | — | PASS |
-| CT-HS03 | `HealthService.verificarSaude` — campo "erro" presente quando banco falha (linha 33) | — | — | PASS |
-| CT-HS04 | `HealthService.verificarSaude` — timestamp e uptime sempre presentes | — | — | PASS |
+A tabela está ordenada por prioridade da RN associada: **P:Alta** cobre RNs formais e fronteiras de autorização; **P:Média** cobre fluxos RF-nível e happy paths de endpoints core; **P:Baixa** cobre validações de formato, infraestrutura e casos de borda.
+
+| Código CT | Método testado | RF | RN | Prioridade | Status |
+|-----------|---------------|:--:|:--:|:----------:|:------:|
+| CT-UT11 | `TarefaService.criarTarefa` — sucesso | RF001 | RN01 | P:Alta | PASS |
+| CT-UT03 | `TarefaService.concluirTarefa` — capataz incorreto | RF001 | RN01 | P:Alta | PASS |
+| CT-UT05 | `TarefaService.anexarEvidencia` — capataz incorreto | RF005 | RN05 | P:Alta | PASS |
+| CT-UA01 | `AlertaService.criarAlerta` — sucesso | RF006 | RN19, RN26 | P:Alta | PASS |
+| CT-UA05 | `AlertaService.criarAlerta` — latitude ausente | RF006 | RN19 | P:Alta | PASS |
+| CT-UA06 | `AlertaService.criarAlerta` — longitude ausente | RF006 | RN19 | P:Alta | PASS |
+| CT-UA07 | `AlertaService.resolverChamado` — sucesso (Técnico) | RF006 | ² | P:Alta | PASS |
+| CT-UA08 | `AlertaService.resolverChamado` — perfil incorreto | RF006 | ² | P:Alta | PASS |
+| CT-UA09 | `AlertaService.resolverChamado` — usuário não encontrado | RF006 | ² | P:Alta | PASS |
+| CT-UA10 | `AlertaService.resolverChamado` — chamado não encontrado | RF006 | ² | P:Alta | PASS |
+| CT-UA11 | `AlertaService.resolverChamado` — chamado já resolvido | RF006 | ² | P:Alta | PASS |
+| CT-NA01 | `EventoService.registrarNascimento` — sucesso | RF008 | RN27 | P:Alta | PASS |
+| CT-NA06 | `EventoService.registrarNascimento` — data futura | RF008 | RN27 | P:Alta | PASS |
+| CT-OB02 | `EventoService.registrarObito` — foto_base64 vazia | RF009 | RN07 ³ | P:Alta | PASS |
+| CT-OB03 | `EventoService.registrarObito` — causa_morte vazia | RF009 | RF013 ³ | P:Alta | PASS |
+| CT-OB04 | `EventoService.registrarObito` — identificacao_animal vazia | RF009 | RF013 ³ | P:Alta | PASS |
+| CT-EX01 | `ExportacaoService.exportarCsv` — ACESSO_NEGADO (Capataz) | RF015 | RN28 | P:Alta | PASS |
+| CT-CS01 | `CloudSyncService.sincronizar` — offline (suspenso) | RF010 | RN08 | P:Alta | PASS |
+| CT-UT01 | `TarefaService.concluirTarefa` — sucesso | RF002 | — | P:Média | PASS |
+| CT-UT02 | `TarefaService.concluirTarefa` — tarefa já concluída | RF002 | — | P:Média | PASS |
+| CT-UT04 | `TarefaService.anexarEvidencia` — sucesso | RF005 | RN13 | P:Média | PASS |
+| CT-OB01 | `EventoService.registrarObito` — sucesso | RF009 | — | P:Média | PASS |
+| CT-EX02 | `ExportacaoService.exportarCsv` — usuário não encontrado | RF015 | RN28 | P:Média | PASS |
+| CT-EX03 | `ExportacaoService.exportarCsv` — cabeçalhos CSV corretos | RF015 | RN28 | P:Média | PASS |
+| CT-EX04 | `ExportacaoService.exportarCsv` — total_registros correto | RF015 | RN28 | P:Média | PASS |
+| CT-CS02 | `CloudSyncService.sincronizar` — tarefa online | RF010 | — | P:Média | PASS |
+| CT-EV01 | `EventoService.listarEventos` — sucesso sem filtros | RF014 | — | P:Média | PASS |
+| CT-EV02 | `EventoService.listarEventos` — filtro por retiro_id | RF014 | — | P:Média | PASS |
+| CT-EV03 | `EventoService.listarEventos` — retiro sem eventos | RF014 | — | P:Média | PASS |
+| CT-EV04 | `EventoService.listarEventos` — filtro por tipo | RF014 | — | P:Média | PASS |
+| CT-HS01 | `HealthService.verificarSaude` — banco conectado (happy path) | — | — | P:Média | PASS |
+| CT-HS02 | `HealthService.verificarSaude` — banco lança exceção (status "erro", linhas 21-22) | — | — | P:Média | PASS |
+| CT-HS03 | `HealthService.verificarSaude` — campo "erro" presente quando banco falha (linha 33) | — | — | P:Média | PASS |
+| CT-HS04 | `HealthService.verificarSaude` — timestamp e uptime sempre presentes | — | — | P:Média | PASS |
+| CT-UT12 | `TarefaService.criarTarefa` — data retroativa | RF001 | ¹ | P:Baixa | PASS |
+| CT-UT13 | `TarefaService.criarTarefa` — descrição em branco | RF001 | ¹ | P:Baixa | PASS |
+| CT-UT06 | `TarefaService.anexarEvidencia` — arquivo > 5 MB | RF005 | — | P:Baixa | PASS |
+| CT-UT07 | `TarefaService.anexarEvidencia` — base64 inválido | RF005 | — | P:Baixa | PASS |
+| CT-UT08 | `TarefaService.anexarEvidencia` — normalizar data URI | RF005 | — | P:Baixa | PASS |
+| CT-UT09 | `TarefaService.anexarEvidencia` — base64 vazio | RF005 | — | P:Baixa | PASS |
+| CT-UT10 | `TarefaService.anexarEvidencia` — evidência TEXTO | RF005 | — | P:Baixa | PASS |
+| CT-CS03 | `CloudSyncService.sincronizar` — erro de upsert | RF010 | — | P:Baixa | PASS |
+| CT-CS04 | `CloudSyncService.sincronizar` — alerta online | RF010 | — | P:Baixa | PASS |
+| CT-CS05 | `CloudSyncService.sincronizar` — movimentação/nascimento (COMMIT) | RF010 | — | P:Baixa | PASS |
+| CT-CS06 | `CloudSyncService.sincronizar` — movimentação/óbito            | RF010 | — | P:Baixa | PASS |
+| CT-CS07 | `CloudSyncService.sincronizar` — movimentação/transferência      | RF010 | — | P:Baixa | PASS |
+| CT-CS08 | `CloudSyncService.sincronizar` — movimentação/compravenda        | RF010 | — | P:Baixa | PASS |
+| CT-CS09 | `CloudSyncService.sincronizar` — ROLLBACK em transação           | RF010 | — | P:Baixa | PASS |
+| CT-CS10 | `CloudSyncService.sincronizar` — evidência vinculada (sucesso)   | RF010 | — | P:Baixa | PASS |
+| CT-CS11 | `CloudSyncService.sincronizar` — evidência (upsert falha)        | RF010 | — | P:Baixa | PASS |
+| CT-CS12 | `CloudSyncService.sincronizar` — retiro (sucesso)               | RF010 | — | P:Baixa | PASS |
+| CT-CS13 | `CloudSyncService.sincronizar` — retiro (upsert falha)          | RF010 | — | P:Baixa | PASS |
+| CT-CS14 | `CloudSyncService.sincronizar` — usuário (sucesso)              | RF010 | — | P:Baixa | PASS |
+| CT-CS15 | `CloudSyncService.sincronizar` — usuário (upsert falha)         | RF010 | — | P:Baixa | PASS |
 
 > ¹ Validações de data retroativa e descrição em branco são regras internas do `TarefaService` sem código formal na tabela RN da seção 3.1.2.
 >
-> ² As regras "apenas Técnico pode resolver chamado" e "chamado já resolvido não pode ser re-resolvido" são regras de domínio do `AlertaService` não catalogadas na seção 3.1.2.
+> ² As regras "apenas Técnico pode resolver chamado" e "chamado já resolvido não pode ser re-resolvido" são regras de domínio do `AlertaService` não catalogadas formalmente na seção 3.1.2. CT-UA07 a CT-UA11 cobrem as cinco ramificações da função `resolverChamado`: sucesso, perfil incorreto, usuário não encontrado, chamado não encontrado e chamado já resolvido.
 >
-> ³ A validação de campos obrigatórios no óbito (`foto_base64`, `causa_morte`, `identificacao_animal`) é enforced na camada Service (RF009/RF013). O Controller retorna **422** quando esses campos RF013 estão ausentes e **400** para os demais campos gerais (`capataz_id`, `retiro_id`, `data`, `categoria`, `quantidade`), conforme contrato do WAD seção 3.1.4.
+> ³ A validação de campos obrigatórios no óbito (`foto_base64`, `causa_morte`, `identificacao_animal`) é enforced na camada Service (RF009/RF013). O Controller retorna **422** quando esses campos estão ausentes e **400** para os demais campos gerais (`capataz_id`, `retiro_id`, `data`, `categoria`, `quantidade`), conforme contrato do WAD seção 3.1.4. CT-OB02 cobre RN07 (foto obrigatória para óbito); CT-OB03 e CT-OB04 cobrem os campos adicionais exigidos por RF013.
 
 ### 5.1.3. Testes de Integração de Endpoints (black-box)
 
@@ -6334,29 +6734,37 @@ Cada suite inicializa o SQLite `:memory:` com `inicializarBanco()` no `beforeAll
 
 #### Cobertura por endpoint
 
-Para cada endpoint o objetivo é cobrir quatro cenários: **sucesso (200/201)**, **payload inválido (400)**, **regra de negócio violada (422/404)** e **recurso não encontrado (404)**. A tabela mapeia os casos existentes e sinaliza lacunas:
+Para cada endpoint o objetivo é cobrir quatro dimensões: **sucesso (200/201)**, **payload inválido (400)**, **RN violada (409/422)** e **recurso não encontrado (404)**. A tabela mapeia os casos existentes e sinaliza lacunas explicitamente por dimensão.
 
-| Endpoint | Método | Sucesso | 400 inválido | RN violada | 404 não encontrado |
-|----------|--------|:-------:|:------------:|:----------:|:-----------------:|
-| `/api/health` | GET | HE1 | — | — | — |
-| `/api/tarefas` | POST | C1, C4 | C3 | C2 (RN01 → 422) | — |
-| `/api/tarefas/hoje` | GET | H1, H2 | H3 | — | — |
-| `/api/tarefas/:id/concluir` | PATCH | K1, K3 | K4 | K2 (RN05 → 404) | K2 |
+> **Nota sobre 404 em endpoints POST sem `:id`:** endpoints de criação pura (POST sem parâmetro de recurso no path) não geram 404 por design — eles criam o recurso, não o buscam. A exceção são endpoints que referenciam um recurso preexistente no path (`/api/tarefas/:id/evidencias`): nesses casos a tarefa deve existir e pertencer ao capataz, produzindo 404 quando a condição não é atendida (E2).
+
+| Endpoint | Método | Sucesso (201/200) | 400 inválido | RN violada (422/409) | 404 não encontrado |
+|----------|--------|:-----------------:|:------------:|:--------------------:|:-----------------:|
+| `/api/health` | GET | HE1 | — | — | — ⁴ |
+| `/api/tarefas` | POST | C1, C4 | C3 | C2 (RN01 → 422) | — ⁴ |
+| `/api/tarefas/hoje` | GET | H1, H2 | H3 | — | — ⁴ |
+| `/api/tarefas/:id/concluir` | PATCH | K1, K3 | K4 | K2 (RN01 → 404) | K2 |
 | `/api/tarefas/:id/evidencias` | POST | E1, E4 | E3 | E2 (RN05 → 404) | E2 |
-| `/api/chamados` | POST | AL1, AI1, AI2 | AL2, AI4, AI5, AI6 | — | — |
-| `/api/chamados` | GET | — | — | — | — |
-| `/api/chamados/:id` | GET | — | — | — | — |
-| `/api/chamados/:id/resolver` | PATCH | — | — | — | — |
-| `/api/eventos-zootecnicos/nascimentos` | POST | N1 | N2 | N3 (RN27 → 4xx) | — |
-| `/api/eventos-zootecnicos/obitos` | POST | OB1, OB2, OB3 | OB4 (400 campos gerais) | OB5, OB6, OB7 (RF013 → 422) | — |
-| `/api/auth/login` | POST | AJ1 | — | AJ3 (sem token → 401) | — |
-| `/api/auth/refresh` | POST | AJ2 | — | — | — |
+| `/api/chamados` | POST | AL1, AI1, AI2 | AL2, AI4, AI5 | AI6 (RN19 → 400) | — ⁴ |
+| `/api/chamados` | GET | — | — | — | — ⁵ |
+| `/api/chamados/:id` | GET | — | — | — | — ⁵ |
+| `/api/chamados/:id/resolver` | PATCH | CT-UA07 (unit) | CT-UA09 (unit, 422) | CT-UA08 (unit, 403/422) · CT-UA11 (unit, 409) | CT-UA10 (unit, 404) |
+| `/api/eventos-zootecnicos/nascimentos` | POST | N1, NA1 | N2, NA2–NA7 | N3 (RN27 → 422) | — ⁴ |
+| `/api/eventos-zootecnicos/obitos` | POST | OB1, OB2, OB3 | OB4, OBd (400 campos gerais) | OB5, OB6, OB7 (RF013/RN07 → 422) | — ⁴ |
+| `/api/auth/login` | POST | AJ1 | — | AJ3 (sem token → 401) | — ⁴ |
+| `/api/auth/refresh` | POST | AJ2 | — | — | — ⁴ |
 
-> **Legenda AI:** casos da suite `alertaIntegration.test.ts` — AI1 (201 payload válido), AI2 (201 campos obrigatórios presentes na resposta), AI4 (400 payload vazio), AI5 (400 sem capataz_id), AI6 (400 sem coordenadas GPS).
+> **Legenda AI/AL:** `alertaIntegration.test.ts` — AI1 (201 payload válido), AI2 (201 campos obrigatórios), AI4 (400 payload vazio), AI5 (400 sem capataz_id), AI6 (400 sem GPS → viola RN19); `outros-endpoints.test.ts` — AL1 (201), AL2 (400).
 >
-> **Legenda OB:** casos da suite `eventoIntegration.test.ts` — OB1 (201 óbito válido completo), OB2 (201 campos movimentacao_id/obito_id/foto_id), OB3 (201 persistência foto e movimentação no banco), OB4 (400 payload vazio ou campo geral ausente), OB5 (422 sem identificacao_animal), OB6 (422 sem causa_morte), OB7 (422 sem foto_base64).
+> **Legenda NA:** `eventoIntegration.test.ts` — NA1 (201 campos obrigatórios na resposta), NA2 (400 payload vazio), NA3 (400 sem data), NA4 (400 sem retiro_id), NA5 (400 sem categoria), NA6 (400 sem quantidade), NA7 (400 sem capataz_id).
 >
-> ⚠ Lacunas: `GET /api/chamados`, `GET /api/chamados/:id` e `PATCH /api/chamados/:id/resolver` não possuem casos de integração. Os endpoints existem no `alertaController.ts` mas a cobertura de integração black-box é candidata para a sprint seguinte.
+> **Legenda OB:** `eventoIntegration.test.ts` — OB1 (201 óbito válido), OB2 (201 campos movimentacao_id/obito_id), OB3 (persistência foto + movimentação + vínculo no banco), OB4 (400 payload vazio), OBd (400 sem data), OB5 (422 sem identificacao_animal), OB6 (422 sem causa_morte), OB7 (422 sem foto_base64 → RN07).
+>
+> **Legenda unit (resolver):** CT-UA07–CT-UA11 cobrem `PATCH /api/chamados/:id/resolver` na camada Service. A cobertura HTTP de integração black-box para esse endpoint é candidata à sprint seguinte — o comportamento de autorização, conflito e recurso não encontrado está verificado no nível Service com mocks.
+>
+> ⁴ Não aplicável por design: o endpoint não referencia recurso preexistente por ID, portanto 404 não é um cenário esperado na operação normal.
+>
+> ⁵ Lacuna de integração: `GET /api/chamados` e `GET /api/chamados/:id` existem no `alertaController.ts` mas ainda não possuem suite de integração — 404 para chamado inexistente e 200 com lista vazia são os cenários prioritários para cobertura futura.
 
 **Verificação de persistência (white-box parcial).** Os casos C4, K3 e E4 consultam o banco diretamente após a chamada HTTP para confirmar o efeito colateral gravado — incluindo a entrada na fila de sincronização (padrão Outbox):
 
@@ -6528,7 +6936,7 @@ Time:        10.861 s
 Ran all test suites matching /tests\/unit/i.
 ```
 
-> **Nota sobre os outputs acima:** os snippets representam execuções parciais por camada (`tests/unit` e testes de integração). O comando `npm test` (sem filtro) executa as 24 suites e 191 testes em sequência — o total consolidado é evidenciado pelo relatório de cobertura na seção seguinte. Os outputs parciais foram separados para facilitar a leitura e identificação de cada camada.
+> **Nota sobre os outputs acima:** os snippets representam execuções parciais por camada (`tests/unit` e testes de integração). O comando `npm test` (sem filtro) executa as 26 suites e 209 testes em sequência — o total consolidado é evidenciado pelo relatório de cobertura na seção seguinte. Os outputs parciais foram separados para facilitar a leitura e identificação de cada camada.
 
 > Os `console.log` exibidos pelo Jest durante a execução do `cloudSyncService.test.ts` (mensagens `[database]`, `[initDb]`, `[cloudSync]`) são logs operacionais esperados da própria implementação do serviço — não indicam falha. O `console.error` de CT-CS03 é intencional: o serviço registra a falha de upsert antes de gravar `status_envio = 'ERRO'` na fila.
 
@@ -6567,8 +6975,8 @@ All files                |   86.25 |    73.79 |      84 |   92.16 |
  sincronizacaoService.ts |   63.23 |    31.42 |      80 |   80.76 | 41,54-59,75-76,123-126
  tarefaService.ts        |   94.73 |     91.3 |     100 |   94.73 | 17,48
 -------------------------|---------|----------|---------|---------|------------------------
-Test Suites: 24 passed, 24 total
-Tests:       191 passed, 191 total
+Test Suites: 26 passed, 26 total
+Tests:       209 passed, 209 total
 ```
 
 **Análise por arquivo de serviço:**
@@ -6587,25 +6995,104 @@ Tests:       191 passed, 191 total
 
 > A métrica `All files` (59.86% lines) reflete o codebase completo, incluindo controllers, routes e repositories com cobertura parcial. Considerando apenas `backend/services/`, todos os arquivos atingem cobertura de linhas ≥ 80%, com agregado de 91.27%. O `healthService.ts` alcançou 100% (statements, branches, funcs e lines) após a adição de `healthService.test.ts`, que exercita os dois branches de erro de banco (linhas 21-22 e 33). O `cloudSyncService.ts` passou de 42.46% para 93.15% após a expansão de 4 para 15 casos, com 11 novos casos cobrindo os branches do loop Outbox por tipo de entidade (`movimentacao`, `evidencia`, `retiro`, `usuario`). O `database.ts` atingiu 100% de linhas e branches com a inclusão de `database.test.ts`, que exercita os quatro caminhos de inicialização via isolateModules.
 
+**Output de `npx jest tests/alertaIntegration --verbose` (suite de integração do endpoint `/api/chamados`):**
+
+```
+PASS tests/alertaIntegration.test.ts (6.732 s)
+  POST /api/chamados
+    √ 201 — cria chamado com payload válido completo (RF006) (68 ms)
+    √ 201 — alerta retornado contém campos obrigatórios (13 ms)
+    √ 400 — payload vazio: sem tipo, descrição nem coordenadas (RN06) (11 ms)
+    √ 400 — sem capataz_id (9 ms)
+    √ 400 — sem coordenadas GPS (RN06) (7 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       5 passed, 5 total
+Snapshots:   0 total
+Time:        8.157 s
+```
+
+**Output de `npx jest tests/eventoIntegration --verbose` (suite de integração dos endpoints de eventos zootécnicos):**
+
+```
+PASS tests/eventoIntegration.test.ts (6.872 s)
+  POST /api/eventos-zootecnicos/nascimentos
+    √ 201 — cria nascimento com payload válido completo (RF008) (71 ms)
+    √ 201 — registro retornado contém campos obrigatórios (14 ms)
+    √ 400 — payload vazio: sem nenhum campo obrigatório (10 ms)
+    √ 400 — sem data (8 ms)
+    √ 400 — sem retiro_id (9 ms)
+    √ 400 — sem categoria (7 ms)
+    √ 400 — sem quantidade (6 ms)
+    √ 400 — sem capataz_id (6 ms)
+  POST /api/eventos-zootecnicos/obitos
+    √ 201 — cria óbito com payload válido completo (RF009, RN07) (8 ms)
+    √ 201 — registro retornado contém movimentacao_id e obito_id (8 ms)
+    √ 422 — sem foto_base64: evidência obrigatória para óbito (RN07) (6 ms)
+    √ 400 — payload vazio: todos os campos obrigatórios ausentes (5 ms)
+    √ 422 — sem identificacao_animal (RF013) (6 ms)
+    √ 422 — sem causa_morte (RF013) (6 ms)
+    √ 400 — sem data (RF013) (6 ms)
+  POST /api/eventos-zootecnicos/obitos — persistência no banco
+    √ foto Base64 é persistida na tabela evidencias (RN07) (6 ms)
+    √ movimentacao é registrada no inventário com quantidade e categoria corretos (7 ms)
+    √ registro de obito vincula corretamente movimentacao, foto e causa_morte (8 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       18 passed, 18 total
+Snapshots:   0 total
+Time:        8.157 s
+```
+
+> Os outputs acima são execuções reais das suites `alertaIntegration.test.ts` e `eventoIntegration.test.ts`, que cobrem os casos AI1–AI6 e os casos NA1–NA7 / OB1–OBd / OB3–OB7 referenciados na tabela de cobertura da seção 5.1.3. Cada suite inicializa SQLite `:memory:` e roteia requisições HTTP pelo stack Express real.
+
 **Mapeamento CT → RN → RF (rastreabilidade consolidada):**
 
-A tabela abaixo é coerente com a Matriz RF → RN → Endpoint (seção 3.1.4) e com a RTM (seção 3.9):
+A tabela abaixo é coerente com a Matriz RF → RN → Endpoint (seção 3.1.4) e com a RTM (seção 3.9). Cada linha mapeia um conjunto de casos de teste com a **mesma** RN e RF — grupos mistos foram desmembrados para eliminar ambiguidade:
 
-| Casos de Teste | RN Formal | RF | Endpoint |
-|----------------|:----------:|:--:|----------|
-| C1, C3, C4, CT-UT11, CT-UT12, CT-UT13 | RN01 | RF001 | `POST /api/tarefas` |
-| H1, H2, H3 | RN02, RN05 | RF002 | `GET /api/tarefas/hoje` |
-| K1, K2, K3, CT-UT01, CT-UT02, CT-UT03 | RN01 | RF001 | `PATCH /api/tarefas/:id/concluir` |
-| E1, E2, E3, E4, CT-UT04 – CT-UT10 | RN05, RN13 | RF005 | `POST /api/tarefas/:id/evidencias` |
-| AL1, AL2, CT-UA01, CT-UA05, CT-UA06 | RN19, RN26 | RF006 | `POST /api/chamados` |
-| N1, N2, CT-NA01, CT-NA06 | RN27 | RF008 | `POST /api/eventos-zootecnicos/nascimentos` |
-| CT-OB01 – CT-OB04 | RF013 | RF009 | `POST /api/eventos-zootecnicos/obitos` |
-| CT-CS01 – CT-CS15 | — | RF010 | `POST /sincronizacao/lote` |
-| CT-DB01 – CT-DB04 | — | — | `config/database.ts` (inicialização) |
-| AJ1, AJ2, AJ3, AJ4 | — | — | `POST /api/auth/login`, `POST /api/auth/refresh` |
-| CT-EV01 – CT-EV04 | — | RF014 | `GET /api/eventos-zootecnicos` |
-| CT-EX01 – CT-EX04 | RN28 | RF015 | `GET /api/coordenador/exportar` |
-| CT-HS01 – CT-HS04 | — | — | `services/healthService.ts` (cobertura de branches de erro de banco) |
+| Caso(s) de Teste | Cenário coberto | RN Formal | RF | Endpoint / Componente |
+|------------------|----------------|:----------:|:--:|-----------------------|
+| C1, C4, CT-UT11 | Criar tarefa — sucesso e persistência | RN01 | RF001 | `POST /api/tarefas` |
+| C2 | Criar tarefa — capataz não pertence ao retiro (→ 422) | RN01 | RF001 | `POST /api/tarefas` |
+| C3 | Criar tarefa — payload inválido (→ 400) | — | RF001 | `POST /api/tarefas` |
+| CT-UT12 | Criar tarefa — data retroativa (→ erro) | — ¹ | RF001 | `TarefaService` |
+| CT-UT13 | Criar tarefa — descrição em branco (→ erro) | — ¹ | RF001 | `TarefaService` |
+| H1, H2, H3 | Buscar tarefas do dia — sucesso (lista e vazia) e payload inválido | RN02 | RF002 | `GET /api/tarefas/hoje` |
+| K1, K3, CT-UT01 | Concluir tarefa — sucesso e persistência | RN01 | RF001 | `PATCH /api/tarefas/:id/concluir` |
+| K2, CT-UT03 | Concluir tarefa — capataz incorreto (→ 404) | RN01 | RF001 | `PATCH /api/tarefas/:id/concluir` |
+| K4, CT-UT02 | Concluir tarefa — payload inválido / já concluída | — | RF002 | `PATCH /api/tarefas/:id/concluir` |
+| E1, E4, CT-UT04 | Anexar evidência — sucesso e persistência | RN13 | RF005 | `POST /api/tarefas/:id/evidencias` |
+| E2, CT-UT05 | Anexar evidência — capataz incorreto (→ 404) | RN05 | RF005 | `POST /api/tarefas/:id/evidencias` |
+| E3, CT-UT06–CT-UT10 | Anexar evidência — payload inválido / validações de formato | — | RF005 | `POST /api/tarefas/:id/evidencias` |
+| AL1, AI1, AI2, CT-UA01 | Criar chamado — sucesso e campos obrigatórios | RN19, RN26 | RF006 | `POST /api/chamados` |
+| AL2, AI4, AI5 | Criar chamado — payload inválido (→ 400) | — | RF006 | `POST /api/chamados` |
+| AI6 | Criar chamado — sem coordenadas GPS (→ 400, viola RN19) | RN19 | RF006 | `POST /api/chamados` |
+| CT-UA05 | Criar chamado — latitude ausente (→ erro) | RN19 | RF006 | `AlertaService` |
+| CT-UA06 | Criar chamado — longitude ausente (→ erro) | RN19 | RF006 | `AlertaService` |
+| CT-UA07 | Resolver chamado — sucesso (Técnico) | — ² | RF006 | `PATCH /api/chamados/:id/resolver` |
+| CT-UA08 | Resolver chamado — perfil incorreto (→ 403/422) | — ² | RF006 | `PATCH /api/chamados/:id/resolver` |
+| CT-UA09 | Resolver chamado — usuário não encontrado (→ 422) | — ² | RF006 | `PATCH /api/chamados/:id/resolver` |
+| CT-UA10 | Resolver chamado — chamado não encontrado (→ 404) | — ² | RF006 | `PATCH /api/chamados/:id/resolver` |
+| CT-UA11 | Resolver chamado — já resolvido (→ 409) | — ² | RF006 | `PATCH /api/chamados/:id/resolver` |
+| N1, CT-NA01 | Registrar nascimento — sucesso | RN27 | RF008 | `POST /api/eventos-zootecnicos/nascimentos` |
+| N2, NA1–NA7 | Registrar nascimento — payload inválido (múltiplos campos) | — | RF008 | `POST /api/eventos-zootecnicos/nascimentos` |
+| N3, CT-NA06 | Registrar nascimento — data futura (→ 422) | RN27 | RF008 | `POST /api/eventos-zootecnicos/nascimentos` |
+| OB1, OB2, OB3, CT-OB01 | Registrar óbito — sucesso e persistência no banco | — | RF009 | `POST /api/eventos-zootecnicos/obitos` |
+| OB4, OBd | Registrar óbito — payload inválido (→ 400) | — | RF009 | `POST /api/eventos-zootecnicos/obitos` |
+| OB7, CT-OB02 | Registrar óbito — foto_base64 obrigatória (→ 422) | RN07 | RF009 | `POST /api/eventos-zootecnicos/obitos` |
+| OB5, CT-OB04 | Registrar óbito — identificacao_animal obrigatória (→ 422) | RF013 | RF009 | `POST /api/eventos-zootecnicos/obitos` |
+| OB6, CT-OB03 | Registrar óbito — causa_morte obrigatória (→ 422) | RF013 | RF009 | `POST /api/eventos-zootecnicos/obitos` |
+| CT-CS01 | CloudSync — offline (suspenso) | RN08 | RF010 | `CloudSyncService` |
+| CT-CS02–CT-CS15 | CloudSync — happy paths e falhas por tipo de entidade | — | RF010 | `CloudSyncService` |
+| AJ1, AJ2, AJ3, AJ4 | Autenticação JWT — login, refresh, rota protegida | — | — | `POST /api/auth/login`, `POST /api/auth/refresh` |
+| CT-EV01–CT-EV04 | Listar eventos — sem filtro e com filtros de retiro e tipo | — | RF014 | `GET /api/eventos-zootecnicos` |
+| CT-EX01 | Exportar CSV — ACESSO_NEGADO (Capataz) | RN28 | RF015 | `GET /api/coordenador/exportar` |
+| CT-EX02–CT-EX04 | Exportar CSV — formato e total de registros | RN28 | RF015 | `GET /api/coordenador/exportar` |
+| CT-HS01–CT-HS04 | HealthService — banco conectado, erro e campos obrigatórios | — | — | `services/healthService.ts` |
+
+> ¹ Validações de data retroativa e descrição em branco são regras internas do `TarefaService` sem código formal na tabela RN da seção 3.1.2.
+>
+> ² As regras de autorização e idempotência do `resolverChamado` (apenas Técnico, chamado único por evento) são regras de domínio do `AlertaService` não catalogadas formalmente na seção 3.1.2. CT-UA11 (chamado já resolvido) corresponde a uma violação de regra que retornaria **409 Conflict** no contrato HTTP.
 
 ### 5.1.6. Verificação de critérios impeditivos de publicação (vermelho)
 
@@ -6616,7 +7103,7 @@ Foi realizada, em 22 de junho de 2026, uma auditoria técnica dos critérios imp
 | Critério impeditivo | Status | Evidência verificada | Observação |
 |---|---|---|---|
 | Build quebrando | PASSOU | Foi executado `npm run build`, definido em [`package.json`](../package.json), com conclusão bem-sucedida do `tsc`. | Não foi observado erro de compilação TypeScript. |
-| Testes falhando | PASSOU | Foi executado `npm test`, definido em [`package.json`](../package.json), com resultado `26 passed, 26 total` em suites e `206 passed, 206 total` em testes. | A suíte completa de regressão foi aprovada. |
+| Testes falhando | PASSOU | Foi executado `npm test`, definido em [`package.json`](../package.json), com resultado `26 passed, 26 total` em suites e `209 passed, 209 total` em testes. | A suíte completa de regressão foi aprovada. |
 | Funcionalidades core inoperantes | PASSOU | Foram aprovadas suites de endpoints, autenticação, sincronização, offline, timeout, retry, contratos RNF e serviços em [`src/backend/tests`](../src/backend/tests). | Os fluxos core cobertos por testes automatizados permaneceram operacionais. |
 | Deploy ausente | FALHOU | Foram inspecionados artefatos de publicação no repositório. Não foram encontrados `Dockerfile`, `docker-compose.yml`, `render.yaml`, `vercel.json`, `netlify.toml`, `fly.toml`, `Procfile`, `railway.json` ou workflows em `.github/workflows`. | Foi identificado apenas suporte local por `npm start` e `npm run build`; recomenda-se priorizar a criação de configuração de deploy e URL pública de homologação. |
 
@@ -6645,7 +7132,7 @@ Resultado observado:
 
 ```text
 Test Suites: 26 passed, 26 total
-Tests:       206 passed, 206 total
+Tests:       209 passed, 209 total
 Snapshots:   0 total
 ```
 
@@ -6655,7 +7142,7 @@ Foi verificado que os scripts formais de execução estão declarados no [`packa
 
 Conclui-se que a aplicação não apresenta bloqueio por compilação, regressão automatizada ou inoperância das funcionalidades core cobertas por testes. No entanto, a publicação ainda permanece impedida pela ausência de configuração de deploy versionada e evidência de ambiente publicado. Recomenda-se que a correção priorizada seja a criação de um artefato de deploy compatível com a estratégia definida para o projeto, acompanhado de URL de homologação e instruções de operação.
 
-## 5.2. Testes de usabilidade (sprint 5)
+## 5.2. Testes de usabilidade
 
 Os testes de usabilidade consistem em observar usuários reais executando tarefas representativas em um produto ou sistema, com o objetivo de identificar dificuldades, erros e pontos de fricção na interface antes que cheguem ao ambiente de produção. Segundo a norma ISO 9241-11:2018, usabilidade é definida como a medida em que um produto pode ser utilizado por usuários específicos para atingir objetivos específicos com eficácia, eficiência e satisfação em um dado contexto de uso [55].
 
@@ -6671,38 +7158,39 @@ Os testes de guerrilha (*guerrilla usability testing*) são uma modalidade de av
 A principal importância dessa abordagem está na capacidade de gerar retroalimentação qualitativa rápida sobre dificuldades reais de uso ainda em fases iniciais do desenvolvimento, quando ajustes são menos custosos. Por envolverem pessoas reais em contexto natural, os testes de guerrilha expõem problemas de navegação, nomenclatura e fluxo que costumam passar despercebidos em revisões internas e inspeções heurísticas [53]. Para este projeto, o método foi adotado para validar os principais fluxos da aplicação junto a participantes que representam os perfis de Capataz, Gerente e Coordenador definidos nas personas do sistema, complementando as avaliações técnicas realizadas nas etapas anteriores.
 
 [Link para a planilha dos testes de Guerrilha:] (https://docs.google.com/spreadsheets/d/1qdGcS9gtkIaFlHcXa6VoyoqdvRIejTfKeiD6Zggm5aI/edit?usp=sharing) 
-#### Perfil dos Participantes
 
-Os testes foram conduzidos com **6 participantes**, todos estudantes de graduação recrutados por conveniência entre colegas de faculdade dos integrantes do grupo. Os perfis de sistema (Capataz, Gerente e Coordenador) foram atribuídos como cenários de tarefa durante a sessão, nenhum participante ocupa esses cargos na BrPec e nem em outra agropecuária. O principal critério de diversidade adotado foi a familiaridade com o contexto agropecuário: Gregory cresceu em propriedade rural, enquanto os demais não têm experiência com o setor.
+**Perfil dos Participantes**
+
+Os testes foram conduzidos com **6 participantes**, todos estudantes de graduação recrutados por conveniência entre colegas de faculdade dos integrantes do grupo. Os perfis de sistema (Capataz, Gerente e Coordenador) foram atribuídos como cenários de tarefa durante a sessão, nenhum participante ocupa esses cargos na BrPec e nem em outra agropecuária. O principal critério de diversidade adotado foi a familiaridade com o contexto agropecuário: P1 cresceu em propriedade rural, enquanto os demais não têm experiência com o setor.
 
 | Participante | Perfil de experiência |
 |---|---|
-| Gregory | Experiência com ambiente rural (cresceu em fazenda, pai tem propriedade) |
-| Gabriel | Sem experiência com agronegócio |
-| Gabriel Cristino | Sem experiência com agronegócio |
-| Fernanda | Sem experiência com agronegócio |
-| Davi | Sem experiência com agronegócio |
-| Rafael | Sem experiência com agronegócio |
+| P1 | Experiência com ambiente rural (cresceu em fazenda, pai tem propriedade) |
+| P2 | Sem experiência com agronegócio |
+| P3 | Sem experiência com agronegócio |
+| P4 | Sem experiência com agronegócio |
+| P5 | Sem experiência com agronegócio |
+| P6 | Sem experiência com agronegócio |
 
 A distribuição por perfil testado foi a seguinte:
 
 | Perfil de sistema testado | Tarefas | Participantes |
 |---|---|---|
-| Capataz | 1 e 2 | Gregory, Gabriel, Gabriel Cristino, Fernanda, Davi, Rafael (6) |
-| Gerente | 3 e 4 | Fernanda, Davi, Rafael (3) |
-| Coordenador | 5 e 6 | Gregory, Gabriel Cristino, Fernanda, Davi, Rafael (5) |
+| Capataz | 1 e 2 | P1, P2, P3, P4, P5, P6 (6) |
+| Gerente | 3 e 4 | P4, P5, P6 (3) |
+| Coordenador | 5 e 6 | P1, P3, P4, P5, P6 (5) |
 
 Cada participante executou entre 1 e 5 tarefas conforme a disponibilidade na sessão. Nenhum recebeu instruções sobre o sistema antes da interação — o contato com a interface foi o primeiro de cada um.
 
-# Resultados por Tarefa
+#### Resultados por Tarefa
  
 ---
  
-## 1. Capataz — Concluir Tarefa com Foto
+*1. Capataz — Concluir Tarefa com Foto*
  
 **Cenário:** Suponha que você é Gabriel, capataz do retiro Barra Bonita, terminou de transferir alguns animais para outro retiro, utilize o sistema para marcar a tarefa como concluída e anexar uma foto como evidência do serviço realizado.
  
-### Etapas
+**Etapas**
  
 | Etapa | Descrição | Expectativa |
 |---|---|---|
@@ -6711,24 +7199,24 @@ Cada participante executou entre 1 e 5 tarefas conforme a disponibilidade na ses
 | 3 | Marcar a tarefa como concluída e anexar a foto. | O sistema registra a conclusão e salva tudo localmente no dispositivo até a sincronização (RN08, RN10). |
 | 4 | Informações referentes à tarefa vão para o Coordenador e Gerente. | O status da tarefa é atualizado para o Coordenador e o sistema exibe mensagem de confirmação (RN09, RN11). |
  
-### Resultados
+**Resultados**
  
 | # | Nome | Perfil do Participante | Resultado | Etapa 1 | Etapa 2 | Etapa 3 | Etapa 4 | Heurística(s) Relacionada(s) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | Gregory | Tem experiência com fazenda (cresceu em uma, pai tem propriedade). |  Não conseguiu | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O registro não apareceu para o Gerente nem para o próprio Capataz. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
-| 2 | Gabriel | Sem experiência com agronegócio. |  Conseguiu com dificuldade | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O registro não apareceu para o Gerente nem para o próprio Capataz. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
-| 3 | Gabriel Cristino | Sem experiência com agronegócio. |  Sucesso | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O status da tarefa é atualizado para o Coordenador e o sistema exibe mensagem de confirmação. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
-| 4 | Fernanda | Sem experiência com agronegócio. |  Sucesso | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O status da tarefa é atualizado para o Coordenador e o sistema exibe mensagem de confirmação. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
-| 5 | Davi | Sem experiência com agronegócio. |  Sucesso | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O status da tarefa é atualizado para o Coordenador e o sistema exibe mensagem de confirmação. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
-| 6 | Rafael | Sem experiência com agronegócio. |  Sucesso | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O status da tarefa é atualizado para o Coordenador e o sistema exibe mensagem de confirmação. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
+| 1 | P1 | Experiência com ambiente rural (cresceu em fazenda, pai tem propriedade). |  Não conseguiu | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O registro não apareceu para o Gerente nem para o próprio Capataz. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
+| 2 | P2 | Sem experiência com agronegócio. |  Conseguiu com dificuldade | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O registro não apareceu para o Gerente nem para o próprio Capataz. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
+| 3 | P3 | Sem experiência com agronegócio. |  Sucesso | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O status da tarefa é atualizado para o Coordenador e o sistema exibe mensagem de confirmação. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
+| 4 | P4 | Sem experiência com agronegócio. |  Sucesso | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O status da tarefa é atualizado para o Coordenador e o sistema exibe mensagem de confirmação. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
+| 5 | P5 | Sem experiência com agronegócio. |  Sucesso | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O status da tarefa é atualizado para o Coordenador e o sistema exibe mensagem de confirmação. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
+| 6 | P6 | Sem experiência com agronegócio. |  Sucesso | Sistema exibe as tarefas do dia vinculadas ao retiro. | Tela exibe a descrição da tarefa, o retiro e o status atual. | Marcou a tarefa como concluída e anexou a foto. | O status da tarefa é atualizado para o Coordenador e o sistema exibe mensagem de confirmação. | H1 - Visibilidade do status do sistema; H3 - Controle e liberdade do usuário |
  
 ---
  
-## 2. Capataz — Abrir Chamado de Infraestrutura
+**2. Capataz — Abrir Chamado de Infraestrutura**
  
 **Cenário:** Suponha que você é capataz e percebeu que o bebedouro do curral está quebrado, comprometendo o acesso de água ao rebanho, utilize o sistema para abrir um chamado de infraestrutura informando o tipo de problema, o retiro e a localização.
  
-### Etapas
+**Etapas**
  
 | Etapa | Descrição | Expectativa |
 |---|---|---|
@@ -6737,21 +7225,21 @@ Cada participante executou entre 1 e 5 tarefas conforme a disponibilidade na ses
 | 3 | Preencher o tipo de problema (ex.: hidráulica) e o retiro | O sistema captura automaticamente as coordenadas GPS e as exibe como imutáveis, sem permitir edição manual (RN19, RN24). |
 | 4 | Enviar o chamado | Se houver conexão, o alerta é enviado imediatamente com mensagem de confirmação; se offline, o sistema informa que o registro foi salvo localmente e será enviado na próxima sincronização (RN20–RN23, RN25, RN26). |
  
-### Resultados
+**Resultados**
  
 | # | Nome | Perfil do Participante | Resultado | Etapa 1 | Etapa 2 | Etapa 3 | Etapa 4 | Heurística(s) Relacionada(s) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | Fernanda | Sem experiência com agronegócio. | Não conseguiu | Sistema autentica o Capataz e libera o acesso apenas às funções vinculadas ao retiro selecionado. | Formulário exibido com os campos obrigatórios (tipo de problema, retiro, localização). | Sistema captura automaticamente as coordenadas GPS e as exibe como imutáveis. | Alerta não foi enviado — erro 400 (independente da categoria do chamado de infraestrutura). | H5 - Prevenção de erros; H9 - Diagnóstico e recuperação de erros |
-| 2 | Gabriel Cristino | Sem experiência com agronegócio. | Não conseguiu | Sistema autentica o Capataz e libera o acesso apenas às funções vinculadas ao retiro selecionado. | Formulário exibido com os campos obrigatórios (tipo de problema, retiro, localização). | Sistema captura automaticamente as coordenadas GPS e as exibe como imutáveis. | Alerta não foi enviado — erro 400 (independente da categoria do chamado de infraestrutura). | H5 - Prevenção de erros; H9 - Diagnóstico e recuperação de erros |
-| 3 | Davi | Sem experiência com agronegócio. | Não conseguiu | Sistema autentica o Capataz e libera o acesso apenas às funções vinculadas ao retiro selecionado. | Formulário exibido com os campos obrigatórios (tipo de problema, retiro, localização). | Sistema captura automaticamente as coordenadas GPS e as exibe como imutáveis. | Alerta não foi enviado — erro 400 (independente da categoria do chamado de infraestrutura). | H5 - Prevenção de erros; H9 - Diagnóstico e recuperação de erros |
+| 1 | P4 | Sem experiência com agronegócio. | Não conseguiu | Sistema autentica o Capataz e libera o acesso apenas às funções vinculadas ao retiro selecionado. | Formulário exibido com os campos obrigatórios (tipo de problema, retiro, localização). | Sistema captura automaticamente as coordenadas GPS e as exibe como imutáveis. | Alerta não foi enviado — erro 400 (independente da categoria do chamado de infraestrutura). | H5 - Prevenção de erros; H9 - Diagnóstico e recuperação de erros |
+| 2 | P3 | Sem experiência com agronegócio. | Não conseguiu | Sistema autentica o Capataz e libera o acesso apenas às funções vinculadas ao retiro selecionado. | Formulário exibido com os campos obrigatórios (tipo de problema, retiro, localização). | Sistema captura automaticamente as coordenadas GPS e as exibe como imutáveis. | Alerta não foi enviado — erro 400 (independente da categoria do chamado de infraestrutura). | H5 - Prevenção de erros; H9 - Diagnóstico e recuperação de erros |
+| 3 | P5 | Sem experiência com agronegócio. | Não conseguiu | Sistema autentica o Capataz e libera o acesso apenas às funções vinculadas ao retiro selecionado. | Formulário exibido com os campos obrigatórios (tipo de problema, retiro, localização). | Sistema captura automaticamente as coordenadas GPS e as exibe como imutáveis. | Alerta não foi enviado — erro 400 (independente da categoria do chamado de infraestrutura). | H5 - Prevenção de erros; H9 - Diagnóstico e recuperação de erros |
  
 ---
  
-## 3. Gerente — Criar Tarefa Calendarizada
+**3. Gerente — Criar Tarefa Calendarizada**
  
 **Cenário:** Suponha que você é o gerente geral e precisa que o capataz de um retiro específico verifique as cercas na próxima segunda-feira, utilize o sistema para criar essa tarefa calendarizada e associá-la ao retiro correto.
  
-### Etapas
+**Etapas**
  
 | Etapa | Descrição | Expectativa |
 |---|---|---|
@@ -6760,21 +7248,21 @@ Cada participante executou entre 1 e 5 tarefas conforme a disponibilidade na ses
 | 3 | Preencher "verificar as cercas", definir a data de segunda-feira e associar a um único retiro | O sistema exige obrigatoriamente o vínculo a um único retiro, não permitindo associação a múltiplos retiros (RN01). |
 | 4 | Salvar a tarefa | A tarefa fica registrada como calendarizada e fica disponível para o Capataz responsável pelo retiro assim que o dispositivo dele sincronizar (CR2 da US01). |
  
-### Resultados
+**Resultados**
  
 | # | Nome | Perfil do Participante | Resultado | Etapa 1 | Etapa 2 | Etapa 3 | Etapa 4 | Heurística(s) Relacionada(s) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | Fernanda | Sem experiência com agronegócio. | Não conseguiu | Fez login com o perfil Gerente. | Formulário de criação de tarefa exibido com campos de descrição, data e retiro. | O sistema exigiu obrigatoriamente o vínculo a um retiro. | A tarefa não foi encontrada, apesar de registrada. | H4 - Consistência e padrões; H1 - Visibilidade do status do sistema |
-| 2 | Davi | Sem experiência com agronegócio. | Sucesso | Fez login com o perfil Gerente. | Formulário de criação de tarefa exibido com campos de descrição, data e retiro. | O sistema exigiu obrigatoriamente o vínculo a um retiro. | A tarefa fica registrada e disponível para o Capataz responsável pelo retiro. | H4 - Consistência e padrões; H1 - Visibilidade do status do sistema |
-| 3 | Rafael | Sem experiência com agronegócio. | Sucesso | Fez login com o perfil Gerente. | Formulário de criação de tarefa exibido com campos de descrição, data e retiro. | O sistema exigiu obrigatoriamente o vínculo a um retiro. | A tarefa fica registrada e disponível para o Capataz responsável pelo retiro. | H4 - Consistência e padrões; H1 - Visibilidade do status do sistema |
+| 1 | P4 | Sem experiência com agronegócio. | Não conseguiu | Fez login com o perfil Gerente. | Formulário de criação de tarefa exibido com campos de descrição, data e retiro. | O sistema exigiu obrigatoriamente o vínculo a um retiro. | A tarefa não foi encontrada, apesar de registrada. | H4 - Consistência e padrões; H1 - Visibilidade do status do sistema |
+| 2 | P5 | Sem experiência com agronegócio. | Sucesso | Fez login com o perfil Gerente. | Formulário de criação de tarefa exibido com campos de descrição, data e retiro. | O sistema exigiu obrigatoriamente o vínculo a um retiro. | A tarefa fica registrada e disponível para o Capataz responsável pelo retiro. | H4 - Consistência e padrões; H1 - Visibilidade do status do sistema |
+| 3 | P6 | Sem experiência com agronegócio. | Sucesso | Fez login com o perfil Gerente. | Formulário de criação de tarefa exibido com campos de descrição, data e retiro. | O sistema exigiu obrigatoriamente o vínculo a um retiro. | A tarefa fica registrada e disponível para o Capataz responsável pelo retiro. | H4 - Consistência e padrões; H1 - Visibilidade do status do sistema |
  
 ---
  
-## 4. Gerente — Consultar Tela de Infraestrutura
+**4. Gerente — Consultar Tela de Infraestrutura**
  
 **Cenário:** Suponha que você é o gerente geral e quer saber quantos chamados de infraestrutura estão abertos antes de priorizar a equipe de manutenção, utilize o sistema para acessar a tela de infraestrutura e consultar o status de cada chamado registrado pelos capatazes.
  
-### Etapas
+**Etapas**
  
 | Etapa | Descrição | Expectativa |
 |---|---|---|
@@ -6783,21 +7271,21 @@ Cada participante executou entre 1 e 5 tarefas conforme a disponibilidade na ses
 | 3 | Filtrar/observar os chamados pelo status "aberto" | Somente os chamados com status ABERTO permanecem visíveis na listagem, permitindo contar quantos aguardam atendimento. |
 | 4 | Abrir um chamado específico para conferir detalhes | Sistema exibe Capataz que abriu, retiro, data/hora e descrição do problema, permitindo ao Gerente priorizar a equipe de manutenção. |
  
-### Resultados
+**Resultados**
  
 | # | Nome | Perfil do Participante | Resultado | Etapa 1 | Etapa 2 | Etapa 3 | Etapa 4 | Heurística(s) Relacionada(s) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | Fernanda | Sem experiência com agronegócio. | Sucesso | Sistema autentica o Gerente e dá acesso ao dashboard principal. | Lista de chamados exibida com o status de cada um (RF007). | Somente os chamados com status ABERTO permanecem visíveis na listagem. | Sistema exibe Capataz que abriu, retiro, data/hora e descrição do problema. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
-| 2 | Davi | Sem experiência com agronegócio. | Sucesso | Sistema autentica o Gerente e dá acesso ao dashboard principal. | Lista de chamados exibida com o status de cada um (RF007). | Somente os chamados com status ABERTO permanecem visíveis na listagem. | Sistema exibe Capataz que abriu, retiro, data/hora e descrição do problema. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
-| 3 | Rafael | Sem experiência com agronegócio. | Sucesso | Sistema autentica o Gerente e dá acesso ao dashboard principal. | Lista de chamados exibida com o status de cada um (RF007). | Somente os chamados com status ABERTO permanecem visíveis na listagem. | Sistema exibe Capataz que abriu, retiro, data/hora e descrição do problema. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
+| 1 | P4 | Sem experiência com agronegócio. | Sucesso | Sistema autentica o Gerente e dá acesso ao dashboard principal. | Lista de chamados exibida com o status de cada um (RF007). | Somente os chamados com status ABERTO permanecem visíveis na listagem. | Sistema exibe Capataz que abriu, retiro, data/hora e descrição do problema. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
+| 2 | P5 | Sem experiência com agronegócio. | Sucesso | Sistema autentica o Gerente e dá acesso ao dashboard principal. | Lista de chamados exibida com o status de cada um (RF007). | Somente os chamados com status ABERTO permanecem visíveis na listagem. | Sistema exibe Capataz que abriu, retiro, data/hora e descrição do problema. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
+| 3 | P6 | Sem experiência com agronegócio. | Sucesso | Sistema autentica o Gerente e dá acesso ao dashboard principal. | Lista de chamados exibida com o status de cada um (RF007). | Somente os chamados com status ABERTO permanecem visíveis na listagem. | Sistema exibe Capataz que abriu, retiro, data/hora e descrição do problema. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
  
 ---
  
-## 5. Coordenador — Visualizar Movimentação Zootécnica
+**5. Coordenador — Visualizar Movimentação Zootécnica**
  
 **Cenário:** Suponha que você é o coordenador e foi notificado de que um capataz registrou o nascimento de bezerros em um retiro, utilize o sistema para visualizar essa movimentação zootécnica e validar as informações antes da consolidação.
  
-### Etapas
+**Etapas**
  
 | Etapa | Descrição | Expectativa |
 |---|---|---|
@@ -6806,22 +7294,22 @@ Cada participante executou entre 1 e 5 tarefas conforme a disponibilidade na ses
 | 3 | Abrir o detalhe da movimentação | Sistema apresenta todas as informações do registro, incluindo evidências fotográficas anexadas pelo Capataz, quando aplicável (CR3). |
 | 4 | Validar o registro antes da consolidação | Dados estão íntegros e disponíveis sem necessidade de redigitação manual, prontos para consolidação final. |
  
-### Resultados
+**Resultados**
  
 | # | Nome | Perfil do Participante | Resultado | Etapa 1 | Etapa 2 | Etapa 3 | Etapa 4 | Heurística(s) Relacionada(s) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | Gregory | Tem experiência com fazenda (cresceu em uma, pai tem propriedade). | Sucesso | Fez login com o perfil Coordenador e acessou o painel de movimentações zootécnicas. | Listagem atualizada exibindo os registros que atendem aos critérios selecionados. | Sistema apresenta todas as informações do registro, incluindo evidências fotográficas quando aplicável. | Dados íntegros e disponíveis sem necessidade de redigitação manual, prontos para consolidação final. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
-| 2 | Gabriel Cristino | Sem experiência com agronegócio. | Sucesso | Fez login com o perfil Coordenador e acessou o painel de movimentações zootécnicas. | Listagem atualizada exibindo os registros que atendem aos critérios selecionados. | Sistema apresenta todas as informações do registro, incluindo evidências fotográficas quando aplicável. | Dados íntegros e disponíveis sem necessidade de redigitação manual, prontos para consolidação final. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
-| 3 | Davi | Sem experiência com agronegócio. | Sucesso | Fez login com o perfil Coordenador e acessou o painel de movimentações zootécnicas. | Listagem atualizada exibindo os registros que atendem aos critérios selecionados. | Sistema apresenta todas as informações do registro, incluindo evidências fotográficas quando aplicável. | Dados íntegros e disponíveis sem necessidade de redigitação manual, prontos para consolidação final. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
-| 4 | Rafael | Sem experiência com agronegócio. | Sucesso | Fez login com o perfil Coordenador e acessou o painel de movimentações zootécnicas. | Listagem atualizada exibindo os registros que atendem aos critérios selecionados. | Sistema apresenta todas as informações do registro, incluindo evidências fotográficas quando aplicável. | Dados íntegros e disponíveis sem necessidade de redigitação manual, prontos para consolidação final. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
+| 1 | P1 | Experiência com ambiente rural (cresceu em fazenda, pai tem propriedade). | Sucesso | Fez login com o perfil Coordenador e acessou o painel de movimentações zootécnicas. | Listagem atualizada exibindo os registros que atendem aos critérios selecionados. | Sistema apresenta todas as informações do registro, incluindo evidências fotográficas quando aplicável. | Dados íntegros e disponíveis sem necessidade de redigitação manual, prontos para consolidação final. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
+| 2 | P3 | Sem experiência com agronegócio. | Sucesso | Fez login com o perfil Coordenador e acessou o painel de movimentações zootécnicas. | Listagem atualizada exibindo os registros que atendem aos critérios selecionados. | Sistema apresenta todas as informações do registro, incluindo evidências fotográficas quando aplicável. | Dados íntegros e disponíveis sem necessidade de redigitação manual, prontos para consolidação final. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
+| 3 | P5 | Sem experiência com agronegócio. | Sucesso | Fez login com o perfil Coordenador e acessou o painel de movimentações zootécnicas. | Listagem atualizada exibindo os registros que atendem aos critérios selecionados. | Sistema apresenta todas as informações do registro, incluindo evidências fotográficas quando aplicável. | Dados íntegros e disponíveis sem necessidade de redigitação manual, prontos para consolidação final. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
+| 4 | P6 | Sem experiência com agronegócio. | Sucesso | Fez login com o perfil Coordenador e acessou o painel de movimentações zootécnicas. | Listagem atualizada exibindo os registros que atendem aos critérios selecionados. | Sistema apresenta todas as informações do registro, incluindo evidências fotográficas quando aplicável. | Dados íntegros e disponíveis sem necessidade de redigitação manual, prontos para consolidação final. | H1 - Visibilidade do status do sistema; H6 - Reconhecimento em vez de lembrança |
  
 ---
  
-## 6. Coordenador — Exportar Dados Consolidados em CSV
+**6. Coordenador — Exportar Dados Consolidados em CSV**
  
 **Cenário:** Suponha que você é o coordenador e precisa enviar os dados consolidados de movimentações do mês para os controles centrais da empresa, utilize o sistema para exportar esses registros em formato CSV.
  
-### Etapas
+**Etapas**
  
 | Etapa | Descrição | Expectativa |
 |---|---|---|
@@ -6830,13 +7318,13 @@ Cada participante executou entre 1 e 5 tarefas conforme a disponibilidade na ses
 | 3 | Acionar o botão de exportação e selecionar o formato CSV | Sistema gera o arquivo com colunas padronizadas contendo data, retiro, tipo de evento, categoria animal, quantidade e Capataz responsável (RF015). |
 | 4 | Baixar o arquivo gerado | Conteúdo reflete estritamente os dados já validados estruturalmente no banco, eliminando redigitação manual e assegurando a integridade das informações enviadas aos controles da empresa (RN28). |
  
-### Resultados
+**Resultados**
  
 | # | Nome | Perfil do Participante | Resultado | Etapa 1 | Etapa 2 | Etapa 3 | Etapa 4 | Heurística(s) Relacionada(s) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | Gabriel Cristino | Sem experiência com agronegócio. | Sucesso | Fez login corretamente e todos os registros foram exibidos. | Listagem atualizada refletindo os registros que atendem aos parâmetros definidos. | Sistema gerou arquivo com colunas padronizadas (data, retiro, tipo de evento, categoria animal, quantidade, Capataz). | Conteúdo refletiu os dados validados no banco, eliminando redigitação manual. | H3 - Controle e liberdade do usuário; H7 - Flexibilidade e eficiência de uso |
-| 2 | Fernanda | Sem experiência com agronegócio. | Sucesso | Fez login corretamente e todos os registros foram exibidos. | Listagem atualizada refletindo os registros que atendem aos parâmetros definidos. | Sistema gerou arquivo com colunas padronizadas (data, retiro, tipo de evento, categoria animal, quantidade, Capataz). | Conteúdo refletiu os dados validados no banco, eliminando redigitação manual. | H3 - Controle e liberdade do usuário; H7 - Flexibilidade e eficiência de uso |
-| 3 | Rafael | Sem experiência com agronegócio. | Sucesso | Fez login corretamente e todos os registros foram exibidos. | Listagem atualizada refletindo os registros que atendem aos parâmetros definidos. | Sistema gerou arquivo com colunas padronizadas (data, retiro, tipo de evento, categoria animal, quantidade, Capataz). | Conteúdo refletiu os dados validados no banco, eliminando redigitação manual. | H3 - Controle e liberdade do usuário; H7 - Flexibilidade e eficiência de uso |
+| 1 | P3 | Sem experiência com agronegócio. | Sucesso | Fez login corretamente e todos os registros foram exibidos. | Listagem atualizada refletindo os registros que atendem aos parâmetros definidos. | Sistema gerou arquivo com colunas padronizadas (data, retiro, tipo de evento, categoria animal, quantidade, Capataz). | Conteúdo refletiu os dados validados no banco, eliminando redigitação manual. | H3 - Controle e liberdade do usuário; H7 - Flexibilidade e eficiência de uso |
+| 2 | P4 | Sem experiência com agronegócio. | Sucesso | Fez login corretamente e todos os registros foram exibidos. | Listagem atualizada refletindo os registros que atendem aos parâmetros definidos. | Sistema gerou arquivo com colunas padronizadas (data, retiro, tipo de evento, categoria animal, quantidade, Capataz). | Conteúdo refletiu os dados validados no banco, eliminando redigitação manual. | H3 - Controle e liberdade do usuário; H7 - Flexibilidade e eficiência de uso |
+| 3 | P6 | Sem experiência com agronegócio. | Sucesso | Fez login corretamente e todos os registros foram exibidos. | Listagem atualizada refletindo os registros que atendem aos parâmetros definidos. | Sistema gerou arquivo com colunas padronizadas (data, retiro, tipo de evento, categoria animal, quantidade, Capataz). | Conteúdo refletiu os dados validados no banco, eliminando redigitação manual. | H3 - Controle e liberdade do usuário; H7 - Flexibilidade e eficiência de uso |
 
 
 ---
@@ -6856,19 +7344,7 @@ Ao todo foram realizadas 22 sessões de teste distribuídas entre os três perfi
 
 Os fluxos do **Coordenador** foram os mais estáveis, com 100% de conclusão em ambas as tarefas. Os fluxos do **Gerente** apresentaram resultado misto: a consulta de infraestrutura (Tarefa 4) foi concluída por todos, mas a criação de tarefa (Tarefa 3) falhou para um participante por ausência de feedback visual após o cadastro. Os fluxos do **Capataz** concentraram os problemas mais críticos: a Tarefa 2 resultou em falha total para todos os participantes devido a um erro HTTP 400 na submissão do chamado de infraestrutura, independente da categoria selecionada; na Tarefa 1, dois participantes encontraram dificuldade ou não conseguiram concluir por falta de confirmação de que o registro havia sido sincronizado.
 
-As heurísticas mais recorrentes nas falhas foram **H1 (Visibilidade do status do sistema)**, ausência de confirmação após ações críticas, e **H9 (Diagnóstico e recuperação de erros)**, erros de backend exibidos sem mensagem orientativa ao usuário. Esses achados orientam os ajustes prioritários antes dos testes SUS: correção do endpoint de chamados de infraestrutura e adição de feedback explícito de confirmação nos fluxos do Capataz e do Gerente.
-
-#### Lista de Melhorias Identificadas
-
-Os achados dos testes de guerrilha foram compilados e priorizados segundo a **escala de severidade de Nielsen**: 0 — Sem importância; 1 — Cosmético; 2 — Simples; 3 — Grave; 4 — Catastrófico. Problemas com severidade 3 ou 4 devem ser corrigidos antes da entrega.
-
-| # | Problema | Área | Severidade | Participante(s) / Tarefa | Melhoria Sugerida |
-|---|---|---|---|---|---|
-| 1 | Endpoint de chamados de infraestrutura retorna HTTP 400 independente dos dados enviados, impedindo qualquer submissão | Funcional | 4 — Catastrófico | Fernanda, Gabriel Cristino, Davi / Tarefa 2 | Corrigir validação e mapeamento do payload no backend; retornar status 2xx e mensagem de sucesso ao usuário |
-| 2 | Ausência de confirmação de sincronização após conclusão de tarefa com foto: o registro não aparece imediatamente para Gerente nem para o Capataz, sem indicação visual de que foi salvo | UX | 3 — Grave | Gregory (falha), Gabriel (dificuldade) / Tarefa 1 | Exibir toast ou snackbar de confirmação após sincronização bem-sucedida; indicar estado pendente enquanto o upload de foto estiver em andamento |
-| 3 | Ausência de feedback visual após criação de tarefa calendarizada: participante não localiza a tarefa recém-registrada e interpreta como falha no cadastro | UX | 3 — Grave | Fernanda / Tarefa 3 | Exibir confirmação (modal ou snackbar) ao salvar tarefa calendarizada e redirecionar ou destacar o item criado na lista |
-
-Não foram observadas ocorrências de severidade 0 (sem importância), 1 (cosmético) ou 2 (simples) durante as sessões. O problema catastrófico (severidade 4) e os dois graves (severidade 3) devem ser corrigidos antes dos testes SUS para garantir que os participantes consigam concluir as tarefas e que os resultados reflitam a usabilidade real da interface, e não falhas funcionais.
+As heurísticas mais recorrentes nas falhas foram **H1 (Visibilidade do status do sistema)**, ausência de confirmação após ações críticas, e **H9 (Diagnóstico e recuperação de erros)**, erros de backend exibidos sem mensagem orientativa ao usuário. Esses achados orientam os ajustes prioritários para as próximas iterações: correção do endpoint de chamados de infraestrutura e adição de feedback explícito de confirmação nos fluxos do Capataz e do Gerente.
 
 ### 5.2.2. Relatório de testes SUS (System Usability Scale)
 
@@ -7176,7 +7652,7 @@ Nenhum participante concordou que precisou aprender muitas coisas novas para usa
 
 ---
 
-**Escore SUS consolidado**
+#### Escore SUS consolidado
 
 A tabela a seguir apresenta o escore individual calculado para cada participante, obtido pela fórmula padrão do SUS: para cada questão de polaridade positiva (ímpares), a contribuição é `resposta − 1`; para cada questão de polaridade negativa (pares), a contribuição é `5 − resposta`. A soma das dez contribuições é multiplicada por 2,5, resultando em um escore entre 0 e 100.
 
@@ -7197,7 +7673,7 @@ O resultado geral indica que a solução desenvolvida atinge um nível de usabil
 
 ---
 
-#### Triangulação com os testes de guerrilha
+**5.2.3 Triangulação com os testes de guerrilha**
 
 A leitura integrada dos testes de guerrilha e do SUS revela padrões consistentes que se reforçam mutuamente, permitindo uma interpretação mais robusta dos dados do que cada método ofereceria isoladamente.
 
@@ -7207,8 +7683,43 @@ A leitura integrada dos testes de guerrilha e do SUS revela padrões consistente
 
 **H1 (ausência de confirmação) e a confiança percebida (Q9).** A heurística mais recorrente nos testes de guerrilha foi H1 — visibilidade do status do sistema — manifestada na falta de feedback após sincronização (Tarefa 1) e após criação de tarefa calendarizada (Tarefa 3). A Q9 do SUS ("senti muito confiante ao usar o sistema") registrou a única discordância (P2, nota 2) entre as questões positivas com média acima de 3,5. A ausência de confirmações visuais em ações críticas é uma das causas mais documentadas de baixa confiança percebida, e a correlação entre as falhas de H1 no guerrilha e a nota de Q9 reforça esse diagnóstico.
 
+### 5.2.3. Lista Unificada de Melhorias
 
-# <a name="c6"></a>6. Estudo de Mercado e Plano de Marketing (sprint 4)
+A tabela a seguir consolida todos os problemas identificados nas duas rodadas de teste — guerrilha e SUS —, unificando achados qualitativos e quantitativos em uma lista priorizada por severidade.
+
+**Legenda — coluna Tipo:**
+- **Funcional** — bug técnico que impede a execução da tarefa independentemente do comportamento do usuário
+- **Usabilidade** — dificuldade originada pelo design da interface: navegação, feedback visual, convenções ou posicionamento de elementos
+- **Compreensão de conteúdo** — dificuldade originada pelo vocabulário ou pela lógica do domínio agropecuário, não pelo design em si
+
+**Legenda — colunas de participantes (P1–P6):**
+- **teve** — participante encontrou o problema durante a sessão
+- **não** — participante executou a tarefa sem encontrar o problema
+- **n/t** — participante não testou essa tarefa na sessão
+- **n/a** — item derivado exclusivamente do SUS; não possui mapeamento por participante de guerrilha
+
+**Legenda — severidade (escala Nielsen):**
+- **1 — Cosmético** — não interfere na execução; pode ser corrigido se houver tempo
+- **2 — Simples** — causa lentidão ou confusão pontual; baixa prioridade
+- **3 — Grave** — dificulta ou impede a conclusão da tarefa para parte dos usuários; deve ser corrigido
+- **4 — Catastrófico** — impede a conclusão da tarefa para todos os usuários; correção imediata
+
+| \# | Tarefa | Tipo | Problema | Severidade | P1 | P2 | P3 | P4 | P5 | P6 | Melhoria Sugerida |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | Capataz: Registrar nascimentos | Usabilidade | Nem o Coordenador nem o Capataz conseguem localizar movimentações registradas pelo Capataz; tarefas concluídas desaparecem do fluxo | 4 — Catastrófico | teve | teve | não | teve | não | n/t | Garantir persistência e visibilidade dos registros sincronizados na listagem do Coordenador e na confirmação do Capataz |
+| 2 | Capataz: Abrir chamado de infraestrutura | Funcional | Endpoint retorna HTTP 400 independente dos dados enviados, impedindo qualquer submissão | 3 — Grave | n/t | n/t | teve | teve | teve | n/t | Corrigir validação e mapeamento do payload no backend; retornar status 2xx e mensagem de sucesso ao usuário |
+| 3 | Gerente: Criar tarefa calendarizada | Usabilidade | Confusão ao abrir configurações: participantes esperavam nova tela; botão com posicionamento inadequado e nomenclatura pouco clara | 3 — Grave | não | não | não | teve | teve | teve | Reposicionar aba de configurações para local mais visível e renomear o botão de acesso |
+| 4 | Capataz: Concluir tarefa com foto | Usabilidade | Ausência de confirmação de sincronização: registro não aparece para Gerente nem para o Capataz sem indicação visual de que foi salvo; reforçado por Q9 do SUS (única discordância em questão positiva com média acima de 3,5) | 3 — Grave | teve | teve | não | não | não | não | Exibir toast ou snackbar de confirmação após sincronização bem-sucedida; indicar estado pendente durante upload de foto |
+| 5 | Gerente: Criar tarefa calendarizada | Usabilidade | Ausência de feedback visual após criação: participante não localiza a tarefa recém-registrada e interpreta como falha no cadastro; reforçado pela recorrência de H1 nas sessões e correlação com Q9 do SUS | 3 — Grave | n/t | n/t | n/t | teve | não | não | Exibir confirmação (modal ou snackbar) ao salvar tarefa calendarizada e redirecionar ou destacar o item criado na lista |
+| 6 | Capataz: Abrir chamado de infraestrutura | Usabilidade | Cor do indicador de GPS capturado gera confusão com estado de erro; ausência de sinalização de sucesso | 2 — Simples | não | não | não | não | teve | não | Alterar cor do indicador de GPS para verde quando as coordenadas forem capturadas com sucesso |
+| 7 | Gerente: Criar tarefa calendarizada | Usabilidade | Dificuldade de leitura na tela de revisão: hífens e tamanho reduzido de texto prejudicam a leitura | 2 — Simples | não | não | não | não | teve | não | Remover hífens desnecessários e aumentar tamanho do texto na tela de revisão |
+| 8 | Geral | Usabilidade | Sistema não oferece orientação contextual suficiente para usuários com menor familiaridade digital — SUS Q4: 28,6% indicaram necessidade de suporte técnico; Q7: menor média entre questões positivas, 3,71, com único caso de discordância total | 2 — Simples | n/a | n/a | n/a | n/a | n/a | n/a | Adicionar tooltips ou textos de orientação em ações críticas — abertura de chamado e conclusão de tarefa com foto — para reduzir dependência de suporte técnico no perfil de capataz com baixa escolaridade digital |
+| 9 | Capataz: Registrar nascimentos | Compreensão de conteúdo | Confusão ao registrar transferências: participante consegue selecionar o próprio retiro como destino, gerando registro inválido | 1 — Cosmético | não | não | não | não | teve | não | Bloquear seleção do retiro de origem como destino no formulário de transferências |
+| 10 | Capataz: Registrar nascimentos | Compreensão de conteúdo | Dificuldade em localizar tipo de animal por faixa etária: ordenação atual mistura categorias de forma não intuitiva | 1 — Cosmético | não | não | não | não | teve | não | Ordenar seleção de categoria de animais por espécie primeiro, depois por faixa etária |
+| 11 | Coordenador: Visualizar movimentação | Usabilidade | Participante sentiu falta de poder ordenar colunas na tabela de movimentações; visualização percebida como limitada | 1 — Cosmético | não | não | n/t | teve | não | não | Adicionar ordenação por coluna na tabela de movimentações do Coordenador |
+
+
+# <a name="c6"></a>6. Estudo de Mercado e Plano de Marketing
 
 ## 6.1 Resumo Executivo
 
@@ -7224,8 +7735,6 @@ O objetivo estratégico do projeto é reduzir erros operacionais, aumentar a vel
 
 
 ## 6.2 Análise de Mercado
-
-_a) Visão Geral do Setor_
 
 O Brasil ocupa posição de destaque na pecuária bovina mundial. Em 2024, o rebanho 
 nacional atingiu 238,2 milhões de cabeças, segundo a Pesquisa da Pecuária Municipal 
@@ -7248,8 +7757,6 @@ previsto para entrar em vigor a partir de 2026, aumenta as exigências de rastre
 e comprovação de origem para acesso a mercados externos. Esse cenário reforça a 
 necessidade de digitalização das operações de campo, tornando soluções como a 
 desenvolvida para a BrPec diretamente alinhadas às demandas do setor.
-
-_b) Tamanho e Crescimento do Mercado_
 
 O rebanho bovino brasileiro encerrou 2024 com 238,2 milhões de cabeças, segundo a
 Pesquisa da Pecuária Municipal do IBGE — o segundo maior da série histórica iniciada
@@ -7299,10 +7806,6 @@ que registram movimentações de rebanho de forma estruturada e rastreável pass
 ter vantagem competitiva concreta no acesso a mercados premium — exatamente o
 problema que a solução desenvolvida para a BrPec endereça.
 
-
-
-_c) Tendências de Mercado (até 300 palavras)_
-
 Três tendências convergem para criar um momento favorável à adoção de soluções de gestão digital na pecuária de campo.
 
 **Tendência tecnológica: conectividade satelital e arquitetura offline-first**
@@ -7318,8 +7821,6 @@ O comportamento dos compradores internacionais de carne bovina mudou estruturalm
 O ecossistema de agtechs no Brasil cresceu de forma acelerada nos últimos anos, com o número de startups do setor expandindo mais de 30% entre 2020 e 2024 [52]. O segmento de gestão pecuária concentra parte crescente desse fluxo, com soluções voltadas a registro de rebanho, manejo sanitário e rastreabilidade ganhando tração junto a produtores de médio e grande porte. Esse crescimento eleva a pressão competitiva sobre fazendas que ainda operam com papel e amplia o mercado para ferramentas como a desenvolvida para a BrPec.
 
 ## 6.3 Análise da Concorrência
-
-_a) Principais Concorrentes (até 250 palavras)_
 
 O mercado de software para gestão pecuária no Brasil conta com soluções voltadas
 principalmente para fazendas com infraestrutura tecnológica já estabelecida.
@@ -7340,8 +7841,6 @@ gestão financeira complexa, apresenta curva de aprendizado mais longa [46].
 Nenhuma das soluções comerciais identificadas foi projetada para o modelo operacional
 de retiros geograficamente dispersos, com usuários de baixa escolaridade digital e
 conectividade dependente de janelas fixas de Starlink. 
-
-_b) Vantagens Competitivas da Aplicação Web (até 250 palavras)_
 
 A solução desenvolvida para a BrPec se diferencia dos concorrentes por um conjunto de
 características construídas especificamente para o contexto operacional da empresa.
@@ -7370,8 +7869,6 @@ concorrentes que penaliza operações de grande rebanho como a da BrPec.
 
 ## 6.4 Público-Alvo
 
-_a) Segmentação de Mercado (até 250 palavras)_
-
 O mercado-alvo da solução é composto por fazendas de pecuária de corte localizadas
 em regiões de baixa conectividade, com operações distribuídas em múltiplas unidades
 de campo, os retiros no contexto da Brpec. Esse segmento concentra características específicas que o diferenciam do mercado geral de
@@ -7395,10 +7892,6 @@ necessitam de visibilidade consolidada das operações de campo em tempo real, s
 depender de relatórios manuais ou planilhas desatualizadas. Ambos os segmentos
 compartilham a necessidade central de rastreabilidade operacional com baixa
 dependência de infraestrutura de rede.
-
-
-
-_b) Perfil do Público-Alvo (até 250 palavras)_
 
 O público-alvo da solução é composto por três perfis de usuários internos da BrPec,
 com características e contextos de uso distintos.
@@ -7428,7 +7921,6 @@ fluxos simples, linguagem visual direta, botões grandes e suporte a registros p
 
 ## 6.5 Posicionamento
 
-_a) Proposta de Valor Única (até 250 palavras)_
 A BrPec opera hoje com um fluxo de informações inteiramente manual: capatazes
 registram movimentações do rebanho em boletas de papel, que são recolhidas e
 redigitadas em planilhas Excel na sede pelo coordenador. Esse processo gera atrasos
@@ -7454,8 +7946,6 @@ de recolhimento e redigitação das boletas, as informações do rebanho — nas
 mortes, transferências — passam a estar disponíveis no painel assim que o retiro
 sincroniza. A tomada de decisão deixa de depender de dados defasados e passa a
 refletir a realidade operacional do dia.
-
-_b) Estratégia de Diferenciação (até 250 palavras)_
 
 A estratégia de diferenciação da solução se apoia em três eixos que os concorrentes
 de mercado não endereçam de forma combinada.
@@ -7490,9 +7980,7 @@ O Business Model Canvas abaixo sintetiza a estrutura de negócio da solução de
 | **Parcerias Principais** | BrPec Agropecuária S.A. (cliente âncora e validador em campo). Provedores de infraestrutura cloud (hospedagem e banco de dados). SpaceX/Starlink (conectividade dos retiros como infraestrutura de sincronização). MAPA, ABIEC e CNA para acompanhamento de exigências regulatórias. |
 | **Estrutura de Custos** | Desenvolvimento e manutenção de software (custo principal). Infraestrutura de servidores e banco de dados em nuvem. Equipe de implementação e suporte presencial em campo. Participação em feiras agropecuárias. Deslocamento para treinamento nas propriedades clientes. |
 
-## 6.6 Estratégia de Marketing
-
-_a) Produto/Serviço (até 200 palavras)_
+## 6.7 Estratégia de Marketing
 
 A solução é uma aplicação web progressiva (PWA) voltada à digitalização do
 gerenciamento de campo em fazendas de pecuária de corte. É composta por dois
@@ -7514,8 +8002,6 @@ aplicativos, simplificando a distribuição nos dispositivos da BrPec. O conjunt
 dessas características elimina a etapa de redigitação manual, reduz erros de
 registro na origem e amplia a rastreabilidade das movimentações do rebanho em
 tempo real.
-
-_b) Preço (até 200 palavras)_
 
 O modelo de precificação adotado é o SaaS (Software as a Service) com cobrança
 anual baseada no volume de cabeças ativas no rebanho. Esse modelo foi escolhido
@@ -7544,8 +8030,6 @@ usuários operacionais licenciados. Cobrar por cabeça ativa — e não por usu�
 por módulo — é o modelo mais transparente para o cliente rural, pois vincula
 diretamente o custo da ferramenta ao tamanho do negócio que ela suporta.
 
-_c) Praça (Distribuição) (até 200 palavras)_
-
 A estratégia de distribuição é B2B direta, sem intermediários. O produto é
 comercializado por meio de contato direto com a empresa e, com foco em propriedades que compartilham o perfil operacional da BrPec: múltiplos retiros, rebanho extenso e conectividade limitada.
 
@@ -7554,8 +8038,6 @@ de aplicativos, o que reduz barreiras de acesso em dispositivos com configuraç�
 restritas. A implementação é realizada de forma assistida: visita técnica à
 propriedade para configuração inicial, treinamento presencial dos capatazes e
 coordenadores e acompanhamento do primeiro ciclo completo de sincronização.
-
-_d) Promoção (até 200 palavras)_
 
 A estratégia de promoção é concentrada em canais com alta densidade do
 público-alvo e adequados ao ciclo de vendas B2B de ticket elevado.
@@ -7574,15 +8056,107 @@ Como estratégia de relacionamento, o programa de indicação entre clientes ati
 reduz o custo de aquisição e acelera a expansão para fazendas com perfil semelhante
 ao da BrPec, aproveitando a rede de confiança já estabelecida no setor.
 
-# <a name="c7"></a>7. Conclusões e trabalhos futuros (sprint 5)
+# <a name="c7"></a>7. Conclusões e trabalhos futuros
 
-_Escreva de que formas a solução da aplicação web atingiu os objetivos descritos na seção 2 deste documento. Indique pontos fortes e pontos a melhorar de maneira geral._
+## 7.1. O que foi entregue
 
-_Relacione os pontos de melhorias evidenciados nos testes com planos de ações para serem implementadas. O grupo não precisa implementá-las, pode deixar registrado aqui o plano para ações futuras_
+Ao longo de cinco sprints, foi desenvolvida uma aplicação web progressiva (PWA) offline-first destinada à digitalização da operação de campo da BrPec Agropecuária. O fluxo manual de boletas de papel e redigitação em planilhas foi substituído por uma interface móvel que opera sem conectividade contínua e sincroniza dados automaticamente nas janelas de acesso à rede disponíveis nos retiros.
 
-_Relacione também quaisquer outras ideias que o grupo tenha para melhorias futuras_
+A solução foi entregue com quatro perfis de uso funcionais — Capataz, Coordenador, Gerente e Infraestrutura — cada um com autenticação independente e fluxos adaptados às suas responsabilidades operacionais. As 12 User Stories (US01–US12), os 15 Requisitos Funcionais (RF001–RF015) e as 28 Regras de Negócio (RN01–RN28) foram implementados e rastreados na Matriz RTM da seção 3.9. Os oito eixos de qualidade da ISO/IEC 25010 (RNF:USAB, RNF:CONF, RNF:DES, RNF:SUP, RNF:SEG, RNF:CAP, RNF:REST e um eixo adicional de resiliência) foram endereçados ao longo das sprints e documentados na seção 3.1.3.
 
-# <a name="c8"></a>8. Referências (sprints 1 a 5)
+Os principais entregáveis funcionais incluem:
+
+- **Gestão de tarefas calendarizadas** (US01–US05, RF001–RF005): criação pelo Gerente, visualização e conclusão com evidências (foto, áudio, texto) pelo Capataz, com fila offline e sincronização automática via Service Worker + IndexedDB.
+- **Chamados de infraestrutura** (US06, RF006): abertura de alertas georreferenciados pelo Capataz, com coordenadas GPS imutáveis após registro e resolução pelo técnico de infraestrutura com foto de evidência.
+- **Dashboard gerencial** (US07, RF007): painel consolidado com status de tarefas por retiro, atualizado após cada sincronização.
+- **Registro zootécnico** (US08–US10, RF008–RF013): formulário de boleta digital cobrindo nascimentos, mortes, transferências, compras, vendas, evoluções e manejos, com foto obrigatória para mortes e georreferenciamento automático.
+- **Consulta e exportação de movimentações** (US11–US12, RF014–RF015): visualização filtrada por retiro e tipo pelo Coordenador, com exportação em CSV UTF-8 com BOM compatível com Excel (RFC 4180).
+- **Autenticação e autorização** (sprint 5): sessões JWT com access token e refresh token em cookie HttpOnly, controle de acesso por perfil em todos os endpoints protegidos.
+- **Sincronização em nuvem** (sprints 4–5): padrão Outbox via tabela `sincronizacoes`, agendador automático com fila de retry e limite de tentativas, integração com Supabase (PostgreSQL + Storage).
+
+---
+
+## 7.2. Principais desafios e como foram superados
+
+**Arquitetura offline-first em ambiente sem framework.** A principal exigência técnica do projeto — funcionamento sem internet com sincronização posterior — foi implementada sem bibliotecas de gestão de estado ou frameworks reativos. A solução combina Service Worker para interceptação de requisições, IndexedDB para persistência local no cliente e um endpoint `POST /api/sincronizacao/lote` no backend para processar a fila acumulada. O desafio de garantir determinismo nas janelas de reconexão foi resolvido com um loop de retry configurável no `sync.js` e um agendador no `cloudSyncService` com limite de tentativas e ordem topológica de envio para respeitar chaves estrangeiras do Supabase.
+
+**Compatibilidade do SQLite nativo com Node.js.** A adoção do módulo `node:sqlite` nativo exigiu Node.js ≥ 22.5 e atenção à API síncrona (`DatabaseSync`), que difere dos drivers assíncronos convencionais. O uso de banco em memória (`:memory:`) nos testes garantiu isolamento completo entre suítes e eliminou a necessidade de limpeza de estado entre execuções.
+
+**Separação de responsabilidades e legibilidade do código.** Na sprint 5, toda a lógica de negócio que havia sido implementada diretamente nos controllers foi migrada para serviços e repositórios dedicados. A refatoração envolveu extração de `authService`, `boletaService`, `refreshTokenRepository`, `usuarioRepository` e repositórios de dados, sem alterar contratos de API nem quebrar os testes existentes.
+
+**Gerenciamento de conflitos de merge em branch de documentação.** A branch de documentação da sprint 5 acumulou referências a arquivos que pertenciam a PRs pendentes na `developer` (caso de `transferenciaController.ts`), gerando erros de compilação TypeScript invisíveis no contexto da branch de origem. O processo de atualização de branches revelou a necessidade de uma política mais rigorosa de sincronização entre branches paralelas de feature e documentação.
+
+**Usabilidade em dispositivos de campo.** O design mobile-first com botões mínimos de 56px, contraste AAA (7:1) para uso sob luz solar e ícones do Material Symbols Rounded hospedados localmente foram validados na sprint 5. Os testes de guerrilha identificaram ausência de feedback de confirmação em ações críticas como ponto de melhoria prioritário — problema que não havia emergido nas revisões internas.
+
+---
+
+## 7.3. Resultados mensuráveis
+
+### Cobertura de requisitos
+
+| Dimensão | Total definido | Implementado |
+|---|---|---|
+| User Stories (US) | 12 | 12 |
+| Requisitos Funcionais (RF) | 15 | 15 |
+| Regras de Negócio (RN) | 28 | 28 |
+| Eixos ISO/IEC 25010 (RNF) | 8 | 8 |
+
+### Testes automatizados
+
+| Métrica | Resultado |
+|---|---|
+| Suites executadas | 26 |
+| Suites aprovadas | 26 (100%) |
+| Casos de teste | 209 |
+| Casos aprovados | 209 (100%) |
+| Cobertura global de statements | 45,2% |
+| Cobertura de statements — áreas críticas (auth, sync, eventos) | 55–89% |
+
+### Testes de usabilidade
+
+| Métrica | Resultado |
+|---|---|
+| Participantes — testes de guerrilha | 6 |
+| Sessões de teste | 22 |
+| Taxa de conclusão — fluxos do Coordenador | 100% |
+| Taxa de conclusão — fluxos do Gerente | 83% |
+| Taxa de conclusão — fluxos do Capataz | 52% |
+| Participantes — testes SUS | 7 |
+| Escore SUS médio | 77,5 — "Bom" (escala Bangor et al.) |
+
+### Critérios impeditivos de publicação
+
+| Critério | Status |
+|---|---|
+| Build (`tsc --noEmit`) | PASSOU |
+| Suite completa (`npm test`) | PASSOU — 26/26 suites, 209/209 testes |
+| Deploy | FALHOU — configuração de deploy não versionada; ausência de URL pública |
+
+---
+
+## 7.4. Limitações identificadas
+
+**Deploy em ambiente público.** O sistema opera exclusivamente em execução local (`npm start`). Não foi versionado artefato de deploy compatível com nenhuma plataforma de hospedagem (Render, Railway, Fly.io ou similar), e nenhuma URL de homologação foi publicada.
+
+**Cobertura de testes nos fluxos do Capataz.** A taxa de conclusão de 52% nos testes de guerrilha para os fluxos do Capataz — concentrada na Tarefa 2 (abertura de chamado) por um erro HTTP 400 no endpoint — evidencia que as suites automatizadas cobrem contratos HTTP mas não substituem a validação de ponta a ponta com usuários reais.
+
+**Feedback visual em ações críticas.** Os testes de guerrilha identificaram ausência de confirmação após conclusão de tarefa com sincronização (H1 — Visibilidade do status do sistema) como problema de severidade grave, afetando também a criação de tarefa calendarizada.
+
+**Cobertura de testes no `boletaService`.** O serviço de boletas — área central do produto — apresentou 3,8% de cobertura de statements ao final da sprint 5, sem testes dedicados para os fluxos de criação, atualização e listagem de boletas.
+
+**Sincronização bidirecional e resolução de conflitos.** A arquitetura atual implementa sincronização unidirecional (campo → nuvem via Outbox). Cenários de edição concorrente — dois capatazes registrando movimentações para o mesmo lote de animais em retiros diferentes sem conexão — não possuem mecanismo de detecção ou resolução de conflito.
+
+**Onboarding para usuários com baixa literacia digital.** O perfil de Capataz descrito nas personas inclui usuários com dificuldade com leitura e escrita formal. Os testes de guerrilha indicaram que a terminologia e a navegação foram mais acessíveis para participantes com experiência rural, mas o escore SUS de P2 (45,0) sinaliza que parte do público-alvo pode ter dificuldades com a curva de aprendizado.
+
+## 7.5. Planejamentos futuros
+
+Os achados dos testes de usabilidade documentados na seção 5.2, combinados com as limitações técnicas descritas na seção 7.4, apontam dois eixos de evolução para ciclos futuros: correções de interface identificadas nos testes e expansões funcionais que ampliam o escopo do produto.
+
+No eixo de interface, as correções de maior impacto envolvem a adição de feedback explícito nos fluxos do Capataz e do Gerente: exibição de toast ou snackbar de confirmação após a conclusão de tarefa com foto — endereçando a ausência de visibilidade do status de sincronização identificada pela heurística H1 — e confirmação visual após a criação de tarefa calendarizada, impedindo que o registro seja interpretado como falha de cadastro. Também deve ser corrigida a tela de configurações do Gerente, cujo botão de acesso deve ser reposicionado e renomeado. Em prioridade intermediária, destacam-se a alteração da cor do indicador de GPS para verde no formulário de chamado de infraestrutura, a melhoria da legibilidade na tela de revisão com remoção de hífens e aumento do tamanho do texto, e a criação de orientações contextuais — como tooltips em ações críticas — para reduzir a dependência de suporte técnico entre usuários com menor familiaridade digital, aspecto evidenciado pelas questões Q4 e Q7 do SUS. Em caráter cosmético, recomendam-se ainda bloquear a seleção do retiro de origem como destino no formulário de transferências, reordenar a listagem de categorias de animais por espécie antes da faixa etária, e habilitar ordenação por coluna na tabela de movimentações do Coordenador.
+
+No eixo de expansão funcional, quatro oportunidades foram identificadas para ciclos posteriores. A primeira é a criação de um módulo sanitário e veterinário, cobrindo o registro de vacinações, medicamentos e tratamentos por animal — dado atualmente não capturado pelo sistema e relevante para fazendas que operam sob exigências de rastreabilidade sanitária. A segunda é a implementação de notificações push, permitindo que Gerente e Coordenador recebam alertas em tempo real quando um chamado for aberto ou uma tarefa crítica for concluída, eliminando a dependência de verificação manual do painel. A terceira é a criação de alertas automáticos por threshold, como notificações disparadas quando a taxa de mortalidade de um retiro ultrapassa um limite configurável ou quando um chamado permanece aberto por mais de um número definido de dias sem resolução, apoiando a tomada de decisão proativa do Gerente. Por fim, a integração com balanças e brincos eletrônicos permitiria o registro automático de peso individual durante manejos de campo, eliminando digitação manual e reduzindo erros de transcrição — caminho já adotado por concorrentes como o iRancho no mercado nacional.
+
+# <a name="c8"></a>8. Referências
 
 [1] ABIEC. **Brasil bate recorde nas exportações de carne bovina em 2025**. São Paulo: ABIEC, 2026. Disponível em: https://abiec.com.br/brasil-bate-recorde-nas-exportacoes-de-carne-bovina-em-2025/. Acesso em: 10 maio 2026.
 
@@ -7670,21 +8244,21 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 
 [43] W3C. **WCAG 2.1 — Success Criterion 1.4.6: Contrast (Enhanced)**. Disponível em: https://www.w3.org/TR/WCAG21/#contrast-enhanced. Acesso em: 15 maio 2026.
 
-[44] IRANCHO. iRancho: sistema de gestão pecuária. [S.l.]: iRancho, [2026]. Disponível em: https://www.irancho.com.br/perguntas-frequentes/. Acesso em: jun. 2026.
+[44] IRANCHO. **iRancho: sistema de gestão pecuária**. [S.l.]: iRancho, [2026]. Disponível em: https://www.irancho.com.br/perguntas-frequentes/. Acesso em: jun. 2026.
 
-[45] JETBOV. JetBov: gestão de pastagem e desempenho animal. [S.l.]: JetBov, [2026]. Disponível em: https://play.google.com/store/apps/details?id=com.ionicframework.jetbovapp459755. Acesso em: jun. 2026.
+[45] JETBOV. **JetBov: gestão de pastagem e desempenho animal**. [S.l.]: JetBov, [2026]. Disponível em: https://play.google.com/store/apps/details?id=com.ionicframework.jetbovapp459755. Acesso em: jun. 2026.
 
-[46] AEGRO. Aegro: plataforma de gestão rural. [S.l.]: Aegro, [2026]. Disponível em: https://aegro.com.br/. Acesso em: jun. 2026.
+[46] AEGRO. **Aegro: plataforma de gestão rural**. [S.l.]: Aegro, [2026]. Disponível em: https://aegro.com.br/. Acesso em: jun. 2026.
 
-[47] IBGE. Censo Agropecuário 2017: resultados definitivos — Mato Grosso do Sul. Rio de Janeiro: IBGE, 2019. Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/21814-2017-censo-agropecuario.html. Acesso em: jun. 2026.
+[47] IBGE. **Censo Agropecuário 2017: resultados definitivos — Mato Grosso do Sul**. Rio de Janeiro: IBGE, 2019. Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/21814-2017-censo-agropecuario.html. Acesso em: jun. 2026.
 
-[48] EMBRAPA PANTANAL. Panorama socioeconômico do Pantanal. Corumbá: Embrapa Pantanal, 2020. Disponível em: https://www.embrapa.br/pantanal. Acesso em: jun. 2026.
+[48] EMBRAPA PANTANAL. **Panorama socioeconômico do Pantanal**. Corumbá: Embrapa Pantanal, 2020. Disponível em: https://www.embrapa.br/pantanal. Acesso em: jun. 2026.
 
-[49] IBGE. Censo Agropecuário 2017: acesso à internet e educação nos estabelecimentos agropecuários — resultados definitivos. Rio de Janeiro: IBGE, 2019. Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/21814-2017-censo-agropecuario.html. Acesso em: jun. 2026.
+[49] IBGE. **Censo Agropecuário 2017: acesso à internet e educação nos estabelecimentos agropecuários — resultados definitivos**. Rio de Janeiro: IBGE, 2019. Disponível em: https://www.ibge.gov.br/estatisticas/economicas/agricultura-e-pecuaria/21814-2017-censo-agropecuario.html. Acesso em: jun. 2026.
 
-[50] IBGE. Pesquisa Nacional por Amostra de Domicílios Contínua — Educação 2022. Rio de Janeiro: IBGE, 2023. Disponível em: https://www.ibge.gov.br/estatisticas/sociais/educacao/17270-pnad-continua.html. Acesso em: jun. 2026.
+[50] IBGE. **Pesquisa Nacional por Amostra de Domicílios Contínua — Educação 2022**. Rio de Janeiro: IBGE, 2023. Disponível em: https://www.ibge.gov.br/estatisticas/sociais/educacao/17270-pnad-continua.html. Acesso em: jun. 2026.
 
-[51] ANATEL. Serviço de Comunicação Multimídia (SCM): acessos por tecnologia de acesso. Brasília: Anatel, 2024. Disponível em: https://informacoes.anatel.gov.br/paineis/acesso-a-internet-banda-larga. Acesso em: jun. 2026.
+[51] ANATEL. **Serviço de Comunicação Multimídia (SCM): acessos por tecnologia de acesso**. Brasília: Anatel, 2024. Disponível em: https://informacoes.anatel.gov.br/paineis/acesso-a-internet-banda-larga. Acesso em: jun. 2026.
 
 [52] DISTRITO. **Agtech Report Brasil 2024**. São Paulo: Distrito, 2024. Disponível em: https://distrito.me/agtech-report/. Acesso em: 10 maio 2026.
 
@@ -7692,15 +8266,13 @@ _Relacione também quaisquer outras ideias que o grupo tenha para melhorias futu
 
 [54] NIELSEN, Jakob. **Why You Only Need to Test with 5 Users**. Nielsen Norman Group, 19 mar. 2000. Disponível em: https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/. Acesso em: 10 maio 2026.
 
-[55] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO 9241-11:2018: Ergonomics of human-system interaction — Part 11: Usability: Definitions and concepts. Genebra: ISO, 2018.
+[55] INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. **ISO 9241-11:2018: Ergonomics of human-system interaction — Part 11: Usability: Definitions and concepts**. Genebra: ISO, 2018.
 
-[56] BROOKE, John. SUS: A 'Quick and Dirty' Usability Scale. In: JORDAN, P. W. et al. (eds.). Usability Evaluation in Industry. London: Taylor & Francis, 1996. p. 189–194.
+[56] BROOKE, John. SUS: A 'Quick and Dirty' Usability Scale. In: JORDAN, P. W. et al. (eds.). **Usability Evaluation in Industry**. London: Taylor & Francis, 1996. p. 189–194.
 
-[57] BANGOR, Aaron; KORTUM, Philip; MILLER, James. Determining What Individual SUS Scores Mean: Adding an Adjective Rating Scale. Journal of Usability Studies, v. 4, n. 3, p. 114–123, 2009.
+[57] BANGOR, Aaron; KORTUM, Philip; MILLER, James. Determining What Individual SUS Scores Mean: Adding an Adjective Rating Scale. **Journal of Usability Studies**, v. 4, n. 3, p. 114–123, 2009.
 
 # <a name="c9"></a>Anexos
-
-_Inclua aqui quaisquer complementos para seu projeto, como diagramas, imagens, tabelas etc. Organize em sub-tópicos utilizando headings menores (use ## ou ### para isso)_
 
 ## Anexo A: Relatório de Revisão e Conformidade: Modelagem de Banco e Diagramas UML
 

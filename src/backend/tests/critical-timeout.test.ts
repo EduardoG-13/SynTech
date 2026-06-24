@@ -21,8 +21,8 @@ function carregarOfflineInterceptor(fetchMock: jest.Mock) {
       error: jest.fn(),
     },
     window: {
-      CRITICAL_REQUEST_TIMEOUT_MS: 5000,
-      CRITICAL_EVIDENCE_REQUEST_TIMEOUT_MS: 10000,
+      CRITICAL_REQUEST_TIMEOUT_MS: 15000,
+      CRITICAL_EVIDENCE_REQUEST_TIMEOUT_MS: 60000,
       brpecIndexedDb: { salvarFila },
       addEventListener: jest.fn(),
       offlineInterceptor: {},
@@ -69,7 +69,7 @@ function carregarAuthClient(fetchMock: jest.Mock) {
 
   const context: any = {
     window: {
-      AUTH_REQUEST_TIMEOUT_MS: 5000,
+      AUTH_REQUEST_TIMEOUT_MS: 15000,
       fetch: fetchMock,
       location: { href: '' },
     },

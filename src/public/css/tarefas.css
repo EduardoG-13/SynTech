@@ -289,6 +289,23 @@
 }
 
 @media (max-width: 480px) {
+  .tarefa-card .body {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .tarefa-card .status-area {
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .tarefa-card .status-area .badge {
+    max-width: calc(100vw - 7rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
   /* Esconde descrição em telas muito pequenas pra economizar espaço */
   .tarefa-card .descricao {

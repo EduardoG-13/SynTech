@@ -181,18 +181,20 @@
 
 /* Botão remover linha */
 .btn-remover {
-  background: #FCE8E8;
-  border: none;
+  background: #FFF;
+  border: 2px solid #D32F2F;
   border-radius: 8px;
+  color: #D32F2F;
   padding: 0.5rem 0.6rem;
   cursor: pointer;
   font-size: 1rem;
+  font-weight: 800;
   flex-shrink: 0;
   min-height: auto;
 }
 
 .btn-remover:hover {
-  background: #f8d0d0;
+  background: #FCE8E8;
 }
 
 /* Botão adicionar */
@@ -278,6 +280,42 @@
   font-weight: 500;
 }
 
+.detalhe-registro-card {
+  border-color: #D7DFD3;
+}
+
+.detalhe-registro-topo {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.detalhe-registro-status {
+  border: 1px solid #D7DFD3;
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+  white-space: nowrap;
+}
+
+.detalhe-registro-status.obrigatorio {
+  background: #E6F3EB;
+  border-color: #A8CDB7;
+  color: #1A4D2E;
+  font-weight: 800;
+}
+
+.detalhe-registro-ajuda {
+  background: #F5FAF7;
+  border-left: 4px solid #2E7D52;
+  border-radius: 8px;
+  color: #31573F;
+  font-size: 0.85rem;
+  font-weight: 650;
+  margin: 0.5rem 0 0.75rem;
+  padding: 0.55rem 0.7rem;
+}
+
 /* Gravação de áudio nas observações */
 .audio-rec {
   margin-top: 0.75rem;
@@ -323,6 +361,31 @@
   cursor: pointer;
   padding: 0;
   min-height: auto;
+}
+
+.transcricao-status {
+  border-radius: 8px;
+  color: #31573F;
+  font-size: 0.82rem;
+  font-weight: 650;
+  margin-top: 0.65rem;
+  padding: 0.55rem 0.7rem;
+}
+
+.transcricao-status[data-tipo="info"] {
+  background: #F5FAF7;
+  border-left: 4px solid #2E7D52;
+}
+
+.transcricao-status[data-tipo="ok"] {
+  background: #E6F3EB;
+  border-left: 4px solid #1A4D2E;
+}
+
+.transcricao-status[data-tipo="aviso"] {
+  background: #FFF4E6;
+  border-left: 4px solid #F28C28;
+  color: #5C4630;
 }
 
 /* Upload de foto */

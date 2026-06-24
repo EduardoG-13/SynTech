@@ -54,21 +54,31 @@
         </div>
         <% } %>
 
-        <div class="card-resolucao">
-          <label class="label-bold" for="descricao"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">edit</span> Descreva o problema <span class="req-star">*</span></label>
-          <p class="ajuda">Mínimo 10 caracteres. Seja claro sobre o que aconteceu.</p>
-          <textarea id="descricao" name="descricao" rows="4" placeholder="Ex: Bebedouro com vazamento no pasto 4, gado sem água..." minlength="10" required></textarea>
-        </div>
+        <div class="card-resolucao detalhamento-card">
+          <div class="detalhamento-topo">
+            <label class="label-bold" for="descricao"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">edit</span> Explique o problema</label>
+            <span class="detalhamento-badge">Texto ou &aacute;udio obrigat&oacute;rio</span>
+          </div>
+          <p id="detalhamento-ajuda" class="ajuda detalhamento-regra">Explique para a Infra o que aconteceu. Voc&ecirc; pode escrever, gravar um &aacute;udio, ou fazer os dois.</p>
 
-        <div class="card-resolucao">
-          <label class="label-bold"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">mic</span> Áudio <span class="opcional-txt">(opcional)</span></label>
-          <p class="ajuda">Grave detalhes em áudio se preferir não digitar.</p>
-          <button type="button" class="btn-audio" id="btn-gravar-audio">
-            <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">mic</span>
-            <span id="audio-btn-txt">Gravar áudio</span>
-          </button>
-          <audio id="audio-preview" controls style="display:none; width:100%; margin-top:0.5rem;"></audio>
-          <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;"><span class="material-symbols-rounded ui-icon" aria-hidden="true">delete</span> Apagar áudio</button>
+          <textarea id="descricao" name="descricao" rows="4" placeholder="Ex: Bebedouro com vazamento no pasto 4, gado sem &aacute;gua..." minlength="10" aria-describedby="detalhamento-ajuda"></textarea>
+
+          <div class="detalhamento-audio">
+            <div class="detalhamento-divisor"><span>ou grave um &aacute;udio</span></div>
+            <div class="detalhamento-audio-linha">
+              <div class="detalhamento-audio-texto">
+                <strong>Prefere falar?</strong>
+                <span>Grave uma explica&ccedil;&atilde;o r&aacute;pida para a equipe de Infra.</span>
+              </div>
+              <button type="button" class="btn-audio" id="btn-gravar-audio">
+                <span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">mic</span>
+                <span id="audio-btn-txt">Gravar &aacute;udio</span>
+              </button>
+            </div>
+            <audio id="audio-preview" controls style="display:none; width:100%; margin-top:0.5rem;"></audio>
+            <button type="button" class="btn-audio-remover" id="btn-remover-audio" style="display:none;"><span class="material-symbols-rounded ui-icon" aria-hidden="true">delete</span> Apagar &aacute;udio</button>
+            <p class="transcricao-status" id="transcricao-status-chamado" style="display:none;"></p>
+          </div>
         </div>
 
         <div class="card-resolucao">
@@ -110,6 +120,7 @@
 </div>
 
 <script src="/public/js/chamados.js"></script>
+<script src="/public/js/audio-transcricao-local.js"></script>
 <script>
   // Grid de cards do tipo de problema → preenche input hidden #tipo-ocorrencia
   (function() {
@@ -142,6 +153,10 @@
     var mediaRecorder = null, audioChunks = [], audioBase64 = '', gravando = false;
     var btnA = document.getElementById('btn-gravar-audio');
     var btnR = document.getElementById('btn-remover-audio');
+    var transcritor = window.brpecTranscricaoLocal && window.brpecTranscricaoLocal.criar({
+      textarea: document.getElementById('descricao'),
+      status: document.getElementById('transcricao-status-chamado')
+    });
     btnA.addEventListener('click', function() {
       if (!gravando) {
         navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
@@ -161,12 +176,14 @@
             stream.getTracks().forEach(function(t) { t.stop(); });
           };
           mediaRecorder.start();
+          if (transcritor) transcritor.iniciar();
           gravando = true;
           document.getElementById('audio-btn-txt').textContent = 'Parar gravação';
           btnA.classList.add('gravando');
         }).catch(function() { alert(' Permissão de microfone negada.'); });
       } else {
         if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+        if (transcritor) transcritor.parar();
         gravando = false;
         document.getElementById('audio-btn-txt').textContent = 'Gravar novamente';
         btnA.classList.remove('gravando');
@@ -177,6 +194,7 @@
       var p = document.getElementById('audio-preview');
       p.src = ''; p.style.display = 'none';
       btnR.style.display = 'none';
+      if (transcritor) transcritor.limparStatus();
     });
 
     // Expor para o novo-chamado-handler poder pegar (compatibilidade)
