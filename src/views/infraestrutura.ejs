@@ -67,7 +67,11 @@
     var RETIRO = '<%= retiro %>';
     var cont = document.getElementById('chamados-lista');
     var todosChamados = [];
-    var filtroAtivo = '';
+    var filtroAtivo = 'ABERTO';
+    
+    // Define o filtro ABERTO visualmente ao carregar
+    var btnAberto = document.querySelector('.chamado-status-card[data-filtro="ABERTO"]');
+    if (btnAberto) btnAberto.style.outline = '3px solid #1A4D2E';
 
     // Cards de contagem clicáveis como filtro
     document.querySelectorAll('.chamado-status-card[data-filtro]').forEach(function(card) {
@@ -89,8 +93,36 @@
       .then(function(r) { return r.json(); })
       .then(function(data) {
         todosChamados = (data && data.chamados) || [];
-        atualizarContadores(todosChamados);
-        renderizar(todosChamados);
+        
+        // Atualização Otimista Offline
+        if (window.brpecIndexedDb) {
+          window.brpecIndexedDb.listarFila().then(function(fila) {
+            fila.forEach(function(item) {
+              if (item.status === 'SINCRONIZADO') return;
+              
+              if (item.tipo === 'iniciar_chamado') {
+                var urlParts = item.dados.url.split('/');
+                var id = urlParts[3]; // /api/chamados/ID/iniciar
+                var c = todosChamados.find(function(ch) { return ch.id === id; });
+                if (c && c.status === 'ABERTO') c.status = 'EM_ANDAMENTO';
+              }
+              else if (item.tipo === 'resolucao_chamado') {
+                var urlParts = item.dados.url.split('/');
+                var id = urlParts[3]; // /api/chamados/ID/resolver
+                var c = todosChamados.find(function(ch) { return ch.id === id; });
+                if (c && c.status !== 'RESOLVIDO') c.status = 'RESOLVIDO';
+              }
+            });
+            atualizarContadores(todosChamados);
+            renderizar(todosChamados);
+          }).catch(function() {
+            atualizarContadores(todosChamados);
+            renderizar(todosChamados);
+          });
+        } else {
+          atualizarContadores(todosChamados);
+          renderizar(todosChamados);
+        }
       })
       .catch(function() {
         cont.innerHTML = '<p style="color:#D32F2F; text-align:center;">Erro ao carregar chamados.</p>';
@@ -153,29 +185,59 @@
     window.iniciarChamado = function(id, btn) {
       btn.disabled = true;
       btn.textContent = 'Iniciando...';
-      fetch('/api/chamados/' + id + '/iniciar', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'same-origin'
-      })
-      .then(function(r) { return r.json(); })
-      .then(function(res) {
-        if (res.status === 'EM_ANDAMENTO') {
+      
+      if (window.fazerRequisicaoComOffline) {
+        window.fazerRequisicaoComOffline('/api/chamados/' + id + '/iniciar', {
+          metodo: 'PATCH',
+          dados: {},
+          tipo: 'iniciar_chamado'
+        })
+        .then(function(res) {
+          if (!res.sucesso && !res.offline) {
+             alert(res.mensagem || 'Erro ao iniciar chamado.');
+             btn.disabled = false;
+             btn.textContent = 'Começar';
+             return;
+          }
+          // Sucesso (online) ou salvo na fila (offline)
           var c = todosChamados.find(function(ch) { return ch.id === id; });
           if (c) c.status = 'EM_ANDAMENTO';
           atualizarContadores(todosChamados);
           renderizar(todosChamados);
-        } else {
-          alert(res.erro || 'Erro ao iniciar chamado.');
+          window.location.href = '/chamado/' + id + '/resolver';
+        })
+        .catch(function(e) {
+          alert('Erro ao iniciar. Tente novamente.');
           btn.disabled = false;
           btn.textContent = 'Começar';
-        }
-      })
-      .catch(function() {
-        alert('Erro de rede.');
-        btn.disabled = false;
-        btn.textContent = 'Começar';
-      });
+        });
+      } else {
+        // Fallback legado caso o script offline não tenha carregado
+        fetch('/api/chamados/' + id + '/iniciar', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin'
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          if (res.status === 'EM_ANDAMENTO') {
+            var c = todosChamados.find(function(ch) { return ch.id === id; });
+            if (c) c.status = 'EM_ANDAMENTO';
+            atualizarContadores(todosChamados);
+            renderizar(todosChamados);
+            window.location.href = '/chamado/' + id + '/resolver';
+          } else {
+            alert(res.erro || 'Erro ao iniciar chamado.');
+            btn.disabled = false;
+            btn.textContent = 'Começar';
+          }
+        })
+        .catch(function() {
+          alert('Erro de rede.');
+          btn.disabled = false;
+          btn.textContent = 'Começar';
+        });
+      }
     };
   })();
 </script>
