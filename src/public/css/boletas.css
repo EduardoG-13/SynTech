@@ -202,9 +202,10 @@
 
 @media (max-width: 480px) {
   .btn-aprovar {
-    width: 100%;
+    white-space: nowrap;
     justify-content: center;
-    min-height: 44px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
   }
 }
 

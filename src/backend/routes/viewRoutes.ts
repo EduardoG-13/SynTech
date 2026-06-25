@@ -129,13 +129,7 @@ export class ViewRoutes {
       res.render('boletas', { perfil: sess.perfil, retiro: sess.retiro_id || 'Geral', nome: sess.nome || '' });
     });
 
-    // Nova boleta zootécnica (US05/RF007)
-    this.router.get('/nova-boleta', (req: Request, res: Response) => {
-      const sess = (req.session as any)?.usuario;
-      const perfil = sess?.perfil || req.query.perfil || 'Capataz';
-      const retiro = sess?.retiro_id || req.query.retiro || 'Geral';
-      res.render('nova-boleta', { perfil, retiro });
-    });
+
   }
 }
 

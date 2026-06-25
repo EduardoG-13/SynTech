@@ -17,7 +17,7 @@
 
         <main class="detalhe-main">
 
-          <button class="btn-voltar" onclick="window.location.href = (typeof PERFIL !== 'undefined' && PERFIL === 'Coordenador') ? '/boletas' : '/historico'"><span class="material-symbols-rounded ui-icon back-ico" aria-hidden="true">arrow_back</span> Voltar</button>
+          <button class="btn-voltar" onclick="window.location.href = (typeof PERFIL !== 'undefined' && PERFIL === 'Coordenador') ? '/boletas' : ((typeof PERFIL !== 'undefined' && PERFIL === 'Capataz') ? '/tarefas' : '/historico')"><span class="material-symbols-rounded ui-icon back-ico" aria-hidden="true">arrow_back</span> Voltar</button>
 
           <!-- Cabeçalho: tipo + status -->
           <div class="card detalhe-cabecalho">
@@ -260,7 +260,7 @@
           }
           mostrarMsg(' Boleta excluída. Redirecionando...', 'sucesso');
           setTimeout(function () {
-            window.location.href = (PERFIL === 'Coordenador') ? '/boletas' : '/historico';
+            window.location.href = (PERFIL === 'Coordenador') ? '/boletas' : ((PERFIL === 'Capataz') ? '/tarefas' : '/historico');
           }, 1200);
         })
         .catch(function () {

@@ -33,7 +33,7 @@ class TarefaController {
 
   async buscarTarefasHoje(req, res, next) {
     try {
-      const capataz_id = req.query.capataz_id || req.body.capataz_id;
+      const capataz_id = req.query.capataz_id || req.body.capataz_id || req.session?.usuario?.id;
 
       if (!capataz_id) {
         throw new AppError(400, 'capataz_id obrigatório');
@@ -41,6 +41,22 @@ class TarefaController {
 
       const tarefas = await tarefaService.buscarTarefasHoje(capataz_id);
       return res.status(200).json({ tarefas, modo: 'online' });
+    } catch (erro) {
+      next(erro);
+    }
+  }
+
+  async listarTarefas(req, res, next) {
+    try {
+      const capataz_id = req.query.capataz_id || req.session?.usuario?.id;
+      const status = req.query.status as string | undefined;
+
+      if (!capataz_id) {
+        throw new AppError(400, 'capataz_id obrigatório');
+      }
+
+      const tarefas = await tarefaService.listarTarefas(capataz_id, status);
+      return res.status(200).json({ tarefas });
     } catch (erro) {
       next(erro);
     }

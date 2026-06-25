@@ -285,6 +285,28 @@ export function listarMinhas(req: Request, res: Response) {
   for (const r of rows) {
     const key = r.grupo_id || r.id;
     if (!grupos[key]) {
+      let divergente = false;
+      if (r.tipo_operacao === 'transferencia' && r.retiro_origem_id && r.retiro_destino_id) {
+        const dataRef = r.data || (r.criado_em || '').slice(0, 10);
+        const correlatos = db.prepare(`
+          SELECT tipo_negocio, quantidade
+          FROM movimentacoes
+          WHERE tipo_operacao = 'transferencia'
+            AND retiro_origem_id = ? AND retiro_destino_id = ?
+            AND (data = ? OR date(criado_em) = ?)
+        `).all(r.retiro_origem_id, r.retiro_destino_id, dataRef, dataRef) as any[];
+
+        let envio = 0, recebimento = 0;
+        for (const c of correlatos) {
+          if (c.tipo_negocio === 'recebimento') recebimento += (Number(c.quantidade) || 0);
+          else envio += (Number(c.quantidade) || 0);
+        }
+        
+        if (envio > 0 && recebimento > 0 && envio !== recebimento) {
+          divergente = true;
+        }
+      }
+
       grupos[key] = {
         id: key, // grupo_id é o ID da boleta no front
         numero_boleta: r.numero_boleta || null,
@@ -310,6 +332,7 @@ export function listarMinhas(req: Request, res: Response) {
         titulo: r.titulo,
         criadoEm: r.criado_em,
         aprovada: !!r.aprovado_por_coordenador_id,
+        bloqueada: divergente,
         animais: [],
       };
     }
