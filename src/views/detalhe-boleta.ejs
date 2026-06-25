@@ -17,7 +17,7 @@
 
         <main class="detalhe-main">
 
-          <button class="btn-voltar" onclick="window.history.back()"><span class="material-symbols-rounded ui-icon back-ico" aria-hidden="true">arrow_back</span> Voltar</button>
+          <button class="btn-voltar" onclick="window.location.href = (typeof PERFIL !== 'undefined' && PERFIL === 'Coordenador') ? '/boletas' : '/historico'"><span class="material-symbols-rounded ui-icon back-ico" aria-hidden="true">arrow_back</span> Voltar</button>
 
           <!-- Cabeçalho: tipo + status -->
           <div class="card detalhe-cabecalho">
@@ -27,6 +27,12 @@
                 style="display:none; font-size:0.8rem; font-weight:700; color:#5C6B5D; letter-spacing:0.04em;"></span>
             </div>
             <span class="badge pendente" id="bol-status">Carregando</span>
+          </div>
+
+          <!-- Alerta de Divergência -->
+          <div class="card detalhe-bloco" id="bloco-divergencia" style="display:none; border-left:4px solid #D32F2F; background-color: #FFF6F6; margin-bottom: 1rem;">
+            <h3 style="color: #D32F2F; margin-bottom: 0.5rem;"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true" style="color: #D32F2F;">error</span> Divergência na Transferência</h3>
+            <p id="bol-divergencia-texto" style="color: #1B1B1B; font-weight: 500;">—</p>
           </div>
 
           <!-- ============ DADOS DA REQUISIÇÃO ============ -->
@@ -307,6 +313,14 @@
       if (el) el.textContent = (valor === null || valor === undefined || valor === '') ? '—' : valor;
     }
 
+    function formatarDataBR(d) {
+      if (!d) return '';
+      if (d.includes('/')) return d;
+      var partes = d.split('-');
+      if (partes.length !== 3) return d;
+      return partes[2] + '/' + partes[1] + '/' + partes[0];
+    }
+
     function renderBoleta(reg) {
       var meta = TIPOS_META[reg.operacao] || { ico: 'tarefas', label: reg.operacao || 'Boleta' };
 
@@ -339,7 +353,7 @@
 
       // Dados gerais (sempre usar NOME, nunca o id)
       setText('bol-retiro', reg.retiro_nome || reg.retiro_origem_nome);
-      setText('bol-data', reg.data);
+      setText('bol-data', formatarDataBR(reg.data));
       setText('bol-pasto', reg.pasto);
       setText('bol-capataz', reg.capataz_nome);
 
@@ -458,6 +472,15 @@
       }
       setText('bol-sync', reg.sincronizado ? 'Enviado para a nuvem' : 'Pendente de envio');
 
+      // Exibir alerta de divergência
+      var blocoDivergencia = document.getElementById('bloco-divergencia');
+      if (reg.divergente) {
+        blocoDivergencia.style.display = 'block';
+        document.getElementById('bol-divergencia-texto').textContent = reg.divergencia_detalhes;
+      } else {
+        blocoDivergencia.style.display = 'none';
+      }
+
       // Ajusta botão Validar conforme estado
       var btnValidar = document.getElementById('btn-validar');
       if (btnValidar) {
@@ -466,11 +489,18 @@
           btnValidar.textContent = ' Boleta já aprovada';
           btnValidar.style.opacity = '0.6';
           btnValidar.style.cursor = 'not-allowed';
+        } else if (reg.divergente) {
+          btnValidar.disabled = true;
+          btnValidar.innerHTML = '<span class="material-symbols-rounded ui-icon" aria-hidden="true">error</span> Ajuste as divergências';
+          btnValidar.style.opacity = '0.6';
+          btnValidar.style.cursor = 'not-allowed';
+          btnValidar.style.backgroundColor = '#D32F2F';
         } else {
           btnValidar.disabled = false;
-          btnValidar.textContent = ' Validar e aprovar';
+          btnValidar.innerHTML = '<span class="material-symbols-rounded ui-icon" aria-hidden="true">check_circle</span> Validar e aprovar';
           btnValidar.style.opacity = '';
           btnValidar.style.cursor = '';
+          btnValidar.style.backgroundColor = '';
         }
       }
     }

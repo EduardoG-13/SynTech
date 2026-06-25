@@ -34,16 +34,18 @@ export class ViewRoutes {
     });
     // Listagem de tarefas principal
     this.router.get('/tarefas', (req: Request, res: Response) => {
-      const perfil = req.query.perfil || 'Capataz';
-      const retiro = req.query.retiro || 'Geral';
+      const sess = (req.session as any)?.usuario;
+      const perfil = sess?.perfil || req.query.perfil || 'Capataz';
+      const retiro = sess?.retiro_id || req.query.retiro || 'Geral';
       res.render('tarefas', { perfil, retiro });
     });
 
     // Dashboard (US07)
     this.router.get('/dashboard', (req: Request, res: Response) => {
-      const perfil = req.query.perfil || 'Gerente';
-      const retiro = req.query.retiro || 'Geral';
-      const usuario_id = (req.session as any)?.usuario?.id ?? null;
+      const sess = (req.session as any)?.usuario;
+      const perfil = sess?.perfil || req.query.perfil || 'Gerente';
+      const retiro = sess?.retiro_id || req.query.retiro || 'Geral';
+      const usuario_id = sess?.id ?? null;
       res.render('dashboard', { title: 'BRPec | Dashboard', perfil, retiro, usuario_id });
     });
 
@@ -66,22 +68,25 @@ export class ViewRoutes {
 
     // Detalhe da tarefa (US02)
     this.router.get('/tarefa/:id', (req: Request, res: Response) => {
-      const perfil = req.query.perfil || 'Capataz';
-      const retiro = req.query.retiro || 'Geral';
+      const sess = (req.session as any)?.usuario;
+      const perfil = sess?.perfil || req.query.perfil || 'Capataz';
+      const retiro = sess?.retiro_id || req.query.retiro || 'Geral';
       res.render('tarefa-detalhe', { perfil, retiro, tarefaId: req.params.id });
     });
 
     // Concluir tarefa (US03/US04/US05)
     this.router.get('/tarefa/:id/concluir', (req: Request, res: Response) => {
-      const perfil = req.query.perfil || 'Capataz';
-      const retiro = req.query.retiro || 'Geral';
+      const sess = (req.session as any)?.usuario;
+      const perfil = sess?.perfil || req.query.perfil || 'Capataz';
+      const retiro = sess?.retiro_id || req.query.retiro || 'Geral';
       res.render('tarefa-concluir', { perfil, retiro, tarefaId: req.params.id });
     });
 
     // Nova Ordem de Serviço (US01)
     this.router.get('/nova-os', (req: Request, res: Response) => {
-      const perfil = req.query.perfil || 'Gerente';
-      const retiro = req.query.retiro || 'Geral';
+      const sess = (req.session as any)?.usuario;
+      const perfil = sess?.perfil || req.query.perfil || 'Gerente';
+      const retiro = sess?.retiro_id || req.query.retiro || 'Geral';
       res.render('nova-os', { perfil, retiro });
     });
 
@@ -99,8 +104,9 @@ export class ViewRoutes {
 
     // Painel de Infraestrutura (US06/US07)
     this.router.get('/infraestrutura', (req: Request, res: Response) => {
-      const perfil = req.query.perfil || 'Infraestrutura';
-      const retiro = req.query.retiro || 'Geral';
+      const sess = (req.session as any)?.usuario;
+      const perfil = sess?.perfil || req.query.perfil || 'Infraestrutura';
+      const retiro = sess?.retiro_id || req.query.retiro || 'Geral';
       res.render('infraestrutura', { perfil, retiro });
     });
 
@@ -125,8 +131,9 @@ export class ViewRoutes {
 
     // Nova boleta zootécnica (US05/RF007)
     this.router.get('/nova-boleta', (req: Request, res: Response) => {
-      const perfil = req.query.perfil || 'Capataz';
-      const retiro = req.query.retiro || 'Geral';
+      const sess = (req.session as any)?.usuario;
+      const perfil = sess?.perfil || req.query.perfil || 'Capataz';
+      const retiro = sess?.retiro_id || req.query.retiro || 'Geral';
       res.render('nova-boleta', { perfil, retiro });
     });
   }

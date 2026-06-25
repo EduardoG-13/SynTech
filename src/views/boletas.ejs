@@ -153,6 +153,14 @@
       });
   }
 
+  function formatarDataBR(d) {
+    if (!d) return '';
+    if (d.includes('/')) return d;
+    var partes = d.split('-');
+    if (partes.length !== 3) return d;
+    return partes[2] + '/' + partes[1] + '/' + partes[0];
+  }
+
   function renderBoletas() {
     atualizarTotais();
     var cont = document.getElementById('boletas-lista');
@@ -192,7 +200,8 @@
     });
 
     cont.innerHTML = visiveis.map(function(b) {
-      var data = b.data || (b.criado_em || '').slice(0,10);
+      var dataOriginal = b.data || (b.criado_em || '').slice(0,10);
+      var dataFormatada = formatarDataBR(dataOriginal);
       var aprovada = !!b.aprovado_por_coordenador_id;
 
       var rotulo = ROT[b.tipo_operacao] || 'Registro';
@@ -204,14 +213,14 @@
       var badgeDivergencia = b._avisoDivergencia ? '<span style="background:#D32F2F; color:#fff; font-size:0.7rem; padding:2px 6px; border-radius:4px; font-weight:700; margin-left:0.5rem;" title="A quantidade enviada difere da recebida!">' + BRPIcons.html('alerta', 'ico-sm') + ' DIVERGÊNCIA</span>' : '';
 
       return '<div class="card boleta-card" style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem; padding:0.75rem 1rem;' + (b._avisoDivergencia ? ' border-left:4px solid #D32F2F;' : '') + '">' +
-        '<input type="checkbox" class="boleta-check" data-id="' + b.id + '" ' + (aprovada ? 'disabled' : '') + ' />' +
+        '<input type="checkbox" class="boleta-check" data-id="' + (b.grupo_id || b.id) + '" ' + (aprovada ? 'disabled' : '') + ' />' +
         '<div style="flex:1; cursor:pointer;" onclick="window.location.href=\'/boleta/' + (b.grupo_id || b.id) + '\'">' +
           '<span class="boleta-titulo" style="font-weight:600; color:#1A4D2E;">' + rotulo + ' — ' + (b.quantidade || 0) + ' cabeças' + badgeDivergencia + '</span>' +
-          '<span style="display:block; font-size:0.8rem; color:#8A8A7C;">' + (b.categoria ? ' ' + b.categoria + ' · ' : '') + ' ' + data + ' · ' + (b.retiro_nome || '') + ' · ' + (b.capataz_nome || '') + '</span>' +
+          '<span style="display:block; font-size:0.8rem; color:#8A8A7C;">' + (b.categoria ? ' ' + b.categoria + ' · ' : '') + ' ' + dataFormatada + ' · ' + (b.retiro_nome || '') + ' · ' + (b.capataz_nome || '') + '</span>' +
         '</div>' +
         (aprovada
           ? '<span class="badge concluida"> Aprovada</span>'
-          : '<button class="btn-aprovar" data-id="' + b.id + '">' + BRPIcons.html('concluido', 'label-ico') + ' Aprovar</button>') +
+          : '<button class="btn-aprovar" data-id="' + (b.grupo_id || b.id) + '">' + BRPIcons.html('concluido', 'label-ico') + ' Aprovar</button>') +
       '</div>';
     }).join('');
 

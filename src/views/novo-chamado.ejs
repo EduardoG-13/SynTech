@@ -36,11 +36,6 @@
               <span class="op-card-label">Cerca</span>
               <span class="op-card-sub">mourão, arame</span>
             </button>
-            <button type="button" class="op-card" data-tipo="outro">
-              <img class="op-card-ico" src="/public/Icons/alerta.ico" alt="" />
-              <span class="op-card-label">Outro</span>
-              <span class="op-card-sub">qualquer outro problema</span>
-            </button>
           </div>
           <input type="hidden" id="tipo-ocorrencia" name="tipo" required />
         </div>
@@ -83,7 +78,7 @@
 
         <div class="card-resolucao">
           <label class="label-bold"><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true">my_location</span> Localização GPS <span class="opcional-txt">(automático)</span></label>
-          <p id="gps-status" class="gps-status-text"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">my_location</span> Capturando localização...</p>
+          <p id="gps-status" class="gps-status-text" style="transition: all 0.3s ease;"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true" id="gps-status-ico">my_location</span> <span id="gps-status-txt">Capturando localização...</span></p>
           <input id="latitude" name="latitude" type="hidden" />
           <input id="longitude" name="longitude" type="hidden" />
           <input id="capataz_id" name="capataz_id" type="hidden" value="<%= typeof capataz_id !== 'undefined' ? capataz_id : '' %>" />

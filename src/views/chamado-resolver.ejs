@@ -46,7 +46,7 @@
       </div>
 
       <!-- Formulário de resolução -->
-      <form id="form-resolver-chamado" class="form-resolucao">
+      <form id="form-resolver-chamado" class="form-resolucao" style="display:none;">
         <input type="hidden" id="chamado-id" value="<%= typeof chamadoId !== 'undefined' ? chamadoId : '' %>" />
 
         <div class="card-resolucao detalhamento-card">
@@ -128,7 +128,15 @@
         cat.className = 'badge ' + (c.status === 'RESOLVIDO' ? 'concluida' : (c.status === 'EM_ANDAMENTO' ? 'andamento' : 'pendente'));
         document.getElementById('chamado-retiro').textContent = c.retiro_nome || c.retiro_id || '—';
         document.getElementById('chamado-capataz').textContent = c.capataz_nome || '—';
-        document.getElementById('chamado-data').textContent = (c.criado_em || '').slice(0, 16).replace('T', ' ');
+        
+        var dataBR = (c.criado_em || '').slice(0, 16).replace('T', ' ');
+        if (dataBR.includes('-')) {
+          var p = dataBR.split(' ');
+          var d = p[0].split('-');
+          dataBR = d[2] + '/' + d[1] + '/' + d[0] + (p[1] ? ' ' + p[1] : '');
+        }
+        document.getElementById('chamado-data').textContent = dataBR;
+        
         document.getElementById('chamado-descricao').textContent = c.descricao || '—';
         if (c.latitude && c.longitude) {
           document.getElementById('chamado-gps-box').style.display = 'block';
@@ -161,18 +169,29 @@
         // Se já resolvido, bloqueia edição e mostra a resolução existente
         if (c.status === 'RESOLVIDO') {
           bloquearEdicao(c);
+        } else {
+          document.getElementById('form-resolver-chamado').style.display = 'block';
         }
       });
   }
 
   function bloquearEdicao(c) {
-    document.getElementById('form-resolver-chamado').style.display = 'none';
+    var form = document.getElementById('form-resolver-chamado');
+    if (form) form.parentNode.removeChild(form);
+    
     var aviso = document.createElement('div');
     aviso.className = 'card-resolucao';
+    var dataRes = (c.resolvido_em || '').slice(0,16).replace('T',' ');
+    if (dataRes.includes('-')) {
+      var p = dataRes.split(' ');
+      var d = p[0].split('-');
+      dataRes = d[2] + '/' + d[1] + '/' + d[0] + (p[1] ? ' ' + p[1] : '');
+    }
+    
     aviso.innerHTML =
       '<h3 style="color:#1A4D2E; margin-bottom:0.5rem;"> Resolução já registrada</h3>' +
       '<div class="card-chamado-meta">' +
-        '<div><strong> Resolvido em:</strong> ' + ((c.resolvido_em || '').slice(0,16).replace('T',' ') || '—') + '</div>' +
+        '<div><strong> Resolvido em:</strong> ' + (dataRes || '—') + '</div>' +
         '<div><strong> Solução:</strong> ' + (c.solucao_resolucao || '—') + '</div>' +
       '</div>' +
       '<p style="margin-top:0.75rem; color:#8A8A7C; font-size:0.85rem;"> Não é possível alterar uma resolução já registrada.</p>';

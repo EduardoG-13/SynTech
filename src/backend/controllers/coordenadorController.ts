@@ -385,6 +385,7 @@ export function exportarBoletaPdf(req: Request, res: Response) {
   }
 
   const first = rows[0];
+
   const tipo = first.tipo_operacao as string;
   const rotulo = ROTULO_TIPO[tipo] || tipo?.toUpperCase() || 'BOLETA';
   const totalAnimais = rows.reduce((s, m) => s + (Number(m.quantidade) || 0), 0);

@@ -14,6 +14,7 @@ import authRoutes from './routes/authRoutes';
 import { autenticarJWT } from './middlewares/authMiddleware';
 import { requireLogin } from './middlewares/authView';
 import { auditoriaMiddleware } from './middlewares/auditoriaMiddleware';
+import { SqliteSessionStore } from './middlewares/SqliteSessionStore';
 
 const app = express();
 // Raiz do projeto (g03/) calculada a partir deste arquivo (src/backend/app.ts),
@@ -36,6 +37,7 @@ if (!sessionSecret && process.env.NODE_ENV === 'production') {
   throw new Error('SESSION_SECRET precisa ser definido em producao');
 }
 app.use(session({
+  store: new SqliteSessionStore(),
   secret: sessionSecret || 'brpec-syntech-dev',
   resave: false,
   saveUninitialized: false,
@@ -62,7 +64,8 @@ app.get('/selecionar-retiro', (_req, res) => {
 });
 
 app.get('/login-auth', (req, res) => {
-  const perfil = req.query.perfil || 'Coordenador';
+  const sess = (req.session as any)?.usuario;
+  const perfil = sess?.perfil || req.query.perfil || 'Coordenador';
   res.render('login-auth', { perfil });
 });
 
@@ -123,10 +126,9 @@ app.get('/sucesso', requireLogin(), (_req, res) => {
   res.render('sucesso', { perfil: u.perfil, retiro: u.retiro_id || 'Geral' });
 });
 
-app.get('/nova-boleta', (req, res) => {
-  const perfil = req.query.perfil || 'Capataz';
-  const retiro = req.query.retiro || 'Geral';
-  res.render('nova-boleta', { perfil, retiro });
+app.get('/nova-boleta', requireLogin(['Capataz', 'Gerente']), (_req, res) => {
+  const u = (res.locals as any).usuarioLogado;
+  res.render('nova-boleta', { perfil: u.perfil, retiro: u.retiro_id || 'Geral' });
 });
 
 // Rotas de autenticação

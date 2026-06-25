@@ -130,7 +130,15 @@
       badge.textContent = ' Concluída';
       badge.className = 'badge concluida';
       document.getElementById('bloco-concluida').style.display = 'block';
-      setText('t-concluida-em', (t.concluida_em || '').replace('T', ' ').slice(0, 16));
+      document.getElementById('btn-iniciar').style.display = 'none'; // bloqueio
+      
+      var dataRes = (t.concluida_em || '').replace('T', ' ').slice(0, 16);
+      if (dataRes.includes('-')) {
+        var p = dataRes.split(' ');
+        var d = p[0].split('-');
+        dataRes = d[2] + '/' + d[1] + '/' + d[0] + (p[1] ? ' ' + p[1] : '');
+      }
+      setText('t-concluida-em', dataRes);
     } else if (t.status === 'EM_ANDAMENTO') {
       badge.textContent = 'Em andamento';
       badge.className = 'badge andamento';
