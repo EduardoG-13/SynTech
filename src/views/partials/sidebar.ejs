@@ -6,7 +6,15 @@
 
 <aside id="sidebar">
   <div class="side-logo">
-    <a href="/" title="Ir para a página inicial" style="display:inline-block;">
+    <% 
+      var homeLink = '/';
+      if (typeof perfil !== 'undefined') {
+        if (perfil === 'Capataz') homeLink = '/tarefas';
+        else if (perfil === 'Coordenador' || perfil === 'Gerente') homeLink = '/dashboard';
+        else if (perfil === 'Infraestrutura') homeLink = '/infraestrutura';
+      }
+    %>
+    <a href="<%= homeLink %>" title="Ir para a página inicial" style="display:inline-block;">
       <img src="/public/syntech-branco.png" alt="Syntech — Ir para a Home" />
     </a>
   </div>
@@ -53,11 +61,11 @@
 
     <% } else { %>
       <!-- Menu padrão (Capataz) -->
+      <button data-rota="/tarefas" onclick="window.location.href='/tarefas'">
+        <span><span class="material-symbols-rounded ui-icon" aria-hidden="true">assignment</span></span> Tarefas
+      </button>
       <button data-rota="/nova-os" onclick="window.location.href='/nova-os'">
         <span><span class="material-symbols-rounded ui-icon" aria-hidden="true">add</span></span> Nova Boleta
-      </button>
-      <button data-rota="/historico" onclick="window.location.href='/historico?perfil=Capataz'">
-        <span><span class="material-symbols-rounded ui-icon" aria-hidden="true">history</span></span> Histórico
       </button>
       <button data-rota="/novo-chamado" onclick="window.location.href='/novo-chamado'">
         <span><span class="material-symbols-rounded ui-icon" aria-hidden="true">construction</span></span> Abrir Chamado

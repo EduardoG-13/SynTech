@@ -84,7 +84,7 @@
               <span class="material-symbols-rounded ui-icon upload-icon-img" aria-hidden="true">photo_camera</span>
               <span id="foto-txt"> Tirar foto ou escolher do celular</span>
             </label>
-            <input type="file" id="input-foto-resolucao" accept="image/*" style="display:none;" />
+            <input type="file" id="input-foto-resolucao" accept="image/*" capture="environment" style="display:none;" />
           </div>
           <img id="preview-foto-resolucao" src="" alt="" style="display:none; max-width:100%; border-radius:10px; margin-top:0.75rem;" />
         </div>
@@ -170,7 +170,30 @@
         if (c.status === 'RESOLVIDO') {
           bloquearEdicao(c);
         } else {
-          document.getElementById('form-resolver-chamado').style.display = 'block';
+          if (window.brpecIndexedDb) {
+            window.brpecIndexedDb.listarFila().then(function(fila) {
+              var resolvidoOffline = fila.find(function(item) {
+                return item.tipo === 'resolucao_chamado' && 
+                       item.dados && item.dados.url && 
+                       item.dados.url.indexOf(CHAMADO_ID) !== -1 &&
+                       item.status !== 'SINCRONIZADO';
+              });
+              if (resolvidoOffline) {
+                var payload = (resolvidoOffline.dados && resolvidoOffline.dados.dados) || {};
+                var cSimulado = {
+                  resolvido_em: resolvidoOffline.timestamp || new Date().toISOString(),
+                  solucao_resolucao: payload.solucao || 'Resolução salva offline. Aguardando sincronização.'
+                };
+                bloquearEdicao(cSimulado);
+              } else {
+                document.getElementById('form-resolver-chamado').style.display = 'block';
+              }
+            }).catch(function() {
+              document.getElementById('form-resolver-chamado').style.display = 'block';
+            });
+          } else {
+            document.getElementById('form-resolver-chamado').style.display = 'block';
+          }
         }
       });
   }

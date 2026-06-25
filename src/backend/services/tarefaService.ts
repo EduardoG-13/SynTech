@@ -28,6 +28,10 @@ class TarefaService {
     return await tarefaRepository.buscarTarefasHoje(capataz_id, hoje);
   }
 
+  async listarTarefas(capataz_id: string, status?: string) {
+    return await tarefaRepository.listarTarefas(capataz_id, status);
+  }
+
   async concluirTarefa(
     tarefa_id: string,
     capataz_id: string

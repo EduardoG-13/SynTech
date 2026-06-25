@@ -52,12 +52,38 @@ class TarefaRepository {
     data_hoje: string
   ): Promise<any[]> {
     const stmt = db.prepare(`
-      SELECT *
-      FROM tarefas
-      WHERE capataz_id = ?
-      AND DATE(data_execucao) = DATE(?)
+      SELECT t.*, r.nome as retiro_nome, u.nome as gerente_nome
+      FROM tarefas t
+      LEFT JOIN retiros r ON t.retiro_id = r.id
+      LEFT JOIN usuarios u ON t.gerente_id = u.id
+      WHERE t.capataz_id = ?
+      AND DATE(t.data_execucao) = DATE(?)
     `);
     return stmt.all(capataz_id, data_hoje) as any[];
+  }
+
+  async listarTarefas(
+    capataz_id: string,
+    status?: string
+  ): Promise<any[]> {
+    let query = `
+      SELECT t.*, r.nome as retiro_nome, u.nome as gerente_nome
+      FROM tarefas t
+      LEFT JOIN retiros r ON t.retiro_id = r.id
+      LEFT JOIN usuarios u ON t.gerente_id = u.id
+      WHERE t.capataz_id = ?
+    `;
+    const params = [capataz_id];
+    
+    if (status) {
+      query += ` AND t.status = ?`;
+      params.push(status);
+    }
+    
+    query += ` ORDER BY t.data_execucao DESC`;
+    
+    const stmt = db.prepare(query);
+    return stmt.all(...params) as any[];
   }
 
   async concluir(

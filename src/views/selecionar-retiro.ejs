@@ -12,12 +12,18 @@
   </div>
 
   <div class="content">
-    <div class="search-box">
-      <span><span class="material-symbols-rounded ui-icon ico-md" aria-hidden="true">search</span></span>
-      <input id="searchRetiro" aria-label="Buscar retiro" placeholder="Buscar retiro..." oninput="filtrarRetiros(this.value)" />
+    <div id="carregando-retiros" style="text-align:center; color:#1A4D2E; padding:40px 20px;">
+      <span class="material-symbols-rounded ui-icon" aria-hidden="true" style="font-size: 2.5rem; animation: pulse 1.5s infinite;">sync</span>
+      <p style="margin-top: 1rem; font-weight:600; font-size:1.1rem;">Verificando seu acesso...</p>
     </div>
 
-    <div id="lista-retiros">
+    <div id="conteudo-retiros" style="display:none;">
+      <div class="search-box">
+        <span><span class="material-symbols-rounded ui-icon ico-md" aria-hidden="true">search</span></span>
+        <input id="searchRetiro" aria-label="Buscar retiro" placeholder="Buscar retiro..." oninput="filtrarRetiros(this.value)" />
+      </div>
+
+      <div id="lista-retiros">
       <% retiros.forEach(function(r) {
            var nome = r.nome || '';
            var capataz = r.capataz || '';
@@ -42,6 +48,7 @@
     <div id="lista-vazia" class="lista-vazia" style="display:none; text-align:center; color:#8A8A7C; padding:20px;">
       Nenhum retiro encontrado.
     </div>
+    </div> <!-- /conteudo-retiros -->
   </div>
 </div>
 
@@ -82,12 +89,11 @@
   // Ao abrir a tela: se o aparelho já está vinculado a um retiro, entra direto.
   (function autoLoginDispositivo() {
     var token = getDeviceToken();
-    setSelecaoBloqueada(true);
     fetch('/api/auth/dispositivo/' + encodeURIComponent(token), { credentials: 'same-origin' })
       .then(function(r) { return r.json(); })
       .then(function(d) {
         if (!d || !d.vinculado) {
-          setSelecaoBloqueada(false);
+          mostrarLista();
           return;
         } // aparelho novo → mostra a lista de retiros
         // Faz login automático e vai direto pras tarefas
@@ -103,12 +109,17 @@
             if (window.authClient) window.authClient.setAccessToken(login.accessToken);
             window.location.href = '/tarefas';
           } else {
-            setSelecaoBloqueada(false);
+            mostrarLista();
           }
         });
       })
-      .catch(function() { setSelecaoBloqueada(false); /* offline ou sem vínculo: fica na tela de seleção */ });
+      .catch(function() { mostrarLista(); });
   })();
+
+  function mostrarLista() {
+    document.getElementById('carregando-retiros').style.display = 'none';
+    document.getElementById('conteudo-retiros').style.display = 'block';
+  }
 
   function selecionarRetiro(retiroId, nome) {
     if (selecaoBloqueada) return;

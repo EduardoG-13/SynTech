@@ -34,8 +34,7 @@ try {
 const PORT = process.env.PORT || 3000;
 
 process.on('uncaughtException', (err: any) => {
-  if (err.code === 'Z_DATA_ERROR') {
-    console.warn('[server] Ignorando erro de stream Z_DATA_ERROR causado pela conexão com a nuvem.');
+  if (err && err.code === 'Z_DATA_ERROR') {
     return;
   }
   console.error('[server] Erro não capturado:', err);

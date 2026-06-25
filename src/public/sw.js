@@ -1,5 +1,5 @@
 /* Service Worker BRPec — offline-first */
-const CACHE_NAME = 'brpec-v22';
+const CACHE_NAME = 'brpec-v23';
 
 // 1) Assets estáticos: cacheados imediatamente na instalação do SW
 const ASSETS_ESTATICOS = [
@@ -52,19 +52,23 @@ const ASSETS_ESTATICOS = [
 // 2) Rotas autenticadas: pré-cacheadas DEPOIS do login (cliente avisa via postMessage)
 // Por perfil — só baixa o que faz sentido pra quem está logado.
 const ROTAS_POR_PERFIL = {
-  Capataz:        ['/tarefas', '/nova-os', '/historico?perfil=Capataz', '/novo-chamado', '/sucesso',
+  Capataz:        ['/tarefas', '/nova-os', '/novo-chamado', '/sucesso',
                    '/api/dados/form-nova-os', '/api/boletas/minhas', '/api/historico/boletas?perfil_cache=Capataz',
-                   '/api/tarefas?status=ABERTA', '/api/tarefas?status=CONCLUIDA',
+                   '/api/tarefas',
                    '/api/historico/chamados?perfil_cache=Capataz', '/api/transferencias/pendentes'],
   Gerente:        ['/dashboard', '/configuracoes', '/infraestrutura', '/historico?perfil=Gerente',
+                   '/nova-os', '/novo-chamado', '/sucesso', '/api/dados/form-nova-os',
                    '/api/dashboard/resumo', '/api/dashboard/retiros',
                    '/api/admin/retiros', '/api/admin/usuarios',
+                   '/api/chamados', '/api/tarefas?status=ABERTA',
                    '/api/historico/boletas?perfil_cache=Gerente', '/api/historico/chamados?perfil_cache=Gerente'],
   Coordenador:    ['/dashboard', '/boletas', '/historico?perfil=Coordenador',
+                   '/novo-chamado', '/sucesso',
                    '/api/dashboard/resumo', '/api/dashboard/retiros',
                    '/api/coordenador/boletas-pendentes',
                    '/api/historico/boletas?perfil_cache=Coordenador', '/api/historico/chamados?perfil_cache=Coordenador'],
   Infraestrutura: ['/infraestrutura', '/historico?perfil=Infraestrutura',
+                   '/novo-chamado', '/sucesso',
                    '/api/chamados', '/api/historico/chamados?perfil_cache=Infraestrutura'],
 };
 
@@ -119,8 +123,8 @@ async function cachearBoletasRelacionadas(cache, listasJson) {
 async function cachearTarefasRelacionadas(cache, listasJson) {
   const ids = new Set();
   [
-    '/api/tarefas?status=ABERTA',
-    '/api/tarefas?status=CONCLUIDA',
+    '/api/tarefas',
+    '/api/tarefas?status=ABERTA'
   ].forEach((url) => {
     extrairLista(listasJson[url], 'tarefas').forEach((t) => adicionarId(ids, t.id));
   });
@@ -160,12 +164,25 @@ async function cachearTransferenciasRelacionadas(cache, listasJson) {
   }));
 }
 
+async function cachearRetirosRelacionados(cache, listasJson) {
+  const ids = new Set();
+  if (Array.isArray(listasJson['/api/dashboard/retiros'])) {
+    listasJson['/api/dashboard/retiros'].forEach((r) => adicionarId(ids, r.id));
+  }
+  await Promise.all(Array.from(ids).map(async (id) => {
+    const encoded = encodeURIComponent(id);
+    await buscarECachear(cache, `/retiro/${encoded}`);
+    await buscarECachear(cache, `/api/dashboard/retiros/${encoded}`);
+  }));
+}
+
 async function cachearRotasRelacionadas(cache, perfil, listasJson) {
   await Promise.all([
     cachearBoletasRelacionadas(cache, listasJson),
     cachearTarefasRelacionadas(cache, listasJson),
     cachearChamadosRelacionados(cache, listasJson, perfil),
     cachearTransferenciasRelacionadas(cache, listasJson),
+    cachearRetirosRelacionados(cache, listasJson),
   ]);
 }
 

@@ -15,16 +15,13 @@
 
     <main class="tarefas-main">
 
-      <!-- Filtros: Abertas / Concluídas -->
-      <div class="filter-pills" id="filtros-tarefas">
-        <button class="pill active" data-filtro="ABERTA">
-          <span class="material-symbols-rounded ui-icon ico-md" aria-hidden="true">pending</span> Abertas
-          <span class="contador" id="cnt-abertas">0</span>
-        </button>
-        <button class="pill" data-filtro="CONCLUIDA">
-          <span class="material-symbols-rounded ui-icon ico-md" aria-hidden="true">check_circle</span> Concluídas
-          <span class="contador" id="cnt-concluidas">0</span>
-        </button>
+      <!-- Filtros: Todos / Abertas / Pendentes / Aprovadas / Bloqueadas -->
+      <div class="filter-pills hist-filtros-capataz" id="filtros-tarefas" style="display:flex; gap:0.4rem; overflow-x:auto; padding-bottom:0.25rem; margin-bottom:1rem; -webkit-overflow-scrolling:touch;">
+        <button class="pill active" data-filtro="TODOS">Todos</button>
+        <button class="pill" data-filtro="ABERTA"><span class="material-symbols-rounded ui-icon" aria-hidden="true">pending</span> Novas/Abertas <span class="contador badge-notif" id="badge-aberta" style="display:none; background:#D32F2F; color:#fff;">0</span></button>
+        <button class="pill" data-filtro="PENDENTE"><span class="material-symbols-rounded ui-icon" aria-hidden="true">history</span> Pendentes <span class="contador badge-notif" id="badge-pendente" style="display:none; background:#D32F2F; color:#fff;">0</span></button>
+        <button class="pill" data-filtro="CONCLUIDA"><span class="material-symbols-rounded ui-icon" aria-hidden="true">check_circle</span> Aprovadas</button>
+        <button class="pill" data-filtro="BLOQUEADA"><span class="material-symbols-rounded ui-icon" aria-hidden="true">lock</span> Com Conflito <span class="contador badge-notif" id="badge-bloqueada" style="display:none; background:#D32F2F; color:#fff;">0</span></button>
       </div>
 
       <div class="tarefas-lista" id="tarefas-lista">
@@ -35,10 +32,12 @@
         <p> Nenhuma tarefa por aqui.</p>
       </div>
 
-      <!-- Botão fixo flutuante: Nova Boleta -->
-      <button class="btn btn-primario btn-fab" onclick="window.location.href='/nova-os'">
-        <span class="material-symbols-rounded ui-icon btn-ico" aria-hidden="true">add</span> Nova Boleta
-      </button>
+      <!-- Botão fixo flutuante: Nova Boleta/Tarefa -->
+      <% if (perfil === 'Gerente' || perfil === 'Capataz') { %>
+        <button class="btn btn-primario btn-fab" onclick="window.location.href='/nova-os'">
+          <span class="material-symbols-rounded ui-icon btn-ico" aria-hidden="true">add</span> Nova Tarefa
+        </button>
+      <% } %>
 
     </main>
   </div>
@@ -73,9 +72,8 @@
 </style>
 
 <script>
-  var FILTRO = 'ABERTA';
-  var ABERTAS = [];
-  var CONCLUIDAS = [];
+  var FILTRO = 'TODOS';
+  var TODAS_TAREFAS = [];
 
   var ICO_TIPO = {
     nascimento: 'nascimento',
@@ -114,41 +112,79 @@
   }
 
   function carregar() {
-    // Cada fetch é independente: se um falhar, os outros ainda aparecem.
+    // Busca tarefas abertas e concluídas do gerente, além das boletas do capataz
     Promise.all([
-      buscarJson('/api/tarefas?status=ABERTA', { tarefas: [] }),
-      buscarJson('/api/tarefas?status=CONCLUIDA', { tarefas: [] }),
-      buscarJson('/api/boletas/minhas', []),
+      buscarJson('/api/tarefas', { tarefas: [] }), // Traz todas as tarefas criadas pelo gerente para esse capataz
+      buscarJson('/api/boletas/minhas', []), // Traz as boletas registradas por esse capataz
     ])
     .then(function(arr) {
-      var tarefasAbertas = (arr[0] && arr[0].tarefas) || [];
-      var tarefasConcluidas = (arr[1] && arr[1].tarefas) || [];
-      var boletas = (Array.isArray(arr[2]) ? arr[2] : []).map(function(b) {
+      var tarefas = (arr[0] && arr[0].tarefas) || [];
+      var boletas = (Array.isArray(arr[1]) ? arr[1] : []).map(function(b) {
         b._item = 'boleta';
         return b;
       });
-      tarefasAbertas.forEach(function(t) { t._item = 'tarefa'; });
-      tarefasConcluidas.forEach(function(t) { t._item = 'tarefa'; });
+      tarefas.forEach(function(t) { t._item = 'tarefa'; });
 
-      // Abertas = tarefas pendentes do gerente
-      ABERTAS = tarefasAbertas;
-      // Concluídas = tarefas concluídas + boletas que o capataz já registrou
-      CONCLUIDAS = tarefasConcluidas.concat(boletas);
+      // Junta tudo e ordena por data (mais recente primeiro)
+      TODAS_TAREFAS = tarefas.concat(boletas);
+      TODAS_TAREFAS.sort(function(a, b) {
+        var da = new Date(a.data_execucao || a.data || 0).getTime();
+        var db = new Date(b.data_execucao || b.data || 0).getTime();
+        return db - da; // Mais recente primeiro
+      });
 
-      document.getElementById('cnt-abertas').textContent = ABERTAS.length;
-      document.getElementById('cnt-concluidas').textContent = CONCLUIDAS.length;
+      atualizarBadges(TODAS_TAREFAS);
       renderizar();
     });
   }
 
+  function atualizarBadges(lista) {
+    var cAberta = 0, cPendente = 0, cBloqueada = 0;
+    lista.forEach(function(t) {
+      if (t._item === 'tarefa') {
+        if (t.status !== 'CONCLUIDA') cAberta++;
+      } else {
+        if (t.bloqueada) cBloqueada++;
+        else if (!t.aprovada) cPendente++;
+      }
+    });
+    document.getElementById('badge-aberta').style.display = cAberta > 0 ? 'inline' : 'none';
+    document.getElementById('badge-aberta').textContent = cAberta;
+    document.getElementById('badge-pendente').style.display = cPendente > 0 ? 'inline' : 'none';
+    document.getElementById('badge-pendente').textContent = cPendente;
+    document.getElementById('badge-bloqueada').style.display = cBloqueada > 0 ? 'inline' : 'none';
+    document.getElementById('badge-bloqueada').textContent = cBloqueada;
+  }
+
   function renderizar() {
-    var lista = FILTRO === 'CONCLUIDA' ? CONCLUIDAS : ABERTAS;
     var cont = document.getElementById('tarefas-lista');
     var vazio = document.getElementById('tarefas-vazio');
+
+    // Filtra a lista com base no FILTRO selecionado
+    var lista = TODAS_TAREFAS.filter(function(t) {
+      if (FILTRO === 'TODOS') return true;
+
+      if (t._item === 'tarefa') {
+        if (FILTRO === 'ABERTA') return t.status !== 'CONCLUIDA';
+        if (FILTRO === 'CONCLUIDA') return t.status === 'CONCLUIDA';
+        return false; // Tarefa não tem status 'bloqueada' ou 'pendente_aprovacao' (elas são ou abertas ou concluídas)
+      } else {
+        // Boleta
+        var isBloqueada = !!t.bloqueada;
+        var isAprovada = !!t.aprovada;
+        var isPendente = !isAprovada && !isBloqueada;
+
+        if (FILTRO === 'ABERTA') return false; // Boleta não é tarefa "Aberta/Nova" do gerente
+        if (FILTRO === 'BLOQUEADA') return isBloqueada;
+        if (FILTRO === 'CONCLUIDA') return isAprovada;
+        if (FILTRO === 'PENDENTE') return isPendente;
+        return false;
+      }
+    });
+
     if (!lista.length) {
       cont.innerHTML = '';
       vazio.style.display = 'block';
-      vazio.firstElementChild.textContent = FILTRO === 'CONCLUIDA' ? ' Nada concluído ainda.' : ' Sem tarefas abertas no momento.';
       return;
     }
     vazio.style.display = 'none';

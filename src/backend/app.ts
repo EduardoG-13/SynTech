@@ -104,8 +104,11 @@ app.get('/tarefa/:id', requireLogin(), (req, res) => {
 });
 
 // Histórico (unificado — perfis com acesso são filtrados no endpoint)
-app.get('/historico', requireLogin(['Capataz', 'Infraestrutura', 'Coordenador', 'Gerente']), (_req, res) => {
+app.get('/historico', requireLogin(['Capataz', 'Infraestrutura', 'Coordenador', 'Gerente']), (req, res) => {
   const u = (res.locals as any).usuarioLogado;
+  if (u.perfil === 'Capataz') {
+    return res.redirect('/tarefas');
+  }
   res.render('historico', { perfil: u.perfil, retiro: u.retiro_id || 'Geral' });
 });
 
@@ -126,10 +129,7 @@ app.get('/sucesso', requireLogin(), (_req, res) => {
   res.render('sucesso', { perfil: u.perfil, retiro: u.retiro_id || 'Geral' });
 });
 
-app.get('/nova-boleta', requireLogin(['Capataz', 'Gerente']), (_req, res) => {
-  const u = (res.locals as any).usuarioLogado;
-  res.render('nova-boleta', { perfil: u.perfil, retiro: u.retiro_id || 'Geral' });
-});
+
 
 // Rotas de autenticação
 app.use('/api/auth', authRoutes);

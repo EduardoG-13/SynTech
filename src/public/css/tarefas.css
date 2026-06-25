@@ -122,9 +122,7 @@
 .tarefa-card .descricao {
   font-size: 0.85rem;
   color: #5c6b5d;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  word-break: break-word;
 }
 
 .tarefa-card .meta {
@@ -307,10 +305,8 @@
     white-space: nowrap;
   }
 
-  /* Esconde descrição em telas muito pequenas pra economizar espaço */
-  .tarefa-card .descricao {
-    display: none;
-  }
+  /* Descrição agora faz quebra de linha em telas pequenas ao invés de sumir */
+
 }
 
 /* =========================================================

@@ -13,4 +13,14 @@ const supabasePool = new Pool(databaseUrl ? {
   }
 } : {});
 
+supabasePool.on('error', (err: any, client) => {
+  if (err.code === 'Z_DATA_ERROR') {
+    // Supavisor costuma fechar conexões idle abruptamente, gerando Z_DATA_ERROR no zlib stream.
+    // O pool vai descartar esse cliente automaticamente agora que estamos ouvindo o erro.
+    console.warn('[supabasePool] Conexão idle com a nuvem caiu (Z_DATA_ERROR). Cliente descartado.');
+    return;
+  }
+  console.error('[supabasePool] Erro inesperado no cliente idle:', err);
+});
+
 export default supabasePool;
