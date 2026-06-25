@@ -1,0 +1,94 @@
+<%- include('partials/header') %>
+<link rel="stylesheet" href="/public/css/dashboard.css" />
+
+<div id="device" class="logged">
+  <%- include('partials/sidebar') %>
+
+  <div id="app">
+    <div class="header-bar" style="margin-top: 0; margin-bottom: 2rem;">
+      <div class="user-avatar" aria-label="Perfil: <%= perfil %>"><span class="material-symbols-rounded" aria-hidden="true"><%= perfil === 'Coordenador' ? 'groups' : 'manage_accounts' %></span></div>
+      <h1 id="rd-titulo">Carregando retiro...</h1>
+      <div class="sub" id="rd-sub"><%= typeof nome !== 'undefined' ? nome : '' %> · <%= perfil %></div>
+    </div>
+
+    <main class="dashboard-main" id="rd-main" style="display: none;">
+      
+      <div style="margin-bottom: 1.5rem;">
+        <a href="/dashboard" style="display: inline-flex; align-items: center; gap: 0.5rem; color: #5c6b5d; text-decoration: none; font-weight: 500; font-size: 0.95rem;">
+          <span class="material-symbols-rounded" aria-hidden="true" style="font-size: 1.2rem;">arrow_back</span> Voltar ao Dashboard
+        </a>
+      </div>
+
+      <!-- KPIs -->
+      <div class="db-stats" style="margin-bottom: 1rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+        <div class="card db-stat-card" style="padding: 1.5rem 1rem; text-align: center;">
+          <p class="db-stat-card__label"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">description</span> BOLETAS</p>
+          <div class="db-stat-card__value" id="rd-boletas-total" style="font-size: 2.5rem;">—</div>
+        </div>
+        <div class="card db-stat-card" style="padding: 1.5rem 1rem; text-align: center;">
+          <p class="db-stat-card__label"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">pending_actions</span> PENDENTES</p>
+          <div class="db-stat-card__value" id="rd-boletas-pendentes" style="font-size: 2.5rem;">—</div>
+        </div>
+        <div class="card db-stat-card" style="padding: 1.5rem 1rem; text-align: center;">
+          <p class="db-stat-card__label"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">warning</span> CHAMADOS</p>
+          <div class="db-stat-card__value" id="rd-chamados-total" style="font-size: 2.5rem;">—</div>
+        </div>
+        <div class="card db-stat-card" style="padding: 1.5rem 1rem; text-align: center;">
+          <p class="db-stat-card__label"><span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">check_circle</span> RESOLVIDOS</p>
+          <div class="db-stat-card__value" id="rd-chamados-resolvidos" style="font-size: 2.5rem;">—</div>
+        </div>
+      </div>
+
+      <!-- Informações do Retiro -->
+      <div class="card" style="margin-bottom: 1rem; padding: 1.5rem;">
+        <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true" style="color: #1A4D2E;">info</span> Informações do Retiro</h3>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 1rem;">
+          <div style="border: 1px solid #e5e5e0; padding: 1rem; border-radius: 8px;">
+            <div style="font-size: 0.75rem; color: #5c6b5d; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem;">NOME</div>
+            <div id="rd-info-nome" style="font-weight: 600; font-size: 1.1rem; color: #1A4D2E;">—</div>
+          </div>
+          <div style="border: 1px solid #e5e5e0; padding: 1rem; border-radius: 8px;">
+            <div style="font-size: 0.75rem; color: #5c6b5d; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem;">NÚMERO</div>
+            <div id="rd-info-numero" style="font-weight: 600; font-size: 1.1rem; color: #1A4D2E;">—</div>
+          </div>
+          <div style="border: 1px solid #e5e5e0; padding: 1rem; border-radius: 8px;">
+            <div style="font-size: 0.75rem; color: #5c6b5d; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem;">COORDENADOR</div>
+            <div id="rd-info-coordenador" style="font-weight: 600; font-size: 1.1rem; color: #1A4D2E;">—</div>
+          </div>
+          <div style="border: 1px solid #e5e5e0; padding: 1rem; border-radius: 8px;">
+            <div style="font-size: 0.75rem; color: #5c6b5d; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem;">CAPATAZ</div>
+            <div id="rd-info-capataz" style="font-weight: 600; font-size: 1.1rem; color: #1A4D2E;">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chamados -->
+      <div class="card" style="margin-bottom: 1rem; padding: 1.5rem;">
+        <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true" style="color: #1A4D2E;">build</span> Chamados</h3>
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; margin-top: 1rem;">
+          <span class="dash-pill" style="background: rgba(211,47,47,0.1); color: #D32F2F;" id="rd-pill-abertos">0 abertos</span>
+          <span class="dash-pill" style="background: rgba(166,75,0,0.1); color: #A64B00;" id="rd-pill-andamento">0 em andamento</span>
+          <span class="dash-pill" style="background: rgba(46,125,82,0.1); color: #2E7D52;" id="rd-pill-resolvidos">0 resolvidos</span>
+        </div>
+        <div id="rd-lista-chamados" style="display: flex; flex-direction: column; gap: 0.5rem;"></div>
+      </div>
+
+      <!-- Boletas -->
+      <div class="card" style="margin-bottom: 1rem; padding: 1.5rem;">
+        <h3><span class="material-symbols-rounded ui-icon label-ico" aria-hidden="true" style="color: #1A4D2E;">receipt_long</span> Boletas recentes</h3>
+        <div id="rd-lista-boletas" style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;"></div>
+      </div>
+
+    </main>
+
+    <div id="rd-loader" style="padding: 3rem; text-align: center; color: #8A8A7C;">Carregando dados...</div>
+
+    <%- include('partials/bottom-nav') %>
+  </div>
+</div>
+
+<script>
+  window.RETIRO_ID = '<%= retiro_id %>';
+</script>
+<script src="/public/js/retiro-detalhe.js"></script>
+<%- include('partials/footer') %>

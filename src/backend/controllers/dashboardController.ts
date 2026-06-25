@@ -199,3 +199,97 @@ export function listarRetirosDashboard(req: Request, res: Response) {
   `).all(...params);
   return res.json(rows);
 }
+
+// GET /api/dashboard/retiros/:id
+export function obterRetiroDashboard(req: Request, res: Response) {
+  const sess = (req.session as any)?.usuario as SessUsuario | undefined;
+  if (!sess) return res.status(401).json({ erro: 'Não autenticado.' });
+
+  const retiroId = String(req.params.id || '');
+  if (!retiroId) return res.status(400).json({ erro: 'Retiro não informado.' });
+
+  const permitidos = retirosVisiveis(sess);
+  if (permitidos !== null && !permitidos.includes(retiroId)) {
+    return res.status(403).json({ erro: 'Você não tem acesso a este retiro.' });
+  }
+
+  const retiro = db.prepare(`
+    SELECT r.id, r.nome, r.numero, r.localizacao,
+           c.nome AS coordenador_nome,
+           cap.nome AS capataz_nome
+    FROM retiros r
+    LEFT JOIN usuarios c ON c.id = r.coordenador_id
+    LEFT JOIN usuarios cap ON cap.id = r.capataz_id
+    WHERE r.id = ?
+  `).get(retiroId) as any;
+
+  if (!retiro) return res.status(404).json({ erro: 'Retiro não encontrado.' });
+
+  const totalBoletas = (db.prepare(`
+    SELECT COUNT(DISTINCT COALESCE(grupo_id, id)) AS total
+    FROM movimentacoes
+    WHERE retiro_id = ? OR retiro_origem_id = ? OR retiro_destino_id = ?
+  `).get(retiroId, retiroId, retiroId) as any).total || 0;
+
+  const boletasPendentes = (db.prepare(`
+    SELECT COUNT(DISTINCT COALESCE(grupo_id, id)) AS total
+    FROM movimentacoes
+    WHERE (retiro_id = ? OR retiro_origem_id = ? OR retiro_destino_id = ?)
+      AND aprovado_por_coordenador_id IS NULL
+  `).get(retiroId, retiroId, retiroId) as any).total || 0;
+
+  const chamados = db.prepare(`
+    SELECT
+      SUM(CASE WHEN status = 'ABERTO' THEN 1 ELSE 0 END) AS abertos,
+      SUM(CASE WHEN status = 'EM_ANDAMENTO' THEN 1 ELSE 0 END) AS andamento,
+      SUM(CASE WHEN status = 'RESOLVIDO' THEN 1 ELSE 0 END) AS resolvidos,
+      COUNT(*) AS total
+    FROM alertas
+    WHERE retiro_id = ?
+  `).get(retiroId) as any;
+
+  const boletasRecentesRows = db.prepare(`
+    SELECT m.grupo_id, m.id, m.numero_boleta, m.tipo_operacao, m.data, m.criado_em,
+           m.aprovado_por_coordenador_id,
+           u.nome AS capataz_nome,
+           SUM(m.quantidade) AS total_animais
+    FROM movimentacoes m
+    LEFT JOIN usuarios u ON u.id = m.capataz_id
+    WHERE m.retiro_id = ? OR m.retiro_origem_id = ? OR m.retiro_destino_id = ?
+    GROUP BY COALESCE(m.grupo_id, m.id)
+    ORDER BY COALESCE(m.criado_em, m.data) DESC
+    LIMIT 6
+  `).all(retiroId, retiroId, retiroId) as any[];
+
+  const chamadosRecentes = db.prepare(`
+    SELECT id, tipo, descricao, status, criado_em
+    FROM alertas
+    WHERE retiro_id = ?
+    ORDER BY criado_em DESC
+    LIMIT 6
+  `).all(retiroId) as any[];
+
+  return res.json({
+    retiro,
+    resumo: {
+      total_boletas: totalBoletas,
+      boletas_pendentes: boletasPendentes,
+      chamados_total: chamados?.total || 0,
+      chamados_abertos: chamados?.abertos || 0,
+      chamados_andamento: chamados?.andamento || 0,
+      chamados_resolvidos: chamados?.resolvidos || 0,
+    },
+    boletasRecentes: boletasRecentesRows.map((b) => ({
+      id: b.grupo_id || b.id,
+      numero_boleta: b.numero_boleta,
+      operacao: b.tipo_operacao,
+      data: b.data,
+      criado_em: b.criado_em,
+      capataz_nome: b.capataz_nome,
+      total_animais: b.total_animais || 0,
+      aprovada: !!b.aprovado_por_coordenador_id,
+    })),
+    chamadosRecentes,
+  });
+}
+

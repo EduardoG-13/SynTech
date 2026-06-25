@@ -46,6 +46,19 @@ export class ViewRoutes {
       const usuario_id = (req.session as any)?.usuario?.id ?? null;
       res.render('dashboard', { title: 'BRPec | Dashboard', perfil, retiro, usuario_id });
     });
+
+    // Detalhe de Retiro (Novo Dashboard Expandido)
+    this.router.get('/retiro/:id', (req: Request, res: Response) => {
+      const sess = (req.session as any)?.usuario;
+      if (!sess) return res.redirect('/');
+      res.render('retiro-detalhe', { 
+        title: 'BRPec | Detalhe do Retiro', 
+        perfil: sess.perfil, 
+        retiro_id: req.params.id,
+        nome: sess.nome || ''
+      });
+    });
+
     // Listagem de tarefas (antigo / tasks placeholder para testes)
     this.router.get('/tasks', (_req: Request, res: Response) => {
       res.render('tasks', { title: 'BRPec | Tarefas' });
