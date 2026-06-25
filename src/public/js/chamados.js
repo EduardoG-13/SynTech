@@ -6,9 +6,17 @@
 const STORAGE_KEY_AUTORIZADO = 'brpec_gps_autorizado';
 const STORAGE_KEY_ULTIMA_POS = 'brpec_gps_ultima_pos';
 
-function setGpsStatus(message) {
+function setGpsStatus(message, success) {
   const statusElement = document.getElementById('gps-status');
-  if (statusElement) statusElement.textContent = message;
+  if (statusElement) {
+    if (success) {
+      statusElement.style.color = '#2E7D52';
+      statusElement.innerHTML = '<span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">check_circle</span> <span style="font-weight:600;">' + message + '</span>';
+    } else {
+      statusElement.style.color = '';
+      statusElement.innerHTML = '<span class="material-symbols-rounded ui-icon ico-sm" aria-hidden="true">my_location</span> <span>' + message + '</span>';
+    }
+  }
 }
 
 function preencherInputs(lat, lon) {
@@ -58,7 +66,7 @@ function disparaGeolocation() {
 
     const latFmt = parseFloat(lat).toFixed(6);
     const lonFmt = parseFloat(lon).toFixed(6);
-    setGpsStatus(` GPS capturado: ${latFmt}, ${lonFmt}`);
+    setGpsStatus(`Localização capturada! (${latFmt}, ${lonFmt})`, true);
   };
 
   const onError = (err) => {
@@ -96,7 +104,7 @@ function capturarCoordenadas() {
     preencherInputs(ultima.lat, ultima.lon);
     const latFmt = parseFloat(ultima.lat).toFixed(6);
     const lonFmt = parseFloat(ultima.lon).toFixed(6);
-    setGpsStatus(` Última posição: ${latFmt}, ${lonFmt} (atualizando...)`);
+    setGpsStatus(`Localização recuperada! (${latFmt}, ${lonFmt})`, true);
   } else {
     setGpsStatus(' Capturando localização...');
   }

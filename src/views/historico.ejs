@@ -161,6 +161,16 @@
   var ABA_ATIVA = (PERFIL === 'Infraestrutura') ? 'chamados' : 'boletas';
   var buscaTimer = null;
 
+  function formatarData(dataStr) {
+      if (!dataStr) return '';
+      var ds = dataStr.slice(0, 10);
+      if (ds.includes('-')) {
+        var d = ds.split('-');
+        return d[2] + '/' + d[1] + '/' + d[0];
+      }
+      return ds;
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     if (PERFIL === 'Gerente' || PERFIL === 'Coordenador') {
       carregarRetiros();
@@ -307,7 +317,7 @@
     return '<div class="hist-cards">' + rows.map(function(r) {
       var ico = ICOS[r.operacao] || 'tarefas';
       var rotulo = ROT[r.operacao] || 'Registro';
-      var data = r.data || (r.criadoEm || '').slice(0,10);
+      var data = formatarData(r.data || r.criadoEm || '');
       var total = (r.animais || []).reduce(function(s,a){return s+(parseInt(a.quantidade)||0);},0);
       var statusKey = r.bloqueada ? 'bloqueada' : (r.aprovada ? 'aprovada' : 'pendente');
       var badgeClass = r.bloqueada ? 'bloqueada' : (r.aprovada ? 'concluida' : 'pendente');
@@ -336,7 +346,7 @@
       var ico = ICOS[c.tipo] || 'alerta';
       var sc = c.status === 'RESOLVIDO' ? 'concluida' : (c.status === 'EM_ANDAMENTO' ? 'andamento' : 'pendente');
       var sl = c.status === 'RESOLVIDO' ? 'Resolvido' : (c.status === 'EM_ANDAMENTO' ? 'Em andamento' : 'Aberto');
-      var data = (c.criado_em || '').slice(0,10);
+      var data = formatarData(c.criado_em || '');
       var rota = (PERFIL === 'Infraestrutura' || PERFIL === 'Tecnico') ? '/chamado/' + c.id + '/resolver' : '/chamado/' + c.id;
       return '<div class="card tarefa-card" onclick="window.location.href=\'' + rota + '\'">' +
         '<div class="bar-lateral ' + sc + '"></div>' +
@@ -416,7 +426,7 @@
                 boleta +
                 '<span class="transf-sub">' + (t.retiro_origem_nome || '?') + ' → ' + (t.retiro_destino_nome || '?') + '</span>' +
                 '<div class="transf-meta">' +
-                  '<span>' + (t.data || '') + '</span>' +
+                  '<span>' + formatarData(t.data || '') + '</span>' +
                   (t.tipo_transporte ? '<span>' + t.tipo_transporte + '</span>' : '') +
                   '<span>' + (t.categorias_resumo || '') + '</span>' +
                 '</div>' +

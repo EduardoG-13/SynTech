@@ -79,7 +79,13 @@
       cat.className = 'badge ' + (c.status === 'RESOLVIDO' ? 'concluida' : (c.status === 'EM_ANDAMENTO' ? 'andamento' : 'pendente'));
       document.getElementById('chamado-retiro').textContent = c.retiro_nome || c.retiro_id || '—';
       document.getElementById('chamado-capataz').textContent = c.capataz_nome || '—';
-      document.getElementById('chamado-data').textContent = (c.criado_em || '').slice(0,16).replace('T',' ');
+      var dataCria = (c.criado_em || '').slice(0,16).replace('T',' ');
+      if (dataCria.includes('-')) {
+        var p = dataCria.split(' ');
+        var d = p[0].split('-');
+        dataCria = d[2] + '/' + d[1] + '/' + d[0] + (p[1] ? ' ' + p[1] : '');
+      }
+      document.getElementById('chamado-data').textContent = dataCria;
       document.getElementById('chamado-descricao').textContent = c.descricao || '—';
 
       if (c.audio_base64) {
@@ -110,7 +116,13 @@
       if (c.status === 'RESOLVIDO') {
         document.getElementById('bloco-resolucao').style.display = 'block';
         document.getElementById('resol-tecnico').textContent = c.tecnico_id || '—';
-        document.getElementById('resol-data').textContent = (c.resolvido_em || '').slice(0,16).replace('T',' ');
+        var dataRes = (c.resolvido_em || '').slice(0,16).replace('T',' ');
+        if (dataRes.includes('-')) {
+          var p = dataRes.split(' ');
+          var d = p[0].split('-');
+          dataRes = d[2] + '/' + d[1] + '/' + d[0] + (p[1] ? ' ' + p[1] : '');
+        }
+        document.getElementById('resol-data').textContent = dataRes;
         document.getElementById('resol-solucao').textContent = c.solucao_resolucao || '—';
       }
     });

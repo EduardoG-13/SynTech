@@ -33,6 +33,15 @@ try {
 
 const PORT = process.env.PORT || 3000;
 
+process.on('uncaughtException', (err: any) => {
+  if (err.code === 'Z_DATA_ERROR') {
+    console.warn('[server] Ignorando erro de stream Z_DATA_ERROR causado pela conexão com a nuvem.');
+    return;
+  }
+  console.error('[server] Erro não capturado:', err);
+  process.exit(1);
+});
+
 app.listen(PORT, () => {
   console.log(`[server] Servidor BrPec rodando na porta ${PORT}`);
   console.log(`   Health-check: http://localhost:${PORT}/api/health`);

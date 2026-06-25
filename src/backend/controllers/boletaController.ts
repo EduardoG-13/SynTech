@@ -157,8 +157,11 @@ export function criarBoleta(req: Request, res: Response) {
     enfileirarSync('movimentacao', movId);
   }
 
-  // Se a boleta foi originada de uma tarefa pré-agendada, marca a tarefa como CONCLUIDA
   if (tarefaId) {
+    const tarefaVerif = db.prepare('SELECT status FROM tarefas WHERE id = ?').get(tarefaId) as any;
+    if (tarefaVerif && tarefaVerif.status === 'CONCLUIDA') {
+      return res.status(409).json({ erro: 'Esta tarefa já foi concluída anteriormente.' });
+    }
     try {
       db.prepare(
         "UPDATE tarefas SET status = 'CONCLUIDA', concluida_em = datetime('now') WHERE id = ? AND capataz_id = ?"
@@ -344,6 +347,31 @@ export function obterBoleta(req: Request, res: Response) {
   if (rows.length === 0) return res.status(404).json({ erro: 'Boleta não encontrada.' });
 
   const first = rows[0];
+
+  let divergente = false;
+  let divergencia_detalhes = null;
+  if (first.tipo_operacao === 'transferencia' && first.retiro_origem_id && first.retiro_destino_id) {
+    const dataRef = first.data || (first.criado_em || '').slice(0, 10);
+    const correlatos = db.prepare(`
+      SELECT tipo_negocio, quantidade
+      FROM movimentacoes
+      WHERE tipo_operacao = 'transferencia'
+        AND retiro_origem_id = ? AND retiro_destino_id = ?
+        AND (data = ? OR date(criado_em) = ?)
+    `).all(first.retiro_origem_id, first.retiro_destino_id, dataRef, dataRef) as any[];
+
+    let envio = 0, recebimento = 0;
+    for (const c of correlatos) {
+      if (c.tipo_negocio === 'recebimento') recebimento += (Number(c.quantidade) || 0);
+      else envio += (Number(c.quantidade) || 0);
+    }
+    
+    if (envio > 0 && recebimento > 0 && envio !== recebimento) {
+      divergente = true;
+      divergencia_detalhes = `Divergência: Enviado (${envio} cabeças) vs Recebido (${recebimento} cabeças).`;
+    }
+  }
+
   return res.json({
     id: first.grupo_id || first.id,
     numero_boleta: first.numero_boleta || null,
@@ -368,6 +396,8 @@ export function obterBoleta(req: Request, res: Response) {
     aprovada: !!first.aprovado_por_coordenador_id,
     aprovado_em: first.aprovado_em,
     aprovado_por_nome: first.aprovado_por_nome || null,
+    divergente: divergente,
+    divergencia_detalhes: divergencia_detalhes,
     animais: rows.map(r => ({ categoria: r.categoria, quantidade: r.quantidade })),
   });
 }

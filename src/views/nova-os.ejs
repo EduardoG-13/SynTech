@@ -1047,34 +1047,35 @@
         gpsAtual = { latitude: pos.coords.latitude, longitude: pos.coords.longitude };
         salvarGpsCache(pos.coords.latitude, pos.coords.longitude);
       },
-      function() { /* mantém cache/none; tenta de novo no envio */ },
+      function() {},
       { enableHighAccuracy: true, timeout: 30000, maximumAge: 60000 }
     );
   }
 
-  // No envio: devolve a leitura mais recente; se não houver, tenta agora (até 12s)
-  // e cai pra última posição conhecida. cb(null) só quando realmente não há nada.
   function capturarGPS(cb) {
     if (gpsAtual) { cb(gpsAtual); return; }
     if (!navigator.geolocation) { cb(lerGpsCache()); return; }
     var respondido = false;
-    var timer = setTimeout(function() {
+    var t = setTimeout(function() {
       if (!respondido) { respondido = true; cb(gpsAtual || lerGpsCache()); }
-    }, 12000);
+    }, 10000);
     navigator.geolocation.getCurrentPosition(
       function(pos) {
+        clearTimeout(t);
         if (respondido) return;
-        respondido = true; clearTimeout(timer);
+        respondido = true;
         gpsAtual = { latitude: pos.coords.latitude, longitude: pos.coords.longitude };
         salvarGpsCache(pos.coords.latitude, pos.coords.longitude);
+        mostrarGpsStatus('Localização capturada! (' + gpsAtual.latitude.toFixed(6) + ', ' + gpsAtual.longitude.toFixed(6) + ')', '', true);
         cb(gpsAtual);
       },
       function() {
+        clearTimeout(t);
         if (respondido) return;
-        respondido = true; clearTimeout(timer);
+        respondido = true;
         cb(gpsAtual || lerGpsCache());
       },
-      { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 }
+      { enableHighAccuracy: true, maximumAge: 0 }
     );
   }
 
